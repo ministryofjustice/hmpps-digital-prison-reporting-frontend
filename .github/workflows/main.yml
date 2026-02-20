@@ -2,15 +2,15 @@ name: Build and test package
 
 on:
   pull_request:
-    branches: [main]
+    branches: [ main ]
   push:
-    branches: [main]
+    branches: [ main ]
 
 env:
-  HOME_URL: "http://localhost:3010/embedded/platform/"
-  REQUEST_URL: "http://localhost:3010/embedded/platform/async/report/request-examples/request-example-success/request"
-  POLLING_URL: "http://localhost:3010/embedded/platform/async/report/request-examples/request-example-success/request/exId_1729765628165"
-  REPORT_URL: "http://localhost:3010/embedded/platform/async/report/request-examples/request-example-success/request/tblId_1729765628165/report"
+  HOME_URL: 'http://localhost:3010/embedded/platform/'
+  REQUEST_URL: 'http://localhost:3010/embedded/platform/async/report/request-examples/request-example-success/request'
+  POLLING_URL: 'http://localhost:3010/embedded/platform/async/report/request-examples/request-example-success/request/exId_1729765628165'
+  REPORT_URL: 'http://localhost:3010/embedded/platform/async/report/request-examples/request-example-success/request/tblId_1729765628165/report'
 
 jobs:
   build:
@@ -22,7 +22,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: "24.x"
+          node-version: '24.x'
       - run: npm run setup
       - run: npm run rpack
       - uses: actions/upload-artifact@v4
@@ -40,7 +40,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: "24.x"
+          node-version: '24.x'
       - run: npm run setup
       - uses: actions/download-artifact@v4
         with:
@@ -126,7 +126,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: "24.x"
+          node-version: '24.x'
       - run: npm run setup
       - run: npm run package
       - name: count number of screenshots for visual regression tests before running

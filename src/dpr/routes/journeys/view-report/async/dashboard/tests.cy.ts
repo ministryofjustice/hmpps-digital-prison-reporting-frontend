@@ -69,4 +69,31 @@ context('Viewing a report', () => {
       cy.get('canvas').should('have.length.at.least', 1)
     })
   })
+
+  describe('dashboard tests for empty data', () => {
+    it('should show viz when dashboardData is undefined', () => {
+      cy.task('')
+      cy.task('stubFeatureFlags')
+      resetFeatureFlags()
+      // Request and run a report so we can go back to it for each test
+      cy.visit(path)
+      cy.findByLabelText(/Reports catalogue.*/i).within(() => {
+        cy.findByRole('row', {
+          name: (_, element) => {
+            return (
+              Boolean(element.textContent?.includes('Test Dashboard')) &&
+              Boolean(element.textContent?.includes('Dashboard used for testing testing'))
+            )
+          },
+        }).within(() => {
+          cy.findByRole('link', { name: 'Request dashboard' }).click()
+        })
+      })
+      checkA11y()
+      cy.findByRole('button', { name: /Request/ }).click()
+      checkA11y()
+      cy.findByRole('heading', { level: 1, name: /Test Dashboard/ }).should('be.visible')
+      checkA11y()
+    })
+  })
 })

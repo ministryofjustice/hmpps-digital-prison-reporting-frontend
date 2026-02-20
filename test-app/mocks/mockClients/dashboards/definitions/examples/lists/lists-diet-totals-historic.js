@@ -28,8 +28,8 @@ const historicDietTotals = {
       display: 'Historic Diet Totals',
       description: '',
       visualisations: [
-        lists.dietTotalsVegetarianOvertime,
-        lists.dietTotalsVeganOvertime,
+        lists.dietTotalsDietOneOvertime,
+        lists.dietTotalsDietThreeOvertime,
         lists.dietTotalsAllDietOvertime,
       ],
     },
@@ -38,9 +38,9 @@ const historicDietTotals = {
       display: 'Historic Diet By Key Totals',
       description: '',
       visualisations: [
-        lists.dietTotalsVegetarianOvertimeByEst,
-        lists.dietTotalsVegetarianOvertimeByEstByWing,
-        lists.dietTotalsVegetarianOvertimeByEstByWingOptional,
+        lists.dietTotalsDietOneOvertimeByEst,
+        lists.dietTotalsDietOneOvertimeByEstByWing,
+        lists.dietTotalsDietOneOvertimeByEstByWingOptional,
         lists.dietTotalsAllDietOvertimeByEst,
       ],
     },

@@ -7,17 +7,17 @@ describe('DatasetHelper', () => {
   describe('getDatasetRows', () => {
     describe('get the data set rows', () => {
       it('target rows with some null values', () => {
-        //  Get row that shows total prisoners between ages of `18-25` for `MDI` in wing `I`
+        //  Get row that shows total prisoners between ages of `18-25` for `ABC` in wing `I`
         const dataset = [
           {
-            establishment_id: { raw: 'MDI' },
+            establishment_id: { raw: 'ABC' },
             wing: { raw: 'I' },
             age_range_1: { raw: '18-25' },
             age_range_2: { raw: '' },
             total_prisoners: { raw: '6' },
           },
           {
-            establishment_id: { raw: 'MDI' },
+            establishment_id: { raw: 'ABC' },
             wing: { raw: 'I' },
             age_range_1: { raw: '' },
             age_range_2: { raw: '18-21' },
@@ -29,7 +29,7 @@ describe('DatasetHelper', () => {
           {
             age_range_1: { raw: '18-25' },
             age_range_2: { raw: '' },
-            establishment_id: { raw: 'MDI' },
+            establishment_id: { raw: 'ABC' },
             total_prisoners: { raw: '6' },
             wing: { raw: 'I' },
           },
@@ -68,20 +68,20 @@ describe('DatasetHelper', () => {
         // Get row that shows total prisoners by `ethnic_description` for establishment and wing
         const dataset = [
           {
-            establishment_id: { raw: 'MDI' },
+            establishment_id: { raw: 'ABC' },
             wing: { raw: 'I' },
             ethnic_code: { raw: 'W2' },
             ethnic_description: { raw: 'W1-White: Eng./Wel' },
-            nationality_code: { raw: '' },
+            MetricTwo_code: { raw: '' },
             age_range_18_25: { raw: '4' },
             total_prisoners: { raw: '14' },
           },
           {
-            establishment_id: { raw: 'MDI' },
+            establishment_id: { raw: 'ABC' },
             wing: { raw: 'I' },
             ethnic_code: { raw: '' },
             ethnic_description: { raw: '' },
-            nationality_code: { raw: 'BRIT' },
+            MetricTwo_code: { raw: 'BRIT' },
             age_range_18_25: { raw: '' },
             total_prisoners: { raw: '30' },
           },
@@ -89,11 +89,11 @@ describe('DatasetHelper', () => {
 
         const expectedResult = [
           {
-            establishment_id: { raw: 'MDI' },
+            establishment_id: { raw: 'ABC' },
             wing: { raw: 'I' },
             ethnic_code: { raw: 'W2' },
             ethnic_description: { raw: 'W1-White: Eng./Wel' },
-            nationality_code: { raw: '' },
+            MetricTwo_code: { raw: '' },
             age_range_18_25: { raw: '4' },
             total_prisoners: { raw: '14' },
           },
@@ -133,12 +133,12 @@ describe('DatasetHelper', () => {
 
         const dataset = [
           {
-            establishment_id: { raw: 'MDI' },
+            establishment_id: { raw: 'ABC' },
             wing: { raw: 'I' },
             total_prisoners: { raw: '14' },
           },
           {
-            establishment_id: { raw: 'MDI' },
+            establishment_id: { raw: 'ABC' },
             wing: { raw: '' },
             total_prisoners: { raw: '30' },
           },
@@ -146,7 +146,7 @@ describe('DatasetHelper', () => {
 
         const expectedResult = [
           {
-            establishment_id: { raw: 'MDI' },
+            establishment_id: { raw: 'ABC' },
             wing: { raw: '' },
             total_prisoners: { raw: '30' },
           },
@@ -176,71 +176,71 @@ describe('DatasetHelper', () => {
         // Get rows that show BRIT prisoners totals by establishment, by wing
         const dataset = [
           {
-            establishment_id: { raw: 'MDI' },
+            establishment_id: { raw: 'ABC' },
             wing: { raw: '' },
-            nationality_code: { raw: 'BRIT' },
+            MetricTwo_code: { raw: 'BRIT' },
             total_prisoners: { raw: '45' },
           },
           {
-            establishment_id: { raw: 'MDI' },
+            establishment_id: { raw: 'ABC' },
             wing: { raw: 'I' },
-            nationality_code: { raw: 'BRIT' },
+            MetricTwo_code: { raw: 'BRIT' },
             total_prisoners: { raw: '14' },
           },
           {
-            establishment_id: { raw: 'MDI' },
+            establishment_id: { raw: 'ABC' },
             wing: { raw: 'J' },
-            nationality_code: { raw: 'BRIT' },
+            MetricTwo_code: { raw: 'BRIT' },
             total_prisoners: { raw: '15' },
           },
           {
-            establishment_id: { raw: 'MDI' },
+            establishment_id: { raw: 'ABC' },
             wing: { raw: 'K' },
-            nationality_code: { raw: 'BRIT' },
+            MetricTwo_code: { raw: 'BRIT' },
             total_prisoners: { raw: '16' },
           },
           {
-            establishment_id: { raw: 'MDI' },
+            establishment_id: { raw: 'ABC' },
             wing: { raw: '' },
-            nationality_code: { raw: 'ASIAN' },
+            MetricTwo_code: { raw: 'ASIAN' },
             total_prisoners: { raw: '15' },
           },
           {
-            establishment_id: { raw: 'MDI' },
+            establishment_id: { raw: 'ABC' },
             wing: { raw: 'I' },
-            nationality_code: { raw: 'ASIAN' },
+            MetricTwo_code: { raw: 'ASIAN' },
             total_prisoners: { raw: '5' },
           },
           {
-            establishment_id: { raw: 'MDI' },
+            establishment_id: { raw: 'ABC' },
             wing: { raw: 'J' },
-            nationality_code: { raw: 'ASIAN' },
+            MetricTwo_code: { raw: 'ASIAN' },
             total_prisoners: { raw: '4' },
           },
           {
-            establishment_id: { raw: 'MDI' },
+            establishment_id: { raw: 'ABC' },
             wing: { raw: 'K' },
-            nationality_code: { raw: 'ASIAN' },
+            MetricTwo_code: { raw: 'ASIAN' },
             total_prisoners: { raw: '6' },
           },
         ]
 
         const expectedResult = [
           {
-            establishment_id: { raw: 'MDI' },
-            nationality_code: { raw: 'BRIT' },
+            establishment_id: { raw: 'ABC' },
+            MetricTwo_code: { raw: 'BRIT' },
             total_prisoners: { raw: '14' },
             wing: { raw: 'I' },
           },
           {
-            establishment_id: { raw: 'MDI' },
-            nationality_code: { raw: 'BRIT' },
+            establishment_id: { raw: 'ABC' },
+            MetricTwo_code: { raw: 'BRIT' },
             total_prisoners: { raw: '15' },
             wing: { raw: 'J' },
           },
           {
-            establishment_id: { raw: 'MDI' },
-            nationality_code: { raw: 'BRIT' },
+            establishment_id: { raw: 'ABC' },
+            MetricTwo_code: { raw: 'BRIT' },
             total_prisoners: { raw: '16' },
             wing: { raw: 'K' },
           },
@@ -270,7 +270,7 @@ describe('DatasetHelper', () => {
             ],
             filters: [
               {
-                id: 'nationality_code',
+                id: 'MetricTwo_code',
                 equals: 'BRIT',
               },
             ],
@@ -285,90 +285,90 @@ describe('DatasetHelper', () => {
         // Get rows that show BRIT prisoners totals by establishment, by wing
         const dataset = [
           {
-            establishment_id: { raw: 'MDI' },
+            establishment_id: { raw: 'ABC' },
             wing: { raw: '' },
-            nationality_code: { raw: 'BRIT' },
+            MetricTwo_code: { raw: 'BRIT' },
             total_prisoners: { raw: '45' },
           },
           {
-            establishment_id: { raw: 'MDI' },
+            establishment_id: { raw: 'ABC' },
             wing: { raw: 'I' },
-            nationality_code: { raw: 'BRIT' },
+            MetricTwo_code: { raw: 'BRIT' },
             total_prisoners: { raw: '14' },
           },
           {
-            establishment_id: { raw: 'MDI' },
+            establishment_id: { raw: 'ABC' },
             wing: { raw: 'J' },
-            nationality_code: { raw: 'BRIT' },
+            MetricTwo_code: { raw: 'BRIT' },
             total_prisoners: { raw: '15' },
           },
           {
-            establishment_id: { raw: 'MDI' },
+            establishment_id: { raw: 'ABC' },
             wing: { raw: 'K' },
-            nationality_code: { raw: 'BRIT' },
+            MetricTwo_code: { raw: 'BRIT' },
             total_prisoners: { raw: '16' },
           },
           {
-            establishment_id: { raw: 'MDI' },
+            establishment_id: { raw: 'ABC' },
             wing: { raw: '' },
-            nationality_code: { raw: 'ASIAN' },
+            MetricTwo_code: { raw: 'ASIAN' },
             total_prisoners: { raw: '15' },
           },
           {
-            establishment_id: { raw: 'MDI' },
+            establishment_id: { raw: 'ABC' },
             wing: { raw: 'I' },
-            nationality_code: { raw: 'ASIAN' },
+            MetricTwo_code: { raw: 'ASIAN' },
             total_prisoners: { raw: '5' },
           },
           {
-            establishment_id: { raw: 'MDI' },
+            establishment_id: { raw: 'ABC' },
             wing: { raw: 'J' },
-            nationality_code: { raw: 'ASIAN' },
+            MetricTwo_code: { raw: 'ASIAN' },
             total_prisoners: { raw: '4' },
           },
           {
-            establishment_id: { raw: 'MDI' },
+            establishment_id: { raw: 'ABC' },
             wing: { raw: 'K' },
-            nationality_code: { raw: 'ASIAN' },
+            MetricTwo_code: { raw: 'ASIAN' },
             total_prisoners: { raw: '6' },
           },
         ]
 
         const expectedResult = [
           {
-            establishment_id: { raw: 'MDI' },
+            establishment_id: { raw: 'ABC' },
             wing: { raw: 'I' },
-            nationality_code: { raw: 'BRIT' },
+            MetricTwo_code: { raw: 'BRIT' },
             total_prisoners: { raw: '14' },
           },
           {
-            establishment_id: { raw: 'MDI' },
+            establishment_id: { raw: 'ABC' },
             wing: { raw: 'J' },
-            nationality_code: { raw: 'BRIT' },
+            MetricTwo_code: { raw: 'BRIT' },
             total_prisoners: { raw: '15' },
           },
           {
-            establishment_id: { raw: 'MDI' },
+            establishment_id: { raw: 'ABC' },
             wing: { raw: 'K' },
-            nationality_code: { raw: 'BRIT' },
+            MetricTwo_code: { raw: 'BRIT' },
             total_prisoners: { raw: '16' },
           },
           {
-            establishment_id: { raw: 'MDI' },
+            establishment_id: { raw: 'ABC' },
             wing: { raw: 'I' },
-            nationality_code: { raw: 'ASIAN' },
+            MetricTwo_code: { raw: 'ASIAN' },
             total_prisoners: { raw: '5' },
           },
           {
-            establishment_id: { raw: 'MDI' },
+            establishment_id: { raw: 'ABC' },
             wing: { raw: 'J' },
-            nationality_code: { raw: 'ASIAN' },
+            MetricTwo_code: { raw: 'ASIAN' },
             total_prisoners: { raw: '4' },
           },
           {
-            establishment_id: { raw: 'MDI' },
+            establishment_id: { raw: 'ABC' },
             wing: { raw: 'K' },
-            nationality_code: { raw: 'ASIAN' },
+            MetricTwo_code: { raw: 'ASIAN' },
             total_prisoners: { raw: '6' },
           },
         ]
@@ -436,7 +436,7 @@ describe('DatasetHelper', () => {
         {
           age_range_1: { raw: '18-25' },
           age_range_2: { raw: '' },
-          establishment_id: { raw: 'MDI' },
+          establishment_id: { raw: 'ABC' },
           total_prisoners: { raw: '6' },
           wing: { raw: 'I' },
         },
@@ -482,7 +482,7 @@ describe('DatasetHelper', () => {
         {
           age_range_1: { raw: '18-25' },
           age_range_2: { raw: '' },
-          establishment_id: { raw: 'MDI' },
+          establishment_id: { raw: 'ABC' },
           total_prisoners: { raw: '6' },
           wing: { raw: 'I' },
         },
@@ -491,7 +491,7 @@ describe('DatasetHelper', () => {
       const expectedResult = [
         {
           age_range_1: { raw: '18-25' },
-          establishment_id: { raw: 'MDI' },
+          establishment_id: { raw: 'ABC' },
           total_prisoners: { raw: '6' },
           wing: { raw: 'I' },
         },

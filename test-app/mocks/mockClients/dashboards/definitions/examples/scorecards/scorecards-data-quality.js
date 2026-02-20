@@ -12,12 +12,12 @@ const dataQualityScoreCards = {
       display: 'Data quality scorecards',
       description: '',
       visualisations: [
-        scorecards.dataQualityAllEstablishmentsEthnicity,
-        scorecards.dataQualityAllEstablishmentsNoEthnicity,
-        scorecards.dataQualityAllEstablishmentsNationality,
-        scorecards.dataQualityAllEstablishmentsNoNationality,
-        scorecards.dataQualityAllEstablishmentsReligion,
-        scorecards.dataQualityAllEstablishmentsNoReligion,
+        scorecards.dataQualityAllEstablishmentsMetricOne,
+        scorecards.dataQualityAllEstablishmentsNoMetricOne,
+        scorecards.dataQualityAllEstablishmentsMetricTwo,
+        scorecards.dataQualityAllEstablishmentsNoMetricTwo,
+        scorecards.dataQualityAllEstablishmentsMetricThree,
+        scorecards.dataQualityAllEstablishmentsNoMetricThree,
       ],
     },
     {

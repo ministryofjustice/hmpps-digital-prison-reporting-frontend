@@ -1,5 +1,5 @@
 // @ts-nocheck
-const barChartDataHasEthnicity = {
+const barChartDataHasMetricOne = {
   details: {
     meta: [
       {
@@ -9,7 +9,7 @@ const barChartDataHasEthnicity = {
     ],
     headlines: [
       {
-        label: 'Total has ethnicity',
+        label: 'Total has metricone',
         value: 1423,
       },
     ],
@@ -20,16 +20,16 @@ const barChartDataHasEthnicity = {
         text: 'Establishment ID',
       },
       {
-        text: 'Has ethnicity',
+        text: 'Has MetricOne',
       },
       {
-        text: 'Has no ethnicity',
+        text: 'Has no MetricOne',
       },
     ],
     rows: [
       [
         {
-          text: 'MDI',
+          text: 'ABC',
         },
         {
           text: 533,
@@ -40,7 +40,7 @@ const barChartDataHasEthnicity = {
       ],
       [
         {
-          text: 'SLI',
+          text: 'GHI',
         },
         {
           text: 484,
@@ -51,7 +51,7 @@ const barChartDataHasEthnicity = {
       ],
       [
         {
-          text: 'DAI',
+          text: 'DEF',
         },
         {
           text: 406,
@@ -69,10 +69,10 @@ const barChartDataHasEthnicity = {
       timeseries: false,
     },
     data: {
-      labels: ['Has ethnicity', 'Has no ethnicity'],
+      labels: ['Has MetricOne', 'Has no MetricOne'],
       datasets: [
         {
-          label: 'MDI',
+          label: 'ABC',
           data: [533, 614],
           total: 1147,
           backgroundColor: '#5694ca',
@@ -84,7 +84,7 @@ const barChartDataHasEthnicity = {
           },
         },
         {
-          label: 'SLI',
+          label: 'GHI',
           data: [484, 713],
           total: 1197,
           backgroundColor: '#912b88',
@@ -96,7 +96,7 @@ const barChartDataHasEthnicity = {
           },
         },
         {
-          label: 'DAI',
+          label: 'DEF',
           data: [406, 682],
           total: 1088,
           backgroundColor: '#00703c',
@@ -150,7 +150,7 @@ const barChartDataHasEthnicity = {
   },
 }
 
-const barChartFromListDataHasEthnicity = {
+const barChartFromListDataHasMetricOne = {
   details: {
     meta: [
       {
@@ -160,7 +160,7 @@ const barChartFromListDataHasEthnicity = {
     ],
     headlines: [
       {
-        label: 'Total has ethnicity',
+        label: 'Total has metricone',
         value: 1423,
       },
     ],
@@ -171,16 +171,16 @@ const barChartFromListDataHasEthnicity = {
         text: 'Establishment ID',
       },
       {
-        text: 'Has ethnicity',
+        text: 'Has MetricOne',
       },
       {
-        text: 'Has no ethnicity',
+        text: 'Has no MetricOne',
       },
     ],
     rows: [
       [
         {
-          text: 'MDI',
+          text: 'ABC',
         },
         {
           text: 533,
@@ -191,7 +191,7 @@ const barChartFromListDataHasEthnicity = {
       ],
       [
         {
-          text: 'SLI',
+          text: 'GHI',
         },
         {
           text: 484,
@@ -202,7 +202,7 @@ const barChartFromListDataHasEthnicity = {
       ],
       [
         {
-          text: 'DAI',
+          text: 'DEF',
         },
         {
           text: 406,
@@ -220,10 +220,10 @@ const barChartFromListDataHasEthnicity = {
       timeseries: false,
     },
     data: {
-      labels: ['Has ethnicity', 'Has no ethnicity'],
+      labels: ['Has MetricOne', 'Has no MetricOne'],
       datasets: [
         {
-          label: 'MDI',
+          label: 'ABC',
           data: [533, 614],
           total: 1147,
           backgroundColor: '#5694ca',
@@ -235,7 +235,7 @@ const barChartFromListDataHasEthnicity = {
           },
         },
         {
-          label: 'SLI',
+          label: 'GHI',
           data: [484, 713],
           total: 1197,
           backgroundColor: '#912b88',
@@ -247,7 +247,7 @@ const barChartFromListDataHasEthnicity = {
           },
         },
         {
-          label: 'DAI',
+          label: 'DEF',
           data: [406, 682],
           total: 1088,
           backgroundColor: '#00703c',
@@ -317,26 +317,26 @@ const dataQualityTimeseriesLine = {
     ],
   },
   table: {
-    head: [{ text: 'Date' }, { text: 'Establishment ID' }, { text: 'Has ethnicity' }],
+    head: [{ text: 'Date' }, { text: 'Establishment ID' }, { text: 'Has MetricOne' }],
     rows: [
-      [{ text: 'Aug 24' }, { text: 'MDI' }, { text: 424 }],
-      [{ text: 'Aug 24' }, { text: 'SLI' }, { text: 761 }],
-      [{ text: 'Aug 24' }, { text: 'DAI' }, { text: 401 }],
-      [{ text: 'Sep 24' }, { text: 'MDI' }, { text: 733 }],
-      [{ text: 'Sep 24' }, { text: 'SLI' }, { text: 559 }],
-      [{ text: 'Sep 24' }, { text: 'DAI' }, { text: 656 }],
-      [{ text: 'Oct 24' }, { text: 'MDI' }, { text: 738 }],
-      [{ text: 'Oct 24' }, { text: 'SLI' }, { text: 692 }],
-      [{ text: 'Oct 24' }, { text: 'DAI' }, { text: 665 }],
-      [{ text: 'Nov 24' }, { text: 'MDI' }, { text: 479 }],
-      [{ text: 'Nov 24' }, { text: 'SLI' }, { text: 635 }],
-      [{ text: 'Nov 24' }, { text: 'DAI' }, { text: 482 }],
-      [{ text: 'Dec 24' }, { text: 'MDI' }, { text: 467 }],
-      [{ text: 'Dec 24' }, { text: 'SLI' }, { text: 577 }],
-      [{ text: 'Dec 24' }, { text: 'DAI' }, { text: 660 }],
-      [{ text: 'Jan 25' }, { text: 'MDI' }, { text: 533 }],
-      [{ text: 'Jan 25' }, { text: 'SLI' }, { text: 484 }],
-      [{ text: 'Jan 25' }, { text: 'DAI' }, { text: 406 }],
+      [{ text: 'Aug 24' }, { text: 'ABC' }, { text: 424 }],
+      [{ text: 'Aug 24' }, { text: 'GHI' }, { text: 761 }],
+      [{ text: 'Aug 24' }, { text: 'DEF' }, { text: 401 }],
+      [{ text: 'Sep 24' }, { text: 'ABC' }, { text: 733 }],
+      [{ text: 'Sep 24' }, { text: 'GHI' }, { text: 559 }],
+      [{ text: 'Sep 24' }, { text: 'DEF' }, { text: 656 }],
+      [{ text: 'Oct 24' }, { text: 'ABC' }, { text: 738 }],
+      [{ text: 'Oct 24' }, { text: 'GHI' }, { text: 692 }],
+      [{ text: 'Oct 24' }, { text: 'DEF' }, { text: 665 }],
+      [{ text: 'Nov 24' }, { text: 'ABC' }, { text: 479 }],
+      [{ text: 'Nov 24' }, { text: 'GHI' }, { text: 635 }],
+      [{ text: 'Nov 24' }, { text: 'DEF' }, { text: 482 }],
+      [{ text: 'Dec 24' }, { text: 'ABC' }, { text: 467 }],
+      [{ text: 'Dec 24' }, { text: 'GHI' }, { text: 577 }],
+      [{ text: 'Dec 24' }, { text: 'DEF' }, { text: 660 }],
+      [{ text: 'Jan 25' }, { text: 'ABC' }, { text: 533 }],
+      [{ text: 'Jan 25' }, { text: 'GHI' }, { text: 484 }],
+      [{ text: 'Jan 25' }, { text: 'DEF' }, { text: 406 }],
     ],
   },
   chart: {
@@ -349,7 +349,7 @@ const dataQualityTimeseriesLine = {
       datasets: [
         {
           data: [424, 733, 738, 479, 467, 533],
-          label: 'MDI',
+          label: 'ABC',
           total: 3374,
           pointStyle: 'circle',
           pointRadius: 4,
@@ -363,7 +363,7 @@ const dataQualityTimeseriesLine = {
         },
         {
           data: [761, 559, 692, 635, 577, 484],
-          label: 'SLI',
+          label: 'GHI',
           total: 3708,
           pointStyle: 'circle',
           pointRadius: 4,
@@ -377,7 +377,7 @@ const dataQualityTimeseriesLine = {
         },
         {
           data: [401, 656, 665, 482, 660, 406],
-          label: 'DAI',
+          label: 'DEF',
           total: 3270,
           pointStyle: 'circle',
           pointRadius: 4,
@@ -474,10 +474,10 @@ const chartFromList = {
     rows: [
       [
         {
-          text: 'MDI',
+          text: 'ABC',
         },
         {
-          text: 'Vegetarian',
+          text: 'DietOne',
         },
         {
           text: '251',
@@ -485,10 +485,10 @@ const chartFromList = {
       ],
       [
         {
-          text: 'MDI',
+          text: 'ABC',
         },
         {
-          text: 'Pescatarian',
+          text: 'DietTwo',
         },
         {
           text: '317',
@@ -496,10 +496,10 @@ const chartFromList = {
       ],
       [
         {
-          text: 'MDI',
+          text: 'ABC',
         },
         {
-          text: 'Vegan',
+          text: 'DietThree',
         },
         {
           text: '330',
@@ -507,10 +507,10 @@ const chartFromList = {
       ],
       [
         {
-          text: 'MDI',
+          text: 'ABC',
         },
         {
-          text: 'Omnivore',
+          text: 'DietFour',
         },
         {
           text: '274',
@@ -525,10 +525,10 @@ const chartFromList = {
       timeseries: false,
     },
     data: {
-      labels: ['Vegetarian', 'Pescatarian', 'Vegan', 'Omnivore'],
+      labels: ['DietOne', 'DietTwo', 'DietThree', 'DietFour'],
       datasets: [
         {
-          label: 'MDI',
+          label: 'ABC',
           data: [251, 317, 330, 274],
           total: 1172,
           borderWidth: [0, 0],
@@ -583,8 +583,8 @@ const chartFromList = {
 }
 
 module.exports = {
-  barChartDataHasEthnicity,
-  barChartFromListDataHasEthnicity,
+  barChartDataHasMetricOne,
+  barChartFromListDataHasMetricOne,
   dataQualityTimeseriesLine,
   chartFromList,
 }

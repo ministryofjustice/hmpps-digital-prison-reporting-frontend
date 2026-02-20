@@ -11,72 +11,72 @@ export const completeDataSet = [
     {
       ts: { raw: 'Aug 24' },
       establishment_id: {
-        raw: 'MDI',
+        raw: 'ABC',
       },
-      has_ethnicity: {
+      has_metric_one: {
         raw: 424,
       },
-      ethnicity_is_missing: {
+      metric_one_is_missing: {
         raw: 781,
       },
-      has_nationality: {
+      has_metric_two: {
         raw: 459,
       },
-      nationality_is_missing: {
+      metric_two_is_missing: {
         raw: 528,
       },
-      has_religion: {
+      has_metric_three: {
         raw: 576,
       },
-      religion_is_missing: {
+      metric_three_is_missing: {
         raw: 447,
       },
     },
     {
       ts: { raw: 'Aug 24' },
       establishment_id: {
-        raw: 'SLI',
+        raw: 'GHI',
       },
-      has_ethnicity: {
+      has_metric_one: {
         raw: 761,
       },
-      ethnicity_is_missing: {
+      metric_one_is_missing: {
         raw: 610,
       },
-      has_nationality: {
+      has_metric_two: {
         raw: 734,
       },
-      nationality_is_missing: {
+      metric_two_is_missing: {
         raw: 785,
       },
-      has_religion: {
+      has_metric_three: {
         raw: 758,
       },
-      religion_is_missing: {
+      metric_three_is_missing: {
         raw: 694,
       },
     },
     {
       ts: { raw: 'Aug 24' },
       establishment_id: {
-        raw: 'DAI',
+        raw: 'DEF',
       },
-      has_ethnicity: {
+      has_metric_one: {
         raw: 401,
       },
-      ethnicity_is_missing: {
+      metric_one_is_missing: {
         raw: 499,
       },
-      has_nationality: {
+      has_metric_two: {
         raw: 611,
       },
-      nationality_is_missing: {
+      metric_two_is_missing: {
         raw: 524,
       },
-      has_religion: {
+      has_metric_three: {
         raw: 734,
       },
-      religion_is_missing: {
+      metric_three_is_missing: {
         raw: 404,
       },
     },
@@ -85,72 +85,72 @@ export const completeDataSet = [
     {
       ts: { raw: 'Sep 24' },
       establishment_id: {
-        raw: 'MDI',
+        raw: 'ABC',
       },
-      has_ethnicity: {
+      has_metric_one: {
         raw: 733,
       },
-      ethnicity_is_missing: {
+      metric_one_is_missing: {
         raw: 514,
       },
-      has_nationality: {
+      has_metric_two: {
         raw: 573,
       },
-      nationality_is_missing: {
+      metric_two_is_missing: {
         raw: 554,
       },
-      has_religion: {
+      has_metric_three: {
         raw: 637,
       },
-      religion_is_missing: {
+      metric_three_is_missing: {
         raw: 430,
       },
     },
     {
       ts: { raw: 'Sep 24' },
       establishment_id: {
-        raw: 'SLI',
+        raw: 'GHI',
       },
-      has_ethnicity: {
+      has_metric_one: {
         raw: 559,
       },
-      ethnicity_is_missing: {
+      metric_one_is_missing: {
         raw: 518,
       },
-      has_nationality: {
+      has_metric_two: {
         raw: 453,
       },
-      nationality_is_missing: {
+      metric_two_is_missing: {
         raw: 758,
       },
-      has_religion: {
+      has_metric_three: {
         raw: 562,
       },
-      religion_is_missing: {
+      metric_three_is_missing: {
         raw: 430,
       },
     },
     {
       ts: { raw: 'Sep 24' },
       establishment_id: {
-        raw: 'DAI',
+        raw: 'DEF',
       },
-      has_ethnicity: {
+      has_metric_one: {
         raw: 656,
       },
-      ethnicity_is_missing: {
+      metric_one_is_missing: {
         raw: 521,
       },
-      has_nationality: {
+      has_metric_two: {
         raw: 659,
       },
-      nationality_is_missing: {
+      metric_two_is_missing: {
         raw: 531,
       },
-      has_religion: {
+      has_metric_three: {
         raw: 719,
       },
-      religion_is_missing: {
+      metric_three_is_missing: {
         raw: 573,
       },
     },
@@ -159,72 +159,72 @@ export const completeDataSet = [
     {
       ts: { raw: 'Oct 24' },
       establishment_id: {
-        raw: 'MDI',
+        raw: 'ABC',
       },
-      has_ethnicity: {
+      has_metric_one: {
         raw: 738,
       },
-      ethnicity_is_missing: {
+      metric_one_is_missing: {
         raw: 598,
       },
-      has_nationality: {
+      has_metric_two: {
         raw: 638,
       },
-      nationality_is_missing: {
+      metric_two_is_missing: {
         raw: 417,
       },
-      has_religion: {
+      has_metric_three: {
         raw: 428,
       },
-      religion_is_missing: {
+      metric_three_is_missing: {
         raw: 767,
       },
     },
     {
       ts: { raw: 'Oct 24' },
       establishment_id: {
-        raw: 'SLI',
+        raw: 'GHI',
       },
-      has_ethnicity: {
+      has_metric_one: {
         raw: 692,
       },
-      ethnicity_is_missing: {
+      metric_one_is_missing: {
         raw: 676,
       },
-      has_nationality: {
+      has_metric_two: {
         raw: 758,
       },
-      nationality_is_missing: {
+      metric_two_is_missing: {
         raw: 521,
       },
-      has_religion: {
+      has_metric_three: {
         raw: 430,
       },
-      religion_is_missing: {
+      metric_three_is_missing: {
         raw: 726,
       },
     },
     {
       ts: { raw: 'Oct 24' },
       establishment_id: {
-        raw: 'DAI',
+        raw: 'DEF',
       },
-      has_ethnicity: {
+      has_metric_one: {
         raw: 665,
       },
-      ethnicity_is_missing: {
+      metric_one_is_missing: {
         raw: 687,
       },
-      has_nationality: {
+      has_metric_two: {
         raw: 556,
       },
-      nationality_is_missing: {
+      metric_two_is_missing: {
         raw: 615,
       },
-      has_religion: {
+      has_metric_three: {
         raw: 460,
       },
-      religion_is_missing: {
+      metric_three_is_missing: {
         raw: 467,
       },
     },
@@ -233,72 +233,72 @@ export const completeDataSet = [
     {
       ts: { raw: 'Nov 24' },
       establishment_id: {
-        raw: 'MDI',
+        raw: 'ABC',
       },
-      has_ethnicity: {
+      has_metric_one: {
         raw: 479,
       },
-      ethnicity_is_missing: {
+      metric_one_is_missing: {
         raw: 522,
       },
-      has_nationality: {
+      has_metric_two: {
         raw: 471,
       },
-      nationality_is_missing: {
+      metric_two_is_missing: {
         raw: 546,
       },
-      has_religion: {
+      has_metric_three: {
         raw: 405,
       },
-      religion_is_missing: {
+      metric_three_is_missing: {
         raw: 431,
       },
     },
     {
       ts: { raw: 'Nov 24' },
       establishment_id: {
-        raw: 'SLI',
+        raw: 'GHI',
       },
-      has_ethnicity: {
+      has_metric_one: {
         raw: 635,
       },
-      ethnicity_is_missing: {
+      metric_one_is_missing: {
         raw: 790,
       },
-      has_nationality: {
+      has_metric_two: {
         raw: 581,
       },
-      nationality_is_missing: {
+      metric_two_is_missing: {
         raw: 660,
       },
-      has_religion: {
+      has_metric_three: {
         raw: 780,
       },
-      religion_is_missing: {
+      metric_three_is_missing: {
         raw: 434,
       },
     },
     {
       ts: { raw: 'Nov 24' },
       establishment_id: {
-        raw: 'DAI',
+        raw: 'DEF',
       },
-      has_ethnicity: {
+      has_metric_one: {
         raw: 482,
       },
-      ethnicity_is_missing: {
+      metric_one_is_missing: {
         raw: 713,
       },
-      has_nationality: {
+      has_metric_two: {
         raw: 707,
       },
-      nationality_is_missing: {
+      metric_two_is_missing: {
         raw: 751,
       },
-      has_religion: {
+      has_metric_three: {
         raw: 715,
       },
-      religion_is_missing: {
+      metric_three_is_missing: {
         raw: 422,
       },
     },
@@ -307,72 +307,72 @@ export const completeDataSet = [
     {
       ts: { raw: 'Dec 24' },
       establishment_id: {
-        raw: 'MDI',
+        raw: 'ABC',
       },
-      has_ethnicity: {
+      has_metric_one: {
         raw: 467,
       },
-      ethnicity_is_missing: {
+      metric_one_is_missing: {
         raw: 431,
       },
-      has_nationality: {
+      has_metric_two: {
         raw: 584,
       },
-      nationality_is_missing: {
+      metric_two_is_missing: {
         raw: 605,
       },
-      has_religion: {
+      has_metric_three: {
         raw: 746,
       },
-      religion_is_missing: {
+      metric_three_is_missing: {
         raw: 423,
       },
     },
     {
       ts: { raw: 'Dec 24' },
       establishment_id: {
-        raw: 'SLI',
+        raw: 'GHI',
       },
-      has_ethnicity: {
+      has_metric_one: {
         raw: 577,
       },
-      ethnicity_is_missing: {
+      metric_one_is_missing: {
         raw: 536,
       },
-      has_nationality: {
+      has_metric_two: {
         raw: 524,
       },
-      nationality_is_missing: {
+      metric_two_is_missing: {
         raw: 664,
       },
-      has_religion: {
+      has_metric_three: {
         raw: 721,
       },
-      religion_is_missing: {
+      metric_three_is_missing: {
         raw: 692,
       },
     },
     {
       ts: { raw: 'Dec 24' },
       establishment_id: {
-        raw: 'DAI',
+        raw: 'DEF',
       },
-      has_ethnicity: {
+      has_metric_one: {
         raw: 660,
       },
-      ethnicity_is_missing: {
+      metric_one_is_missing: {
         raw: 590,
       },
-      has_nationality: {
+      has_metric_two: {
         raw: 529,
       },
-      nationality_is_missing: {
+      metric_two_is_missing: {
         raw: 708,
       },
-      has_religion: {
+      has_metric_three: {
         raw: 509,
       },
-      religion_is_missing: {
+      metric_three_is_missing: {
         raw: 718,
       },
     },
@@ -381,72 +381,72 @@ export const completeDataSet = [
     {
       ts: { raw: 'Jan 25' },
       establishment_id: {
-        raw: 'MDI',
+        raw: 'ABC',
       },
-      has_ethnicity: {
+      has_metric_one: {
         raw: 533,
       },
-      ethnicity_is_missing: {
+      metric_one_is_missing: {
         raw: 614,
       },
-      has_nationality: {
+      has_metric_two: {
         raw: 684,
       },
-      nationality_is_missing: {
+      metric_two_is_missing: {
         raw: 665,
       },
-      has_religion: {
+      has_metric_three: {
         raw: 680,
       },
-      religion_is_missing: {
+      metric_three_is_missing: {
         raw: 799,
       },
     },
     {
       ts: { raw: 'Jan 25' },
       establishment_id: {
-        raw: 'SLI',
+        raw: 'GHI',
       },
-      has_ethnicity: {
+      has_metric_one: {
         raw: 484,
       },
-      ethnicity_is_missing: {
+      metric_one_is_missing: {
         raw: 713,
       },
-      has_nationality: {
+      has_metric_two: {
         raw: 700,
       },
-      nationality_is_missing: {
+      metric_two_is_missing: {
         raw: 506,
       },
-      has_religion: {
+      has_metric_three: {
         raw: 771,
       },
-      religion_is_missing: {
+      metric_three_is_missing: {
         raw: 457,
       },
     },
     {
       ts: { raw: 'Jan 25' },
       establishment_id: {
-        raw: 'DAI',
+        raw: 'DEF',
       },
-      has_ethnicity: {
+      has_metric_one: {
         raw: 406,
       },
-      ethnicity_is_missing: {
+      metric_one_is_missing: {
         raw: 682,
       },
-      has_nationality: {
+      has_metric_two: {
         raw: 703,
       },
-      nationality_is_missing: {
+      metric_two_is_missing: {
         raw: 409,
       },
-      has_religion: {
+      has_metric_three: {
         raw: 648,
       },
-      religion_is_missing: {
+      metric_three_is_missing: {
         raw: 720,
       },
     },

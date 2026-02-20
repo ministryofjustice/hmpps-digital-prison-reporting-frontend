@@ -11,12 +11,12 @@ export const definition: components['schemas']['DashboardDefinition'] = {
       display: 'Data quality scorecards',
       description: '',
       visualisations: [
-        Scorecards.dataQualityAllEstablishmentsEthnicity,
-        Scorecards.dataQualityAllEstablishmentsNoEthnicity,
-        Scorecards.dataQualityAllEstablishmentsNationality,
-        Scorecards.dataQualityAllEstablishmentsNoNationality,
-        Scorecards.dataQualityAllEstablishmentsReligion,
-        Scorecards.dataQualityAllEstablishmentsNoReligion,
+        Scorecards.dataQualityAllEstablishmentsMetricOne,
+        Scorecards.dataQualityAllEstablishmentsNoMetricOne,
+        Scorecards.dataQualityAllEstablishmentsMetricTwo,
+        Scorecards.dataQualityAllEstablishmentsNoMetricTwo,
+        Scorecards.dataQualityAllEstablishmentsMetricThree,
+        Scorecards.dataQualityAllEstablishmentsNoMetricThree,
       ],
     },
     {

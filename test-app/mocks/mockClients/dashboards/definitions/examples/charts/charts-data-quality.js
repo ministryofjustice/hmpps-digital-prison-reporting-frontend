@@ -11,16 +11,16 @@ const dataQuality = {
       id: 'section-1',
       display: 'Bar charts',
       description: '',
-      visualisations: [charts.dataQualityEthnicityBar, charts.dataQualityNationalityBar, charts.dataQualityReligionBar],
+      visualisations: [charts.dataQualityMetricOneBar, charts.dataQualityMetricTwoBar, charts.dataQualityMetricThreeBar],
     },
     {
       id: 'section-2',
       display: 'Doughnut charts',
       description: '',
       visualisations: [
-        charts.dataQualityEthnicityDoughnut,
-        charts.dataQualityNationalityDoughnut,
-        charts.dataQualityReligionDoughnut,
+        charts.dataQualityMetricOneDoughnut,
+        charts.dataQualityMetricTwoDoughnut,
+        charts.dataQualityMetricThreeDoughnut,
       ],
     },
     {
@@ -28,9 +28,9 @@ const dataQuality = {
       display: 'Line charts',
       description: '',
       visualisations: [
-        charts.dataQualityEthnicityLine,
-        charts.dataQualityNationalityLine,
-        charts.dataQualityReligionLine,
+        charts.dataQualityMetricOneLine,
+        charts.dataQualityMetricTwoLine,
+        charts.dataQualityMetricThreeLine,
       ],
     },
     {

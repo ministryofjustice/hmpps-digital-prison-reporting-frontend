@@ -77,16 +77,16 @@ const mockScorecardDefinitionEthnicAsian = {
   },
 }
 
-const mockScoreCardGroupReligion = {
+const mockScoreCardGroupMetricThree = {
   type: 'scorecard-group',
   columns: {
     measures: [
       {
-        id: 'religion_code',
+        id: 'MetricThree_code',
       },
       {
-        id: 'religion_description',
-        display: 'Total prisoners whose religion description is',
+        id: 'MetricThree_description',
+        display: 'Total prisoners whose MetricThree description is',
       },
       {
         id: 'count',
@@ -101,5 +101,5 @@ module.exports = {
   mockScorecardDefinitionTotalInEst,
   mockScorecardDefinitionEthnicWhite,
   mockScorecardDefinitionEthnicAsian,
-  mockScoreCardGroupReligion,
+  mockScoreCardGroupMetricThree,
 }

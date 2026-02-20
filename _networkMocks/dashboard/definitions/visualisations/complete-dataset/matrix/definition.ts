@@ -9,7 +9,7 @@ export const definition = {
       id: 'matrix-test',
       display: 'Matrix example',
       description: '',
-      visualisations: [Matrix.dataQualityHasNationalityOvertime],
+      visualisations: [Matrix.dataQualityHasMetricTwoOvertime],
     },
   ],
   filterFields: [],

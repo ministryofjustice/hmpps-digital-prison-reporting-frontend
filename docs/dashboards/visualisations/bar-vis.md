@@ -4,7 +4,7 @@ title: Bar chart
 subsection: Visualisation definition
 phase: Beta
 ---
-<img src="/assets/images//barExample2.png" alt="bar chart example" width="700" style="margin-bottom: 30px"/>
+<!-- <img src="/assets/images//barExample2.png" alt="bar chart example" width="700" style="margin-bottom: 30px"/> -->
 
 The `bar` chart visualisation type represents data as a bar chart visualisation.
 
@@ -77,12 +77,12 @@ In this example we will define which dataset columns to use in the bar chart as 
 ### Example Dataset
 
 ```js
-| est_id | has_ethnicity | ethnicity_is_missing | has_religion | religion_is_missing |
-|--------|---------------|----------------------|--------------|---------------------|
-| MDI    | 407           | 485                  | 300          | 500                 |
-| SLI    | 584           | 701                  | 280          | 320                 |
-| LTI    | 729           | 725                  | 220          | 214                 |
-| DAI    | 520           | 765                  | 220          | 214                 |
+| est_id | has_metric_one | metric_one_is_missing | has_metric_three | metric_three_is_missing |
+|--------|----------------|-----------------------|------------------|-------------------------|
+| ABC    | 407            | 485                   | 300              | 500                     |
+| DEF    | 584            | 701                   | 280              | 320                     |
+| GHI    | 520            | 765                   | 220              | 214                     |
+| JKL    | 729            | 725                   | 220              | 214                     |
 ```
 
 ### Definition
@@ -91,7 +91,7 @@ In this example we will define which dataset columns to use in the bar chart as 
 {
   id: 'metric-bar-example',
   type: 'bar',
-  display: 'Ethnicity values',
+  display: 'MetricOne values',
   description: '',
   column: {
     key: [
@@ -102,12 +102,12 @@ In this example we will define which dataset columns to use in the bar chart as 
     ],
     measure: [
       {
-        id: 'has_ethnicity',
-        display: 'Has ethnicity',  
+        id: 'has_metric_one',
+        display: 'Has MetricOne',  
       },
       {
-        id: 'ethnicity_is_missing',
-        display: 'No ethnicity',  
+        id: 'metric_one_is_missing',
+        display: 'No MetricOne',  
       },
     ],
   },
@@ -119,12 +119,12 @@ In this example we will define which dataset columns to use in the bar chart as 
 This definition will return the following dataset 
 ```js
 
-| est_id | has_ethnicity | ethnicity_is_missing |
+| est_id | has_metric_one | metric_one_is_missing |
 |--------|---------------|----------------------|
-| MDI    | 407           | 485                  | 
-| SLI    | 584           | 701                  |
-| LTI    | 729           | 725                  |
-| DAI    | 520           | 765                  |
+| ABC    | 407           | 485                  | 
+| DEF    | 584           | 701                  |
+| GHI    | 520           | 765                  |
+| JKL    | 729           | 725                  |
 
 ```
 see [here](/dashboards/visualisations/visualisation-dataset) for more info on targeting data
@@ -132,7 +132,7 @@ see [here](/dashboards/visualisations/visualisation-dataset) for more info on ta
 
 ### Visualisation:
 
-<img src="/assets/images//barExample2.png" alt="bar chart example" width="800"/>
+<!-- <img src="/assets/images//barExample2.png" alt="bar chart example" width="800"/> -->
 
 <hr class='dpr-docs-hr'/>
 
@@ -148,15 +148,15 @@ Here we can define the `axis` field on the specific dataset columns we want to u
 | ts         |  est_id  | wing  | cell  | diet        | count | 
 |------------|----------| ------|-------|-------------|-------|
 | 2025/02/25 |          |       |       |             | 5000  |
-| 2025/02/25 | MDI      |       |       |             | 1109  |
-| 2025/02/25 |          |       |       | vegetarian  | 1507  |
-| 2025/02/25 |          |       |       | Pescatarian | 1130  |
-| 2025/02/25 |          |       |       | Vegan       | 1354  |
-| 2025/02/25 |          |       |       | Omnivore    | 1009  |
-| 2025/02/25 | MDI      |       |       | vegetarian  | 169   |
-| 2025/02/25 | MDI      |       |       | Pescatarian | 463   |
-| 2025/02/25 | MDI      |       |       | Vegan       | 397   |
-| 2025/02/25 | MDI      |       |       | Omnivore    | 80    |
+| 2025/02/25 | ABC      |       |       |             | 1109  |
+| 2025/02/25 |          |       |       | Diet one    | 1507  |
+| 2025/02/25 |          |       |       | Diet two    | 1130  |
+| 2025/02/25 |          |       |       | Diet three  | 1354  |
+| 2025/02/25 |          |       |       | Diet four   | 1009  |
+| 2025/02/25 | ABC      |       |       | Diet one    | 169   |
+| 2025/02/25 | ABC      |       |       | Diet two    | 463   |
+| 2025/02/25 | ABC      |       |       | Diet three  | 397   |
+| 2025/02/25 | ABC      |       |       | Diet four   | 80    |
 ```
 
 ### Definition:
@@ -193,15 +193,15 @@ This definition will return the following dataset
 ```js
 | ts         |  est_id  | wing  | cell  | diet        | count | 
 |------------|----------| ------|-------|-------------|-------|
-| 2025/02/25 |          |       |       | vegetarian  | 1507  |
-| 2025/02/25 |          |       |       | Pescatarian | 1130  |
-| 2025/02/25 |          |       |       | Vegan       | 1354  |
-| 2025/02/25 |          |       |       | Omnivore    | 1009  |
+| 2025/02/25 |          |       |       | Diet one    | 1507  |
+| 2025/02/25 |          |       |       | Diet two    | 1130  |
+| 2025/02/25 |          |       |       | Diet three  | 1354  |
+| 2025/02/25 |          |       |       | Diet four   | 1009  |
 ```
 see [here](/dashboards/visualisations/visualisation-dataset) for more info on targeting data
 
 ### Visualisation:
 
-<img src="/assets/images/barExample1.png" alt="bar chart example" width="800"/>
+<!-- <img src="/assets/images/barExample1.png" alt="bar chart example" width="800"/> -->
 
 ```

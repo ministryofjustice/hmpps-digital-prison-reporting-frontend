@@ -127,39 +127,39 @@ const initEstablishments = (baseData, establishmentId, timestamp) => {
 
   const mdiData = {
     ...base,
-    establishment_id: { raw: 'MDI' },
+    establishment_id: { raw: 'ABC' },
     count: { raw: totals[0] },
   }
 
   const sliData = {
     ...base,
-    establishment_id: { raw: 'SLI' },
+    establishment_id: { raw: 'GHI' },
     count: { raw: totals[1] },
   }
 
   const daiData = {
     ...base,
-    establishment_id: { raw: 'DAI' },
+    establishment_id: { raw: 'DEF' },
     count: { raw: totals[2] },
   }
 
   const ltiData = {
     ...base,
-    establishment_id: { raw: 'LTI' },
+    establishment_id: { raw: 'JKL' },
     count: { raw: totals[2] },
   }
 
   switch (establishmentId) {
-    case 'MDI':
+    case 'ABC':
       establishmentData.push(mdiData)
       break
-    case 'SLI':
+    case 'GHI':
       establishmentData.push(sliData)
       break
-    case 'DAI':
+    case 'DEF':
       establishmentData.push(daiData)
       break
-    case 'LTI':
+    case 'JKL':
       establishmentData.push(daiData)
       break
     case 'ALL':

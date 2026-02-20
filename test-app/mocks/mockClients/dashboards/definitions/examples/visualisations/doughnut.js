@@ -1,7 +1,7 @@
-const dataQualityEthnicityDoughnut = {
-  id: 'doughnut-data-quality-has-ethnicity',
+const dataQualityMetricOneDoughnut = {
+  id: 'doughnut-data-quality-has-MetricOne',
   type: 'doughnut',
-  display: 'Ethnicity values',
+  display: 'MetricOne values',
   columns: {
     keys: [
       {
@@ -11,21 +11,21 @@ const dataQualityEthnicityDoughnut = {
     ],
     measures: [
       {
-        id: 'has_ethnicity',
-        display: 'Has ethnicity',
+        id: 'has_metric_one',
+        display: 'Has MetricOne',
       },
       {
-        id: 'ethnicity_is_missing',
-        display: 'No Ethnicity',
+        id: 'metric_one_is_missing',
+        display: 'No MetricOne',
       },
     ],
   },
 }
 
-const dataQualityReligionDoughnut = {
-  id: 'doughnut-data-quality-has-religion',
+const dataQualityMetricThreeDoughnut = {
+  id: 'doughnut-data-quality-has-MetricThree',
   type: 'doughnut',
-  display: 'Religion values',
+  display: 'MetricThree values',
   columns: {
     keys: [
       {
@@ -35,21 +35,21 @@ const dataQualityReligionDoughnut = {
     ],
     measures: [
       {
-        id: 'has_religion',
-        display: 'Has religion',
+        id: 'has_metric_three',
+        display: 'Has MetricThree',
       },
       {
-        id: 'religion_is_missing',
-        display: 'No religion',
+        id: 'metric_three_is_missing',
+        display: 'No MetricThree',
       },
     ],
   },
 }
 
-const dataQualityNationalityDoughnut = {
-  id: 'doughnut-data-quality-has-nationality',
+const dataQualityMetricTwoDoughnut = {
+  id: 'doughnut-data-quality-has-MetricTwo',
   type: 'doughnut',
-  display: 'Nationality values',
+  display: 'MetricTwo values',
   columns: {
     keys: [
       {
@@ -59,21 +59,21 @@ const dataQualityNationalityDoughnut = {
     ],
     measures: [
       {
-        id: 'has_nationality',
-        display: 'Has nationality',
+        id: 'has_metric_two',
+        display: 'Has MetricTwo',
       },
       {
-        id: 'nationality_is_missing',
-        display: 'No nationality',
+        id: 'metric_two_is_missing',
+        display: 'No MetricTwo',
       },
     ],
   },
 }
 
-const dataQualityNationalityReligionDoughnut = {
-  id: 'doughnut-data-quality-has-nationality-religion',
+const dataQualityMetricTwoMetricThreeDoughnut = {
+  id: 'doughnut-data-quality-has-MetricTwo-MetricThree',
   type: 'doughnut',
-  display: 'Nationality & Religion values',
+  display: 'MetricTwo & MetricThree values',
   columns: {
     keys: [
       {
@@ -83,28 +83,28 @@ const dataQualityNationalityReligionDoughnut = {
     ],
     measures: [
       {
-        id: 'has_nationality',
-        display: 'Has nationality',
+        id: 'has_metric_two',
+        display: 'Has MetricTwo',
       },
       {
-        id: 'nationality_is_missing',
-        display: 'No nationality',
+        id: 'metric_two_is_missing',
+        display: 'No MetricTwo',
       },
       {
-        id: 'has_religion',
-        display: 'Has religion',
+        id: 'has_metric_three',
+        display: 'Has MetricThree',
       },
       {
-        id: 'religion_is_missing',
-        display: 'No religion',
+        id: 'metric_three_is_missing',
+        display: 'No MetricThree',
       },
     ],
   },
 }
 
 module.exports = {
-  dataQualityEthnicityDoughnut,
-  dataQualityNationalityDoughnut,
-  dataQualityReligionDoughnut,
-  dataQualityNationalityReligionDoughnut,
+  dataQualityMetricOneDoughnut,
+  dataQualityMetricTwoDoughnut,
+  dataQualityMetricThreeDoughnut,
+  dataQualityMetricTwoMetricThreeDoughnut,
 }

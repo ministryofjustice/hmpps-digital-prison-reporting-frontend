@@ -4,7 +4,7 @@ title: Scorecard Group
 subsection: Visualisation definition
 ---
 
-<img src="/assets/images/scorecard-group-2.png" alt="" style="margin-bottom: 30px"/>
+<!-- <img src="/assets/images/scorecard-group-2.png" alt="" style="margin-bottom: 30px"/> -->
 
 The `scorecard-group` chart visualisation type represents data as a collection `scorecard` visualisations in a group. 
 
@@ -81,12 +81,12 @@ These examples demonstrate how to present multiple rows within a dataset as a sc
 For these examples we will use a mocked dataset representing data quality totals. 
 
 ```js
-| ts         | est_id | has_nationality | has_ethnicity | has_religion | religion_is_missing |
-|------------|--------|-----------------|---------------|--------------|---------------------|
-| Nov 25.    | MDI    | 21              | 91            | 54           | 63                  |
-| Nov 25.    | SLI    | 34              | 21            | 12           | 12                  |
-| Nov 25.    | DAI    | 86              | 64            | 36           | 87                  |
-| Nov 25.    | LTI    | 23              | 63            | 87           | 54                  |
+| ts         | est_id | has_metric_two | has_metric_one | has_metric_three | metric_three_is_missing |
+|------------|--------|----------------|----------------|------------------|-------------------------|
+| Nov 25.    | ABC    | 21             | 91             | 54               | 63                      |
+| Nov 25.    | DEF    | 34             | 21             | 12               | 12                      |
+| Nov 25.    | JKL    | 23             | 63             | 87               | 54                      |
+| Nov 25.    | GHI    | 86             | 64             | 36               | 87                      |
 ... omitted past ts data
 ```
 
@@ -95,11 +95,11 @@ For these examples we will use a mocked dataset representing data quality totals
 
 # Scorecard group from list data
 
-The example creates a scorecard group using values in a list. We will be showing ethnicity metrics by establishment ID.
+The example creates a scorecard group using values in a list. We will be showing MetricOne metrics by establishment ID.
 
 To do this we define 2 measures
 - the column we want to use as the list: `est_id`
-- the column we want to use as the numeric value: `has_ethnicity`
+- the column we want to use as the numeric value: `has_metric_one`
 
 We must also define `displayValue` in the `measure` for the numeric value:
 - Informs which column the numeric value should be taken from, and which is the description column. 
@@ -111,9 +111,9 @@ In this dataset we have 4 unique values for `est_id`, therefore we will have 4 s
 
 ```js
 {
-  id: 'data-quality-ethnicity',
+  id: 'data-quality-MetricOne',
   type: 'scorecard-group',
-  display: 'Ethnicity score',
+  display: 'MetricOne score',
   description: '',
   option: {
     useRagColour: true,
@@ -127,7 +127,7 @@ In this dataset we have 4 unique values for `est_id`, therefore we will have 4 s
         display: ''                   // optional prefix display value
       },
       {
-        id: 'has_ethnicity',
+        id: 'has_metric_one',
         displayValue: true,           // defines the number value to display, that that this is a group from a list
       },
     ],
@@ -158,7 +158,7 @@ Each value in the group column will be used as new group:
 
 ```js
 {
-  id: 'data-quality-no-nationality',
+  id: 'data-quality-no-MetricTwo',
   type: 'scorecard-group',
   display: 'Data quality scores',
   description: '',
@@ -175,28 +175,28 @@ Each value in the group column will be used as new group:
     ],
     measure: [
       {
-        id: 'has_nationality',
-        display: 'Has nationality',
+        id: 'has_metric_two',
+        display: 'Has MetricTwo',
       },
       {
-        id: 'nationality_is_missing',
-        display: 'Nationality is missing',
+        id: 'metric_two_is_missing',
+        display: 'MetricTwo is missing',
       },
       {
-        id: 'religion_is_missing',
-        display: 'Religion is missing',
+        id: 'metric_three_is_missing',
+        display: 'MetricThree is missing',
       },
       {
-        id: 'has_religion',
-        display: 'Has religion',
+        id: 'has_metric_three',
+        display: 'Has MetricThree',
       },
       {
-        id: 'ethnicity_is_missing',
-        display: 'Ethnicity is missing',
+        id: 'metric_one_is_missing',
+        display: 'MetricOne is missing',
       },
       {
-        id: 'has_ethnicity',
-        display: 'Has ethnicity',
+        id: 'has_metric_one',
+        display: 'Has MetricOne',
       },
     ],
   },
@@ -205,6 +205,6 @@ Each value in the group column will be used as new group:
 
 ### Visualisation
 
-<img src="/assets/images/scorecard-group-2.png" alt=""/>
+<!-- <img src="/assets/images/scorecard-group-2.png" alt=""/> -->
 
 <hr class='dpr-docs-hr'/>

@@ -1,12 +1,12 @@
 // @ts-nocheck
 const { establishmentIdFilter } = require('../../filter-definitions')
 const {
-  mockEthnicityBarChart,
-  mockEthnicityPieChart,
-  mockNationalityBarChart,
-  mockNationalityPieChart,
-  mockReligionBarChart,
-  mockReligionPieChart,
+  mockMetricOneBarChart,
+  mockMetricOnePieChart,
+  mockMetricTwoBarChart,
+  mockMetricTwoPieChart,
+  mockMetricThreeBarChart,
+  mockMetricThreePieChart,
 } = require('./visualisations')
 
 const { lists } = require('../examples/visualisations')
@@ -21,19 +21,19 @@ const dataQualityDashboardBase = {
       id: 'section-1',
       display: 'Section 1',
       description: 'Section 1 description',
-      visualisations: [mockEthnicityBarChart, mockEthnicityPieChart],
+      visualisations: [mockMetricOneBarChart, mockMetricOnePieChart],
     },
     {
       id: 'section-2',
       display: 'Section 2',
       description: 'Section 1 description',
-      visualisations: [mockNationalityBarChart, mockNationalityPieChart],
+      visualisations: [mockMetricTwoBarChart, mockMetricTwoPieChart],
     },
     {
       id: 'section-2',
       display: 'section 3',
       description: 'Section 1 description',
-      visualisations: [mockReligionBarChart, mockReligionPieChart],
+      visualisations: [mockMetricThreeBarChart, mockMetricThreePieChart],
     },
     {
       id: 'section-3',

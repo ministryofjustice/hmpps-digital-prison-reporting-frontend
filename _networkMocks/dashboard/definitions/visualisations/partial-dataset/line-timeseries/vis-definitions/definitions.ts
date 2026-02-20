@@ -49,10 +49,10 @@ export const dietTotalsByEstablishmentOverTime: components['schemas']['Dashboard
   },
 }
 
-export const dietTotalsVegetarianOvertime: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'diet-totals-vegetarian-overtime',
+export const dietTotalsDietOneOvertime: components['schemas']['DashboardVisualisationDefinition'] = {
+  id: 'diet-totals-DietOne-overtime',
   type: DashboardVisualisationType.LINE_TIMESERIES,
-  display: 'Vegetarian totals over time line chart',
+  display: 'DietOne totals over time line chart',
   description: '',
   options: { showLatest: false },
   columns: {
@@ -75,17 +75,17 @@ export const dietTotalsVegetarianOvertime: components['schemas']['DashboardVisua
     filters: [
       {
         id: 'diet',
-        equals: 'Vegetarian',
+        equals: 'DietOne',
       },
     ],
     expectNulls: true,
   },
 }
 
-export const dietTotalsVeganOvertime: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'diet-totals-vegan-overtime',
+export const dietTotalsDietThreeOvertime: components['schemas']['DashboardVisualisationDefinition'] = {
+  id: 'diet-totals-DietThree-overtime',
   type: DashboardVisualisationType.LINE_TIMESERIES,
-  display: 'Vegan totals over time line chart',
+  display: 'DietThree totals over time line chart',
   description: '',
   options: { showLatest: false },
   columns: {
@@ -108,17 +108,17 @@ export const dietTotalsVeganOvertime: components['schemas']['DashboardVisualisat
     filters: [
       {
         id: 'diet',
-        equals: 'Vegan',
+        equals: 'DietThree',
       },
     ],
     expectNulls: true,
   },
 }
 
-export const dietTotalsVegetarianOvertimeByEstLine: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'line-diet-totals-vegetarian-overtime-by-est',
+export const dietTotalsDietOneOvertimeByEstLine: components['schemas']['DashboardVisualisationDefinition'] = {
+  id: 'line-diet-totals-DietOne-overtime-by-est',
   type: DashboardVisualisationType.LINE_TIMESERIES,
-  display: 'Vegetarian totals over time line',
+  display: 'DietOne totals over time line',
   description: '',
   options: { showLatest: false },
   columns: {
@@ -141,17 +141,17 @@ export const dietTotalsVegetarianOvertimeByEstLine: components['schemas']['Dashb
     filters: [
       {
         id: 'diet',
-        equals: 'Vegetarian',
+        equals: 'DietOne',
       },
     ],
     expectNulls: true,
   },
 }
 
-export const dietTotalsVegetarianOvertimeByEstByWingLine: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'line-diet-totals-vegetarian-overtime-by-est-by-wing',
+export const dietTotalsDietOneOvertimeByEstByWingLine: components['schemas']['DashboardVisualisationDefinition'] = {
+  id: 'line-diet-totals-DietOne-overtime-by-est-by-wing',
   type: DashboardVisualisationType.LINE_TIMESERIES,
-  display: 'Vegetarian totals over time by wing line',
+  display: 'DietOne totals over time by wing line',
   description: '',
   options: { showLatest: false },
   columns: {
@@ -178,18 +178,18 @@ export const dietTotalsVegetarianOvertimeByEstByWingLine: components['schemas'][
     filters: [
       {
         id: 'diet',
-        equals: 'Vegetarian',
+        equals: 'DietOne',
       },
     ],
     expectNulls: true,
   },
 }
 
-export const dietTotalsVegetarianOvertimeByEstByWingAndCellLine: components['schemas']['DashboardVisualisationDefinition'] =
+export const dietTotalsDietOneOvertimeByEstByWingAndCellLine: components['schemas']['DashboardVisualisationDefinition'] =
   {
-    id: 'line-diet-totals-vegetarian-overtime-by-est-by-wing-cell',
+    id: 'line-diet-totals-DietOne-overtime-by-est-by-wing-cell',
     type: DashboardVisualisationType.LINE_TIMESERIES,
-    display: 'Vegetarian totals over time by wing line',
+    display: 'DietOne totals over time by wing line',
     description: '',
     options: { showLatest: false },
     columns: {

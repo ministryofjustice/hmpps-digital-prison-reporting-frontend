@@ -166,13 +166,13 @@ const readyDashboard = {
   status: 'FINISHED',
   metrics: [
     {
-      name: 'Missing Ethnicity By Establishment',
+      name: 'Missing MetricOne By Establishment',
     },
     {
-      name: 'Percentage Missing Ethnicity By Establishment',
+      name: 'Percentage Missing MetricOne By Establishment',
     },
     {
-      name: 'Missing Ethnicity By Establishment',
+      name: 'Missing MetricOne By Establishment',
     },
   ],
 }

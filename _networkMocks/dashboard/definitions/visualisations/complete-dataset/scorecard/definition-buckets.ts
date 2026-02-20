@@ -11,9 +11,9 @@ export const definition: components['schemas']['DashboardDefinition'] = {
       display: 'Custom bucket boundariess',
       description: '',
       visualisations: [
-        Scorecards.simpleScorecardCustomBucketsBoundariesNationality,
-        Scorecards.simpleScorecardCustomBucketsBoundariesReligion,
-        Scorecards.simpleScorecardCustomBucketsBoundariesEthnicity,
+        Scorecards.simpleScorecardCustomBucketsBoundariesMetricTwo,
+        Scorecards.simpleScorecardCustomBucketsBoundariesMetricThree,
+        Scorecards.simpleScorecardCustomBucketsBoundariesMetricOne,
       ],
     },
   ],

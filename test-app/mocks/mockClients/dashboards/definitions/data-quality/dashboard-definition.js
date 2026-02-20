@@ -1,11 +1,11 @@
 // @ts-nocheck
 const {
-  mockEthnicityBarChart,
-  mockEthnicityPieChart,
-  mockNationalityBarChart,
-  mockNationalityPieChart,
-  mockReligionBarChart,
-  mockReligionPieChart,
+  mockMetricOneBarChart,
+  mockMetricOnePieChart,
+  mockMetricTwoBarChart,
+  mockMetricTwoPieChart,
+  mockMetricThreeBarChart,
+  mockMetricThreePieChart,
 } = require('./visualisations')
 
 const { lists, charts, scorecards } = require('../examples/visualisations')
@@ -18,39 +18,39 @@ const dataQualityDashboard1 = {
   description: 'Testing a dashboard with timeseries chart & snapshot chart',
   sections: [
     {
-      id: 'charts-section-ethnicity-breakdown',
+      id: 'charts-section-MetricOne-breakdown',
       display: 'Totals',
       description: 'Overall data quality values',
       visualisations: [lists.dataQualityColsToList],
     },
     {
-      id: 'charts-section-ethnicity-breakdown',
+      id: 'charts-section-MetricOne-breakdown',
       display: 'Totals overtime',
-      visualisations: [lists.dataQualityEthnicityHistoric],
+      visualisations: [lists.dataQualityMetricOneHistoric],
     },
     {
-      id: 'charts-section-ethnicity',
-      display: 'Ethnicity totals',
+      id: 'charts-section-MetricOne',
+      display: 'MetricOne totals',
       description: 'Overall data quality values',
-      visualisations: [mockEthnicityBarChart, mockEthnicityPieChart, lists.dataQualityEthnicity],
+      visualisations: [mockMetricOneBarChart, mockMetricOnePieChart, lists.dataQualityMetricOne],
     },
     {
-      id: 'charts-section-religion',
-      display: 'Religion totals',
-      visualisations: [mockReligionBarChart, mockReligionPieChart, lists.dataQualityReligion],
+      id: 'charts-section-MetricThree',
+      display: 'MetricThree totals',
+      visualisations: [mockMetricThreeBarChart, mockMetricThreePieChart, lists.dataQualityMetricThree],
     },
     {
-      id: 'charts-section-nationality',
-      display: 'Nationality totals',
-      visualisations: [mockNationalityBarChart, mockNationalityPieChart, lists.dataQualityNationality],
+      id: 'charts-section-MetricTwo',
+      display: 'MetricTwo totals',
+      visualisations: [mockMetricTwoBarChart, mockMetricTwoPieChart, lists.dataQualityMetricTwo],
     },
     {
       id: 'historic',
       display: 'Data quality over time',
       visualisations: [
-        charts.dataQualityEthnicityHistoricLine,
-        charts.dataQualityNationalityHistoricLine,
-        charts.dataQualityReligionHistoricLine,
+        charts.dataQualityMetricOneHistoricLine,
+        charts.dataQualityMetricTwoHistoricLine,
+        charts.dataQualityMetricThreeHistoricLine,
       ],
     },
     {

@@ -1,8 +1,8 @@
 import { fullDatasetHistoric } from './vis-definitions/full-data'
 import {
-  dataQualityEthnicityHistoric,
-  dataQualityNationalityHistoric,
-  dataQualityReligionHistoric,
+  dataQualityMetricOneHistoric,
+  dataQualityMetricTwoHistoric,
+  dataQualityMetricThreeHistoric,
 } from './vis-definitions/historic'
 
 export const definition = {
@@ -15,7 +15,7 @@ export const definition = {
       id: 'section-1',
       display: 'Rows as list',
       description: 'These list examples display the dataset rows as a list',
-      visualisations: [dataQualityEthnicityHistoric, dataQualityNationalityHistoric, dataQualityReligionHistoric],
+      visualisations: [dataQualityMetricOneHistoric, dataQualityMetricTwoHistoric, dataQualityMetricThreeHistoric],
     },
     {
       id: 'totals-breakdown',

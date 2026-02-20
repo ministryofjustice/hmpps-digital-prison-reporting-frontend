@@ -13,12 +13,12 @@ const baseData = {
   wing: { raw: '' },
   age_range_1: { raw: '' },
   age_range_2: { raw: '' },
-  religion_code: { raw: '' },
-  religion_description: { raw: '' },
+  MetricThree_code: { raw: '' },
+  MetricThree_description: { raw: '' },
   ethnic_code: { raw: '' },
   ethnic_description: { raw: '' },
-  nationality_code: { raw: '' },
-  nationality_description: { raw: '' },
+  MetricTwo_code: { raw: '' },
+  MetricTwo_description: { raw: '' },
   cell: { raw: '' },
   age_range_1_18_25: { raw: '' },
   age_range_1_26_34: { raw: '' },
@@ -53,20 +53,20 @@ const generateData = (query) => {
     '2-007',
   ]
   const ageRange2Values = ['18-21', '22-29', '30-39', '40-49', '50-59']
-  const religionCodes = ['ATHE', 'BUDD', 'CHRST', 'COFE', 'MOS', 'NIL', 'RC']
-  const religionDescription = [
+  const MetricThreeCodes = ['ATHE', 'BUDD', 'CHRST', 'COFE', 'MOS', 'NIL', 'RC']
+  const MetricThreeDescription = [
     'Atheist',
     'Buddhist',
     'Christian',
     'Church of England (Anglican)',
     'Muslim',
-    'No Religion',
+    'No MetricThree',
     'Roman Catholic',
   ]
-  const ethnicityCodes = ['A2', 'W2']
-  const ethnicityDescription = ['A2-Asian/Asian British: Pakistani', 'W1-White: Eng./Welsh/Scot./N.Irish/British']
-  const nationalityCodes = ['BRIT']
-  const nationalityDescription = ['British']
+  const MetricOneCodes = ['A2', 'W2']
+  const MetricOneDescription = ['A2-Asian/Asian British: Pakistani', 'W1-White: Eng./Welsh/Scot./N.Irish/British']
+  const MetricTwoCodes = ['BRIT']
+  const MetricTwoDescription = ['British']
 
   const data = timestamps.map((ts) => {
     const baseTotals = initBaseData(baseData, ts)
@@ -113,31 +113,31 @@ const generateData = (query) => {
       [ageRange2Values],
     )
 
-    const baseTotalsByEstablishmentByReligion = generateFieldValuesWithCountData(
+    const baseTotalsByEstablishmentByMetricThree = generateFieldValuesWithCountData(
       baseTotals,
-      ['religion_code', 'religion_description'],
-      [religionCodes, religionDescription],
+      ['MetricThree_code', 'MetricThree_description'],
+      [MetricThreeCodes, MetricThreeDescription],
     )
 
-    const allTotalsByEstablishmentByReligion = generateFieldValuesWithCountData(
+    const allTotalsByEstablishmentByMetricThree = generateFieldValuesWithCountData(
       allTotalsByEstablishment,
-      ['religion_code', 'religion_description'],
-      [religionCodes, religionDescription],
+      ['MetricThree_code', 'MetricThree_description'],
+      [MetricThreeCodes, MetricThreeDescription],
     )
 
-    const allTotalsByEstablishmentByWingByReligion = generateFieldValuesWithCountData(
+    const allTotalsByEstablishmentByWingByMetricThree = generateFieldValuesWithCountData(
       allTotalsByEstablishmentByWing,
-      ['religion_code', 'religion_description'],
-      [religionCodes, religionDescription],
+      ['MetricThree_code', 'MetricThree_description'],
+      [MetricThreeCodes, MetricThreeDescription],
     )
 
-    let baseTotalsByEstablishmentByEthnicity = generateFieldValuesWithCountData(
+    let baseTotalsByEstablishmentByMetricOne = generateFieldValuesWithCountData(
       baseTotals,
       ['ethnic_code', 'ethnic_description'],
-      [ethnicityCodes, ethnicityDescription],
+      [MetricOneCodes, MetricOneDescription],
     )
 
-    baseTotalsByEstablishmentByEthnicity = addColumnValuesToRows(baseTotalsByEstablishmentByEthnicity, [
+    baseTotalsByEstablishmentByMetricOne = addColumnValuesToRows(baseTotalsByEstablishmentByMetricOne, [
       'age_range_1_18_25',
       'age_range_1_26_34',
       'age_range_1_35_44',
@@ -145,13 +145,13 @@ const generateData = (query) => {
       'age_range_1_55_64',
     ])
 
-    let allTotalsByEstablishmentByEthnicity = generateFieldValuesWithCountData(
+    let allTotalsByEstablishmentByMetricOne = generateFieldValuesWithCountData(
       allTotalsByEstablishment,
       ['ethnic_code', 'ethnic_description'],
-      [ethnicityCodes, ethnicityDescription],
+      [MetricOneCodes, MetricOneDescription],
     )
 
-    allTotalsByEstablishmentByEthnicity = addColumnValuesToRows(allTotalsByEstablishmentByEthnicity, [
+    allTotalsByEstablishmentByMetricOne = addColumnValuesToRows(allTotalsByEstablishmentByMetricOne, [
       'age_range_1_18_25',
       'age_range_1_26_34',
       'age_range_1_35_44',
@@ -159,13 +159,13 @@ const generateData = (query) => {
       'age_range_1_55_64',
     ])
 
-    let allTotalsByEstablishmentByWingByEthnicity = generateFieldValuesWithCountData(
+    let allTotalsByEstablishmentByWingByMetricOne = generateFieldValuesWithCountData(
       allTotalsByEstablishmentByWing,
       ['ethnic_code', 'ethnic_description'],
-      [ethnicityCodes, ethnicityDescription],
+      [MetricOneCodes, MetricOneDescription],
     )
 
-    allTotalsByEstablishmentByWingByEthnicity = addColumnValuesToRows(allTotalsByEstablishmentByWingByEthnicity, [
+    allTotalsByEstablishmentByWingByMetricOne = addColumnValuesToRows(allTotalsByEstablishmentByWingByMetricOne, [
       'age_range_1_18_25',
       'age_range_1_26_34',
       'age_range_1_35_44',
@@ -179,16 +179,16 @@ const generateData = (query) => {
       [cells],
     )
 
-    const allTotalsByEstablishmentByNationality = generateFieldValuesWithCountData(
+    const allTotalsByEstablishmentByMetricTwo = generateFieldValuesWithCountData(
       allTotalsByEstablishment,
-      ['nationality_code', 'nationality_description'],
-      [nationalityCodes, nationalityDescription],
+      ['MetricTwo_code', 'MetricTwo_description'],
+      [MetricTwoCodes, MetricTwoDescription],
     )
 
-    const allTotalsByEstablishmentByWingByNationality = generateFieldValuesWithCountData(
+    const allTotalsByEstablishmentByWingByMetricTwo = generateFieldValuesWithCountData(
       allTotalsByEstablishmentByWing,
-      ['nationality_code', 'nationality_description'],
-      [nationalityCodes, nationalityDescription],
+      ['MetricTwo_code', 'MetricTwo_description'],
+      [MetricTwoCodes, MetricTwoDescription],
     )
 
     return [
@@ -201,15 +201,15 @@ const generateData = (query) => {
       ...allTotalsByEstablishmentByAgeRange2,
       ...allTotalsByEstablishmentByAgeRange1ByWing,
       ...allTotalsByEstablishmentByAgeRange2ByWing,
-      ...baseTotalsByEstablishmentByReligion,
-      ...allTotalsByEstablishmentByReligion,
-      ...allTotalsByEstablishmentByWingByReligion,
-      ...allTotalsByEstablishmentByEthnicity,
-      ...baseTotalsByEstablishmentByEthnicity,
-      ...allTotalsByEstablishmentByWingByEthnicity,
+      ...baseTotalsByEstablishmentByMetricThree,
+      ...allTotalsByEstablishmentByMetricThree,
+      ...allTotalsByEstablishmentByWingByMetricThree,
+      ...allTotalsByEstablishmentByMetricOne,
+      ...baseTotalsByEstablishmentByMetricOne,
+      ...allTotalsByEstablishmentByWingByMetricOne,
       ...allTotalsByEstablishmentByWingByCell,
-      ...allTotalsByEstablishmentByNationality,
-      ...allTotalsByEstablishmentByWingByNationality,
+      ...allTotalsByEstablishmentByMetricTwo,
+      ...allTotalsByEstablishmentByWingByMetricTwo,
     ]
   })
 

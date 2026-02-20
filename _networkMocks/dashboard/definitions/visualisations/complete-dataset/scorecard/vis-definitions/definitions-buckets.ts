@@ -1,92 +1,92 @@
 import { components } from '../../../../../../../src/dpr/types/api'
 import { DashboardVisualisationType } from '../../../../../../../src/dpr/components/_dashboards/dashboard-visualisation/types'
 
-export const simpleScorecardCustomBucketsNationality: components['schemas']['DashboardVisualisationDefinition'] = {
+export const simpleScorecardCustomBucketsMetricTwo: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'simple-scorecard-rag',
   type: DashboardVisualisationType.SCORECARD,
-  display: 'No of prisoners with nationality',
+  display: 'No of prisoners with MetricTwo',
   options: {
     buckets: [{ hexColour: '#912b88' }, { hexColour: '#28a197' }, { hexColour: '#f47738' }],
   },
   columns: {
     keys: [{ id: 'establishment_id' }],
-    measures: [{ id: 'has_nationality' }],
+    measures: [{ id: 'has_metric_two' }],
     expectNulls: false,
   },
 }
 
-export const simpleScorecardCustomBucketsEthnicity: components['schemas']['DashboardVisualisationDefinition'] = {
+export const simpleScorecardCustomBucketsMetricOne: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'simple-scorecard-rag',
   type: DashboardVisualisationType.SCORECARD,
-  display: 'No of prisoners with ethnicity',
+  display: 'No of prisoners with MetricOne',
   options: {
     buckets: [{ hexColour: '#912b88' }, { hexColour: '#28a197' }, { hexColour: '#f47738' }],
   },
   columns: {
     keys: [{ id: 'establishment_id' }],
-    measures: [{ id: 'has_ethnicity' }],
+    measures: [{ id: 'has_metric_one' }],
     expectNulls: false,
   },
 }
 
-export const simpleScorecardCustomBucketsReligion: components['schemas']['DashboardVisualisationDefinition'] = {
+export const simpleScorecardCustomBucketsMetricThree: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'simple-scorecard-rag',
   type: DashboardVisualisationType.SCORECARD,
-  display: 'No of prisoners with religion',
+  display: 'No of prisoners with MetricThree',
   options: {
     buckets: [{ hexColour: '#912b88' }, { hexColour: '#28a197' }, { hexColour: '#f47738' }],
   },
   columns: {
     keys: [{ id: 'establishment_id' }],
-    measures: [{ id: 'has_religion' }],
+    measures: [{ id: 'has_metric_three' }],
     expectNulls: false,
   },
 }
 
-export const simpleScorecardCustomBucketsBoundariesReligion: components['schemas']['DashboardVisualisationDefinition'] =
+export const simpleScorecardCustomBucketsBoundariesMetricThree: components['schemas']['DashboardVisualisationDefinition'] =
   {
-    id: 'simple-scorecard-rag-religion',
+    id: 'simple-scorecard-rag-MetricThree',
     type: DashboardVisualisationType.SCORECARD,
-    display: 'No of prisoners with religion',
+    display: 'No of prisoners with MetricThree',
     options: {
       useRagColour: true,
       buckets: [{ max: 500 }, { min: 501, max: 600 }, { min: 601 }],
     },
     columns: {
       keys: [{ id: 'establishment_id' }],
-      measures: [{ id: 'has_religion' }],
+      measures: [{ id: 'has_metric_three' }],
       expectNulls: false,
     },
   }
 
-export const simpleScorecardCustomBucketsBoundariesNationality: components['schemas']['DashboardVisualisationDefinition'] =
+export const simpleScorecardCustomBucketsBoundariesMetricTwo: components['schemas']['DashboardVisualisationDefinition'] =
   {
-    id: 'simple-scorecard-rag-nationality',
+    id: 'simple-scorecard-rag-MetricTwo',
     type: DashboardVisualisationType.SCORECARD,
-    display: 'No of prisoners with nationality',
+    display: 'No of prisoners with MetricTwo',
     options: {
       useRagColour: true,
       buckets: [{ max: 300 }, { min: 301, max: 800 }, { min: 801 }],
     },
     columns: {
       keys: [{ id: 'establishment_id' }],
-      measures: [{ id: 'has_nationality' }],
+      measures: [{ id: 'has_metric_two' }],
       expectNulls: false,
     },
   }
 
-export const simpleScorecardCustomBucketsBoundariesEthnicity: components['schemas']['DashboardVisualisationDefinition'] =
+export const simpleScorecardCustomBucketsBoundariesMetricOne: components['schemas']['DashboardVisualisationDefinition'] =
   {
-    id: 'simple-scorecard-rag-ethnicity',
+    id: 'simple-scorecard-rag-MetricOne',
     type: DashboardVisualisationType.SCORECARD,
-    display: 'No of prisoners with ethnicity',
+    display: 'No of prisoners with MetricOne',
     options: {
       useRagColour: true,
       buckets: [{ max: 200 }, { min: 201, max: 700 }, { min: 701 }],
     },
     columns: {
       keys: [{ id: 'establishment_id' }],
-      measures: [{ id: 'has_ethnicity' }],
+      measures: [{ id: 'has_metric_one' }],
       expectNulls: false,
     },
   }

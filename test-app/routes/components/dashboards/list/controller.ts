@@ -8,10 +8,10 @@ export default class DashboardListController {
         table: {
           head: [{ text: 'Establishment ID' }, { text: 'Wing' }, { text: 'Diet' }, { text: 'Total prisoners' }],
           rows: [
-            [{ text: 'MDI' }, { text: 'north' }, { text: 'Vegetarian' }, { text: '135' }],
-            [{ text: 'MDI' }, { text: 'north' }, { text: 'Pescatarian' }, { text: '20' }],
-            [{ text: 'MDI' }, { text: 'north' }, { text: 'Vegan' }, { text: '106' }],
-            [{ text: 'MDI' }, { text: 'north' }, { text: 'Omnivore' }, { text: '62' }],
+            [{ text: 'ABC' }, { text: 'north' }, { text: 'DietOne' }, { text: '135' }],
+            [{ text: 'ABC' }, { text: 'north' }, { text: 'DietTwo' }, { text: '20' }],
+            [{ text: 'ABC' }, { text: 'north' }, { text: 'DietThree' }, { text: '106' }],
+            [{ text: 'ABC' }, { text: 'north' }, { text: 'DietFour' }, { text: '62' }],
           ],
         },
         ts: '2025/07/31',

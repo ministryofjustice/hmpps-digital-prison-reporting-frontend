@@ -11,7 +11,7 @@ const dataQualityFlexible = {
       id: 'section-1',
       display: 'Data Quality lists',
       description: '',
-      visualisations: [lists.dataQualityEthnicity, lists.dataQualityReligion, lists.dataQualityNationality],
+      visualisations: [lists.dataQualityMetricOne, lists.dataQualityMetricThree, lists.dataQualityMetricTwo],
     },
     {
       id: 'totals-breakdown',

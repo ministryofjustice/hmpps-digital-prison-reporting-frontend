@@ -1,10 +1,10 @@
 import { components } from '../../../../../../../src/dpr/types/api'
 import { DashboardVisualisationType } from '../../../../../../../src/dpr/components/_dashboards/dashboard-visualisation/types'
 
-export const dataQualityAllEstablishmentsEthnicity: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'data-quality-ethnicity',
+export const dataQualityAllEstablishmentsMetricOne: components['schemas']['DashboardVisualisationDefinition'] = {
+  id: 'data-quality-MetricOne',
   type: DashboardVisualisationType.SCORECARD_GROUP,
-  display: 'Ethnicity score',
+  display: 'MetricOne score',
   description: '',
   options: {
     useRagColour: true,
@@ -23,7 +23,7 @@ export const dataQualityAllEstablishmentsEthnicity: components['schemas']['Dashb
         display: '',
       },
       {
-        id: 'has_ethnicity',
+        id: 'has_metric_one',
         displayValue: true,
       },
     ],
@@ -31,10 +31,10 @@ export const dataQualityAllEstablishmentsEthnicity: components['schemas']['Dashb
   },
 }
 
-export const dataQualityAllEstablishmentsNoEthnicity: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'data-quality-no-ethnicity',
+export const dataQualityAllEstablishmentsNoMetricOne: components['schemas']['DashboardVisualisationDefinition'] = {
+  id: 'data-quality-no-MetricOne',
   type: DashboardVisualisationType.SCORECARD_GROUP,
-  display: 'Missing ethnicity score',
+  display: 'Missing MetricOne score',
   description: '',
   columns: {
     keys: [
@@ -49,7 +49,7 @@ export const dataQualityAllEstablishmentsNoEthnicity: components['schemas']['Das
         display: '',
       },
       {
-        id: 'ethnicity_is_missing',
+        id: 'metric_one_is_missing',
         displayValue: true,
       },
     ],
@@ -57,10 +57,10 @@ export const dataQualityAllEstablishmentsNoEthnicity: components['schemas']['Das
   },
 }
 
-export const dataQualityAllEstablishmentsReligion: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'data-quality-religion',
+export const dataQualityAllEstablishmentsMetricThree: components['schemas']['DashboardVisualisationDefinition'] = {
+  id: 'data-quality-MetricThree',
   type: DashboardVisualisationType.SCORECARD_GROUP,
-  display: 'Religion score',
+  display: 'MetricThree score',
   description: '',
   columns: {
     keys: [
@@ -75,7 +75,7 @@ export const dataQualityAllEstablishmentsReligion: components['schemas']['Dashbo
         display: '',
       },
       {
-        id: 'has_religion',
+        id: 'has_metric_three',
         displayValue: true,
       },
     ],
@@ -83,10 +83,10 @@ export const dataQualityAllEstablishmentsReligion: components['schemas']['Dashbo
   },
 }
 
-export const dataQualityAllEstablishmentsNoReligion: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'data-quality-no-religion',
+export const dataQualityAllEstablishmentsNoMetricThree: components['schemas']['DashboardVisualisationDefinition'] = {
+  id: 'data-quality-no-MetricThree',
   type: DashboardVisualisationType.SCORECARD_GROUP,
-  display: 'Missing religion score',
+  display: 'Missing MetricThree score',
   description: '',
   columns: {
     keys: [
@@ -101,7 +101,7 @@ export const dataQualityAllEstablishmentsNoReligion: components['schemas']['Dash
         display: '',
       },
       {
-        id: 'religion_is_missing',
+        id: 'metric_three_is_missing',
         displayValue: true,
       },
     ],
@@ -109,10 +109,10 @@ export const dataQualityAllEstablishmentsNoReligion: components['schemas']['Dash
   },
 }
 
-export const dataQualityAllEstablishmentsNationality: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'data-quality-nationality',
+export const dataQualityAllEstablishmentsMetricTwo: components['schemas']['DashboardVisualisationDefinition'] = {
+  id: 'data-quality-MetricTwo',
   type: DashboardVisualisationType.SCORECARD_GROUP,
-  display: 'Nationality score',
+  display: 'MetricTwo score',
   description: '',
   options: {
     useRagColour: true,
@@ -130,7 +130,7 @@ export const dataQualityAllEstablishmentsNationality: components['schemas']['Das
         display: '',
       },
       {
-        id: 'has_nationality',
+        id: 'has_metric_two',
         displayValue: true,
       },
     ],
@@ -138,10 +138,10 @@ export const dataQualityAllEstablishmentsNationality: components['schemas']['Das
   },
 }
 
-export const dataQualityAllEstablishmentsNoNationality: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'data-quality-no-nationality',
+export const dataQualityAllEstablishmentsNoMetricTwo: components['schemas']['DashboardVisualisationDefinition'] = {
+  id: 'data-quality-no-MetricTwo',
   type: DashboardVisualisationType.SCORECARD_GROUP,
-  display: 'Missing nationality score',
+  display: 'Missing MetricTwo score',
   description: '',
   columns: {
     keys: [
@@ -156,7 +156,7 @@ export const dataQualityAllEstablishmentsNoNationality: components['schemas']['D
         display: '',
       },
       {
-        id: 'nationality_is_missing',
+        id: 'metric_two_is_missing',
         displayValue: true,
       },
     ],
@@ -181,28 +181,28 @@ export const dataQualityAllCols: components['schemas']['DashboardVisualisationDe
     ],
     measures: [
       {
-        id: 'has_nationality',
-        display: 'Has nationality',
+        id: 'has_metric_two',
+        display: 'Has MetricTwo',
       },
       {
-        id: 'nationality_is_missing',
-        display: 'Nationality is missing',
+        id: 'metric_two_is_missing',
+        display: 'MetricTwo is missing',
       },
       {
-        id: 'religion_is_missing',
-        display: 'Religion is missing',
+        id: 'metric_three_is_missing',
+        display: 'MetricThree is missing',
       },
       {
-        id: 'has_religion',
-        display: 'Has religion',
+        id: 'has_metric_three',
+        display: 'Has MetricThree',
       },
       {
-        id: 'ethnicity_is_missing',
-        display: 'Ethnicity is missing',
+        id: 'metric_one_is_missing',
+        display: 'MetricOne is missing',
       },
       {
-        id: 'has_ethnicity',
-        display: 'Has ethnicity',
+        id: 'has_metric_one',
+        display: 'Has MetricOne',
       },
     ],
     expectNulls: false,

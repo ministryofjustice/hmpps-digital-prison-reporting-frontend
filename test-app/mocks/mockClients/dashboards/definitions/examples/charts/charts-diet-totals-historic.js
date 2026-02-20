@@ -25,10 +25,10 @@ const historicDietTotals = {
       display: 'Historic Diet Totals',
       description: '',
       visualisations: [
-        lists.dietTotalsVegetarianOvertime,
-        charts.dietTotalsVegetarianOvertime,
-        lists.dietTotalsVeganOvertime,
-        charts.dietTotalsVeganOvertime,
+        lists.dietTotalsDietOneOvertime,
+        charts.dietTotalsDietOneOvertime,
+        lists.dietTotalsDietThreeOvertime,
+        charts.dietTotalsDietThreeOvertime,
       ],
     },
     {
@@ -36,10 +36,10 @@ const historicDietTotals = {
       display: 'Historic Diet By Key Totals',
       description: '',
       visualisations: [
-        lists.dietTotalsVegetarianOvertimeByEst,
-        charts.dietTotalsVegetarianOvertimeByEstLine,
-        lists.dietTotalsVegetarianOvertimeByEstByWing,
-        charts.dietTotalsVegetarianOvertimeByEstByWingLine,
+        lists.dietTotalsDietOneOvertimeByEst,
+        charts.dietTotalsDietOneOvertimeByEstLine,
+        lists.dietTotalsDietOneOvertimeByEstByWing,
+        charts.dietTotalsDietOneOvertimeByEstByWingLine,
       ],
     },
     {

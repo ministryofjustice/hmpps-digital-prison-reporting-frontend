@@ -30,7 +30,7 @@ class BarChart extends Chart {
 
   private groupsData: DashboardDataResponse[][] = []
 
-  private groupKey: BarDefinitionMeasure | undefined
+  private groupKey: string[] | undefined
 
   private xAxisColumn: BarDefinitionMeasure | undefined
 
@@ -141,15 +141,11 @@ class BarChart extends Chart {
   private initListData = () => {
     this.xAxisColumn = this.measures.find((col) => col.axis === 'x')
     this.yAxisColumn = this.measures.find((col) => col.axis === 'y')
-    this.groupKey = <BarDefinitionMeasure>(
-      DatasetHelper.getGroupKey(
-        this.responseData,
-        <Array<components['schemas']['DashboardVisualisationColumnDefinition']>>this.keys,
-      )
-    )
-    this.groupsData = this.groupKey
-      ? DatasetHelper.groupRowsByKey(this.responseData, this.groupKey.id)
-      : [this.responseData]
+    this.groupKey = this.keys.map((key) => key.id)
+    this.groupsData =
+      this.groupKey && this.groupKey.length
+        ? DatasetHelper.groupRowsBy(this.responseData, this.groupKey)
+        : [this.responseData]
   }
 
   private createListDatasets = () => {
@@ -171,14 +167,7 @@ class BarChart extends Chart {
         }
       })
 
-      let label = ''
-      if (this.groupKey) {
-        const groupKeyId = this.groupKey.id
-        const groupRow = groupData[0]
-        label = groupRow && groupRow[groupKeyId] ? `${groupRow[groupKeyId].raw}` : ''
-      } else {
-        label = this.yAxisColumn?.display || label
-      }
+      const label = this.createGroupLabel(groupData)
 
       return {
         label,
@@ -189,14 +178,33 @@ class BarChart extends Chart {
     })
   }
 
+  private createGroupLabel = (group: DashboardDataResponse[]): string => {
+    if (this.groupKey && this.groupKey.length) {
+      const firstRow = group[0]
+      return this.groupKey
+        ? this.groupKey
+            .map((id) => {
+              const key = this.keys.find((k) => k.id === 'id')
+              const label = key && key.display ? `${key.display}:` : ''
+              const value = firstRow[id]?.raw ?? ''
+              return `${label}${value}`
+            })
+            .join(' - ')
+        : ''
+    }
+    return this.yAxisColumn?.display || ''
+  }
+
   private createListLabels = () => {
-    this.labels = this.groupsData.flatMap((gd) => {
+    const allLabels = this.groupsData.flatMap((gd) => {
       const id = this.xAxisColumn?.id || ''
       return gd.map((row) => {
         const field = row[id]
         return field ? `${field.raw}` : ''
       })
     })
+
+    this.labels = Array.from(new Set(allLabels))
   }
 }
 

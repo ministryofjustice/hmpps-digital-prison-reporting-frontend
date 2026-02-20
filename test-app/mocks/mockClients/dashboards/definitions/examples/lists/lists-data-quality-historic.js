@@ -12,9 +12,9 @@ const dataQualityHistoric = {
       display: 'Data Quality lists',
       description: '',
       visualisations: [
-        lists.dataQualityEthnicityHistoric,
-        lists.dataQualityNationalityHistoric,
-        lists.dataQualityReligionHistoric,
+        lists.dataQualityMetricOneHistoric,
+        lists.dataQualityMetricTwoHistoric,
+        lists.dataQualityMetricThreeHistoric,
       ],
     },
     {

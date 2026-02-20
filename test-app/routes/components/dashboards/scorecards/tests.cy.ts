@@ -43,7 +43,7 @@ context('Dashboard visualisation: Scorecards', () => {
     })
 
     it('should show the correct information on a scorecard', () => {
-      cy.findAllByLabelText(/No of prisoners with nationality/)
+      cy.findAllByLabelText(/No of prisoners with MetricTwo/)
         .eq(0)
         .should('exist')
         .within(() => {
@@ -81,7 +81,7 @@ context('Dashboard visualisation: Scorecards', () => {
     })
 
     it('should show the correct information on a scorecard', () => {
-      cy.findAllByLabelText(/No of prisoners with nationality/)
+      cy.findAllByLabelText(/No of prisoners with MetricTwo/)
         .eq(0)
         .should('exist')
         .within(() => {
@@ -100,7 +100,7 @@ context('Dashboard visualisation: Scorecards', () => {
     })
 
     it('should show correct colour based in custom boundaries  1', () => {
-      cy.findAllByLabelText(/No of prisoners with nationality/)
+      cy.findAllByLabelText(/No of prisoners with MetricTwo/)
         .eq(0)
         .should('exist')
         .within(() => {
@@ -123,7 +123,7 @@ context('Dashboard visualisation: Scorecards', () => {
     })
 
     it('should show the correct colour based in custom boundaries  2', () => {
-      cy.findAllByLabelText(/No of prisoners with ethnicity/)
+      cy.findAllByLabelText(/No of prisoners with MetricOne/)
         .eq(0)
         .should('exist')
         .within(() => {
@@ -145,7 +145,7 @@ context('Dashboard visualisation: Scorecards', () => {
     })
 
     it('should show the correct colour based in custom boundaries 3', () => {
-      cy.findAllByLabelText(/No of prisoners with religion/)
+      cy.findAllByLabelText(/No of prisoners with MetricThree/)
         .eq(0)
         .should('exist')
         .within(() => {
@@ -154,7 +154,6 @@ context('Dashboard visualisation: Scorecards', () => {
             .eq(1)
             .then((p) => {
               value = Number(p.text())
-
               let colour = '#f4cdc6'
               if (value <= 500) {
                 colour = '#cce2d8'
@@ -185,17 +184,17 @@ context('Dashboard visualisation: Scorecards', () => {
         .eq(0)
         .should('exist')
         .within(() => {
-          cy.findByLabelText('MDI')
+          cy.findByLabelText('ABC')
             .should('exist')
             .within(() => {
               cy.findAllByRole('paragraph').eq(1).invoke('attr', 'style').should('contain', 'background-color')
             })
-          cy.findByLabelText('SLI')
+          cy.findByLabelText('GHI')
             .should('exist')
             .within(() => {
               cy.findAllByRole('paragraph').eq(1).invoke('attr', 'style').should('contain', `background-color`)
             })
-          cy.findByLabelText('DAI')
+          cy.findByLabelText('DEF')
             .should('exist')
             .within(() => {
               cy.findAllByRole('paragraph').eq(1).invoke('attr', 'style').should('contain', `background-color`)
@@ -206,22 +205,22 @@ context('Dashboard visualisation: Scorecards', () => {
         .eq(3)
         .should('exist')
         .within(() => {
-          cy.findByLabelText('MDI').should('exist')
-          cy.findByLabelText('SLI').should('exist')
-          cy.findByLabelText('DAI').should('exist')
+          cy.findByLabelText('ABC').should('exist')
+          cy.findByLabelText('GHI').should('exist')
+          cy.findByLabelText('DEF').should('exist')
         })
     })
 
     it('should show scorecard group using columns', () => {
-      cy.findByLabelText(/Establishment ID: MDI/)
+      cy.findByLabelText(/Establishment ID: ABC/)
         .should('exist')
         .within(() => {
-          cy.findByLabelText('Has ethnicity').should('exist')
-          cy.findByLabelText('Ethnicity is missing').should('exist')
-          cy.findByLabelText('Has nationality').should('exist')
-          cy.findByLabelText('Nationality is missing').should('exist')
-          cy.findByLabelText('Has religion').should('exist')
-          cy.findByLabelText('Religion is missing').should('exist')
+          cy.findByLabelText('Has MetricOne').should('exist')
+          cy.findByLabelText('MetricOne is missing').should('exist')
+          cy.findByLabelText('Has MetricTwo').should('exist')
+          cy.findByLabelText('MetricTwo is missing').should('exist')
+          cy.findByLabelText('Has MetricThree').should('exist')
+          cy.findByLabelText('MetricThree is missing').should('exist')
         })
     })
   })

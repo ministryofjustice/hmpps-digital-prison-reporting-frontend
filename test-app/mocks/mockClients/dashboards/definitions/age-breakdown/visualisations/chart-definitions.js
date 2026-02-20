@@ -1,6 +1,6 @@
 // @ts-nocheck
-const mockBarChartReligion = {
-  id: 'religion-bar',
+const mockBarChartMetricThree = {
+  id: 'MetricThree-bar',
   type: 'bar',
   columns: {
     keys: [
@@ -11,8 +11,8 @@ const mockBarChartReligion = {
     ],
     measures: [
       {
-        id: 'religion_description',
-        display: 'Religion Description',
+        id: 'MetricThree_description',
+        display: 'MetricThree Description',
         axis: 'x',
       },
       {
@@ -24,8 +24,8 @@ const mockBarChartReligion = {
   },
 }
 
-const mockPieChartReligion = {
-  id: 'religion-doughhut',
+const mockPieChartMetricThree = {
+  id: 'MetricThree-doughhut',
   type: 'doughnut',
   columns: {
     keys: [
@@ -36,8 +36,8 @@ const mockPieChartReligion = {
     ],
     measures: [
       {
-        id: 'religion_description',
-        display: 'Religion Description',
+        id: 'MetricThree_description',
+        display: 'MetricThree Description',
         axis: 'x',
       },
       {
@@ -51,6 +51,6 @@ const mockPieChartReligion = {
 }
 
 module.exports = {
-  mockBarChartReligion,
-  mockPieChartReligion,
+  mockBarChartMetricThree,
+  mockPieChartMetricThree,
 }

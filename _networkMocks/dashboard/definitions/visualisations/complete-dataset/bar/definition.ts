@@ -13,9 +13,9 @@ export const definition: components['schemas']['DashboardDefinition'] = {
       display: 'Simple bar charts',
       description: 'Section 1 description',
       visualisations: [
-        BarChart.dataQualityEthnicityBar,
-        BarChart.dataQualityNationalityBar,
-        BarChart.dataQualityReligionBar,
+        BarChart.dataQualityMetricOneBar,
+        BarChart.dataQualityMetricTwoBar,
+        BarChart.dataQualityMetricThreeBar,
         BarChart.dataQualityAllBar,
       ],
     },
@@ -23,7 +23,7 @@ export const definition: components['schemas']['DashboardDefinition'] = {
       id: 'section-2',
       display: 'Horizontal bar charts',
       description: 'Section 1 description',
-      visualisations: [BarChart.dataQualityEthnicityBarHorizontal, BarChart.dataQualityAllBarHorizontal],
+      visualisations: [BarChart.dataQualityMetricOneBarHorizontal, BarChart.dataQualityAllBarHorizontal],
     },
     {
       id: 'totals-breakdown',

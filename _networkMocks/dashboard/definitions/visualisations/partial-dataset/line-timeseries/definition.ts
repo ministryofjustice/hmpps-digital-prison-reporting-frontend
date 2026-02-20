@@ -15,11 +15,11 @@ export const definition: components['schemas']['DashboardDefinition'] = {
       visualisations: [
         LineTimeseriesCharts.dietTotalsOverTime,
         LineTimeseriesCharts.dietTotalsByEstablishmentOverTime,
-        LineTimeseriesCharts.dietTotalsVegetarianOvertime,
-        LineTimeseriesCharts.dietTotalsVeganOvertime,
-        LineTimeseriesCharts.dietTotalsVegetarianOvertimeByEstByWingLine,
-        LineTimeseriesCharts.dietTotalsVegetarianOvertimeByEstLine,
-        LineTimeseriesCharts.dietTotalsVegetarianOvertimeByEstByWingAndCellLine,
+        LineTimeseriesCharts.dietTotalsDietOneOvertime,
+        LineTimeseriesCharts.dietTotalsDietThreeOvertime,
+        LineTimeseriesCharts.dietTotalsDietOneOvertimeByEstByWingLine,
+        LineTimeseriesCharts.dietTotalsDietOneOvertimeByEstLine,
+        LineTimeseriesCharts.dietTotalsDietOneOvertimeByEstByWingAndCellLine,
       ],
     },
     {

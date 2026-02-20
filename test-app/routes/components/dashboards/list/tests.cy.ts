@@ -43,8 +43,8 @@ context('Dashboard visualisation: List', () => {
       cy.findAllByLabelText(/Rows as list/).within(() => {
         cy.findAllByRole('heading', { level: 3 }).should('have.length', 3)
 
-        cy.findByLabelText(/Ethnicity values/).within(() => {
-          cy.findAllByRole('paragraph').first().contains('List visualisation showing ethnicity values')
+        cy.findByLabelText(/MetricOne values/).within(() => {
+          cy.findAllByRole('paragraph').first().contains('List visualisation showing MetricOne values')
 
           cy.findByRole('table').within(() => {
             cy.findAllByRole('row')
@@ -59,15 +59,15 @@ context('Dashboard visualisation: List', () => {
                     cy.wrap(row).within(() => {
                       cy.findAllByRole('columnheader').should('have.length', 3)
                       cy.findAllByRole('columnheader').eq(0).contains('Establishment ID')
-                      cy.findAllByRole('columnheader').eq(1).contains('Has ethnicity')
-                      cy.findAllByRole('columnheader').eq(2).contains('No Ethnicity')
+                      cy.findAllByRole('columnheader').eq(1).contains('Has MetricOne')
+                      cy.findAllByRole('columnheader').eq(2).contains('No MetricOne')
                     })
                     break
 
                   case 2:
                     cy.wrap(row).within(() => {
                       cy.findAllByRole('cell').should('have.length', 3)
-                      cy.findAllByRole('cell').eq(0).contains('MDI')
+                      cy.findAllByRole('cell').eq(0).contains('ABC')
                       cy.findAllByRole('cell').eq(1).contains('533')
                       cy.findAllByRole('cell').eq(2).contains('614')
                     })
@@ -76,7 +76,7 @@ context('Dashboard visualisation: List', () => {
                   case 3:
                     cy.wrap(row).within(() => {
                       cy.findAllByRole('cell').should('have.length', 3)
-                      cy.findAllByRole('cell').eq(0).contains('SLI')
+                      cy.findAllByRole('cell').eq(0).contains('GHI')
                       cy.findAllByRole('cell').eq(1).contains('484')
                       cy.findAllByRole('cell').eq(2).contains('713')
                     })
@@ -85,7 +85,7 @@ context('Dashboard visualisation: List', () => {
                   case 4:
                     cy.wrap(row).within(() => {
                       cy.findAllByRole('cell').should('have.length', 3)
-                      cy.findAllByRole('cell').eq(0).contains('DAI')
+                      cy.findAllByRole('cell').eq(0).contains('DEF')
                       cy.findAllByRole('cell').eq(1).contains('406')
                       cy.findAllByRole('cell').eq(2).contains('682')
                     })
@@ -102,13 +102,13 @@ context('Dashboard visualisation: List', () => {
           })
         })
 
-        cy.findByLabelText(/Nationality values/).within(() => {
-          cy.findAllByRole('paragraph').first().contains('List visualisation showing nationality values')
+        cy.findByLabelText(/MetricTwo values/).within(() => {
+          cy.findAllByRole('paragraph').first().contains('List visualisation showing MetricTwo values')
           cy.findByRole('table').should('exist')
         })
 
-        cy.findByLabelText(/Religion values/).within(() => {
-          cy.findAllByRole('paragraph').first().contains('List visualisation showing religion values')
+        cy.findByLabelText(/MetricThree values/).within(() => {
+          cy.findAllByRole('paragraph').first().contains('List visualisation showing MetricThree values')
           cy.findByRole('table').should('exist')
         })
       })
@@ -130,51 +130,51 @@ context('Dashboard visualisation: List', () => {
                   case 1:
                     cy.wrap(row).within(() => {
                       cy.findAllByRole('columnheader').should('have.length', 4)
-                      cy.findAllByRole('columnheader').eq(1).contains('MDI')
-                      cy.findAllByRole('columnheader').eq(2).contains('SLI')
-                      cy.findAllByRole('columnheader').eq(3).contains('DAI')
+                      cy.findAllByRole('columnheader').eq(1).contains('ABC')
+                      cy.findAllByRole('columnheader').eq(2).contains('GHI')
+                      cy.findAllByRole('columnheader').eq(3).contains('DEF')
                     })
                     break
 
                   case 2:
                     cy.wrap(row).within(() => {
                       cy.findAllByRole('cell').should('have.length', 4)
-                      cy.findAllByRole('cell').eq(0).contains('Has ethnicity')
+                      cy.findAllByRole('cell').eq(0).contains('Has MetricOne')
                     })
                     break
 
                   case 3:
                     cy.wrap(row).within(() => {
                       cy.findAllByRole('cell').should('have.length', 4)
-                      cy.findAllByRole('cell').eq(0).contains('No ethnicity')
+                      cy.findAllByRole('cell').eq(0).contains('No MetricOne')
                     })
                     break
 
                   case 4:
                     cy.wrap(row).within(() => {
                       cy.findAllByRole('cell').should('have.length', 4)
-                      cy.findAllByRole('cell').eq(0).contains('Has religion')
+                      cy.findAllByRole('cell').eq(0).contains('Has MetricThree')
                     })
                     break
 
                   case 5:
                     cy.wrap(row).within(() => {
                       cy.findAllByRole('cell').should('have.length', 4)
-                      cy.findAllByRole('cell').eq(0).contains('No religion')
+                      cy.findAllByRole('cell').eq(0).contains('No MetricThree')
                     })
                     break
 
                   case 6:
                     cy.wrap(row).within(() => {
                       cy.findAllByRole('cell').should('have.length', 4)
-                      cy.findAllByRole('cell').eq(0).contains('Has nationality')
+                      cy.findAllByRole('cell').eq(0).contains('Has MetricTwo')
                     })
                     break
 
                   case 7:
                     cy.wrap(row).within(() => {
                       cy.findAllByRole('cell').should('have.length', 4)
-                      cy.findAllByRole('cell').eq(0).contains('No nationality')
+                      cy.findAllByRole('cell').eq(0).contains('No MetricTwo')
                     })
                     break
 
@@ -229,8 +229,8 @@ context('Dashboard visualisation: List', () => {
       cy.findAllByLabelText(/Rows as list/).within(() => {
         cy.findAllByRole('heading', { level: 3 }).should('have.length', 3)
 
-        cy.findByLabelText(/Ethnicity values/).within(() => {
-          cy.findAllByRole('paragraph').first().contains('List visualisation showing historic ethnicity values')
+        cy.findByLabelText(/MetricOne values/).within(() => {
+          cy.findAllByRole('paragraph').first().contains('List visualisation showing historic MetricOne values')
 
           cy.findByRole('table').within(() => {
             cy.findAllByRole('row')
@@ -246,8 +246,8 @@ context('Dashboard visualisation: List', () => {
                       cy.findAllByRole('columnheader').should('have.length', 4)
                       cy.findAllByRole('columnheader').eq(0).contains('Date')
                       cy.findAllByRole('columnheader').eq(1).contains('Establishment ID')
-                      cy.findAllByRole('columnheader').eq(2).contains('Has ethnicity')
-                      cy.findAllByRole('columnheader').eq(3).contains('No Ethnicity')
+                      cy.findAllByRole('columnheader').eq(2).contains('Has MetricOne')
+                      cy.findAllByRole('columnheader').eq(3).contains('No MetricOne')
                     })
                     break
 
@@ -255,7 +255,7 @@ context('Dashboard visualisation: List', () => {
                     cy.wrap(row).within(() => {
                       cy.findAllByRole('cell').should('have.length', 4)
                       cy.findAllByRole('cell').eq(0).contains('Aug 24')
-                      cy.findAllByRole('cell').eq(1).contains('MDI')
+                      cy.findAllByRole('cell').eq(1).contains('ABC')
                       cy.findAllByRole('cell').eq(2).contains('424')
                       cy.findAllByRole('cell').eq(3).contains('781')
                     })
@@ -265,7 +265,7 @@ context('Dashboard visualisation: List', () => {
                     cy.wrap(row).within(() => {
                       cy.findAllByRole('cell').should('have.length', 4)
                       cy.findAllByRole('cell').eq(0).contains('Aug 24')
-                      cy.findAllByRole('cell').eq(1).contains('SLI')
+                      cy.findAllByRole('cell').eq(1).contains('GHI')
                       cy.findAllByRole('cell').eq(2).contains('761')
                       cy.findAllByRole('cell').eq(3).contains('610')
                     })
@@ -275,7 +275,7 @@ context('Dashboard visualisation: List', () => {
                     cy.wrap(row).within(() => {
                       cy.findAllByRole('cell').should('have.length', 4)
                       cy.findAllByRole('cell').eq(0).contains('Oct 24')
-                      cy.findAllByRole('cell').eq(1).contains('MDI')
+                      cy.findAllByRole('cell').eq(1).contains('ABC')
                       cy.findAllByRole('cell').eq(2).contains('738')
                       cy.findAllByRole('cell').eq(3).contains('598')
                     })
@@ -285,7 +285,7 @@ context('Dashboard visualisation: List', () => {
                     cy.wrap(row).within(() => {
                       cy.findAllByRole('cell').should('have.length', 4)
                       cy.findAllByRole('cell').eq(0).contains('Oct 24')
-                      cy.findAllByRole('cell').eq(1).contains('DAI')
+                      cy.findAllByRole('cell').eq(1).contains('DEF')
                       cy.findAllByRole('cell').eq(2).contains('665')
                       cy.findAllByRole('cell').eq(3).contains('687')
                     })
@@ -295,7 +295,7 @@ context('Dashboard visualisation: List', () => {
                     cy.wrap(row).within(() => {
                       cy.findAllByRole('cell').should('have.length', 4)
                       cy.findAllByRole('cell').eq(0).contains('Dec 24')
-                      cy.findAllByRole('cell').eq(1).contains('DAI')
+                      cy.findAllByRole('cell').eq(1).contains('DEF')
                       cy.findAllByRole('cell').eq(2).contains('660')
                       cy.findAllByRole('cell').eq(3).contains('590')
                     })
@@ -312,13 +312,13 @@ context('Dashboard visualisation: List', () => {
           })
         })
 
-        cy.findByLabelText(/Nationality values/).within(() => {
-          cy.findAllByRole('paragraph').first().contains('List visualisation showing historic nationality values')
+        cy.findByLabelText(/MetricTwo values/).within(() => {
+          cy.findAllByRole('paragraph').first().contains('List visualisation showing historic MetricTwo values')
           cy.findByRole('table').should('exist')
         })
 
-        cy.findByLabelText(/Religion Values/).within(() => {
-          cy.findAllByRole('paragraph').first().contains('List visualisation showing historic religion values')
+        cy.findByLabelText(/MetricThree Values/).within(() => {
+          cy.findAllByRole('paragraph').first().contains('List visualisation showing historic MetricThree values')
           cy.findByRole('table').should('exist')
         })
       })
@@ -379,28 +379,28 @@ context('Dashboard visualisation: List', () => {
                   case 2:
                     cy.wrap(row).within(() => {
                       cy.findAllByRole('cell').should('have.length', 2)
-                      cy.findAllByRole('cell').eq(0).contains('Vegetarian')
+                      cy.findAllByRole('cell').eq(0).contains('Diet one')
                       cy.findAllByRole('cell').eq(1).contains('1219')
                     })
                     break
                   case 3:
                     cy.wrap(row).within(() => {
                       cy.findAllByRole('cell').should('have.length', 2)
-                      cy.findAllByRole('cell').eq(0).contains('Pescatarian')
+                      cy.findAllByRole('cell').eq(0).contains('Diet two')
                       cy.findAllByRole('cell').eq(1).contains('1125')
                     })
                     break
                   case 4:
                     cy.wrap(row).within(() => {
                       cy.findAllByRole('cell').should('have.length', 2)
-                      cy.findAllByRole('cell').eq(0).contains('Vegan')
+                      cy.findAllByRole('cell').eq(0).contains('Diet three')
                       cy.findAllByRole('cell').eq(1).contains('1838')
                     })
                     break
                   case 5:
                     cy.wrap(row).within(() => {
                       cy.findAllByRole('cell').should('have.length', 2)
-                      cy.findAllByRole('cell').eq(0).contains('Omnivore')
+                      cy.findAllByRole('cell').eq(0).contains('Diet four')
                       cy.findAllByRole('cell').eq(1).contains('818')
                     })
                     break
@@ -419,7 +419,7 @@ context('Dashboard visualisation: List', () => {
             .should('exist')
             .within(() => {
               cy.findAllByRole('row')
-                .should('have.length', 8)
+                .should('have.length', 12)
                 .each((row, index) => {
                   switch (index) {
                     case 0:
@@ -436,43 +436,43 @@ context('Dashboard visualisation: List', () => {
                     case 2:
                       cy.wrap(row).within(() => {
                         cy.findAllByRole('cell').should('have.length', 3)
-                        cy.findAllByRole('cell').eq(0).contains('MDI')
-                        cy.findAllByRole('cell').eq(1).contains('Vegetarian')
+                        cy.findAllByRole('cell').eq(0).contains('ABC')
+                        cy.findAllByRole('cell').eq(1).contains('Diet one')
                         cy.findAllByRole('cell').eq(2).contains('360')
                       })
                       break
                     case 3:
                       cy.wrap(row).within(() => {
                         cy.findAllByRole('cell').should('have.length', 3)
-                        cy.findAllByRole('cell').eq(0).contains('MDI')
-                        cy.findAllByRole('cell').eq(1).contains('Pescatarian')
+                        cy.findAllByRole('cell').eq(0).contains('ABC')
+                        cy.findAllByRole('cell').eq(1).contains('Diet two')
                         cy.findAllByRole('cell').eq(2).contains('281')
                       })
                       break
                     case 4:
                       cy.wrap(row).within(() => {
                         cy.findAllByRole('cell').should('have.length', 3)
-                        cy.findAllByRole('cell').eq(0).contains('MDI')
-                        cy.findAllByRole('cell').eq(1).contains('Vegan')
+                        cy.findAllByRole('cell').eq(0).contains('ABC')
+                        cy.findAllByRole('cell').eq(1).contains('Diet three')
                         cy.findAllByRole('cell').eq(2).contains('559')
                       })
                       break
                     case 5:
                       cy.wrap(row).within(() => {
                         cy.findAllByRole('cell').should('have.length', 3)
-                        cy.findAllByRole('cell').eq(0).contains('MDI')
-                        cy.findAllByRole('cell').eq(1).contains('Omnivore')
+                        cy.findAllByRole('cell').eq(0).contains('ABC')
+                        cy.findAllByRole('cell').eq(1).contains('Diet four')
                         cy.findAllByRole('cell').eq(2).contains('144')
                       })
                       break
-                    case 6:
+                    case 10:
                       cy.wrap(row).within(() => {
                         cy.findAllByRole('cell').should('have.length', 3)
                         cy.findAllByRole('cell').eq(0).contains('Total')
-                        cy.findAllByRole('cell').eq(2).contains('1344')
+                        cy.findAllByRole('cell').eq(2).contains('2688')
                       })
                       break
-                    case 7:
+                    case 11:
                       cy.wrap(row).should('not.be.visible')
                       break
                     default:
@@ -487,7 +487,7 @@ context('Dashboard visualisation: List', () => {
             .should('exist')
             .within(() => {
               cy.findAllByRole('row')
-                .should('have.length', 7)
+                .should('have.length', 19)
                 .each((row, index) => {
                   switch (index) {
                     case 0:
@@ -505,40 +505,40 @@ context('Dashboard visualisation: List', () => {
                     case 2:
                       cy.wrap(row).within(() => {
                         cy.findAllByRole('cell').should('have.length', 4)
-                        cy.findAllByRole('cell').eq(0).contains('MDI')
+                        cy.findAllByRole('cell').eq(0).contains('ABC')
                         cy.findAllByRole('cell').eq(1).contains('north')
-                        cy.findAllByRole('cell').eq(2).contains('Vegetarian')
+                        cy.findAllByRole('cell').eq(2).contains('Diet one')
                         cy.findAllByRole('cell').eq(3).contains('75')
                       })
                       break
                     case 3:
                       cy.wrap(row).within(() => {
                         cy.findAllByRole('cell').should('have.length', 4)
-                        cy.findAllByRole('cell').eq(0).contains('MDI')
+                        cy.findAllByRole('cell').eq(0).contains('ABC')
                         cy.findAllByRole('cell').eq(1).contains('north')
-                        cy.findAllByRole('cell').eq(2).contains('Pescatarian')
+                        cy.findAllByRole('cell').eq(2).contains('Diet two')
                         cy.findAllByRole('cell').eq(3).contains('26')
                       })
                       break
                     case 4:
                       cy.wrap(row).within(() => {
                         cy.findAllByRole('cell').should('have.length', 4)
-                        cy.findAllByRole('cell').eq(0).contains('MDI')
+                        cy.findAllByRole('cell').eq(0).contains('ABC')
                         cy.findAllByRole('cell').eq(1).contains('north')
-                        cy.findAllByRole('cell').eq(2).contains('Vegan')
+                        cy.findAllByRole('cell').eq(2).contains('Diet three')
                         cy.findAllByRole('cell').eq(3).contains('22')
                       })
                       break
                     case 5:
                       cy.wrap(row).within(() => {
                         cy.findAllByRole('cell').should('have.length', 4)
-                        cy.findAllByRole('cell').eq(0).contains('MDI')
+                        cy.findAllByRole('cell').eq(0).contains('ABC')
                         cy.findAllByRole('cell').eq(1).contains('north')
-                        cy.findAllByRole('cell').eq(2).contains('Omnivore')
+                        cy.findAllByRole('cell').eq(2).contains('Diet four')
                         cy.findAllByRole('cell').eq(3).contains('76')
                       })
                       break
-                    case 6:
+                    case 19:
                       cy.wrap(row).should('not.be.visible')
                       break
                     default:
@@ -553,13 +553,15 @@ context('Dashboard visualisation: List', () => {
             .should('exist')
             .within(() => {
               cy.findAllByRole('row')
-                .should('have.length', 23)
+                .should('have.length', 83)
                 .eq(1)
                 .within(() => {
-                  cy.findAllByRole('columnheader').should('have.length', 3)
-                  cy.findAllByRole('columnheader').eq(0).contains('Cell')
-                  cy.findAllByRole('columnheader').eq(1).contains('Diet')
-                  cy.findAllByRole('columnheader').eq(2).contains('Total prisoners')
+                  cy.findAllByRole('columnheader').should('have.length', 5)
+                  cy.findAllByRole('columnheader').eq(0).contains('Est code')
+                  cy.findAllByRole('columnheader').eq(1).contains('Wing')
+                  cy.findAllByRole('columnheader').eq(2).contains('Cell')
+                  cy.findAllByRole('columnheader').eq(3).contains('Diet')
+                  cy.findAllByRole('columnheader').eq(4).contains('Total prisoners')
                 })
             })
         })
@@ -569,7 +571,7 @@ context('Dashboard visualisation: List', () => {
             .should('exist')
             .within(() => {
               cy.findAllByRole('row')
-                .should('have.length', 5)
+                .should('have.length', 11)
                 .each((row, index) => {
                   switch (index) {
                     case 0:
@@ -577,29 +579,75 @@ context('Dashboard visualisation: List', () => {
                       break
                     case 1:
                       cy.wrap(row).within(() => {
-                        cy.findAllByRole('columnheader').should('have.length', 3)
-                        cy.findAllByRole('columnheader').eq(0).contains('Cell')
-                        cy.findAllByRole('columnheader').eq(1).contains('Diet')
-                        cy.findAllByRole('columnheader').eq(2).contains('Total prisoners')
+                        cy.findAllByRole('columnheader').should('have.length', 5)
+                        cy.findAllByRole('columnheader').eq(0).contains('Est code')
+                        cy.findAllByRole('columnheader').eq(1).contains('Wing')
+                        cy.findAllByRole('columnheader').eq(2).contains('Cell')
+                        cy.findAllByRole('columnheader').eq(3).contains('Diet')
+                        cy.findAllByRole('columnheader').eq(4).contains('Total prisoners')
                       })
                       break
                     case 2:
                       cy.wrap(row).within(() => {
-                        cy.findAllByRole('cell').should('have.length', 3)
-                        cy.findAllByRole('cell').eq(0).contains('cell-2')
-                        cy.findAllByRole('cell').eq(1).contains('Vegetarian')
-                        cy.findAllByRole('cell').eq(2).contains('10')
+                        cy.findAllByRole('cell').should('have.length', 5)
+                        cy.findAllByRole('cell').eq(0).contains('ABC')
+                        cy.findAllByRole('cell').eq(1).contains('north')
+                        cy.findAllByRole('cell').eq(2).contains('cell-1')
+                        cy.findAllByRole('cell').eq(3).contains('Diet one')
+                        cy.findAllByRole('cell').eq(4).contains('1')
                       })
                       break
                     case 3:
                       cy.wrap(row).within(() => {
-                        cy.findAllByRole('cell').should('have.length', 3)
-                        cy.findAllByRole('cell').eq(0).contains('cell-2')
-                        cy.findAllByRole('cell').eq(1).contains('Omnivore')
-                        cy.findAllByRole('cell').eq(2).contains('16')
+                        cy.findAllByRole('cell').should('have.length', 5)
+                        cy.findAllByRole('cell').eq(0).contains('ABC')
+                        cy.findAllByRole('cell').eq(1).contains('north')
+                        cy.findAllByRole('cell').eq(2).contains('cell-1')
+                        cy.findAllByRole('cell').eq(3).contains('Diet four')
+                        cy.findAllByRole('cell').eq(4).contains('0')
+                      })
+                      break
+                    case 4:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 5)
+                        cy.findAllByRole('cell').eq(0).contains('ABC')
+                        cy.findAllByRole('cell').eq(1).contains('north')
+                        cy.findAllByRole('cell').eq(2).contains('cell-2')
+                        cy.findAllByRole('cell').eq(3).contains('Diet one')
+                        cy.findAllByRole('cell').eq(4).contains('10')
+                      })
+                      break
+                    case 5:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 5)
+                        cy.findAllByRole('cell').eq(0).contains('ABC')
+                        cy.findAllByRole('cell').eq(1).contains('north')
+                        cy.findAllByRole('cell').eq(2).contains('cell-2')
+                        cy.findAllByRole('cell').eq(3).contains('Diet four')
+                        cy.findAllByRole('cell').eq(4).contains('16')
                       })
                       break
                     case 6:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 5)
+                        cy.findAllByRole('cell').eq(0).contains('ABC')
+                        cy.findAllByRole('cell').eq(1).contains('south')
+                        cy.findAllByRole('cell').eq(2).contains('cell-1')
+                        cy.findAllByRole('cell').eq(3).contains('Diet one')
+                        cy.findAllByRole('cell').eq(4).contains('1')
+                      })
+                      break
+                    case 7:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 5)
+                        cy.findAllByRole('cell').eq(0).contains('ABC')
+                        cy.findAllByRole('cell').eq(1).contains('south')
+                        cy.findAllByRole('cell').eq(2).contains('cell-1')
+                        cy.findAllByRole('cell').eq(3).contains('Diet four')
+                        cy.findAllByRole('cell').eq(4).contains('0')
+                      })
+                      break
+                    case 11:
                       cy.wrap(row).should('not.be.visible')
                       break
                     default:
@@ -609,7 +657,7 @@ context('Dashboard visualisation: List', () => {
             })
         })
 
-        cy.findByLabelText('Diet totals filter on vegetarian').within(() => {
+        cy.findByLabelText('Diet totals filter on DietOne').within(() => {
           cy.findByRole('table')
             .should('exist')
             .within(() => {
@@ -630,7 +678,7 @@ context('Dashboard visualisation: List', () => {
                     case 2:
                       cy.wrap(row).within(() => {
                         cy.findAllByRole('cell').should('have.length', 2)
-                        cy.findAllByRole('cell').eq(0).contains('Vegetarian')
+                        cy.findAllByRole('cell').eq(0).contains('Diet one')
                         cy.findAllByRole('cell').eq(1).contains('1219')
                       })
                       break

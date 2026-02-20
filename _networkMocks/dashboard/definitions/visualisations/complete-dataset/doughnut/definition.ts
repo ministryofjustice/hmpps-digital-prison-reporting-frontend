@@ -13,10 +13,10 @@ export const definition: components['schemas']['DashboardDefinition'] = {
       display: 'Simple Doughnut charts',
       description: 'Examples of simple Doughnut charts',
       visualisations: [
-        DoughnutChart.dataQualityEthnicityDoughnut,
-        DoughnutChart.dataQualityNationalityDoughnut,
-        DoughnutChart.dataQualityReligionDoughnut,
-        DoughnutChart.dataQualityNationalityReligionDoughnut,
+        DoughnutChart.dataQualityMetricOneDoughnut,
+        DoughnutChart.dataQualityMetricTwoDoughnut,
+        DoughnutChart.dataQualityMetricThreeDoughnut,
+        DoughnutChart.dataQualityMetricTwoMetricThreeDoughnut,
       ],
     },
     {
@@ -24,10 +24,10 @@ export const definition: components['schemas']['DashboardDefinition'] = {
       display: 'Two ring Doughnut charts ',
       description: 'Examples of Doughnut charts with 2 rings',
       visualisations: [
-        DoughnutChart.dataQualityEthnicityDoughnutTwoEst,
-        DoughnutChart.dataQualityNationalityDoughnutTwoEst,
-        DoughnutChart.dataQualityReligionDoughnutTwoEst,
-        DoughnutChart.dataQualityNationalityReligionDoughnutTwoEst,
+        DoughnutChart.dataQualityMetricOneDoughnutTwoEst,
+        DoughnutChart.dataQualityMetricTwoDoughnutTwoEst,
+        DoughnutChart.dataQualityMetricThreeDoughnutTwoEst,
+        DoughnutChart.dataQualityMetricTwoMetricThreeDoughnutTwoEst,
       ],
     },
     {
@@ -35,10 +35,10 @@ export const definition: components['schemas']['DashboardDefinition'] = {
       display: 'Multiple rings Doughnut charts ',
       description: 'Examples of Doughnut charts with multiple rings',
       visualisations: [
-        DoughnutChart.dataQualityEthnicityDoughnutAllEst,
-        DoughnutChart.dataQualityNationalityDoughnutAllEst,
-        DoughnutChart.dataQualityReligionDoughnutAllEst,
-        DoughnutChart.dataQualityNationalityReligionDoughnutAllEst,
+        DoughnutChart.dataQualityMetricOneDoughnutAllEst,
+        DoughnutChart.dataQualityMetricTwoDoughnutAllEst,
+        DoughnutChart.dataQualityMetricThreeDoughnutAllEst,
+        DoughnutChart.dataQualityMetricTwoMetricThreeDoughnutAllEst,
       ],
     },
     {

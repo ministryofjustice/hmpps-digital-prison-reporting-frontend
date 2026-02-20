@@ -1,10 +1,10 @@
 import { DashboardVisualisationType } from '../../../../../../../src/dpr/components/_dashboards/dashboard-visualisation/types'
 import { components } from '../../../../../../../src/dpr/types/api'
 
-export const dataQualityHasNationalityOvertime: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'has-nationality-overtime',
+export const dataQualityHasMetricTwoOvertime: components['schemas']['DashboardVisualisationDefinition'] = {
+  id: 'has-MetricTwo-overtime',
   type: DashboardVisualisationType.MATRIX_TIMESERIES,
-  display: 'Has nationality time matrix chart for MDI',
+  display: 'Has MetricTwo time matrix chart for establishment ABC',
   description: '',
   options: { showLatest: false },
   columns: {
@@ -20,14 +20,14 @@ export const dataQualityHasNationalityOvertime: components['schemas']['Dashboard
         display: 'Date',
       },
       {
-        id: 'has_nationality',
-        display: 'Has nationality',
+        id: 'has_metric_two',
+        display: 'Has MetricTwo',
       },
     ],
     filters: [
       {
         id: 'establishment_id',
-        equals: 'MDI',
+        equals: 'ABC',
       },
     ],
     expectNulls: false,

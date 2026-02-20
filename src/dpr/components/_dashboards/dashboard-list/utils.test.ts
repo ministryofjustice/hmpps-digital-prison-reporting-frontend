@@ -3,7 +3,7 @@ import DashboardListUtils from './utils'
 import { mockListDefinitionAgeRange1 } from '../../../../../test-app/mocks/mockClients/dashboards/definitions/age-breakdown/visualisations/list-definitions-1'
 import {
   fullDatasetOverTime,
-  dataQualityColsToList
+  dataQualityColsToList,
 } from '../../../../../test-app/mocks/mockClients/dashboards/definitions/examples/visualisations/lists'
 import { mockAgeBreakdownData } from '../../../../../test-app/mocks/mockClients/dashboards/data/age-breakdown/data'
 import { mockTimeSeriesDataLastSixMonths } from '../../../../../test-app/mocks/mockClients/dashboards/data/data-quality-metrics/data'

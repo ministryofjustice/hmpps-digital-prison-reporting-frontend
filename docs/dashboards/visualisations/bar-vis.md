@@ -81,8 +81,8 @@ In this example we will define which dataset columns to use in the bar chart as 
 |--------|----------------|-----------------------|------------------|-------------------------|
 | ABC    | 407            | 485                   | 300              | 500                     |
 | DEF    | 584            | 701                   | 280              | 320                     |
-| LTI    | 729            | 725                   | 220              | 214                     |
-| DAI    | 520            | 765                   | 220              | 214                     |
+| GHI    | 520            | 765                   | 220              | 214                     |
+| JKL    | 729            | 725                   | 220              | 214                     |
 ```
 
 ### Definition
@@ -123,8 +123,8 @@ This definition will return the following dataset
 |--------|---------------|----------------------|
 | ABC    | 407           | 485                  | 
 | DEF    | 584           | 701                  |
-| LTI    | 729           | 725                  |
-| DAI    | 520           | 765                  |
+| GHI    | 520           | 765                  |
+| JKL    | 729           | 725                  |
 
 ```
 see [here](/dashboards/visualisations/visualisation-dataset) for more info on targeting data

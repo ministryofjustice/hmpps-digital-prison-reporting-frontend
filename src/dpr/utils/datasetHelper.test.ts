@@ -7,7 +7,7 @@ describe('DatasetHelper', () => {
   describe('getDatasetRows', () => {
     describe('get the data set rows', () => {
       it('target rows with some null values', () => {
-        //  Get row that shows total prisoners between ages of `18-25` for `MDI` in wing `I`
+        //  Get row that shows total prisoners between ages of `18-25` for `ABC` in wing `I`
         const dataset = [
           {
             establishment_id: { raw: 'ABC' },

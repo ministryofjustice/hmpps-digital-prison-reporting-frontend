@@ -8,11 +8,13 @@ import {
 } from '../dashboard-visualisation/types'
 import DatasetHelper from '../../../utils/datasetHelper'
 import { components } from '../../../types/api'
+import ListVisSchemas from './validate'
 
 export const createList = (
   listDefinition: components['schemas']['DashboardVisualisationDefinition'],
   dashboardData: DashboardDataResponse[],
 ): { table: MoJTable; ts: string } => {
+  ListVisSchemas.ListSchema.parse(listDefinition)
   const { columns, options } = listDefinition
   const listOptions = <ListDashboardVisualisationOptions>options
   const showLatest = listOptions?.showLatest !== undefined ? listOptions.showLatest : true

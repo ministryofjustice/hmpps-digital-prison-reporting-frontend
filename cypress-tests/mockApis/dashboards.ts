@@ -6,6 +6,8 @@ import {
   scorecardsCompleteDatasetMock,
   scorecardsBucketCompleteDatasetMock,
   scorecardGroupCompleteDatasetMock,
+  listInvalidDefMock,
+  listInvalidVisDefMock,
 } from '@networkMocks/dashboard/definitions/visualisations/mocks'
 
 import { syncDashboardMock, featureFlagDashboardMock } from '@networkMocks/dashboard/definitions/feature-testing/mocks'
@@ -34,6 +36,8 @@ const listDefinitionStubs = {
   stubListDashboardCompleteDataHistoric: () => stubFor(listCompleteDatasetHistoricMock),
   stubListDashboardPartialData: () => stubFor(listPartialDatasetMock),
   stubListDashboardPartialDataHistoric: () => stubFor(listPartialDatasetHistoricMock),
+  stubListInvalidDefs: () => stubFor(listInvalidDefMock),
+  stubListInvalidVisDefs: () => stubFor(listInvalidVisDefMock),
 }
 
 const scorecardDefinitionStubs = {

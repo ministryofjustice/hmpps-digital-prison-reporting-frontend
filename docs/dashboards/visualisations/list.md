@@ -68,7 +68,7 @@ There are two ways to represent data from a dataset as a list:
 |--------|----------|----------|----------|----------|
 | ABC    | 100      | 231      | 300      | 500      |
 | DEF    | 200      | 238      | 280      | 320      |
-| LTI    | 150      | 208      | 220      | 214      |
+| JKL    | 150      | 208      | 220      | 214      |
 ```
 
 <hr class='dpr-docs-hr'/>
@@ -118,7 +118,7 @@ There are two ways to represent data from a dataset as a list:
 |------------------|----------|----------------|-------------|
 | ABC              | 100      | 231            | 300         |
 | DEF              | 200      | 238            | 280         |
-| LTI              | 150      | 208            | 220         |
+| JKL              | 150      | 208            | 220         |
 ```
 
 <hr class='dpr-docs-hr'/>
@@ -168,7 +168,7 @@ This example demonstrates how to use the dataset column headings as a list withi
 ### Visualisation
 
 ```js
-                 | ABC      | DEF      | LTI      |
+                 | ABC      | DEF      | JKL      |
 |----------------|----------|----------|----------|
 | Metric 1       | 100      | 200      | 150      |
 | Metric 2 title | 231      | 238      | 208      |

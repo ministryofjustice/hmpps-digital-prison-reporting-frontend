@@ -1,5 +1,13 @@
 Below you can find the changes included in each release.
 
+## 5.2.3
+
+- Fix flipt interval not being set meaning flags not updating
+- Update `tar` and some `eslint` based dependencies
+- Update lint-staged
+- Update mock data used for tests
+- Override `minimatch` in `@sentry/node` and `glob` to resolve security issues in non-dev dependencies
+
 ## 5.2.2
 
 - Fix bookmark link: missing csrfToken in fetch

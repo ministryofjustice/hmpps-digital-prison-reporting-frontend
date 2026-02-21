@@ -82,6 +82,7 @@ context('Platform sync download tests', () => {
     })
 
     it('should submit the download request', () => {
+      cy.findAllByRole('heading').contains('Sync report').should('exist')
       cy.task('stubFeatureFlagsDisabled')
       resetFeatureFlags()
       cy.visit(downloadRequestFormPage)
@@ -91,14 +92,12 @@ context('Platform sync download tests', () => {
       cy.findByRole('button', { name: 'Submit request' }).click()
       cy.findByText(/You have been granted permission/).should('be.visible')
 
-      cy.url().as('downloadRequestSubmittedPage')
-
       cy.url().and(
         'match',
         /dpr\/download-report\/request-download\/feature-testing\/feature-testing-sync\/form\/submitted/,
       )
       cy.findByRole('link', { name: /Return to report to download/ }).click()
-      cy.findAllByRole('heading').contains('Successful Report').should('exist')
+      cy.findAllByRole('heading').contains('Sync report').should('exist')
       cy.findByRole('button', { name: /download/ }).should('be.visible')
 
       cy.task('stubSyncReportDownload')

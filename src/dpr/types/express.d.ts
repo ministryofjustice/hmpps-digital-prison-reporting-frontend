@@ -2,6 +2,7 @@ import { ExtraLocals } from './extraLocals'
 
 declare global {
   namespace Express {
-    type Locals = ExtraLocals
+    // eslint-disable-next-line @typescript-eslint/no-empty-interface
+    interface Locals extends ExtraLocals {}
   }
 }

@@ -41,9 +41,12 @@ const streamDownloadSyncData = async (args: {
   res: Response
 }) => {
   const { token, services, queryParams, definition, res } = args
-  assertHasSpecification(definition.id, definition.variant)
   const { variant } = definition
   const { resourceName, specification } = variant
+  if (!specification) {
+    logger.error(`No specification found for definition ID: ${definition.id} variant ID: ${variant.id}`)
+    throw new Error(`No specification found for definition ID: ${definition.id} variant ID: ${variant.id}`)
+  }
   const reportQuery = new ReportQuery({
     fields: specification.fields,
     template: specification.template as Template,
@@ -53,18 +56,6 @@ const streamDownloadSyncData = async (args: {
     definitionsPath: <string>queryParams.dataProductDefinitionsPath,
   })
   return services.reportingService.downloadSyncReport(token, resourceName, reportQuery, res)
-}
-
-const assertHasSpecification: (
-  id: string,
-  variant: components['schemas']['VariantDefinition'],
-) => asserts variant is components['schemas']['VariantDefinition'] & {
-  specification: components['schemas']['Specification']
-} = (id, variant) => {
-  if (!variant.specification) {
-    logger.error(`No specification found for definition ID: ${id} variant ID: ${variant.id}`)
-    throw new Error(`No specification found for definition ID: ${id} variant ID: ${variant.id}`)
-  }
 }
 
 export const downloadReport = async ({

@@ -137,7 +137,7 @@ jobs:
       - name: Run the visual regression tests for dashboards
         run: |
           npx playwright install --with-deps
-          npm run int-test-visual
+          npm run int-test-visual:ci
 
       - name: count number of screenshots for visual regression tests after running
         id: count-screenshots-after

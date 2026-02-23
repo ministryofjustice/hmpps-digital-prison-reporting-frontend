@@ -7,6 +7,7 @@ export default configureAllowedScripts({
     'node_modules/@parcel/watcher@2.5.1': 'ALLOW',
     'node_modules/dtrace-provider@0.8.8': 'FORBID',
     'node_modules/fsevents@2.3.3': 'FORBID',
+    'node_modules/playwright/node_modules/fsevents@2.3.2': 'FORBID',
     'node_modules/unrs-resolver@1.9.2': 'FORBID'
   },
 })

@@ -1,5 +1,8 @@
 Below you can find the changes included in each release.
 
+## 5.2.4
+- Enable the new streaming download for sync reports and disable the legacy non-streaming version.
+
 ## 5.2.3
 
 - Fix flipt interval not being set meaning flags not updating
@@ -16,7 +19,7 @@ Below you can find the changes included in each release.
 
 - Fix bookmark styling causing csp issue
 
-## 5.2.0
+## 5.2.0
 
 - Refactor bookmark links to use not use iconography.
 

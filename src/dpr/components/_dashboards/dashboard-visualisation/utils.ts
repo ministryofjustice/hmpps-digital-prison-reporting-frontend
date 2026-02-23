@@ -1,4 +1,4 @@
-import { ZodError, ZodType, z } from 'zod'
+import { ZodError, ZodType } from 'zod'
 import { components } from '../../../types/api'
 import BarChartSchemas from '../../_charts/chart/bar/validate'
 import DoughnutChartSchemas from '../../_charts/chart/doughnut/validate'
@@ -9,6 +9,7 @@ import HeatmapTimeseriesChartSchemas from '../../_charts/chart/heatmap/validate'
 import ListChartSchemas from '../dashboard-list/validate'
 import ScorecardChartSchemas from '../scorecard/validate'
 import ScorecardGroupChartSchemas from '../scorecard-group/validate'
+import { AggregatedValidationError } from '../../../utils/ErrorHandler/AggregatedValidationError'
 
 const schemaMap: Record<string, ZodType<unknown>> = {
   list: ListChartSchemas.ListSchema,
@@ -21,24 +22,6 @@ const schemaMap: Record<string, ZodType<unknown>> = {
   scorecard: ScorecardChartSchemas.ScorecardSchema,
   'scorecard-group': ScorecardGroupChartSchemas.ScorecardGroupSchema,
 } as const
-
-export class AggregatedValidationError extends Error {
-  readonly zod: ZodError
-
-  readonly details: Array<{
-    index: number
-    type: string
-    id: unknown
-    issues: ZodError['issues']
-  }>
-
-  constructor(message: string, zod: ZodError, details: AggregatedValidationError['details']) {
-    super(message)
-    this.name = 'AggregatedValidationError'
-    this.zod = zod
-    this.details = details
-  }
-}
 
 type Success<T> = { index: number; success: true; data: T }
 type Failure = {
@@ -92,22 +75,13 @@ export async function validateDashboardVisualisations(
   const failures = results.filter((r): r is Failure => r.success === false)
 
   if (failures.length > 0) {
-    // Create a ZodError that prefixes each issue path with the array index
     const indexedIssues = failures.flatMap((f) =>
       f.error.issues.map((issue) => ({
         ...issue,
         path: [f.index, ...issue.path],
       })),
     )
-
-    const summaryIssue = {
-      code: 'custom' as const,
-      path: [] as (string | number | symbol)[],
-      message: `Validation failed for ${failures.length} item(s) out of ${visualisationDefs.length}`,
-    }
-
-    const aggregatedZod = new ZodError([summaryIssue, ...indexedIssues])
-
+    const aggregatedZod = new ZodError(indexedIssues)
     const details = failures.map((f) => ({
       index: f.index,
       type: f.type,
@@ -115,7 +89,11 @@ export async function validateDashboardVisualisations(
       issues: f.error.issues,
     }))
 
-    throw new AggregatedValidationError('Visualisation validation failed', aggregatedZod, details)
+    throw new AggregatedValidationError(
+      'Error: Schema validation: Dashboard Visualisation validation failed:',
+      aggregatedZod,
+      details,
+    )
   }
 
   return results.filter((r): r is Success<unknown> => r.success).map((r) => r.data)

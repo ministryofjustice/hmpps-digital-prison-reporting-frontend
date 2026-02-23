@@ -4,7 +4,7 @@ import { RequestDataResult } from '../../../../types/AsyncReportUtils'
 import AysncRequestUtils from './utils'
 import PersonalisationUtils from '../../../../utils/Personalisation/personalisationUtils'
 import { FiltersType } from '../../../../components/_filters/filtersTypeEnum'
-import ErrorHandler from '../../../../utils/ErrorHandler'
+import ErrorHandler from '../../../../utils/ErrorHandler/ErrorHandler'
 
 class RequestReportController {
   layoutPath: string

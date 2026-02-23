@@ -1,5 +1,5 @@
 import { RequestHandler } from 'express'
-import ErrorHandler from '../../../../../utils/ErrorHandler'
+import ErrorHandler from '../../../../../utils/ErrorHandler/ErrorHandler'
 import { Services } from '../../../../../types/Services'
 import LocalsHelper from '../../../../../utils/localsHelper'
 import DashboardUtils from './utils'

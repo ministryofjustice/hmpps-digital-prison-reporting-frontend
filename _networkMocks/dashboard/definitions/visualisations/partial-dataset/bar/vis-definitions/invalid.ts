@@ -3,7 +3,7 @@ import { DashboardVisualisationType } from '../../../../../../../src/dpr/compone
 
 // MISSING Y AXIS
 export const invalidAxisXBar: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'diet-totals-by-establishment-bar',
+  id: 'invalid-y-axis-defintion-bar',
   type: DashboardVisualisationType.BAR,
   display: 'Diet totals by establishment',
   description: '',
@@ -31,7 +31,7 @@ export const invalidAxisXBar: components['schemas']['DashboardVisualisationDefin
 
 // MISSING X AXIS
 export const invalidAxisYBar: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'diet-totals-by-establishment-bar',
+  id: 'invalid-x-axis-defintion-bar',
   type: DashboardVisualisationType.BAR,
   display: 'Diet totals by establishment',
   description: '',

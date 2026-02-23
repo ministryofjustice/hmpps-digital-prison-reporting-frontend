@@ -2,7 +2,7 @@ import { ErrorRequestHandler, RequestHandler } from 'express'
 import { captureException } from '@sentry/node'
 import { Services } from '../../../types/Services'
 import AsyncRequestUtils from './filters/utils'
-import ErrorHandler from '../../../utils/ErrorHandler'
+import ErrorHandler from '../../../utils/ErrorHandler/ErrorHandler'
 
 class RequestReportController {
   layoutPath: string

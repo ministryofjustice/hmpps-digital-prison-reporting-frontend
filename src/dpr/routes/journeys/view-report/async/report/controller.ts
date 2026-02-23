@@ -3,7 +3,7 @@ import { Services } from '../../../../../types/Services'
 import LocalsHelper from '../../../../../utils/localsHelper'
 import AsyncReportUtils from './utils'
 import ViewReportUtils from '../../utils'
-import ErrorHandler from '../../../../../utils/ErrorHandler'
+import ErrorHandler from '../../../../../utils/ErrorHandler/ErrorHandler'
 
 class ViewAyncReportController {
   layoutPath: string

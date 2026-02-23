@@ -7,7 +7,7 @@ import logger from './logger'
 import { Services } from '../types/Services'
 import localsHelper from './localsHelper'
 import { components } from '../types/api'
-import ErrorHandler from './ErrorHandler'
+import ErrorHandler from './ErrorHandler/ErrorHandler'
 
 dayjs.extend(customParse)
 export interface GetStatusUtilsResponse {

@@ -1,6 +1,6 @@
 import { ErrorRequestHandler } from 'express'
 import { captureException } from '@sentry/node'
-import ErrorHandler from '../../../utils/ErrorHandler'
+import ErrorHandler from '../../../utils/ErrorHandler/ErrorHandler'
 import { Services } from '../../../types/Services'
 import logger from '../../../utils/logger'
 

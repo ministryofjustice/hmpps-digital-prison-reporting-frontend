@@ -10,8 +10,15 @@
     {% set tableId = meta.tableId %}
 
     {% set errorList = [] %}
-
-    {% if error.userMessage %}
+    {% if error.userMessage 
+      and error.userMessage.length is defined 
+      and error.userMessage is not string %}
+      {% for item in error.userMessage %}
+        {% set errorList = (errorList.push({
+          html: '<p class="govuk-body">' + item + '</p>'
+        }), errorList) %}
+      {% endfor %}
+    {% elif error.userMessage %}
       {% set errorList = (errorList.push({
         html: '<p class="govuk-body">Error: ' + error.userMessage + '</p>'
       }), errorList) %}

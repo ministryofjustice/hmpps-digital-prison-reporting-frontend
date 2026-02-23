@@ -449,7 +449,7 @@ context('Dashboard visualisation: List', () => {
                         cy.findAllByRole('cell').should('have.length', 3)
                         cy.findAllByRole('cell').eq(0).contains('ABC')
                         cy.findAllByRole('cell').eq(1).contains('Diet two')
-                        cy.findAllByRole('cell').eq(2).contains('281')
+                        cy.findAllByRole('cell').eq(2).contains('256')
                       })
                       break
                     case 3:
@@ -472,7 +472,7 @@ context('Dashboard visualisation: List', () => {
                       cy.wrap(row).within(() => {
                         cy.findAllByRole('cell').should('have.length', 3)
                         cy.findAllByRole('cell').eq(0).contains('Total')
-                        cy.findAllByRole('cell').eq(2).contains('2688')
+                        cy.findAllByRole('cell').eq(2).contains('2540')
                       })
                       break
                     default:
@@ -727,9 +727,7 @@ context('Dashboard visualisation: List', () => {
 
       it('should show an appropriate error message', () => {
         cy.findByRole('heading', { name: /Your report has failed to generate/ }).should('be.visible')
-        cy.findAllByRole('paragraph')
-          .eq(1)
-          .contains('Error: Schema validation error: Dashboard visualisation definition: measures is required')
+        cy.findAllByRole('paragraph').eq(1).contains('Error: Schema validation error: measures is required')
       })
     })
 

@@ -4,7 +4,9 @@ context('Dashboard visualisation: line timeseries chart', () => {
   const path = '/embedded/platform/'
 
   describe('Complete data', () => {
-    beforeEach(() => {
+    let completeUrl = ''
+
+    before(() => {
       cy.task('resetStubs')
       executeDashboardStubs()
       cy.task('stubLineTimeseriesDashboardCompleteData')
@@ -13,12 +15,20 @@ context('Dashboard visualisation: line timeseries chart', () => {
 
       requestReportByNameAndDescription({
         name: 'Line-timeseries - Complete dataset',
-        description: 'This dashboard represents example line-timeseries visualisations using a complete dataset. .',
+        description: 'This dashboard represents example line-timeseries visualisations using a complete dataset.',
       })
 
       cy.findByRole('heading', { level: 1, name: /Line-timeseries - Complete dataset/ }).should('be.visible')
       cy.injectAxe()
       cy.checkA11y()
+
+      cy.url().then((url) => {
+        completeUrl = url
+      })
+    })
+
+    beforeEach(() => {
+      cy.visit(completeUrl)
     })
 
     it('should should have the correct amount of sections', () => {
@@ -107,11 +117,13 @@ context('Dashboard visualisation: line timeseries chart', () => {
   })
 
   describe('Partial data', () => {
-    beforeEach(() => {
+    let partialData = ''
+
+    before(() => {
       cy.task('resetStubs')
       executeDashboardStubs()
       cy.task('stubLineTimeseriesDashboardPartialData')
-      cy.task('stubDashboardResultPartialData')
+      cy.task('stubDashboardResultPartialDataHistoric')
       cy.visit(path)
 
       requestReportByNameAndDescription({
@@ -122,6 +134,14 @@ context('Dashboard visualisation: line timeseries chart', () => {
       cy.findByRole('heading', { level: 1, name: /Line-timeseries - Partial dataset/ }).should('be.visible')
       cy.injectAxe()
       cy.checkA11y()
+
+      cy.url().then((url) => {
+        partialData = url
+      })
+    })
+
+    beforeEach(() => {
+      cy.visit(partialData)
     })
 
     it('should should have the correct amount of sections', () => {
@@ -190,7 +210,7 @@ context('Dashboard visualisation: line timeseries chart', () => {
           })
         })
 
-        cy.findByLabelText(/DietOne totals over time line/).within(() => {
+        cy.findByLabelText(/DietOne totals over time line by establishment/).within(() => {
           cy.findByRole('tab', { name: /Table/ }).click()
           cy.findByLabelText(/Table.*/i).within(() => {
             cy.findByRole('table').within(() => {
@@ -199,7 +219,7 @@ context('Dashboard visualisation: line timeseries chart', () => {
           })
         })
 
-        cy.findByLabelText(/DietOne totals over time by wing line/).within(() => {
+        cy.findByLabelText(/DietOne totals over time by cell/).within(() => {
           cy.findByRole('tab', { name: /Table/ }).click()
           cy.findByLabelText(/Table.*/i).within(() => {
             cy.findByRole('table').within(() => {

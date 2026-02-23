@@ -31,8 +31,8 @@ export const DashboardVisualisationMeasureSchema = z.object({
 })
 
 export const DashboardColumns = z.object({
-  keys: z.array(DashboardVisualisationKeySchema),
-  measures: z.array(DashboardVisualisationMeasureSchema).length(1, 'Measure must contain a single item'),
+  keys: z.array(DashboardVisualisationKeySchema).optional(),
+  measures: z.array(DashboardVisualisationMeasureSchema),
   filters: z.array(dashboardVisFilter).min(1).optional(),
   expectNulls: z.boolean().default(false),
 })

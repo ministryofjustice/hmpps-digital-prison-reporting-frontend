@@ -118,7 +118,7 @@ export const dietTotalsDietThreeOvertime: components['schemas']['DashboardVisual
 export const dietTotalsDietOneOvertimeByEstLine: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'line-diet-totals-DietOne-overtime-by-est',
   type: DashboardVisualisationType.LINE_TIMESERIES,
-  display: 'DietOne totals over time line',
+  display: 'DietOne totals over time line by establishment',
   description: '',
   options: { showLatest: false },
   columns: {
@@ -189,7 +189,7 @@ export const dietTotalsDietOneOvertimeByEstByWingAndCellLine: components['schema
   {
     id: 'line-diet-totals-DietOne-overtime-by-est-by-wing-cell',
     type: DashboardVisualisationType.LINE_TIMESERIES,
-    display: 'DietOne totals over time by wing line',
+    display: 'DietOne totals over time by cell',
     description: '',
     options: { showLatest: false },
     columns: {

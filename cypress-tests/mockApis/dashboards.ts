@@ -10,7 +10,8 @@ import {
   barPartialDatasetMock,
   doughnutCompleteDatasetMock,
   lineTimeseriesCompleteDatasetMock,
-  lineTimeseriesPartialDatasetMock
+  lineTimeseriesPartialDatasetMock,
+  barInvalidMock,
 } from '@networkMocks/dashboard/definitions/visualisations/mocks'
 
 import { syncDashboardMock, featureFlagDashboardMock } from '@networkMocks/dashboard/definitions/feature-testing/mocks'
@@ -44,6 +45,7 @@ const listDefinitionStubs = {
 const BarDefinitionStubs = {
   stubBarDashboardCompleteData: () => stubFor(barCompleteDatasetMock),
   stubBarDashboardPartialData: () => stubFor(barPartialDatasetMock),
+  stubBarInvalid: () => stubFor(barInvalidMock),
 }
 
 const DoughnutDefinitionStubs = {

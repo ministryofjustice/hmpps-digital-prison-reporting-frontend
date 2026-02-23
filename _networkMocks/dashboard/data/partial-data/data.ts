@@ -70,7 +70,7 @@ const partialDataSetTotalsByEst = [
     wing: { raw: '' },
     cell: { raw: '' },
     diet: { raw: 'Diet two' },
-    count: { raw: '281' },
+    count: { raw: '256' },
   },
   {
     ts: { raw: '2025/02/21' },
@@ -102,7 +102,7 @@ const partialDataSetTotalsByEst = [
     wing: { raw: '' },
     cell: { raw: '' },
     diet: { raw: 'Diet one' },
-    count: { raw: '360' },
+    count: { raw: '260' },
   },
   {
     ts: { raw: '2025/02/21' },
@@ -118,7 +118,7 @@ const partialDataSetTotalsByEst = [
     wing: { raw: '' },
     cell: { raw: '' },
     diet: { raw: 'Diet three' },
-    count: { raw: '559' },
+    count: { raw: '520' },
   },
   {
     ts: { raw: '2025/02/21' },
@@ -126,7 +126,7 @@ const partialDataSetTotalsByEst = [
     wing: { raw: '' },
     cell: { raw: '' },
     diet: { raw: 'Diet four' },
-    count: { raw: '144' },
+    count: { raw: '160' },
   },
 ]
 
@@ -428,7 +428,7 @@ const partialDataSetSouthMdi = [
     wing: { raw: 'south' },
     cell: { raw: '' },
     diet: { raw: 'Diet one' },
-    count: { raw: '75' },
+    count: { raw: '47' },
   },
   {
     ts: { raw: '2025/02/21' },
@@ -436,7 +436,7 @@ const partialDataSetSouthMdi = [
     wing: { raw: 'south' },
     cell: { raw: '' },
     diet: { raw: 'Diet two' },
-    count: { raw: '26' },
+    count: { raw: '46' },
   },
   {
     ts: { raw: '2025/02/21' },
@@ -444,7 +444,7 @@ const partialDataSetSouthMdi = [
     wing: { raw: 'south' },
     cell: { raw: '' },
     diet: { raw: 'Diet three' },
-    count: { raw: '22' },
+    count: { raw: '41' },
   },
   {
     ts: { raw: '2025/02/21' },
@@ -452,7 +452,7 @@ const partialDataSetSouthMdi = [
     wing: { raw: 'south' },
     cell: { raw: '' },
     diet: { raw: 'Diet four' },
-    count: { raw: '76' },
+    count: { raw: '17' },
   },
   {
     ts: { raw: '2025/02/21' },
@@ -679,7 +679,7 @@ const partialDataSetNorthDai = [
     wing: { raw: 'north' },
     cell: { raw: '' },
     diet: { raw: 'Diet one' },
-    count: { raw: '75' },
+    count: { raw: '91' },
   },
   {
     ts: { raw: '2025/02/21' },
@@ -687,7 +687,7 @@ const partialDataSetNorthDai = [
     wing: { raw: 'north' },
     cell: { raw: '' },
     diet: { raw: 'Diet two' },
-    count: { raw: '26' },
+    count: { raw: '75' },
   },
   {
     ts: { raw: '2025/02/21' },
@@ -695,7 +695,7 @@ const partialDataSetNorthDai = [
     wing: { raw: 'north' },
     cell: { raw: '' },
     diet: { raw: 'Diet three' },
-    count: { raw: '22' },
+    count: { raw: '78' },
   },
   {
     ts: { raw: '2025/02/21' },
@@ -703,7 +703,7 @@ const partialDataSetNorthDai = [
     wing: { raw: 'north' },
     cell: { raw: '' },
     diet: { raw: 'Diet four' },
-    count: { raw: '76' },
+    count: { raw: '42' },
   },
   {
     ts: { raw: '2025/02/21' },
@@ -930,7 +930,7 @@ const partialDataSetSouthDai = [
     wing: { raw: 'south' },
     cell: { raw: '' },
     diet: { raw: 'Diet one' },
-    count: { raw: '75' },
+    count: { raw: '34' },
   },
   {
     ts: { raw: '2025/02/21' },
@@ -938,7 +938,7 @@ const partialDataSetSouthDai = [
     wing: { raw: 'south' },
     cell: { raw: '' },
     diet: { raw: 'Diet two' },
-    count: { raw: '26' },
+    count: { raw: '29' },
   },
   {
     ts: { raw: '2025/02/21' },
@@ -954,7 +954,7 @@ const partialDataSetSouthDai = [
     wing: { raw: 'south' },
     cell: { raw: '' },
     diet: { raw: 'Diet four' },
-    count: { raw: '76' },
+    count: { raw: '63' },
   },
   {
     ts: { raw: '2025/02/21' },
@@ -1174,7 +1174,7 @@ export const partialDataSetLastSixMonths = [
     wing: { raw: 'north' },
     cell: { raw: 'cell-3' },
     diet: { raw: '' },
-    count: { raw: '76' },
+    count: { raw: '57' },
   },
   {
     ts: { raw: 'Sep 24' },
@@ -1286,7 +1286,7 @@ export const partialDataSetLastSixMonths = [
     wing: { raw: 'north' },
     cell: { raw: '' },
     diet: { raw: 'Diet four' },
-    count: { raw: '176' },
+    count: { raw: '17' },
   },
   {
     ts: { raw: 'Sep 24' },
@@ -2206,7 +2206,7 @@ export const partialDataSetLastSixMonths = [
     wing: { raw: '' },
     cell: { raw: '' },
     diet: { raw: 'Diet three' },
-    count: { raw: '76' },
+    count: { raw: '52' },
   },
   {
     ts: { raw: 'Dec 24' },

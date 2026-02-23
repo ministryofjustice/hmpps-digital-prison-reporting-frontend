@@ -1,31 +1,11 @@
 import { Response, Request } from 'express'
-import { KeysList } from 'json-2-csv/lib/types'
 import { Services } from '../../../types/Services'
-import Dict = NodeJS.Dict
 import { LoadType } from '../../../types/UserReports'
 import { components } from '../../../types/api'
 import LocalsHelper from '../../../utils/localsHelper'
 import { Template } from '../../../types/Templates'
 import ReportQuery from '../../../types/ReportQuery'
 import logger from '../../../utils/logger'
-
-export const getKeys = (reportData: Dict<string>[], fields: components['schemas']['FieldDefinition'][]): KeysList => {
-  const keys: KeysList = []
-  const keyNames: string[] = []
-  reportData.forEach((row) => {
-    Object.keys(row).forEach((key) => {
-      const field = fields.find((f) => f.name === key)
-      if (field && !keyNames.includes(key)) {
-        keyNames.push(key)
-        keys.push({
-          field: key,
-          title: field.display,
-        })
-      }
-    })
-  })
-  return keys
-}
 
 const streamDownloadAsyncData = async (args: {
   services: Services
@@ -140,5 +120,4 @@ export const downloadReport = async ({
 
 export default {
   downloadReport,
-  getKeys,
 }

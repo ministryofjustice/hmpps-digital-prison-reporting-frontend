@@ -50,7 +50,9 @@ type Failure = {
 }
 type Result<T> = Success<T> | Failure
 
-export async function validateDashboardDefinitions(dashboardDefinition: components['schemas']['DashboardDefinition']) {
+export async function validateDashboardVisualisations(
+  dashboardDefinition: components['schemas']['DashboardDefinition'],
+) {
   const visualisationDefs = dashboardDefinition.sections.flatMap((section) => {
     return section.visualisations
   })

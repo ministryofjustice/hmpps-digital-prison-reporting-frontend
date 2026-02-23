@@ -30,7 +30,7 @@ export const simpleScorecardCustomBucketsMetricOne: components['schemas']['Dashb
 }
 
 export const simpleScorecardCustomBucketsMetricThree: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'simple-scorecard-rag',
+  id: 'simple-scorecard-rag-buckets',
   type: DashboardVisualisationType.SCORECARD,
   display: 'No of prisoners with MetricThree',
   options: {
@@ -45,7 +45,7 @@ export const simpleScorecardCustomBucketsMetricThree: components['schemas']['Das
 
 export const simpleScorecardCustomBucketsBoundariesMetricThree: components['schemas']['DashboardVisualisationDefinition'] =
   {
-    id: 'simple-scorecard-rag-MetricThree',
+    id: 'simple-scorecard-rag-metric-three-buckets',
     type: DashboardVisualisationType.SCORECARD,
     display: 'No of prisoners with MetricThree',
     options: {
@@ -61,7 +61,7 @@ export const simpleScorecardCustomBucketsBoundariesMetricThree: components['sche
 
 export const simpleScorecardCustomBucketsBoundariesMetricTwo: components['schemas']['DashboardVisualisationDefinition'] =
   {
-    id: 'simple-scorecard-rag-MetricTwo',
+    id: 'simple-scorecard-rag-metric-two-buckets',
     type: DashboardVisualisationType.SCORECARD,
     display: 'No of prisoners with MetricTwo',
     options: {
@@ -77,7 +77,7 @@ export const simpleScorecardCustomBucketsBoundariesMetricTwo: components['schema
 
 export const simpleScorecardCustomBucketsBoundariesMetricOne: components['schemas']['DashboardVisualisationDefinition'] =
   {
-    id: 'simple-scorecard-rag-MetricOne',
+    id: 'simple-scorecard-rag-metric-one-buckets',
     type: DashboardVisualisationType.SCORECARD,
     display: 'No of prisoners with MetricOne',
     options: {

@@ -28,7 +28,8 @@ import { FilterValue, GranularDateRangeFilterValue, PartialDate } from '../../..
 import { FiltersType } from '../../../../../components/_filters/filtersTypeEnum'
 import { FilterType } from '../../../../../components/_filters/filter-input/enum'
 import { FEATURE_FLAG_KEYS } from '../../../../../utils/featureFlagsHelper'
-import { validateDashboardDefinitions } from '../../../../../components/_dashboards/dashboard-visualisation/utils'
+import { validateDashboardVisualisations } from '../../../../../components/_dashboards/dashboard-visualisation/utils'
+import DashboardSchema from './validate'
 
 const setDashboardActions = (
   dashboardDefinition: components['schemas']['DashboardDefinition'],
@@ -89,6 +90,11 @@ const getDefinitionData = async ({
     dataProductDefinitionsPath,
     queryData,
   )
+
+  // Validate definition
+  DashboardSchema.DashboardSchema.parse(dashboardDefinition)
+  // validate visualisations
+  await validateDashboardVisualisations(dashboardDefinition)
 
   // Report summary data
   const reportDefinition = await DefinitionUtils.getReportSummary(
@@ -273,9 +279,6 @@ export const renderAsyncDashboard = async ({ req, res, services }: AsyncReportUt
   if (bookmarkingEnabled) {
     bookmarked = await bookmarkService.isBookmarked(id, reportId, dprUser.id)
   }
-
-  // validate dashboard
-  await validateDashboardDefinitions(dashboardDefinition)
 
   // Get the dashboard parts
   const dashboardFeatureFlags = res.app.locals['featureFlags'].flags

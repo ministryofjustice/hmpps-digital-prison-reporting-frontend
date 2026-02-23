@@ -4,6 +4,8 @@ import { definition as listCompleteDataset } from './complete-dataset/list/defin
 import { definition as listCompleteDatasetHistoric } from './complete-dataset/list/definition-historic'
 import { definition as listPartialDataset } from './partial-dataset/list/definition'
 import { definition as listPartialDatasetHistoric } from './partial-dataset/list/definition-historic'
+import { definition as listInvalidDef } from './complete-dataset/list/definition-invalid'
+import { definition as listInvalidVisDef } from './complete-dataset/list/definition-invalid-vis-defs'
 import { definition as scorecardsCompleteDataset } from './complete-dataset/scorecard/definition'
 import { definition as scorecardsBucketsCompleteDataset } from './complete-dataset/scorecard/definition-buckets'
 import { definition as scorecardGroupCompleteDataset } from './complete-dataset/scorecardGroup/definition'
@@ -33,6 +35,14 @@ export const listPartialDatasetMock = setupSimpleMock(
 export const listPartialDatasetHistoricMock = setupSimpleMock(
   `/definitions/${productId}/dashboards/${listPartialDatasetHistoric.id}`,
   listPartialDatasetHistoric,
+)
+export const listInvalidVisDefMock = setupSimpleMock(
+  `/definitions/${productId}/dashboards/${listInvalidVisDef.id}`,
+  listInvalidVisDef,
+)
+export const listInvalidDefMock = setupSimpleMock(
+  `/definitions/${productId}/dashboards/${listInvalidDef.id}`,
+  listInvalidDef,
 )
 
 // SCORECARD definition mocks
@@ -87,6 +97,7 @@ export const mocks = [
   listCompleteDatasetHistoricMock,
   listPartialDatasetMock,
   listPartialDatasetHistoricMock,
+  listInvalidDefMock,
   scorecardsCompleteDatasetMock,
   scorecardsBucketCompleteDatasetMock,
   scorecardGroupCompleteDatasetMock,

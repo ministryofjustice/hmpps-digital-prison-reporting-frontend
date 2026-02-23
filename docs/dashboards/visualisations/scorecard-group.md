@@ -2,7 +2,6 @@
 layout: layouts/dashboards.njk
 title: Scorecard Group
 subsection: Visualisation definition
-phase: Alpha
 ---
 
 <!-- <img src="/assets/images/scorecard-group-2.png" alt="" style="margin-bottom: 30px"/> -->

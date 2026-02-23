@@ -709,4 +709,50 @@ context('Dashboard visualisation: List', () => {
       })
     })
   })
+
+  describe('invalid definitions', () => {
+    describe('Invalid vis definition', () => {
+      beforeEach(() => {
+        cy.task('resetStubs')
+        executeDashboardStubs()
+        cy.task('stubListInvalidVisDefs')
+        cy.task('stubDashboardResultCompleteData')
+        cy.visit(path)
+
+        requestReportByNameAndDescription({
+          name: 'List - Invalid vis definition',
+          description: 'Invalid vis definition',
+        })
+      })
+
+      it('should show an appropriate error message', () => {
+        cy.findByRole('heading', { name: /Your report has failed to generate/ }).should('be.visible')
+        cy.findAllByRole('paragraph')
+          .eq(1)
+          .contains('Error: Schema validation error: Dashboard visualisation definition: measures is required')
+      })
+    })
+
+    describe('Invalid definition', () => {
+      beforeEach(() => {
+        cy.task('resetStubs')
+        executeDashboardStubs()
+        cy.task('stubListInvalidDefs')
+        cy.task('stubDashboardResultCompleteData')
+        cy.visit(path)
+
+        requestReportByNameAndDescription({
+          name: 'Invalid definition',
+          description: 'Missing sections array',
+        })
+      })
+
+      it('should show an appropriate error message', () => {
+        cy.findByRole('heading', { name: /Your report has failed to generate/ }).should('be.visible')
+        cy.findAllByRole('paragraph')
+          .eq(1)
+          .contains('Error: Schema validation error: Dashboard definition: Sections is required')
+      })
+    })
+  })
 })

@@ -9,7 +9,7 @@ const ListOptions = z.object({
 const ListSchema = z.object({
   ...DashboardVisualisationSchema.shape,
   type: z.literal('list'),
-  options: z.object(ListOptions.shape),
+  options: z.object(ListOptions.shape).optional(),
   columns: z.object({
     ...DashboardColumns.shape,
   }),

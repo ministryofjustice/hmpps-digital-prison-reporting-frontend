@@ -55,12 +55,12 @@ const streamDownloadSyncData = async (args: {
   return services.reportingService.downloadSyncReport(token, resourceName, reportQuery, res)
 }
 
-function assertHasSpecification(
+const assertHasSpecification: (
   id: string,
   variant: components['schemas']['VariantDefinition'],
-): asserts variant is components['schemas']['VariantDefinition'] & {
+) => asserts variant is components['schemas']['VariantDefinition'] & {
   specification: components['schemas']['Specification']
-} {
+} = (id, variant) => {
   if (!variant.specification) {
     logger.error(`No specification found for definition ID: ${id} variant ID: ${variant.id}`)
     throw new Error(`No specification found for definition ID: ${id} variant ID: ${variant.id}`)

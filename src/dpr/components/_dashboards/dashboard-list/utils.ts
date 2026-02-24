@@ -63,7 +63,6 @@ const createListFromColumns = (
 
   const head: MoJTableHead[] = []
   head.push({
-    attributes: { 'aria-label': 'list values' },
     html: '<p class="govuk-visually-hidden">list values</p>',
   })
   dashboardData.forEach((row) => {

@@ -36,7 +36,7 @@ describe('DashboardListUtils', () => {
       const expectedResult = {
         table: {
           head: [
-            { html: '<span class="govuk-visually-hidden">list values</span>' },
+            { html: '<p class="govuk-visually-hidden">list values</p>' },
             { text: 'ABC' },
             { text: 'GHI' },
             { text: 'DEF' },

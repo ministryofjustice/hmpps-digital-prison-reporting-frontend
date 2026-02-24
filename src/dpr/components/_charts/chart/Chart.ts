@@ -34,6 +34,7 @@ class Chart {
 
   withData = (responseData: DashboardDataResponse[]) => {
     this.responseData = responseData
+    this.initHelpers()
     return this
   }
 

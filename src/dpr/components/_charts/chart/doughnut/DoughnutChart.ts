@@ -20,7 +20,6 @@ class DoughnutChart extends Chart {
     this.measures = this.definition.columns.measures
     this.keys = this.definition.columns.keys || []
     this.initUnit(this.measures)
-    this.getLabelId(this.keys)
   }
 
   withDefinition = (definition: components['schemas']['DashboardVisualisationDefinition']) => {
@@ -31,7 +30,7 @@ class DoughnutChart extends Chart {
   }
 
   build = (): DashboardVisualisationData => {
-    this.createDatasets(this.measures, this.responseData)
+    this.createDatasets(this.measures, this.keys, this.responseData)
     this.augmentDataset()
     this.setBespokeOptions()
     this.createLabels(this.measures)

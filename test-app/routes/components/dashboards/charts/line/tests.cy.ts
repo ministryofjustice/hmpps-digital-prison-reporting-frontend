@@ -80,6 +80,7 @@ context('Dashboard visualisation: line timeseries chart', () => {
                       })
                       break
                     case 2:
+                      DEF
                       cy.wrap(row).within(() => {
                         cy.findAllByRole('cell').should('have.length', 3)
                         cy.findAllByRole('cell').eq(0).contains('Sep 24')
@@ -691,7 +692,63 @@ context('Dashboard visualisation: line timeseries chart', () => {
           cy.findByRole('tab', { name: /Table/ }).click()
           cy.findByLabelText(/Table.*/i).within(() => {
             cy.findByRole('table').within(() => {
-              // TODO in followup PR
+              cy.findAllByRole('row')
+                .should('have.length', 7)
+                .each((row, index) => {
+                  switch (index) {
+                    case 0:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('columnheader').should('have.length', 2)
+                        cy.findAllByRole('columnheader').eq(0).contains('Date')
+                        cy.findAllByRole('columnheader').eq(1).contains('Total prisoners')
+                      })
+                      break
+                    case 1:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 2)
+                        cy.findAllByRole('cell').eq(0).contains('Sep 24')
+                        cy.findAllByRole('cell').eq(1).contains('5000')
+                      })
+                      break
+                    case 2:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 2)
+                        cy.findAllByRole('cell').eq(0).contains('Oct 24')
+                        cy.findAllByRole('cell').eq(1).contains('5000')
+                      })
+                      break
+                    case 3:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 2)
+                        cy.findAllByRole('cell').eq(0).contains('Nov 24')
+                        cy.findAllByRole('cell').eq(1).contains('5000')
+                      })
+                      break
+                    case 4:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 2)
+                        cy.findAllByRole('cell').eq(0).contains('Dec 24')
+                        cy.findAllByRole('cell').eq(1).contains('5000')
+                      })
+                      break
+                    case 5:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 2)
+                        cy.findAllByRole('cell').eq(0).contains('Jan 25')
+                        cy.findAllByRole('cell').eq(1).contains('5000')
+                      })
+                      break
+                    case 6:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 2)
+                        cy.findAllByRole('cell').eq(0).contains('Feb 25')
+                        cy.findAllByRole('cell').eq(1).contains('5000')
+                      })
+                      break
+                    default:
+                      break
+                  }
+                })
             })
           })
         })
@@ -700,7 +757,118 @@ context('Dashboard visualisation: line timeseries chart', () => {
           cy.findByRole('tab', { name: /Table/ }).click()
           cy.findByLabelText(/Table.*/i).within(() => {
             cy.findByRole('table').within(() => {
-              // TODO in followup PR
+              cy.findAllByRole('row')
+                .should('have.length', 13)
+                .each((row, index) => {
+                  switch (index) {
+                    case 0:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('columnheader').should('have.length', 3)
+                        cy.findAllByRole('columnheader').eq(0).contains('Date')
+                        cy.findAllByRole('columnheader').eq(1).contains('Est ID')
+                        cy.findAllByRole('columnheader').eq(2).contains('Total prisoners')
+                      })
+                      break
+                    case 1:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 3)
+                        cy.findAllByRole('cell').eq(0).contains('Sep 24')
+                        cy.findAllByRole('cell').eq(1).contains('ABC')
+                        cy.findAllByRole('cell').eq(2).contains('2245')
+                      })
+                      break
+                    case 2:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 3)
+                        cy.findAllByRole('cell').eq(0).contains('Sep 24')
+                        cy.findAllByRole('cell').eq(1).contains('DEF')
+                        cy.findAllByRole('cell').eq(2).contains('2470')
+                      })
+                      break
+                    case 3:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 3)
+                        cy.findAllByRole('cell').eq(0).contains('Oct 24')
+                        cy.findAllByRole('cell').eq(1).contains('ABC')
+                        cy.findAllByRole('cell').eq(2).contains('1070')
+                      })
+                      break
+                    case 4:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 3)
+                        cy.findAllByRole('cell').eq(0).contains('Oct 24')
+                        cy.findAllByRole('cell').eq(1).contains('DEF')
+                        cy.findAllByRole('cell').eq(2).contains('1175')
+                      })
+                      break
+                    case 5:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 3)
+                        cy.findAllByRole('cell').eq(0).contains('Nov 24')
+                        cy.findAllByRole('cell').eq(1).contains('ABC')
+                        cy.findAllByRole('cell').eq(2).contains('1459')
+                      })
+                      break
+                    case 6:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 3)
+                        cy.findAllByRole('cell').eq(0).contains('Nov 24')
+                        cy.findAllByRole('cell').eq(1).contains('DEF')
+                        cy.findAllByRole('cell').eq(2).contains('1594')
+                      })
+                      break
+                    case 7:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 3)
+                        cy.findAllByRole('cell').eq(0).contains('Dec 24')
+                        cy.findAllByRole('cell').eq(1).contains('ABC')
+                        cy.findAllByRole('cell').eq(2).contains('1610')
+                      })
+                      break
+                    case 8:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 3)
+                        cy.findAllByRole('cell').eq(0).contains('Dec 24')
+                        cy.findAllByRole('cell').eq(1).contains('DEF')
+                        cy.findAllByRole('cell').eq(2).contains('1790')
+                      })
+                      break
+                    case 9:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 3)
+                        cy.findAllByRole('cell').eq(0).contains('Jan 25')
+                        cy.findAllByRole('cell').eq(1).contains('ABC')
+                        cy.findAllByRole('cell').eq(2).contains('479')
+                      })
+                      break
+                    case 10:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 3)
+                        cy.findAllByRole('cell').eq(0).contains('Jan 25')
+                        cy.findAllByRole('cell').eq(1).contains('DEF')
+                        cy.findAllByRole('cell').eq(2).contains('526')
+                      })
+                      break
+                    case 11:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 3)
+                        cy.findAllByRole('cell').eq(0).contains('Feb 25')
+                        cy.findAllByRole('cell').eq(1).contains('ABC')
+                        cy.findAllByRole('cell').eq(2).contains('1172')
+                      })
+                      break
+                    case 12:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 3)
+                        cy.findAllByRole('cell').eq(0).contains('Feb 25')
+                        cy.findAllByRole('cell').eq(1).contains('DEF')
+                        cy.findAllByRole('cell').eq(2).contains('1045')
+                      })
+                      break
+                    default:
+                      break
+                  }
+                })
             })
           })
         })
@@ -709,7 +877,70 @@ context('Dashboard visualisation: line timeseries chart', () => {
           cy.findByRole('tab', { name: /Table/ }).click()
           cy.findByLabelText(/Table.*/i).within(() => {
             cy.findByRole('table').within(() => {
-              // TODO in followup PR
+              cy.findAllByRole('row')
+                .should('have.length', 7)
+                .each((row, index) => {
+                  switch (index) {
+                    case 0:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('columnheader').should('have.length', 3)
+                        cy.findAllByRole('columnheader').eq(0).contains('Date')
+                        cy.findAllByRole('columnheader').eq(1).contains('Diet')
+                        cy.findAllByRole('columnheader').eq(2).contains('Total prisoners')
+                      })
+                      break
+                    case 1:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 3)
+                        cy.findAllByRole('cell').eq(0).contains('Sep 24')
+                        cy.findAllByRole('cell').eq(1).contains('Diet one')
+                        cy.findAllByRole('cell').eq(2).contains('134')
+                      })
+                      break
+                    case 2:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 3)
+                        cy.findAllByRole('cell').eq(0).contains('Oct 24')
+                        cy.findAllByRole('cell').eq(1).contains('Diet one')
+                        cy.findAllByRole('cell').eq(2).contains('1731')
+                      })
+                      break
+                    case 3:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 3)
+                        cy.findAllByRole('cell').eq(0).contains('Nov 24')
+                        cy.findAllByRole('cell').eq(1).contains('Diet one')
+                        cy.findAllByRole('cell').eq(2).contains('1034')
+                      })
+                      break
+                    case 4:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 3)
+                        cy.findAllByRole('cell').eq(0).contains('Dec 24')
+                        cy.findAllByRole('cell').eq(1).contains('Diet one')
+                        cy.findAllByRole('cell').eq(2).contains('303')
+                      })
+                      break
+                    case 5:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 3)
+                        cy.findAllByRole('cell').eq(0).contains('Jan 25')
+                        cy.findAllByRole('cell').eq(1).contains('Diet one')
+                        cy.findAllByRole('cell').eq(2).contains('1189')
+                      })
+                      break
+                    case 6:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 3)
+                        cy.findAllByRole('cell').eq(0).contains('Feb 25')
+                        cy.findAllByRole('cell').eq(1).contains('Diet one')
+                        cy.findAllByRole('cell').eq(2).contains('1737')
+                      })
+                      break
+                    default:
+                      break
+                  }
+                })
             })
           })
         })
@@ -718,7 +949,70 @@ context('Dashboard visualisation: line timeseries chart', () => {
           cy.findByRole('tab', { name: /Table/ }).click()
           cy.findByLabelText(/Table.*/i).within(() => {
             cy.findByRole('table').within(() => {
-              // TODO in followup PR
+              cy.findAllByRole('row')
+                .should('have.length', 7)
+                .each((row, index) => {
+                  switch (index) {
+                    case 0:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('columnheader').should('have.length', 3)
+                        cy.findAllByRole('columnheader').eq(0).contains('Date')
+                        cy.findAllByRole('columnheader').eq(1).contains('Diet')
+                        cy.findAllByRole('columnheader').eq(2).contains('Total prisoners')
+                      })
+                      break
+                    case 1:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 3)
+                        cy.findAllByRole('cell').eq(0).contains('Sep 24')
+                        cy.findAllByRole('cell').eq(1).contains('Diet three')
+                        cy.findAllByRole('cell').eq(2).contains('1729')
+                      })
+                      break
+                    case 2:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 3)
+                        cy.findAllByRole('cell').eq(0).contains('Oct 24')
+                        cy.findAllByRole('cell').eq(1).contains('Diet three')
+                        cy.findAllByRole('cell').eq(2).contains('122')
+                      })
+                      break
+                    case 3:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 3)
+                        cy.findAllByRole('cell').eq(0).contains('Nov 24')
+                        cy.findAllByRole('cell').eq(1).contains('Diet three')
+                        cy.findAllByRole('cell').eq(2).contains('1754')
+                      })
+                      break
+                    case 4:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 3)
+                        cy.findAllByRole('cell').eq(0).contains('Dec 24')
+                        cy.findAllByRole('cell').eq(1).contains('Diet three')
+                        cy.findAllByRole('cell').eq(2).contains('1692')
+                      })
+                      break
+                    case 5:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 3)
+                        cy.findAllByRole('cell').eq(0).contains('Jan 25')
+                        cy.findAllByRole('cell').eq(1).contains('Diet three')
+                        cy.findAllByRole('cell').eq(2).contains('897')
+                      })
+                      break
+                    case 6:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 3)
+                        cy.findAllByRole('cell').eq(0).contains('Feb 25')
+                        cy.findAllByRole('cell').eq(1).contains('Diet three')
+                        cy.findAllByRole('cell').eq(2).contains('294')
+                      })
+                      break
+                    default:
+                      break
+                  }
+                })
             })
           })
         })
@@ -727,7 +1021,131 @@ context('Dashboard visualisation: line timeseries chart', () => {
           cy.findByRole('tab', { name: /Table/ }).click()
           cy.findByLabelText(/Table.*/i).within(() => {
             cy.findByRole('table').within(() => {
-              // TODO in followup PR
+              cy.findAllByRole('row')
+                .should('have.length', 13)
+                .each((row, index) => {
+                  switch (index) {
+                    case 0:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('columnheader').should('have.length', 4)
+                        cy.findAllByRole('columnheader').eq(0).contains('Date')
+                        cy.findAllByRole('columnheader').eq(1).contains('Establishment ID')
+                        cy.findAllByRole('columnheader').eq(2).contains('Wing')
+                        cy.findAllByRole('columnheader').eq(3).contains('Total prisoners')
+                      })
+                      break
+                    case 1:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 4)
+                        cy.findAllByRole('cell').eq(0).contains('Sep 24')
+                        cy.findAllByRole('cell').eq(1).contains('ABC')
+                        cy.findAllByRole('cell').eq(2).contains('north')
+                        cy.findAllByRole('cell').eq(3).contains('172')
+                      })
+                      break
+                    case 2:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 4)
+                        cy.findAllByRole('cell').eq(0).contains('Sep 24')
+                        cy.findAllByRole('cell').eq(1).contains('DEF')
+                        cy.findAllByRole('cell').eq(2).contains('north')
+                        cy.findAllByRole('cell').eq(3).contains('186')
+                      })
+                      break
+                    case 3:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 4)
+                        cy.findAllByRole('cell').eq(0).contains('Oct 24')
+                        cy.findAllByRole('cell').eq(1).contains('ABC')
+                        cy.findAllByRole('cell').eq(2).contains('north')
+                        cy.findAllByRole('cell').eq(3).contains('49')
+                      })
+                      break
+                    case 4:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 4)
+                        cy.findAllByRole('cell').eq(0).contains('Oct 24')
+                        cy.findAllByRole('cell').eq(1).contains('DEF')
+                        cy.findAllByRole('cell').eq(2).contains('north')
+                        cy.findAllByRole('cell').eq(3).contains('44')
+                      })
+                      break
+                    case 5:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 4)
+                        cy.findAllByRole('cell').eq(0).contains('Nov 24')
+                        cy.findAllByRole('cell').eq(1).contains('ABC')
+                        cy.findAllByRole('cell').eq(2).contains('north')
+                        cy.findAllByRole('cell').eq(3).contains('5')
+                      })
+                      break
+                    case 6:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 4)
+                        cy.findAllByRole('cell').eq(0).contains('Nov 24')
+                        cy.findAllByRole('cell').eq(1).contains('DEF')
+                        cy.findAllByRole('cell').eq(2).contains('north')
+                        cy.findAllByRole('cell').eq(3).contains('5')
+                      })
+                      break
+                    case 7:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 4)
+                        cy.findAllByRole('cell').eq(0).contains('Dec 24')
+                        cy.findAllByRole('cell').eq(1).contains('ABC')
+                        cy.findAllByRole('cell').eq(2).contains('north')
+                        cy.findAllByRole('cell').eq(3).contains('121')
+                      })
+                      break
+                    case 8:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 4)
+                        cy.findAllByRole('cell').eq(0).contains('Dec 24')
+                        cy.findAllByRole('cell').eq(1).contains('DEF')
+                        cy.findAllByRole('cell').eq(2).contains('north')
+                        cy.findAllByRole('cell').eq(3).contains('109')
+                      })
+                      break
+                    case 9:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 4)
+                        cy.findAllByRole('cell').eq(0).contains('Jan 25')
+                        cy.findAllByRole('cell').eq(1).contains('ABC')
+                        cy.findAllByRole('cell').eq(2).contains('north')
+                        cy.findAllByRole('cell').eq(3).contains('31')
+                      })
+                      break
+                    case 10:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 4)
+                        cy.findAllByRole('cell').eq(0).contains('Jan 25')
+                        cy.findAllByRole('cell').eq(1).contains('DEF')
+                        cy.findAllByRole('cell').eq(2).contains('north')
+                        cy.findAllByRole('cell').eq(3).contains('28')
+                      })
+                      break
+                    case 11:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 4)
+                        cy.findAllByRole('cell').eq(0).contains('Feb 25')
+                        cy.findAllByRole('cell').eq(1).contains('ABC')
+                        cy.findAllByRole('cell').eq(2).contains('north')
+                        cy.findAllByRole('cell').eq(3).contains('7')
+                      })
+                      break
+                    case 12:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 4)
+                        cy.findAllByRole('cell').eq(0).contains('Feb 25')
+                        cy.findAllByRole('cell').eq(1).contains('DEF')
+                        cy.findAllByRole('cell').eq(2).contains('north')
+                        cy.findAllByRole('cell').eq(3).contains('8')
+                      })
+                      break
+                    default:
+                      break
+                  }
+                })
             })
           })
         })
@@ -736,7 +1154,118 @@ context('Dashboard visualisation: line timeseries chart', () => {
           cy.findByRole('tab', { name: /Table/ }).click()
           cy.findByLabelText(/Table.*/i).within(() => {
             cy.findByRole('table').within(() => {
-              // TODO in followup PR
+              cy.findAllByRole('row')
+                .should('have.length', 13)
+                .each((row, index) => {
+                  switch (index) {
+                    case 0:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('columnheader').should('have.length', 3)
+                        cy.findAllByRole('columnheader').eq(0).contains('Date')
+                        cy.findAllByRole('columnheader').eq(1).contains('Establishment ID')
+                        cy.findAllByRole('columnheader').eq(2).contains('Total prisoners')
+                      })
+                      break
+                    case 1:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 3)
+                        cy.findAllByRole('cell').eq(0).contains('Sep 24')
+                        cy.findAllByRole('cell').eq(1).contains('ABC')
+                        cy.findAllByRole('cell').eq(2).contains('477')
+                      })
+                      break
+                    case 2:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 3)
+                        cy.findAllByRole('cell').eq(0).contains('Sep 24')
+                        cy.findAllByRole('cell').eq(1).contains('DEF')
+                        cy.findAllByRole('cell').eq(2).contains('530')
+                      })
+                      break
+                    case 3:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 3)
+                        cy.findAllByRole('cell').eq(0).contains('Oct 24')
+                        cy.findAllByRole('cell').eq(1).contains('ABC')
+                        cy.findAllByRole('cell').eq(2).contains('201')
+                      })
+                      break
+                    case 4:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 3)
+                        cy.findAllByRole('cell').eq(0).contains('Oct 24')
+                        cy.findAllByRole('cell').eq(1).contains('DEF')
+                        cy.findAllByRole('cell').eq(2).contains('181')
+                      })
+                      break
+                    case 5:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 3)
+                        cy.findAllByRole('cell').eq(0).contains('Nov 24')
+                        cy.findAllByRole('cell').eq(1).contains('ABC')
+                        cy.findAllByRole('cell').eq(2).contains('305')
+                      })
+                      break
+                    case 6:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 3)
+                        cy.findAllByRole('cell').eq(0).contains('Nov 24')
+                        cy.findAllByRole('cell').eq(1).contains('DEF')
+                        cy.findAllByRole('cell').eq(2).contains('274')
+                      })
+                      break
+                    case 7:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 3)
+                        cy.findAllByRole('cell').eq(0).contains('Dec 24')
+                        cy.findAllByRole('cell').eq(1).contains('ABC')
+                        cy.findAllByRole('cell').eq(2).contains('531')
+                      })
+                      break
+                    case 8:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 3)
+                        cy.findAllByRole('cell').eq(0).contains('Dec 24')
+                        cy.findAllByRole('cell').eq(1).contains('DEF')
+                        cy.findAllByRole('cell').eq(2).contains('594')
+                      })
+                      break
+                    case 9:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 3)
+                        cy.findAllByRole('cell').eq(0).contains('Jan 25')
+                        cy.findAllByRole('cell').eq(1).contains('ABC')
+                        cy.findAllByRole('cell').eq(2).contains('178')
+                      })
+                      break
+                    case 10:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 3)
+                        cy.findAllByRole('cell').eq(0).contains('Jan 25')
+                        cy.findAllByRole('cell').eq(1).contains('DEF')
+                        cy.findAllByRole('cell').eq(2).contains('160')
+                      })
+                      break
+                    case 11:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 3)
+                        cy.findAllByRole('cell').eq(0).contains('Feb 25')
+                        cy.findAllByRole('cell').eq(1).contains('ABC')
+                        cy.findAllByRole('cell').eq(2).contains('251')
+                      })
+                      break
+                    case 12:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 3)
+                        cy.findAllByRole('cell').eq(0).contains('Feb 25')
+                        cy.findAllByRole('cell').eq(1).contains('DEF')
+                        cy.findAllByRole('cell').eq(2).contains('276')
+                      })
+                      break
+                    default:
+                      break
+                  }
+                })
             })
           })
         })
@@ -745,7 +1274,104 @@ context('Dashboard visualisation: line timeseries chart', () => {
           cy.findByRole('tab', { name: /Table/ }).click()
           cy.findByLabelText(/Table.*/i).within(() => {
             cy.findByRole('table').within(() => {
-              // TODO in followup PR
+              cy.findAllByRole('row')
+                .should('have.length', 61)
+                .each((row, index) => {
+                  switch (index) {
+                    case 0:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('columnheader').should('have.length', 5)
+                        cy.findAllByRole('columnheader').eq(0).contains('Date')
+                        cy.findAllByRole('columnheader').eq(1).contains('Establishment ID')
+                        cy.findAllByRole('columnheader').eq(2).contains('Wing')
+                        cy.findAllByRole('columnheader').eq(3).contains('Cell')
+                        cy.findAllByRole('columnheader').eq(4).contains('Total prisoners')
+                      })
+                      break
+                    case 1:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 5)
+                        cy.findAllByRole('cell').eq(0).contains('Sep 24')
+                        cy.findAllByRole('cell').eq(1).contains('ABC')
+                        cy.findAllByRole('cell').eq(2).contains('north')
+                        cy.findAllByRole('cell').eq(3).contains('cell-1')
+                        cy.findAllByRole('cell').eq(4).contains('87')
+                      })
+                      break
+                    case 2:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 5)
+                        cy.findAllByRole('cell').eq(0).contains('Sep 24')
+                        cy.findAllByRole('cell').eq(1).contains('ABC')
+                        cy.findAllByRole('cell').eq(2).contains('north')
+                        cy.findAllByRole('cell').eq(3).contains('cell-2')
+                        cy.findAllByRole('cell').eq(4).contains('112')
+                      })
+                      break
+                    case 6:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 5)
+                        cy.findAllByRole('cell').eq(0).contains('Sep 24')
+                        cy.findAllByRole('cell').eq(1).contains('DEF')
+                        cy.findAllByRole('cell').eq(2).contains('north')
+                        cy.findAllByRole('cell').eq(3).contains('cell-1')
+                        cy.findAllByRole('cell').eq(4).contains('95')
+                      })
+                      break
+                    case 7:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 5)
+                        cy.findAllByRole('cell').eq(0).contains('Sep 24')
+                        cy.findAllByRole('cell').eq(1).contains('DEF')
+                        cy.findAllByRole('cell').eq(2).contains('north')
+                        cy.findAllByRole('cell').eq(3).contains('cell-2')
+                        cy.findAllByRole('cell').eq(4).contains('125')
+                      })
+                      break
+                    case 11:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 5)
+                        cy.findAllByRole('cell').eq(0).contains('Oct 24')
+                        cy.findAllByRole('cell').eq(1).contains('ABC')
+                        cy.findAllByRole('cell').eq(2).contains('north')
+                        cy.findAllByRole('cell').eq(3).contains('cell-1')
+                        cy.findAllByRole('cell').eq(4).contains('20')
+                      })
+                      break
+                    case 12:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 5)
+                        cy.findAllByRole('cell').eq(0).contains('Oct 24')
+                        cy.findAllByRole('cell').eq(1).contains('ABC')
+                        cy.findAllByRole('cell').eq(2).contains('north')
+                        cy.findAllByRole('cell').eq(3).contains('cell-2')
+                        cy.findAllByRole('cell').eq(4).contains('212')
+                      })
+                      break
+                    case 16:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 5)
+                        cy.findAllByRole('cell').eq(0).contains('Oct 24')
+                        cy.findAllByRole('cell').eq(1).contains('DEF')
+                        cy.findAllByRole('cell').eq(2).contains('north')
+                        cy.findAllByRole('cell').eq(3).contains('cell-1')
+                        cy.findAllByRole('cell').eq(4).contains('18')
+                      })
+                      break
+                    case 17:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 5)
+                        cy.findAllByRole('cell').eq(0).contains('Oct 24')
+                        cy.findAllByRole('cell').eq(1).contains('DEF')
+                        cy.findAllByRole('cell').eq(2).contains('north')
+                        cy.findAllByRole('cell').eq(3).contains('cell-2')
+                        cy.findAllByRole('cell').eq(4).contains('233')
+                      })
+                      break
+                    default:
+                      break
+                  }
+                })
             })
           })
         })

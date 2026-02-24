@@ -5,13 +5,12 @@ import {
   VisualisationDefinitionKey,
   ChartMeasure,
 } from '../../_dashboards/dashboard-visualisation/types'
-import { ChartColours } from './ChartColours'
+import ChartColoursHelper from './ChartColours'
+import ChartLabelsHelper from './ChartLabels'
 import ChartConfig from './chart-config'
 
 class Chart {
   labels: string[] = []
-
-  private labelId: string | undefined = undefined
 
   datasets: DashboardVisualisationDataSet[] = []
 
@@ -29,6 +28,10 @@ class Chart {
 
   config = ChartConfig
 
+  chartColoursHelper!: ChartColoursHelper
+
+  chartLabelsHelper!: ChartLabelsHelper
+
   withData = (responseData: DashboardDataResponse[]) => {
     this.responseData = responseData
     return this
@@ -38,10 +41,18 @@ class Chart {
     this.unit = measures.find((m) => m.unit)?.unit
   }
 
-  createDatasets = (measures: ChartMeasure, responseData: DashboardDataResponse[]) => {
-    this.hexColours = new ChartColours().getHexPallette()
+  initHelpers = () => {
+    this.chartColoursHelper = new ChartColoursHelper()
+    this.chartLabelsHelper = new ChartLabelsHelper()
+  }
+
+  createDatasets = (
+    measures: ChartMeasure,
+    keys: VisualisationDefinitionKey[],
+    responseData: DashboardDataResponse[],
+  ) => {
     this.datasets = responseData.map((row, datasetIndex) => {
-      const label = this.createDatasetLabel(row)
+      const label = this.createDatasetLabel(keys, row)
       const data = this.createDatasetValues(measures, row)
       const total = data.reduce((acc: number, val: number) => acc + val, 0)
 
@@ -54,8 +65,8 @@ class Chart {
     })
   }
 
-  private createDatasetLabel = (row: DashboardDataResponse) => {
-    return this.labelId && row[this.labelId] ? `${row[this.labelId].raw}` : 'All'
+  private createDatasetLabel = (keys: VisualisationDefinitionKey[], row: DashboardDataResponse) => {
+    return this.chartLabelsHelper.getDatasetLabel(keys, row)
   }
 
   private createDatasetValues = (measures: ChartMeasure, row: DashboardDataResponse) => {
@@ -66,22 +77,11 @@ class Chart {
   }
 
   setStyles = (datasetIndex: number) => {
-    const colour = this.hexColours[datasetIndex % this.hexColours.length]
-    return {
-      backgroundColor: colour,
-      borderColor: colour,
-    }
+    return this.chartColoursHelper.setColourStyles(datasetIndex)
   }
 
   createLabels = (measures: ChartMeasure) => {
-    this.labels = measures.map((col) => col.display || '')
-  }
-
-  getLabelId = (keys: VisualisationDefinitionKey[]) => {
-    if (keys.length) {
-      const lastIndex = keys.length - 1
-      this.labelId = keys[lastIndex]?.id
-    }
+    this.labels = this.chartLabelsHelper.getLabels(measures)
   }
 }
 

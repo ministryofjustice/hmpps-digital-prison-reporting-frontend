@@ -1,4 +1,4 @@
-export class ChartColours {
+export default class ChartColoursHelper {
   pallette = [
     {
       name: 'blue',
@@ -32,5 +32,14 @@ export class ChartColours {
 
   getHexPallette = () => {
     return this.pallette.map((p) => p.hex)
+  }
+
+  setColourStyles = (datasetIndex: number) => {
+    const hexColours = this.getHexPallette()
+    const colour = hexColours[datasetIndex % hexColours.length]
+    return {
+      backgroundColor: colour,
+      borderColor: colour,
+    }
   }
 }

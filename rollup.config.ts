@@ -145,7 +145,7 @@ const options = [
   },
   {
     input: [path.join(cwd, 'src/dpr/all.ts')],
-    output: [{ file: path.join(cwd, 'dist/all.js'), format: 'cjs', sourcemap: true }],
+    output: [{ file: path.join(cwd, 'dist/all.js'), format: 'esm', sourcemap: true }],
     plugins: [
       nodeResolve({ preferBuiltins: true }),
       typescript({ tsconfig: './tsconfig.json', noEmitOnError: false, outDir: 'dist', declaration: false }),

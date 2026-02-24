@@ -35,7 +35,12 @@ describe('DashboardListUtils', () => {
 
       const expectedResult = {
         table: {
-          head: [{ text: '' }, { text: 'ABC' }, { text: 'GHI' }, { text: 'DEF' }],
+          head: [
+            { html: '<p class="govuk-visually-hidden">list values</p>' },
+            { text: 'ABC' },
+            { text: 'GHI' },
+            { text: 'DEF' },
+          ],
           rows: [
             [{ text: 'Has MetricOne' }, { text: '533' }, { text: '484' }, { text: '406' }],
             [{ text: 'No MetricOne' }, { text: '614' }, { text: '713' }, { text: '682' }],

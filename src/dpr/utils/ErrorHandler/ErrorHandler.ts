@@ -1,10 +1,11 @@
 import { ZodError } from 'zod'
-import { components } from '../types/api'
-import logger from './logger'
+import { components } from '../../types/api'
+import logger from '../logger'
+import { AggregatedValidationError } from './AggregatedValidationError'
 
 export interface DprErrorMessage {
-  userMessage?: string
-  developerMessage?: string
+  userMessage?: string | string[] | undefined
+  developerMessage?: string | string[] | undefined
   stack?: string
   moreInfo?: string
   status?: string | number
@@ -19,7 +20,7 @@ class ErrorHandler {
 
   developerMessage?: string | undefined
 
-  userMessage?: string | undefined
+  userMessage?: string | string[] | undefined
 
   moreInfo?: string | undefined
 
@@ -37,6 +38,7 @@ class ErrorHandler {
   }
 
   private handleError = (): DprErrorMessage => {
+    // Zod error
     if (this.error instanceof ZodError) {
       const issues = this.error.issues
         .map((issue) => {
@@ -44,6 +46,26 @@ class ErrorHandler {
         })
         .join('. ')
       this.userMessage = `Schema validation error: ${issues}`
+      this.status = 500
+    }
+
+    // AggregatedValidationError
+    else if (this.error instanceof AggregatedValidationError) {
+      this.userMessage = [
+        this.error.message,
+        ...this.error.details.map((detail) => {
+          const issues = detail.issues
+            .map((issue) => {
+              return issue.message
+            })
+            .join('. ')
+          let message = ''
+          if (detail.type) message = `Type: '${detail.type}'. `
+          if (detail.id) message += `ID: '${detail.id}'. `
+          return `${message}Issues: ${issues}`
+        }),
+      ]
+
       this.status = 500
     }
 

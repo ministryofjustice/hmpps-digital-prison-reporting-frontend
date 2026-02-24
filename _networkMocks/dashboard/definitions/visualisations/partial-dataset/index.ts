@@ -2,9 +2,10 @@ import { definition as list } from './list/definition'
 import { definition as listHistoric } from './list/definition-historic'
 import { definition as matrix } from './matrix/definition'
 import { definition as bar } from './bar/definition'
+import { definition as invalidBar } from './bar/definition-invalid'
 import { definition as linetimeseries } from './line-timeseries/definition'
 
-export const snapshotVisualisations = [list, matrix, bar]
+export const snapshotVisualisations = [list, matrix, bar, invalidBar]
 export const historicVisualisations = [listHistoric, linetimeseries]
 export const visualisations = [...snapshotVisualisations, ...historicVisualisations]
 

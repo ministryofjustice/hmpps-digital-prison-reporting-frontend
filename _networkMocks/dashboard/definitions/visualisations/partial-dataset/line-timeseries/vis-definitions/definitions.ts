@@ -75,7 +75,7 @@ export const dietTotalsDietOneOvertime: components['schemas']['DashboardVisualis
     filters: [
       {
         id: 'diet',
-        equals: 'DietOne',
+        equals: 'Diet one',
       },
     ],
     expectNulls: true,
@@ -108,7 +108,7 @@ export const dietTotalsDietThreeOvertime: components['schemas']['DashboardVisual
     filters: [
       {
         id: 'diet',
-        equals: 'DietThree',
+        equals: 'Diet three',
       },
     ],
     expectNulls: true,
@@ -118,7 +118,7 @@ export const dietTotalsDietThreeOvertime: components['schemas']['DashboardVisual
 export const dietTotalsDietOneOvertimeByEstLine: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'line-diet-totals-DietOne-overtime-by-est',
   type: DashboardVisualisationType.LINE_TIMESERIES,
-  display: 'DietOne totals over time line',
+  display: 'DietOne totals over time line by establishment',
   description: '',
   options: { showLatest: false },
   columns: {
@@ -141,7 +141,7 @@ export const dietTotalsDietOneOvertimeByEstLine: components['schemas']['Dashboar
     filters: [
       {
         id: 'diet',
-        equals: 'DietOne',
+        equals: 'Diet one',
       },
     ],
     expectNulls: true,
@@ -178,7 +178,7 @@ export const dietTotalsDietOneOvertimeByEstByWingLine: components['schemas']['Da
     filters: [
       {
         id: 'diet',
-        equals: 'DietOne',
+        equals: 'Diet one',
       },
     ],
     expectNulls: true,
@@ -189,7 +189,7 @@ export const dietTotalsDietOneOvertimeByEstByWingAndCellLine: components['schema
   {
     id: 'line-diet-totals-DietOne-overtime-by-est-by-wing-cell',
     type: DashboardVisualisationType.LINE_TIMESERIES,
-    display: 'DietOne totals over time by wing line',
+    display: 'DietOne totals over time by cell',
     description: '',
     options: { showLatest: false },
     columns: {

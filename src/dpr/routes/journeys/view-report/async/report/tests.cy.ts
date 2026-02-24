@@ -152,7 +152,7 @@ context('Viewing a report', () => {
             .eq(0)
             .within(() => {
               cy.findAllByRole('row')
-                .eq(1)
+                .eq(0)
                 .within(() => {
                   cy.findAllByRole('columnheader').should('have.length', 5)
                 })
@@ -186,7 +186,7 @@ context('Viewing a report', () => {
             .eq(0)
             .within(() => {
               cy.findAllByRole('row')
-                .eq(1)
+                .eq(0)
                 .within(() => {
                   cy.findAllByRole('columnheader').should('have.length', 4)
                 })
@@ -372,7 +372,7 @@ context('Viewing a report', () => {
             .eq(0)
             .within(() => {
               cy.findAllByRole('row')
-                .eq(1)
+                .eq(0)
                 .within(() => {
                   cy.findAllByRole('columnheader').should('have.length', 2)
                 })

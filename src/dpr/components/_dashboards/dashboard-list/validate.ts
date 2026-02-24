@@ -1,9 +1,5 @@
 import { z } from 'zod'
-import {
-  DashboardVisualisationSchema,
-  DashboardColumns,
-  DashboardVisualisationMeasureSchema,
-} from '../dashboard-visualisation/Validate'
+import { DashboardVisualisationSchema, DashboardColumns } from '../dashboard-visualisation/Validate'
 
 const ListOptions = z.object({
   showLatest: z.boolean().default(true),
@@ -16,7 +12,6 @@ const ListSchema = z.object({
   options: z.object(ListOptions.shape).optional(),
   columns: z.object({
     ...DashboardColumns.shape,
-    measures: z.array(DashboardVisualisationMeasureSchema),
   }),
 })
 

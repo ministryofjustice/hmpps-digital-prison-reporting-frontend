@@ -1,5 +1,5 @@
 import { RequestHandler } from 'express'
-import ErrorHandler from '../../../../../utils/ErrorHandler'
+import ErrorHandler from '../../../../../utils/ErrorHandler/ErrorHandler'
 import { Services } from '../../../../../types/Services'
 import SyncReportUtils from './utils'
 import { FiltersType } from '../../../../../components/_filters/filtersTypeEnum'

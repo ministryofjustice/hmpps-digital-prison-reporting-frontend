@@ -33,10 +33,7 @@ export const DashboardVisualisationMeasureSchema = z.object({
 export const DashboardColumns = z.object({
   keys: z.array(DashboardVisualisationKeySchema).optional(),
   measures: z.array(DashboardVisualisationMeasureSchema, {
-    error: (issue) =>
-      issue.input === undefined
-        ? 'Dashboard visualisation definition: measures is required'
-        : 'Dashboard visualisation definition: measures must be an array',
+    error: (issue) => (issue.input === undefined ? 'measures is required' : 'measures must be an array'),
   }),
   filters: z.array(dashboardVisFilter).min(1).optional(),
   expectNulls: z.boolean().default(false),

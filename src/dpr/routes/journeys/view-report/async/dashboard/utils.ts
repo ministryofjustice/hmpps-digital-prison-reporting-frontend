@@ -28,6 +28,7 @@ import { FilterValue, GranularDateRangeFilterValue, PartialDate } from '../../..
 import { FiltersType } from '../../../../../components/_filters/filtersTypeEnum'
 import { FilterType } from '../../../../../components/_filters/filter-input/enum'
 import { FEATURE_FLAG_KEYS } from '../../../../../utils/featureFlagsHelper'
+import { validateDashboardVisualisations } from '../../../../../components/_dashboards/dashboard-visualisation/utils'
 import DashboardSchema from './validate'
 
 const setDashboardActions = (
@@ -92,6 +93,8 @@ const getDefinitionData = async ({
 
   // Validate definition
   DashboardSchema.DashboardSchema.parse(dashboardDefinition)
+  // validate visualisations
+  await validateDashboardVisualisations(dashboardDefinition)
 
   // Report summary data
   const reportDefinition = await DefinitionUtils.getReportSummary(

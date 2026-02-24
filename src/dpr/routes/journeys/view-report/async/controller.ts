@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express'
 import { captureException } from '@sentry/node'
-import ErrorHandler from '../../../../utils/ErrorHandler'
+import ErrorHandler from '../../../../utils/ErrorHandler/ErrorHandler'
 import { Services } from '../../../../types/Services'
 import UserReportsListUtils from '../../../../components/user-reports/utils'
 import { FiltersType } from '../../../../components/_filters/filtersTypeEnum'

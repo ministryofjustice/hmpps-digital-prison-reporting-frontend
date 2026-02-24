@@ -204,7 +204,7 @@ context('Viewing a report', () => {
                   .eq(0)
                   .within(() => {
                     cy.findByRole('table').within(() => {
-                      cy.findAllByRole('row').should('have.length', 4)
+                      cy.findAllByRole('row').should('have.length', 2)
                     })
                   })
 
@@ -213,7 +213,7 @@ context('Viewing a report', () => {
                   .eq(0)
                   .within(() => {
                     cy.findByRole('table').within(() => {
-                      cy.findAllByRole('row').should('have.length', 23)
+                      cy.findAllByRole('row').should('have.length', 21)
                     })
                   })
               })
@@ -234,7 +234,7 @@ context('Viewing a report', () => {
                   .eq(0)
                   .within(() => {
                     cy.findByRole('table').within(() => {
-                      cy.findAllByRole('row').should('have.length', 4)
+                      cy.findAllByRole('row').should('have.length', 2)
                     })
                   })
 
@@ -243,7 +243,7 @@ context('Viewing a report', () => {
                   .eq(0)
                   .within(() => {
                     cy.findByRole('table').within(() => {
-                      cy.findAllByRole('row').should('have.length', 23)
+                      cy.findAllByRole('row').should('have.length', 21)
                     })
                   })
               })
@@ -303,7 +303,7 @@ context('Viewing a report', () => {
               .eq(0)
               .within(() => {
                 cy.findByRole('table').within(() => {
-                  cy.findAllByRole('row').should('have.length', 4)
+                  cy.findAllByRole('row').should('have.length', 2)
                 })
               })
 
@@ -312,7 +312,7 @@ context('Viewing a report', () => {
               .eq(0)
               .within(() => {
                 cy.findByRole('table').within(() => {
-                  cy.findAllByRole('row').should('have.length', 10)
+                  cy.findAllByRole('row').should('have.length', 8)
                 })
               })
 
@@ -321,7 +321,7 @@ context('Viewing a report', () => {
               .eq(0)
               .within(() => {
                 cy.findByRole('table').within(() => {
-                  cy.findAllByRole('row').should('have.length', 10)
+                  cy.findAllByRole('row').should('have.length', 8)
                 })
               })
           })
@@ -337,7 +337,7 @@ context('Viewing a report', () => {
               .eq(0)
               .within(() => {
                 cy.findByRole('table').within(() => {
-                  cy.findAllByRole('row').should('have.length', 4)
+                  cy.findAllByRole('row').should('have.length', 2)
                 })
               })
 
@@ -346,7 +346,7 @@ context('Viewing a report', () => {
               .eq(0)
               .within(() => {
                 cy.findByRole('table').within(() => {
-                  cy.findAllByRole('row').should('have.length', 16)
+                  cy.findAllByRole('row').should('have.length', 14)
                 })
               })
 
@@ -355,7 +355,7 @@ context('Viewing a report', () => {
               .eq(0)
               .within(() => {
                 cy.findByRole('table').within(() => {
-                  cy.findAllByRole('row').should('have.length', 16)
+                  cy.findAllByRole('row').should('have.length', 14)
                 })
               })
           })

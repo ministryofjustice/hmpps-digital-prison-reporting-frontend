@@ -5,7 +5,7 @@
   {% set meta = details.meta %}
 
   <div id="dpr-{{ id }}-tooltip-details" class="chart-tabs-details__item chart-tabs-details__item--tooltip">
-    <h3 id="dpr-{{ id }}-label" class="govuk-heading-s dpr-chart-details-label">init</h3>
+    <h4 id="dpr-{{ id }}-label" class="govuk-heading-s dpr-chart-details-label">init</h4>
     <p id="dpr-{{ id }}-value" class="govuk-body dpr-chart-details-value">init</p>
   </div>
 
@@ -15,7 +15,7 @@
       {% set value = headline.value %}
       {% set legend = headline.legend %}
 
-      <h3 class="govuk-heading-s dpr-chart-details-label">{{ headline.label }}</h3>
+      <h4 class="govuk-heading-s dpr-chart-details-label">{{ headline.label }}</h4>
       <p class="govuk-body dpr-chart-details-value">{{ headline.value }}</p>
       {% if legend %}
       <p class="govuk-body-s dpr-chart-details-legend">{{ headline.legend }}</p>
@@ -25,7 +25,7 @@
 
   <div class="chart-tabs-details__item chart-tabs-details__item--meta">
     {% for m in meta %}
-      <h3 id="dpr-{{ id }}-label" class="govuk-heading-s dpr-chart-details-label">{{ m.label }}</h3>
+      <h4 id="dpr-{{ id }}-label" class="govuk-heading-s dpr-chart-details-label">{{ m.label }}</h4>
       <p id="dpr-{{ id }}-value" class="govuk-body-s">{{ m.value }}</p>
     {% endfor -%}
   </div>

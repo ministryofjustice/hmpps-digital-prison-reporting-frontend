@@ -14,6 +14,7 @@ import { definition as barCompleteDataset } from './complete-dataset/bar/definit
 import { definition as doughnutCompleteDataset } from './complete-dataset/doughnut/definition'
 import { definition as lineTimeseriesCompleteDataset } from './complete-dataset/line-timeseries/definition'
 import { definition as barPartialDataset } from './partial-dataset/bar/definition'
+import { definition as barInvalid } from './partial-dataset/bar/definition-invalid'
 import { definition as lineTimeseriesPartialDataset } from './partial-dataset/line-timeseries/definition'
 
 const productId = 'dashboard-visualisations'
@@ -73,6 +74,7 @@ export const barPartialDatasetMock = setupSimpleMock(
   `/definitions/${productId}/dashboards/${barPartialDataset.id}`,
   barPartialDataset,
 )
+export const barInvalidMock = setupSimpleMock(`/definitions/${productId}/dashboards/${barInvalid.id}`, barInvalid)
 
 // DOUGHNUT definition examples
 export const doughnutCompleteDatasetMock = setupSimpleMock(
@@ -102,6 +104,7 @@ export const mocks = [
   matrixCompleteDatasetMock,
   barCompleteDatasetMock,
   barPartialDatasetMock,
+  barInvalidMock,
   doughnutCompleteDatasetMock,
   lineTimeseriesCompleteDatasetMock,
   lineTimeseriesPartialDatasetMock,

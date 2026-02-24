@@ -60,6 +60,7 @@ class DataTable extends DprClientClass {
       const header = this.table.createTHead()
 
       const classificationHeaderRow = header.insertRow(0)
+      classificationHeaderRow.classList.add('print-header-footer')
       const classificationHeaderCell = classificationHeaderRow.insertCell(0)
       classificationHeaderCell.outerHTML = `<th class="govuk-table__header govuk-table__cell--content print-header-footer print-header-footer--header" colspan=${headLength}>${classificationContent}</th>`
 
@@ -67,6 +68,7 @@ class DataTable extends DprClientClass {
       const footer = this.table.createTFoot()
 
       const classificationFooterRow = footer.insertRow(0)
+      classificationFooterRow.classList.add('print-header-footer')
       const classificationFooterCell = classificationFooterRow.insertCell(0)
       classificationFooterCell.outerHTML = `<td class="govuk-table__cell govuk-table__cell--content print-header-footer table-row--no-border print-header-footer--footer" colspan=${headLength}>${classificationContent}</td>`
     }

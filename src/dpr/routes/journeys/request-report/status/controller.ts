@@ -3,7 +3,7 @@ import { captureException } from '@sentry/node'
 import { Services } from '../../../../types/Services'
 import AsyncPollingUtils from './utils'
 import AsyncRequestListUtils from '../../../../components/user-reports/requested/utils'
-import ErrorHandler from '../../../../utils/ErrorHandler'
+import ErrorHandler from '../../../../utils/ErrorHandler/ErrorHandler'
 
 class RequestStatusController {
   layoutPath: string

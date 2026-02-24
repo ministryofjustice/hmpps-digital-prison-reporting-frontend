@@ -133,8 +133,9 @@ export const dataQualityMetricTwoMetricThreeDoughnut: components['schemas']['Das
   },
 }
 
+// TWO RINGS
 export const dataQualityMetricOneDoughnutTwoEst: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'doughnut-data-quality-has-MetricOne',
+  id: 'doughnut-data-quality-has-MetricOne-two-ring',
   type: DashboardVisualisationType.DONUT,
   display: 'MetricOne values',
   columns: {
@@ -169,7 +170,7 @@ export const dataQualityMetricOneDoughnutTwoEst: components['schemas']['Dashboar
 }
 
 export const dataQualityMetricThreeDoughnutTwoEst: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'doughnut-data-quality-has-MetricThree',
+  id: 'doughnut-data-quality-has-MetricThree-two-ring',
   type: DashboardVisualisationType.DONUT,
   display: 'MetricThree values',
   columns: {
@@ -204,7 +205,7 @@ export const dataQualityMetricThreeDoughnutTwoEst: components['schemas']['Dashbo
 }
 
 export const dataQualityMetricTwoDoughnutTwoEst: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'doughnut-data-quality-has-MetricTwo',
+  id: 'doughnut-data-quality-has-MetricTwo-two-ring',
   type: DashboardVisualisationType.DONUT,
   display: 'MetricTwo values',
   columns: {
@@ -240,7 +241,7 @@ export const dataQualityMetricTwoDoughnutTwoEst: components['schemas']['Dashboar
 
 export const dataQualityMetricTwoMetricThreeDoughnutTwoEst: components['schemas']['DashboardVisualisationDefinition'] =
   {
-    id: 'doughnut-data-quality-has-MetricTwo-MetricThree',
+    id: 'doughnut-data-quality-has-MetricTwo-MetricThree-two-ring',
     type: DashboardVisualisationType.DONUT,
     display: 'MetricTwo & MetricThree values',
     columns: {
@@ -282,8 +283,9 @@ export const dataQualityMetricTwoMetricThreeDoughnutTwoEst: components['schemas'
     },
   }
 
+// Multiple rings
 export const dataQualityMetricOneDoughnutAllEst: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'doughnut-data-quality-has-MetricOne',
+  id: 'doughnut-data-quality-has-MetricOne-multi-ring',
   type: DashboardVisualisationType.DONUT,
   display: 'MetricOne values',
   columns: {
@@ -308,7 +310,7 @@ export const dataQualityMetricOneDoughnutAllEst: components['schemas']['Dashboar
 }
 
 export const dataQualityMetricThreeDoughnutAllEst: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'doughnut-data-quality-has-MetricThree',
+  id: 'doughnut-data-quality-has-MetricThree-multi-ring',
   type: DashboardVisualisationType.DONUT,
   display: 'MetricThree values',
   columns: {
@@ -333,7 +335,7 @@ export const dataQualityMetricThreeDoughnutAllEst: components['schemas']['Dashbo
 }
 
 export const dataQualityMetricTwoDoughnutAllEst: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'doughnut-data-quality-has-MetricTwo',
+  id: 'doughnut-data-quality-has-MetricTwo-multi-ring',
   type: DashboardVisualisationType.DONUT,
   display: 'MetricTwo values',
   columns: {
@@ -359,7 +361,7 @@ export const dataQualityMetricTwoDoughnutAllEst: components['schemas']['Dashboar
 
 export const dataQualityMetricTwoMetricThreeDoughnutAllEst: components['schemas']['DashboardVisualisationDefinition'] =
   {
-    id: 'doughnut-data-quality-has-MetricTwo-MetricThree',
+    id: 'doughnut-data-quality-has-MetricTwo-MetricThree-multi-ring',
     type: DashboardVisualisationType.DONUT,
     display: 'MetricTwo & MetricThree values',
     columns: {

@@ -62,7 +62,10 @@ const createListFromColumns = (
   const ts = timestampData ? `${timestampData}` : ''
 
   const head: MoJTableHead[] = []
-  head.push({ html: '<span class="govuk-visually-hidden">list values</span>' })
+  head.push({
+    attributes: { 'aria-label': 'list values' },
+    html: '<p class="govuk-visually-hidden">list values</p>',
+  })
   dashboardData.forEach((row) => {
     head.push({
       text: groupKey ? `${row[groupKey.id].raw}` : '',

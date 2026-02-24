@@ -160,6 +160,13 @@ jobs:
           name: screenshots
           path: screenshots
 
+      - uses: actions/upload-artifact@v4
+        name: Create playwright test-results artifact
+        if: success() || failure()
+        with:
+          name: test-results
+          path: test-results
+
       - name: Output success or failure
         id: output-visual-regressions
         if: success() || failure()

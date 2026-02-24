@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test'
 
-test('Bar chart partial dataset', async ({ page }) => {
+test('Line-timeseries chart partial dataset', async ({ page }) => {
   await page.goto('http://localhost:3010/embedded/platform/')
 
   page.getByLabel(/Reports catalogue.*/i)

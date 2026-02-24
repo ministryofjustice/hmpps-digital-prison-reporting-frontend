@@ -15,5 +15,6 @@ test('Bar chart complete dataset', async ({ page }) => {
   await expect(page.getByRole('heading', { name: /Bar - Complete dataset/ })).toBeVisible()
   await expect(page).toHaveScreenshot({
     fullPage: true,
+    animations: 'disabled',
   })
 })

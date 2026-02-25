@@ -64,6 +64,11 @@ const publishPkg = {
     },
     './all': {
       types: './dpr/all.d.ts',
+      require: './all.bundle.js',
+      import: './all.bundle.js',
+    },
+    './all/slim': {
+      types: './dpr/all.d.ts',
       require: './all.js',
       import: './all.js',
     },
@@ -147,11 +152,20 @@ const options = [
     input: [path.join(cwd, 'src/dpr/all.ts')],
     output: [{ file: path.join(cwd, 'dist/all.js'), format: 'esm', sourcemap: true }],
     plugins: [
+      commonjs(),
       nodeResolve({ preferBuiltins: true }),
       typescript({ tsconfig: './tsconfig.json', noEmitOnError: false, outDir: 'dist', declaration: false }),
-      commonjs(),
     ],
     external: [...Object.keys(pkg.dependencies || {})],
+  },
+  {
+    input: [path.join(cwd, 'src/dpr/all.ts')],
+    output: [{ file: path.join(cwd, 'dist/all.bundle.js'), format: 'esm', sourcemap: true }],
+    plugins: [
+      commonjs(),
+      nodeResolve({ preferBuiltins: true }),
+      typescript({ tsconfig: './tsconfig.json', noEmitOnError: false, outDir: 'dist', declaration: false }),
+    ],
   },
   {
     input: [path.join(cwd, 'src/dpr/all.ts')],

@@ -93,6 +93,8 @@ export const createTableRows = (
   data: DashboardDataResponse[],
   measures?: components['schemas']['DashboardVisualisationColumnDefinition'][],
 ): MoJTableRow[][] => {
+  if (!data || data.length === 0 || !data[0]) return []
+
   return data.map((dataRow) => {
     const row: MoJTableRow[] = measures?.length ? Array(measures.length) : Array(Object.keys(data[0]).length)
     Object.keys(dataRow).forEach((key, index) => {
@@ -130,7 +132,16 @@ const creatListFromRows = (
 }
 
 const createFullList = (dashboardData: DashboardDataResponse[]) => {
-  const head: MoJTableHead[] = Object.keys(dashboardData[0]).map((key) => {
+  if (!dashboardData || dashboardData.length === 0 || !dashboardData[0]) {
+    return {
+      head: [],
+      rows: [],
+      ts: '',
+    }
+  }
+
+  const firstRow = dashboardData[0]
+  const head: MoJTableHead[] = Object.keys(firstRow).map((key) => {
     return { text: key || '' }
   })
   const rows = createTableRows(dashboardData)

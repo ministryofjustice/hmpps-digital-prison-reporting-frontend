@@ -1,17 +1,3 @@
-### Rendering using method: renderListWithData
-
-| Name                        | Type     | Required | Description                                                                                                                                                       |
-| --------------------------- | -------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| title                       | String   | Yes      | The page title.                                                                                                                                                   |
-| ReportName                  | String   | Yes      | The name of the report.                                                                                                                                           |
-| variantDefinition           | Object   | Yes      | The Report Definition object                                                                                                                                      |
-| request                     | Object   | Yes      | The request object (from the request handler's arguments).                                                                                                        |
-| response                    | Object   | Yes      | The response object (from the request handler's arguments).                                                                                                       |
-| getListDataSources          | Function | Yes      | A function that accepts a [Report Query](#report-query), and returns data sources for the report. See [List Data Sources](#list-data-sources).                    |
-| otherOptions                | Object   | No       | Other parameters to pass to the page (possibly used by the layout template).                                                                                      |
-| layoutTemplate              | String   | No       | The name of the parent layout template - which should include header, footer, etc.                                                                                |
-| dynamicAutocompleteEndpoint | String   | No       | Endpoint for dynamic autocomplete filters (if used). This needs to have field name and prefix tokens, for example: `/dynamic-values/{fieldName}?prefix={prefix}`. |
-
 ### VariantDefinition
 
 | Name           | Type          | Required | Description                                                   |
@@ -77,33 +63,3 @@ This object is passed to the getListDataSources function, to allow you to reques
 | sortColumn   | String  | No       | The field the page is currently sorted by.                          |
 | sortedAsc    | Boolean | Yes      | Whether the data is sorted ascending or not.                        |
 | filters      | Object  | Yes      | A Dict (or map) of field names to currently selected filter values. |
-
-### Rendering using handler: renderListWithDefinition
-
-| Name                        | Type     | Required | Description                                                                                                                                                       |
-| --------------------------- | -------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| title                       | String   | Yes      | The page title.                                                                                                                                                   |
-| definitionName              | String   | Yes      | The name of the report definition to use for this page.                                                                                                           |
-| variantName                 | String   | Yes      | The name of the variant to use for this page.                                                                                                                     |
-| apiUrl                      | String   | Yes      | The URL of the API to use (created using the [API library](https://github.com/ministryofjustice/hmpps-digital-prison-reporting-lib)).                             |
-| apiTimeout                  | Number   | No       | The timeout to use when calling the API.                                                                                                                          |
-| otherOptions                | Object   | No       | Other parameters to pass to the page (possibly used by the layout template).                                                                                      |
-| layoutTemplate              | String   | No       | The name of the parent layout template - which should include header, footer, etc.                                                                                |
-| tokenProvider               | Function | No       | A function that can be called (with `(request, response, next)`) that will provide the user's authentication token.                                               |
-| dynamicAutocompleteEndpoint | String   | No       | Endpoint for dynamic autocomplete filters (if used). This needs to have field name and prefix tokens, for example: `/dynamic-values/{fieldName}?prefix={prefix}`. |
-| definitionsPath             | String   | No       | The path to the DPD to use for this page.                                                                                                                       |
-
-### Rendering using handler: createReportListRequestHandler
-
-| Name                        | Type     | Required | Description                                                                                                                                                     |
-|-----------------------------| -------- | -------- |-----------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| title                       | String   | Yes      | The page title.                                                                                                                                                 |
-| definitionName              | String   | Yes      | The name of the report definition to use for this page.                                                                                                         |
-| variantName                 | String   | Yes      | The name of the variant to use for this page.                                                                                                                   |
-| apiUrl                      | String   | Yes      | The URL of the API to use (created using the [API library](https://github.com/ministryofjustice/hmpps-digital-prison-reporting-lib)).                           |
-| apiTimeout                  | Number   | No       | The timeout to use when calling the API.                                                                                                                        |
-| otherOptions                | Object   | No       | Other parameters to pass to the page (possibly used by the layout template).                                                                                    |
-| layoutTemplate              | String   | No       | The name of the parent layout template - which should include header, footer, etc.                                                                              |
-| tokenProvider               | Function | No       | A function that can be called (with `(request, response, next)`) that will provide the user's authentication token.                                             |
-| dynamicAutocompleteEndpoint | String   | No       | Endpoint for dynamic autocomplete filters (if used). This needs to have field name and prefix tokens, for example: `/dynamic-values/{fieldName}?prefix={prefix}`. |
-| definitionsPath             | String   | No       | The path to the DPD to use for this page.                                                                                                                       |

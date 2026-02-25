@@ -272,7 +272,9 @@ export const renderAsyncDashboard = async ({ req, res, services }: AsyncReportUt
     query,
   )
 
-  const flattenedData: DashboardDataResponse[] = dashboardData.flat()
+  const flattenedData: DashboardDataResponse[] = Array.isArray(dashboardData)
+    ? dashboardData.flat().filter(Boolean)
+    : []
   const partialDate = getPartialDate(filters.filters)
 
   let bookmarked

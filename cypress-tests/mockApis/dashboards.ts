@@ -35,6 +35,10 @@ import {
   requestAsyncDashboardMock,
 } from '@networkMocks/dashboard/mocks'
 import { dashboardFailureStubs } from './failures'
+import {
+  dashboardResultEmptyDataSyncMock,
+  dashboardResultMissingFirstRowDataSyncMock, dashboardResultUndefinedMock,
+} from '@networkMocks/dashboard/data/empty-data/mocks'
 
 // DEFINITIONS
 const listDefinitionStubs = {
@@ -91,6 +95,9 @@ const resultsStubs = {
   stubDashboardResultCompleteDataSync: () => stubFor(dashboardResultCompleteDataSyncMock),
   stubDashboardResultPartialData: () => stubFor(dashboardResultPartialDataMock),
   stubDashboardResultPartialDataHistoric: () => stubFor(dashboardResultPartialDataHistoricMock),
+  stubDashboardResultUndefinedData: () => stubFor(dashboardResultUndefinedMock),
+  stubDashboardResultEmptyData: () => stubFor(dashboardResultEmptyDataSyncMock),
+  stubDashboardResultMissingFirstRowDataSync: () => stubFor(dashboardResultMissingFirstRowDataSyncMock),
 }
 
 const stubs = {

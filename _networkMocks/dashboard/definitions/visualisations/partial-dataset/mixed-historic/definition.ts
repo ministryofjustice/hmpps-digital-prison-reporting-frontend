@@ -5,7 +5,7 @@ import * as ListChart from '../list/vis-definitions/historic'
 
 export const definition: components['schemas']['DashboardDefinition'] = {
   id: 'mixed-visualisations_partial-dataset_historic',
-  name: 'Mixed - Partial dataset - Historic',
+  name: 'Mixed - Historic - Partial dataset',
   description:
     'This dashboard represents example mixed visualisations using a partial historic dataset. The dashboard aims to show all the options available to display a mixed using a partial historic dataset.',
   sections: [

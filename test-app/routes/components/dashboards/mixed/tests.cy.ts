@@ -153,11 +153,11 @@ context('Dashboard visualisation: Mixed charts', () => {
       cy.visit(path)
 
       requestReportByNameAndDescription({
-        name: 'Mixed - Partial dataset - Historic',
+        name: 'Mixed - Historic - Partial dataset',
         description: 'This dashboard represents example mixed visualisations using a partial historic dataset',
       })
 
-      cy.findByRole('heading', { level: 1, name: /Mixed - Partial dataset - Historic/ }).should('be.visible')
+      cy.findByRole('heading', { level: 1, name: /Mixed - Historic - Partial dataset/ }).should('be.visible')
       cy.injectAxe()
       cy.checkA11y()
 

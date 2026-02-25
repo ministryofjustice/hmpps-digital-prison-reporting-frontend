@@ -39,8 +39,8 @@
         "src/dpr/all.ts"
       ],
       "extends": [
-        "plugin:@typescript-eslint/eslint-recommended",
         "plugin:@typescript-eslint/recommended",
+        "plugin:@typescript-eslint/eslint-recommended",
         "plugin:prettier/recommended"
       ],
       "rules": {

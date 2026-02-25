@@ -6,7 +6,7 @@ test('Mixed chart complete dataset', async ({ page }) => {
   page.getByLabel(/Reports catalogue.*/i)
   await page
     .getByLabel(/Reports catalogue.*/i)
-    .locator(page.getByRole('row').filter({ hasText: /Mixed - Partial dataset - Historic/ }))
+    .locator(page.getByRole('row').filter({ hasText: 'Mixed - Partial dataset - Historic' }))
     .locator(page.getByRole('link', { name: /Request dashboard/ }))
     .click()
 

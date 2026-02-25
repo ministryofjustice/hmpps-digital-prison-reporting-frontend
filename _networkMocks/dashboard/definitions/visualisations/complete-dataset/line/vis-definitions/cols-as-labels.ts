@@ -54,7 +54,7 @@ export const dataQualityMetricOneMetricTwoLine: components['schemas']['Dashboard
 }
 
 export const dataQualityAllLine: components['schemas']['DashboardVisualisationDefinition'] = {
-  ...BarChart.dataQualityMetricTwoBar,
+  ...BarChart.dataQualityAllBar,
   id: 'line-data-quality-all',
   type: DashboardVisualisationType.LINE,
 }

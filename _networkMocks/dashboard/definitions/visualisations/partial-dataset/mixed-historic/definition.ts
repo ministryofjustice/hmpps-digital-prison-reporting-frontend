@@ -7,7 +7,7 @@ export const definition: components['schemas']['DashboardDefinition'] = {
   id: 'mixed-visualisations_partial-dataset_historic',
   name: 'Mixed - Partial dataset - Historic',
   description:
-    'This dashboard represents example mixed visualisations using a partial dataset. The dashboard aims to show all the options available to display a mixed using a partial historic dataset.',
+    'This dashboard represents example mixed visualisations using a partial historic dataset. The dashboard aims to show all the options available to display a mixed using a partial historic dataset.',
   sections: [
     {
       id: 'section-1',

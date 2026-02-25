@@ -2,8 +2,8 @@ import { expect } from '@jest/globals'
 import DashboardListUtils from './utils'
 import { mockListDefinitionAgeRange1 } from '../../../../../test-app/mocks/mockClients/dashboards/definitions/age-breakdown/visualisations/list-definitions-1'
 import {
-  fullDatasetOverTime,
-  dataQualityColsToList
+  fullDataset,
+  dataQualityColsToList,
 } from '../../../../../test-app/mocks/mockClients/dashboards/definitions/examples/visualisations/lists'
 import { mockAgeBreakdownData } from '../../../../../test-app/mocks/mockClients/dashboards/data/age-breakdown/data'
 import { mockTimeSeriesDataLastSixMonths } from '../../../../../test-app/mocks/mockClients/dashboards/data/data-quality-metrics/data'
@@ -61,7 +61,7 @@ describe('DashboardListUtils', () => {
     })
 
     it('should create the list data from data columns with No data', () => {
-      const visDefinition = fullDatasetOverTime as components['schemas']['DashboardVisualisationDefinition']
+      const visDefinition = fullDataset as components['schemas']['DashboardVisualisationDefinition']
       const datasetData: DashboardDataResponse[] = []
       const result = DashboardListUtils.createList(visDefinition, datasetData)
 

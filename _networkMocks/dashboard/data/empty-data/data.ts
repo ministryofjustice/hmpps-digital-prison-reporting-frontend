@@ -1,6 +1,8 @@
 import { completeDataSet } from '../complete-data/data'
 
-export const undefinedDashboardData = undefined
+export const undefinedDashboardData = {
+  tables: undefined,
+}
 
 export const emptyDashboardData = []
 

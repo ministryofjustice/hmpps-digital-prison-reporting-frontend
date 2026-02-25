@@ -16,6 +16,10 @@ import { definition as lineTimeseriesCompleteDataset } from './complete-dataset/
 import { definition as barPartialDataset } from './partial-dataset/bar/definition'
 import { definition as barInvalid } from './partial-dataset/bar/definition-invalid'
 import { definition as lineTimeseriesPartialDataset } from './partial-dataset/line-timeseries/definition'
+import { definition as lineCompleteDataset } from './complete-dataset/line/definition'
+import { definition as mixedCompleteDataset } from './complete-dataset/mixed/definition'
+import { definition as mixedPartialDataset } from './partial-dataset/mixed/definition'
+import { definition as mixedPartialDatasetHistoric } from './partial-dataset/mixed-historic/definition'
 
 const productId = 'dashboard-visualisations'
 
@@ -92,6 +96,26 @@ export const lineTimeseriesPartialDatasetMock = setupSimpleMock(
   lineTimeseriesPartialDataset,
 )
 
+// LINE definition examples
+export const lineCompleteDatasetMock = setupSimpleMock(
+  `/definitions/${productId}/dashboards/${lineCompleteDataset.id}`,
+  lineCompleteDataset,
+)
+
+// MIXED definitions examples
+export const mixedCompleteDatasetMock = setupSimpleMock(
+  `/definitions/${productId}/dashboards/${mixedCompleteDataset.id}`,
+  mixedCompleteDataset,
+)
+export const mixedPartialDatasetMock = setupSimpleMock(
+  `/definitions/${productId}/dashboards/${mixedPartialDataset.id}`,
+  mixedPartialDataset,
+)
+export const mixedPartialDatasetHistoricMock = setupSimpleMock(
+  `/definitions/${productId}/dashboards/${mixedPartialDatasetHistoric.id}`,
+  mixedPartialDatasetHistoric,
+)
+
 export const mocks = [
   listCompleteDatasetMock,
   listCompleteDatasetHistoricMock,
@@ -108,4 +132,8 @@ export const mocks = [
   doughnutCompleteDatasetMock,
   lineTimeseriesCompleteDatasetMock,
   lineTimeseriesPartialDatasetMock,
+  lineCompleteDatasetMock,
+  mixedPartialDatasetMock,
+  mixedCompleteDatasetMock,
+  mixedPartialDatasetHistoricMock,
 ]

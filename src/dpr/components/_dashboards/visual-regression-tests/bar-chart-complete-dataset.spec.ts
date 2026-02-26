@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 
 test('Bar chart complete dataset', async ({ page }) => {
-  await page.goto('http://localhost:3010/embedded/platform/')
+  await page.goto('/embedded/platform/')
 
   page.getByLabel(/Reports catalogue.*/i)
   await page

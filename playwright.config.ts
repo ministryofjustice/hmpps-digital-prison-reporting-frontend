@@ -60,14 +60,14 @@ export default defineConfig({
     {
       command: 'npm run wiremock',
       url: 'http://localhost:9091/__admin',
-      reuseExistingServer: true,
-      timeout: 30_000,
+      timeout: 10000,
+      // stdout: 'pipe',
     },
     {
       command: 'npm run start:dev:noMockClients:noLogs',
-      url: 'http://localhost:3010/health',
-      reuseExistingServer: true,
-      timeout: 120_000, // give the dev server more time in CI
+      timeout: 30000,
+      url: 'http://localhost:3010/',
+      stdout: 'pipe',
     },
   ],
 })

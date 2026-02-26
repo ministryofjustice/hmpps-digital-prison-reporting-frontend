@@ -28,7 +28,6 @@ class BarChart extends Chart {
   withDefinition = (definition: components['schemas']['DashboardVisualisationDefinition']) => {
     this.definition = BarChartSchemas.BarSchema.parse(definition)
     this.initFromDefinitionData()
-
     return this
   }
 

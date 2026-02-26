@@ -71,7 +71,7 @@ class Chart {
    */
   createDatasets = (measures: ChartMeasure, keys: VisualisationDefinitionKey[]) => {
     this.datasets = this.responseData.map((row, datasetIndex) => {
-      const label = this.createDatasetLabel(keys, row)
+      const label = this.chartLabelsHelper.getDatasetLabel(keys, row)
       const data = this.createDatasetValues(measures, row)
       const total = data.reduce((acc: number, val: number) => acc + val, 0)
 
@@ -83,7 +83,7 @@ class Chart {
       }
     })
 
-    this.createLabels(measures)
+    this.labels = this.chartLabelsHelper.getLabels(measures)
   }
 
   /**
@@ -98,17 +98,16 @@ class Chart {
   createListDatasets = (measures: ChartMeasure, keys: VisualisationDefinitionKey[]) => {
     this.xAxisColumn = measures.find((col: BarDefinitionMeasure | LineDefinitionMeasure) => col.axis === 'x')
     this.yAxisColumn = measures.find((col: BarDefinitionMeasure | LineDefinitionMeasure) => col.axis === 'y')
+    const yId = this.yAxisColumn?.id || ''
+    const xId = this.xAxisColumn?.id || ''
+
     const keyIds = keys.map((key) => key.id)
     this.groupedData = keyIds.length ? DatasetHelper.groupRowsBy(this.responseData, keyIds) : [this.responseData]
-    this.createListLabels()
+    this.labels = this.chartLabelsHelper.getListLabels(this.groupedData, xId)
 
     this.datasets = this.groupedData.map((groupData, groupIndex) => {
       const data = Array(this.labels.length)
       groupData.forEach((row) => {
-        // Validation will ensure these columns exist
-        const yId = this.yAxisColumn?.id || ''
-        const xId = this.xAxisColumn?.id || ''
-
         const labelField = row[xId]
         const valueField = row[yId]
 
@@ -136,23 +135,6 @@ class Chart {
       const rowId = column.id
       return row[rowId] && row[rowId].raw ? Number(row[rowId].raw) : 0
     })
-  }
-
-  // -----------------------------------------------------------------------------
-  //  Labels
-  // ----------------------------------------------------------------------------
-
-  private createDatasetLabel = (keys: VisualisationDefinitionKey[], row: DashboardDataResponse) => {
-    return this.chartLabelsHelper.getDatasetLabel(keys, row)
-  }
-
-  private createLabels = (measures: ChartMeasure) => {
-    this.labels = this.chartLabelsHelper.getLabels(measures)
-  }
-
-  private createListLabels = () => {
-    const axisId = this.xAxisColumn?.id || ''
-    this.labels = this.chartLabelsHelper.getListLabels(this.groupedData, axisId)
   }
 
   // -----------------------------------------------------------------------------

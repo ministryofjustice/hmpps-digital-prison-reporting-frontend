@@ -33,6 +33,7 @@ export const dietTotalsByEstablishmentOverTime: components['schemas']['Dashboard
     keys: [
       {
         id: 'establishment_id',
+        display: 'Est ID',
       },
     ],
     measures: [

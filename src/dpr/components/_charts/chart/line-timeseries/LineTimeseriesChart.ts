@@ -43,11 +43,10 @@ class LineTimeseriesChart extends TimeseriesChart {
 
   private setStyles = () => {
     this.datasets = this.datasets.map((set, datasetIndex) => {
-      const colour = this.hexColours[datasetIndex]
+      const colour = this.chartColoursHelper.setColourStyles(datasetIndex)
       return {
         ...set,
-        backgroundColor: colour,
-        borderColor: colour,
+        ...colour,
       }
     })
   }

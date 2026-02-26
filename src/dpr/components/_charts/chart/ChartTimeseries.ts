@@ -8,14 +8,13 @@ import {
 import DatasetHelper from '../../../utils/datasetHelper'
 import { BarTimeseriesDefinitionMeasure, BarTimeseriesDefinitionType } from './bar-timeseries/types'
 import { LineTimeseriesDefinitionMeasure, LineTimeseriesDefinitionType } from './line-timeseries/types'
-import { ChartColours } from './ChartColours'
+import ChartColoursHelper from './ChartColours'
 import ChartConfig from './chart-config'
 import { PartialDate } from '../../_filters/types'
+import ChartLabelsHelper from './ChartLabels'
 
 class TimeseriesChart {
   labels: string[] = []
-
-  labelId: string | undefined = undefined
 
   datasets: DashboardVisualisationDataSet[] = []
 
@@ -39,10 +38,20 @@ class TimeseriesChart {
 
   partialDate: PartialDate | undefined
 
+  chartColoursHelper!: ChartColoursHelper
+
+  chartLabelsHelper!: ChartLabelsHelper
+
   withData = (responseData: DashboardDataResponse[]) => {
     this.responseData = responseData
+    this.initHelpers()
     this.initFromData()
     return this
+  }
+
+  initHelpers = () => {
+    this.chartColoursHelper = new ChartColoursHelper()
+    this.chartLabelsHelper = new ChartLabelsHelper()
   }
 
   initFromDefinition = (definition: BarTimeseriesDefinitionType | LineTimeseriesDefinitionType) => {
@@ -61,15 +70,13 @@ class TimeseriesChart {
       this.responseData,
       <Array<components['schemas']['DashboardVisualisationColumnDefinition']>>this.keys,
     )
-    this.labelId = this.groupKey?.id || ''
     this.timeBlockData = DatasetHelper.groupRowsByTimestamp(this.responseData)
     this.labels = this.getLabels()
     this.datasetCount = this.timeBlockData[0]?.length
   }
 
   buildDatasets = () => {
-    this.hexColours = new ChartColours().getHexPallette()
-
+    this.chartColoursHelper = new ChartColoursHelper()
     for (let index = 0; index < this.datasetCount; index += 1) {
       const data = this.timeBlockData.map((timeperiod) => {
         const valueId = this.measures[1].id
@@ -77,8 +84,7 @@ class TimeseriesChart {
         return period && period[valueId].raw ? Number(period[valueId].raw) : 0
       })
       const total = data.reduce((a, c) => a + c, 0)
-      const rawValue = this.labelId ? this.timeBlockData[0][index][this.labelId].raw : ''
-      const label = rawValue ? <string>rawValue : ''
+      const label = this.chartLabelsHelper.getDatasetLabel(this.keys, this.timeBlockData[0][index])
 
       this.datasets.push({
         data,

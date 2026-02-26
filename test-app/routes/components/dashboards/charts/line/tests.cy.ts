@@ -1,6 +1,6 @@
 import { executeDashboardStubs, requestReportByNameAndDescription } from '../../../../../../cypress-tests/cypressUtils'
 
-context('Dashboard visualisation: line timeseries chart', () => {
+context('Dashboard visualisation: line chart', () => {
   const path = '/embedded/platform/'
 
   describe('Complete data', () => {
@@ -9,16 +9,16 @@ context('Dashboard visualisation: line timeseries chart', () => {
     before(() => {
       cy.task('resetStubs')
       executeDashboardStubs()
-      cy.task('stubLineTimeseriesDashboardCompleteData')
+      cy.task('stubLineCompleteData')
       cy.task('stubDashboardResultCompleteData')
       cy.visit(path)
 
       requestReportByNameAndDescription({
-        name: 'Line-timeseries - Complete dataset',
-        description: 'This dashboard represents example line-timeseries visualisations using a complete dataset.',
+        name: 'Line - Complete dataset',
+        description: 'This dashboard represents example Line visualisations using a complete dataset.',
       })
 
-      cy.findByRole('heading', { level: 1, name: /Line-timeseries - Complete dataset/ }).should('be.visible')
+      cy.findByRole('heading', { level: 1, name: /Line - Complete dataset/ }).should('be.visible')
       cy.injectAxe()
       cy.checkA11y()
 
@@ -33,16 +33,13 @@ context('Dashboard visualisation: line timeseries chart', () => {
 
     it('should should have the correct amount of sections', () => {
       cy.findAllByRole('heading', { level: 2 })
-        .should('have.length', 3)
+        .should('have.length', 2)
         .each((section, index) => {
           switch (index) {
             case 0:
-              cy.wrap(section).contains('Line timeseries charts - single line')
+              cy.wrap(section).contains('Simple Line charts')
               break
             case 1:
-              cy.wrap(section).contains('Line timeseries charts - multiple line')
-              break
-            case 2:
               cy.wrap(section).contains('Full Dataset')
               break
             default:
@@ -52,178 +49,59 @@ context('Dashboard visualisation: line timeseries chart', () => {
     })
 
     it('should should show the correct data for charts', () => {
-      cy.findAllByLabelText(/Line timeseries charts - single line/).within(() => {
-        cy.findAllByRole('heading', { level: 3 }).should('have.length', 3)
+      cy.findAllByLabelText(/Simple Line charts/).within(() => {
+        cy.findAllByRole('heading', { level: 3 }).should('have.length', 2)
 
-        cy.findByLabelText(/Missing MetricOne timeseries chart/).within(() => {
+        cy.findByLabelText(/MetricOne & MetricTwo values/).within(() => {
           cy.findByRole('tab', { name: /Table/ }).click()
           cy.findByLabelText(/Table.*/i).within(() => {
             cy.findByRole('table').within(() => {
-              // TODO in followup PR
+              cy.findAllByRole('row')
+                .should('have.length', 4)
+                .each((row, index) => {
+                  switch (index) {
+                    case 0:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('columnheader').should('have.length', 5)
+                        cy.findAllByRole('columnheader').eq(0).contains('Establishment ID')
+                        cy.findAllByRole('columnheader').eq(1).contains('Has MetricOne')
+                        cy.findAllByRole('columnheader').eq(2).contains('No MetricOne')
+                        cy.findAllByRole('columnheader').eq(3).contains('Has MetricTwo')
+                        cy.findAllByRole('columnheader').eq(4).contains('No MetricTwo')
+                      })
+                      break
+                    default:
+                      break
+                  }
+                })
             })
           })
         })
 
-        cy.findByLabelText(/Missing MetricTwo timeseries chart/).within(() => {
+        cy.findByLabelText(/All metrics together/).within(() => {
           cy.findByRole('tab', { name: /Table/ }).click()
           cy.findByLabelText(/Table.*/i).within(() => {
             cy.findByRole('table').within(() => {
-              // TODO in followup PR
-            })
-          })
-        })
-
-        cy.findByLabelText(/Missing MetricThree timeseries chart/).within(() => {
-          cy.findByRole('tab', { name: /Table/ }).click()
-          cy.findByLabelText(/Table.*/i).within(() => {
-            cy.findByRole('table').within(() => {
-              // TODO in followup PR
-            })
-          })
-        })
-      })
-
-      cy.findAllByLabelText(/Line timeseries charts - multiple line/).within(() => {
-        cy.findAllByRole('heading', { level: 3 }).should('have.length', 3)
-
-        cy.findByLabelText(/Missing MetricOne timeseries chart/).within(() => {
-          cy.findByRole('tab', { name: /Table/ }).click()
-          cy.findByLabelText(/Table.*/i).within(() => {
-            cy.findByRole('table').within(() => {
-              // TODO in followup PR
-            })
-          })
-        })
-
-        cy.findByLabelText(/Missing MetricTwo timeseries chart/).within(() => {
-          cy.findByRole('tab', { name: /Table/ }).click()
-          cy.findByLabelText(/Table.*/i).within(() => {
-            cy.findByRole('table').within(() => {
-              // TODO in followup PR
-            })
-          })
-        })
-
-        cy.findByLabelText(/Missing MetricThree timeseries chart/).within(() => {
-          cy.findByRole('tab', { name: /Table/ }).click()
-          cy.findByLabelText(/Table.*/i).within(() => {
-            cy.findByRole('table').within(() => {
-              // TODO in followup PR
-            })
-          })
-        })
-      })
-    })
-  })
-
-  describe('Partial data', () => {
-    let partialData = ''
-
-    before(() => {
-      cy.task('resetStubs')
-      executeDashboardStubs()
-      cy.task('stubLineTimeseriesDashboardPartialData')
-      cy.task('stubDashboardResultPartialDataHistoric')
-      cy.visit(path)
-
-      requestReportByNameAndDescription({
-        name: 'Line-timeseries - Partial dataset',
-        description: 'This dashboard represents example line-timeseries visualisations using a partial dataset.',
-      })
-
-      cy.findByRole('heading', { level: 1, name: /Line-timeseries - Partial dataset/ }).should('be.visible')
-      cy.injectAxe()
-      cy.checkA11y()
-
-      cy.url().then((url) => {
-        partialData = url
-      })
-    })
-
-    beforeEach(() => {
-      cy.visit(partialData)
-    })
-
-    it('should should have the correct amount of sections', () => {
-      cy.findAllByRole('heading', { level: 2 })
-        .should('have.length', 2)
-        .each((section, index) => {
-          switch (index) {
-            case 0:
-              cy.wrap(section).contains('Section 1 title')
-              break
-            case 1:
-              cy.wrap(section).contains('Full Dataset')
-              break
-            default:
-              break
-          }
-        })
-    })
-
-    it('should should show the correct data for simple bar charts', () => {
-      cy.findAllByLabelText(/Section 1 title/).within(() => {
-        cy.findAllByRole('heading', { level: 3 }).should('have.length', 7)
-
-        cy.findByLabelText(/Prisoner totals over time/).within(() => {
-          cy.findByRole('tab', { name: /Table/ }).click()
-          cy.findByLabelText(/Table.*/i).within(() => {
-            cy.findByRole('table').within(() => {
-              // TODO in followup PR
-            })
-          })
-        })
-
-        cy.findByLabelText(/Prisoner totals by establishment over time/).within(() => {
-          cy.findByRole('tab', { name: /Table/ }).click()
-          cy.findByLabelText(/Table.*/i).within(() => {
-            cy.findByRole('table').within(() => {
-              // TODO in followup PR
-            })
-          })
-        })
-
-        cy.findByLabelText(/DietOne totals over time line chart/).within(() => {
-          cy.findByRole('tab', { name: /Table/ }).click()
-          cy.findByLabelText(/Table.*/i).within(() => {
-            cy.findByRole('table').within(() => {
-              // TODO in followup PR
-            })
-          })
-        })
-
-        cy.findByLabelText(/DietThree totals over time line chart/).within(() => {
-          cy.findByRole('tab', { name: /Table/ }).click()
-          cy.findByLabelText(/Table.*/i).within(() => {
-            cy.findByRole('table').within(() => {
-              // TODO in followup PR
-            })
-          })
-        })
-
-        cy.findByLabelText(/DietOne totals over time by wing line/).within(() => {
-          cy.findByRole('tab', { name: /Table/ }).click()
-          cy.findByLabelText(/Table.*/i).within(() => {
-            cy.findByRole('table').within(() => {
-              // TODO in followup PR
-            })
-          })
-        })
-
-        cy.findByLabelText(/DietOne totals over time line by establishment/).within(() => {
-          cy.findByRole('tab', { name: /Table/ }).click()
-          cy.findByLabelText(/Table.*/i).within(() => {
-            cy.findByRole('table').within(() => {
-              // TODO in followup PR
-            })
-          })
-        })
-
-        cy.findByLabelText(/DietOne totals over time by cell/).within(() => {
-          cy.findByRole('tab', { name: /Table/ }).click()
-          cy.findByLabelText(/Table.*/i).within(() => {
-            cy.findByRole('table').within(() => {
-              // TODO in followup PR
+              cy.findAllByRole('row')
+                .should('have.length', 4)
+                .each((row, index) => {
+                  switch (index) {
+                    case 0:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('columnheader').should('have.length', 7)
+                        cy.findAllByRole('columnheader').eq(0).contains('Establishment ID')
+                        cy.findAllByRole('columnheader').eq(1).contains('Has MetricTwo')
+                        cy.findAllByRole('columnheader').eq(2).contains('No MetricTwo')
+                        cy.findAllByRole('columnheader').eq(3).contains('Has MetricThree')
+                        cy.findAllByRole('columnheader').eq(4).contains('No MetricThree')
+                        cy.findAllByRole('columnheader').eq(5).contains('Has MetricOne')
+                        cy.findAllByRole('columnheader').eq(6).contains('No MetricOne')
+                      })
+                      break
+                    default:
+                      break
+                  }
+                })
             })
           })
         })

@@ -111,7 +111,7 @@ context('Request status', () => {
         const today = new Date().toLocaleDateString('en-GB', {
           year: 'numeric',
           month: 'numeric',
-          day: 'numeric'
+          day: 'numeric',
         })
         cy.findByText(`Aborted at: ${today}`)
       })
@@ -131,7 +131,7 @@ context('Request status', () => {
         const today = new Date().toLocaleDateString('en-GB', {
           year: 'numeric',
           month: 'numeric',
-          day: 'numeric'
+          day: 'numeric',
         })
         cy.findByText(`Expired at: ${today}`)
       })
@@ -157,7 +157,7 @@ context('Request status', () => {
         const today = new Date().toLocaleDateString('en-GB', {
           year: 'numeric',
           month: 'numeric',
-          day: 'numeric'
+          day: 'numeric',
         })
         cy.findByText(`Failed at: ${today}`)
       })

@@ -11,7 +11,6 @@ import DatasetHelper from '../../../../utils/datasetHelper'
 import Chart from '../Chart'
 import BarChartSchemas from './validate'
 import { BarDefinitionMeasure, BarDefinitionOptions, BarDefinitionType } from './types'
-import { ChartColours } from '../ChartColours'
 
 class BarChart extends Chart {
   private definition!: BarDefinitionType
@@ -41,6 +40,7 @@ class BarChart extends Chart {
   withDefinition = (definition: components['schemas']['DashboardVisualisationDefinition']) => {
     this.definition = BarChartSchemas.BarSchema.parse(definition)
     this.initFromDefinitionData()
+    this.initHelpers()
 
     return this
   }
@@ -49,6 +49,14 @@ class BarChart extends Chart {
     this.responseData = responseData
     if (this.isList) this.initListData()
     return this
+  }
+
+  private initFromDefinitionData = () => {
+    this.measures = this.definition.columns.measures
+    this.options = this.definition.options
+    this.keys = this.definition.columns.keys || []
+    this.isList = !!this.measures.find((col) => col.axis)
+    this.initUnit(this.measures)
   }
 
   getCanvasHeight = () => {
@@ -114,28 +122,38 @@ class BarChart extends Chart {
     }
   }
 
+  /**
+   * Creates a simple bar chart
+   *
+   * @private
+   * @memberof BarChart
+   */
   private getBarChartData = () => {
-    this.createDatasets(this.measures, this.responseData)
+    this.createDatasets(this.measures, this.keys, this.responseData) // Chart.ts
+    this.createLabels(this.measures) // Chart.ts
+
+    // Augment the datasets with chart specific config
     this.datasets = this.augmentDataset(this.datasets)
+
+    // Set the bespoke chart.js options for the chart
     this.config = this.setBespokeOptions()
-    this.createLabels(this.measures)
   }
 
+  /**
+   * Creates a bar chart from a list
+   *
+   * @private
+   * @memberof BarChart
+   */
   private getListBarChartData = () => {
     this.createListLabels()
     this.createListDatasets()
+
+    // Augment the datasets with chart specific config
     this.datasets = this.augmentDataset(this.datasets)
+
+    // Set the bespoke chart.js options for the chart
     this.config = this.setBespokeOptions()
-  }
-
-  private initFromDefinitionData = () => {
-    this.measures = this.definition.columns.measures
-    this.options = this.definition.options
-    this.keys = this.definition.columns.keys || []
-    this.isList = !!this.measures.find((col) => col.axis)
-    this.initUnit(this.measures)
-
-    if (!this.isList) this.getLabelId(this.keys)
   }
 
   private initListData = () => {
@@ -149,7 +167,6 @@ class BarChart extends Chart {
   }
 
   private createListDatasets = () => {
-    this.hexColours = new ChartColours().getHexPallette()
     this.datasets = this.groupsData.map((groupData, groupIndex) => {
       const data = Array(this.labels.length)
       groupData.forEach((row) => {
@@ -167,7 +184,7 @@ class BarChart extends Chart {
         }
       })
 
-      const label = this.createGroupLabel(groupData)
+      const label = this.chartLabelsHelper.getDatasetLabel(this.keys, groupData[0])
 
       return {
         label,
@@ -178,33 +195,9 @@ class BarChart extends Chart {
     })
   }
 
-  private createGroupLabel = (group: DashboardDataResponse[]): string => {
-    if (this.groupKey && this.groupKey.length) {
-      const firstRow = group[0]
-      return this.groupKey
-        ? this.groupKey
-            .map((id) => {
-              const key = this.keys.find((k) => k.id === 'id')
-              const label = key && key.display ? `${key.display}:` : ''
-              const value = firstRow[id]?.raw ?? ''
-              return `${label}${value}`
-            })
-            .join(' - ')
-        : ''
-    }
-    return this.yAxisColumn?.display || ''
-  }
-
   private createListLabels = () => {
-    const allLabels = this.groupsData.flatMap((gd) => {
-      const id = this.xAxisColumn?.id || ''
-      return gd.map((row) => {
-        const field = row[id]
-        return field ? `${field.raw}` : ''
-      })
-    })
-
-    this.labels = Array.from(new Set(allLabels))
+    const axisId = this.xAxisColumn?.id || ''
+    this.labels = this.chartLabelsHelper.getListLabels(this.groupsData, axisId)
   }
 }
 

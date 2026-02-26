@@ -157,7 +157,7 @@ const main = async () => {
     chokidar
       .watch(['src/**/*'], {
         ...chokidarOptions,
-        ignored: ['**/*.test.ts', '**/*.cy.ts', 'manifest.json', 'cypress.config.ts'],
+        ignored: ['**/*.test.ts', '**/*.cy.ts', 'manifest.json', 'cypress.config.ts', '**/*.png'],
       })
       .on('all', () => buildLibraryThenApp().catch((e) => process.stderr.write(`${e}\n`)))
   }

@@ -26,7 +26,7 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('')`. */
-    // baseURL: 'http://localhost:3000',
+    baseURL: 'http://localhost:3010',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
@@ -58,14 +58,16 @@ export default defineConfig({
   /* Run your local dev server before starting the tests */
   webServer: [
     {
-      command: 'npm run start:dev:noMockClients:noLogs',
-      port: 3010,
-      timeout: 30000,
+      command: 'npm run wiremock',
+      url: 'http://localhost:9091/__admin',
+      timeout: 10000,
+      // stdout: 'pipe',
     },
     {
-      command: 'npm run wiremock',
-      port: 9091,
-      timeout: 10000,
+      command: 'npm run start:dev:noMockClients:noLogs',
+      timeout: 30000,
+      url: 'http://localhost:3010/',
+      stdout: 'pipe',
     },
   ],
 })

@@ -155,7 +155,7 @@ export const dietTotalsDietOneOvertime: components['schemas']['DashboardVisualis
     filters: [
       {
         id: 'diet',
-        equals: 'DietOne',
+        equals: 'Diet one',
       },
     ],
     expectNulls: true,
@@ -165,7 +165,7 @@ export const dietTotalsDietOneOvertime: components['schemas']['DashboardVisualis
 export const dietTotalsDietOneOvertimeByEst: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'diet-totals-DietOne-overtime-by-est',
   type: DashboardVisualisationType.LIST,
-  display: 'DietOne totals over time',
+  display: 'DietOne totals over time by establishment',
   description: '',
   options: { showLatest: false },
   columns: {
@@ -196,7 +196,7 @@ export const dietTotalsDietOneOvertimeByEst: components['schemas']['DashboardVis
     filters: [
       {
         id: 'diet',
-        equals: 'DietOne',
+        equals: 'Diet one',
       },
     ],
     expectNulls: true,
@@ -245,7 +245,7 @@ export const dietTotalsDietOneOvertimeByEstByWing: components['schemas']['Dashbo
     filters: [
       {
         id: 'diet',
-        equals: 'DietOne',
+        equals: 'Diet one',
       },
     ],
     expectNulls: true,

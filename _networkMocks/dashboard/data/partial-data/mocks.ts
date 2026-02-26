@@ -1,5 +1,6 @@
 import { setupSimpleMock } from '@networkMocks/generateNetworkMock'
-import { partialDataSet, partialDataSetLastSixMonths } from './data'
+import { partialDataSet } from './data'
+import { historicPartialData } from './data-historic'
 
 import { visualisationIds, historicVisualisationIds } from '../../definitions/visualisations/partial-dataset'
 
@@ -13,7 +14,7 @@ export const dashboardResultPartialDataMock = setupSimpleMock(
 )
 export const dashboardResultPartialDataHistoricMock = setupSimpleMock(
   `/reports/(${productIds.join('|')})/dashboards/(${allHistoric.join('|')})/tables/tblId_[0-9]+/result`,
-  partialDataSetLastSixMonths,
+  historicPartialData,
 )
 
 export const mocks = [dashboardResultPartialDataMock, dashboardResultPartialDataHistoricMock]

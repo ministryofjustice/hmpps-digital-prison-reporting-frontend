@@ -62,7 +62,30 @@ context('Dashboard visualisation: Doughnut chart', () => {
           cy.findByRole('tab', { name: /Table/ }).click()
           cy.findByLabelText(/Table.*/i).within(() => {
             cy.findByRole('table').within(() => {
-              // TODO in followup PR
+              cy.findAllByRole('row')
+                .should('have.length', 2)
+                .each((row, index) => {
+                  switch (index) {
+                    case 0:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('columnheader').should('have.length', 3)
+                        cy.findAllByRole('columnheader').eq(0).contains('Establishment ID')
+                        cy.findAllByRole('columnheader').eq(1).contains('Has MetricOne')
+                        cy.findAllByRole('columnheader').eq(2).contains('No MetricOne')
+                      })
+                      break
+                    case 1:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 3)
+                        cy.findAllByRole('cell').eq(0).contains('ABC')
+                        cy.findAllByRole('cell').eq(1).contains('533')
+                        cy.findAllByRole('cell').eq(2).contains('614')
+                      })
+                      break
+                    default:
+                      break
+                  }
+                })
             })
           })
         })
@@ -71,7 +94,30 @@ context('Dashboard visualisation: Doughnut chart', () => {
           cy.findByRole('tab', { name: /Table/ }).click()
           cy.findByLabelText(/Table.*/i).within(() => {
             cy.findByRole('table').within(() => {
-              // TODO in followup PR
+              cy.findAllByRole('row')
+                .should('have.length', 2)
+                .each((row, index) => {
+                  switch (index) {
+                    case 0:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('columnheader').should('have.length', 3)
+                        cy.findAllByRole('columnheader').eq(0).contains('Establishment ID')
+                        cy.findAllByRole('columnheader').eq(1).contains('Has MetricTwo')
+                        cy.findAllByRole('columnheader').eq(2).contains('No MetricTwo')
+                      })
+                      break
+                    case 1:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 3)
+                        cy.findAllByRole('cell').eq(0).contains('ABC')
+                        cy.findAllByRole('cell').eq(1).contains('684')
+                        cy.findAllByRole('cell').eq(2).contains('665')
+                      })
+                      break
+                    default:
+                      break
+                  }
+                })
             })
           })
         })
@@ -82,7 +128,30 @@ context('Dashboard visualisation: Doughnut chart', () => {
             cy.findByRole('tab', { name: /Table/ }).click()
             cy.findByLabelText(/Table.*/i).within(() => {
               cy.findByRole('table').within(() => {
-                // TODO in followup PR
+                cy.findAllByRole('row')
+                  .should('have.length', 2)
+                  .each((row, index) => {
+                    switch (index) {
+                      case 0:
+                        cy.wrap(row).within(() => {
+                          cy.findAllByRole('columnheader').should('have.length', 3)
+                          cy.findAllByRole('columnheader').eq(0).contains('Establishment ID')
+                          cy.findAllByRole('columnheader').eq(1).contains('Has MetricThree')
+                          cy.findAllByRole('columnheader').eq(2).contains('No MetricThree')
+                        })
+                        break
+                      case 1:
+                        cy.wrap(row).within(() => {
+                          cy.findAllByRole('cell').should('have.length', 3)
+                          cy.findAllByRole('cell').eq(0).contains('ABC')
+                          cy.findAllByRole('cell').eq(1).contains('680')
+                          cy.findAllByRole('cell').eq(2).contains('799')
+                        })
+                        break
+                      default:
+                        break
+                    }
+                  })
               })
             })
           })
@@ -91,7 +160,34 @@ context('Dashboard visualisation: Doughnut chart', () => {
           cy.findByRole('tab', { name: /Table/ }).click()
           cy.findByLabelText(/Table.*/i).within(() => {
             cy.findByRole('table').within(() => {
-              // TODO in followup PR
+              cy.findAllByRole('row')
+                .should('have.length', 2)
+                .each((row, index) => {
+                  switch (index) {
+                    case 0:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('columnheader').should('have.length', 5)
+                        cy.findAllByRole('columnheader').eq(0).contains('Establishment ID')
+                        cy.findAllByRole('columnheader').eq(1).contains('Has MetricTwo')
+                        cy.findAllByRole('columnheader').eq(2).contains('No MetricTwo')
+                        cy.findAllByRole('columnheader').eq(3).contains('Has MetricThree')
+                        cy.findAllByRole('columnheader').eq(4).contains('No MetricThree')
+                      })
+                      break
+                    case 1:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 5)
+                        cy.findAllByRole('cell').eq(0).contains('ABC')
+                        cy.findAllByRole('cell').eq(1).contains('684')
+                        cy.findAllByRole('cell').eq(2).contains('665')
+                        cy.findAllByRole('cell').eq(3).contains('680')
+                        cy.findAllByRole('cell').eq(4).contains('799')
+                      })
+                      break
+                    default:
+                      break
+                  }
+                })
             })
           })
         })
@@ -104,7 +200,38 @@ context('Dashboard visualisation: Doughnut chart', () => {
           cy.findByRole('tab', { name: /Table/ }).click()
           cy.findByLabelText(/Table.*/i).within(() => {
             cy.findByRole('table').within(() => {
-              // TODO in followup PR
+              cy.findAllByRole('row')
+                .should('have.length', 3)
+                .each((row, index) => {
+                  switch (index) {
+                    case 0:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('columnheader').should('have.length', 3)
+                        cy.findAllByRole('columnheader').eq(0).contains('Establishment ID')
+                        cy.findAllByRole('columnheader').eq(1).contains('Has MetricOne')
+                        cy.findAllByRole('columnheader').eq(2).contains('No MetricOne')
+                      })
+                      break
+                    case 1:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 3)
+                        cy.findAllByRole('cell').eq(0).contains('ABC')
+                        cy.findAllByRole('cell').eq(1).contains('533')
+                        cy.findAllByRole('cell').eq(2).contains('614')
+                      })
+                      break
+                    case 2:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 3)
+                        cy.findAllByRole('cell').eq(0).contains('GHI')
+                        cy.findAllByRole('cell').eq(1).contains('484')
+                        cy.findAllByRole('cell').eq(2).contains('713')
+                      })
+                      break
+                    default:
+                      break
+                  }
+                })
             })
           })
         })
@@ -113,7 +240,38 @@ context('Dashboard visualisation: Doughnut chart', () => {
           cy.findByRole('tab', { name: /Table/ }).click()
           cy.findByLabelText(/Table.*/i).within(() => {
             cy.findByRole('table').within(() => {
-              // TODO in followup PR
+              cy.findAllByRole('row')
+                .should('have.length', 3)
+                .each((row, index) => {
+                  switch (index) {
+                    case 0:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('columnheader').should('have.length', 3)
+                        cy.findAllByRole('columnheader').eq(0).contains('Establishment ID')
+                        cy.findAllByRole('columnheader').eq(1).contains('Has MetricTwo')
+                        cy.findAllByRole('columnheader').eq(2).contains('No MetricTwo')
+                      })
+                      break
+                    case 1:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 3)
+                        cy.findAllByRole('cell').eq(0).contains('ABC')
+                        cy.findAllByRole('cell').eq(1).contains('684')
+                        cy.findAllByRole('cell').eq(2).contains('665')
+                      })
+                      break
+                    case 2:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 3)
+                        cy.findAllByRole('cell').eq(0).contains('GHI')
+                        cy.findAllByRole('cell').eq(1).contains('700')
+                        cy.findAllByRole('cell').eq(2).contains('506')
+                      })
+                      break
+                    default:
+                      break
+                  }
+                })
             })
           })
         })
@@ -124,7 +282,38 @@ context('Dashboard visualisation: Doughnut chart', () => {
             cy.findByRole('tab', { name: /Table/ }).click()
             cy.findByLabelText(/Table.*/i).within(() => {
               cy.findByRole('table').within(() => {
-                // TODO in followup PR
+                cy.findAllByRole('row')
+                  .should('have.length', 3)
+                  .each((row, index) => {
+                    switch (index) {
+                      case 0:
+                        cy.wrap(row).within(() => {
+                          cy.findAllByRole('columnheader').should('have.length', 3)
+                          cy.findAllByRole('columnheader').eq(0).contains('Establishment ID')
+                          cy.findAllByRole('columnheader').eq(1).contains('Has MetricThree')
+                          cy.findAllByRole('columnheader').eq(2).contains('No MetricThree')
+                        })
+                        break
+                      case 1:
+                        cy.wrap(row).within(() => {
+                          cy.findAllByRole('cell').should('have.length', 3)
+                          cy.findAllByRole('cell').eq(0).contains('ABC')
+                          cy.findAllByRole('cell').eq(1).contains('680')
+                          cy.findAllByRole('cell').eq(2).contains('799')
+                        })
+                        break
+                      case 2:
+                        cy.wrap(row).within(() => {
+                          cy.findAllByRole('cell').should('have.length', 3)
+                          cy.findAllByRole('cell').eq(0).contains('GHI')
+                          cy.findAllByRole('cell').eq(1).contains('771')
+                          cy.findAllByRole('cell').eq(2).contains('457')
+                        })
+                        break
+                      default:
+                        break
+                    }
+                  })
               })
             })
           })
@@ -133,7 +322,44 @@ context('Dashboard visualisation: Doughnut chart', () => {
           cy.findByRole('tab', { name: /Table/ }).click()
           cy.findByLabelText(/Table.*/i).within(() => {
             cy.findByRole('table').within(() => {
-              // TODO in followup PR
+              cy.findAllByRole('row')
+                .should('have.length', 3)
+                .each((row, index) => {
+                  switch (index) {
+                    case 0:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('columnheader').should('have.length', 5)
+                        cy.findAllByRole('columnheader').eq(0).contains('Establishment ID')
+                        cy.findAllByRole('columnheader').eq(1).contains('Has MetricTwo')
+                        cy.findAllByRole('columnheader').eq(2).contains('No MetricTwo')
+                        cy.findAllByRole('columnheader').eq(3).contains('Has MetricThree')
+                        cy.findAllByRole('columnheader').eq(4).contains('No MetricThree')
+                      })
+                      break
+                    case 1:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 5)
+                        cy.findAllByRole('cell').eq(0).contains('ABC')
+                        cy.findAllByRole('cell').eq(1).contains('684')
+                        cy.findAllByRole('cell').eq(2).contains('665')
+                        cy.findAllByRole('cell').eq(3).contains('680')
+                        cy.findAllByRole('cell').eq(4).contains('799')
+                      })
+                      break
+                    case 2:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 5)
+                        cy.findAllByRole('cell').eq(0).contains('GHI')
+                        cy.findAllByRole('cell').eq(1).contains('700')
+                        cy.findAllByRole('cell').eq(2).contains('506')
+                        cy.findAllByRole('cell').eq(3).contains('771')
+                        cy.findAllByRole('cell').eq(4).contains('457')
+                      })
+                      break
+                    default:
+                      break
+                  }
+                })
             })
           })
         })
@@ -146,7 +372,46 @@ context('Dashboard visualisation: Doughnut chart', () => {
           cy.findByRole('tab', { name: /Table/ }).click()
           cy.findByLabelText(/Table.*/i).within(() => {
             cy.findByRole('table').within(() => {
-              // TODO in followup PR
+              cy.findAllByRole('row')
+                .should('have.length', 4)
+                .each((row, index) => {
+                  switch (index) {
+                    case 0:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('columnheader').should('have.length', 3)
+                        cy.findAllByRole('columnheader').eq(0).contains('Establishment ID')
+                        cy.findAllByRole('columnheader').eq(1).contains('Has MetricOne')
+                        cy.findAllByRole('columnheader').eq(2).contains('No MetricOne')
+                      })
+                      break
+                    case 1:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 3)
+                        cy.findAllByRole('cell').eq(0).contains('ABC')
+                        cy.findAllByRole('cell').eq(1).contains('533')
+                        cy.findAllByRole('cell').eq(2).contains('614')
+                      })
+                      break
+                    case 2:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 3)
+                        cy.findAllByRole('cell').eq(0).contains('GHI')
+                        cy.findAllByRole('cell').eq(1).contains('484')
+                        cy.findAllByRole('cell').eq(2).contains('713')
+                      })
+                      break
+                    case 3:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 3)
+                        cy.findAllByRole('cell').eq(0).contains('DEF')
+                        cy.findAllByRole('cell').eq(1).contains('406')
+                        cy.findAllByRole('cell').eq(2).contains('682')
+                      })
+                      break
+                    default:
+                      break
+                  }
+                })
             })
           })
         })
@@ -155,7 +420,46 @@ context('Dashboard visualisation: Doughnut chart', () => {
           cy.findByRole('tab', { name: /Table/ }).click()
           cy.findByLabelText(/Table.*/i).within(() => {
             cy.findByRole('table').within(() => {
-              // TODO in followup PR
+              cy.findAllByRole('row')
+                .should('have.length', 4)
+                .each((row, index) => {
+                  switch (index) {
+                    case 0:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('columnheader').should('have.length', 3)
+                        cy.findAllByRole('columnheader').eq(0).contains('Establishment ID')
+                        cy.findAllByRole('columnheader').eq(1).contains('Has MetricTwo')
+                        cy.findAllByRole('columnheader').eq(2).contains('No MetricTwo')
+                      })
+                      break
+                    case 1:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 3)
+                        cy.findAllByRole('cell').eq(0).contains('ABC')
+                        cy.findAllByRole('cell').eq(1).contains('684')
+                        cy.findAllByRole('cell').eq(2).contains('665')
+                      })
+                      break
+                    case 2:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 3)
+                        cy.findAllByRole('cell').eq(0).contains('GHI')
+                        cy.findAllByRole('cell').eq(1).contains('700')
+                        cy.findAllByRole('cell').eq(2).contains('506')
+                      })
+                      break
+                    case 3:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 3)
+                        cy.findAllByRole('cell').eq(0).contains('DEF')
+                        cy.findAllByRole('cell').eq(1).contains('703')
+                        cy.findAllByRole('cell').eq(2).contains('409')
+                      })
+                      break
+                    default:
+                      break
+                  }
+                })
             })
           })
         })
@@ -166,7 +470,46 @@ context('Dashboard visualisation: Doughnut chart', () => {
             cy.findByRole('tab', { name: /Table/ }).click()
             cy.findByLabelText(/Table.*/i).within(() => {
               cy.findByRole('table').within(() => {
-                // TODO in followup PR
+                cy.findAllByRole('row')
+                  .should('have.length', 4)
+                  .each((row, index) => {
+                    switch (index) {
+                      case 0:
+                        cy.wrap(row).within(() => {
+                          cy.findAllByRole('columnheader').should('have.length', 3)
+                          cy.findAllByRole('columnheader').eq(0).contains('Establishment ID')
+                          cy.findAllByRole('columnheader').eq(1).contains('Has MetricThree')
+                          cy.findAllByRole('columnheader').eq(2).contains('No MetricThree')
+                        })
+                        break
+                      case 1:
+                        cy.wrap(row).within(() => {
+                          cy.findAllByRole('cell').should('have.length', 3)
+                          cy.findAllByRole('cell').eq(0).contains('ABC')
+                          cy.findAllByRole('cell').eq(1).contains('680')
+                          cy.findAllByRole('cell').eq(2).contains('799')
+                        })
+                        break
+                      case 2:
+                        cy.wrap(row).within(() => {
+                          cy.findAllByRole('cell').should('have.length', 3)
+                          cy.findAllByRole('cell').eq(0).contains('GHI')
+                          cy.findAllByRole('cell').eq(1).contains('771')
+                          cy.findAllByRole('cell').eq(2).contains('457')
+                        })
+                        break
+                      case 3:
+                        cy.wrap(row).within(() => {
+                          cy.findAllByRole('cell').should('have.length', 3)
+                          cy.findAllByRole('cell').eq(0).contains('DEF')
+                          cy.findAllByRole('cell').eq(1).contains('648')
+                          cy.findAllByRole('cell').eq(2).contains('720')
+                        })
+                        break
+                      default:
+                        break
+                    }
+                  })
               })
             })
           })
@@ -175,7 +518,54 @@ context('Dashboard visualisation: Doughnut chart', () => {
           cy.findByRole('tab', { name: /Table/ }).click()
           cy.findByLabelText(/Table.*/i).within(() => {
             cy.findByRole('table').within(() => {
-              // TODO in followup PR
+              cy.findAllByRole('row')
+                .should('have.length', 4)
+                .each((row, index) => {
+                  switch (index) {
+                    case 0:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('columnheader').should('have.length', 5)
+                        cy.findAllByRole('columnheader').eq(0).contains('Establishment ID')
+                        cy.findAllByRole('columnheader').eq(1).contains('Has MetricTwo')
+                        cy.findAllByRole('columnheader').eq(2).contains('No MetricTwo')
+                        cy.findAllByRole('columnheader').eq(3).contains('Has MetricThree')
+                        cy.findAllByRole('columnheader').eq(4).contains('No MetricThree')
+                      })
+                      break
+                    case 1:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 5)
+                        cy.findAllByRole('cell').eq(0).contains('ABC')
+                        cy.findAllByRole('cell').eq(1).contains('684')
+                        cy.findAllByRole('cell').eq(2).contains('665')
+                        cy.findAllByRole('cell').eq(3).contains('680')
+                        cy.findAllByRole('cell').eq(4).contains('799')
+                      })
+                      break
+                    case 2:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 5)
+                        cy.findAllByRole('cell').eq(0).contains('GHI')
+                        cy.findAllByRole('cell').eq(1).contains('700')
+                        cy.findAllByRole('cell').eq(2).contains('506')
+                        cy.findAllByRole('cell').eq(3).contains('771')
+                        cy.findAllByRole('cell').eq(4).contains('457')
+                      })
+                      break
+                    case 3:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 5)
+                        cy.findAllByRole('cell').eq(0).contains('DEF')
+                        cy.findAllByRole('cell').eq(1).contains('703')
+                        cy.findAllByRole('cell').eq(2).contains('409')
+                        cy.findAllByRole('cell').eq(3).contains('648')
+                        cy.findAllByRole('cell').eq(4).contains('720')
+                      })
+                      break
+                    default:
+                      break
+                  }
+                })
             })
           })
         })

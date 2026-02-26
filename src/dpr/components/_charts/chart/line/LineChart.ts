@@ -3,7 +3,6 @@ import {
   DashboardVisualisationType,
   DashboardVisualisationData,
   VisualisationDefinitionKey,
-  DashboardVisualisationDataSet,
 } from '../../../_dashboards/dashboard-visualisation/types'
 import { components } from '../../../../types/api'
 import Chart from '../Chart'
@@ -17,24 +16,34 @@ class LineChart extends Chart {
 
   private keys!: VisualisationDefinitionKey[]
 
-  private init = () => {
-    this.measures = this.definition.columns.measures
-    this.keys = this.definition.columns.keys || []
-    this.initUnit(this.measures)
-  }
+  private isList = false
 
   withDefinition = (definition: components['schemas']['DashboardVisualisationDefinition']) => {
     this.definition = LineChartSchemas.LineSchema.parse(definition)
-    this.init()
+    this.initFromDefinitionData()
 
     return this
   }
 
+  private initFromDefinitionData = () => {
+    this.measures = this.definition.columns.measures
+    this.keys = this.definition.columns.keys || []
+    this.isList = !!this.measures.find((col) => col.axis)
+    this.initUnit(this.measures)
+  }
+
   build = (): DashboardVisualisationData => {
-    this.createDatasets(this.measures, this.keys, this.responseData)
-    this.datasets = this.augmentDataset(this.datasets)
-    this.config = this.setBespokeOptions()
-    this.createLabels(this.measures)
+    if (!this.isList) {
+      this.createDatasets(this.measures, this.keys)
+    } else {
+      this.createListDatasets(this.measures, this.keys)
+    }
+
+    // Augment the datasets with chart specific config
+    this.augmentDataset()
+
+    // Set the bespoke chart.js options for the chart
+    this.setBespokeOptions()
 
     return {
       type: DashboardVisualisationType.LINE,
@@ -49,8 +58,8 @@ class LineChart extends Chart {
     }
   }
 
-  augmentDataset = (datasets: DashboardVisualisationDataSet[]) => {
-    return datasets.map((set) => {
+  augmentDataset = () => {
+    this.datasets = this.datasets.map((set) => {
       return {
         ...set,
         pointStyle: 'circle',
@@ -65,7 +74,7 @@ class LineChart extends Chart {
   }
 
   setBespokeOptions = () => {
-    return {
+    this.config = {
       ...this.config,
       scales: {
         y: {

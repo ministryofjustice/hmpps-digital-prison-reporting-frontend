@@ -139,6 +139,9 @@ export const reportsFailedStatusMock = setupSimpleMock(
     status: RequestStatus.FAILED,
   },
 )
+
+const asyncReportStatusMocks = [reportsFinishedStatusMock, reportsAbortedStatusMock, reportsReadyStatusMock]
+
 export const cancelAsyncRequestMock = generateNetworkMock({
   ...defaultMockRequest,
   request: {
@@ -164,7 +167,7 @@ export const getAsyncInteractiveCountMock = setupSimpleMock(
 )
 
 export const requestExampleVariantMocks = generateMocksFromDefs('request-examples', requestExampleVariants)
-export const reportTempleVariantMocks = generateMocksFromDefs('report-templates', reportTemplates)
+export const reportTempleVariantMocks = generateMocksFromDefs('report-template-examples', reportTemplates)
 export const mockReportVariantMocks = generateMocksFromDefs('mock-report', mockReportVariants)
 export const filterInputExampleVariantMocks = generateMocksFromDefs('filter-inputs', filterInputExamplesVariants)
 export const featureTestingVariantMocks = generateMocksFromDefs('feature-testing', featureTestingVariants)
@@ -174,8 +177,14 @@ export const getAsyncSummaryReport = setupSimpleMock(
   createMockData(20),
 )
 
+export const getAsyncReport = setupSimpleMock(
+  `/reports/${reportIdRegex}/${reportIdRegex}/tables/${reportIdRegex}/result/summary/${reportIdRegex}`,
+  createMockData(20),
+)
+
 export const mocks = [
   requestAsyncReportMock,
+  ...asyncReportStatusMocks,
   getAsyncReportResultMock,
   getReportResultCountMock,
   getAsyncInteractiveCountMock,

@@ -100,12 +100,40 @@ context('Request status', () => {
         cy.findByText(/aborted/i).should('be.visible')
         cy.injectAxe()
         cy.checkA11y()
+
+        cy.visit(path)
+        cy.findByRole('tab', { name: /Requested/ }).click()
+        cy.findByLabelText(/Requested \(/).within(() => {
+          cy.findByRole('table').within(() => {
+            cy.findAllByText('ABORTED').should('be.visible')
+          })
+        })
+        const today = new Date().toLocaleDateString('en-GB', {
+          year: 'numeric',
+          month: 'numeric',
+          day: 'numeric',
+        })
+        cy.findByText(`Aborted at: ${today}`)
       })
       it('should show the expired status page', () => {
         cy.task('stubReportsExpiredStatus')
         cy.findByText(/expired/i).should('be.visible')
         cy.injectAxe()
         cy.checkA11y()
+
+        cy.visit(path)
+        cy.findByRole('tab', { name: /Requested/ }).click()
+        cy.findByLabelText(/Requested \(/).within(() => {
+          cy.findByRole('table').within(() => {
+            cy.findByText('EXPIRED').should('be.visible')
+          })
+        })
+        const today = new Date().toLocaleDateString('en-GB', {
+          year: 'numeric',
+          month: 'numeric',
+          day: 'numeric',
+        })
+        cy.findByText(`Expired at: ${today}`)
       })
       it('should show the failed status page', () => {
         cy.task('stubReportsFailedStatus')
@@ -118,6 +146,20 @@ context('Request status', () => {
         cy.findAllByRole('list').contains('Table ID: tblId_').should('be.visible')
         cy.injectAxe()
         cy.checkA11y()
+
+        cy.visit(path)
+        cy.findByRole('tab', { name: /Requested/ }).click()
+        cy.findByLabelText(/Requested \(/).within(() => {
+          cy.findByRole('table').within(() => {
+            cy.findByText('FAILED').should('be.visible')
+          })
+        })
+        const today = new Date().toLocaleDateString('en-GB', {
+          year: 'numeric',
+          month: 'numeric',
+          day: 'numeric',
+        })
+        cy.findByText(`Failed at: ${today}`)
       })
     })
   })

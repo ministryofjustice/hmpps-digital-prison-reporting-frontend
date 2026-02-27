@@ -60,7 +60,7 @@ export default defineConfig({
     {
       command: 'npm run wiremock',
       url: 'http://localhost:9091/__admin',
-      timeout: 10000,
+      timeout: 20000,
       // stdout: 'pipe',
     },
     {

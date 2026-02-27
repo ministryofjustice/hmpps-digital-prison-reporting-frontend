@@ -12,6 +12,7 @@ import { reportTemplates } from './mockVariants/report-templates'
 import { mockReportVariants } from './mockVariants/mock-report'
 import { filterInputExamplesVariants } from './mockVariants/filter-input-examples'
 import { featureTestingVariants } from './mockVariants/feature-testing'
+import { listSectionData } from './mockVariants/data/list-section'
 
 const generateMocksFromDefs = (reportId: string, defs: components['schemas']['VariantDefinition'][]) => {
   return defs.map((def) => setupSimpleReportDefinitionResponseMock(reportId, def))
@@ -173,11 +174,6 @@ export const filterInputExampleVariantMocks = generateMocksFromDefs('filter-inpu
 export const featureTestingVariantMocks = generateMocksFromDefs('feature-testing', featureTestingVariants)
 
 export const getAsyncSummaryReport = setupSimpleMock(
-  `/reports/${reportIdRegex}/${reportIdRegex}/tables/${reportIdRegex}/result/summary/${reportIdRegex}`,
-  createMockData(20),
-)
-
-export const getAsyncReport = setupSimpleMock(
   `/reports/${reportIdRegex}/${reportIdRegex}/tables/${reportIdRegex}/result/summary/${reportIdRegex}`,
   createMockData(20),
 )

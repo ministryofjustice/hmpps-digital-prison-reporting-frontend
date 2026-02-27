@@ -1,6 +1,8 @@
 import { setupSimpleMock } from '@networkMocks/generateNetworkMock'
 import { completeDataSet } from './data'
-import { visualisationIds } from '../../definitions/visualisations/complete-dataset'
+import { completeDataSetNoTs } from './data_no-ts'
+
+import { visualisationIds, visIdsNoTs } from '../../definitions/visualisations/complete-dataset'
 import { requestExampleIds } from '../../definitions/request-examples'
 import { featureTestingIds } from '../../definitions/feature-testing'
 
@@ -17,4 +19,13 @@ export const dashboardResultCompleteDataSyncMock = setupSimpleMock(
   completeDataSet,
 )
 
-export const mocks = [dashboardResultCompleteDataMock, dashboardResultCompleteDataSyncMock]
+export const dashboardResultCompleteDataNoTsMock = setupSimpleMock(
+  `/reports/(${productIds.join('|')})/dashboards/(${visIdsNoTs.join('|')})/tables/tblId_[0-9]+/result`,
+  completeDataSetNoTs,
+)
+
+export const mocks = [
+  dashboardResultCompleteDataMock,
+  dashboardResultCompleteDataSyncMock,
+  dashboardResultCompleteDataNoTsMock,
+]

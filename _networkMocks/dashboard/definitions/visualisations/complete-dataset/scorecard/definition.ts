@@ -1,6 +1,5 @@
 import { components } from '../../../../../../src/dpr/types/api'
 import * as Scorecards from './vis-definitions/definitions'
-import * as BucketScorecards from './vis-definitions/definitions-buckets'
 
 export const definition: components['schemas']['DashboardDefinition'] = {
   id: 'scorecard-examples_complete-data',
@@ -9,8 +8,20 @@ export const definition: components['schemas']['DashboardDefinition'] = {
   sections: [
     {
       id: 'section-1',
-      display: 'Data quality scorecards',
-      description: '',
+      display: 'Single scorecard',
+      description: 'Example showing a single scorecard',
+      visualisations: [Scorecards.simpleScorecardMetricTwo],
+    },
+    {
+      id: 'section-2',
+      display: 'Double scorecard',
+      description: 'Example showing a two adjacent scorecards',
+      visualisations: [Scorecards.simpleScorecardMetricTwo, Scorecards.simpleScorecardMetricOne],
+    },
+    {
+      id: 'section-3',
+      display: 'Full row of scorecards',
+      description: 'Example showing a full row of scorecards',
       visualisations: [
         Scorecards.simpleScorecardMetricTwo,
         Scorecards.simpleScorecardMetricOne,
@@ -18,23 +29,15 @@ export const definition: components['schemas']['DashboardDefinition'] = {
       ],
     },
     {
-      id: 'section-2',
-      display: 'Data quality scorecards with RAG colous',
-      description: '',
+      id: 'section-4',
+      display: 'Double row',
+      description: 'Example showing a two rows of scorecards',
       visualisations: [
-        Scorecards.simpleScorecardRagColoursMetricTwo,
-        Scorecards.simpleScorecardRagColoursMetricThree,
-        Scorecards.simpleScorecardRagColoursMetricOne,
-      ],
-    },
-    {
-      id: 'section-3',
-      display: 'Custom buckets colours',
-      description: '',
-      visualisations: [
-        BucketScorecards.simpleScorecardCustomBucketsMetricTwo,
-        BucketScorecards.simpleScorecardCustomBucketsMetricThree,
-        BucketScorecards.simpleScorecardCustomBucketsMetricOne,
+        Scorecards.simpleScorecardMetricTwo,
+        Scorecards.simpleScorecardMetricOne,
+        Scorecards.simpleScorecardMetricThree,
+        Scorecards.simpleScorecardMetricTwo,
+        Scorecards.simpleScorecardMetricThree,
       ],
     },
   ],

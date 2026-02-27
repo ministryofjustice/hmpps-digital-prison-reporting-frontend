@@ -14,9 +14,9 @@ export const definition: components['schemas']['DashboardDefinition'] = {
       description: 'Section 1 description',
       visualisations: [
         BarCharts.dietTotalsBar,
-        // BarCharts.dietTotalsByEstablishmentBar,
-        // BarCharts.dietTotalsByEstablishmentByWingBar,
-        // BarCharts.dietTotalsByEstablishmentByWingByCellBar,
+        BarCharts.dietTotalsByEstablishmentBar,
+        BarCharts.dietTotalsByEstablishmentByWingBar,
+        BarCharts.dietTotalsByEstablishmentByWingByCellBar,
       ],
     },
     {

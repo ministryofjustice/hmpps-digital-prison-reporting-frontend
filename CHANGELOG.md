@@ -1,5 +1,13 @@
 Below you can find the changes included in each release.
 
+## 5.3.0
+- Update 2 eslint libs, override minimatch and ajv to resolve security issues
+- Remove unneeded jest tests
+- Add visual regression tests for dashboards
+- Remove deprecated non-route based report list code
+- Fix an issue where dashboards were erroring when there was no data
+- Bump rollup and other dev dependencies
+
 ## 5.2.4
 - Enable the new streaming download for sync reports and disable the legacy non-streaming version.
 

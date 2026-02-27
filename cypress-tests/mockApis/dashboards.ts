@@ -15,6 +15,7 @@ import {
   listInvalidDefMock,
   listInvalidVisDefMock,
   lineCompleteDatasetMock,
+  linePartialDatasetMock,
   mixedCompleteDatasetMock,
   mixedPartialDatasetMock,
   mixedPartialDatasetHistoricMock
@@ -71,6 +72,7 @@ const lineTimeseriesDefinitionStubs = {
 
 const lineDefinitionStubs = {
   stubLineCompleteData: () => stubFor(lineCompleteDatasetMock),
+  stubLinePartialData: () => stubFor(linePartialDatasetMock),
 }
 
 

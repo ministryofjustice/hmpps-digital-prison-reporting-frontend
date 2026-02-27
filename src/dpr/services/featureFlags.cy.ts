@@ -1,5 +1,9 @@
 import { executeReportStubs } from 'cypress-tests/cypressUtils'
-import { resetFeatureFlags, toggleBookmarking, toggleUnauthorisedFilterEnabled } from 'test-app/routes/integrationTests/appStateUtils'
+import {
+  resetFeatureFlags,
+  toggleBookmarking,
+  toggleUnauthorisedFilterEnabled,
+} from 'test-app/routes/integrationTests/appStateUtils'
 
 context('Viewing a report', () => {
   const path = '/embedded/platform/'

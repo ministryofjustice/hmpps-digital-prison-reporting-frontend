@@ -3,6 +3,7 @@ import {
   DashboardVisualisationType,
   DashboardVisualisationData,
   VisualisationDefinitionKey,
+  DashboardVisualisationDataSet,
 } from '../../../_dashboards/dashboard-visualisation/types'
 import { components } from '../../../../types/api'
 import Chart from '../Chart'
@@ -58,8 +59,9 @@ class LineChart extends Chart {
     }
   }
 
-  augmentDataset = () => {
-    this.datasets = this.datasets.map((set) => {
+  augmentDataset = (datasets?: DashboardVisualisationDataSet[]) => {
+    const ds = datasets || this.datasets
+    this.datasets = ds.map((set) => {
       return {
         ...set,
         pointStyle: 'circle',
@@ -71,6 +73,8 @@ class LineChart extends Chart {
         },
       }
     })
+
+    return this.datasets
   }
 
   setBespokeOptions = () => {
@@ -90,6 +94,8 @@ class LineChart extends Chart {
         },
       },
     }
+
+    return this.config
   }
 }
 

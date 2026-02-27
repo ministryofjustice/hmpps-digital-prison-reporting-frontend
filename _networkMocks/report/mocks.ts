@@ -12,7 +12,6 @@ import { reportTemplates } from './mockVariants/report-templates'
 import { mockReportVariants } from './mockVariants/mock-report'
 import { filterInputExamplesVariants } from './mockVariants/filter-input-examples'
 import { featureTestingVariants } from './mockVariants/feature-testing'
-import { listSectionData } from './mockVariants/data/list-section'
 
 const generateMocksFromDefs = (reportId: string, defs: components['schemas']['VariantDefinition'][]) => {
   return defs.map((def) => setupSimpleReportDefinitionResponseMock(reportId, def))

@@ -1,5 +1,5 @@
 import { executeReportStubs } from 'cypress-tests/cypressUtils'
-import { resetFeatureFlags } from 'test-app/routes/integrationTests/appStateUtils'
+import { resetFeatureFlags, toggleBookmarking, toggleUnauthorisedFilterEnabled } from 'test-app/routes/integrationTests/appStateUtils'
 
 context('Viewing a report', () => {
   const path = '/embedded/platform/'
@@ -14,6 +14,28 @@ context('Viewing a report', () => {
       executeReportStubs()
       cy.task('stubDefinitionRequestExamplesSuccess')
       cy.task('stubRequestSuccessResult20')
+    })
+
+    it('should not show the ability to bookmark with bookmarking disabled', () => {
+      toggleBookmarking()
+      cy.visit(path)
+      cy.findAllByRole('link', { name: /Add bookmark/ }).should('have.length', 0)
+
+      toggleBookmarking()
+      cy.visit(path)
+      cy.findAllByRole('link', { name: /Add bookmark/ }).should('have.length.above', 0)
+    })
+
+    it('should not show the ability to show unauthorised reports with this feature disabled', () => {
+      toggleUnauthorisedFilterEnabled()
+      cy.visit(path)
+      // It's initially there because we dont initially set a value for unauthorisedFilterEnabled, so toggling it sets it to exist
+      cy.findByRole('checkbox', { name: /Show unauthorised reports/, hidden: true }).should('exist')
+
+      // Then we toggle it to false
+      toggleUnauthorisedFilterEnabled()
+      cy.visit(path)
+      cy.findByRole('checkbox', { name: /Show unauthorised reports/, hidden: true }).should('not.exist')
     })
 
     it('should show the ability to save filters as default with feature flag enabled', () => {

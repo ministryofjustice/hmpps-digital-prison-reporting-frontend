@@ -6,9 +6,8 @@ export function routes(services) {
       res,
       services,
       features: {
-        filteringEnabled: false,
+        bookmarkingEnabled: true,
         unauthorisedToggleEnabled: false,
-        howToUseEnabled: false,
       },
     })
 

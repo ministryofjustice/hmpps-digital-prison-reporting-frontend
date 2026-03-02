@@ -123,33 +123,6 @@ class MockReportingClient {
         // List section
         data = mockParentChildSection.childData()
         break
-      case 'variantId-30-row-section':
-        // Single row template
-        data = mockRowSectionData
-        break
-      case 'report-template-example-row-section-child':
-        // row-section-child - parent
-        data = mockRowSectionChild.parentData()
-        break
-      case 'report-template-example-row-section-child_child':
-        data = mockRowSectionChild.childData()
-        break
-      case 'report-template-example-row-section-child_child-2':
-        data = mockRowSectionChild.childData2()
-        break
-      case 'report-template-example-row-section-multiple-rows':
-        data = mockRowSectionDataMultiple
-        break
-      case 'report-template-example-row-section-child-multiple':
-        // row-section-child- multiple - parent
-        data = mockRowSectionChildDataMultiple.parentData()
-        break
-      case 'report-template-example-row-section-child-multiple_child':
-        data = mockRowSectionChildDataMultiple.childData()
-        break
-      case 'report-template-example-row-section-child-multiple_child-2':
-        data = mockRowSectionChildDataMultiple.childData2()
-        break
       default:
         data = createMockData(pageSize)
         break

@@ -2,7 +2,7 @@
 layout: layouts/dashboards.njk
 title: Line timeseries chart
 subsection: Visualisation definition
-phase: Experimental
+phase: Beta
 phaseText: 'This feature is experimental and may be unstable. You can try it, but be aware that issues and changes are likely'
 ---
 
@@ -71,6 +71,13 @@ Avoid using a `line‑timeseries` chart when:
 ```
 
 See the [Targeting data](/dashboards/visualisations/visualisation-dataset) for and how to target data with the `column`
+
+<hr class='dpr-docs-hr'/>
+
+# Data assumptions
+
+- The dataset must include a column with the ID `ts`, containing timestamp values.
+- The `ts` values should already be formatted exactly as you want them displayed — the visualisation will render them as‑is without additional formatting.
 
 <hr class='dpr-docs-hr'/>
 

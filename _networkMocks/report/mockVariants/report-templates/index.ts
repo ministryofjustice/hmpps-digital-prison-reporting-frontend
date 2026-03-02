@@ -8,6 +8,7 @@ import listWithSummaries from './list/list_with-summaries'
 // List-section
 import listSection from './list-section/list-section'
 import listSectionWithSummaries from './list-section/list-section_with-summaries'
+import listSectionWithDates from './list-section/list-section_dates'
 
 // parent-child
 import parentChild from './parent-child/parent-child'
@@ -25,6 +26,7 @@ export const reportTemplates: (components['schemas']['VariantDefinition'] & { lo
   listWithSummaries,
   listSection,
   listSectionWithSummaries,
+  listSectionWithDates,
   parentChild,
   parentChildSection,
   summarySection,

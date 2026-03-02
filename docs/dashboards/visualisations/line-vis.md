@@ -11,9 +11,7 @@ The `line` chart visualisation type represents data as a matrix/heatmap chart vi
 
 - [When to use](#when-to-use)
 - [When not to use](#when-not-to-use)
-- [How it works](#how-it-works)
 - [Definition](#definition)
-- [Data assumptions](#data-assumptions)
 - [Examples](#examples)
 
 <hr class='dpr-docs-hr'/>

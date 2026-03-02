@@ -11,9 +11,7 @@ The `doughnut` chart visualisation type represents data as a matrix/heatmap char
 
 - [When to use](#when-to-use)
 - [When not to use](#when-not-to-use)
-- [How it works](#how-it-works)
 - [Definition](#definition)
-- [Data assumptions](#data-assumptions)
 - [Examples](#examples)
 
 <hr class='dpr-docs-hr'/>
@@ -49,12 +47,6 @@ Avoid using a pie chart when:
 
 <hr class='dpr-docs-hr'/>
 
-# How it works
-
-TBD
-
-<hr class='dpr-docs-hr'/>
-
 # Definition
 
 ```js
@@ -82,35 +74,48 @@ See the [Targeting data](/dashboards/visualisations/visualisation-dataset) for a
 
 ```js
 
-| ts         |  est_id  | wing  | cell  | finds       | count |
-|------------|----------| ------|-------|-------------|-------|
-| 2025/02/25 |          |       |       |             | 81    |
-| 2025/02/25 |          |       |       | Drugs       | 17    |
-| 2025/02/25 |          |       |       | Phones      | 22    |
-| 2025/02/25 |          |       |       | Weapons     | 26    |
-| 2025/02/25 |          |       |       | Alcohol     | 16    |
+| ts     | est_id | has_metric_one | no_metric_one | has_metric_two | no_metric_two | has_metric_three | no_metric_three |
+|--------|--------|----------------|---------------|----------------|---------------|------------------|-----------------|
+| Jan 25 | ABC    | 533            | 614           | 684            | 665           | 680              | 799             |
+| Jan 25 | GHI    | 484            | 713           | 700            | 506           | 771              | 457             |
+| Jan 25 | DEF    | 406            | 682           | 703            | 409           | 648              | 720             |
 ```
 
 <hr class='dpr-docs-hr'/>
 
 # Example 1
 
-TBD
-
 ### Definition
 
 ```js
 {
-  id: 'example-1',
-  type: 'vis-type',
-  display: 'Example definition',
-  description: 'Example definition description',
-  option: {},
-  column: {
-    key: [],
-    measure: [],
-    filter: []
-    expectNull: true,
+  id: 'doughnut-data-quality-has-MetricOne',
+  type: 'doughnut',
+  display: 'MetricOne values',
+  columns: {
+    keys: [
+      {
+        id: 'establishment_id',
+        display: 'Establishment ID',
+      },
+    ],
+    measures: [
+      {
+        id: 'has_metric_one',
+        display: 'Has MetricOne',
+      },
+      {
+        id: 'no_metric_one',
+        display: 'No MetricOne',
+      },
+    ],
+    filters: [
+      {
+        id: 'establishment_id',
+        equals: 'ABC',
+      },
+    ],
+    expectNulls: false,
   },
 }
 ```
@@ -121,6 +126,10 @@ This definition will return the following dataset
 
 ```js
 
+| ts     | est_id | has_metric_one | no_metric_one |
+|--------|--------|----------------|---------------|
+| Jan 25 | ABC    | 533            | 614           |
+
 ```
 
 see [here](/dashboards/visualisations/visualisation-dataset) for more info on targeting data
@@ -129,28 +138,51 @@ see [here](/dashboards/visualisations/visualisation-dataset) for more info on ta
 
 ### Visualisation
 
-<img src="/assets/images/barExample1.png" alt="" width="500"/>
+<img src="/assets/images/charts/doughnut/Pie1.png" alt="" width="700" style="margin-bottom: 30px"/>
 
 <hr class='dpr-docs-hr'/>
 
 # Example 2
 
-TBD
-
 ### Definition
 
 ```js
 {
-  id: 'example-1',
-  type: 'vis-type',
-  display: 'Example definition',
-  description: 'Example definition description',
-  option: {},
-  column: {
-    key: [],
-    measure: [],
-    filter: []
-    expectNull: true,
+  id: 'doughnut-data-quality-has-MetricTwo-MetricThree',
+  type: 'doughnut',
+  display: 'MetricTwo & MetricThree values',
+  columns: {
+    keys: [
+      {
+        id: 'est_id',
+        display: 'Establishment ID',
+      },
+    ],
+    measures: [
+      {
+        id: 'has_metric_two',
+        display: 'Has MetricTwo',
+      },
+      {
+        id: 'no_metric_two',
+        display: 'No MetricTwo',
+      },
+      {
+        id: 'has_metric_three',
+        display: 'Has MetricThree',
+      },
+      {
+        id: 'no_metric_three',
+        display: 'No MetricThree',
+      },
+    ],
+    filters: [
+      {
+        id: 'establishment_id',
+        equals: 'ABC',
+      },
+    ],
+    expectNulls: false,
   },
 }
 ```
@@ -160,6 +192,69 @@ TBD
 This definition will return the following dataset
 
 ```js
+| ts     | est_id | has_metric_two | no_metric_two | has_metric_three | no_metric_three |
+|--------|--------|----------------|---------------|------------------|-----------------|
+| Jan 25 | ABC    | 684            | 665           | 680              | 799             |
+```
+
+see [here](/dashboards/visualisations/visualisation-dataset) for more info on targeting data
+
+<hr class='dpr-docs-hr'/>
+
+### Visualisation
+
+<img src="/assets/images/charts/doughnut/Pie2.png" alt="" width="700" style="margin-bottom: 30px"/>
+
+# Example 3
+
+### Definition
+
+```js
+{
+  id: 'doughnut-data-quality-has-MetricOne-two-ring',
+  type: 'doughnut',
+  display: 'MetricOne values',
+  columns: {
+    keys: [
+      {
+        id: 'est_id',
+        display: 'Establishment ID',
+      },
+    ],
+    measures: [
+      {
+        id: 'has_metric_one',
+        display: 'Has MetricOne',
+      },
+      {
+        id: 'no_metric_one',
+        display: 'No MetricOne',
+      },
+    ],
+    filters: [
+      {
+        id: 'establishment_id',
+        equals: 'ABC',
+      },
+      {
+        id: 'establishment_id',
+        equals: 'GHI',
+      },
+    ],
+    expectNulls: false,
+  },
+}
+```
+
+### Visualisation dataset
+
+This definition will return the following dataset
+
+```js
+| est_id | has_metric_one  | no_metric_one  |
+|--------|-----------------|----------------|
+| ABC    | 533             | 614            |
+| GHI    | 484             | 713            |
 
 ```
 
@@ -169,4 +264,4 @@ see [here](/dashboards/visualisations/visualisation-dataset) for more info on ta
 
 ### Visualisation
 
-<img src="../../assets/images/barExample1.png" alt="" width="500"/>
+<img src="/assets/images/charts/doughnut/Pie3.png" alt="" width="700" style="margin-bottom: 30px"/>

@@ -3,9 +3,10 @@ layout: layouts/dashboards.njk
 title: Scorecard
 subsection: Visualisation definition
 ---
-<img src="/assets/images/scorecard-section-rag.png" alt="" style="margin-bottom: 30px"/>
 
-The `scorecard` chart visualisation type represents data as a scorecard. 
+<img src="/assets/images/charts/scorecard/scorecard-section-rag.png" alt="" style="margin-bottom: 30px"/>
+
+The `scorecard` chart visualisation type represents data as a scorecard.
 
 A scorecard is used to display:
 
@@ -27,6 +28,7 @@ A scorecard is used to display:
 # When to use
 
 Use this visualisation type when:
+
 - you need to display data as a **single** scorecard.
 - you need to display a **single** column value as a scorecard
 
@@ -47,7 +49,7 @@ Use [Scorecard group](/dashboards/visualisations/scorecard-group) when:
 
 ## Value
 
-The metric value and description is taken from the value in the single `measure` column provided in the definition 
+The metric value and description is taken from the value in the single `measure` column provided in the definition
 
 If timestamp data is present in the data, the value is taken from the latest data in the dataset
 
@@ -55,13 +57,13 @@ If timestamp data is present in the data, the value is taken from the latest dat
 
 The data score is represented as a colour to denote its status.
 
-See [Data Scoring & Bucketing](/dashboards/visualisations/custom-buckets) for docs on how data is scored and bucketed, and how to define custom buckets.  
+See [Data Scoring & Bucketing](/dashboards/visualisations/custom-buckets) for docs on how data is scored and bucketed, and how to define custom buckets.
 
 If not data score or custom bucketing is found then the data score is not displayed.
 
 ## Trend
 
-The trend data for the metric value is derived from the difference between the earliest and latest value in the dataset. 
+The trend data for the metric value is derived from the difference between the earliest and latest value in the dataset.
 
 If no timestamp data is found then the trend is not displayed
 
@@ -79,7 +81,7 @@ If no timestamp data is found then the trend is not displayed
     ...
   }
   column: {
-    key: [ ... ], 
+    key: [ ... ],
     measure: [{ id: 'column-id' }]  // Always expects only a single measure
   }
 }
@@ -87,9 +89,9 @@ If no timestamp data is found then the trend is not displayed
 
 See the [Targeting data](/dashboards/visualisations/visualisation-dataset) for and how to target data with the `column`
 
-### Options: 
+### Options:
 
-See [Custom buckets](/dashboards/visualisations/custom-buckets##custom-buckets) for `options` documentation 
+See [Custom buckets](/dashboards/visualisations/custom-buckets##custom-buckets) for `options` documentation
 
 <hr class='dpr-docs-hr'/>
 
@@ -145,13 +147,14 @@ This exmaple demonstrates how to define a scorecard in its simplest form.
 
 ### Visualisation
 
-<img src="/assets/images/scorecard-simple.png" alt=""/>
+<img src="/assets/images/charts/scorecard/scorecard-simple.png" alt=""/>
 
 <hr class='dpr-docs-hr'/>
 
 # Simple scorecard with filter
 
 The example demonstrates how to a define scorecard that get its value by using the `filter` field
+
 - If the filter return no rows then the scorecard is not displayed.
 
 ### Dataset
@@ -160,17 +163,17 @@ The example demonstrates how to a define scorecard that get its value by using t
 | ts         | est_id | has_metric_two | has_metric_three |
 |------------|--------|----------------|------------------|
 | Jun 25.    | ABC    | 21             | 485              |
-| Jun 25.    | DEF    | 27             | 485              | 
-| Jul 25.    | ABC    | 80             | 701              | 
+| Jun 25.    | DEF    | 27             | 485              |
+| Jul 25.    | ABC    | 80             | 701              |
 | Jul 25.    | DEF    | 84             | 701              |
-| Aug 25.    | ABC    | 56             | 725              | 
-| Aug 25.    | DEF    | 34             | 725              | 
-| Sep 25     | ABC    | 30             | 765              | 
+| Aug 25.    | ABC    | 56             | 725              |
+| Aug 25.    | DEF    | 34             | 725              |
+| Sep 25     | ABC    | 30             | 765              |
 | Sep 25     | DEF    | 36             | 765              |
-| Oct 25.    | ABC    | 42             | 765              | 
-| Oct 25.    | DEF    | 44             | 765              | 
-| Nov 25.    | ABC    | 12             | 765              | 
-| Nov 25.    | DEF    | 33             | 765              | 
+| Oct 25.    | ABC    | 42             | 765              |
+| Oct 25.    | DEF    | 44             | 765              |
+| Nov 25.    | ABC    | 12             | 765              |
+| Nov 25.    | DEF    | 33             | 765              |
 ```
 
 ### Definition
@@ -185,9 +188,9 @@ The example demonstrates how to a define scorecard that get its value by using t
     key: [{ id: 'est_id' }],
     measure: [{ id: 'has_metric_two' }],
     filter: [
-      { 
-        id: 'est_id', 
-        equals: 'GHI' 
+      {
+        id: 'est_id',
+        equals: 'GHI'
       }
     ],
   },
@@ -196,7 +199,7 @@ The example demonstrates how to a define scorecard that get its value by using t
 
 ### Visualisation
 
-<img src="/assets/images/scorecard-filter.png" alt=""/>
+<img src="/assets/images/charts/scorecard/scorecard-filter.png" alt=""/>
 
 <hr class='dpr-docs-hr'/>
 
@@ -205,7 +208,7 @@ The example demonstrates how to a define scorecard that get its value by using t
 ### Dataset
 
 ```js
-| ts         | est_id | wing     | diet       | total  | 
+| ts         | est_id | wing     | diet       | total  |
 |------------|--------|----------|------------|--------|
 | Nov 25.    |        |          |            | 30     |
 | Nov 25.    |        |          | Diet one   | 12     |
@@ -220,7 +223,7 @@ The example demonstrates how to a define scorecard that get its value by using t
 | Nov 25.    |  ABC   | south    | Diet one   | 11     |
 | Nov 25.    |  ABC   | south    | Diet three | 3      |
 | Nov 25.    |  ABC   | south    | Diet four  | 1      |
-... omitted past ts rows. 
+... omitted past ts rows.
 ```
 
 ### Definition
@@ -277,7 +280,7 @@ The example demonstrates how to a define scorecard that get its value by using t
 
 ### Visualisation
 
-<img src="/assets/images/scorecard-diet-filters.png" alt=""/>
+<img src="/assets/images/charts/scorecard/scorecard-diet-filters.png" alt=""/>
 
 <hr class='dpr-docs-hr'/>
 
@@ -290,12 +293,12 @@ Defining multiple `scorecard` visualisation types adjacent to each other within 
 ```js
 | ts         | est_id | has_metric_two | has_metric_three | has_metric_one |
 |------------|--------|----------------|------------------|----------------|
-| Jun 25.    | ABC    | 81             | 89               | 36             | 
-| Jul 25.    | ABC    | 80             | 34               | 80             | 
-| Aug 25.    | ABC    | 56             | 67               | 30             | 
-| Sep 25     | ABC    | 30             | 56               | 67             | 
+| Jun 25.    | ABC    | 81             | 89               | 36             |
+| Jul 25.    | ABC    | 80             | 34               | 80             |
+| Aug 25.    | ABC    | 56             | 67               | 30             |
+| Sep 25     | ABC    | 30             | 56               | 67             |
 | Oct 25.    | ABC    | 42             | 43               | 42             |
-| Nov 25.    | ABC    | 94             | 61               | 51             | 
+| Nov 25.    | ABC    | 94             | 61               | 51             |
 ```
 
 ### Definition
@@ -336,17 +339,19 @@ Defining multiple `scorecard` visualisation types adjacent to each other within 
   ],
 }
 ```
+
 see [here](/dashboards/visualisations/visualisation-dataset) for more info on targeting data
 
 ### Visualisation
 
-<img src="/assets/images/scorecard-section.png" alt=""/>
+<img src="/assets/images/charts/scorecard/scorecard-section.png" alt=""/>
 
 <hr class='dpr-docs-hr'/>
 
 # RAG Scores
 
 This examples display RAG scores within the scorecard:
+
 - defines `useRagColour: true` to enable RAG colouring.
 - Assumes that the dataset contains a rag score through a scoring engine.
 
@@ -355,12 +360,12 @@ This examples display RAG scores within the scorecard:
 ```js
 | ts         | est_id | has_metric_two | has_metric_three | has_metric_one |
 |------------|--------|----------------|------------------|----------------|
-| Jun 25.    | ABC    | 37             | 85               | 75             | 
-| Jul 25.    | ABC    | 80             | 34               | 80             | 
-| Aug 25.    | ABC    | 56             | 67               | 30             | 
-| Sep 25     | ABC    | 30             | 56               | 67             | 
+| Jun 25.    | ABC    | 37             | 85               | 75             |
+| Jul 25.    | ABC    | 80             | 34               | 80             |
+| Aug 25.    | ABC    | 56             | 67               | 30             |
+| Sep 25     | ABC    | 30             | 56               | 67             |
 | Oct 25.    | ABC    | 42             | 43               | 42             |
-| Nov 25.    | ABC    | 87             | 29               | 38             | 
+| Nov 25.    | ABC    | 87             | 29               | 38             |
 ```
 
 ### Definition
@@ -411,17 +416,19 @@ This examples display RAG scores within the scorecard:
   ],
 },
 ```
+
 see [here](/dashboards/visualisations/visualisation-dataset) for more info on targeting data
 
 ### Visualisation
 
-<img src="/assets/images/scorecard-section-rag.png" alt=""/>
+<img src="/assets/images/charts/scorecard/scorecard-section-rag.png" alt=""/>
 
 <hr class='dpr-docs-hr'/>
 
-# Custom bucket colours 
+# Custom bucket colours
 
 Define custom colours to your buckets:
+
 - Defines 3 buckets with custom `hexColour` values that define the bucket colour.
 - Example sssumes that the dataset contains a rag score through a scoring engine.
 
@@ -430,12 +437,12 @@ Define custom colours to your buckets:
 ```js
 | ts         | est_id | has_metric_two | has_metric_three | has_metric_one |
 |------------|--------|----------------|------------------|----------------|
-| Jun 25.    | ABC    | 70             | 30               | 60             | 
-| Jul 25.    | ABC    | 80             | 34               | 80             | 
-| Aug 25.    | ABC    | 56             | 67               | 30             | 
-| Sep 25     | ABC    | 30             | 56               | 67             | 
+| Jun 25.    | ABC    | 70             | 30               | 60             |
+| Jul 25.    | ABC    | 80             | 34               | 80             |
+| Aug 25.    | ABC    | 56             | 67               | 30             |
+| Sep 25     | ABC    | 30             | 56               | 67             |
 | Oct 25.    | ABC    | 42             | 43               | 42             |
-| Nov 25.    | ABC    | 98             | 13               | 51             | 
+| Nov 25.    | ABC    | 98             | 13               | 51             |
 ```
 
 ### Definition
@@ -452,8 +459,8 @@ Define custom colours to your buckets:
       display: 'No of prisoners with MetricTwo',
       option: {
         bucket: [
-          { hexColour: '#912b88' }, 
-          { hexColour: '#28a197' }, 
+          { hexColour: '#912b88' },
+          { hexColour: '#28a197' },
           { hexColour: '#f47738' }
         ],
       },
@@ -468,8 +475,8 @@ Define custom colours to your buckets:
       display: 'No of prisoners with MetricOne',
       option: {
         bucket: [
-          { hexColour: '#912b88' }, 
-          { hexColour: '#28a197' }, 
+          { hexColour: '#912b88' },
+          { hexColour: '#28a197' },
           { hexColour: '#f47738' }
         ],
       },
@@ -484,8 +491,8 @@ Define custom colours to your buckets:
       display: 'No of prisoners with MetricThree',
       option: {
         bucket: [
-          { hexColour: '#912b88' }, 
-          { hexColour: '#28a197' }, 
+          { hexColour: '#912b88' },
+          { hexColour: '#28a197' },
           { hexColour: '#f47738' }
         ],
       },
@@ -497,12 +504,12 @@ Define custom colours to your buckets:
   ],
 },
 ```
-see [here](/dashboards/visualisations/visualisation-dataset) for more info on targeting data
 
+see [here](/dashboards/visualisations/visualisation-dataset) for more info on targeting data
 
 ### Visualisation
 
-<img src="/assets/images/scorecard-bucket-colours.png" alt=""/>
+<img src="/assets/images/charts/scorecard/scorecard-bucket-colours.png" alt=""/>
 
 <hr class='dpr-docs-hr'/>
 
@@ -515,12 +522,12 @@ In this example custom buckets are defined in the definition to set the RAG scor
 ```js
 | ts         | est_id | has_metric_two | has_metric_three | has_metric_one |
 |------------|--------|----------------|------------------|----------------|
-| Jun 25.    | ABC    | 70             | 30               | 60             | 
-| Jul 25.    | ABC    | 80             | 34               | 80             | 
-| Aug 25.    | ABC    | 56             | 67               | 30             | 
-| Sep 25     | ABC    | 30             | 56               | 67             | 
+| Jun 25.    | ABC    | 70             | 30               | 60             |
+| Jul 25.    | ABC    | 80             | 34               | 80             |
+| Aug 25.    | ABC    | 56             | 67               | 30             |
+| Sep 25     | ABC    | 30             | 56               | 67             |
 | Oct 25.    | ABC    | 42             | 43               | 42             |
-| Nov 25.    | ABC    | 98             | 13               | 51             | 
+| Nov 25.    | ABC    | 98             | 13               | 51             |
 ```
 
 ### Definition
@@ -538,8 +545,8 @@ In this example custom buckets are defined in the definition to set the RAG scor
       option: {
         useRagColour: true,
         bucket: [
-          { max: 40 }, 
-          { min: 41, max: 60 }, 
+          { max: 40 },
+          { min: 41, max: 60 },
           { min: 61 }
         ],
       },
@@ -555,8 +562,8 @@ In this example custom buckets are defined in the definition to set the RAG scor
       option: {
         useRagColour: true,
         bucket: [
-          { max: 50 }, 
-          { min: 51, max: 55 }, 
+          { max: 50 },
+          { min: 51, max: 55 },
           { min: 56 }
         ],
       },
@@ -572,8 +579,8 @@ In this example custom buckets are defined in the definition to set the RAG scor
       option: {
         useRagColour: true,
         bucket: [
-          { max: 20 }, 
-          { min: 21, max: 70 }, 
+          { max: 20 },
+          { min: 21, max: 70 },
           { min: 71 }
         ],
       },
@@ -586,12 +593,11 @@ In this example custom buckets are defined in the definition to set the RAG scor
 },
 ```
 
-See [Custom buckets](/dashboards/visualisations/custom-buckets##custom-buckets) for documentation on defining custom buckets. 
+See [Custom buckets](/dashboards/visualisations/custom-buckets##custom-buckets) for documentation on defining custom buckets.
 see [here](/dashboards/visualisations/visualisation-dataset) for more info on targeting data.
-
 
 ### Visualisation
 
-<img src="/assets/images/scorecard-custom-buckets.png" alt=""/>
+<img src="/assets/images/charts/scorecard/scorecard-custom-buckets.png" alt=""/>
 
 <hr class='dpr-docs-hr'/>

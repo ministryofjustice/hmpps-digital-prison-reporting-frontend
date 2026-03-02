@@ -6,8 +6,8 @@ phase: Experimental
 phaseText: 'This feature is experimental and may be unstable. You can try it, but be aware that issues and changes are likely'
 ---
 
-<img src="/assets/images/matrixExample2.png" alt="bar chart example" width="350" style="margin-bottom: 30px"/>
-<img src="/assets/images/matrixExample1.png" alt="bar chart example" width="350" style="margin-bottom: 30px"/>
+<img src="/assets/images/charts/matrix/matrixExample2.png" alt="bar chart example" width="350" style="margin-bottom: 30px"/>
+<img src="/assets/images/charts/matrix/matrixExample1.png" alt="bar chart example" width="350" style="margin-bottom: 30px"/>
 
 The `matrix-timeseries` chart visualisation type represents data as a matrix/heatmap chart visualisation.
 
@@ -190,7 +190,7 @@ see [here](/dashboards/visualisations/visualisation-dataset) for more info on ta
 
 ### Visualisation
 
-<img src="/assets/images/matrixExample1.png" alt="bar chart example" width="500"/>
+<img src="/assets/images/charts/matrix/matrixExample1.png" alt="bar chart example" width="500"/>
 
 <hr class='dpr-docs-hr'/>
 
@@ -252,7 +252,7 @@ see [here](/dashboards/visualisations/visualisation-dataset) for more info on ta
 
 ### Visualisation
 
-<img src="/assets/images/matrix-example-base-colour.png" alt="bar chart example" width="500"/>
+<img src="/assets/images/charts/matrix/matrix-example-base-colour.png" alt="bar chart example" width="500"/>
 
 <hr class='dpr-docs-hr'/>
 
@@ -321,7 +321,7 @@ see [here](/dashboards/visualisations/visualisation-dataset) for more info on ta
 
 ### Visualisation
 
-<img src="/assets/images/matrix-example-custom.png" alt="bar chart example" width="500"/>
+<img src="/assets/images/charts/matrix/matrix-example-custom.png" alt="bar chart example" width="500"/>
 
 <hr class='dpr-docs-hr'/>
 
@@ -387,7 +387,7 @@ see [here](/dashboards/visualisations/visualisation-dataset) for more info on ta
 
 ### Visualisation
 
-<img src="/assets/images/matrix-example-custom-colour.png" alt="bar chart example" width="500"/>
+<img src="/assets/images/charts/matrix/matrix-example-custom-colour.png" alt="bar chart example" width="500"/>
 
 <hr class='dpr-docs-hr'/>
 
@@ -467,7 +467,7 @@ see [here](/dashboards/visualisations/visualisation-dataset) for more info on ta
 
 ### Visualisation:
 
-<img src="/assets/images/matrixExample1.png" alt="bar chart example" width="500"/>
+<img src="/assets/images/charts/matrix/matrixExample1.png" alt="bar chart example" width="500"/>
 
 # RAG colours
 
@@ -527,6 +527,6 @@ see [here](/dashboards/visualisations/visualisation-dataset) for more info on ta
 
 ### Visualisation
 
-<img src="/assets/images/matrixExample2.png" alt="bar chart example" width="500"/>
+<img src="/assets/images/charts/matrix/matrixExample2.png" alt="bar chart example" width="500"/>
 
 <hr class='dpr-docs-hr'/>

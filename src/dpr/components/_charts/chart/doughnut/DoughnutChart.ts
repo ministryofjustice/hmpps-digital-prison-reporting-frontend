@@ -30,10 +30,9 @@ class DoughnutChart extends Chart {
   }
 
   build = (): DashboardVisualisationData => {
-    this.createDatasets(this.measures, this.keys, this.responseData)
+    this.createDatasets(this.measures, this.keys)
     this.augmentDataset()
     this.setBespokeOptions()
-    this.createLabels(this.measures)
 
     return {
       type: DashboardVisualisationType.DONUT,

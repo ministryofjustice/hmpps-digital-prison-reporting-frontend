@@ -15,6 +15,32 @@ const BarOptionsSchema = z.object({
   yStacked: z.boolean().default(false),
 })
 
+const BarMeasuresSchema = z
+  .array(BarMeasureShema)
+  .refine(
+    (measures) => {
+      const xAxis = measures.find((m) => m.axis === 'x')
+      const yAxis = measures.find((m) => m.axis === 'y')
+
+      let valid = true
+      if ((xAxis !== undefined && !yAxis) || (yAxis !== undefined && !xAxis)) {
+        valid = false
+      }
+      return valid
+    },
+    { error: 'X and Y axis must be defined in measure' },
+  )
+  .refine(
+    (measures) => {
+      const xAxis = measures.find((m) => m.axis === 'x')
+      const yAxis = measures.find((m) => m.axis === 'y')
+      let valid = true
+      if (xAxis !== undefined && yAxis !== undefined && measures.length > 2) valid = false
+      return valid
+    },
+    { error: 'Measure must contain only 2 items when axis is specified' },
+  )
+
 const BarSchema = z.object({
   ...DashboardVisualisationSchema.shape,
   type: z.literal('bar'),
@@ -22,31 +48,7 @@ const BarSchema = z.object({
   options: z.object(BarOptionsSchema.shape).optional(),
   columns: z.object({
     ...DashboardColumns.shape,
-    measures: z
-      .array(BarMeasureShema)
-      .refine(
-        (measures) => {
-          const xAxis = measures.find((m) => m.axis === 'x')
-          const yAxis = measures.find((m) => m.axis === 'y')
-
-          let valid = true
-          if ((xAxis !== undefined && !yAxis) || (yAxis !== undefined && !xAxis)) {
-            valid = false
-          }
-          return valid
-        },
-        { error: 'X and Y axis must be defined in measure' },
-      )
-      .refine(
-        (measures) => {
-          const xAxis = measures.find((m) => m.axis === 'x')
-          const yAxis = measures.find((m) => m.axis === 'y')
-          let valid = true
-          if (xAxis !== undefined && yAxis !== undefined && measures.length > 2) valid = false
-          return valid
-        },
-        { error: 'Measure must contain only 2 items when axis is specified' },
-      ),
+    measures: BarMeasuresSchema,
   }),
 })
 
@@ -54,6 +56,7 @@ const BarChartSchemas = {
   BarSchema,
   BarMeasureShema,
   BarOptionsSchema,
+  BarMeasuresSchema,
 }
 
 export default BarChartSchemas

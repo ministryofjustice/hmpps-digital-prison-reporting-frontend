@@ -3,7 +3,7 @@ layout: layouts/dashboards.njk
 title: Scorecard
 subsection: Visualisation definition
 ---
-<!-- <img src="/assets/images/scorecard-section-rag.png" alt="" style="margin-bottom: 30px"/> -->
+<img src="/assets/images/scorecard-section-rag.png" alt="" style="margin-bottom: 30px"/>
 
 The `scorecard` chart visualisation type represents data as a scorecard. 
 
@@ -145,7 +145,7 @@ This exmaple demonstrates how to define a scorecard in its simplest form.
 
 ### Visualisation
 
-<!-- <img src="/assets/images/scorecard-simple.png" alt=""/> -->
+<img src="/assets/images/scorecard-simple.png" alt=""/>
 
 <hr class='dpr-docs-hr'/>
 
@@ -196,7 +196,7 @@ The example demonstrates how to a define scorecard that get its value by using t
 
 ### Visualisation
 
-<!-- <img src="/assets/images/scorecard-filter.png" alt=""/> -->
+<img src="/assets/images/scorecard-filter.png" alt=""/>
 
 <hr class='dpr-docs-hr'/>
 
@@ -277,7 +277,7 @@ The example demonstrates how to a define scorecard that get its value by using t
 
 ### Visualisation
 
-<!-- <img src="/assets/images/scorecard-diet-filters.png" alt=""/> -->
+<img src="/assets/images/scorecard-diet-filters.png" alt=""/>
 
 <hr class='dpr-docs-hr'/>
 
@@ -340,7 +340,7 @@ see [here](/dashboards/visualisations/visualisation-dataset) for more info on ta
 
 ### Visualisation
 
-<!-- <img src="/assets/images/scorecard-section.png" alt=""/> -->
+<img src="/assets/images/scorecard-section.png" alt=""/>
 
 <hr class='dpr-docs-hr'/>
 
@@ -415,7 +415,7 @@ see [here](/dashboards/visualisations/visualisation-dataset) for more info on ta
 
 ### Visualisation
 
-<!-- <img src="/assets/images/scorecard-section-rag.png" alt=""/> -->
+<img src="/assets/images/scorecard-section-rag.png" alt=""/>
 
 <hr class='dpr-docs-hr'/>
 
@@ -502,7 +502,7 @@ see [here](/dashboards/visualisations/visualisation-dataset) for more info on ta
 
 ### Visualisation
 
-<!-- <img src="/assets/images/scorecard-bucket-colours.png" alt=""/> -->
+<img src="/assets/images/scorecard-bucket-colours.png" alt=""/>
 
 <hr class='dpr-docs-hr'/>
 
@@ -592,6 +592,6 @@ see [here](/dashboards/visualisations/visualisation-dataset) for more info on ta
 
 ### Visualisation
 
-<!-- <img src="/assets/images/scorecard-custom-buckets.png" alt=""/> -->
+<img src="/assets/images/scorecard-custom-buckets.png" alt=""/>
 
 <hr class='dpr-docs-hr'/>

@@ -48,6 +48,7 @@ import reportTemplateExampleParentChild from '@networkMocks/report/mockVariants/
 import reportTemplateExampleParentChildSection from '@networkMocks/report/mockVariants/report-templates/parent-child/parent-child-section'
 import reportTemplateExampleSummarySection from '@networkMocks/report/mockVariants/report-templates/summary-section/summary-section'
 import { getFlagsMockDisabled, getFlagsMockEmpty, getFlagsMockEnabled } from '@networkMocks/featureFlags/mocks'
+import { listSectionData } from '@networkMocks/report/mockVariants/data/list-section'
 
 export const stubs = {
   stubGetFeatureTestingMissing: () =>
@@ -175,6 +176,19 @@ export const stubs = {
         response: {
           ...getAsyncReportResultMock.response,
           jsonBody: createMockData(20),
+        },
+      }),
+    ),
+  stubListSectionResultWithDates: () =>
+    stubFor(
+      generateNetworkMock({
+        ...getAsyncReportResultMock,
+        request: {
+          ...getAsyncReportResultMock.request,
+        },
+        response: {
+          ...getAsyncReportResultMock.response,
+          jsonBody: listSectionData(),
         },
       }),
     ),

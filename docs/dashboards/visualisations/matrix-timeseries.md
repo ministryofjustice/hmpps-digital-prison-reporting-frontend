@@ -9,7 +9,7 @@ phaseText: 'This feature is experimental and may be unstable. You can try it, bu
 <img src="/assets/images/matrixExample2.png" alt="bar chart example" width="350" style="margin-bottom: 30px"/>
 <img src="/assets/images/matrixExample1.png" alt="bar chart example" width="350" style="margin-bottom: 30px"/>
 
-The `matrix-timeseries` chart visualisation type represents data as a matrix/heatmap chart visualisation. 
+The `matrix-timeseries` chart visualisation type represents data as a matrix/heatmap chart visualisation.
 
 - [When to use](#when-to-use)
 - [How it works](#how-it-works)
@@ -21,32 +21,42 @@ The `matrix-timeseries` chart visualisation type represents data as a matrix/hea
 
 # When to use
 
-Use this visualisation type when you need to display historic data as a **heatmap**, or as a **Red, Amber, Green** traffic-light conventions.
+Use a matrix/heatmap when you want to show patterns, intensity, or relationships across two categorical or sequential dimensions. Heatmaps are especially effective for quickly spotting clusters, outliers, and high/low concentration areas through color.
+Choose a matrix/heatmap when:
 
-### Red, Amber, Green
+- You have two variables (e.g., time × category, metric × metric) and want to visualise how values vary across that grid.
+- You want to reveal patterns or trends that are easier to see through colour gradients than numbers alone.
+- You’re analysing large datasets where showing every value in a table would overwhelm the reader.
+- Comparing magnitude via colour is sufficient, and exact values are secondary.
+- You want to highlight correlations, intensity levels, or frequency distributions at a glance.
+- Your audience benefits from visual grouping, such as heat clusters or distinct cold zones.
 
-Use RAG when:
+Heatmaps shine when the goal is to understand the shape or distribution of data across two dimensions.
 
-- You have 3 buckets
-- You're visualising performance, status, or compliance data.
-- Quick identification of "bad" areas in the primary goal.
-- Your audience expects traffic-light conventions of red, amber and green.
+<hr class='dpr-docs-hr'/>
 
-### Heatmaps
+# When not to use
 
-Gradient variations of a base colour. Use heatmap colouring when:
+Avoid using a matrix/heatmap when:
 
-- You need many buckets for fine grained data
-- You're showing purely quantative data.
-- When there are no natural thresholds. i.e. There are no meaningful good, warning, or bad thresholds.
+- Precise numerical values matter — colour is less accurate than explicit numbers or bars.
+- Your dataset has very few data points, making the grid sparse and uninformative.
+- There is no clear second dimension — if you only have one variable, a bar or line chart is better.
+- Your audience may struggle with colour interpretation (e.g. colour‑blindness concerns or inaccessible palettes).
+- Colours don't have a strong meaning tied to the data (e.g., random colours instead of a meaningful scale).
+- You need to emphasise ranking or order, which is harder to interpret through colour alone.
+- Your categories are too long or numerous, causing unreadable labels or excessive scrolling.
+- The data varies only slightly, producing a heatmap where all cells look the same.
+
+Use heatmaps for pattern recognition, not for fine‑grained comparison.
 
 <hr class='dpr-docs-hr'/>
 
 # How it works
 
-The Matrix chart uses colour to represent data as two dimensional matrix. Values in a dataset are assigned to buckets which have a colour associated to them. 
+The Matrix chart uses colour to represent data as two dimensional matrix. Values in a dataset are assigned to buckets which have a colour associated to them.
 
-See [Custom buckets](/dashboards/visualisations/custom-buckets#custom-buckets) for docs on how data is scored and bucketed, and how to define custom buckets.  
+See [Custom buckets](/dashboards/visualisations/custom-buckets#custom-buckets) for docs on how data is scored and bucketed, and how to define custom buckets.
 
 <hr class='dpr-docs-hr'/>
 
@@ -70,13 +80,14 @@ See [Custom buckets](/dashboards/visualisations/custom-buckets#custom-buckets) f
   }
 }
 ```
+
 See the [Visualisation definition](/dashboards/visualisations/visualisation-definition) docs for the definition schema
 
 See the [Targeting data](/dashboards/visualisations/visualisation-dataset) for and how to target data with the `column`
 
 ## Options:
 
-See [Custom buckets](/dashboards/visualisations/custom-buckets##custom-buckets) for `options` documentation 
+See [Custom buckets](/dashboards/visualisations/custom-buckets##custom-buckets) for `options` documentation
 
 <hr class='dpr-docs-hr'/>
 
@@ -102,7 +113,7 @@ For these examples we will use a mocked dataset representing finds totals
 
 ```js
 
-| ts         |  est_id  | wing  | cell  | finds       | count | 
+| ts         |  est_id  | wing  | cell  | finds       | count |
 |------------|----------| ------|-------|-------------|-------|
 | 2025/02/25 |          |       |       |             | 81    |
 | 2025/02/25 |          |       |       | Drugs       | 17    |
@@ -165,14 +176,16 @@ In this example we will define a heatmap that:
 ### Visualisation dataset
 
 This definition will return the following dataset
+
 ```js
-| ts         |  est_id  | wing  | cell  | finds       | count | 
+| ts         |  est_id  | wing  | cell  | finds       | count |
 |------------|----------| ------|-------|-------------|-------|
 | 2025/02/25 |          |       |       |             | 81    |
 | 2025/02/24 |          |       |       |             | 69    |
 | 2025/02/23 |          |       |       |             | 92    |
 ... more rows ommitted
 ```
+
 see [here](/dashboards/visualisations/visualisation-dataset) for more info on targeting data
 
 ### Visualisation
@@ -225,14 +238,16 @@ In this example we will define a heatmap that:
 ### Visualisation dataset
 
 This definition will return the following dataset
+
 ```js
-| ts         |  est_id  | wing  | cell  | finds       | count | 
+| ts         |  est_id  | wing  | cell  | finds       | count |
 |------------|----------| ------|-------|-------------|-------|
 | 2025/02/25 |          |       |       |             | 81    |
 | 2025/02/24 |          |       |       |             | 69    |
 | 2025/02/23 |          |       |       |             | 92    |
 ... more rows ommitted
 ```
+
 see [here](/dashboards/visualisations/visualisation-dataset) for more info on targeting data
 
 ### Visualisation
@@ -292,14 +307,16 @@ In this example we will define a heatmap that:
 ### Visualisation dataset
 
 This definition will return the following dataset
+
 ```js
-| ts         |  est_id  | wing  | cell  | finds       | count | 
+| ts         |  est_id  | wing  | cell  | finds       | count |
 |------------|----------| ------|-------|-------------|-------|
 | 2025/02/25 |          |       |       |             | 81    |
 | 2025/02/24 |          |       |       |             | 69    |
 | 2025/02/23 |          |       |       |             | 92    |
 ... more rows ommitted
 ```
+
 see [here](/dashboards/visualisations/visualisation-dataset) for more info on targeting data
 
 ### Visualisation
@@ -356,14 +373,16 @@ In this example we will define a heatmap that:
 ### Visualisation dataset
 
 This definition will return the following dataset
+
 ```js
-| ts         |  est_id  | wing  | cell  | finds       | count | 
+| ts         |  est_id  | wing  | cell  | finds       | count |
 |------------|----------| ------|-------|-------------|-------|
 | 2025/02/25 |          |       |       |             | 81    |
 | 2025/02/24 |          |       |       |             | 69    |
 | 2025/02/23 |          |       |       |             | 92    |
 ... more rows ommitted
 ```
+
 see [here](/dashboards/visualisations/visualisation-dataset) for more info on targeting data
 
 ### Visualisation
@@ -436,13 +455,14 @@ In this example we will define a matrix chart that:
 This definition will return the following dataset
 
 ```js
-| ts         |  est_id  | wing  | cell  | finds       | count | 
+| ts         |  est_id  | wing  | cell  | finds       | count |
 |------------|----------| ------|-------|-------------|-------|
 | 2025/02/25 |          |       |       | Weapons     | 26    |
 | 2025/02/24 |          |       |       | Weapons     | 30    |
 | 2025/02/23 |          |       |       | Weapons     | 49    |
 ... more rows ommitted
 ```
+
 see [here](/dashboards/visualisations/visualisation-dataset) for more info on targeting data
 
 ### Visualisation:
@@ -495,7 +515,7 @@ In this example we will define a matrix chart that:
 This definition will return the following dataset
 
 ```js
-| ts         |  est_id  | wing  | cell  | finds       | count | 
+| ts         |  est_id  | wing  | cell  | finds       | count |
 |------------|----------| ------|-------|-------------|-------|
 | 2025/02/25 |          |       |       |             | 81    |
 | 2025/02/24 |          |       |       |             | 69    |
@@ -510,4 +530,3 @@ see [here](/dashboards/visualisations/visualisation-dataset) for more info on ta
 <img src="/assets/images/matrixExample2.png" alt="bar chart example" width="500"/>
 
 <hr class='dpr-docs-hr'/>
-

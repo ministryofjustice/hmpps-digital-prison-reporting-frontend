@@ -21,7 +21,7 @@ The `line-timeseries` chart visualisation type represents data as a line chart s
 
 # When to use
 
-Use a line‑timeseries chart when you need to show how a value changes over time. This chart type emphasizes trends, cycles, seasonality, and long‑term movement, making it ideal for temporal datasets.
+Use a `line‑timeseries` chart when you need to show how a value changes over time. This chart type emphasizes trends, cycles, seasonality, and long‑term movement, making it ideal for temporal datasets.
 Choose a line‑timeseries chart when:
 
 - Your data represents values over time (e.g., days, weeks, months, years).
@@ -36,7 +36,7 @@ Use a line‑timeseries chart when helping users understand how something evolve
 
 # When not to use
 
-Avoid using a line‑timeseries chart when:
+Avoid using a `line‑timeseries` chart when:
 
 - The data isn’t related to time — use a standard line chart or another type entirely.
 - Time intervals are inconsistent or categorical (e.g., “Phase 1, Phase 2”), which breaks the assumption of temporal continuity.
@@ -49,7 +49,10 @@ Avoid using a line‑timeseries chart when:
 
 # How it works
 
-TBD
+- **Line‑timeseries charts detect partial time periods** (e.g., the first or last month in a range that isn’t a full month).
+- **Partial periods are shown with a dotted line** to distinguish them from complete data.
+- This indicates that **these values don’t represent a full time unit** at the chosen granularity.
+- **Standard line charts don’t handle partial dates**, so all points appear as fully complete.
 
 <hr class='dpr-docs-hr'/>
 
@@ -79,36 +82,60 @@ See the [Targeting data](/dashboards/visualisations/visualisation-dataset) for a
 ### Example Dataset
 
 ```js
-
-| ts         |  est_id  | wing  | cell  | finds       | count |
-|------------|----------| ------|-------|-------------|-------|
-| 2025/02/25 |          |       |       |             | 81    |
-| 2025/02/25 |          |       |       | Drugs       | 17    |
-| 2025/02/25 |          |       |       | Phones      | 22    |
-| 2025/02/25 |          |       |       | Weapons     | 26    |
-| 2025/02/25 |          |       |       | Alcohol     | 16    |
+| Date   | est_id | no_metric_one  | no_metric_two  | no_metric_three  |
+|--------|--------|----------------|----------------|------------------|
+| Aug 24 | ABC    | 781            | 754            | 802              |
+| Aug 24 | GHI    | 610            | 589            | 633              |
+| Aug 24 | DEF    | 499            | 472            | 518              |
+| Sep 24 | ABC    | 514            | 538            | 497              |
+| Sep 24 | GHI    | 518            | 492            | 531              |
+| Sep 24 | DEF    | 521            | 549            | 505              |
+| Oct 24 | ABC    | 598            | 612            | 580              |
+| Oct 24 | GHI    | 676            | 702            | 661              |
+| Oct 24 | DEF    | 687            | 655            | 712              |
+| Nov 24 | ABC    | 522            | 499            | 548              |
+| Nov 24 | GHI    | 790            | 768            | 812              |
+| Nov 24 | DEF    | 713            | 689            | 727              |
+| Dec 24 | ABC    | 431            | 452            | 408              |
+| Dec 24 | GHI    | 536            | 522            | 561              |
+| Dec 24 | DEF    | 590            | 574            | 613              |
+| Jan 25 | ABC    | 614            | 643            | 609              |
+| Jan 25 | GHI    | 713            | 695            | 740              |
+| Jan 25 | DEF    | 682            | 668            | 701              |
 ```
 
 <hr class='dpr-docs-hr'/>
 
 # Example 1
 
-TBD
+Prisoner totals for missing MetricOne by establishment over time
 
 ### Definition
 
 ```js
 {
-  id: 'example-1',
-  type: 'vis-type',
-  display: 'Example definition',
-  description: 'Example definition description',
-  option: {},
-  column: {
-    key: [],
-    measure: [],
-    filter: []
-    expectNull: true,
+  id: 'mockMetricOneLineChartTimeseries',
+  type: 'line-timeseries',
+  display: 'Missing MetricOne timeseries chart',
+  description: 'Prisoner totals for missing MetricOne by establishment over time',
+  columns: {
+    keys: [
+      {
+        id: 'establishment_id',
+        display: 'Establishment ID',
+      },
+    ],
+    measures: [
+      {
+        id: 'ts',
+        display: 'Date',
+      },
+      {
+        id: 'no_metric_one',
+        display: 'Has no MetricOne',
+      },
+    ],
+    expectNulls: false,
   },
 }
 ```
@@ -118,7 +145,26 @@ TBD
 This definition will return the following dataset
 
 ```js
-
+| ts     | est_id | no_metric_one  |
+|--------|--------|----------------|
+| Aug 24 | ABC    | 781            |
+| Aug 24 | GHI    | 610            |
+| Aug 24 | DEF    | 499            |
+| Sep 24 | ABC    | 514            |
+| Sep 24 | GHI    | 518            |
+| Sep 24 | DEF    | 521            |
+| Oct 24 | ABC    | 598            |
+| Oct 24 | GHI    | 676            |
+| Oct 24 | DEF    | 687            |
+| Nov 24 | ABC    | 522            |
+| Nov 24 | GHI    | 790            |
+| Nov 24 | DEF    | 713            |
+| Dec 24 | ABC    | 431            |
+| Dec 24 | GHI    | 536            |
+| Dec 24 | DEF    | 590            |
+| Jan 25 | ABC    | 614            |
+| Jan 25 | GHI    | 713            |
+| Jan 25 | DEF    | 682            |
 ```
 
 see [here](/dashboards/visualisations/visualisation-dataset) for more info on targeting data
@@ -127,28 +173,46 @@ see [here](/dashboards/visualisations/visualisation-dataset) for more info on ta
 
 ### Visualisation
 
-<img src="/assets/images/barExample1.png" alt="" width="500"/>
+<img src="/assets/images/charts/line/Line-timeseries1.png" alt="" width="700" style="margin-bottom: 30px"/>
 
 <hr class='dpr-docs-hr'/>
 
 # Example 2
 
-TBD
+Prisoner totals for missing MetricOne by single establishment over time, using filters
 
 ### Definition
 
 ```js
 {
-  id: 'example-1',
-  type: 'vis-type',
-  display: 'Example definition',
-  description: 'Example definition description',
-  option: {},
-  column: {
-    key: [],
-    measure: [],
-    filter: []
-    expectNull: true,
+  id: 'mockMetricOneLineChartTimeseries',
+  type: 'line-timeseries',
+  display: 'Missing MetricOne timeseries chart',
+  description: 'Prisoner totals for missing MetricOne by establishment over time',
+  columns: {
+    keys: [
+      {
+        id: 'establishment_id',
+        display: 'Establishment ID',
+      },
+    ],
+    measures: [
+      {
+        id: 'ts',
+        display: 'Date',
+      },
+      {
+        id: 'no_metric_one',
+        display: 'Has no MetricOne',
+      },
+    ],
+    filters: [
+      {
+        id: 'establishment_id',
+        equals: 'ABC',
+      },
+    ],
+    expectNulls: false,
   },
 }
 ```
@@ -158,7 +222,14 @@ TBD
 This definition will return the following dataset
 
 ```js
-
+| ts     | est_id | no_metric_one  |
+|--------|--------|----------------|
+| Aug 24 | ABC    | 781            |
+| Sep 24 | ABC    | 514            |
+| Oct 24 | ABC    | 598            |
+| Nov 24 | ABC    | 522            |
+| Dec 24 | ABC    | 431            |
+| Jan 25 | ABC    | 614            |
 ```
 
 see [here](/dashboards/visualisations/visualisation-dataset) for more info on targeting data
@@ -167,4 +238,6 @@ see [here](/dashboards/visualisations/visualisation-dataset) for more info on ta
 
 ### Visualisation
 
-<img src="../../assets/images/barExample1.png" alt="" width="500"/>
+<img src="/assets/images/charts/line/Line-timeseries2.png" alt="" width="700" style="margin-bottom: 30px"/>
+
+<hr class='dpr-docs-hr'/>

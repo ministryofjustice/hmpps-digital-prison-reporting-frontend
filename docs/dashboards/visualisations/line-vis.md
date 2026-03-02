@@ -20,8 +20,9 @@ The `line` chart visualisation type represents data as a matrix/heatmap chart vi
 
 # When to use
 
-Use a line chart when you want to show how a value changes across a continuous scale that is not limited to time. Line charts are ideal for highlighting patterns, progression, and relationships in continuous data.
-Choose a line chart when:
+Use a `line` chart when you want to show how a value changes across a continuous scale that is not limited to time. Line charts are ideal for highlighting patterns, progression, and relationships in continuous data.
+
+Choose a `line` chart when:
 
 - Your data is continuous, but not necessarily temporal (e.g., distance, position, percentages along a range).
 - You want to show how values progress along a measurement scale.
@@ -35,7 +36,7 @@ Use a line chart when you need continuity without implying time‑based trends.
 
 # When not to use
 
-Avoid using a line chart when:
+Avoid using a `line` chart when:
 
 - Your data is categorical, such as names, departments, or discrete labels.
 - The values are unrelated or non‑continuous, making connecting them with a line misleading.

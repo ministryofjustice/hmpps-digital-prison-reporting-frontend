@@ -19,7 +19,8 @@ The `bar` chart visualisation type represents data as a bar chart visualisation.
 # When to use
 
 Use a bar chart when you want to compare discrete categories or show differences in magnitude between groups. Bar charts make it easy to see which categories are larger or smaller at a glance.
-Choose a bar chart when:
+
+Choose a `bar` chart when:
 
 - Your data is categorical, not continuous (e.g., product types, regions, departments).
 - You want to compare values side‑by‑side across a small or moderate number of categories.
@@ -33,7 +34,7 @@ Bar charts are especially effective when clarity and straightforward comparison 
 
 # When not to use
 
-Avoid using a bar chart when:
+Avoid using a `bar` chart when:
 
 - Your data is continuous, especially over time — use a line or line‑timeseries chart instead.
 - There are too many categories, which results in overcrowding or unreadable labels.

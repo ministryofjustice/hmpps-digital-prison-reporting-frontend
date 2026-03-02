@@ -7,11 +7,6 @@ const createMockData = require('./mockAsyncData')
 const mockParentChild = require('./mockVariants/data/parent-child')
 const mockListSection = require('./mockVariants/data/list-section')
 const mockParentChildSection = require('./mockVariants/data/parent-child-section')
-const mockRowSectionChild = require('./mockVariants/data/row-section-child')
-const mockRowSectionData = require('./mockVariants/data/row-section')
-const mockRowSectionDataMultiple = require('./mockVariants/data/row-section_multiple_rows')
-const mockRowSectionChildDataMultiple = require('./mockVariants/data/row-section-child_multiple-rows')
-const mockRowSectionIncidentReport = require('./mockVariants/data/row-section_incident_report')
 
 const { mockStatusSequence, mockStatusHelper } = require('../mockStatusHelper')
 

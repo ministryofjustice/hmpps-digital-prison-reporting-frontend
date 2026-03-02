@@ -4,6 +4,7 @@ import { AsyncSummary } from '../../../types/UserReports'
 import { components } from '../../../types/api'
 import { getFieldsByName, getFieldDisplayName } from '../../definitionUtils'
 import { SectionData, SectionedData, SectionKey } from './types'
+import DateMapper from '../../DateMapper/DateMapper'
 
 export class SectionedDataHelper {
   sections: Array<string> = []
@@ -154,13 +155,20 @@ export class SectionedDataHelper {
     return sortColumn && this.sections.includes(sortColumn) ? [sortColumn] : []
   }
 
+  getSortDirection() {
+    const { sortedAsc } = this.reportQuery
+    return sortedAsc ? 1 : -1
+  }
+
   /**
    * Sorts sections based on keyObj values using an optional nameOrder override.
    * - nameOrder can be partial; unspecified names fall back to default order
    * - Default order is derived from the first section's keyObj sequence
    */
   sortSections(sectionedData: SectionedData): SectionedData {
+    const dataMapper = new DateMapper()
     const nameOrder = this.getSortField()
+    const direction = this.getSortDirection()
     const { sections } = sectionedData
     if (sections.length === 0) return sectionedData
 
@@ -174,7 +182,6 @@ export class SectionedDataHelper {
       // 2. append missing names in default order
       .concat(defaultOrder.filter((name) => !nameOrder.includes(name)))
 
-    // Build map for fast comparison
     const buildMap = (keyObj: SectionKey[]) =>
       keyObj.reduce<Record<string, string>>((acc, ko) => ({ ...acc, [ko.name]: ko.value }), {})
 
@@ -186,7 +193,19 @@ export class SectionedDataHelper {
       const comparisons = finalOrder.map((name) => {
         const aVal = aMap[name] ?? ''
         const bVal = bMap[name] ?? ''
-        return aVal.localeCompare(bVal, undefined, { numeric: true })
+
+        const aDate = dataMapper.parseIfDate(aVal)
+        const bDate = dataMapper.parseIfDate(bVal)
+
+        // date sorting
+        if (aDate && bDate) {
+          const diff = aDate.valueOf() - bDate.valueOf()
+          if (diff !== 0) return diff * direction
+          return 0
+        }
+
+        // fallback to string sorting
+        return aVal.localeCompare(bVal, undefined, { numeric: true }) * direction
       })
 
       // Return first non-zero comparison

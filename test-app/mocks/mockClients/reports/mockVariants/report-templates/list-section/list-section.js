@@ -100,7 +100,7 @@ const reportTemplateExampleListSection = {
         name: 'field7',
         display: 'Field 7',
         sortable: false,
-        type: 'HTML',
+        type: 'string',
         mandatory: false,
       },
       {

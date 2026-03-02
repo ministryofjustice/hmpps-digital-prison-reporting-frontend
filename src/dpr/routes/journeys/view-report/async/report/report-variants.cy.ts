@@ -32,16 +32,16 @@ context('Viewing a report', () => {
         cy.findAllByRole('heading', { name: /First.*Second/ }).should('have.length', 4)
 
         // Test headings exist
-        cy.findByRole('heading', { name: /First: One, Second: A 4 results/ })
-          .should('be.visible')
-          .scrollIntoView()
-        cy.findByRole('heading', { name: /First: One, Second: B 6 results/ })
+        cy.findByRole('heading', { name: /First: Two, Second: B 7 results/ })
           .should('be.visible')
           .scrollIntoView()
         cy.findByRole('heading', { name: /First: Two, Second: A 3 results/ })
           .should('be.visible')
           .scrollIntoView()
-        cy.findByRole('heading', { name: /First: Two, Second: B 7 results/ })
+        cy.findByRole('heading', { name: /First: One, Second: B 6 results/ })
+          .should('be.visible')
+          .scrollIntoView()
+        cy.findByRole('heading', { name: /First: One, Second: A 4 results/ })
           .should('be.visible')
           .scrollIntoView()
 
@@ -68,11 +68,110 @@ context('Viewing a report', () => {
           })
       })
 
-      it('should sort the sections correctly', () => {
+      it('should sort the sections correctly - First/Desc', () => {
+        cy.visit(path)
+        startReportRequest(listSectionReport)
+        cy.findByRole('group', { name: /Column/ })
+          .findByRole('radio', { name: 'First' })
+          .check()
+        cy.findByRole('button', { name: /Request/ }).click()
+
+        cy.findByRole('heading', { level: 1, name: /List-section/ })
+        cy.findAllByRole('heading', { name: /First.*Second/ })
+          .should('have.length', 4)
+          .each((heading, index) => {
+            switch (index) {
+              case 0:
+                cy.wrap(heading).contains('First: Two, Second: B 7 results')
+                break
+              case 1:
+                cy.wrap(heading).contains('First: Two, Second: A 3 results')
+                break
+              case 2:
+                cy.wrap(heading).contains('First: One, Second: B 6 results')
+                break
+              case 3:
+                cy.wrap(heading).contains('First: One, Second: A 4 results')
+                break
+              default:
+                break
+            }
+          })
+      })
+
+      it('should sort the sections correctly - First/Asc', () => {
+        cy.visit(path)
+        startReportRequest(listSectionReport)
+        cy.findByRole('group', { name: /Column/ })
+          .findByRole('radio', { name: 'First' })
+          .check()
+        cy.findByRole('group', { name: /Direction/ })
+          .findByRole('radio', { name: 'Ascending' })
+          .check()
+        cy.findByRole('button', { name: /Request/ }).click()
+
+        cy.findByRole('heading', { level: 1, name: /List-section/ })
+        cy.findAllByRole('heading', { name: /First.*Second/ })
+          .should('have.length', 4)
+          .each((heading, index) => {
+            switch (index) {
+              case 0:
+                cy.wrap(heading).contains('First: One, Second: A 4 results')
+                break
+              case 1:
+                cy.wrap(heading).contains('First: One, Second: B 6 results')
+                break
+              case 2:
+                cy.wrap(heading).contains('First: Two, Second: A 3 results')
+                break
+              case 3:
+                cy.wrap(heading).contains('First: Two, Second: B 7 results')
+                break
+              default:
+                break
+            }
+          })
+      })
+
+      it('should sort the sections correctly - Second/Desc', () => {
         cy.visit(path)
         startReportRequest(listSectionReport)
         cy.findByRole('group', { name: /Column/ })
           .findByRole('radio', { name: 'Second' })
+          .check()
+        cy.findByRole('button', { name: /Request/ }).click()
+
+        cy.findByRole('heading', { level: 1, name: /List-section/ })
+        cy.findAllByRole('heading', { name: /First.*Second/ })
+          .should('have.length', 4)
+          .each((heading, index) => {
+            switch (index) {
+              case 0:
+                cy.wrap(heading).contains('First: Two, Second: B 7 results')
+                break
+              case 1:
+                cy.wrap(heading).contains('First: One, Second: B 6 results')
+                break
+              case 2:
+                cy.wrap(heading).contains('First: Two, Second: A 3 results')
+                break
+              case 3:
+                cy.wrap(heading).contains('First: One, Second: A 4 results')
+                break
+              default:
+                break
+            }
+          })
+      })
+
+      it('should sort the sections correctly - Second/Asc', () => {
+        cy.visit(path)
+        startReportRequest(listSectionReport)
+        cy.findByRole('group', { name: /Column/ })
+          .findByRole('radio', { name: 'Second' })
+          .check()
+        cy.findByRole('group', { name: /Direction/ })
+          .findByRole('radio', { name: 'Ascending' })
           .check()
         cy.findByRole('button', { name: /Request/ }).click()
 
@@ -92,6 +191,231 @@ context('Viewing a report', () => {
                 break
               case 3:
                 cy.wrap(heading).contains('First: Two, Second: B 7 results')
+                break
+              default:
+                break
+            }
+          })
+      })
+    })
+
+    describe('list-section - with dates', () => {
+      const listSectionReport = {
+        name: 'List-section - with dates',
+        description: 'list-section template',
+      }
+
+      beforeEach(() => {
+        cy.task('stubListSectionDefinitionRequest')
+        cy.task('stubListSectionResultWithDates')
+      })
+
+      it('should display a list-section variant', () => {
+        cy.visit(path)
+        requestReportByNameAndDescription(listSectionReport)
+        cy.findByRole('heading', { level: 1, name: /List-section/ })
+        cy.findAllByRole('heading', { name: /First.*Second/ }).should('have.length', 6)
+
+        // Test headings exist
+        cy.findByRole('heading', { name: /First: 01\/03\/26, Second: B 4 results/ })
+          .should('be.visible')
+          .scrollIntoView()
+        cy.findByRole('heading', { name: /First: 01\/03\/26, Second: A 3 results/ })
+          .should('be.visible')
+          .scrollIntoView()
+        cy.findByRole('heading', { name: /First: 02\/02\/26, Second: B 3 results/ })
+          .should('be.visible')
+          .scrollIntoView()
+        cy.findByRole('heading', { name: /First: 02\/02\/26, Second: A 2 results/ })
+          .should('be.visible')
+          .scrollIntoView()
+        cy.findByRole('heading', { name: /First: 03\/01\/26, Second: B 3 results/ })
+          .should('be.visible')
+          .scrollIntoView()
+        cy.findByRole('heading', { name: /First: 03\/01\/26, Second: A 2 results/ })
+          .should('be.visible')
+          .scrollIntoView()
+
+        // Test they only include 1 table per section
+        cy.findAllByLabelText(/First: 01\/03\/26, Second: B 4 results/)
+          .eq(1)
+          .within(() => {
+            cy.findAllByRole('table').should('have.length', 1)
+          })
+        cy.findAllByLabelText(/First: 01\/03\/26, Second: A 3 results/)
+          .eq(1)
+          .within(() => {
+            cy.findAllByRole('table').should('have.length', 1)
+          })
+        cy.findAllByLabelText(/First: 02\/02\/26, Second: B 3 results/)
+          .eq(1)
+          .within(() => {
+            cy.findAllByRole('table').should('have.length', 1)
+          })
+        cy.findAllByLabelText(/First: 02\/02\/26, Second: A 2 results/)
+          .eq(1)
+          .within(() => {
+            cy.findAllByRole('table').should('have.length', 1)
+          })
+        cy.findAllByLabelText(/First: 03\/01\/26, Second: B 3 results/)
+          .eq(1)
+          .within(() => {
+            cy.findAllByRole('table').should('have.length', 1)
+          })
+        cy.findAllByLabelText(/First: 03\/01\/26, Second: A 2 results/)
+          .eq(1)
+          .within(() => {
+            cy.findAllByRole('table').should('have.length', 1)
+          })
+      })
+
+      it('should sort the sections correctly - First/Desc', () => {
+        cy.visit(path)
+        startReportRequest(listSectionReport)
+        cy.findByRole('group', { name: /Column/ })
+          .findByRole('radio', { name: 'First' })
+          .check()
+        cy.findByRole('button', { name: /Request/ }).click()
+
+        cy.findByRole('heading', { level: 1, name: /List-section/ })
+        cy.findAllByRole('heading', { name: /First.*Second/ })
+          .should('have.length', 6)
+          .each((heading, index) => {
+            switch (index) {
+              case 0:
+                cy.wrap(heading).contains('First: 01/03/26, Second: B 4 results')
+                break
+              case 1:
+                cy.wrap(heading).contains('First: 01/03/26, Second: A 3 results')
+                break
+              case 2:
+                cy.wrap(heading).contains('First: 02/02/26, Second: B 3 results')
+                break
+              case 3:
+                cy.wrap(heading).contains('First: 02/02/26, Second: A 2 results')
+                break
+              case 4:
+                cy.wrap(heading).contains('First: 03/01/26, Second: B 3 results')
+                break
+              case 5:
+                cy.wrap(heading).contains('First: 03/01/26, Second: A 2 results')
+                break
+              default:
+                break
+            }
+          })
+      })
+
+      it('should sort the sections correctly - First/Asc', () => {
+        cy.visit(path)
+        startReportRequest(listSectionReport)
+        cy.findByRole('group', { name: /Column/ })
+          .findByRole('radio', { name: 'First' })
+          .check()
+        cy.findByRole('group', { name: /Direction/ })
+          .findByRole('radio', { name: 'Ascending' })
+          .check()
+        cy.findByRole('button', { name: /Request/ }).click()
+
+        cy.findByRole('heading', { level: 1, name: /List-section/ })
+        cy.findAllByRole('heading', { name: /First.*Second/ })
+          .should('have.length', 6)
+          .each((heading, index) => {
+            switch (index) {
+              case 0:
+                cy.wrap(heading).contains('First: 03/01/26, Second: A 2 results')
+                break
+              case 1:
+                cy.wrap(heading).contains('First: 03/01/26, Second: B 3 results')
+                break
+              case 2:
+                cy.wrap(heading).contains('First: 02/02/26, Second: A 2 results')
+                break
+              case 3:
+                cy.wrap(heading).contains('First: 02/02/26, Second: B 3 results')
+                break
+              case 4:
+                cy.wrap(heading).contains('First: 01/03/26, Second: A 3 results')
+                break
+              case 5:
+                cy.wrap(heading).contains('First: 01/03/26, Second: B 4 results')
+                break
+              default:
+                break
+            }
+          })
+      })
+
+      it('should sort the sections correctly - Second/Desc', () => {
+        cy.visit(path)
+        startReportRequest(listSectionReport)
+        cy.findByRole('group', { name: /Column/ })
+          .findByRole('radio', { name: 'Second' })
+          .check()
+        cy.findByRole('button', { name: /Request/ }).click()
+
+        cy.findByRole('heading', { level: 1, name: /List-section/ })
+        cy.findAllByRole('heading', { name: /First.*Second/ })
+          .should('have.length', 6)
+          .each((heading, index) => {
+            switch (index) {
+              case 0:
+                cy.wrap(heading).contains('First: 01/03/26, Second: B 4 results')
+                break
+              case 1:
+                cy.wrap(heading).contains('First: 02/02/26, Second: B 3 results')
+                break
+              case 2:
+                cy.wrap(heading).contains('First: 03/01/26, Second: B 3 results')
+                break
+              case 3:
+                cy.wrap(heading).contains('First: 01/03/26, Second: A 3 results')
+                break
+              case 4:
+                cy.wrap(heading).contains('First: 02/02/26, Second: A 2 results')
+                break
+              case 5:
+                cy.wrap(heading).contains('First: 03/01/26, Second: A 2 results')
+                break
+              default:
+                break
+            }
+          })
+      })
+
+      it('should sort the sections correctly - Second/Asc', () => {
+        cy.visit(path)
+        startReportRequest(listSectionReport)
+        cy.findByRole('group', { name: /Column/ })
+          .findByRole('radio', { name: 'Second' })
+          .check()
+        cy.findByRole('group', { name: /Direction/ })
+          .findByRole('radio', { name: 'Ascending' })
+          .check()
+        cy.findByRole('button', { name: /Request/ }).click()
+
+        cy.findByRole('heading', { level: 1, name: /List-section/ })
+        cy.findAllByRole('heading', { name: /First.*Second/ })
+          .should('have.length', 6)
+          .each((heading, index) => {
+            switch (index) {
+              case 0:
+                cy.wrap(heading).contains('First: 03/01/26, Second: A 2 results')
+                break
+              case 1:
+                cy.wrap(heading).contains('First: 02/02/26, Second: A 2 results')
+                break
+              case 2:
+                cy.wrap(heading).contains('First: 01/03/26, Second: A 3 results')
+                break
+              case 3:
+                cy.wrap(heading).contains('First: 03/01/26, Second: B 3 results')
+                break
+              case 4:
+                cy.wrap(heading).contains('First: 02/02/26, Second: B 3 results')
+                break
+              case 5:
+                cy.wrap(heading).contains('First: 01/03/26, Second: B 4 results')
                 break
               default:
                 break
@@ -265,16 +589,16 @@ context('Viewing a report', () => {
           .each((heading, index) => {
             switch (index) {
               case 0:
-                cy.wrap(heading).contains('Section 1: One, Section 2: A 5 results')
+                cy.wrap(heading).contains('Section 1: Two, Section 2: B 5 results')
                 break
               case 1:
-                cy.wrap(heading).contains('Section 1: Two, Section 2: A 8 results')
-                break
-              case 2:
                 cy.wrap(heading).contains('Section 1: One, Section 2: B 2 results')
                 break
+              case 2:
+                cy.wrap(heading).contains('Section 1: Two, Section 2: A 8 results')
+                break
               case 3:
-                cy.wrap(heading).contains('Section 1: Two, Section 2: B 5 results')
+                cy.wrap(heading).contains('Section 1: One, Section 2: A 5 results')
                 break
               default:
                 break

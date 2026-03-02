@@ -79,8 +79,28 @@ class DateMapper {
     }
   }
 
+  getFormats = () => {
+    return [
+      this.localDateFormatInput,
+      this.localDateFormatOutput,
+      this.localDateShortYearFormatInput,
+      this.localDateShortYearFormatOutput,
+      this.localDateTimeFormatInput,
+      this.localDateTimeFormatInput,
+      this.localDateTimeFormatOutput,
+      this.localDateTimeShortYearFormatInput,
+      this.localDateTimeShortYearFormatOutput,
+    ]
+  }
+
   isDate(value: string | null): boolean {
     return this.getDateType(value) !== 'none'
+  }
+
+  parseIfDate = (value: string) => {
+    if (typeof value !== 'string') return null
+    const formats = this.getFormats()
+    return formats.map((fmt) => dayjs(value, fmt, true)).find((d) => d.isValid()) ?? null
   }
 
   toDateString(value: string | null, type: DateType): string | undefined {

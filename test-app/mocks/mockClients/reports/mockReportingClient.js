@@ -155,21 +155,7 @@ class MockReportingClient {
       case 'report-template-example-row-section-child-multiple_child-2':
         data = mockRowSectionChildDataMultiple.childData2()
         break
-      case 'variantId-34':
-        // incident report
-        data = mockRowSectionIncidentReport.parentData()
-        break
-      case 'variantId-34-prisoners-involved':
-        data = mockRowSectionIncidentReport.section2Data()
-        break
-      case 'variantId-34-staff-involved':
-        data = mockRowSectionIncidentReport.section3Data()
-        break
-      case 'variantId-34-incident-details':
-        data = mockRowSectionIncidentReport.section4Data()
-        break
       default:
-        console.log({ pageSize })
         data = createMockData(pageSize)
         break
     }

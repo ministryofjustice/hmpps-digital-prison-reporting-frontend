@@ -34,19 +34,19 @@ export const dataQualityMetricOneMetricTwoLine: components['schemas']['Dashboard
     measures: [
       {
         id: 'has_metric_one',
-        display: 'Has MetricOne',
+        display: 'Point 1',
       },
       {
         id: 'metric_one_is_missing',
-        display: 'No MetricOne',
+        display: 'Point 2',
       },
       {
         id: 'has_metric_two',
-        display: 'Has MetricTwo',
+        display: 'Point 3',
       },
       {
         id: 'metric_two_is_missing',
-        display: 'No MetricTwo',
+        display: 'Point 4',
       },
     ],
     expectNulls: false,
@@ -57,4 +57,33 @@ export const dataQualityAllLine: components['schemas']['DashboardVisualisationDe
   ...BarChart.dataQualityAllBar,
   id: 'line-data-quality-all',
   type: DashboardVisualisationType.LINE,
+  columns: {
+    ...BarChart.dataQualityMetricTwoBar.columns,
+    measures: [
+      {
+        id: 'has_metric_two',
+        display: 'Point 1',
+      },
+      {
+        id: 'metric_two_is_missing',
+        display: 'Point 2',
+      },
+      {
+        id: 'has_metric_three',
+        display: 'Point 3',
+      },
+      {
+        id: 'metric_three_is_missing',
+        display: 'Point 4',
+      },
+      {
+        id: 'has_metric_one',
+        display: 'Point 5',
+      },
+      {
+        id: 'metric_one_is_missing',
+        display: 'Point 6',
+      },
+    ],
+  },
 }

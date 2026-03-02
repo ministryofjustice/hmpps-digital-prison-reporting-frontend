@@ -4,7 +4,7 @@ title: Bar chart
 subsection: Visualisation definition
 phase: Beta
 ---
-<!-- <img src="/assets/images//barExample2.png" alt="bar chart example" width="700" style="margin-bottom: 30px"/> -->
+<img src="/assets/images//bar2.png" alt="bar chart example" width="700" style="margin-bottom: 30px"/>
 
 The `bar` chart visualisation type represents data as a bar chart visualisation.
 
@@ -79,10 +79,9 @@ In this example we will define which dataset columns to use in the bar chart as 
 ```js
 | est_id | has_metric_one | metric_one_is_missing | has_metric_three | metric_three_is_missing |
 |--------|----------------|-----------------------|------------------|-------------------------|
-| ABC    | 407            | 485                   | 300              | 500                     |
-| DEF    | 584            | 701                   | 280              | 320                     |
-| GHI    | 520            | 765                   | 220              | 214                     |
-| JKL    | 729            | 725                   | 220              | 214                     |
+| ABC    | 533            | 614                   | 300              | 500                     |
+| GHI    | 484            | 713                   | 220              | 214                     |
+| DEF    | 406            | 682                   | 280              | 320                     |
 ```
 
 ### Definition
@@ -121,10 +120,9 @@ This definition will return the following dataset
 
 | est_id | has_metric_one | metric_one_is_missing |
 |--------|---------------|----------------------|
-| ABC    | 407           | 485                  | 
-| DEF    | 584           | 701                  |
-| GHI    | 520           | 765                  |
-| JKL    | 729           | 725                  |
+| ABC    | 533           | 614                  | 
+| GHI    | 484           | 713                  |
+| DEF    | 406           | 682                  |
 
 ```
 see [here](/dashboards/visualisations/visualisation-dataset) for more info on targeting data
@@ -132,7 +130,7 @@ see [here](/dashboards/visualisations/visualisation-dataset) for more info on ta
 
 ### Visualisation:
 
-<!-- <img src="/assets/images//barExample2.png" alt="bar chart example" width="800"/> -->
+<img src="/assets/images//bar2.png" alt="bar chart example" width="800"/>
 
 <hr class='dpr-docs-hr'/>
 
@@ -149,10 +147,10 @@ Here we can define the `axis` field on the specific dataset columns we want to u
 |------------|----------| ------|-------|-------------|-------|
 | 2025/02/25 |          |       |       |             | 5000  |
 | 2025/02/25 | ABC      |       |       |             | 1109  |
-| 2025/02/25 |          |       |       | Diet one    | 1507  |
-| 2025/02/25 |          |       |       | Diet two    | 1130  |
-| 2025/02/25 |          |       |       | Diet three  | 1354  |
-| 2025/02/25 |          |       |       | Diet four   | 1009  |
+| 2025/02/25 |          |       |       | Diet one    | 1219  |
+| 2025/02/25 |          |       |       | Diet two    | 1125  |
+| 2025/02/25 |          |       |       | Diet three  | 1838  |
+| 2025/02/25 |          |       |       | Diet four   | 818   |
 | 2025/02/25 | ABC      |       |       | Diet one    | 169   |
 | 2025/02/25 | ABC      |       |       | Diet two    | 463   |
 | 2025/02/25 | ABC      |       |       | Diet three  | 397   |
@@ -193,15 +191,15 @@ This definition will return the following dataset
 ```js
 | ts         |  est_id  | wing  | cell  | diet        | count | 
 |------------|----------| ------|-------|-------------|-------|
-| 2025/02/25 |          |       |       | Diet one    | 1507  |
-| 2025/02/25 |          |       |       | Diet two    | 1130  |
-| 2025/02/25 |          |       |       | Diet three  | 1354  |
-| 2025/02/25 |          |       |       | Diet four   | 1009  |
+| 2025/02/25 |          |       |       | Diet one    | 1219  |
+| 2025/02/25 |          |       |       | Diet two    | 1125  |
+| 2025/02/25 |          |       |       | Diet three  | 1838  |
+| 2025/02/25 |          |       |       | Diet four   | 818   |
 ```
 see [here](/dashboards/visualisations/visualisation-dataset) for more info on targeting data
 
 ### Visualisation:
 
-<!-- <img src="/assets/images/barExample1.png" alt="bar chart example" width="800"/> -->
+<img src="/assets/images/bar1.png" alt="bar chart example" width="800"/>
 
 ```

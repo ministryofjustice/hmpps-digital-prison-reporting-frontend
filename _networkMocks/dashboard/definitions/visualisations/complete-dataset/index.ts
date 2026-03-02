@@ -8,6 +8,7 @@ import { definition as listInvalidVisDefinition } from './list/definition-invali
 
 // scorecard
 import { definition as scorecardsCompleteDataset } from './scorecard/definition'
+import { definition as scorecardsCompleteNoTsDataset } from './scorecard/definition-no-ts'
 import { definition as scorecardsBucketsCompleteDataset } from './scorecard/definition-buckets'
 import { definition as scorecardGroupCompleteDataset } from './scorecardGroup/definition'
 
@@ -49,5 +50,9 @@ export const visualisations: components['schemas']['DashboardDefinition'][] = [
 ]
 
 export const visualisationIds: string[] = visualisations.map((vis) => {
+  return vis.id
+})
+
+export const visIdsNoTs: string[] = [scorecardsCompleteNoTsDataset].map((vis) => {
   return vis.id
 })

@@ -109,7 +109,6 @@ const reportTemplateExampleListSection = {
         sortable: true,
         defaultsort: false,
         type: 'string',
-        mandatory: false,
         visible: false,
       },
       {
@@ -118,8 +117,7 @@ const reportTemplateExampleListSection = {
         sortable: true,
         defaultsort: false,
         type: 'string',
-        mandatory: false,
-        visible: false,
+        visible: true,
       },
     ],
   },

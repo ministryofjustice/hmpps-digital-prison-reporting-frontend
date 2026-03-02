@@ -1,11 +1,8 @@
 import { z } from 'zod'
 import { DashboardVisualisationSchema, DashboardColumns } from '../../../_dashboards/dashboard-visualisation/Validate'
+import BarChartSchemas from '../bar/validate'
 
-const LineMeasureSchema = z.object({
-  id: z.string(),
-  display: z.string().optional(),
-  unit: z.enum(['NUMBER', 'PERCENTAGE']).optional(),
-})
+const LineMeasureSchema = BarChartSchemas.BarMeasureShema
 
 const lineOptions = z.object({
   showLatest: z.boolean().default(true),
@@ -18,7 +15,7 @@ const LineSchema = z.object({
   options: z.object(lineOptions.shape).optional(),
   columns: z.object({
     ...DashboardColumns.shape,
-    measures: z.array(LineMeasureSchema).min(1, 'Measure must contain at least one item'),
+    measures: BarChartSchemas.BarMeasuresSchema,
   }),
 })
 

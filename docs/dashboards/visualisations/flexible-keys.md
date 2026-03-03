@@ -5,12 +5,13 @@ title: Flexible keys and Grouping
 
 🚧 This section is a work in progress 🚧
 
-Flexible keys: 
+Flexible keys:
+
 - enable your visualisatons to react to dataset changes from interactive filtering.
 - allow you visualisations to be less rigid and become multipurpose.
 
-
 **contents**
+
 - [When to use](#when-to-use)
 - [How it works](#how-it-works)
 - [Definition](#definition)
@@ -34,32 +35,32 @@ TBD
 ```js
 column: {
   key: [
-    { 
-      id: "final-fallback-group-id", 
-      optional: true 
+    {
+      id: "final-fallback-group-id",
+      optional: true
     },
-    { 
-      id: "secondary-fallback-group-id", 
-      optional: true 
+    {
+      id: "secondary-fallback-group-id",
+      optional: true
     },
-    { 
-      id: "primary-group-id", 
-      optional: true 
+    {
+      id: "primary-group-id",
+      optional: true
     }
   ],
   measure: [
     ...
-  ] 
+  ]
 }
 ```
 
 ## key
 
-| Name        | Type    | Required | Description                                              |
-| ------------| ------- | -------- | -------------------------------------------------------- |
-| `id`        | string  | Yes      |  The id/column name of the column within the dataset     |
-| `display`   | string  | no       |  The display name of the column                          |
-| `optional`  | boolean | no       |  Defines whether the key is optional                      |
+| Name       | Type    | Required | Description                                         |
+| ---------- | ------- | -------- | --------------------------------------------------- |
+| `id`       | string  | Yes      | The id/column name of the column within the dataset |
+| `display`  | string  | no       | The display name of the column                      |
+| `optional` | boolean | no       | Defines whether the key is optional                 |
 
 <hr class='dpr-docs-hr'/>
 
@@ -73,7 +74,7 @@ The following examples will demonstrate how to use flexible keys of using the `l
 ### Example Dataset
 
 ```js
-| ts         |  est_id  | wing  | cell  | diet        | count | 
+| ts         |  est_id  | wing  | cell  | diet        | count |
 |------------|----------| ------|-------|-------------|-------|
 | 2025/02/25 |          |       |       |             | 5000  |
 | 2025/02/25 | ABC      |       |       |             | 1109  |
@@ -120,8 +121,11 @@ TBD
 ### Visualisation dataset
 
 This definition will return the following dataset
+
 ```js
+
 ```
+
 see [here](/dashboards/visualisations/visualisation-dataset) for more info on targeting data
 
 <hr class='dpr-docs-hr'/>

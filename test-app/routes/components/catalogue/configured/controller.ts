@@ -16,9 +16,7 @@ export default class CatalogueController {
       res,
       services: this.services,
       features: {
-        filteringEnabled: false,
         unauthorisedToggleEnabled: false,
-        howToUseEnabled: false,
       },
     })
 

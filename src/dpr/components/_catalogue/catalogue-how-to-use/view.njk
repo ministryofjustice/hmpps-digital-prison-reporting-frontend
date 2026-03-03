@@ -1,7 +1,6 @@
 {% from "govuk/components/details/macro.njk" import govukDetails %} 
 
 {% macro dprCatalogueHowToUse(features) %} 
-  {% set filteringEnabled = features.filteringEnabled %}
   {% set bookmarkingEnabled = features.bookmarkingEnabled %}
   {% set unauthorisedToggleEnabled = features.unauthorisedToggleEnabled %}
 
@@ -9,10 +8,8 @@
     <h3 class="govuk-heading-s govuk-!-margin-bottom-1">Viewing a report</h3>
     <p class="govuk-body">Select the name of the report to start a request to view a report.</p>
 
-    {% if filteringEnabled %}
-      <h3 class="govuk-heading-s govuk-!-margin-bottom-1">Filtering the catalogue</h3>
-      <p class="govuk-body">Filter the report catalogue by typing in the filter input box below. The catalogue will show listings that match your filter by name, description, type and product.</p>
-    {% endif %}
+    <h3 class="govuk-heading-s govuk-!-margin-bottom-1">Filtering the catalogue</h3>
+    <p class="govuk-body">Filter the report catalogue by typing in the filter input box below. The catalogue will show listings that match your filter by name, description, type and product.</p>
 
     {% if bookmarkingEnabled %}
       <h3 class="govuk-heading-s govuk-!-margin-bottom-1">Bookmarking search criteria</h3>

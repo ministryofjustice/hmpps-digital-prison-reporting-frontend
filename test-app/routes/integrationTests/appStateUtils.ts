@@ -16,7 +16,15 @@ export const resetFeatureFlags = () => {
   cy.request('POST', `/embedded/platform/resetFeatureFlags`, {})
 }
 
-export const updateRedisState = (userStoreKey: keyof ReportStoreConfig, userStoreValue: ReportStoreConfig[typeof userStoreKey], userId: string = 'userId', ) => {
+export const toggleBookmarking = () => {
+  cy.request('POST', `/embedded/platform/toggleBookmarking`, {})
+}
+
+export const toggleUnauthorisedFilterEnabled = () => {
+  cy.request('POST', `/embedded/platform/toggleUnauthorisedFilterEnabled`, {})
+}
+
+export const updateRedisState = (userStoreKey: keyof ReportStoreConfig, userStoreValue: ReportStoreConfig[typeof userStoreKey], userId: string = 'userId',) => {
   cy.request('POST', `/embedded/platform/updateRedisState`, {
     userId,
     userStoreKey,

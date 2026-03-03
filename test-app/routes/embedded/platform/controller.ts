@@ -16,7 +16,7 @@ export default class PlatformController {
     const catalogue = await CatalogueUtils.initCatalogue({
       res,
       services: this.services,
-      features: { bookmarkingEnabled: res.locals['bookmarkingEnabled'] },
+      features: { bookmarkingEnabled: res.locals['bookmarkingEnabled'], unauthorisedToggleEnabled: res.app.locals['unauthorisedToggleEnabled'] || false },
     })
 
     const userReportsLists = await UserReportsListUtils.initUserReports({ services: this.services, res, maxRows: 20 })

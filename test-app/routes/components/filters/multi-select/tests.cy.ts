@@ -1,7 +1,10 @@
+import { executeReportStubs } from "cypress-tests/cypressUtils"
+
 context('Inputs: multiselect', () => {
   const path = '/components/filters/multi-select'
 
   beforeEach(() => {
+    executeReportStubs()
     cy.visit(path)
   })
 
@@ -53,6 +56,130 @@ context('Inputs: multiselect', () => {
     it('should show the validation message when no value is provided', () => {
       cy.findByRole('button', { name: /Request/ }).click()
       cy.findByRole('alert').should('exist')
+    })
+  })
+
+  describe('Multi‑select filter component', () => {
+    const route = '/components/filters/multi-select'
+
+    const getCheckbox = (label: string) =>
+      cy.findByRole('checkbox', { name: new RegExp(`^${label}$`, 'i') })
+
+    const getSelectedFiltersSection = () =>
+      cy.findByRole('heading', { name: /Selected filters/i })
+
+    const pretestSetup = (queryParams: string = '') => {
+      cy.visit(`${route}?${queryParams}`)
+      cy.findByRole('group', { name: /multiselect, long options list/i }).should('exist')
+    }
+
+    beforeEach(() => {
+      executeReportStubs()
+    })
+
+    it('renders correctly and shows a scrollable region for long lists', () => {
+      pretestSetup()
+
+      cy.findByRole('group', { name: /multiselect, long options list/i }).should('be.visible')
+      getCheckbox('Value 1.2').should('exist')
+      getCheckbox('Value 10.2').should('exist')
+
+      cy.get('[data-govuk-checkboxes-init]').eq(1).should($el => {
+        const el = $el[0]
+        expect(el.scrollHeight, 'has more content than viewport').to.be.greaterThan(el.clientHeight)
+        expect(getComputedStyle(el).overflowY, 'allows vertical scrolling').to.match(/auto|scroll/)
+      })
+
+    })
+
+    it('selects and unselects values, updating the selected filters section', () => {
+      pretestSetup()
+
+      getCheckbox('Value 1.2').click()
+      getCheckbox('Value 3.2').click()
+
+      getSelectedFiltersSection().should('be.visible')
+      cy.findByRole('link', { name: /Value 1.2/i }).should('exist')
+      cy.findByRole('link', { name: /Value 3.2/i }).should('exist')
+
+
+      getCheckbox('Value 1.2').click()
+      cy.findByRole('link', { name: /Value 1.2/i }).should('not.exist')
+      cy.findByRole('link', { name: /Value 3.2/i }).should('exist')
+    })
+
+    it('updates the querystring as checkboxes are toggled', () => {
+      pretestSetup()
+
+      getCheckbox('Value 2.2').click().blur()
+
+      cy.location('search').should(qs => {
+        expect(qs).to.match(/filters\.multiselect-long=.*value2.2/i)
+      })
+
+      getCheckbox('Value 4.2').click().blur()
+
+      cy.location('search').should(qs => {
+        expect(qs).to.match(/filters\.multiselect-long=.*value2.2/i)
+        expect(qs).to.match(/filters\.multiselect-long=.*value4.2/i)
+      })
+    })
+
+    it('initialises defaults from existing query params', () => {
+      pretestSetup('filters.multiselect-long=value3.2&filters.multiselect-long=value5.2')
+
+
+      getCheckbox('Value 3.2').should('be.checked')
+      getCheckbox('Value 5.2').should('be.checked')
+
+      cy.findByRole('link', { name: /Value 3.2/i }).should('exist')
+      cy.findByRole('link', { name: /Value 5.2/i }).should('exist')
+    })
+
+    it('supports clearing all selections through the UI', () => {
+      pretestSetup()
+
+      getCheckbox('Value 1.2').click()
+      getCheckbox('Value 2.2').click()
+      getCheckbox('Value 3.2').click()
+
+      getCheckbox('Value 1.2').should('be.checked')
+      getCheckbox('Value 2.2').should('be.checked')
+      getCheckbox('Value 3.2').should('be.checked')
+
+
+      cy.findByRole('link', { name: /Reset filters/i }).click()
+
+      getCheckbox('Value 1.2').should('not.be.checked')
+      getCheckbox('Value 2.2').should('not.be.checked')
+      getCheckbox('Value 3.2').should('not.be.checked')
+
+      cy.findByRole('link', { name: /Value /i }).should('not.exist')
+    })
+
+    it('allows toggling a single option on and off without disturbing others', () => {
+      pretestSetup()
+
+      getCheckbox('Value 4.2').click()
+      getCheckbox('Value 7.2').click()
+
+      getCheckbox('Value 4.2').should('be.checked')
+      getCheckbox('Value 7.2').should('be.checked')
+
+      getCheckbox('Value 4.2').click()
+
+      getCheckbox('Value 4.2').should('not.be.checked')
+      getCheckbox('Value 7.2').should('be.checked')
+    })
+
+    it('supports keyboard interaction (space toggles a checkbox)', () => {
+      pretestSetup()
+
+      getCheckbox('Value 2.2')
+        .focus()
+        .type(' ')
+
+      getCheckbox('Value 2.2').should('be.checked')
     })
   })
 })

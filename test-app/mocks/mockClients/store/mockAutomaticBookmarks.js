@@ -25,10 +25,6 @@ const autoBms = {
     },
     {
       reportId: 'mock-reports',
-      variantId: 'variantId-34',
-    },
-    {
-      reportId: 'mock-reports',
       variantId: 'variantId-35',
     },
     {

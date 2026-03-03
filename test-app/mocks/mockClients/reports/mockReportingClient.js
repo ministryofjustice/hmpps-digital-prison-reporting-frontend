@@ -7,11 +7,6 @@ const createMockData = require('./mockAsyncData')
 const mockParentChild = require('./mockVariants/data/parent-child')
 const mockListSection = require('./mockVariants/data/list-section')
 const mockParentChildSection = require('./mockVariants/data/parent-child-section')
-const mockRowSectionChild = require('./mockVariants/data/row-section-child')
-const mockRowSectionData = require('./mockVariants/data/row-section')
-const mockRowSectionDataMultiple = require('./mockVariants/data/row-section_multiple_rows')
-const mockRowSectionChildDataMultiple = require('./mockVariants/data/row-section-child_multiple-rows')
-const mockRowSectionIncidentReport = require('./mockVariants/data/row-section_incident_report')
 
 const { mockStatusSequence, mockStatusHelper } = require('../mockStatusHelper')
 
@@ -128,48 +123,7 @@ class MockReportingClient {
         // List section
         data = mockParentChildSection.childData()
         break
-      case 'variantId-30-row-section':
-        // Single row template
-        data = mockRowSectionData
-        break
-      case 'report-template-example-row-section-child':
-        // row-section-child - parent
-        data = mockRowSectionChild.parentData()
-        break
-      case 'report-template-example-row-section-child_child':
-        data = mockRowSectionChild.childData()
-        break
-      case 'report-template-example-row-section-child_child-2':
-        data = mockRowSectionChild.childData2()
-        break
-      case 'report-template-example-row-section-multiple-rows':
-        data = mockRowSectionDataMultiple
-        break
-      case 'report-template-example-row-section-child-multiple':
-        // row-section-child- multiple - parent
-        data = mockRowSectionChildDataMultiple.parentData()
-        break
-      case 'report-template-example-row-section-child-multiple_child':
-        data = mockRowSectionChildDataMultiple.childData()
-        break
-      case 'report-template-example-row-section-child-multiple_child-2':
-        data = mockRowSectionChildDataMultiple.childData2()
-        break
-      case 'variantId-34':
-        // incident report
-        data = mockRowSectionIncidentReport.parentData()
-        break
-      case 'variantId-34-prisoners-involved':
-        data = mockRowSectionIncidentReport.section2Data()
-        break
-      case 'variantId-34-staff-involved':
-        data = mockRowSectionIncidentReport.section3Data()
-        break
-      case 'variantId-34-incident-details':
-        data = mockRowSectionIncidentReport.section4Data()
-        break
       default:
-        console.log({ pageSize })
         data = createMockData(pageSize)
         break
     }

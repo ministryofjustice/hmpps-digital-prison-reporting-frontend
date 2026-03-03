@@ -35,7 +35,9 @@
     -webkit-mask-image: linear-gradient(to left, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
     -webkit-mask-size: 100% 100%;
     -webkit-mask-repeat: no-repeat;
-    -webkit-mask-position: left top, left bottom;
+    -webkit-mask-position:
+      left top,
+      left bottom;
     z-index: 100;
   }
 
@@ -200,6 +202,11 @@
   .govuk-table__header {
     padding-right: govuk-spacing(4);
     white-space: nowrap;
+  }
+
+  .govuk-table__header--long {
+    white-space: normal;
+    min-width: 170px;
   }
 
   .govuk-table__cell {

@@ -197,6 +197,66 @@ context('Viewing a report', () => {
             }
           })
       })
+
+      it('should navigate the report using the section anchors', () => {
+        cy.visit(path)
+        requestReportByNameAndDescription(listSectionReport)
+
+        cy.findAllByLabelText(/First: Two, Second: B 7 results/)
+          .eq(0)
+          .should('be.visible')
+          .within(() => {
+            cy.findAllByRole('link', { name: /Next/ }).click()
+          })
+
+        cy.findByRole('heading', { name: /First: Two, Second: B 7 results/ }).should('not.be.visible')
+        cy.findByRole('heading', { name: /First: Two, Second: A 3 results/ }).should('be.visible')
+
+        cy.findAllByLabelText(/First: Two, Second: A 3 results/)
+          .eq(0)
+          .should('be.visible')
+          .within(() => {
+            cy.findAllByRole('link', { name: /Next/ }).click()
+          })
+
+        cy.findByRole('heading', { name: /First: Two, Second: A 3 results/ }).should('not.be.visible')
+        cy.findByRole('heading', { name: /First: One, Second: B 6 results/ }).should('be.visible')
+
+        cy.findAllByLabelText(/First: One, Second: B 6 results/)
+          .eq(0)
+          .should('be.visible')
+          .within(() => {
+            cy.findAllByRole('link', { name: /Prev/ }).click()
+          })
+
+        cy.findByRole('heading', { name: /First: Two, Second: A 3 results/ }).should('be.visible')
+
+        cy.findAllByLabelText(/First: Two, Second: A 3 results/)
+          .eq(0)
+          .should('be.visible')
+          .within(() => {
+            cy.findAllByRole('link', { name: /Prev/ }).click()
+          })
+
+        cy.findByRole('heading', { name: /First: Two, Second: B 7 results/ }).should('be.visible')
+
+        cy.findAllByLabelText(/First: Two, Second: B 7 results/)
+          .eq(0)
+          .within(() => {
+            cy.findAllByRole('link', { name: /Go to End/ }).click()
+          })
+
+        cy.findByRole('heading', { name: /First: One, Second: A 4 results/ }).should('be.visible')
+
+        cy.findAllByLabelText(/First: Two, Second: B 7 results/)
+          .eq(0)
+          .within(() => {
+            cy.findAllByRole('link', { name: /Return to Top/ }).click()
+          })
+
+        cy.findByRole('heading', { name: /First: Two, Second: B 7 results/ }).should('be.visible')
+        cy.findByRole('heading', { name: /First: One, Second: A 4 results/ }).should('not.be.visible')
+      })
     })
 
     describe('list-section - with dates', () => {

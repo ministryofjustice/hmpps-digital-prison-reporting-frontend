@@ -1,0 +1,35 @@
+{% macro dprReportSectionHeading(section, loopIndex) %}
+  {% set sectionTitle = section.title %}
+  {% set sectionCount = section.count %}
+  {% set sectionLabelId = "section-title-" + loopIndex %}
+
+  {% set prevIndex = loopIndex - 1 %}
+  {% set nextIndex = loopIndex + 1 %}
+  {% set nextLabelId = "section-title-" + nextIndex %}
+  {% if loopIndex != 1 %}
+    {% set prevLabelId = "section-title-" + prevIndex + "-prev"%}
+  {% endif %}
+
+  <span id="{{ sectionLabelId }}-prev" aria-hidden="true"></span>
+  <div class="dpr-report-section__title">
+    <h2 id="{{ sectionLabelId }}" class="govuk-heading-m">{{ sectionTitle }}
+      {% if template !== 'summary-section' %}
+      <span class="govuk-caption-m">{{ sectionCount }} results</span>
+      {% endif %}
+    </h2>
+
+    <div class="dpr-report-section__actions">
+
+      <div class="dpr-report-section__actions--left-aligned ">
+        <a class="govuk-link govuk-link--no-visited-state govuk-body-s" href="#{{nextLabelId}}">Next</a>
+        {% if prevLabelId %}| <a class="govuk-link govuk-link--no-visited-state govuk-body-s" href="#{{prevLabelId}}">Previous</a>{% endif %}
+      </div>
+      
+      <div class="dpr-report-section__actions--right-aligned">
+        <a class="govuk-link govuk-link--no-visited-state govuk-body-s dpr-report-section__action--right-aligned" href="#dpr-report-page">Return to Top</a>
+        | <a class="govuk-link govuk-link--no-visited-state govuk-body-s dpr-report-section__action--right-aligned" href="#dpr-report-page-bottom">Go to End</a>
+      </div>
+
+    </div>
+  </div>
+{% endmacro %}

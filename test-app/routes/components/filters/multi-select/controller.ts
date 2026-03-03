@@ -1,4 +1,6 @@
 import { RequestHandler } from 'express'
+import { FilterType } from 'src/dpr/components/_filters/filter-input/enum'
+import { setValueFromRequest } from 'src/dpr/components/_inputs/multi-select/utils'
 
 export default class MultiSelectController {
   GET: RequestHandler = async (_req, res) => {
@@ -6,7 +8,9 @@ export default class MultiSelectController {
       {
         text: 'Multiselect',
         name: 'multiselect',
-        type: 'multiselect',
+        type: FilterType.multiselect,
+        value: null,
+        values: [],
         mandatory: true,
         options: [
           {
@@ -30,7 +34,9 @@ export default class MultiSelectController {
       {
         text: 'Multiselect, long options list',
         name: 'multiselect-long',
-        type: 'multiselect',
+        type: FilterType.multiselect,
+        value: null,
+        values: [],
         mandatory: false,
         options: [
           { value: 'value1.2', text: 'Value 1.2' },
@@ -45,9 +51,24 @@ export default class MultiSelectController {
         ],
       },
     ]
+
+    const { requestfilterValue, requestfilterValues } = setValueFromRequest(filters[0], _req, 'filters.')
+    const { requestfilterValue: longRequestfilterValue, requestfilterValues: longRequestfilterValues } = setValueFromRequest(filters[1], _req, 'filters.')
+
     res.render('views/pages/components/filters/view.njk', {
       title: 'Multiselect input',
-      filters,
+      filters: [
+        {
+          ...filters[0],
+          value: requestfilterValue,
+          values: requestfilterValues,
+        },
+        {
+          ...filters[1],
+          value: longRequestfilterValue,
+          values: longRequestfilterValues,
+        }
+      ],
     })
   }
 }

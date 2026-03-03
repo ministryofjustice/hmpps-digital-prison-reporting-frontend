@@ -11,6 +11,7 @@ const visibleColumns = (fields: Array<components['schemas']['FieldDefinition']>)
 
 export const ensureMandatoryColumns = (
   fields: Array<components['schemas']['FieldDefinition']>,
+  sections: string[],
   queryColumns?: string[] | string,
 ) => {
   let queryCols
@@ -21,7 +22,7 @@ export const ensureMandatoryColumns = (
   const mandatoryCols = mandatoryColumns(fields)
 
   const columns = queryCols || visibleCols
-  return [...mandatoryCols, ...columns].reduce(distinct, [])
+  return [...mandatoryCols, ...columns, ...sections].reduce(distinct, [])
 }
 
 /**
@@ -32,7 +33,7 @@ export const ensureMandatoryColumns = (
  */
 export const getColumns = (specification: components['schemas']['Specification'], req: Request): Columns => {
   const requestedColumns = <string[] | string | undefined>req.query['columns']
-  const { fields } = specification
+  const { fields, sections } = specification
 
   const options: Column[] = fields
     .filter((field) => !specification.sections || !specification.sections.includes(field.name))
@@ -46,7 +47,7 @@ export const getColumns = (specification: components['schemas']['Specification']
     name: 'columns',
     options,
     text: 'Select report columns',
-    value: ensureMandatoryColumns(fields, requestedColumns),
+    value: ensureMandatoryColumns(fields, sections, requestedColumns),
   }
 }
 

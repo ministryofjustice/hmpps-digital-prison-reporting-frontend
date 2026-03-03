@@ -147,7 +147,7 @@ class DataTableBuilder {
         }
         return {
           text: f.display,
-          classes,
+          ...(classes && { classes }),
         }
       })
   }

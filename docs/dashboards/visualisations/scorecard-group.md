@@ -4,9 +4,9 @@ title: Scorecard Group
 subsection: Visualisation definition
 ---
 
-<!-- <img src="/assets/images/scorecard-group-2.png" alt="" style="margin-bottom: 30px"/> -->
+<img src="/assets/images/charts/scorecard-group/scorecard-group-2.png" alt="" style="margin-bottom: 30px"/>
 
-The `scorecard-group` chart visualisation type represents data as a collection `scorecard` visualisations in a group. 
+The `scorecard-group` chart visualisation type represents data as a collection `scorecard` visualisations in a group.
 
 A scorecard is used to display:
 
@@ -29,15 +29,15 @@ A scorecard is used to display:
 Use scorecard group when:
 
 - You want to display a group of scorecards
-- You want multiple rows in a data subset displayed as scorecards 
+- You want multiple rows in a data subset displayed as scorecards
 
 <hr class='dpr-docs-hr'/>
 
 # How it works
 
-A scorecard group uses multiple rows in a dataset to create the visualisation. 
+A scorecard group uses multiple rows in a dataset to create the visualisation.
 
-A scorecard group can be generated from a list, or from columns defined in a dataset. See the [examples](#examples) below for instruction in how to do this. 
+A scorecard group can be generated from a list, or from columns defined in a dataset. See the [examples](#examples) below for instruction in how to do this.
 
 See the [scorecard](/dashboards/visualisations/scorecard) for details on how a scorecard works
 
@@ -62,10 +62,9 @@ See the [scorecard](/dashboards/visualisations/scorecard) for details on how a s
 
 See the [Targeting data](/dashboards/visualisations/visualisation-dataset) for and how to target data with the `column`
 
-### Options: 
+### Options:
 
-See [Custom buckets](/dashboards/visualisations/custom-buckets##custom-buckets) for `options` documentation 
-
+See [Custom buckets](/dashboards/visualisations/custom-buckets##custom-buckets) for `options` documentation
 
 <hr class='dpr-docs-hr'/>
 
@@ -78,7 +77,7 @@ These examples demonstrate how to present multiple rows within a dataset as a sc
 
 ### Example Dataset
 
-For these examples we will use a mocked dataset representing data quality totals. 
+For these examples we will use a mocked dataset representing data quality totals.
 
 ```js
 | ts         | est_id | has_metric_two | has_metric_one | has_metric_three | metric_three_is_missing |
@@ -92,18 +91,19 @@ For these examples we will use a mocked dataset representing data quality totals
 
 <hr class='dpr-docs-hr'/>
 
-
 # Scorecard group from list data
 
 The example creates a scorecard group using values in a list. We will be showing MetricOne metrics by establishment ID.
 
 To do this we define 2 measures
+
 - the column we want to use as the list: `est_id`
 - the column we want to use as the numeric value: `has_metric_one`
 
 We must also define `displayValue` in the `measure` for the numeric value:
-- Informs which column the numeric value should be taken from, and which is the description column. 
-- instructs that the group is to be generated from a list 
+
+- Informs which column the numeric value should be taken from, and which is the description column.
+- instructs that the group is to be generated from a list
 
 In this dataset we have 4 unique values for `est_id`, therefore we will have 4 scorecards in our group
 
@@ -135,10 +135,9 @@ In this dataset we have 4 unique values for `est_id`, therefore we will have 4 s
 }
 ```
 
-
 ### Visualisation
 
-<img src="/assets/images/scorecard-group.png" alt=""/>
+<img src="/assets/images/charts/scorecard-group/scorecard-group.png" alt=""/>
 
 <hr class='dpr-docs-hr'/>
 
@@ -150,10 +149,11 @@ This example demonstrates how to create a scorecard group using columns in a dat
 - Define the column(s) in the `key` array that we want to group by.
 
 Each value in the group column will be used as new group:
+
 - `est_id` is defined as our group
 - `est_id` has 6 unique values in the dataset
-- therefore we will have 6 groups - One for each value. 
- 
+- therefore we will have 6 groups - One for each value.
+
 ### Definition
 
 ```js
@@ -205,6 +205,6 @@ Each value in the group column will be used as new group:
 
 ### Visualisation
 
-<!-- <img src="/assets/images/scorecard-group-2.png" alt=""/> -->
+<img src="/assets/images/charts/scorecard-group/scorecard-group-2.png" alt=""/>
 
 <hr class='dpr-docs-hr'/>

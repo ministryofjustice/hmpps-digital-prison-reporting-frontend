@@ -1,4 +1,4 @@
-import { executeReportStubs } from "cypress-tests/cypressUtils"
+import { executeReportStubs, requestReportByNameAndDescription } from 'cypress-tests/cypressUtils'
 
 context('Inputs: multiselect', () => {
   const path = '/components/filters/multi-select'
@@ -62,11 +62,9 @@ context('Inputs: multiselect', () => {
   describe('Multi‑select filter component', () => {
     const route = '/components/filters/multi-select'
 
-    const getCheckbox = (label: string) =>
-      cy.findByRole('checkbox', { name: new RegExp(`^${label}$`, 'i') })
+    const getCheckbox = (label: string) => cy.findByRole('checkbox', { name: new RegExp(`^${label}$`, 'i') })
 
-    const getSelectedFiltersSection = () =>
-      cy.findByRole('heading', { name: /Selected filters/i })
+    const getSelectedFiltersSection = () => cy.findByRole('heading', { name: /Selected filters/i })
 
     const pretestSetup = (queryParams: string = '') => {
       cy.visit(`${route}?${queryParams}`)
@@ -84,12 +82,13 @@ context('Inputs: multiselect', () => {
       getCheckbox('Value 1.2').should('exist')
       getCheckbox('Value 10.2').should('exist')
 
-      cy.get('[data-govuk-checkboxes-init]').eq(1).should($el => {
-        const el = $el[0]
-        expect(el.scrollHeight, 'has more content than viewport').to.be.greaterThan(el.clientHeight)
-        expect(getComputedStyle(el).overflowY, 'allows vertical scrolling').to.match(/auto|scroll/)
-      })
-
+      cy.get('[data-govuk-checkboxes-init]')
+        .eq(1)
+        .should(($el) => {
+          const el = $el[0]
+          expect(el.scrollHeight, 'has more content than viewport').to.be.greaterThan(el.clientHeight)
+          expect(getComputedStyle(el).overflowY, 'allows vertical scrolling').to.match(/auto|scroll/)
+        })
     })
 
     it('selects and unselects values, updating the selected filters section', () => {
@@ -102,7 +101,6 @@ context('Inputs: multiselect', () => {
       cy.findByRole('link', { name: /Value 1.2/i }).should('exist')
       cy.findByRole('link', { name: /Value 3.2/i }).should('exist')
 
-
       getCheckbox('Value 1.2').click()
       cy.findByRole('link', { name: /Value 1.2/i }).should('not.exist')
       cy.findByRole('link', { name: /Value 3.2/i }).should('exist')
@@ -113,13 +111,13 @@ context('Inputs: multiselect', () => {
 
       getCheckbox('Value 2.2').click().blur()
 
-      cy.location('search').should(qs => {
+      cy.location('search').should((qs) => {
         expect(qs).to.match(/filters\.multiselect-long=.*value2.2/i)
       })
 
       getCheckbox('Value 4.2').click().blur()
 
-      cy.location('search').should(qs => {
+      cy.location('search').should((qs) => {
         expect(qs).to.match(/filters\.multiselect-long=.*value2.2/i)
         expect(qs).to.match(/filters\.multiselect-long=.*value4.2/i)
       })
@@ -127,7 +125,6 @@ context('Inputs: multiselect', () => {
 
     it('initialises defaults from existing query params', () => {
       pretestSetup('filters.multiselect-long=value3.2&filters.multiselect-long=value5.2')
-
 
       getCheckbox('Value 3.2').should('be.checked')
       getCheckbox('Value 5.2').should('be.checked')
@@ -146,7 +143,6 @@ context('Inputs: multiselect', () => {
       getCheckbox('Value 1.2').should('be.checked')
       getCheckbox('Value 2.2').should('be.checked')
       getCheckbox('Value 3.2').should('be.checked')
-
 
       cy.findByRole('link', { name: /Reset filters/i }).click()
 
@@ -175,11 +171,33 @@ context('Inputs: multiselect', () => {
     it('supports keyboard interaction (space toggles a checkbox)', () => {
       pretestSetup()
 
-      getCheckbox('Value 2.2')
-        .focus()
-        .type(' ')
+      getCheckbox('Value 2.2').focus().type(' ')
 
       getCheckbox('Value 2.2').should('be.checked')
+    })
+  })
+
+  describe('Show/hide all', () => {
+    it('should toggle the full list in the pre-request filters', () => {
+      cy.visit('/embedded/platform/dpr/request-report/report/filter-inputs/multiselectExample')
+      cy.findByRole('heading', { level: 1, name: /Request report/ }).should('be.visible')
+
+      // check last select option is not visible
+      // click show all
+      // check it is visible
+      // click hide all
+      // check again it is not visible
+    })
+
+    it('should toggle the full list in the interactive filters', () => {
+      requestReportByNameAndDescription({ name: 'Multiselect', description: 'Multiselect example' })
+      cy.findByRole('heading', { level: 1, name: /Multiselect/ }).should('be.visible')
+
+      // check last select option is not visible
+      // click show all
+      // check it is visible
+      // click hide all
+      // check again it is not visible
     })
   })
 })

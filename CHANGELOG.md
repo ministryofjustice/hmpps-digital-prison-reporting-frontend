@@ -1,6 +1,24 @@
 Below you can find the changes included in each release.
 
+## 5.5.0
+
+- Make client-side JS output be ESM based, not CJS, and ensure the default import has all dependencies bundled, with an optional `/slim` import for unbundled
+- Update `redis` to 5.11.0
+- List template: Support wrapping of long column names
+
+## 5.4.0
+
+- List-section reports: Addition of section actions - prev, next, Return to top & Go to end
+- Additional visual regression tests and behaviour tests for dashboard charts
+- Fix sort by date on list-section reports
+- Update line chart docs
+- Remove jest-based component tests and migrate any test cases missing to cypress
+- Remove unneeded code around flags that aren't used, remove+migrate more jest tests to cypress
+- Remove unused row-section code
+- Bump various dependencies (`axe-core`, `del`, `lint-staged`, `zod`, `concurrently`, `wait-on`)
+
 ## 5.3.0
+
 - Update 2 eslint libs, override minimatch and ajv to resolve security issues
 - Remove unneeded jest tests
 - Add visual regression tests for dashboards
@@ -9,6 +27,7 @@ Below you can find the changes included in each release.
 - Bump rollup and other dev dependencies
 
 ## 5.2.4
+
 - Enable the new streaming download for sync reports and disable the legacy non-streaming version.
 
 ## 5.2.3
@@ -666,13 +685,11 @@ You will then be able to get type inference on the injected `locals`.
 ## v4.1.23
 
 - Embedded reports integration:
-
   - Fixed path issues with moj and dpr sass imports
   - Fixed lib dependecy issues.
   - Updated integration docs to outline process for services using bundlers
 
 - Embedded reports actions:
-
   - Fixed copy button to include full url
 
 - Dashboard visualisations: Support for line chart visualisation type

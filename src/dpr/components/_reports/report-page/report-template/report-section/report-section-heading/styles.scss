@@ -1,0 +1,12 @@
+.dpr-report-section__actions {
+  display: flex;
+
+  .dpr-report-section__actions--left-aligned {
+    flex: 1;
+    text-align: left;
+  }
+  .dpr-report-section__actions--right-aligned {
+    flex: 1;
+    text-align: right;
+  }
+}

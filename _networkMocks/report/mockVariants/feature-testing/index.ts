@@ -12,6 +12,7 @@ import { featureTestingUserDefinedDefaults } from './userDefinedDefaults'
 import { featureTestingValidation } from './validation'
 import { featureTesting } from './bigReport'
 import { featureTestingOrderFilters } from './orderFilters'
+import { featureTestingLongHeadings } from './longHeadings'
 
 export const featureTestingVariants = [
   featureTestingEmptyQuery,
@@ -28,4 +29,5 @@ export const featureTestingVariants = [
   featureTestingValidation,
   featureTesting,
   featureTestingOrderFilters,
+  featureTestingLongHeadings,
 ]

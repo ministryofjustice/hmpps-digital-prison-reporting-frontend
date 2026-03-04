@@ -108,51 +108,46 @@ class DataTableBuilder {
     }
   }
 
-  protected mapHeader(disableSort = false, extraClasses: string | null = null): Cell[] {
+  protected mapHeader(): Cell[] {
+    const WRAP_LENGTH = 20
     return this.fields
       .filter((field) => this.columns.includes(field.name))
       .map((f) => {
-        if (this.reportQuery && !disableSort) {
-          if (f.sortable) {
-            let sortDirection = 'none'
-            let url = createUrlForParameters(
-              this.currentQueryParams || {},
-              {
-                sortColumn: f.name,
-                sortedAsc: 'true',
-              },
-              this.fields,
-            )
+        const { display, sortable, name } = f
+        const displayLength = display.length
+        const classes = displayLength > WRAP_LENGTH ? 'govuk-table__header--long' : ''
 
-            if (f.name === this.reportQuery.sortColumn) {
-              sortDirection = this.reportQuery.sortedAsc ? 'ascending' : 'descending'
+        if (this.reportQuery) {
+          const { sortedAsc, sortColumn } = this.reportQuery
+          if (sortable) {
+            const isCurrentSort = name === sortColumn
+            const nextAsc = isCurrentSort ? !sortedAsc : true
 
-              if (this.reportQuery.sortedAsc) {
-                url = createUrlForParameters(
-                  this.currentQueryParams || {},
-                  {
-                    sortColumn: f.name,
-                    sortedAsc: 'false',
-                  },
-                  this.fields,
-                )
-              }
+            let sortDirection: 'none' | 'ascending' | 'descending' = 'none'
+            if (isCurrentSort) {
+              sortDirection = sortedAsc ? 'ascending' : 'descending'
             }
+
+            const updateQueryParams = {
+              sortColumn: f.name,
+              sortedAsc: String(nextAsc),
+            }
+
+            const url = createUrlForParameters(this.currentQueryParams ?? {}, updateQueryParams, this.fields)
 
             return {
               html:
                 `<a ` +
                 `data-column="${f.name}" ` +
-                `class="data-table-header-button data-table-header-button-sort-${sortDirection}" ` +
+                `class="data-table-header-button data-table-header-button-sort-${sortDirection} ${classes}" ` +
                 `href="${url}"` +
                 `>${f.display}</a>`,
-              ...(extraClasses && { classes: extraClasses }),
             }
           }
         }
         return {
           text: f.display,
-          ...(extraClasses && { classes: extraClasses }),
+          ...(classes && { classes }),
         }
       })
   }

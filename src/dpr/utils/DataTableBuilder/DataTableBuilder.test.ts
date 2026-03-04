@@ -285,7 +285,7 @@ describe('mapHeader', () => {
           html:
             '<a ' +
             'data-column="date" ' +
-            'class="data-table-header-button data-table-header-button-sort-ascending" ' +
+            'class="data-table-header-button data-table-header-button-sort-ascending " ' +
             'href="?selectedPage=1&pageSize=20&sortColumn=date&sortedAsc=false&columns=date&dataProductDefinitionsPath=one">' +
             'Date' +
             '</a>',
@@ -316,7 +316,7 @@ describe('mapHeader', () => {
           html:
             '<a ' +
             'data-column="date" ' +
-            'class="data-table-header-button data-table-header-button-sort-ascending" ' +
+            'class="data-table-header-button data-table-header-button-sort-ascending " ' +
             'href="?selectedPage=1&pageSize=20&sortColumn=date&sortedAsc=false&columns=date&dataProductDefinitionsPath=date">' +
             'Date' +
             '</a>',
@@ -348,7 +348,7 @@ describe('mapHeader', () => {
           html:
             '<a ' +
             'data-column="date" ' +
-            'class="data-table-header-button data-table-header-button-sort-descending" ' +
+            'class="data-table-header-button data-table-header-button-sort-descending " ' +
             'href="?selectedPage=1&pageSize=20&sortColumn=date&sortedAsc=true&columns=date&dataProductDefinitionsPath=date">' +
             'Date' +
             '</a>',

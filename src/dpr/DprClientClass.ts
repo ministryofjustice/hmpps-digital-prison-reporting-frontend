@@ -1,6 +1,7 @@
-// @ts-nocheck
 export class DprClientClass {
-  constructor(element) {
+  element: Element
+
+  constructor(element: Element) {
     this.element = element
   }
 

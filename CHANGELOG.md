@@ -5,6 +5,11 @@ Below you can find the changes included in each release.
 - List-section reports: Addition of section actions - prev, next, Return to top & Go to end
 - Additional visual regression tests and behaviour tests for dashboard charts
 - Fix sort by date on list-section reports
+- Update line chart docs
+- Remove jest-based component tests and migrate any test cases missing to cypress
+- Remove unneeded code around flags that aren't used, remove+migrate more jest tests to cypress
+- Remove unused row-section code
+- Bump various dependencies (`axe-core`, `del`, `lint-staged`, `zod`, `concurrently`, `wait-on`)
 
 ## 5.3.0
 

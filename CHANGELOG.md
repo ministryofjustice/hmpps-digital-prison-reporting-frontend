@@ -4,6 +4,7 @@ Below you can find the changes included in each release.
 
 - Make client-side JS output be ESM based, not CJS, and ensure the default import has all dependencies bundled, with an optional `/slim` import for unbundled
 - Update `redis` to 5.11.0
+- List template: Support wrapping of long column names
 
 ## 5.4.0
 

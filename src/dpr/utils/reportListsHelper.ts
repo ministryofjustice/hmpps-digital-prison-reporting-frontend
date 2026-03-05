@@ -96,16 +96,17 @@ export const setInitialHref = (
   res: Response,
   isMissing = false,
 ) => {
+  const { pathSuffix, dpdPathFromQuery, nestedBaseUrl } = localsHelper.getValues(res)
+
   let href = ''
   if (isMissing) {
-    href = `dpr/request-missing-report/${reportId}/${id}/form`
+    href = `${nestedBaseUrl}/dpr/request-missing-report/${reportId}/${id}/form`
   } else {
-    const { pathSuffix, dpdPathFromQuery } = localsHelper.getValues(res)
     const dpdPathQueryParam = dpdPathFromQuery ? pathSuffix : ''
-    href = `dpr/request-report/${type}/${reportId}/${id}/filters${dpdPathQueryParam}`
+    href = `${nestedBaseUrl}/dpr/request-report/${type}/${reportId}/${id}/filters${dpdPathQueryParam}`
 
     if (loadType && loadType === LoadType.SYNC) {
-      href = `dpr/view-report/sync/${type}/${reportId}/${id}/load-report${dpdPathQueryParam}`
+      href = `${nestedBaseUrl}/dpr/view-report/sync/${type}/${reportId}/${id}/load-report${dpdPathQueryParam}`
     }
   }
   return href

@@ -4,51 +4,92 @@ title: Routes
 subsection: Platform
 ---
 
-Integrating the platform will give you a set of routes that you can nest into your current app structure. See [here](/integration-guides/integrating-the-fe-platform#initialise-routes) for how to integrate, and nest the DPR routes into you app structure. 
+Integrating the platform will give you a set of routes that you can nest into your current app structure. See [here](/integration-guides/integrating-the-fe-platform#initialise-routes) for how to integrate, and nest the DPR routes into you app structure.
 
-The provided routes allow you to run reports either **synchronously**, or **asynchronously** 
+## Manage reports routes
+
+These routes provide you with the means to manage and search your reports
+
+- [Report catalogue route](#report-catalogue-route)
+- [My reports route](#my-reports-route)
+- [My reports & Catalogue route](#my-reports-&-catalogue-route)
+
+## Loading reports routes
+
+The provided routes allow you to run reports either **synchronously**, or **asynchronously**
 
 - [Synchronous routes](#synchronous-routes)
 - [Asynchronous routes](#asynchronous-routes)
 
 <hr class='dpr-docs-hr'/>
 
-# Synchronous routes
+# Manage reports routes
+
+## Report catalogue route
+
+```js
+/dpr/report-catalogue
+```
+
+This route resolves to a view with a configured report catalogue
+
+## My reports route
+
+```
+/dpr/my-reports
+```
+
+This route resolves to a view with a configured user reports list
+
+## My reports & Catalogue route
+
+```
+/dpr/my-reports-catalogue
+```
+
+This route resolves to a view with both a configured user reports list, and a report catalogue
+
+<hr class='dpr-docs-hr'/>
+
+# Loading reports routes
+
+## Synchronous routes
 
 - [Load report](#load-report)
 - [View report](#view-report)
 
-## Load report
+### Load report
 
 ```js
 /dpr/view-report/sync/:type/:reportId/:id/load-report
 ```
 
-| param           | description            |
-|-----------------|------------------------|
-| `:type`         | `report`, `dashboard`  |
-| `:reportId`     | The report/product ID  |
-| `:id`           | The variant ID         |
+| param       | description           |
+| ----------- | --------------------- |
+| `:type`     | `report`, `dashboard` |
+| `:reportId` | The report/product ID |
+| `:id`       | The variant ID        |
 
 The route resolves to the report loading page:
+
 - Displays the meta data about the report while the report is loading
 - Automatically redirects to the report once the report data has loaded
 
-## View report
+### View report
 
 ```js
 /dpr/view-report/sync/:type/:reportId/:id/report
 ```
 
-| param           | description           |
-|-----------------|-----------------------|
-| `:type`         | `report`, `dashboard` |
-| `:reportId`     | The report/product ID |
-| `:id`           | The variant ID        |
+| param       | description           |
+| ----------- | --------------------- |
+| `:type`     | `report`, `dashboard` |
+| `:reportId` | The report/product ID |
+| `:id`       | The variant ID        |
 
 <hr class='dpr-docs-hr'/>
 
-# Asynchronous routes
+## Asynchronous routes
 
 Asynchronous reporting is a 3 stage linear process:
 
@@ -62,14 +103,14 @@ Asynchronous reporting is a 3 stage linear process:
 - [Polling](#polling)
 - [View](#view)
 
-## Request
+### Request
 
 ```js
 /dpr/request-report/:type/:reportId/:id/filters
 ```
 
-| param      | description           |
-|------------|-----------------------|
+| param       | description           |
+| ----------- | --------------------- |
 | `:type`     | `report`, `dashboard` |
 | `:reportId` | The report ID         |
 | `:id`       | The variant ID        |
@@ -82,22 +123,22 @@ The request route is where users will:
 - Apply sorting options.
 - Request the report.
 
-Upon requesting a report the user is navigated to the polling route. 
+Upon requesting a report the user is navigated to the polling route.
 
 The `executionId` required for the polling route is returned by the report request.
 
-## Polling
+### Polling
 
 ```js
 /dpr/request-report/:type/:reportId/:id/:executionId/status
 ```
 
-| param          | description           |
-|----------------|-----------------------|
-| `:type`         | `report`, `dashboard` |
-| `:reportId`     | The report ID         |
-| `:id`           | The variant ID        |
-| `:executionId`  | The execution ID produced by the report request |
+| param          | description                                     |
+| -------------- | ----------------------------------------------- |
+| `:type`        | `report`, `dashboard`                           |
+| `:reportId`    | The report ID                                   |
+| `:id`          | The variant ID                                  |
+| `:executionId` | The execution ID produced by the report request |
 
 The route resolves to the polling page:
 
@@ -107,19 +148,20 @@ The route resolves to the polling page:
 
 The `tableId` required for the view route is returned by the polling endpoint.
 
-## View
+### View
 
 ```js
 /dpr/view-report/async/:type/:reportId/:id/:tableId/:type
 ```
 
-| param           | description           |
-|-----------------|-----------------------|
-| `:loadType`     | `async`, `sync`       |
-| `:type`         | `report`, `dashboard` |
-| `:reportId`     | The report ID         |
-| `:id`           | The variant ID        |
-| `:tableId`      | The ID of the table where the data is stored |
+| param       | description                                  |
+| ----------- | -------------------------------------------- |
+| `:loadType` | `async`, `sync`                              |
+| `:type`     | `report`, `dashboard`                        |
+| `:reportId` | The report ID                                |
+| `:id`       | The variant ID                               |
+| `:tableId`  | The ID of the table where the data is stored |
 
 The route resolves to the report page:
+
 - Displays the report, or dashboard

@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { Router } from 'express'
 import { Services } from '../../../types/Services'
+import UserReportsController from './controller'
 
 // Routes
 import bookmarkRoutes from './bookmarks/routes'
@@ -9,7 +10,9 @@ import requestedReportsRoutes from './requested-reports/routes'
 
 export function Routes({ layoutPath, services }: { services: Services; layoutPath: string }): Router {
   const router = Router({ mergeParams: true })
+  const userReportsController = new UserReportsController(layoutPath, services)
 
+  router.get(`/`, userReportsController.GET)
   router.use(`/bookmarks`, bookmarkRoutes({ layoutPath, services }))
   router.use(`/recently-viewed`, recentlyViewedRoutes({ layoutPath, services }))
   router.use(`/requested-reports`, requestedReportsRoutes({ layoutPath, services }))

@@ -85,6 +85,13 @@ export const stubs = {
       dashboards: [],
       variant: reportTemplateExampleSummarySection,
     }),
+  stubMultiselectDefinitionRequest: () =>
+    createBasicHttpStub('GET', '/definitions/[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+', 200, {
+      id: 'request-examples',
+      name: 'Request examples',
+      dashboards: [],
+      variant: reportTemplateExampleSummarySection,
+    }),
   stubParentChildSectionDefinitionRequest: () =>
     createBasicHttpStub('GET', '/definitions/[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+', 200, {
       id: 'request-examples',

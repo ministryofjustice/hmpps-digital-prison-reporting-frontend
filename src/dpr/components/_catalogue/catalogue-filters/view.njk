@@ -4,6 +4,8 @@
 {% from "../catalogue-unauthorised-toggle/view.njk" import dprUnauthorisedToggle %}
 
 {% macro dprCatalogueFilters(id, config) %}
+  {% set unauthorisedToggleEnabled = config.features.unauthorisedToggleEnabled %}
+
   <div class='dpr-catalogue-filters' data-dpr-module='dpr-catalogue-filters'>
     <div class='dpr-catalogue-filters--heading'>
       <div class="dpr-catalogue-filters__search">

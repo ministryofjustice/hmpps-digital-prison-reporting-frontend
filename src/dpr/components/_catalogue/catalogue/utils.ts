@@ -44,8 +44,8 @@ export const initCatalogue = async ({
       },
       nestedBaseUrl,
       csrfToken,
+      features: setFeatures(bookmarkingEnabled, features),
     },
-    features: setFeatures(bookmarkingEnabled, features),
   }
 }
 

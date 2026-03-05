@@ -1,7 +1,7 @@
 import { components } from 'src/dpr/types/api'
 
-export const multiselectExample: components['schemas']['VariantDefinition'] = {
-  id: 'multiselectExample',
+const multiselectExample: components['schemas']['VariantDefinition'] = {
+  id: 'multiselectExamples',
   name: 'Multiselect',
   description: 'Multiselect example',
   resourceName: 'reports/list',
@@ -103,22 +103,22 @@ export const multiselectExample: components['schemas']['VariantDefinition'] = {
           mandatory: false,
           type: 'multiselect',
           staticOptions: [
-            { name: 'value1', display: 'Value 1' },
-            { name: 'value2', display: 'Value 2' },
-            { name: 'value3', display: 'Value 3' },
-            { name: 'value4', display: 'Value 4' },
-            { name: 'value5', display: 'Value 5' },
-            { name: 'value6', display: 'Value 6' },
-            { name: 'value7', display: 'Value 7' },
-            { name: 'value8', display: 'Value 8' },
-            { name: 'value9', display: 'Value 9' },
-            { name: 'value10', display: 'Value 10' },
-            { name: 'value11', display: 'Value 11' },
-            { name: 'value12', display: 'Value 12' },
-            { name: 'value13', display: 'Value 13' },
-            { name: 'value14', display: 'Value 14' },
-            { name: 'value15', display: 'Value 15' },
-            { name: 'value16', display: 'Value 16' },
+            { name: 'value4.1', display: 'Value 4.1' },
+            { name: 'value4.2', display: 'Value 4.2' },
+            { name: 'value4.3', display: 'Value 4.3' },
+            { name: 'value4.4', display: 'Value 4.4' },
+            { name: 'value4.5', display: 'Value 4.5' },
+            { name: 'value4.6', display: 'Value 4.6' },
+            { name: 'value4.7', display: 'Value 4.7' },
+            { name: 'value4.8', display: 'Value 4.8' },
+            { name: 'value4.9', display: 'Value 4.9' },
+            { name: 'value4.10', display: 'Value 4.10' },
+            { name: 'value4.11', display: 'Value 4.11' },
+            { name: 'value4.12', display: 'Value 4.12' },
+            { name: 'value4.13', display: 'Value 4.13' },
+            { name: 'value4.14', display: 'Value 4.14' },
+            { name: 'value4.15', display: 'Value 4.15' },
+            { name: 'value4.16', display: 'Value 4.16' },
           ],
           defaultValue: 'value1,value2',
           interactive: true,
@@ -162,3 +162,5 @@ export const multiselectExample: components['schemas']['VariantDefinition'] = {
     ],
   },
 }
+
+export default multiselectExample

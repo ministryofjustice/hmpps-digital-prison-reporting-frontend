@@ -47,6 +47,7 @@ import reportTemplateExampleListSection from '@networkMocks/report/mockVariants/
 import reportTemplateExampleParentChild from '@networkMocks/report/mockVariants/report-templates/parent-child/parent-child'
 import reportTemplateExampleParentChildSection from '@networkMocks/report/mockVariants/report-templates/parent-child/parent-child-section'
 import reportTemplateExampleSummarySection from '@networkMocks/report/mockVariants/report-templates/summary-section/summary-section'
+import multiselectExample from '@networkMocks/report/mockVariants/filter-input-examples/multiselect'
 import { getFlagsMockDisabled, getFlagsMockEmpty, getFlagsMockEnabled } from '@networkMocks/featureFlags/mocks'
 import { listSectionData } from '@networkMocks/report/mockVariants/data/list-section'
 
@@ -90,7 +91,7 @@ export const stubs = {
       id: 'request-examples',
       name: 'Request examples',
       dashboards: [],
-      variant: reportTemplateExampleSummarySection,
+      variant: multiselectExample,
     }),
   stubParentChildSectionDefinitionRequest: () =>
     createBasicHttpStub('GET', '/definitions/[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+', 200, {

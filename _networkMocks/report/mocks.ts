@@ -140,7 +140,7 @@ export const reportsFailedStatusMock = setupSimpleMock(
   },
 )
 
-const asyncReportStatusMocks = [reportsFinishedStatusMock]
+const asyncReportStatusMocks = [reportsFinishedStatusMock, reportsReadyStatusMock, reportsFinishedStatusMock]
 
 export const cancelAsyncRequestMock = generateNetworkMock({
   ...defaultMockRequest,

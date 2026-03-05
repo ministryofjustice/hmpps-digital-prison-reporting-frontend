@@ -1,7 +1,9 @@
-import { executeReportStubs, requestReportByNameAndDescription } from 'cypress-tests/cypressUtils'
+import { executeReportStubs, requestReportByNameAndDescription, startReportRequest } from 'cypress-tests/cypressUtils'
 
 context('Inputs: multiselect', () => {
   const path = '/components/filters/multi-select'
+
+  const getCheckbox = (label: string) => cy.findByRole('checkbox', { name: new RegExp(`^${label}$`, 'i') })
 
   beforeEach(() => {
     executeReportStubs()
@@ -178,33 +180,77 @@ context('Inputs: multiselect', () => {
   // })
 
   describe('Show/hide all', () => {
-    const multiselectDpdPath = '/embedded/platform/dpr/request-report/report/filter-inputs/multiselectExample/filters'
+    const reportDetails = { name: 'Multiselect', description: 'Multiselect example' }
 
-    before(() => {
-      cy.task('stubSummarySectionDefinitionRequest')
-      cy.task('stubAsyncSummaryReport')
+    beforeEach(() => {
+      cy.task('stubMultiselectDefinitionRequest')
+      cy.task('stubResultSuccessResult')
+
+      cy.visit('/embedded/platform/')
     })
 
     it('should toggle the full list in the pre-request filters', () => {
-      cy.visit(multiselectDpdPath)
+      startReportRequest(reportDetails)
       cy.findByRole('heading', { level: 1, name: /Request report/ }).should('be.visible')
-
-      // check last select option is not visible
-      // click show all
-      // check it is visible
-      // click hide all
-      // check again it is not visible
+      cy.findByRole('link', { name: /View full list/ }).should('be.visible')
+      cy.findByLabelText('Value 16').then(($checkbox) => {
+        cy.get(`label[for="${$checkbox.attr('id')}"]`).should('not.be.visible')
+      })
+      cy.findByRole('link', { name: /View full list/ }).click()
+      cy.findByLabelText('Value 16').then(($checkbox) => {
+        cy.get(`label[for="${$checkbox.attr('id')}"]`).should('be.visible')
+      })
+      cy.findByRole('link', { name: /Hide full list/ })
+        .should('be.visible')
+        .click()
+      cy.findByLabelText('Value 16').then(($checkbox) => {
+        cy.get(`label[for="${$checkbox.attr('id')}"]`).should('not.be.visible')
+      })
     })
 
     it('should toggle the full list in the interactive filters', () => {
-      requestReportByNameAndDescription({ name: 'Multiselect', description: 'Multiselect example' })
+      requestReportByNameAndDescription(reportDetails)
       cy.findByRole('heading', { level: 1, name: /Multiselect/ }).should('be.visible')
+      cy.findAllByRole('group')
+        .contains(/Show filters/)
+        .click()
 
-      // check last select option is not visible
-      // click show all
-      // check it is visible
-      // click hide all
-      // check again it is not visible
+      cy.findByLabelText('Value 16').then(($checkbox) => {
+        cy.get(`label[for="${$checkbox.attr('id')}"]`).should('not.be.visible')
+      })
+      cy.findByLabelText('Value 4.16').then(($checkbox) => {
+        cy.get(`label[for="${$checkbox.attr('id')}"]`).should('not.be.visible')
+      })
+
+      cy.findAllByRole('link', { name: /View full list/ })
+        .eq(0)
+        .click()
+
+      cy.findAllByRole('link', { name: /View full list/ })
+        .eq(0)
+        .click()
+
+      cy.findByLabelText('Value 16').then(($checkbox) => {
+        cy.get(`label[for="${$checkbox.attr('id')}"]`).should('be.visible')
+      })
+      cy.findByLabelText('Value 4.16').then(($checkbox) => {
+        cy.get(`label[for="${$checkbox.attr('id')}"]`).should('be.visible')
+      })
+
+      cy.findAllByRole('link', { name: /Hide full list/ })
+        .eq(0)
+        .click()
+
+      cy.findAllByRole('link', { name: /Hide full list/ })
+        .eq(0)
+        .click()
+
+      cy.findByLabelText('Value 16').then(($checkbox) => {
+        cy.get(`label[for="${$checkbox.attr('id')}"]`).should('not.be.visible')
+      })
+      cy.findByLabelText('Value 4.16').then(($checkbox) => {
+        cy.get(`label[for="${$checkbox.attr('id')}"]`).should('not.be.visible')
+      })
     })
   })
 })

@@ -2,21 +2,16 @@
 {% from "../catalogue-filters/view.njk" import dprCatalogueFilters %}
 {% from "../catalogue-how-to-use/view.njk" import dprCatalogueHowToUse %}
 
-{% macro dprCatalogue(args) %}
-  {% set data = args.data %}
-  {% set csrfToken = data.csrfToken %}
-  {% set features = args.features %}
-  {% set productCollectionInfo = args.productCollectionInfo %}
-
-  {% set head = data.head %}
-  {% set rows = data.rows %}
-  {% set id = data.id %}
+{% macro dprCatalogue(config) %}
+  {% set id = config.id %}
+  {% set filters = config.filters %}
+  {% set list = config.list %}
+  {% set features = config.features %}
 
   <div id="reports-catalogue" class="dpr-reports-wrapper" aria-labelledby="dpr-reports-catalogue-heading">
     <h2 id="dpr-reports-catalogue-heading" class="govuk-heading-l govuk-!-margin-bottom-4">Reports catalogue</h2>
     {{ dprCatalogueHowToUse(features) }}
-
-    {{ dprCatalogueFilters(id, features, productCollectionInfo, csrfToken) }}
-    {{ dprCatalogueList(head, rows, id) }}
+    {{ dprCatalogueFilters(id, filters) }}
+    {{ dprCatalogueList(id, list) }}
   <div>
 {% endmacro %}

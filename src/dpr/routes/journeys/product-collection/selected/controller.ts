@@ -15,15 +15,16 @@ export class SelectedProductCollectionController {
 
   POST: RequestHandler = async (req, res, _next) => {
     const { productCollection } = req.body
-    const { dprUser, nestedBaseUrl } = LocalsHelper.getValues(res)
+    const { dprUser } = LocalsHelper.getValues(res)
+    const back = req.get('referer') || '/'
 
     await this.productCollectionStoreService
       .setSelectedProductCollectionId(dprUser.id, productCollection === 'RESET' ? undefined : productCollection)
       .then(() => {
-        res.redirect(`${nestedBaseUrl}/`)
+        res.redirect(303, back)
       })
       .catch(() => {
-        res.redirect(`${nestedBaseUrl}/`)
+        res.redirect(303, back)
       })
   }
 }

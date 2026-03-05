@@ -14,7 +14,7 @@ export const initCatalogue = async ({
   services: Services
 }) => {
   const data = await CatalogueListUtils.getReportsList(res, services)
-  const { token, bookmarkingEnabled, dprUser, csrfToken } = LocalsHelper.getValues(res)
+  const { token, bookmarkingEnabled, dprUser, csrfToken, nestedBaseUrl } = LocalsHelper.getValues(res)
   const productCollections = (await services.productCollectionService.getProductCollections(token))?.map(
     (collection) => ({
       value: collection.id,
@@ -30,14 +30,20 @@ export const initCatalogue = async ({
   const selectedProductCollection =
     selectedProductCollectionId &&
     (await services.productCollectionService.getProductCollection(token, selectedProductCollectionId))
+
   return {
-    data: {
-      ...data,
-      csrfToken,
+    id: data.id,
+    list: {
+      head: data.head,
+      rows: data.rows,
     },
-    productCollectionInfo: {
-      productCollections,
-      ...(selectedProductCollection && { selectedProductCollection }),
+    filters: {
+      productCollectionInfo: {
+        productCollections,
+        ...(selectedProductCollection && { selectedProductCollection }),
+      },
+      nestedBaseUrl,
+      csrfToken,
     },
     features: setFeatures(bookmarkingEnabled, features),
   }

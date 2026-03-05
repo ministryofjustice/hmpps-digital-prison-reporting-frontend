@@ -8,6 +8,8 @@ import { MyReportsRoutes } from './my-reports/routes'
 import { ViewReportRoutes } from './view-report/routes'
 import { RequestReportRoutes } from './request-report/routes'
 import { ProductCollectionRoutes } from './product-collection/routes'
+import { ReportCatalogueRoutes } from './report-catalogue/routes'
+import { MyReportsCatalogueRoutes } from './my-reports-catalogue/routes'
 
 export function Routes({ layoutPath, services }: { services: Services; layoutPath: string }): Router {
   const router = Router({ mergeParams: true })
@@ -18,6 +20,8 @@ export function Routes({ layoutPath, services }: { services: Services; layoutPat
   router.use('/', ViewReportRoutes({ path: '/dpr/view-report', layoutPath, services }))
   router.use('/', RequestReportRoutes({ path: '/dpr/request-report', layoutPath, services }))
   router.use('/', ProductCollectionRoutes({ path: '/dpr/product-collection', layoutPath, services }))
+  router.use('/', ReportCatalogueRoutes({ path: '/dpr/report-catalogue', layoutPath, services }))
+  router.use('/', MyReportsCatalogueRoutes({ path: '/dpr/my-reports-catalogue', layoutPath, services }))
 
   return router
 }

@@ -1,0 +1,11 @@
+{% extends "views/page.njk" %}
+{% from "components/_catalogue/catalogue/view.njk" import dprCatalogue %}
+{% from "components/user-reports/view.njk" import dprUserReports %}
+
+{% block content %}
+  <div class="govuk-width-container">
+    <h1>My Reports</h1>
+    {{ dprUserReports(userReportsLists)}}
+    {{ dprCatalogue(catalogue) }}
+  </div>
+{% endblock %}

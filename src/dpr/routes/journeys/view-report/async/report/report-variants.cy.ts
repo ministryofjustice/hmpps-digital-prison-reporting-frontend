@@ -609,12 +609,6 @@ context('Viewing a report', () => {
             })
         })
 
-        // Update columns
-        cy.findAllByRole('group')
-          .contains(/Show columns/)
-          .should('be.visible')
-          .click()
-
         cy.findByRole('checkbox', { name: 'First' }).check()
         cy.findByRole('checkbox', { name: 'Second' }).check()
 

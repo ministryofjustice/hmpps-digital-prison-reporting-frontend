@@ -537,7 +537,7 @@ context('Viewing a report', () => {
 
         cy.findByRole('button', { name: 'Apply columns' }).click()
 
-        // Validate the section heading hasn't changed and check visibl cols
+        // Validate the section heading hasn't changed and check visible cols
         cy.findAllByLabelText(/First: Two, Second: B/)
           .eq(1)
           .within(() => {
@@ -562,7 +562,7 @@ context('Viewing a report', () => {
 
         cy.findByRole('button', { name: 'Apply columns' }).click()
 
-        // Re-validate the section heading hasn't changed and check visibl cols
+        // Re-validate the section heading hasn't changed and check visible cols
         cy.findAllByLabelText(/First: Two, Second: B/)
           .eq(1)
           .within(() => {
@@ -606,6 +606,51 @@ context('Viewing a report', () => {
               const parsed = JSON.parse(<string>value)
               expect(parsed).to.be.an('array')
               expect(parsed).to.include.members(['field1', 'field2', 'field3', 'field4', 'section1', 'section2'])
+            })
+        })
+
+        // Update columns
+        cy.findAllByRole('group')
+          .contains(/Show columns/)
+          .should('be.visible')
+          .click()
+
+        cy.findByRole('checkbox', { name: 'First' }).check()
+        cy.findByRole('checkbox', { name: 'Second' }).check()
+
+        cy.findByRole('button', { name: 'Apply columns' }).click()
+
+        // Check again that download form contents and validate it contains the section columns, even though they are not visible
+        cy.get('#download-report-form').within(() => {
+          cy.get('input[name="cols"]')
+            .invoke('val')
+            .then((value) => {
+              const parsed = JSON.parse(<string>value)
+              expect(parsed).to.be.an('array')
+              expect(parsed).to.include.members(['field1', 'field2', 'field3', 'field4', 'section1', 'section2'])
+            })
+        })
+
+        // Update columns again
+        cy.findAllByRole('group')
+          .contains(/Show columns/)
+          .should('be.visible')
+          .click()
+
+        cy.findByRole('checkbox', { name: 'First' }).uncheck()
+        cy.findByRole('checkbox', { name: 'Second' }).uncheck()
+        cy.findByRole('checkbox', { name: 'Field 4' }).uncheck()
+
+        cy.findByRole('button', { name: 'Apply columns' }).click()
+
+        // Check again that download form contents and validate it contains the section columns, even though they are not visible
+        cy.get('#download-report-form').within(() => {
+          cy.get('input[name="cols"]')
+            .invoke('val')
+            .then((value) => {
+              const parsed = JSON.parse(<string>value)
+              expect(parsed).to.be.an('array')
+              expect(parsed).to.include.members(['field1', 'field2', 'field3', 'section1', 'section2'])
             })
         })
       })

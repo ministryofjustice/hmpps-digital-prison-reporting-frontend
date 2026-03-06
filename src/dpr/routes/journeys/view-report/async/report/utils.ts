@@ -496,13 +496,14 @@ const setActions = (
   requestData?: ExtractedRequestData,
   urls?: ReportUrls,
 ) => {
-  const { reportName, name, printable } = definitionData
+  const { reportName, name, printable, specification } = definitionData
   const { tableId, id, reportId } = <{ id: string; tableId: string; reportId: string }>req.params
   const { nestedBaseUrl, definitionsPath, downloadingEnabled } = LocalsHelper.getValues(res)
 
-  // DownloadActionParams
   let downloadConfig: DownloadActionParams | undefined
   if (urls && downloadingEnabled) {
+    // Ensure that columns used as section headings are always included in the download
+    const downloadColumns = [...new Set([...columns.value, ...specification.sections])]
     downloadConfig = {
       enabled: downloadingEnabled,
       name,
@@ -511,7 +512,7 @@ const setActions = (
       reportId,
       id,
       tableId,
-      columns: columns.value,
+      columns: downloadColumns,
       definitionPath: definitionsPath,
       loadType: LoadType.ASYNC,
       nestedBaseUrl,

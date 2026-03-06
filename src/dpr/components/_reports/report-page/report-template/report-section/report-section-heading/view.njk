@@ -1,4 +1,4 @@
-{% macro dprReportSectionHeading(section, loopIndex) %}
+{% macro dprReportSectionHeading(section, loopIndex, sectionsCount) %}
   {% set sectionTitle = section.title %}
   {% set sectionCount = section.count %}
   {% set sectionLabelId = "section-title-" + loopIndex %}
@@ -21,7 +21,7 @@
     <div class="dpr-report-section__actions">
 
       <div class="dpr-report-section__actions--left-aligned ">
-        <a class="govuk-link govuk-link--no-visited-state govuk-body-s" href="#{{nextLabelId}}">Next</a>
+        {% if sectionsCount != 1 %}<a class="govuk-link govuk-link--no-visited-state govuk-body-s" href="#{{nextLabelId}}">Next</a>{% endif %}
         {% if prevLabelId %}| <a class="govuk-link govuk-link--no-visited-state govuk-body-s" href="#{{prevLabelId}}">Previous</a>{% endif %}
       </div>
       

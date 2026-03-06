@@ -1,39 +1,45 @@
 {% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
 
 {% macro dprMultiSelect(filter, parameterPrefix = "filters.", mandatory = false) %}
+  {% set SCROLL_THRESHOLD = 5 %}
   {% set name = parameterPrefix + filter.name %}
   {% set text = filter.text %}
   {% set labelText = text | capitaliseSentence %}
   {% set options = filter.options %}
   {% set values = filter.values %}
   {% set classes = "govuk-checkboxes--small dpr-multi-select" %}
-  {% if options.length > 5 %}
+  {% if options.length > SCROLL_THRESHOLD %}
     {% set classes = classes + " dpr-multi-select-scroll" %}
   {% endif %}
 
-  {{ govukCheckboxes({
-    id: name,
-    name: name,
-    classes: classes,
-    formGroup: {
-      classes: "govuk-!-margin-bottom-6"
-    },
-    errorMessage: {
-      text: ""
-    } if mandatory,
-    fieldset: {
-      legend: {
-        text: text,
-        classes: 'govuk-label govuk-!-font-weight-bold'
-      }
-    },
-    attributes: {
-      required: true,
-      'display-name': labelText
-    } if mandatory else {
-      'display-name': labelText
-    },
-    items: options,
-    values: values
-  }) }}
+  <div class="multiselect-container govuk-!-margin-bottom-6" data-dpr-module="multiselect-input" data-filter-id="{{ name }}">
+    {{ govukCheckboxes({
+      id: name,
+      name: name,
+      classes: classes,
+      formGroup: {
+        classes: "govuk-!-margin-bottom-2"
+      },
+      errorMessage: {
+        text: ""
+      } if mandatory,
+      fieldset: {
+        legend: {
+          text: text,
+          classes: 'govuk-label govuk-!-font-weight-bold'
+        }
+      },
+      attributes: {
+        required: true,
+        'display-name': labelText
+      } if mandatory else {
+        'display-name': labelText
+      },
+      items: options,
+      values: values
+    }) }}
+
+    <a href='#' class="govuk-link govuk-link--no-visited-state govuk-body-s dpr-multiselect-action__view-all">View full list</a>
+    <a href='#' class="govuk-link govuk-link--no-visited-state govuk-body-s dpr-multiselect-action__hide-all dpr-multiselect-action--hide">Hide full list</a>
+  </div>
 {% endmacro %}

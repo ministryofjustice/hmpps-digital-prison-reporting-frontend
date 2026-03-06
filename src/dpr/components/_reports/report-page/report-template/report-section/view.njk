@@ -7,11 +7,11 @@
 
 {% macro dprReportSection(renderData, template, classification) %}
   {% set sections = renderData.sections %}
+  {% set sectionsCount = sections.length %}
 
   <div id="dpr-report-sections">
     {% for section in sections %}
       {% set sectionTitle = section.title %}
-      {% set sectionCount = section.count %}
       {% set data = section.data %}
       {% set summaries = section.summaries %}
       {% if sectionTitle %}
@@ -25,7 +25,7 @@
       >
       
         {% if sectionTitle %}
-          {{ dprReportSectionHeading(section, loop.index) }}
+          {{ dprReportSectionHeading(section, loop.index, sectionsCount) }}
         {% endif %}
 
         {# section header summary tables #}

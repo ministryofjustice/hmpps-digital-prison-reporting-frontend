@@ -27,8 +27,7 @@ class BookmarkButton extends DprClientClass {
     this.id = element.getAttribute('data-id')
     this.reportId = element.getAttribute('data-report-id')
     this.setReportType()
-    const linkType = element.getAttribute('data-link-type')
-    this.linkType = linkType ? (linkType as BookmarkAction) : BookmarkAction.ADD
+    this.setLinkType()
     this.baseUrl = element.getAttribute('data-base-url') || ''
     this.csrfToken = element.getAttribute('data-csrf-token') || ''
     this.endpoint =
@@ -47,9 +46,9 @@ class BookmarkButton extends DprClientClass {
    * @memberof BookmarkButton
    */
   updateUI() {
-    const linkType = this.getElement().getAttribute('data-link-type')
-    const type = linkType === 'add' ? 'remove' : 'add'
-    const textContent = linkType === 'add' ? 'Remove bookmark' : 'Add bookmark'
+    this.setLinkType()
+    const type = this.linkType === BookmarkAction.ADD ? BookmarkAction.REMOVE : BookmarkAction.ADD
+    const textContent = this.linkType === BookmarkAction.ADD ? 'Remove bookmark' : 'Add bookmark'
     const element = this.getElement()
     element.setAttribute('data-link-type', type)
     element.textContent = textContent
@@ -112,6 +111,7 @@ class BookmarkButton extends DprClientClass {
     if (!['dashboard', 'report'].includes(rawReportTypeValue)) {
       throw new Error(`Report type for bookmark setup was unexpected: ${rawReportTypeValue}`)
     }
+    this.reportType = rawReportTypeValue as ReportType
   }
 
   setLinkType() {

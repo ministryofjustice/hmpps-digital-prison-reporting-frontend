@@ -119,7 +119,7 @@ const reportTemplateExampleListSection: components['schemas']['VariantDefinition
         defaultsort: false,
         type: 'string',
         mandatory: false,
-        visible: false,
+        visible: true,
         calculated: false,
         header: false,
       },

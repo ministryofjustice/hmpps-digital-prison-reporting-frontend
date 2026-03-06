@@ -1,11 +1,17 @@
+import { ReportType } from 'src/dpr/types/UserReports'
 import { DprClientClass } from '../../DprClientClass'
+
+export enum BookmarkAction {
+  ADD = 'add',
+  REMOVE = 'remove',
+}
 
 class BookmarkButton extends DprClientClass {
   csrfToken!: string
   reportId!: string | null
   id!: string | null
-  linkType!: string
-  reportType!: string
+  linkType!: BookmarkAction
+  reportType!: ReportType
   endpoint!: string
   baseUrl!: string
   isRunning = false
@@ -20,8 +26,9 @@ class BookmarkButton extends DprClientClass {
     element.style.opacity = '1'
     this.id = element.getAttribute('data-id')
     this.reportId = element.getAttribute('data-report-id')
-    this.reportType = element.getAttribute('data-report-type') || 'report'
-    this.linkType = element.getAttribute('data-link-type') || 'add'
+    this.setReportType()
+    const linkType = element.getAttribute('data-link-type')
+    this.linkType = linkType ? (linkType as BookmarkAction) : BookmarkAction.ADD
     this.baseUrl = element.getAttribute('data-base-url') || ''
     this.csrfToken = element.getAttribute('data-csrf-token') || ''
     this.endpoint =
@@ -98,6 +105,18 @@ class BookmarkButton extends DprClientClass {
       this.isRunning = false
       this.getElement().classList.remove('bookmark-disabled')
     }
+  }
+
+  setReportType() {
+    const rawReportTypeValue = this.element.getAttribute('data-report-type') || ''
+    if (!['dashboard', 'report'].includes(rawReportTypeValue)) {
+      throw new Error(`Report type for bookmark setup was unexpected: ${rawReportTypeValue}`)
+    }
+  }
+
+  setLinkType() {
+    const linkType = this.element.getAttribute('data-link-type')
+    this.linkType = linkType ? (linkType as BookmarkAction) : BookmarkAction.ADD
   }
 }
 

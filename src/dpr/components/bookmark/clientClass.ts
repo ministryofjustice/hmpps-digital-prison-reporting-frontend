@@ -1,11 +1,17 @@
+import { ReportType } from 'src/dpr/types/UserReports'
 import { DprClientClass } from '../../DprClientClass'
+
+export enum BookmarkAction {
+  ADD = 'add',
+  REMOVE = 'remove',
+}
 
 class BookmarkButton extends DprClientClass {
   csrfToken!: string
-  reportId!: string
-  id!: string
-  linkType!: 'add' | 'remove'
-  reportType!: 'dashboard' | 'report'
+  reportId!: string | null
+  id!: string | null
+  linkType!: BookmarkAction
+  reportType!: ReportType
   endpoint!: string
   baseUrl!: string
   isRunning = false
@@ -20,10 +26,10 @@ class BookmarkButton extends DprClientClass {
     element.style.opacity = '1'
     this.id = element.getAttribute('data-id')
     this.reportId = element.getAttribute('data-report-id')
-    this.reportType = element.getAttribute('data-report-type')
-    this.linkType = element.getAttribute('data-link-type')
-    this.baseUrl = element.getAttribute('data-base-url')
-    this.csrfToken = element.getAttribute('data-csrf-token')
+    this.setReportType()
+    this.setLinkType()
+    this.baseUrl = element.getAttribute('data-base-url') || ''
+    this.csrfToken = element.getAttribute('data-csrf-token') || ''
     this.endpoint =
       this.baseUrl && this.baseUrl !== 'undefined'
         ? `${this.baseUrl}/dpr/my-reports/bookmarks/`
@@ -40,9 +46,9 @@ class BookmarkButton extends DprClientClass {
    * @memberof BookmarkButton
    */
   updateUI() {
-    const linkType = this.getElement().getAttribute('data-link-type')
-    const type = linkType === 'add' ? 'remove' : 'add'
-    const textContent = linkType === 'add' ? 'Remove bookmark' : 'Add bookmark'
+    this.setLinkType()
+    const type = this.linkType === BookmarkAction.ADD ? BookmarkAction.REMOVE : BookmarkAction.ADD
+    const textContent = this.linkType === BookmarkAction.ADD ? 'Remove bookmark' : 'Add bookmark'
     const element = this.getElement()
     element.setAttribute('data-link-type', type)
     element.textContent = textContent
@@ -98,6 +104,19 @@ class BookmarkButton extends DprClientClass {
       this.isRunning = false
       this.getElement().classList.remove('bookmark-disabled')
     }
+  }
+
+  setReportType() {
+    const rawReportTypeValue = this.element.getAttribute('data-report-type') || ''
+    if (!['dashboard', 'report'].includes(rawReportTypeValue)) {
+      throw new Error(`Report type for bookmark setup was unexpected: ${rawReportTypeValue}`)
+    }
+    this.reportType = rawReportTypeValue as ReportType
+  }
+
+  setLinkType() {
+    const linkType = this.element.getAttribute('data-link-type')
+    this.linkType = linkType ? (linkType as BookmarkAction) : BookmarkAction.ADD
   }
 }
 

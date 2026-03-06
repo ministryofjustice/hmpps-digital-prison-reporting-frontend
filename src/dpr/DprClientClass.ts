@@ -1,7 +1,7 @@
 export class DprClientClass {
-  element: Element
+  element: HTMLElement
 
-  constructor(element: Element) {
+  constructor(element: HTMLElement) {
     this.element = element
   }
 

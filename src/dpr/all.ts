@@ -35,7 +35,7 @@ import SyncLoading from './DprSyncLoading'
 import DateInput from './components/_inputs/date-input/clientClass'
 import DateRange from './components/_inputs/date-range/clientClass'
 import Autocomplete from './components/_inputs/autocomplete-text-input/clientClass'
-import GranularDateRange from './components/_inputs/granular-date-range/clientClass'
+import { GranularDateRange } from './components/_inputs/granular-date-range/clientClass'
 import MultiselectInput from './components/_inputs/multi-select/clientClass'
 
 // User repoorts

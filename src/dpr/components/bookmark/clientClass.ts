@@ -2,10 +2,10 @@ import { DprClientClass } from '../../DprClientClass'
 
 class BookmarkButton extends DprClientClass {
   csrfToken!: string
-  reportId!: string
-  id!: string
-  linkType!: 'add' | 'remove'
-  reportType!: 'dashboard' | 'report'
+  reportId!: string | null
+  id!: string | null
+  linkType!: string
+  reportType!: string
   endpoint!: string
   baseUrl!: string
   isRunning = false
@@ -20,10 +20,10 @@ class BookmarkButton extends DprClientClass {
     element.style.opacity = '1'
     this.id = element.getAttribute('data-id')
     this.reportId = element.getAttribute('data-report-id')
-    this.reportType = element.getAttribute('data-report-type')
-    this.linkType = element.getAttribute('data-link-type')
-    this.baseUrl = element.getAttribute('data-base-url')
-    this.csrfToken = element.getAttribute('data-csrf-token')
+    this.reportType = element.getAttribute('data-report-type') || 'report'
+    this.linkType = element.getAttribute('data-link-type') || 'add'
+    this.baseUrl = element.getAttribute('data-base-url') || ''
+    this.csrfToken = element.getAttribute('data-csrf-token') || ''
     this.endpoint =
       this.baseUrl && this.baseUrl !== 'undefined'
         ? `${this.baseUrl}/dpr/my-reports/bookmarks/`

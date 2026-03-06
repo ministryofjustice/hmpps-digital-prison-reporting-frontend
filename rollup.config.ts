@@ -153,7 +153,7 @@ const options = [
     output: [{ file: path.join(cwd, 'dist/all.js'), format: 'esm', sourcemap: true }],
     plugins: [
       commonjs(),
-      nodeResolve({ preferBuiltins: true }),
+      nodeResolve({ preferBuiltins: false }),
       typescript({ tsconfig: './tsconfig.json', noEmitOnError: false, outDir: 'dist', declaration: false }),
     ],
     external: [...Object.keys(pkg.dependencies || {})],
@@ -163,7 +163,7 @@ const options = [
     output: [{ file: path.join(cwd, 'dist/all.bundle.js'), format: 'esm', sourcemap: true }],
     plugins: [
       commonjs(),
-      nodeResolve({ preferBuiltins: true }),
+      nodeResolve({ preferBuiltins: false }),
       typescript({ tsconfig: './tsconfig.json', noEmitOnError: false, outDir: 'dist', declaration: false }),
     ],
   },

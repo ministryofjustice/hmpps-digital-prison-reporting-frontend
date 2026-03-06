@@ -3,7 +3,7 @@ import dayjs, { Dayjs } from 'dayjs'
 
 import { DprClientClass } from '../../../DprClientClass'
 
-export class GranularDateRangeInput extends DprClientClass {
+export class GranularDateRange extends DprClientClass {
   private quickFiltersInput: HTMLSelectElement
   private granularityInput: HTMLSelectElement
   private startInput: HTMLInputElement

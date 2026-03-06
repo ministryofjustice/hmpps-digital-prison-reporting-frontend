@@ -34,13 +34,11 @@ export const getColumns = (specification: components['schemas']['Specification']
   const requestedColumns = <string[] | string | undefined>req.query['columns']
   const { fields } = specification
 
-  const options: Column[] = fields
-    .filter((field) => !specification.sections || !specification.sections.includes(field.name))
-    .map((field) => ({
-      text: field.display,
-      value: field.name,
-      disabled: field.mandatory,
-    }))
+  const options: Column[] = fields.map((field) => ({
+    text: field.display,
+    value: field.name,
+    disabled: field.mandatory,
+  }))
 
   return {
     name: 'columns',

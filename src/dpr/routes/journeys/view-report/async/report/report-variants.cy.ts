@@ -484,6 +484,172 @@ context('Viewing a report', () => {
       })
     })
 
+    describe('List-section - with visible section columns', () => {
+      let listSectionReportUrl = ''
+
+      const listSectionReport = {
+        name: 'List-section',
+        description: 'list-section template',
+      }
+
+      before(() => {
+        cy.task('stubListSectionDefinitionRequest')
+        cy.task('stubResultSuccessResult')
+
+        cy.visit(path)
+        requestReportByNameAndDescription(listSectionReport)
+
+        cy.findByRole('heading', { level: 1, name: /List-section/ }).should('be.visible')
+        cy.injectAxe()
+        cy.checkA11y()
+
+        cy.url().then((url) => {
+          listSectionReportUrl = url
+        })
+      })
+
+      beforeEach(() => {
+        cy.visit(listSectionReportUrl)
+      })
+
+      it('should show the correct section headers when the columns are toggled off', () => {
+        cy.findAllByLabelText(/First: Two, Second: B/)
+          .eq(1)
+          .within(() => {
+            cy.findByRole('table').within(() => {
+              cy.findAllByRole('columnheader').should('have.length', 4)
+              cy.findAllByRole('columnheader').eq(0).contains('Field 1')
+              cy.findAllByRole('columnheader').eq(1).contains('Field 2')
+              cy.findAllByRole('columnheader').eq(2).contains('Field 3')
+              cy.findAllByRole('columnheader').eq(3).contains('Field 4')
+            })
+          })
+
+        // Update the columns
+        cy.findAllByRole('group')
+          .contains(/Show columns/)
+          .should('be.visible')
+          .click()
+
+        cy.findByRole('checkbox', { name: 'Field 2' }).uncheck()
+        cy.findByRole('checkbox', { name: 'First' }).check()
+        cy.findByRole('checkbox', { name: 'Second' }).check()
+
+        cy.findByRole('button', { name: 'Apply columns' }).click()
+
+        // Validate the section heading hasn't changed and check visible cols
+        cy.findAllByLabelText(/First: Two, Second: B/)
+          .eq(1)
+          .within(() => {
+            cy.findByRole('table').within(() => {
+              cy.findAllByRole('columnheader').should('have.length', 5)
+              cy.findAllByRole('columnheader').eq(0).contains('Field 1')
+              cy.findAllByRole('columnheader').eq(1).contains('Field 3')
+              cy.findAllByRole('columnheader').eq(2).contains('Field 4')
+              cy.findAllByRole('columnheader').eq(3).contains('First')
+              cy.findAllByRole('columnheader').eq(4).contains('Second')
+            })
+          })
+
+        // Remove both section columns
+        cy.findAllByRole('group')
+          .contains(/Show columns/)
+          .should('be.visible')
+          .click()
+
+        cy.findByRole('checkbox', { name: 'First' }).uncheck()
+        cy.findByRole('checkbox', { name: 'Second' }).uncheck()
+
+        cy.findByRole('button', { name: 'Apply columns' }).click()
+
+        // Re-validate the section heading hasn't changed and check visible cols
+        cy.findAllByLabelText(/First: Two, Second: B/)
+          .eq(1)
+          .within(() => {
+            cy.findByRole('table').within(() => {
+              cy.findAllByRole('columnheader').should('have.length', 3)
+              cy.findAllByRole('columnheader').eq(0).contains('Field 1')
+              cy.findAllByRole('columnheader').eq(1).contains('Field 3')
+              cy.findAllByRole('columnheader').eq(2).contains('Field 4')
+            })
+          })
+      })
+
+      it('should enforce section columns are always part of downloaded data', () => {
+        // Validate visible columns
+        cy.findAllByLabelText(/First: Two, Second: B/)
+          .eq(1)
+          .within(() => {
+            cy.findByRole('table').within(() => {
+              cy.findAllByRole('columnheader').should('have.length', 4)
+              cy.findAllByRole('columnheader').eq(0).contains('Field 1')
+              cy.findAllByRole('columnheader').eq(1).contains('Field 2')
+              cy.findAllByRole('columnheader').eq(2).contains('Field 3')
+              cy.findAllByRole('columnheader').eq(3).contains('Field 4')
+            })
+          })
+
+        // Validate state of checkboxes
+        cy.findAllByRole('group')
+          .contains(/Show columns/)
+          .should('be.visible')
+          .click()
+
+        cy.findByRole('checkbox', { name: 'First' }).should('not.be.checked')
+        cy.findByRole('checkbox', { name: 'Second' }).should('not.be.checked')
+
+        // Check download form contents and validate it contains the section columns, even though they are not visible
+        cy.get('#download-report-form').within(() => {
+          cy.get('input[name="cols"]')
+            .invoke('val')
+            .then((value) => {
+              const parsed = JSON.parse(<string>value)
+              expect(parsed).to.be.an('array')
+              expect(parsed).to.include.members(['field1', 'field2', 'field3', 'field4', 'section1', 'section2'])
+            })
+        })
+
+        cy.findByRole('checkbox', { name: 'First' }).check()
+        cy.findByRole('checkbox', { name: 'Second' }).check()
+
+        cy.findByRole('button', { name: 'Apply columns' }).click()
+
+        // Check again that download form contents and validate it contains the section columns, even though they are not visible
+        cy.get('#download-report-form').within(() => {
+          cy.get('input[name="cols"]')
+            .invoke('val')
+            .then((value) => {
+              const parsed = JSON.parse(<string>value)
+              expect(parsed).to.be.an('array')
+              expect(parsed).to.include.members(['field1', 'field2', 'field3', 'field4', 'section1', 'section2'])
+            })
+        })
+
+        // Update columns again
+        cy.findAllByRole('group')
+          .contains(/Show columns/)
+          .should('be.visible')
+          .click()
+
+        cy.findByRole('checkbox', { name: 'First' }).uncheck()
+        cy.findByRole('checkbox', { name: 'Second' }).uncheck()
+        cy.findByRole('checkbox', { name: 'Field 4' }).uncheck()
+
+        cy.findByRole('button', { name: 'Apply columns' }).click()
+
+        // Check again that download form contents and validate it contains the section columns, even though they are not visible
+        cy.get('#download-report-form').within(() => {
+          cy.get('input[name="cols"]')
+            .invoke('val')
+            .then((value) => {
+              const parsed = JSON.parse(<string>value)
+              expect(parsed).to.be.an('array')
+              expect(parsed).to.include.members(['field1', 'field2', 'field3', 'section1', 'section2'])
+            })
+        })
+      })
+    })
+
     describe('summary-section', () => {
       it('should display a summary section variant', () => {
         cy.task('stubSummarySectionDefinitionRequest')

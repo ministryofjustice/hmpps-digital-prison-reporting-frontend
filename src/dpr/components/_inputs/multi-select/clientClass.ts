@@ -14,8 +14,6 @@ class MultiselectInput extends DprClientClass {
     this.element = this.getElement()
     this.filterId = this.element.getAttribute('data-filter-id')
     this.filtersContainer = document.getElementById(`dpr_filter-wrapper_${this.filterId}`)
-    console.log(this.filtersContainer)
-
     this.fullListLink = this.element.querySelector('.dpr-multiselect-action__view-all')
     this.hideListLink = this.element.querySelector('.dpr-multiselect-action__hide-all')
 

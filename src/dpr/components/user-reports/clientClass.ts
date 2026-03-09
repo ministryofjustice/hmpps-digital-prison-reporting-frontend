@@ -73,7 +73,6 @@ class DprUserReportListHelper {
   async checkExpiredStatus() {
     await Promise.all(
       this.requestData.map(async (metaData: meta) => {
-        console.log({ metaData })
         const { status, reportUrl } = metaData
         if (
           reportUrl &&

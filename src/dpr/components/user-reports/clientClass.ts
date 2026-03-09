@@ -83,7 +83,7 @@ class DprUserReportListHelper {
           const response = await this.pollingHelper.getExpiredStatus(reportUrl, metaData, this.csrfToken)
 
           if (response && response.isExpired) {
-            // clearInterval(this.expiredInterval)
+            clearInterval(this.expiredInterval)
             window.location.reload()
           }
         }

@@ -38,8 +38,8 @@
       items: options,
       values: values
     }) }}
-    
-    {% if options.length <= SCROLL_THRESHOLD %}
+
+    {% if options.length > SCROLL_THRESHOLD %}
       <a href='#' class="govuk-link govuk-link--no-visited-state govuk-body-s dpr-multiselect-action__view-all">View full list</a>
       <a href='#' class="govuk-link govuk-link--no-visited-state govuk-body-s dpr-multiselect-action__hide-all dpr-multiselect-action--hide">Hide full list</a>
     {% endif %}

@@ -1,8 +1,6 @@
 import { Router } from 'express'
 import { Services } from '../../types/Services'
 
-import setUpNestedRoute from '../../middleware/setUpNestedRoute'
-
 // Routes
 import { RequestMissingReportRoutes } from './request-missing-report/routes'
 import { DownloadReportRoutes } from './download-report/routes'
@@ -28,9 +26,28 @@ export function DprRoutes({ layoutPath, services }: { services: Services; layout
   return router
 }
 
+export function Redirects(): Router {
+  const router = Router({ mergeParams: true })
+
+  // Request route redirect
+  router.get(`/async/:type/:reportId/:id/request`, (req, res) => {
+    const { type, reportId, id } = req.params
+    res.redirect(`${res.locals['nestedBaseUrl']}/dpr/request-report/${type}/${reportId}/${id}/filters`)
+  })
+
+  // Status route redirect
+  router.get(`/async/:type/:reportId/:id/request/:executionId`, (req, res) => {
+    const { type, reportId, id, executionId } = req.params
+    res.redirect(`${res.locals['nestedBaseUrl']}/dpr/request-report/${type}/${reportId}/${id}/${executionId}/status`)
+  })
+
+  return router
+}
+
 export function Routes({ layoutPath, services }: { services: Services; layoutPath: string }): Router {
   const router = Router({ mergeParams: true })
   router.use('/dpr', DprRoutes({ layoutPath, services }))
+  router.use('/', Redirects())
   return router
 }
 

@@ -1,18 +1,51 @@
-.dpr-multi-select {
-  &.dpr-multi-select-scroll {
-    height: 250px;
-    overflow-y: scroll;
-    padding-left: 10px;
-    background:
-    linear-gradient(#fafaf9 33%, rgba(250, 250, 249, 0)),
-      linear-gradient(rgba(250, 250, 249, 0), #fafaf9 66%) 0 100%,
-      radial-gradient(farthest-side at 50% 0, rgba(34, 34, 34, 0.5), rgba(0, 0, 0, 0)),
-      radial-gradient(farthest-side at 50% 100%, rgba(34, 34, 34, 0.5), rgba(0, 0, 0, 0)) 0 100%;
+.dpr-interactive-filters {
+  .multiselect-container {
+    &.multiselect-container__full-width {
+      .govuk-checkboxes.govuk-checkboxes--small {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        column-gap: 10px;
+
+        @media (min-width: 769px) and (max-width: 1019px) {
+          grid-template-columns: 1fr 1fr;
+        }
+
+        @media (max-width: 768px) {
+          grid-template-columns: 1fr;
+        }
+      }
+    }
+  }
+}
+
+.multiselect-container:not(.multiselect-container__full-width) {
+  .dpr-multi-select {
+    &.dpr-multi-select-scroll {
+      height: 250px;
+      overflow-y: scroll;
+      padding-left: 10px;
+      background:
+        linear-gradient(#fafaf9 33%, rgba(250, 250, 249, 0)),
+        linear-gradient(rgba(250, 250, 249, 0), #fafaf9 66%) 0 100%,
+        radial-gradient(farthest-side at 50% 0, rgba(34, 34, 34, 0.5), rgba(0, 0, 0, 0)),
+        radial-gradient(farthest-side at 50% 100%, rgba(34, 34, 34, 0.5), rgba(0, 0, 0, 0)) 0 100%;
       background-repeat: no-repeat;
       background-color: rgb(250, 250, 249);
-      background-size: 100% 40px, 100% 40px, 100% 14px, 100% 14px;
-    
+      background-size:
+        100% 40px,
+        100% 40px,
+        100% 14px,
+        100% 14px;
+
       /* Opera doesn’t support this in the shorthand */
       background-attachment: local, local, scroll, scroll;
+    }
+  }
+}
+
+.dpr-multiselect-action__hide-all,
+.dpr-multiselect-action__view-all {
+  &.dpr-multiselect-action--hide {
+    display: none;
   }
 }

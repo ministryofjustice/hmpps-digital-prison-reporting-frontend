@@ -1,5 +1,13 @@
 Below you can find the changes included in each release.
 
+## 5.6.1
+
+- List-section bugfix - ensure that section title columns are always part of the downloaded data
+
+## 5.6.0
+
+- Multiselect inputs: Addition of show/hide all select items toggle
+
 ## 5.5.0
 
 - Make client-side JS output be ESM based, not CJS, and ensure the default import has all dependencies bundled, with an optional `/slim` import for unbundled

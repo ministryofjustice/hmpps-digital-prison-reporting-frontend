@@ -24,7 +24,7 @@
 
   {% set labelText = text | capitaliseSentence %}
 
-  <div class="dpr-filter-item {% if filterType === 'daterange'%} dpr-filter-item__span-2 {% endif %}">
+  <div id="dpr_filter-wrapper_{{ id }}" class="dpr-filter-item">
 
     {%- if filterType === 'select' %}
 
@@ -52,6 +52,7 @@
       }) }}
 
     {%- elif filterType === 'multiselect' %}
+
       {{ dprMultiSelect(filter, parameterPrefix, mandatory)}}
 
     {% elif filterType === 'radio' %}

@@ -1,7 +1,7 @@
 import { executeReportStubs, requestReportByNameAndDescription } from '../../../../../cypress-tests/cypressUtils'
 
 context('Requesting a report', () => {
-  const path = '/embedded/platform/'
+  const path = '/embedded/platform'
 
   const checkStatuses = () => {
     cy.task('stubReportsSubmittedStatus')

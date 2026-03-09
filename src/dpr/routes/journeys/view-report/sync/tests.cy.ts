@@ -1,7 +1,7 @@
 import { executeReportStubs, executeDashboardStubs } from '../../../../../../cypress-tests/cypressUtils'
 
 context('Platform sync tests', () => {
-  const path = '/embedded/platform/'
+  const path = '/embedded/platform'
 
   describe('Sync tests from the platform', () => {
     before(() => {

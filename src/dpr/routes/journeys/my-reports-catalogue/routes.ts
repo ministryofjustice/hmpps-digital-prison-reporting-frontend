@@ -16,15 +16,13 @@ export function Routes({ layoutPath, services }: { services: Services; layoutPat
 
 export const MyReportsCatalogueRoutes = ({
   services,
-  path,
   layoutPath,
 }: {
   services: Services
-  path: string
   layoutPath: string
 }): Router => {
   const router = Router({ mergeParams: true })
-  router.use(path, Routes({ services, layoutPath }))
+  router.use('/', Routes({ services, layoutPath }))
 
   return router
 }

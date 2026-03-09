@@ -3,7 +3,7 @@ import { featureTestingEmptyQuery } from '@networkMocks/report/mockVariants/feat
 import { stubBaseTasks, stubDefinitionsTasks } from '../../../../../../cypress-tests/cypressUtils'
 
 context('Bookmarks list', () => {
-  const path = '/embedded/platform/'
+  const path = '/embedded/platform'
 
   describe('check the default starting state', () => {
     it('should have the default bookmarks from the caseload bookmark config', () => {

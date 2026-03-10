@@ -14,7 +14,7 @@ export interface DownloadActionParams {
   loadType: LoadType
   currentUrl: string
   currentQueryParams?: string | undefined
-  nestedBaseUrl: string
+  formAction: string
   sortColumn?: string
   sortedAsc?: string
 }

@@ -1,3 +1,4 @@
+import { setNestedPath } from 'src/dpr/utils/urlHelper'
 import { DprClientClass } from '../../DprClientClass'
 
 class BookmarkButton extends DprClientClass {
@@ -24,10 +25,7 @@ class BookmarkButton extends DprClientClass {
     this.linkType = element.getAttribute('data-link-type')
     this.baseUrl = element.getAttribute('data-base-url')
     this.csrfToken = element.getAttribute('data-csrf-token')
-    this.endpoint =
-      this.baseUrl && this.baseUrl !== 'undefined'
-        ? `${this.baseUrl}/dpr/my-reports/bookmarks/`
-        : `/dpr/my-reports/bookmarks/`
+    this.endpoint = setNestedPath('/dpr/my-reports/bookmarks/', this.baseUrl)
 
     this.initEventListener()
   }

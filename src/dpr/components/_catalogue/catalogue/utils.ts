@@ -1,4 +1,5 @@
 import { Response } from 'express'
+import { setNestedPath } from '../../../utils/urlHelper'
 import CatalogueListUtils from '../catalogue-list/utils'
 import { Services } from '../../../types/Services'
 import LocalsHelper from '../../../utils/localsHelper'
@@ -40,6 +41,7 @@ export const initCatalogue = async ({
     filters: {
       productCollectionInfo: {
         productCollections,
+        formAction: setNestedPath('/dpr/product-collection/selected', nestedBaseUrl),
         ...(selectedProductCollection && { selectedProductCollection }),
       },
       nestedBaseUrl,

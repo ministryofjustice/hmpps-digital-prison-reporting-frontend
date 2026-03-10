@@ -10,9 +10,9 @@ Integrating the platform will give you a set of routes that you can nest into yo
 
 These routes provide you with the means to manage and search your reports
 
+- [DPR style homepage](#dpr-style-homepage)
 - [Report catalogue route](#report-catalogue-route)
-- [My reports route](#my-reports-route)
-- [My reports & Catalogue route](#my-reports-&-catalogue-route)
+- [My reports routes](#my-reports-routes)
 
 ## Loading reports routes
 
@@ -25,6 +25,14 @@ The provided routes allow you to run reports either **synchronously**, or **asyn
 
 # Manage reports routes
 
+## DPR style homepage
+
+```js
+/dpr
+```
+
+This route resolves to a view with a configured report catalogue, and user reports lists
+
 ## Report catalogue route
 
 ```js
@@ -33,21 +41,21 @@ The provided routes allow you to run reports either **synchronously**, or **asyn
 
 This route resolves to a view with a configured report catalogue
 
-## My reports route
+## My reports routes
 
 ```
 /dpr/my-reports
 ```
 
-This route resolves to a view with a configured user reports list
+This route resolves to a view with a configured user reports list that shows requested reports, recently viewed reports, and bookmarks if this has been configured.
 
-## My reports & Catalogue route
+In addition to this, the following routes allow you to drill down into each list individually:
 
 ```
-/dpr/my-reports-catalogue
+/dpr/my-reports/requested-reports/list
+/dpr/my-reports/recently-viewed/list
+/dpr/my-reports/bookmarks/list
 ```
-
-This route resolves to a view with both a configured user reports list, and a report catalogue
 
 <hr class='dpr-docs-hr'/>
 

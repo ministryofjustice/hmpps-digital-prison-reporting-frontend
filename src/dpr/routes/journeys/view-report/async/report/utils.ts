@@ -503,7 +503,9 @@ const setActions = (
   let downloadConfig: DownloadActionParams | undefined
   if (urls && downloadingEnabled) {
     // Ensure that columns used as section headings are always included in the download
-    const downloadColumns = [...new Set([...columns.value, ...specification.sections])]
+    const sections = specification.sections || []
+    const downloadColumns = [...new Set([...columns.value, ...sections])]
+
     downloadConfig = {
       enabled: downloadingEnabled,
       name,

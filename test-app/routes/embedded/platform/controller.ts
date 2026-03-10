@@ -22,7 +22,7 @@ export default class PlatformController {
       },
     })
 
-    const userReportsLists = await UserReportsListUtils.initUserReports({ services: this.services, res, maxRows: 20 })
+    const userReportsLists = await UserReportsListUtils.initUserReports({ services: this.services, res, maxRows: 3 })
 
     res.render('views/pages/platform/view.njk', {
       title: 'Home',

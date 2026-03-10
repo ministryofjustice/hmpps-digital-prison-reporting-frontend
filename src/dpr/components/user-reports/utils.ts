@@ -1,5 +1,6 @@
 import { Response, Request } from 'express'
 import dayjs from 'dayjs'
+import { setNestedPath } from 'src/dpr/utils/urlHelper'
 import { RenderTableListResponse } from './types'
 import Dict = NodeJS.Dict
 import {
@@ -271,7 +272,7 @@ export const renderList = async ({
   filterFunction: (report: UserReportData) => boolean
   type: 'requested' | 'viewed'
 }): Promise<RenderTableListResponse> => {
-  const { csrfToken } = LocalsHelper.getValues(res)
+  const { csrfToken, nestedBaseUrl } = LocalsHelper.getValues(res)
 
   let formatted = reportsData.filter(filterFunction).map(formatData)
   const formattedCount = formatted.length
@@ -280,8 +281,9 @@ export const renderList = async ({
   const tableData = formatTable(formatted, type)
 
   const path = type === 'requested' ? 'requested-reports' : 'recently-viewed'
+  const headHref = setNestedPath(`/dpr/my-reports/${path}/list`, nestedBaseUrl)
   const head = {
-    ...(formatted.length && { href: `dpr/my-reports/${path}/list` }),
+    ...(formatted.length && { href: headHref }),
     ...(!formatted.length && { emptyMessage: `You have 0 ${type} reports` }),
   }
 

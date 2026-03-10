@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## 5.7.1
+
+- BugFix: nestedBaseUrl was resolving to string "undefined" and appearing in URL's as `/undefined/dpr/...`. This fix ensures it resolved to undefined if not set.
+
 ## 5.7.0
 
 - Service Integration: new predefined routes for Report Catalogue & User reports list

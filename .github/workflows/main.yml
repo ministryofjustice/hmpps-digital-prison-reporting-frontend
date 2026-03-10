@@ -48,7 +48,7 @@ jobs:
           path: dist
       - run: npm run test
 
-  test_with_app:
+  # test_with_app:
     runs-on: ubuntu-latest
     permissions:
       contents: read

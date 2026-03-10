@@ -1,7 +1,7 @@
 import { executeDashboardStubs, requestReportByNameAndDescription } from '../../../../../cypress-tests/cypressUtils'
 
 context('Dashboard visualisation: List', () => {
-  const path = '/embedded/platform/'
+  const path = '/embedded/platform'
 
   describe('complete data', () => {
     let completeDashboardUrl = ''

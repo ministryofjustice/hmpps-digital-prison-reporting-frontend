@@ -96,4 +96,8 @@ export const getRoutePrefix = (config?: DprConfig) => {
   return prefix
 }
 
+export const setNestedPath = (url: string, baseUrl?: string) => {
+  return baseUrl && baseUrl !== 'undefined' ? `${baseUrl}${url}` : url
+}
+
 export default createUrlForParameters

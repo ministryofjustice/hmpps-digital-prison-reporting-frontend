@@ -6,7 +6,7 @@ import {
 import DateMapper from '../../../../../utils/DateMapper/DateMapper'
 
 context('Viewing a report', () => {
-  const path = '/embedded/platform/'
+  const path = '/embedded/platform'
   let viewReportUrl: string
   let tableId: string
 

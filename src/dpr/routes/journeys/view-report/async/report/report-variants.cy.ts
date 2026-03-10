@@ -6,7 +6,7 @@ import {
 } from 'cypress-tests/cypressUtils'
 
 context('Viewing a report', () => {
-  const path = '/embedded/platform/'
+  const path = '/embedded/platform'
 
   describe('report variants', () => {
     before(() => {

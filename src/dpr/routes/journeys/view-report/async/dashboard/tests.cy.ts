@@ -2,7 +2,7 @@ import { resetFeatureFlags } from 'test-app/routes/integrationTests/appStateUtil
 import { checkA11y, executeDashboardStubs } from '../../../../../../../cypress-tests/cypressUtils'
 
 context('Viewing a report', () => {
-  const path = '/embedded/platform/'
+  const path = '/embedded/platform'
 
   describe('dashboard tests', () => {
     before(() => {

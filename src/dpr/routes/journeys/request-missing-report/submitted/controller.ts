@@ -1,5 +1,6 @@
 import { RequestHandler } from 'express'
 import localsHelper from '../../../../utils/localsHelper'
+import { setNestedPath } from '../../../../utils/urlHelper'
 
 class MissingReportSubmittedController {
   layoutPath: string
@@ -10,6 +11,7 @@ class MissingReportSubmittedController {
 
   GET: RequestHandler = async (req, res, next) => {
     const { nestedBaseUrl } = localsHelper.getValues(res)
+    const cataloguePath = setNestedPath('/', nestedBaseUrl)
     const { reportId, variantId, reportName, name } = req.query
 
     try {
@@ -21,7 +23,7 @@ class MissingReportSubmittedController {
           reportName,
           name,
         },
-        nestedBaseUrl,
+        cataloguePath,
         layoutPath: this.layoutPath,
       })
     } catch (error) {

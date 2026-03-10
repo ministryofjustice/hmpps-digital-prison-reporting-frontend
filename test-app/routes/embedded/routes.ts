@@ -20,7 +20,7 @@ export function Routes(services: Services): Router {
 
 export const EmbeddedRoutes = ({ path, services }: { path: string; services: Services }): Router => {
   const router = Router({ mergeParams: true })
-  router.use(path, setUpNestedRoute(), Routes(services))
+  router.use(path, Routes(services))
 
   return router
 }

@@ -1,5 +1,6 @@
 import { Response } from 'express'
 import { captureException } from '@sentry/node'
+import { setNestedPath } from '../../../utils/urlHelper'
 import { BookmarkService } from '../../../services'
 import { BookmarkedReportData, BookmarkStoreData } from '../../../types/Bookmark'
 import { FormattedBookmarkData, LoadType, ReportType } from '../../../types/UserReports'
@@ -183,9 +184,9 @@ export const renderBookmarkList = async ({
     maxRows,
     nestedBaseUrl,
   )
-
+  const headHref = setNestedPath('/dpr/my-reports/bookmarks/list', nestedBaseUrl)
   const head = {
-    ...(formatted.length && { href: '/dpr/my-reports/bookmarks/list' }),
+    ...(formatted.length && { href: headHref }),
     ...(!formatted.length && { emptyMessage: 'You have 0 bookmarked reports' }),
   }
 

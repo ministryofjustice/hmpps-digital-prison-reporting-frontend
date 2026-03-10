@@ -3,13 +3,13 @@
 {% from "../catalogue-search/view.njk" import dprCatalogueSearch %}
 {% from "../catalogue-unauthorised-toggle/view.njk" import dprUnauthorisedToggle %}
 
-{% macro dprCatalogueFilters(id, features, productCollectionInfo, csrfToken) %}
-  {% set unauthorisedToggleEnabled = features.unauthorisedToggleEnabled %}
+{% macro dprCatalogueFilters(id, config) %}
+  {% set unauthorisedToggleEnabled = config.features.unauthorisedToggleEnabled %}
 
   <div class='dpr-catalogue-filters' data-dpr-module='dpr-catalogue-filters'>
     <div class='dpr-catalogue-filters--heading'>
       <div class="dpr-catalogue-filters__search">
-        {{ dprCatalogueSearch(id, productCollectionInfo, csrfToken) }}
+        {{ dprCatalogueSearch(id, config) }}
       </div> 
     </div>
     <div class='dpr-catalogue-filters--content'>
@@ -36,7 +36,6 @@
           open: false
         }) }}
       </div>
-
     </div>
   </div>
 {% endmacro %}

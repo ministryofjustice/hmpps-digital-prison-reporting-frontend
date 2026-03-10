@@ -1,7 +1,11 @@
 {% from "govuk/components/input/macro.njk" import govukInput %}
 {% from "govuk/components/select/macro.njk" import govukSelect %}
 
-{% macro dprCatalogueSearch(id, productCollectionInfo, csrfToken, type = 'catalogue') %}
+{% macro dprCatalogueSearch(id, config) %}
+  {% set csrfToken = config.csrfToken %}
+  {% set nestedBaseUrl = config.nestedBaseUrl %}
+
+  {% set productCollectionInfo = config.productCollectionInfo %}
   {% set productCollections = productCollectionInfo.productCollections %}
   {% set selectedProductCollection = productCollectionInfo.selectedProductCollection %}
 
@@ -22,7 +26,7 @@
           }
         }) }}
         {% if productCollections.length > 0 %}
-          <form method="post" action="dpr/product-collection/selected">
+          <form method="post" action="{{ nestedBaseUrl }}/dpr/product-collection/selected">
             <input type="hidden" name="_csrf" value="{{ csrfToken }}">
             {{ govukSelect({
               id: 'productCollection',

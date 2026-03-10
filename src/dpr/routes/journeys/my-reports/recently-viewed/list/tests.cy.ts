@@ -1,7 +1,7 @@
 import { executeReportStubs } from '../../../../../../../cypress-tests/cypressUtils'
 
 context('Recently viewed list', () => {
-  const path = '/embedded/platform/'
+  const path = '/embedded/platform'
 
   const checkStatuses = () => {
     cy.task('stubReportsSubmittedStatus')

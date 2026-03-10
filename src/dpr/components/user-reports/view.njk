@@ -69,5 +69,8 @@
       }), items) %}
     {% endif %}
 
-    {{ govukTabs({ items: items}) }}
+
+    <div id="dpr-user-reports-list-component" data-nested-url="">
+      {{ govukTabs({ items: items}) }}
+    </div>
 {% endmacro %}

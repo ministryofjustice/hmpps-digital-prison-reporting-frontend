@@ -2,7 +2,7 @@ import { resetFeatureFlags, updateRedisState } from 'test-app/routes/integration
 import { checkA11y, executeReportStubs } from '../../../../../cypress-tests/cypressUtils'
 
 context('Download report', () => {
-  const path = '/embedded/platform/'
+  const path = '/embedded/platform'
   let downloadRequestFormPage: string
   let viewReportUrl: string
 

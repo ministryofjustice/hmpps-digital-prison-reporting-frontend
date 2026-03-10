@@ -6,7 +6,7 @@ import {
 } from 'test-app/routes/integrationTests/appStateUtils'
 
 context('Viewing a report', () => {
-  const path = '/embedded/platform/'
+  const path = '/embedded/platform'
 
   after(() => {
     cy.task('stubFeatureFlags')

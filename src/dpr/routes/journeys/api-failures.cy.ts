@@ -6,7 +6,7 @@ import {
 } from 'cypress-tests/cypressUtils'
 
 context('Try to run the app with failing and broken api endpoints', () => {
-  const path = '/embedded/platform/'
+  const path = '/embedded/platform'
 
   beforeEach(() => {
     stubBaseTasks()

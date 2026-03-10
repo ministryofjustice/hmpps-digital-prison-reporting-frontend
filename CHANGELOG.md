@@ -1,5 +1,11 @@
 Below you can find the changes included in each release.
 
+## 5.7.0
+
+- Service Integration: new predefined routes for Report Catalogue & User reports list
+- Multiselect input: only display show/hide all items if they are hidden by scroll
+- Update to integration docs
+
 ## 5.6.1
 
 - List-section bugfix - ensure that section title columns are always part of the downloaded data

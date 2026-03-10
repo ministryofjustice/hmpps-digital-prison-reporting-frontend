@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 
 test('Line-timeseries chart partial dataset', async ({ page }) => {
-  await page.goto('/embedded/platform/')
+  await page.goto('/embedded/platform')
 
   page.getByLabel(/Reports catalogue.*/i)
   await page

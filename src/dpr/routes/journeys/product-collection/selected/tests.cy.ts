@@ -2,7 +2,7 @@ import { summaries } from '@networkMocks/definitionSummaries'
 import { stubBaseTasks } from 'cypress-tests/cypressUtils'
 
 context('Catalogue collections', () => {
-  const path = '/embedded/platform/'
+  const path = '/embedded/platform'
 
   describe('Check catalogue collections work properly', () => {
     it('should allow the user to choose from any collection', () => {

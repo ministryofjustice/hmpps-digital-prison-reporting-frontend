@@ -452,7 +452,7 @@ context('Viewing a report', () => {
         .click()
     }
 
-    beforeEach(() => {
+    before(() => {
       executeReportStubs()
       cy.task('stubDefinitionFeatureTestingInteractive')
       cy.task('stubAsyncRequestSuccessReportTablesCount')

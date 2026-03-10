@@ -14,8 +14,12 @@ class DprRecentlyViewedList extends DprClientClass {
     this.viewedList = document.getElementById('dpr-recently-viewed-component')
     if (this.viewedList) {
       this.userReportsListHelper = new DprUserReportListHelper(this.viewedList, ListType.VIEWED)
+
+      // Init remove action
       this.userReportsListHelper.initItemActions()
-      this.userReportsListHelper.initPollingIntervals()
+
+      // Viewed reports should only check expired status as they are already in FINISHED status
+      this.userReportsListHelper.initExpiredPollingInterval()
     }
   }
 }

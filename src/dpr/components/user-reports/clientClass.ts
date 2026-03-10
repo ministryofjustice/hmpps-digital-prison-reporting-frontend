@@ -41,22 +41,30 @@ class DprUserReportListHelper {
     }
   }
 
-  async initPollingIntervals() {
+  async initExpiredPollingInterval() {
     await this.checkExpiredStatus()
-
     if (this.requestData && !this.allHaveInvalidIds()) {
       if (this.pollingHelper.shouldPollExpired(this.requestData)) {
         this.expiredInterval = setInterval(async () => {
           await this.checkExpiredStatus()
         }, this.pollingHelper.POLLING_EXPIRED_FREQUENCY)
       }
+    }
+  }
 
+  async initRequestPollingInterval() {
+    if (this.requestData && !this.allHaveInvalidIds()) {
       if (this.pollingHelper.shouldPollStatus(this.requestData)) {
         this.pollingInterval = setInterval(async () => {
           await this.checkRequestStatus()
         }, this.pollingHelper.POLLING_FREQUENCY)
       }
     }
+  }
+
+  async initPollingIntervals() {
+    this.initExpiredPollingInterval()
+    this.initRequestPollingInterval()
   }
 
   hasValidIds(metaData: meta) {

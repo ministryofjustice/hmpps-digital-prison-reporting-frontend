@@ -4,6 +4,7 @@ import {
   DashboardVisualisationType,
   DashboardVisualisationData,
   VisualisationDefinitionKey,
+  DashboardVisualisationDataSet,
 } from '../../../_dashboards/dashboard-visualisation/types'
 import { components } from '../../../../types/api'
 import Chart from '../Chart'
@@ -74,8 +75,9 @@ class BarChart extends Chart {
     }
   }
 
-  augmentDataset = () => {
-    this.datasets = this.datasets.map((set) => {
+  augmentDataset = (datasets?: DashboardVisualisationDataSet[]) => {
+    const ds = datasets || this.datasets
+    this.datasets = ds.map((set) => {
       return {
         ...set,
         borderWidth: [0, 0],
@@ -85,6 +87,8 @@ class BarChart extends Chart {
         },
       }
     })
+
+    return this.datasets
   }
 
   setBespokeOptions = () => {

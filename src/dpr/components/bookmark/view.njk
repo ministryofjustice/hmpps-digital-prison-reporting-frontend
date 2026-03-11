@@ -1,4 +1,4 @@
-{% macro dprBookmarkButton(reportId, id, csrfToken, bookmarked, ctxId, type, nestedBaseUrl) %}
+{% macro dprBookmarkButton(reportId, id, csrfToken, bookmarked, ctxId, reportType, nestedBaseUrl) %}
   {% set type %}{{ type if type else 'report' }}{% endset %}
   {% set linkText = 'Add bookmark' %}
   {% set linkType = 'add' %}

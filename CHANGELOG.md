@@ -3,6 +3,7 @@ Below you can find the changes included in each release.
 ## 5.7.2
 
 - BugFix: Fix layout path for new routes
+- Type fixes
 
 ## 5.7.1
 

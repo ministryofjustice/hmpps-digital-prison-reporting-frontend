@@ -110,170 +110,171 @@ jobs:
         working-directory: ${{ github.workspace }}/../app
 
   integration_test:
-  runs-on: ubuntu-latest
-  needs: build
+    runs-on: ubuntu-latest
+    needs: build
 
-  services:
-    redis:
-      image: redis
-      ports:
-        - 6379:6379
-      options: >-
-        --health-cmd "redis-cli ping"
-        --health-interval 10s
-        --health-timeout 5s
-        --health-retries 5
+    services:
+      redis:
+        image: redis
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
-    wiremock:
-      image: wiremock/wiremock:latest
-      ports:
-        - 9091:8080
-      options: >-
-        --entrypoint "/docker-entrypoint.sh"
+      wiremock:
+        image: wiremock/wiremock:latest
+        ports:
+          - 9091:8080
+        options: >-
+          --entrypoint "/docker-entrypoint.sh"
 
-  strategy:
-    matrix:
-      shard_index: [0, 1, 2, 3] # adjust shard count as needed
+    strategy:
+      matrix:
+        shard_index: [0, 1, 2, 3] # adjust shard count as needed
 
-  steps:
-    - uses: actions/checkout@v4
+    steps:
+      - uses: actions/checkout@v4
 
-    - uses: actions/setup-node@v4
-      with:
-        node-version: '24.x'
-        cache: 'npm'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.x'
+          cache: 'npm'
 
-    - uses: actions/download-artifact@v4
-      with:
-        name: dpr-package
-        path: .
+      # Reuse build outputs and dependencies
+      - uses: actions/download-artifact@v4
+        with:
+          name: dpr-package
+          path: .
 
-    # Ensure any native deps are ready (usually a no‑op)
-    - run: npm rebuild
+      # Ensure any native deps are ready
+      - run: npm rebuild
 
-    - name: Wait for Redis
-      run: |
-        echo "Waiting for Redis on tcp:localhost:6379..."
-        npx wait-on tcp:localhost:6379 --timeout 60000
-        echo "Redis is ready!"
+      - name: Wait for Redis
+        run: |
+          echo "Waiting for Redis on tcp:localhost:6379..."
+          npx wait-on tcp:localhost:6379 --timeout 60000
+          echo "Redis is ready!"
 
-    # -------------------------
-    # SHARD: find specs
-    # -------------------------
-    - name: Select spec files for this shard
-      id: shard
-      shell: bash
-      run: |
-        set -euo pipefail
+      # -------------------------
+      # SHARD: find specs
+      # -------------------------
+      - name: Select spec files for this shard
+        id: shard
+        shell: bash
+        run: |
+          set -euo pipefail
 
-        # Collect from ./src and ./test-app
-        mapfile -t FILES < <(
-          ( find ./src -type f -name "*.cy.ts" ;
-            find ./test-app -type f -name "*.cy.ts" ) | sort
-        )
+          # Collect from ./src and ./test-app
+          mapfile -t FILES < <(
+            ( find ./src -type f -name "*.cy.ts" ;
+              find ./test-app -type f -name "*.cy.ts" ) | sort
+          )
 
-        TOTAL=${#FILES[@]}
-        echo "Found $TOTAL Cypress test files."
+          TOTAL=${#FILES[@]}
+          echo "Found $TOTAL Cypress test files."
 
-        SHARDS=4
-        INDEX=${{ matrix.shard_index }}
+          SHARDS=4
+          INDEX=${{ matrix.shard_index }}
 
-        SLICE=$(( (TOTAL + SHARDS - 1) / SHARDS ))
-        START=$(( INDEX * SLICE ))
-        END=$(( START + SLICE ))
-        if [ "$END" -gt "$TOTAL" ]; then END=$TOTAL; fi
+          SLICE=$(( (TOTAL + SHARDS - 1) / SHARDS ))
+          START=$(( INDEX * SLICE ))
+          END=$(( START + SLICE ))
+          if [ "$END" -gt "$TOTAL" ]; then END=$TOTAL; fi
 
-        if [ "$START" -ge "$TOTAL" ]; then
-          echo "Shard $INDEX has no tests."
-          echo "specs=" >> "$GITHUB_OUTPUT"
-          exit 0
-        fi
+          if [ "$START" -ge "$TOTAL" ]; then
+            echo "Shard $INDEX has no tests."
+            echo "specs=" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
 
-        SELECTED=("${FILES[@]:$START:$((END-START))}")
-        SPECS=$(IFS=,; echo "${SELECTED[*]}")
+          SELECTED=("${FILES[@]:$START:$((END-START))}")
+          SPECS=$(IFS=,; echo "${SELECTED[*]}")
 
-        echo "Shard $INDEX will run ${#SELECTED[@]} test(s):"
-        printf " - %s\n" "${SELECTED[@]}"
+          echo "Shard $INDEX will run ${#SELECTED[@]} test(s):"
+          printf " - %s\n" "${SELECTED[@]}"
 
-        echo "specs=$SPECS" >> "$GITHUB_OUTPUT"
+          echo "specs=$SPECS" >> "$GITHUB_OUTPUT"
 
-    # -------------------------
-    # START SERVER
-    # -------------------------
-    - name: Start server
-      id: start-app
-      if: steps.shard.outputs.specs != ''
-      shell: bash
-      env:
-        PORT: 3010
-      run: |
-        set -euo pipefail
+      # -------------------------
+      # START SERVER
+      # -------------------------
+      - name: Start server
+        id: start-app
+        if: steps.shard.outputs.specs != ''
+        shell: bash
+        env:
+          PORT: 3010
+        run: |
+          set -euo pipefail
 
-        echo "Starting app with PORT=$PORT ..."
-        PORT=$PORT npm run start:dev:noMockClients:noLogs > app.log 2>&1 &
+          echo "Starting app with PORT=$PORT ..."
+          PORT=$PORT npm run start:dev:noMockClients:noLogs > app.log 2>&1 &
 
-        echo "Waiting for TCP port $PORT to accept connections..."
-        npx wait-on "tcp:localhost:$PORT" --timeout 60000
+          echo "Waiting for TCP port $PORT to accept connections..."
+          npx wait-on "tcp:localhost:$PORT" --timeout 60000
 
-        echo "App socket is up on $PORT."
-        echo "---- app.log (tail) ----"
-        tail -n 50 app.log | sed -e 's/^/[APP] /'
-        echo "------------------------"
+          echo "App socket is up on $PORT."
+          echo "---- app.log (tail) ----"
+          tail -n 50 app.log | sed -e 's/^/[APP] /'
+          echo "------------------------"
 
-        echo "BASE_URL=http://localhost:$PORT" >> "$GITHUB_ENV"
+          echo "BASE_URL=http://localhost:$PORT" >> "$GITHUB_ENV"
 
-    # -------------------------
-    # RUN CYPRESS for this shard
-    # -------------------------
-    - name: Run Cypress
-      id: int-tests
-      if: steps.shard.outputs.specs != ''
-      env:
-        CYPRESS_BASE_URL: ${{ env.BASE_URL }}
-      run: |
-        echo "Running Cypress on baseUrl=$CYPRESS_BASE_URL"
-        npx cypress run \
-          --browser electron \
-          --config "baseUrl=$CYPRESS_BASE_URL" \
-          --spec "${{ steps.shard.outputs.specs }}"
+      # -------------------------
+      # RUN CYPRESS for this shard
+      # -------------------------
+      - name: Run Cypress
+        id: int-tests
+        if: steps.shard.outputs.specs != ''
+        env:
+          CYPRESS_BASE_URL: ${{ env.BASE_URL }}
+        run: |
+          echo "Running Cypress on baseUrl=$CYPRESS_BASE_URL"
+          npx cypress run \
+            --browser electron \
+            --config "baseUrl=$CYPRESS_BASE_URL" \
+            --spec "${{ steps.shard.outputs.specs }}"
 
-    - name: Upload app log
-      if: success() || failure()
-      uses: actions/upload-artifact@v4
-      with:
-        name: app-log-${{ matrix.shard_index }}
-        path: app.log
-        if-no-files-found: ignore
+      - name: Upload app log
+        if: success() || failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-log-${{ matrix.shard_index }}
+          path: app.log
+          if-no-files-found: ignore
 
-    - uses: actions/upload-artifact@v4
-      if: success() || failure()
-      with:
-        name: cypress-results-${{ matrix.shard_index }}
-        path: test_results
-        if-no-files-found: ignore
+      - uses: actions/upload-artifact@v4
+        if: success() || failure()
+        with:
+          name: cypress-results-${{ matrix.shard_index }}
+          path: test_results
+          if-no-files-found: ignore
 
-    - uses: actions/upload-artifact@v4
-      if: success() || failure()
-      with:
-        name: cypress-videos-${{ matrix.shard_index }}
-        path: cypress-tests/integration-tests/videos
-        if-no-files-found: ignore
+      - uses: actions/upload-artifact@v4
+        if: success() || failure()
+        with:
+          name: cypress-videos-${{ matrix.shard_index }}
+          path: cypress-tests/integration-tests/videos
+          if-no-files-found: ignore
 
-    - uses: actions/upload-artifact@v4
-      if: success() || failure()
-      with:
-        name: cypress-screenshots-${{ matrix.shard_index }}
-        path: cypress-tests/integration-tests/screenshots
-        if-no-files-found: ignore
+      - uses: actions/upload-artifact@v4
+        if: success() || failure()
+        with:
+          name: cypress-screenshots-${{ matrix.shard_index }}
+          path: cypress-tests/integration-tests/screenshots
+          if-no-files-found: ignore
 
-    - name: Final Pass/Fail
-      if: success() || failure()
-      run: |
-        if [[ "${{ steps.int-tests.outcome }}" != "success" && "${{ steps.shard.outputs.specs }}" != "" ]]; then
-          echo "Integration tests FAILED for shard ${{ matrix.shard_index }}!"
-          exit 1
-        fi
-        echo "Shard ${{ matrix.shard_index }} passed or had no tests."
+      - name: Final Pass/Fail
+        if: success() || failure()
+        run: |
+          if [[ "${{ steps.int-tests.outcome }}" != "success" && "${{ steps.shard.outputs.specs }}" != "" ]]; then
+            echo "Integration tests FAILED for shard ${{ matrix.shard_index }}!"
+            exit 1
+          fi
+          echo "Shard ${{ matrix.shard_index }} passed or had no tests."
 
   visual_regression_tests:
     runs-on: ubuntu-latest
@@ -295,9 +296,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.x'
+          cache: 'npm'
+
+      # Reuse the dist + node_modules built in the 'build' job
       - uses: actions/download-artifact@v4
         with:
           name: dpr-package
+          # extract into repo root so dist/ and node_modules/ are in place
           path: .
 
       # optionally rebuild native modules — safe & fast
@@ -331,14 +339,12 @@ jobs:
 
           screenshot_diff=$((${{ steps.count-screenshots-before.outputs.screenshots_before }} - screenshots_after))
 
-          # Identical behavior to original → fail if count changed
           if [ $screenshot_diff -eq 0 ]; then
             exit 0
           else
             exit 1
           fi
 
-      # Package up all screenshots from test run
       - name: Package screenshots
         if: success() || failure()
         run: |
@@ -346,7 +352,6 @@ jobs:
           find src/dpr/components/_dashboards/visual-regression-tests \
             -name '*.png' -exec cp {} screenshots \;
 
-      # Upload screenshots artifact (pass/fail)
       - uses: actions/upload-artifact@v4
         name: Upload screenshots artifact
         if: success() || failure()
@@ -354,7 +359,6 @@ jobs:
           name: vrt-screenshots
           path: screenshots
 
-      # Upload Playwright test results
       - uses: actions/upload-artifact@v4
         name: Upload Playwright test results
         if: success() || failure()
@@ -362,7 +366,6 @@ jobs:
           name: vrt-test-results
           path: test-results
 
-      # Final failure logic (same as original)
       - name: Output success or failure
         if: success() || failure()
         run: |

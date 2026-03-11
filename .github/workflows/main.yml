@@ -158,6 +158,11 @@ jobs:
       # Ensure any native deps are ready
       - run: npm rebuild
 
+      - name: Install Cypress binary
+        run: |
+          npx cypress install
+          npx cypress verify
+
       - name: Wait for Redis
         run: |
           echo "Waiting for Redis on tcp:localhost:6379..."
@@ -322,6 +327,11 @@ jobs:
 
       # optionally rebuild native modules — safe & fast
       - run: npm rebuild
+
+      - name: Install Cypress binary
+        run: |
+          npx cypress install
+          npx cypress verify
 
       # Count screenshots BEFORE running tests
       - name: Count screenshots before

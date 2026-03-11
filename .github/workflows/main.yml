@@ -14,18 +14,40 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version: '24.x'
           cache: 'npm'
 
       - run: npm run setup
-      - run: npm run rpack
+
+      # ---- Artifact 1: Build using rpack ----
+      - name: Build using rpack
+        run: npm run rpack
+
+      - uses: actions/upload-artifact@v4
+        name: Upload rpack artifact
+        with:
+          name: dpr-package-rpack
+          path: dist
+
+      # clean dist to avoid blending outputs if rpack/package differ
+      - name: Clean dist
+        run: rm -rf dist/*
+
+      # ---- Artifact 2: Build using package ----
+      - name: Build using package
+        run: npm run package
 
       - uses: actions/upload-artifact@v4
         with:
-          name: dpr-package
-          path: dist
+          name: dpr-package-package
+          path: |
+            dist
+            node_modules
+            package.json
+            package-lock.json
 
   test:
     runs-on: ubuntu-latest
@@ -35,14 +57,20 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version: '24.x'
+          cache: 'npm'
+
+      - run: npm ci
       - run: npm run setup
+
       - uses: actions/download-artifact@v4
         with:
-          name: dpr-package
+          name: dpr-package-rpack
           path: dist
+
       - run: npm run test
 
   test_with_app:
@@ -66,6 +94,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22.x'
+          cache: 'npm'
+
+      - run: npm ci
       - run: npm run setup
 
       - name: Clone mi-ui
@@ -136,59 +167,61 @@ jobs:
           node-version: '24.x'
           cache: 'npm'
 
-      # Clean, cached install
-      - run: npm run setup
-
-      # Bring in dist from build step
       - uses: actions/download-artifact@v4
         with:
-          name: dpr-package
+          name: dpr-package-package
           path: dist
 
-      # Cypress binary
+      # Fix stripped permissions on esbuild & other native binaries
+      - name: Fix permissions for native binaries
+        run: |
+          # esbuild
+          find node_modules -type f -path "*/@esbuild/*/bin/*" -exec chmod +x {} \;
+          # common binary folders
+          chmod -R +x node_modules/.bin || true
+          find node_modules -type f -path "*/bin/*" -exec chmod +x {} \; || true
+          # shared object binaries
+          find node_modules -type f -name "*.node" -exec chmod +x {} \; || true
+
+      # Ensure any native deps are operational after permission restore
+      - run: npm rebuild
+
+      # Ensure Cypress binary on this runner
       - name: Install Cypress binary
         run: |
           npx cypress install
           npx cypress verify
 
-      # Redis health
+      # Wait for Redis
       - name: Wait for Redis
-        run: |
-          npx wait-on tcp:localhost:6379 --timeout 60000
+        run: npx wait-on tcp:localhost:6379 --timeout 60000
 
-      # -------------------------
-      # SHARD SPEC SELECTOR
-      # -------------------------
+      # SHARD: select specs
       - name: Select spec files for this shard
         id: shard
         shell: bash
         run: |
+          set -euo pipefail
           mapfile -t FILES < <(
             ( find ./src -type f -name "*.cy.ts" ;
               find ./test-app -type f -name "*.cy.ts" ) | sort
           )
-
           TOTAL=${#FILES[@]}
           SHARDS=4
           INDEX=${{ matrix.shard_index }}
-
           SLICE=$(( (TOTAL + SHARDS - 1) / SHARDS ))
           START=$(( INDEX * SLICE ))
           END=$(( START + SLICE ))
           [ "$END" -gt "$TOTAL" ] && END=$TOTAL
-
           if [ "$START" -ge "$TOTAL" ]; then
             echo "specs=" >> "$GITHUB_OUTPUT"
             exit 0
           fi
-
           SELECTED=("${FILES[@]:$START:$((END-START))}")
           SPECS=$(IFS=,; echo "${SELECTED[*]}")
           echo "specs=$SPECS" >> "$GITHUB_OUTPUT"
 
-      # -------------------------
-      # START SERVER
-      # -------------------------
+      # Start app (dev server) and wait on TCP
       - name: Start server
         if: steps.shard.outputs.specs != ''
         shell: bash
@@ -199,9 +232,7 @@ jobs:
           npx wait-on "tcp:localhost:$PORT" --timeout 60000
           echo "BASE_URL=http://localhost:$PORT" >> "$GITHUB_ENV"
 
-      # -------------------------
-      # RUN CYPRESS
-      # -------------------------
+      # Run Cypress on this shard
       - name: Run Cypress
         id: int-tests
         if: steps.shard.outputs.specs != ''
@@ -213,7 +244,7 @@ jobs:
             --config "baseUrl=$CYPRESS_BASE_URL" \
             --spec "${{ steps.shard.outputs.specs }}"
 
-      # Upload logs and artifacts
+      # Artifacts
       - name: Upload app log
         if: success() || failure()
         uses: actions/upload-artifact@v4
@@ -275,18 +306,29 @@ jobs:
           node-version: '24.x'
           cache: 'npm'
 
-      - run: npm run setup
-
       - uses: actions/download-artifact@v4
         with:
-          name: dpr-package
+          name: dpr-package-package
           path: dist
+
+      # Fix stripped permissions on esbuild & other native binaries
+      - name: Fix permissions for native binaries
+        run: |
+          # esbuild
+          find node_modules -type f -path "*/@esbuild/*/bin/*" -exec chmod +x {} \;
+          # common binary folders
+          chmod -R +x node_modules/.bin || true
+          find node_modules -type f -path "*/bin/*" -exec chmod +x {} \; || true
+          # shared object binaries
+          find node_modules -type f -name "*.node" -exec chmod +x {} \; || true
+
+      # Ensure any native deps are operational after permission restore
+      - run: npm rebuild
 
       - name: Count screenshots before
         id: count-screenshots-before
         run: |
-          echo -n "screenshots_before=$(find src/dpr/components/_dashboards/visual-regression-tests \
-            -name '*.png' | wc -l | tr -d '[:space:]')" >> "$GITHUB_OUTPUT"
+          echo -n "screenshots_before=$(find src/dpr/components/_dashboards/visual-regression-tests -name '*.png' | wc -l | tr -d '[:space:]')" >> "$GITHUB_OUTPUT"
 
       - name: Install Playwright dependencies
         run: |
@@ -299,8 +341,7 @@ jobs:
       - name: Count screenshots after
         id: count-screenshots-after
         run: |
-          screenshots_after=$(find src/dpr/components/_dashboards/visual-regression-tests \
-            -name '*.png' | wc -l | tr -d '[:space:]')
+          screenshots_after=$(find src/dpr/components/_dashboards/visual-regression-tests -name '*.png' | wc -l | tr -d '[:space:]')
           screenshot_diff=$((${{ steps.count-screenshots-before.outputs.screenshots_before }} - screenshots_after))
           if [ $screenshot_diff -eq 0 ]; then exit 0; else exit 1; fi
 
@@ -308,16 +349,17 @@ jobs:
         if: success() || failure()
         run: |
           mkdir screenshots
-          find src/dpr/components/_dashboards/visual-regression-tests \
-            -name '*.png' -exec cp {} screenshots \;
+          find src/dpr/components/_dashboards/visual-regression-tests -name '*.png' -exec cp {} screenshots \;
 
       - uses: actions/upload-artifact@v4
+        name: Upload screenshots artifact
         if: success() || failure()
         with:
           name: vrt-screenshots
           path: screenshots
 
       - uses: actions/upload-artifact@v4
+        name: Upload Playwright test results
         if: success() || failure()
         with:
           name: vrt-test-results
@@ -326,4 +368,9 @@ jobs:
       - name: Output success or failure
         if: success() || failure()
         run: |
-          if [[ "${{ steps.count-screenshots-after.outcome }}" != "success" ]]; then exit 1; else exit 0; fi
+          if [[ "${{ steps.count-screenshots-after.outcome }}" != "success" ]]; then
+            echo 'Visual regression test screenshots number changed - new tests likely added!'
+            exit 1
+          else
+            exit 0
+          fi

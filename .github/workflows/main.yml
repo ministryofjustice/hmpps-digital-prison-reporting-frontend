@@ -123,7 +123,7 @@ jobs:
       wiremock:
         image: wiremock/wiremock:latest
         ports:
-          - 8080:8080
+          - 9091:8080
         options: >-
           --entrypoint "/docker-entrypoint.sh"
 

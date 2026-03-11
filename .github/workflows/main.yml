@@ -120,6 +120,13 @@ jobs:
           --health-timeout 5s
           --health-retries 5
 
+      wiremock:
+        image: wiremock/wiremock:latest
+        ports:
+          - 8080:8080
+        options: >-
+          --entrypoint "/docker-entrypoint.sh"
+
     strategy:
       matrix:
         shard_index: [0, 1, 2] # adjust shard count as needed

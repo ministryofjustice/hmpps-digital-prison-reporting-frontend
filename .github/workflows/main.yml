@@ -124,13 +124,6 @@ jobs:
           --health-timeout 5s
           --health-retries 5
 
-      wiremock:
-        image: wiremock/wiremock:latest
-        ports:
-          - 9091:8080
-        options: >-
-          --entrypoint "/docker-entrypoint.sh"
-
     strategy:
       matrix:
         shard_index: [0, 1, 2, 3] # adjust shard count as needed
@@ -157,6 +150,12 @@ jobs:
 
       # Ensure any native deps are ready
       - run: npm rebuild
+
+      # Get wiremock per shard
+      - name: Download WireMock standalone
+        run: |
+          curl -L -o wiremock.jar \
+            https://repo1.maven.org/maven2/com/github/tomakehurst/wiremock-standalone/2.27.1/wiremock-standalone-2.27.1.jar
 
       - name: Install Cypress binary
         run: |
@@ -208,6 +207,19 @@ jobs:
           printf " - %s\n" "${SELECTED[@]}"
 
           echo "specs=$SPECS" >> "$GITHUB_OUTPUT"
+
+      # -------------------------
+      # START WIREMOCK
+      # -------------------------
+      - name: Start WireMock
+        env:
+          WIREMOCK_PORT: ${{ 9091 + matrix.shard_index }}
+        run: |
+          echo "Starting WireMock on port $WIREMOCK_PORT..."
+          java -jar wiremock.jar --port $WIREMOCK_PORT > wiremock.log 2>&1 &
+          npx wait-on tcp:localhost:$WIREMOCK_PORT --timeout 30000
+          echo "WireMock is up on port $WIREMOCK_PORT"
+          echo "WIREMOCK_PORT=$WIREMOCK_PORT" >> "$GITHUB_ENV"
 
       # -------------------------
       # START SERVER
@@ -327,11 +339,6 @@ jobs:
 
       # optionally rebuild native modules — safe & fast
       - run: npm rebuild
-
-      - name: Install Cypress binary
-        run: |
-          npx cypress install
-          npx cypress verify
 
       # Count screenshots BEFORE running tests
       - name: Count screenshots before

@@ -167,7 +167,7 @@
     "@flipt-io/flipt-client-js": "0.4.0",
     "@ministryofjustice/frontend": "^8.0.0",
     "@sentry/node": "10.42.0",
-    "@tsconfig/node24": "24.0.3",
+    "@tsconfig/node24": "24.0.4",
     "agentkeepalive": "^4.5.0",
     "bunyan": "^1.8.15",
     "bunyan-format": "^0.2.1",

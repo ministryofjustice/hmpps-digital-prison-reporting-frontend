@@ -6,12 +6,6 @@ on:
   push:
     branches: [main]
 
-env:
-  HOME_URL: 'http://localhost:3010/embedded/platform/'
-  REQUEST_URL: 'http://localhost:3010/embedded/platform/async/report/request-examples/request-example-success/request'
-  POLLING_URL: 'http://localhost:3010/embedded/platform/async/report/request-examples/request-example-success/request/exId_1729765628165'
-  REPORT_URL: 'http://localhost:3010/embedded/platform/async/report/request-examples/request-example-success/request/tblId_1729765628165/report'
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -216,8 +210,8 @@ jobs:
 
     strategy:
       matrix:
-        # Update this list when increasing the number of shards
-        shard_index: [0, 1, 2, 3]
+        # Increase/decrease shards by editing this list AND the SHARDS variable below
+        shard_index: [0, 1, 2]
 
     steps:
       - uses: actions/checkout@v4
@@ -225,107 +219,124 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '24.x'
+          cache: 'npm'
 
       - run: npm ci
 
-      # Your original build/setup steps
+      # Keep your original prep steps
       - run: npm run setup
       - run: npm run package
 
-      # =======================
-      # WAIT FOR REDIS TO BE READY
-      # =======================
-      - name: Wait for Redis
+      # -----------------------
+      # Wait for Redis properly
+      # -----------------------
+      # Use wait-on to ensure TCP 6379 is accepting connections before starting the app.
+      - name: Wait for Redis (TCP 6379)
         run: |
-          echo "Waiting for Redis to become available..."
-          for i in {1..30}; do
-            if redis-cli ping > /dev/null 2>&1; then
-              echo "Redis is ready!"
-              break
-            fi
-            echo "Redis not ready yet... attempt $i"
-            sleep 1
-          done
+          echo "Waiting for Redis to accept connections on tcp:localhost:6379..."
+          npx wait-on tcp:localhost:6379 --timeout 60000
+          echo "Redis is ready."
 
-      # =======================
-      # SHARD SELECTION (inline)
-      # =======================
+      # -----------------------
+      # Inline sharding (no external scripts)
+      # -----------------------
       - name: Select spec files for this shard
         id: shard
+        shell: bash
         run: |
-          FILES=($(find cypress-tests/integration-tests -type f -name "*.tests.cy.ts"))
+          set -euo pipefail
+          mapfile -t FILES < <(find cypress-tests/integration-tests -type f -name "*.tests.cy.ts" | sort)
           TOTAL=${#FILES[@]}
-          SHARDS=4
+          if [ "$TOTAL" -eq 0 ]; then
+            echo "No spec files found matching pattern: cypress-tests/integration-tests/**/*.tests.cy.ts"
+            exit 1
+          fi
+
+          # Keep SHARDS in sync with matrix length above
+          SHARDS=3
           INDEX=${{ matrix.shard_index }}
 
-          SLICE=$(( (TOTAL + SHARDS - 1) / SHARDS ))
+          SLICE=$(( (TOTAL + SHARDS - 1) / SHARDS )) # ceil(TOTAL/SHARDS)
           START=$(( INDEX * SLICE ))
 
-          SELECTED=("${FILES[@]:$START:$SLICE}")
-          SPECS=$(printf "%s," "${SELECTED[@]}")
-          SPECS=${SPECS%,}
+          # Bound check in case the last shard exceeds array length
+          if [ "$START" -ge "$TOTAL" ]; then
+            echo "This shard has no tests to run (start index $START >= total $TOTAL)."
+            echo "specs=" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
 
-          echo "Specs for this shard: $SPECS"
+          END=$(( START + SLICE ))
+          if [ "$END" -gt "$TOTAL" ]; then END=$TOTAL; fi
+
+          SELECTED=("${FILES[@]:$START:$((END-START))}")
+
+          # Join as comma-separated list for Cypress
+          SPECS=$(IFS=,; echo "${SELECTED[*]}")
+
+          echo "This shard will run $((END-START)) spec(s) out of $TOTAL:"
+          printf ' - %s\n' "${SELECTED[@]}"
+
           echo "specs=$SPECS" >> "$GITHUB_OUTPUT"
 
-      # =======================
-      # START NODE APP
-      # =======================
+      # -----------------------
+      # Start app (unique port per shard) and wait for it
+      # -----------------------
       - name: Start server
+        if: steps.shard.outputs.specs != ''
+        env:
+          PORT: ${{ 3000 + matrix.shard_index }}
         run: |
-          PORT=$((3000 + ${{ matrix.shard_index }}))
-          export PORT
-
+          echo "Starting app on PORT=$PORT ..."
           npm run start:dev:noMockClients:noLogs &
+          echo "Waiting for app at http://localhost:$PORT ..."
+          npx wait-on "http://localhost:$PORT" --timeout 60000
+          echo "App is up."
 
-          # Wait for server to be reachable
-          echo "Waiting for app on http://localhost:$PORT..."
-          npx wait-on http://localhost:$PORT --timeout 60000
-
-      # =======================
-      # RUN CYPRESS FOR THIS SHARD
-      # =======================
+      # -----------------------
+      # Run Cypress for this shard
+      # -----------------------
       - name: Run Cypress tests
         id: int-tests
+        if: steps.shard.outputs.specs != ''
+        env:
+          CYPRESS_BASE_URL: http://localhost:${{ 3000 + matrix.shard_index }}
         run: |
           npx cypress run \
             --browser electron \
-            --config baseUrl=http://localhost:$((3000 + ${{ matrix.shard_index }})) \
+            --config "baseUrl=${CYPRESS_BASE_URL}" \
             --spec "${{ steps.shard.outputs.specs }}"
 
-      # =======================
-      # CYPRESS ARTIFACTS
-      # =======================
+      # -----------------------
+      # Artifacts (results, videos, screenshots)
+      # -----------------------
       - uses: actions/upload-artifact@v4
         if: success() || failure()
         with:
           name: cypress-results-${{ matrix.shard_index }}
           path: test_results
+          if-no-files-found: ignore
 
       - uses: actions/upload-artifact@v4
         if: success() || failure()
         with:
           name: cypress-videos-${{ matrix.shard_index }}
           path: cypress-tests/integration-tests/videos
+          if-no-files-found: ignore
 
       - uses: actions/upload-artifact@v4
         if: success() || failure()
         with:
           name: cypress-screenshots-${{ matrix.shard_index }}
           path: cypress-tests/integration-tests/screenshots
+          if-no-files-found: ignore
 
-      # =======================
-      # FINAL FAILURE LOGIC
-      # =======================
+      # -----------------------
+      # Final failure logic
+      # -----------------------
       - name: Output success or failure
         if: success() || failure()
         run: |
-          if [[ "${{ steps.int-tests.outcome }}" != "success" ]]; then
-            echo "Integration tests failed for shard ${{ matrix.shard_index }}!"
-            exit 1
-          else
-            echo "Shard ${{ matrix.shard_index }} passed."
-          fi
 
   visual_regression_tests:
     runs-on: ubuntu-latest

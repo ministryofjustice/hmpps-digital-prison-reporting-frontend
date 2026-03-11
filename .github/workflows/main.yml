@@ -149,6 +149,12 @@ jobs:
           name: dpr-package
           path: .
 
+      # Fix node_module permissions
+      - name: Fix executable permissions in node_modules
+        run: |
+          find node_modules -type f -name "esbuild" -exec chmod +x {} \;
+          find node_modules -type f -path "*/@esbuild/*/bin/*" -exec chmod +x {} \;
+
       # Ensure any native deps are ready
       - run: npm rebuild
 
@@ -307,6 +313,12 @@ jobs:
           name: dpr-package
           # extract into repo root so dist/ and node_modules/ are in place
           path: .
+
+      # Fix node_module permissions
+      - name: Fix executable permissions in node_modules
+        run: |
+          find node_modules -type f -name "esbuild" -exec chmod +x {} \;
+          find node_modules -type f -path "*/@esbuild/*/bin/*" -exec chmod +x {} \;
 
       # optionally rebuild native modules — safe & fast
       - run: npm rebuild

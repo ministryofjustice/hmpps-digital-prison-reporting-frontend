@@ -53,7 +53,7 @@ class MissingReportFormController {
     }
   }
 
-  POST: RequestHandler = async (req, res, _next) => {
+  POST: RequestHandler = async (req, res, next) => {
     const { body } = req
     const { reportId, variantId, reportName, variantName, 'more-detail': requestDetails } = body
 
@@ -71,13 +71,13 @@ class MissingReportFormController {
           },
           (err) => {
             captureException(err)
-            res.render(`dpr/components/serviceError/view`)
+            next(err)
           },
         )
       }
     } catch (error) {
       captureException(error)
-      res.render(`dpr/components/serviceError/view`)
+      next(error)
     }
   }
 }

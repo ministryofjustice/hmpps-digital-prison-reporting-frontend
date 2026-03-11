@@ -154,8 +154,12 @@ jobs:
         run: |
           set -euo pipefail
 
-          mapfile -t FILES < <(find cypress-tests/integration-tests -type f -name "*.cy.ts" | sort)
+          mapfile -t FILES < <(
+            ( find ./src -type f -name "*.cy.ts" ; find ./test-app -type f -name "*.cy.ts" ) | sort
+          )
+
           TOTAL=${#FILES[@]}
+          echo "Found $TOTAL test files."
 
           SHARDS=4
           INDEX=${{ matrix.shard_index }}

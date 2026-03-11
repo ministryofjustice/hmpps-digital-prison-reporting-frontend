@@ -1,4 +1,5 @@
 import { ReportType } from 'src/dpr/types/UserReports'
+import { setNestedPath } from 'src/dpr/utils/urlHelper'
 import { DprClientClass } from '../../DprClientClass'
 
 export enum BookmarkAction {
@@ -34,6 +35,7 @@ class BookmarkButton extends DprClientClass {
       this.baseUrl && this.baseUrl !== 'undefined'
         ? `${this.baseUrl}/dpr/my-reports/bookmarks/`
         : `/dpr/my-reports/bookmarks/`
+    this.endpoint = setNestedPath('/dpr/my-reports/bookmarks/', this.baseUrl)
 
     this.initEventListener()
   }

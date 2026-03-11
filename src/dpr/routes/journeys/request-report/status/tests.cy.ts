@@ -3,7 +3,7 @@ import dayjs from 'dayjs'
 import { getRedisState, setRedisState } from 'test-app/routes/integrationTests/appStateUtils'
 
 context('Request status', () => {
-  const path = '/embedded/platform/'
+  const path = '/embedded/platform'
 
   beforeEach(() => {
     executeReportStubs()

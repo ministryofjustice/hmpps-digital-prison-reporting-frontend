@@ -1,7 +1,7 @@
 import { executeDashboardStubs, requestReportByNameAndDescription } from '../../../../../../cypress-tests/cypressUtils'
 
 context('Dashboard visualisation: line timeseries chart', () => {
-  const path = '/embedded/platform/'
+  const path = '/embedded/platform'
 
   describe('Complete data', () => {
     let completeUrl = ''

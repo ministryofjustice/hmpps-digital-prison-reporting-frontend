@@ -1,0 +1,9 @@
+{% extends "views/page.njk" %}
+{% from "components/user-reports/view.njk" import dprUserReports %}
+
+{% block content %}
+  <div class="govuk-width-container">
+    <h1>My Reports</h1>
+    {{ dprUserReports(userReportsLists)}}
+  </div>
+{% endblock %}

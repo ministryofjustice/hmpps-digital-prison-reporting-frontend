@@ -1,7 +1,7 @@
 import { checkA11y, stubBaseTasks, stubDefinitionsTasks } from '../../../../../cypress-tests/cypressUtils'
 
 context('Request missing report', () => {
-  const path = '/embedded/platform/'
+  const path = '/embedded/platform'
 
   beforeEach(() => {
     stubBaseTasks()

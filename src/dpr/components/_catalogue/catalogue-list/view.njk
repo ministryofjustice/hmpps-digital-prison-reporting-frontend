@@ -1,7 +1,9 @@
 {% from "govuk/components/table/macro.njk" import govukTable %}
 {% from "../catalogue-search/view.njk" import dprCatalogueSearch %}
 
-{% macro dprCatalogueList(head, rows, id) %}
+{% macro dprCatalogueList(id, data) %}
+  {% set head = data.head %}
+  {% set rows = data.rows %}
 
   <p class="dpr-catalogue-totals govuk-body govuk-!-margin-bottom-5">Showing <strong id="total-shown"></strong> of <strong id="total-amount"></strong> reports</p>
 

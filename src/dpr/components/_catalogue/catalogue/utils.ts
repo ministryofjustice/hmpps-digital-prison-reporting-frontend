@@ -1,4 +1,5 @@
 import { Response } from 'express'
+import { setNestedPath } from '../../../utils/urlHelper'
 import CatalogueListUtils from '../catalogue-list/utils'
 import { Services } from '../../../types/Services'
 import LocalsHelper from '../../../utils/localsHelper'
@@ -14,7 +15,7 @@ export const initCatalogue = async ({
   services: Services
 }) => {
   const data = await CatalogueListUtils.getReportsList(res, services)
-  const { token, bookmarkingEnabled, dprUser, csrfToken } = LocalsHelper.getValues(res)
+  const { token, bookmarkingEnabled, dprUser, csrfToken, nestedBaseUrl } = LocalsHelper.getValues(res)
   const productCollections = (await services.productCollectionService.getProductCollections(token))?.map(
     (collection) => ({
       value: collection.id,
@@ -30,16 +31,23 @@ export const initCatalogue = async ({
   const selectedProductCollection =
     selectedProductCollectionId &&
     (await services.productCollectionService.getProductCollection(token, selectedProductCollectionId))
+
   return {
-    data: {
-      ...data,
+    id: data.id,
+    list: {
+      head: data.head,
+      rows: data.rows,
+    },
+    filters: {
+      productCollectionInfo: {
+        productCollections,
+        formAction: setNestedPath('/dpr/product-collection/selected', nestedBaseUrl),
+        ...(selectedProductCollection && { selectedProductCollection }),
+      },
+      nestedBaseUrl,
       csrfToken,
+      features: setFeatures(bookmarkingEnabled, features),
     },
-    productCollectionInfo: {
-      productCollections,
-      ...(selectedProductCollection && { selectedProductCollection }),
-    },
-    features: setFeatures(bookmarkingEnabled, features),
   }
 }
 

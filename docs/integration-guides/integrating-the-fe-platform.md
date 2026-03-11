@@ -6,9 +6,13 @@ subsection: Integration Guides
 
 This integration quide describes the steps required to use DPR's FE Platform into your service, using the <a href="https://github.com/ministryofjustice/hmpps-template-typescript" target="_blank">HMPPS TS template</a>
 
-The FE platform provides means for services to integrate DPR reporting processes and features. 
+The FE platform provides means for services to integrate DPR reporting processes and features.
 
-**NOTE:** These steps are not required if you are only using DPRs embedded sync report handlers.  
+**NOTE:** These steps are not required if you are only using DPRs embedded sync report handlers.
+
+## Outcome
+
+By following this guide and integrating successfully you have and use of a set of predefined routes to help you manage, view and request reports. See [reporting routes](/get-started/routes) for more information about what routes are available.
 
 ## Pre-requisites
 
@@ -30,7 +34,8 @@ The FE platform provides means for services to integrate DPR reporting processes
 # Add DPR configuration
 
 ### API config
-Add DPR API configuration to your `config.ts` file. 
+
+Add DPR API configuration to your `config.ts` file.
 
 ```js
 export const apis = {
@@ -53,13 +58,13 @@ See <a href="/get-started/environments" target="_blank">DPR Environments</a> for
 
 ### DPD path config
 
-The DPD path is location in the definitions repo where your DPDs are stored. The path commonly follows this pattern: 
+The DPD path is location in the definitions repo where your DPDs are stored. The path commonly follows this pattern:
 
 ```
 definitions/prisons/dps/${yourServiceName}
 ```
 
-Add your DPD path to the `config.ts` file: 
+Add your DPD path to the `config.ts` file:
 
 ```js
 export const apis = {
@@ -79,15 +84,15 @@ export default {
 
 # Initialise Redis Client
 
-An initialised Redis client is a dependency DPR's reporting platform. Redis is used to store report request config to keep track of the state of a requested report, and enable features such as bookmarking and downloading. 
+An initialised Redis client is a dependency DPR's reporting platform. Redis is used to store report request config to keep track of the state of a requested report, and enable features such as bookmarking and downloading.
 
-See [next section (Initialise data clients)](#initialise-data-clients) for details on how the redis client is used. 
+See [next section (Initialise data clients)](#initialise-data-clients) for details on how the redis client is used.
 
 <hr class='dpr-docs-hr'>
 
 # Initialise data clients
 
-Initialise DPR data clients within your app setup to point to DPR's API endpoint. 
+Initialise DPR data clients within your app setup to point to DPR's API endpoint.
 
 This setup is commonly done in the `server/data/index.ts` file of the <a href="https://github.com/ministryofjustice/hmpps-template-typescript/blob/main/server/data/index.ts" target="_blank">HMPPS template</a>
 
@@ -96,24 +101,28 @@ import { initDprReportingClients } from '@ministryofjustice/hmpps-digital-prison
 import { createRedisClient } from './redisClient'
 import config from '../config'
 
-  const { reportingClient, dashboardClient, reportDataStore, productCollectionClient, missingReportClient, featureFlagService } =
-    initDprReportingClients(config.apis.dpr, createRedisClient())
+const {
+  reportingClient,
+  dashboardClient,
+  reportDataStore,
+  productCollectionClient,
+  missingReportClient,
+  featureFlagService,
+} = initDprReportingClients(config.apis.dpr, createRedisClient())
 
 export const dataAccess = () => ({
-  ...
-    reportingClient,
-    dashboardClient,
-    reportDataStore,
-    productCollectionClient,
-    missingReportClient,
-    featureFlagService,
+  ...reportingClient,
+  dashboardClient,
+  reportDataStore,
+  productCollectionClient,
+  missingReportClient,
+  featureFlagService,
 })
-
 ```
 
 <hr class='dpr-docs-hr'>
 
-# Create services 
+# Create services
 
 This setup is commonly done in the `server/services/index.ts` file of the <a href="https://github.com/ministryofjustice/hmpps-template-typescript/blob/main/server/services/index.ts" target="_blank">HMPPS template</a>
 
@@ -153,7 +162,7 @@ You can enable certain features by adding optional config to the `createDprServi
 
 ```js
 const featureConfig = {
-  bookmarking: true    // Enables bookmarking feature 
+  bookmarking: true    // Enables bookmarking feature
   download: true       // Enables download feature
   saveDefaults: true,  // Enables save user defaults feature
 }
@@ -167,7 +176,7 @@ By default all features are set to `false`
 
 # Setup the DPR user in locals
 
-In your `populateCurrentUser` middleware, ensure you have `dprUser` defined in your `res.locals` 
+In your `populateCurrentUser` middleware, ensure you have `dprUser` defined in your `res.locals`
 
 ```js
 import { DprUser } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dprUser'
@@ -207,7 +216,7 @@ app.use(setupResources(services, 'path/to/layout.njk', env, config.dpr))
 
 # Initialise routes
 
-Import the async routes in to your `routes` file. See [reporting routes](/get-started/routes). 
+Import the async routes in to your `routes` file. See [reporting routes](/get-started/routes).
 
 This setup is commonly done in the `server/routes/index.ts` file of the <a href="https://github.com/ministryofjustice/hmpps-template-typescript/blob/main/server/routes/index.ts" target="_blank">HMPPS template</a>
 
@@ -218,7 +227,7 @@ export function routes(services: Services): Router {
   const router = Router()
   ...
 
-  router.use('/', dprRoutes({ services, layoutPath: 'path/to/layout.njk'})) 
+  router.use('/', dprRoutes({ services, layoutPath: 'path/to/layout.njk'}))
 }
 
 export default routes
@@ -228,7 +237,7 @@ export default routes
 
 # Quick start guide
 
-This summary represents a simple view of the steps required for integrating the platform and should not be used in production. Please follow [these integration steps](#integration-steps) to integrate using best practices of the <a href="https://github.com/ministryofjustice/hmpps-template-typescript/blob/main/server/routes/index.ts" target="_blank">HMPPS template</a>  
+This summary represents a simple view of the steps required for integrating the platform and should not be used in production. Please follow [these integration steps](#integration-steps) to integrate using best practices of the <a href="https://github.com/ministryofjustice/hmpps-template-typescript/blob/main/server/routes/index.ts" target="_blank">HMPPS template</a>
 
 ```js
 // Clients
@@ -258,4 +267,5 @@ const env = nunjucksSetup(app, applicationInfo)
 app.use(setupResources(services, 'path/to/layout.njk', env, config.dpr))
 
 // 5. Initialise routes
-router.use('/', dprRoutes({ services, layoutPath: 'path/to/layout.njk',})) 
+router.use('/', dprRoutes({ services, layoutPath: 'path/to/layout.njk' }))
+```

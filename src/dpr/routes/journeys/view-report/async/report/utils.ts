@@ -3,6 +3,7 @@ import { Url } from 'url'
 import { Request, Response } from 'express'
 
 // Types
+import { setNestedPath } from '../../../../../utils/urlHelper'
 import { ReportTemplateData } from '../../../../../utils/TemplateBuilder/SectionedDataHelper/types'
 import { ChildData } from '../../../../../utils/TemplateBuilder/ParentChildDataBuilder/types'
 import type { Columns } from '../../../../../components/_reports/report-heading/report-columns/report-columns-form/types'
@@ -503,7 +504,10 @@ const setActions = (
   let downloadConfig: DownloadActionParams | undefined
   if (urls && downloadingEnabled) {
     // Ensure that columns used as section headings are always included in the download
-    const downloadColumns = [...new Set([...columns.value, ...specification.sections])]
+    const sections = specification.sections || []
+    const downloadColumns = [...new Set([...columns.value, ...sections])]
+    const formAction = setNestedPath('/dpr/download-report/', nestedBaseUrl)
+
     downloadConfig = {
       enabled: downloadingEnabled,
       name,
@@ -515,7 +519,7 @@ const setActions = (
       columns: downloadColumns,
       definitionPath: definitionsPath,
       loadType: LoadType.ASYNC,
-      nestedBaseUrl,
+      formAction,
       canDownload,
       currentUrl: urls.pathname,
       currentQueryParams: urls.reportSearch,

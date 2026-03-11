@@ -48,24 +48,6 @@ export function Routes({ layoutPath, services }: { services: Services; layoutPat
   return router
 }
 
-export function Redirects(): Router {
-  const router = Router({ mergeParams: true })
-
-  // Request route redirect
-  router.get(`/async/:type/:reportId/:id/request`, (req, res) => {
-    const { type, reportId, id } = req.params
-    res.redirect(`${res.locals['nestedBaseUrl']}/dpr/request-report/${type}/${reportId}/${id}/filters`)
-  })
-
-  // Status route redirect
-  router.get(`/async/:type/:reportId/:id/request/:executionId`, (req, res) => {
-    const { type, reportId, id, executionId } = req.params
-    res.redirect(`${res.locals['nestedBaseUrl']}/dpr/request-report/${type}/${reportId}/${id}/${executionId}/status`)
-  })
-
-  return router
-}
-
 export const RequestReportRoutes = ({
   services,
   path,
@@ -77,7 +59,6 @@ export const RequestReportRoutes = ({
 }): Router => {
   const router = Router({ mergeParams: true })
   router.use(path, Routes({ services, layoutPath }))
-  router.use('/', Redirects())
 
   return router
 }

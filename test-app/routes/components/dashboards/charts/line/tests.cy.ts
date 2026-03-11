@@ -1,7 +1,7 @@
 import { executeDashboardStubs, requestReportByNameAndDescription } from '../../../../../../cypress-tests/cypressUtils'
 
 context('Dashboard visualisation: line chart', () => {
-  const path = '/embedded/platform/'
+  const path = '/embedded/platform'
 
   describe('Complete data', () => {
     let completeUrl = ''
@@ -224,7 +224,7 @@ context('Dashboard visualisation: line chart', () => {
                         cy.findAllByRole('columnheader').eq(1).contains('Diet')
                         cy.findAllByRole('columnheader').eq(2).contains('Total prisoners')
                       })
-                      break                    
+                      break
                     case 1:
                       cy.wrap(row).within(() => {
                         cy.findAllByRole('cell').should('have.length', 3)
@@ -256,7 +256,7 @@ context('Dashboard visualisation: line chart', () => {
                         cy.findAllByRole('cell').eq(1).contains('Diet four')
                         cy.findAllByRole('cell').eq(2).contains('144')
                       })
-                      break                    
+                      break
                     case 5:
                       cy.wrap(row).within(() => {
                         cy.findAllByRole('cell').should('have.length', 3)

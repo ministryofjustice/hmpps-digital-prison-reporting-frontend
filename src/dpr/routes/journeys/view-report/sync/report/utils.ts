@@ -24,6 +24,7 @@ import UserStoreItemBuilder from '../../../../../utils/UserStoreItemBuilder'
 import { FiltersType } from '../../../../../components/_filters/filtersTypeEnum'
 import { ReportTemplateData } from '../../../../../utils/TemplateBuilder/SectionedDataHelper/types'
 import ReportTemplateUtils from '../../../../../components/_reports/report-page/report-template/utils'
+import { setNestedPath } from '../../../../../utils/urlHelper'
 
 export const setActions = (
   csrfToken: string,
@@ -35,7 +36,7 @@ export const setActions = (
   dataProductDefinitionsPath: string,
   currentUrl: string,
   currentQueryParams: string,
-  nestedBaseUrl: string,
+  nestedBaseUrl?: string,
 ) => {
   const { name: reportName, variant, id: reportId } = reportDefinition
   const { name, id, printable } = variant
@@ -53,7 +54,7 @@ export const setActions = (
     canDownload,
     currentUrl,
     currentQueryParams,
-    nestedBaseUrl,
+    formAction: setNestedPath('/dpr/download-report/', nestedBaseUrl),
   }
 
   return ReportActionsUtils.getActions({

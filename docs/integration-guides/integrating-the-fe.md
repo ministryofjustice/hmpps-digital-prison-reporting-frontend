@@ -4,7 +4,7 @@ title: Integrating the FE
 subsection: Integration Guides
 ---
 
-This guide describes the integration process to add FE components and processes into your service. 
+This guide describes the integration process to add FE components and processes into your service.
 
 ## Pre-requisites
 
@@ -26,7 +26,6 @@ This guide describes the integration process to add FE components and processes 
 
 # Request or load report via href
 
-
 ## Async reports
 
 ```html
@@ -36,6 +35,7 @@ This guide describes the integration process to add FE components and processes 
 <a href="/dpr/request-report/report/report-id-1/variant-id-1-2/filters">Async report 2</a>
 <a href="/dpr/request-report/report/report-id-2/variant-id-2-1/filters">Async report 3</a>
 ```
+
 See [async routes docs](/get-started/routes#asynchronous-routes) for route structure
 
 ## Sync reports
@@ -61,7 +61,7 @@ See [sync routes docs](/get-started/routes#synchronous-routes) for route structu
 
 # Report Catalogue component
 
-This component provides a unified way of listing and navigating reports 
+This component provides a unified way of listing and navigating reports
 
 The catalogue component is used to:
 
@@ -71,7 +71,18 @@ The catalogue component is used to:
 - request variants.
 - bookmark variants.
 
-## Initialise the components render data 
+## Using this component
+
+There are two ways of interacting with this component:
+
+- Using the configured route, made available by integrating the DPR routes. See <a href="/get-started/routes" target="_blank">Routes</a>
+- Embedding the component into your HTML directly.
+
+## Embedding the component into your HTML directly
+
+Follow this method if you want to embed the component into a pre-existing page that you have full control over.
+
+### Initialise the components render data
 
 Initialise the component with the required data using the component utility helper and pass it to the `res.render` function.
 
@@ -91,7 +102,7 @@ export function routes(services: Services): Router {
 export default routes
 ```
 
-## Add the component to your HTML
+### Add the component to your HTML
 
 ```js
 // reports-catalogue.njk
@@ -108,14 +119,25 @@ See [Catalogue](/components/catalogue) component for usage and examples.
 
 This component is used to visualise and enable users to keep track of all requests, bookmarks and recently viewed reports so you can quickly navigate around the embedded DPR platform.
 
-It is responsible for:  
+It is responsible for:
 
 - Listing requested reports
 - Listing recently viewed reports
 - Listing bookmarks
 - Polling the status of a requested.
 
-## Initialise the lists render data 
+## Using this component
+
+There are two ways of interacting with this component:
+
+- Using the configured route, made available by integrating the DPR routes. See <a href="/get-started/routes" target="_blank">Routes</a>
+- Embedding the component into your HTML directly
+
+## Embedding the component into your HTML directly
+
+Follow this method if you want to embed the component into a pre-existing page that you have full control over.
+
+### Initialise the lists render data
 
 Initialise the component with the required data using the component utility helper:
 
@@ -143,7 +165,7 @@ export function routes(services: Services): Router {
 export default routes
 ```
 
-## Add the component to your HTML
+### Add the component to your HTML
 
 ```js
 { from "@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/components/user-reports/view.njk" import dprUserReports }

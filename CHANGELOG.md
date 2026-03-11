@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## 5.7.2
+
+- BugFix: Fix layout path for new routes
+
 ## 5.7.1
 
 - BugFix: nestedBaseUrl was resolving to string "undefined" and appearing in URL's as `/undefined/dpr/...`. This fix ensures it resolved to undefined if not set.

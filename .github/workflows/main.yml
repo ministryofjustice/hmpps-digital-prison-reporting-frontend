@@ -188,9 +188,6 @@ jobs:
       # Rebuild any native modules (optional but safe)
       - run: npm rebuild
 
-      # Setup tasks the project requires
-      - run: npm run setup
-
       # Cypress binary install (must run per-runner)
       - name: Install Cypress binary
         run: |
@@ -317,9 +314,6 @@ jobs:
         with:
           node-version: '24.x'
           cache: 'npm'
-
-      - run: npm ci
-      - run: npm run setup
 
       # Download dist + node_modules (package build)
       - uses: actions/download-artifact@v4

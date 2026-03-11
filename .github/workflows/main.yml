@@ -216,7 +216,8 @@ jobs:
 
     strategy:
       matrix:
-        shard_index: [0, 1, 2, 4] # 3 parallel shards
+        # Update this list when increasing the number of shards
+        shard_index: [0, 1, 2, 3]
 
     steps:
       - uses: actions/checkout@v4
@@ -227,12 +228,27 @@ jobs:
 
       - run: npm ci
 
-      # Re-add missing steps from your original workflow
+      # Your original build/setup steps
       - run: npm run setup
       - run: npm run package
 
       # =======================
-      # SHARD SELECTION
+      # WAIT FOR REDIS TO BE READY
+      # =======================
+      - name: Wait for Redis
+        run: |
+          echo "Waiting for Redis to become available..."
+          for i in {1..30}; do
+            if redis-cli ping > /dev/null 2>&1; then
+              echo "Redis is ready!"
+              break
+            fi
+            echo "Redis not ready yet... attempt $i"
+            sleep 1
+          done
+
+      # =======================
+      # SHARD SELECTION (inline)
       # =======================
       - name: Select spec files for this shard
         id: shard
@@ -249,6 +265,7 @@ jobs:
           SPECS=$(printf "%s," "${SELECTED[@]}")
           SPECS=${SPECS%,}
 
+          echo "Specs for this shard: $SPECS"
           echo "specs=$SPECS" >> "$GITHUB_OUTPUT"
 
       # =======================
@@ -258,8 +275,11 @@ jobs:
         run: |
           PORT=$((3000 + ${{ matrix.shard_index }}))
           export PORT
+
           npm run start:dev:noMockClients:noLogs &
 
+          # Wait for server to be reachable
+          echo "Waiting for app on http://localhost:$PORT..."
           npx wait-on http://localhost:$PORT --timeout 60000
 
       # =======================
@@ -274,7 +294,7 @@ jobs:
             --spec "${{ steps.shard.outputs.specs }}"
 
       # =======================
-      # ARTIFACTS
+      # CYPRESS ARTIFACTS
       # =======================
       - uses: actions/upload-artifact@v4
         if: success() || failure()
@@ -295,14 +315,16 @@ jobs:
           path: cypress-tests/integration-tests/screenshots
 
       # =======================
-      # FAIL IF CYPRESS FAILED
+      # FINAL FAILURE LOGIC
       # =======================
       - name: Output success or failure
         if: success() || failure()
         run: |
           if [[ "${{ steps.int-tests.outcome }}" != "success" ]]; then
-            echo "Integration tests failed!"
+            echo "Integration tests failed for shard ${{ matrix.shard_index }}!"
             exit 1
+          else
+            echo "Shard ${{ matrix.shard_index }} passed."
           fi
 
   visual_regression_tests:

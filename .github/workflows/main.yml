@@ -154,7 +154,7 @@ jobs:
         run: |
           set -euo pipefail
 
-          mapfile -t FILES < <(find cypress-tests/integration-tests -type f -name "*.tests.cy.ts" | sort)
+          mapfile -t FILES < <(find cypress-tests/integration-tests -type f -name "*.cy.ts" | sort)
           TOTAL=${#FILES[@]}
 
           SHARDS=4

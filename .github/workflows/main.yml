@@ -167,61 +167,72 @@ jobs:
           node-version: '24.x'
           cache: 'npm'
 
+      # Download dist + node_modules (dpr-package-package)
       - uses: actions/download-artifact@v4
         with:
           name: dpr-package-package
-          path: dist
+          path: .
 
-      # Fix stripped permissions on esbuild & other native binaries
-      - name: Fix permissions for native binaries
+      # Fix lost executable permissions in node_modules
+      - name: Fix permissions for native modules
         run: |
-          # esbuild
+          # esbuild binaries
           find node_modules -type f -path "*/@esbuild/*/bin/*" -exec chmod +x {} \;
-          # common binary folders
+          # .bin folder
           chmod -R +x node_modules/.bin || true
+          # any native executable
           find node_modules -type f -path "*/bin/*" -exec chmod +x {} \; || true
-          # shared object binaries
+          # shared native modules
           find node_modules -type f -name "*.node" -exec chmod +x {} \; || true
 
-      # Ensure any native deps are operational after permission restore
+      # Rebuild any native modules (optional but safe)
       - run: npm rebuild
 
-      # Ensure Cypress binary on this runner
+      # Setup tasks the project requires
+      - run: npm run setup
+
+      # Cypress binary install (must run per-runner)
       - name: Install Cypress binary
         run: |
           npx cypress install
           npx cypress verify
 
-      # Wait for Redis
       - name: Wait for Redis
         run: npx wait-on tcp:localhost:6379 --timeout 60000
 
-      # SHARD: select specs
+      # -------------------------
+      # SHARD SPEC SELECTOR
+      # -------------------------
       - name: Select spec files for this shard
         id: shard
         shell: bash
         run: |
-          set -euo pipefail
           mapfile -t FILES < <(
             ( find ./src -type f -name "*.cy.ts" ;
               find ./test-app -type f -name "*.cy.ts" ) | sort
           )
+
           TOTAL=${#FILES[@]}
           SHARDS=4
           INDEX=${{ matrix.shard_index }}
+
           SLICE=$(( (TOTAL + SHARDS - 1) / SHARDS ))
           START=$(( INDEX * SLICE ))
           END=$(( START + SLICE ))
           [ "$END" -gt "$TOTAL" ] && END=$TOTAL
+
           if [ "$START" -ge "$TOTAL" ]; then
             echo "specs=" >> "$GITHUB_OUTPUT"
             exit 0
           fi
+
           SELECTED=("${FILES[@]:$START:$((END-START))}")
           SPECS=$(IFS=,; echo "${SELECTED[*]}")
           echo "specs=$SPECS" >> "$GITHUB_OUTPUT"
 
-      # Start app (dev server) and wait on TCP
+      # -------------------------
+      # START SERVER (dev mode)
+      # -------------------------
       - name: Start server
         if: steps.shard.outputs.specs != ''
         shell: bash
@@ -232,7 +243,9 @@ jobs:
           npx wait-on "tcp:localhost:$PORT" --timeout 60000
           echo "BASE_URL=http://localhost:$PORT" >> "$GITHUB_ENV"
 
-      # Run Cypress on this shard
+      # -------------------------
+      # CYPRESS RUN
+      # -------------------------
       - name: Run Cypress
         id: int-tests
         if: steps.shard.outputs.specs != ''
@@ -244,7 +257,9 @@ jobs:
             --config "baseUrl=$CYPRESS_BASE_URL" \
             --spec "${{ steps.shard.outputs.specs }}"
 
-      # Artifacts
+      # -------------------------
+      # ARTIFACTS
+      # -------------------------
       - name: Upload app log
         if: success() || failure()
         uses: actions/upload-artifact@v4
@@ -258,21 +273,18 @@ jobs:
         with:
           name: cypress-results-${{ matrix.shard_index }}
           path: test_results
-          if-no-files-found: ignore
 
       - uses: actions/upload-artifact@v4
         if: success() || failure()
         with:
           name: cypress-videos-${{ matrix.shard_index }}
           path: cypress-tests/integration-tests/videos
-          if-no-files-found: ignore
 
       - uses: actions/upload-artifact@v4
         if: success() || failure()
         with:
           name: cypress-screenshots-${{ matrix.shard_index }}
           path: cypress-tests/integration-tests/screenshots
-          if-no-files-found: ignore
 
       - name: Final Pass/Fail
         if: success() || failure()
@@ -306,29 +318,31 @@ jobs:
           node-version: '24.x'
           cache: 'npm'
 
+      - run: npm ci
+      - run: npm run setup
+
+      # Download dist + node_modules (package build)
       - uses: actions/download-artifact@v4
         with:
           name: dpr-package-package
-          path: dist
+          path: .
 
-      # Fix stripped permissions on esbuild & other native binaries
-      - name: Fix permissions for native binaries
+      # Fix stripped executable permissions (Playwright also uses native binaries)
+      - name: Fix permissions for native modules
         run: |
-          # esbuild
           find node_modules -type f -path "*/@esbuild/*/bin/*" -exec chmod +x {} \;
-          # common binary folders
           chmod -R +x node_modules/.bin || true
           find node_modules -type f -path "*/bin/*" -exec chmod +x {} \; || true
-          # shared object binaries
           find node_modules -type f -name "*.node" -exec chmod +x {} \; || true
 
-      # Ensure any native deps are operational after permission restore
       - run: npm rebuild
 
+      # Count screenshots BEFORE running tests
       - name: Count screenshots before
         id: count-screenshots-before
         run: |
-          echo -n "screenshots_before=$(find src/dpr/components/_dashboards/visual-regression-tests -name '*.png' | wc -l | tr -d '[:space:]')" >> "$GITHUB_OUTPUT"
+          echo -n "screenshots_before=$(find src/dpr/components/_dashboards/visual-regression-tests \
+            -name '*.png' | wc -l | tr -d '[:space:]')" >> "$GITHUB_OUTPUT"
 
       - name: Install Playwright dependencies
         run: |
@@ -341,7 +355,8 @@ jobs:
       - name: Count screenshots after
         id: count-screenshots-after
         run: |
-          screenshots_after=$(find src/dpr/components/_dashboards/visual-regression-tests -name '*.png' | wc -l | tr -d '[:space:]')
+          screenshots_after=$(find src/dpr/components/_dashboards/visual-regression-tests \
+            -name '*.png' | wc -l | tr -d '[:space:]')
           screenshot_diff=$((${{ steps.count-screenshots-before.outputs.screenshots_before }} - screenshots_after))
           if [ $screenshot_diff -eq 0 ]; then exit 0; else exit 1; fi
 
@@ -349,27 +364,25 @@ jobs:
         if: success() || failure()
         run: |
           mkdir screenshots
-          find src/dpr/components/_dashboards/visual-regression-tests -name '*.png' -exec cp {} screenshots \;
+          find src/dpr/components/_dashboards/visual-regression-tests \
+            -name '*.png' -exec cp {} screenshots \;
 
       - uses: actions/upload-artifact@v4
-        name: Upload screenshots artifact
         if: success() || failure()
         with:
           name: vrt-screenshots
           path: screenshots
 
       - uses: actions/upload-artifact@v4
-        name: Upload Playwright test results
         if: success() || failure()
         with:
           name: vrt-test-results
           path: test-results
 
-      - name: Output success or failure
+      - name: Final Pass/Fail
         if: success() || failure()
         run: |
           if [[ "${{ steps.count-screenshots-after.outcome }}" != "success" ]]; then
-            echo 'Visual regression test screenshots number changed - new tests likely added!'
             exit 1
           else
             exit 0

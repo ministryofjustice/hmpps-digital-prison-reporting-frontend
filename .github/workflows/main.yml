@@ -129,7 +129,7 @@ jobs:
 
     strategy:
       matrix:
-        shard_index: [0, 1, 2, 3] # adjust shard count as needed
+        shard_index: [0, 1, 2, 3, 4] # adjust shard count as needed
 
     steps:
       - uses: actions/checkout@v4
@@ -168,7 +168,7 @@ jobs:
           TOTAL=${#FILES[@]}
           echo "Found $TOTAL Cypress test files."
 
-          SHARDS=4
+          SHARDS=5
           INDEX=${{ matrix.shard_index }}
 
           SLICE=$(( (TOTAL + SHARDS - 1) / SHARDS ))

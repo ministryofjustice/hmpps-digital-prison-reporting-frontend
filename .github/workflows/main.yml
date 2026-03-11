@@ -126,7 +126,7 @@ jobs:
 
     strategy:
       matrix:
-        shard_index: [0, 1, 2, 3] # adjust shard count as needed
+        shard_index: [0, 1, 2, 3] # Adjust as needed
 
     steps:
       - uses: actions/checkout@v4
@@ -136,32 +136,30 @@ jobs:
           node-version: '24.x'
           cache: 'npm'
 
-      # Reuse build outputs and dependencies
+      # Download build outputs + node_modules from build job
       - uses: actions/download-artifact@v4
         with:
           name: dpr-package
           path: .
 
-      # Fix node_module permissions
-      - name: Fix executable permissions in node_modules
+      # Fix executable permissions for esbuild/native binaries
+      - name: Fix esbuild/native binary permissions
         run: |
-          find node_modules -type f -name "esbuild" -exec chmod +x {} \;
           find node_modules -type f -path "*/@esbuild/*/bin/*" -exec chmod +x {} \;
 
-      # Ensure any native deps are ready
+      # Rebuild any native modules
       - run: npm rebuild
 
-      # Get wiremock per shard
-      - name: Download WireMock standalone
-        run: |
-          curl -L -o wiremock.jar \
-            https://repo1.maven.org/maven2/com/github/tomakehurst/wiremock-standalone/2.27.1/wiremock-standalone-2.27.1.jar
+      # Restore required setup side effects (TS compile, configs, copy steps, etc.)
+      - run: npm run setup
 
+      # Install Cypress binary for this runner
       - name: Install Cypress binary
         run: |
           npx cypress install
           npx cypress verify
 
+      # Wait for Redis
       - name: Wait for Redis
         run: |
           echo "Waiting for Redis on tcp:localhost:6379..."
@@ -169,7 +167,7 @@ jobs:
           echo "Redis is ready!"
 
       # -------------------------
-      # SHARD: find specs
+      # SHARD: pick files per shard
       # -------------------------
       - name: Select spec files for this shard
         id: shard
@@ -177,14 +175,14 @@ jobs:
         run: |
           set -euo pipefail
 
-          # Collect from ./src and ./test-app
+          # Collect test files
           mapfile -t FILES < <(
             ( find ./src -type f -name "*.cy.ts" ;
               find ./test-app -type f -name "*.cy.ts" ) | sort
           )
 
           TOTAL=${#FILES[@]}
-          echo "Found $TOTAL Cypress test files."
+          echo "Found $TOTAL Cypress spec files."
 
           SHARDS=4
           INDEX=${{ matrix.shard_index }}
@@ -195,7 +193,7 @@ jobs:
           if [ "$END" -gt "$TOTAL" ]; then END=$TOTAL; fi
 
           if [ "$START" -ge "$TOTAL" ]; then
-            echo "Shard $INDEX has no tests."
+            echo "Shard $INDEX has no specs."
             echo "specs=" >> "$GITHUB_OUTPUT"
             exit 0
           fi
@@ -203,23 +201,36 @@ jobs:
           SELECTED=("${FILES[@]:$START:$((END-START))}")
           SPECS=$(IFS=,; echo "${SELECTED[*]}")
 
-          echo "Shard $INDEX will run ${#SELECTED[@]} test(s):"
+          echo "Shard $INDEX will run ${#SELECTED[@]} tests:"
           printf " - %s\n" "${SELECTED[@]}"
 
           echo "specs=$SPECS" >> "$GITHUB_OUTPUT"
 
       # -------------------------
-      # START WIREMOCK
+      # Start WireMock manually per shard (isolated)
       # -------------------------
       - name: Start WireMock
+        if: steps.shard.outputs.specs != ''
+        shell: bash
         env:
-          WIREMOCK_PORT: ${{ 9091 + matrix.shard_index }}
+          SHARD_INDEX: ${{ matrix.shard_index }}
         run: |
-          echo "Starting WireMock on port $WIREMOCK_PORT..."
-          java -jar wiremock.jar --port $WIREMOCK_PORT > wiremock.log 2>&1 &
-          npx wait-on tcp:localhost:$WIREMOCK_PORT --timeout 30000
-          echo "WireMock is up on port $WIREMOCK_PORT"
+          set -euo pipefail
+
+          # Compute dynamic port per shard
+          WIREMOCK_PORT=$((9091 + SHARD_INDEX))
           echo "WIREMOCK_PORT=$WIREMOCK_PORT" >> "$GITHUB_ENV"
+
+          echo "Starting WireMock on port $WIREMOCK_PORT..."
+
+          # Download jar
+          curl -L -o wiremock.jar \
+            https://repo1.maven.org/maven2/com/github/tomakehurst/wiremock-standalone/2.27.1/wiremock-standalone-2.27.1.jar
+
+          java -jar wiremock.jar --port "$WIREMOCK_PORT" > wiremock.log 2>&1 &
+
+          npx wait-on "tcp:localhost:$WIREMOCK_PORT" --timeout 30000
+          echo "WireMock is ready on $WIREMOCK_PORT"
 
       # -------------------------
       # START SERVER
@@ -233,34 +244,39 @@ jobs:
         run: |
           set -euo pipefail
 
-          echo "Starting app with PORT=$PORT ..."
+          echo "Starting app on PORT=$PORT..."
           PORT=$PORT npm run start:dev:noMockClients:noLogs > app.log 2>&1 &
 
-          echo "Waiting for TCP port $PORT to accept connections..."
+          echo "Waiting for app on tcp:localhost:$PORT ..."
           npx wait-on "tcp:localhost:$PORT" --timeout 60000
 
-          echo "App socket is up on $PORT."
-          echo "---- app.log (tail) ----"
-          tail -n 50 app.log | sed -e 's/^/[APP] /'
-          echo "------------------------"
+          echo "App is ready."
+          echo "---- app.log ----"
+          tail -n 50 app.log | sed 's/^/[APP] /'
+          echo "-----------------"
 
           echo "BASE_URL=http://localhost:$PORT" >> "$GITHUB_ENV"
 
       # -------------------------
-      # RUN CYPRESS for this shard
+      # RUN CYPRESS
       # -------------------------
       - name: Run Cypress
         id: int-tests
         if: steps.shard.outputs.specs != ''
         env:
           CYPRESS_BASE_URL: ${{ env.BASE_URL }}
+          WIREMOCK_PORT: ${{ env.WIREMOCK_PORT }}
         run: |
-          echo "Running Cypress on baseUrl=$CYPRESS_BASE_URL"
+          echo "Running Cypress with:"
+          echo "  baseUrl        = $CYPRESS_BASE_URL"
+          echo "  WireMock port  = $WIREMOCK_PORT"
+
           npx cypress run \
             --browser electron \
             --config "baseUrl=$CYPRESS_BASE_URL" \
             --spec "${{ steps.shard.outputs.specs }}"
 
+      # Upload logs
       - name: Upload app log
         if: success() || failure()
         uses: actions/upload-artifact@v4
@@ -269,6 +285,15 @@ jobs:
           path: app.log
           if-no-files-found: ignore
 
+      - name: Upload WireMock log
+        if: success() || failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: wiremock-log-${{ matrix.shard_index }}
+          path: wiremock.log
+          if-no-files-found: ignore
+
+      # Upload Cypress artifacts
       - uses: actions/upload-artifact@v4
         if: success() || failure()
         with:
@@ -290,11 +315,12 @@ jobs:
           path: cypress-tests/integration-tests/screenshots
           if-no-files-found: ignore
 
+      # Final result for this shard
       - name: Final Pass/Fail
         if: success() || failure()
         run: |
           if [[ "${{ steps.int-tests.outcome }}" != "success" && "${{ steps.shard.outputs.specs }}" != "" ]]; then
-            echo "Integration tests FAILED for shard ${{ matrix.shard_index }}!"
+            echo "Shard ${{ matrix.shard_index }} failed!"
             exit 1
           fi
           echo "Shard ${{ matrix.shard_index }} passed or had no tests."

@@ -122,7 +122,7 @@ jobs:
 
     strategy:
       matrix:
-        shard_index: [0, 1, 2, 3] # 4 shards
+        shard_index: [0, 1, 2, 3] # adjust shard count as needed
 
     steps:
       - uses: actions/checkout@v4
@@ -136,76 +136,117 @@ jobs:
       - run: npm run setup
       - run: npm run package
 
-      # -------------------------
-      # Wait for Redis (correctly)
-      # -------------------------
+      # Wait for Redis on 6379
       - name: Wait for Redis
         run: |
           echo "Waiting for Redis on tcp:localhost:6379..."
           npx wait-on tcp:localhost:6379 --timeout 60000
           echo "Redis is ready!"
 
-      # -------------------------
-      # Select specs for this shard
-      # -------------------------
+      # SHARD: Find your specs ONLY under the paths you want
       - name: Select spec files for this shard
         id: shard
         shell: bash
         run: |
           set -euo pipefail
 
+          # Collect from ./src and ./test-app (adjust as you need)
           mapfile -t FILES < <(
-            ( find ./src -type f -name "*.cy.ts" ; find ./test-app -type f -name "*.cy.ts" ) | sort
+            ( find ./src -type f -name "*.cy.ts" ;
+              find ./test-app -type f -name "*.cy.ts" ) | sort
           )
 
           TOTAL=${#FILES[@]}
-          echo "Found $TOTAL test files."
+          echo "Found $TOTAL Cypress test files."
 
           SHARDS=4
           INDEX=${{ matrix.shard_index }}
 
           SLICE=$(( (TOTAL + SHARDS - 1) / SHARDS ))
           START=$(( INDEX * SLICE ))
+          END=$(( START + SLICE ))
+          if [ "$END" -gt "$TOTAL" ]; then END=$TOTAL; fi
 
           if [ "$START" -ge "$TOTAL" ]; then
+            echo "Shard $INDEX has no tests."
             echo "specs=" >> "$GITHUB_OUTPUT"
             exit 0
           fi
 
-          END=$(( START + SLICE ))
-          if [ "$END" -gt "$TOTAL" ]; then END=$TOTAL; fi
-
           SELECTED=("${FILES[@]:$START:$((END-START))}")
           SPECS=$(IFS=,; echo "${SELECTED[*]}")
 
+          echo "Shard $INDEX will run ${#SELECTED[@]} test(s):"
+          printf " - %s\n" "${SELECTED[@]}"
           echo "specs=$SPECS" >> "$GITHUB_OUTPUT"
-          printf "Shard %s will run:\n" "$INDEX"
-          printf "  %s\n" "${SELECTED[@]}"
 
-      # -------------------------
-      # Start the app (compute PORT in bash)
-      # -------------------------
+      # START APP on a target port, but detect if it ignores the port and sticks to 3010.
       - name: Start server
         id: start-app
         if: steps.shard.outputs.specs != ''
         shell: bash
+        env:
+          BASE_PORT: 3000
         run: |
-          BASE_PORT=3000
+          set -euo pipefail
+
           SHARD_INDEX=${{ matrix.shard_index }}
-          PORT=$(( BASE_PORT + SHARD_INDEX ))
+          TARGET_PORT=$(( BASE_PORT + SHARD_INDEX ))
 
-          echo "PORT=$PORT" >> $GITHUB_ENV
+          # Create a log file to inspect what the app prints
+          LOG_FILE="app-${SHARD_INDEX}.log"
 
-          echo "Starting app on port $PORT ..."
-          npm run start:dev:noMockClients:noLogs &
+          echo "Attempting to start app on TARGET_PORT=$TARGET_PORT"
 
-          echo "Waiting for app to be ready at http://localhost:$PORT ..."
-          npx wait-on "http://localhost:$PORT" --timeout 60000
-          echo "App is ready!"
+          # Try all common ways to set the port at once:
+          # 1) ENV PORT and APP_PORT
+          # 2) CLI '--port' (direct invocation) and '-- --port' (npm passthrough)
+          # If your script ignores both, it will likely still bind to 3010.
+          PORT=$TARGET_PORT APP_PORT=$TARGET_PORT \
+          npm run start:dev:noMockClients:noLogs -- --port "$TARGET_PORT" \
+            > "$LOG_FILE" 2>&1 &
 
-      # -------------------------
-      # Run Cypress for this shard
-      # -------------------------
+          # Give the process a moment to start writing logs
+          sleep 2
+
+          echo "---- App log (initial) ----"
+          tail -n +1 "$LOG_FILE" | sed -e 's/^/[APP] /'
+          echo "---------------------------"
+
+          # Detect which port it actually bound to by scanning the logs
+          # Adjust the grep pattern if your log line differs.
+          ACTUAL_PORT=""
+          if grep -Eo 'port[[:space:]]+([0-9]{2,5})' "$LOG_FILE" | tail -1 >/dev/null 2>&1; then
+            ACTUAL_PORT=$(grep -Eo 'port[[:space:]]+([0-9]{2,5})' "$LOG_FILE" | tail -1 | grep -Eo '[0-9]{2,5}')
+          fi
+
+          # Fallback: if we couldn't parse the log, try expected port first, then 3010
+          if [ -z "${ACTUAL_PORT:-}" ]; then
+            echo "Could not parse port from logs; probing $TARGET_PORT then 3010..."
+            if npx wait-on "tcp:localhost:$TARGET_PORT" --timeout 1000; then
+              ACTUAL_PORT="$TARGET_PORT"
+            elif npx wait-on "tcp:localhost:3010" --timeout 1000; then
+              ACTUAL_PORT="3010"
+            fi
+          fi
+
+          # If we parsed a port, wait for that one; else wait for both with timeouts
+          if [ -n "${ACTUAL_PORT:-}" ]; then
+            echo "Detected ACTUAL_PORT=$ACTUAL_PORT from logs/probe"
+            npx wait-on "http://localhost:$ACTUAL_PORT" --timeout 60000
+          else
+            echo "No ACTUAL_PORT detected—waiting on $TARGET_PORT first, then 3010 as fallback."
+            if ! npx wait-on "http://localhost:$TARGET_PORT" --timeout 15000; then
+              npx wait-on "http://localhost:3010" --timeout 45000
+              ACTUAL_PORT="3010"
+            else
+              ACTUAL_PORT="$TARGET_PORT"
+            fi
+          fi
+
+          echo "App is reachable on port $ACTUAL_PORT"
+          echo "PORT=$ACTUAL_PORT" >> "$GITHUB_ENV"
+
       - name: Run Cypress
         id: int-tests
         if: steps.shard.outputs.specs != ''
@@ -218,9 +259,15 @@ jobs:
             --config "baseUrl=$CYPRESS_BASE_URL" \
             --spec "${{ steps.shard.outputs.specs }}"
 
-      # -------------------------
-      # Artifacts
-      # -------------------------
+      # Upload logs regardless of outcome so we can inspect ports next time
+      - name: Upload app logs
+        if: success() || failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-logs-${{ matrix.shard_index }}
+          path: app-${{ matrix.shard_index }}.log
+          if-no-files-found: ignore
+
       - uses: actions/upload-artifact@v4
         if: success() || failure()
         with:
@@ -242,18 +289,14 @@ jobs:
           path: cypress-tests/integration-tests/screenshots
           if-no-files-found: ignore
 
-      # -------------------------
-      # Final failure logic
-      # -------------------------
-      - name: Final pass/fail
+      - name: Final Pass/Fail
         if: success() || failure()
         run: |
           if [[ "${{ steps.int-tests.outcome }}" != "success" && "${{ steps.shard.outputs.specs }}" != "" ]]; then
-            echo "Integration tests FAILED for shard ${{ matrix.shard_index }}"
+            echo "Integration tests FAILED for shard ${{ matrix.shard_index }}!"
             exit 1
-          else
-            echo "Shard ${{ matrix.shard_index }} passed or had no tests."
           fi
+          echo "Shard ${{ matrix.shard_index }} passed or had no tests."
 
   visual_regression_tests:
     runs-on: ubuntu-latest

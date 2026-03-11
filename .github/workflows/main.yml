@@ -129,7 +129,7 @@ jobs:
 
     strategy:
       matrix:
-        shard_index: [0, 1, 2, 3, 4] # adjust shard count as needed
+        shard_index: [0, 1, 2, 3] # adjust shard count as needed
 
     steps:
       - uses: actions/checkout@v4
@@ -143,7 +143,6 @@ jobs:
       - run: npm run setup
       - run: npm run package
 
-      # Wait for Redis on 6379 (TCP level, not HTTP)
       - name: Wait for Redis
         run: |
           echo "Waiting for Redis on tcp:localhost:6379..."
@@ -151,7 +150,7 @@ jobs:
           echo "Redis is ready!"
 
       # -------------------------
-      # SHARD: find specs only under the paths you want
+      # SHARD: find specs
       # -------------------------
       - name: Select spec files for this shard
         id: shard
@@ -168,7 +167,7 @@ jobs:
           TOTAL=${#FILES[@]}
           echo "Found $TOTAL Cypress test files."
 
-          SHARDS=5
+          SHARDS=4
           INDEX=${{ matrix.shard_index }}
 
           SLICE=$(( (TOTAL + SHARDS - 1) / SHARDS ))
@@ -191,7 +190,7 @@ jobs:
           echo "specs=$SPECS" >> "$GITHUB_OUTPUT"
 
       # -------------------------
-      # START SERVER on a fixed port (3010) per runner
+      # START SERVER
       # -------------------------
       - name: Start server
         id: start-app
@@ -243,7 +242,7 @@ jobs:
           if-no-files-found: ignore
 
       # -------------------------
-      # ARTIFACTS (safe upload)
+      # ARTIFACTS
       # -------------------------
       - uses: actions/upload-artifact@v4
         if: success() || failure()

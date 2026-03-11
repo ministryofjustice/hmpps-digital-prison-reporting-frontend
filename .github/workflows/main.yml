@@ -19,20 +19,14 @@ jobs:
           node-version: '24.x'
           cache: 'npm'
 
-      # install everything once
       - run: npm ci
       - run: npm run setup
       - run: npm run rpack
 
-      # publish BOTH dist + node_modules
       - uses: actions/upload-artifact@v4
         with:
           name: dpr-package
-          path: |
-            dist
-            node_modules
-            package.json
-            package-lock.json
+          path: dist
 
   test:
     runs-on: ubuntu-latest
@@ -124,9 +118,16 @@ jobs:
           --health-timeout 5s
           --health-retries 5
 
+      wiremock:
+        image: wiremock/wiremock:latest
+        ports:
+          - 9091:8080
+        options: >-
+          --entrypoint "/docker-entrypoint.sh"
+
     strategy:
       matrix:
-        shard_index: [0, 1, 2, 3] # Adjust as needed
+        shard_index: [0, 1, 2, 3]
 
     steps:
       - uses: actions/checkout@v4
@@ -136,125 +137,67 @@ jobs:
           node-version: '24.x'
           cache: 'npm'
 
-      # Download build outputs + node_modules from build job
+      # Clean, cached install
+      - run: npm run setup
+
+      # Bring in dist from build step
       - uses: actions/download-artifact@v4
         with:
           name: dpr-package
-          path: .
+          path: dist
 
-      # Fix executable permissions for esbuild/native binaries
-      - name: Fix esbuild/native binary permissions
-        run: |
-          find node_modules -type f -path "*/@esbuild/*/bin/*" -exec chmod +x {} \;
-
-      # Rebuild any native modules
-      - run: npm rebuild
-
-      # Restore required setup side effects (TS compile, configs, copy steps, etc.)
-      - run: npm run setup
-
-      # Install Cypress binary for this runner
+      # Cypress binary
       - name: Install Cypress binary
         run: |
           npx cypress install
           npx cypress verify
 
-      # Wait for Redis
+      # Redis health
       - name: Wait for Redis
         run: |
-          echo "Waiting for Redis on tcp:localhost:6379..."
           npx wait-on tcp:localhost:6379 --timeout 60000
-          echo "Redis is ready!"
 
       # -------------------------
-      # SHARD: pick files per shard
+      # SHARD SPEC SELECTOR
       # -------------------------
       - name: Select spec files for this shard
         id: shard
         shell: bash
         run: |
-          set -euo pipefail
-
-          # Collect test files
           mapfile -t FILES < <(
             ( find ./src -type f -name "*.cy.ts" ;
               find ./test-app -type f -name "*.cy.ts" ) | sort
           )
 
           TOTAL=${#FILES[@]}
-          echo "Found $TOTAL Cypress spec files."
-
           SHARDS=4
           INDEX=${{ matrix.shard_index }}
 
           SLICE=$(( (TOTAL + SHARDS - 1) / SHARDS ))
           START=$(( INDEX * SLICE ))
           END=$(( START + SLICE ))
-          if [ "$END" -gt "$TOTAL" ]; then END=$TOTAL; fi
+          [ "$END" -gt "$TOTAL" ] && END=$TOTAL
 
           if [ "$START" -ge "$TOTAL" ]; then
-            echo "Shard $INDEX has no specs."
             echo "specs=" >> "$GITHUB_OUTPUT"
             exit 0
           fi
 
           SELECTED=("${FILES[@]:$START:$((END-START))}")
           SPECS=$(IFS=,; echo "${SELECTED[*]}")
-
-          echo "Shard $INDEX will run ${#SELECTED[@]} tests:"
-          printf " - %s\n" "${SELECTED[@]}"
-
           echo "specs=$SPECS" >> "$GITHUB_OUTPUT"
-
-      # -------------------------
-      # Start WireMock manually per shard (isolated)
-      # -------------------------
-      - name: Start WireMock
-        if: steps.shard.outputs.specs != ''
-        shell: bash
-        env:
-          SHARD_INDEX: ${{ matrix.shard_index }}
-        run: |
-          set -euo pipefail
-
-          # Compute dynamic port per shard
-          WIREMOCK_PORT=$((9091 + SHARD_INDEX))
-          echo "WIREMOCK_PORT=$WIREMOCK_PORT" >> "$GITHUB_ENV"
-
-          echo "Starting WireMock on port $WIREMOCK_PORT..."
-
-          # Download jar
-          curl -L -o wiremock.jar \
-            https://repo1.maven.org/maven2/com/github/tomakehurst/wiremock-standalone/2.27.1/wiremock-standalone-2.27.1.jar
-
-          java -jar wiremock.jar --port "$WIREMOCK_PORT" > wiremock.log 2>&1 &
-
-          npx wait-on "tcp:localhost:$WIREMOCK_PORT" --timeout 30000
-          echo "WireMock is ready on $WIREMOCK_PORT"
 
       # -------------------------
       # START SERVER
       # -------------------------
       - name: Start server
-        id: start-app
         if: steps.shard.outputs.specs != ''
         shell: bash
         env:
           PORT: 3010
         run: |
-          set -euo pipefail
-
-          echo "Starting app on PORT=$PORT..."
           PORT=$PORT npm run start:dev:noMockClients:noLogs > app.log 2>&1 &
-
-          echo "Waiting for app on tcp:localhost:$PORT ..."
           npx wait-on "tcp:localhost:$PORT" --timeout 60000
-
-          echo "App is ready."
-          echo "---- app.log ----"
-          tail -n 50 app.log | sed 's/^/[APP] /'
-          echo "-----------------"
-
           echo "BASE_URL=http://localhost:$PORT" >> "$GITHUB_ENV"
 
       # -------------------------
@@ -265,18 +208,13 @@ jobs:
         if: steps.shard.outputs.specs != ''
         env:
           CYPRESS_BASE_URL: ${{ env.BASE_URL }}
-          WIREMOCK_PORT: ${{ env.WIREMOCK_PORT }}
         run: |
-          echo "Running Cypress with:"
-          echo "  baseUrl        = $CYPRESS_BASE_URL"
-          echo "  WireMock port  = $WIREMOCK_PORT"
-
           npx cypress run \
             --browser electron \
             --config "baseUrl=$CYPRESS_BASE_URL" \
             --spec "${{ steps.shard.outputs.specs }}"
 
-      # Upload logs
+      # Upload logs and artifacts
       - name: Upload app log
         if: success() || failure()
         uses: actions/upload-artifact@v4
@@ -285,15 +223,6 @@ jobs:
           path: app.log
           if-no-files-found: ignore
 
-      - name: Upload WireMock log
-        if: success() || failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: wiremock-log-${{ matrix.shard_index }}
-          path: wiremock.log
-          if-no-files-found: ignore
-
-      # Upload Cypress artifacts
       - uses: actions/upload-artifact@v4
         if: success() || failure()
         with:
@@ -315,15 +244,12 @@ jobs:
           path: cypress-tests/integration-tests/screenshots
           if-no-files-found: ignore
 
-      # Final result for this shard
       - name: Final Pass/Fail
         if: success() || failure()
         run: |
           if [[ "${{ steps.int-tests.outcome }}" != "success" && "${{ steps.shard.outputs.specs }}" != "" ]]; then
-            echo "Shard ${{ matrix.shard_index }} failed!"
             exit 1
           fi
-          echo "Shard ${{ matrix.shard_index }} passed or had no tests."
 
   visual_regression_tests:
     runs-on: ubuntu-latest
@@ -350,55 +276,34 @@ jobs:
           node-version: '24.x'
           cache: 'npm'
 
-      # Reuse the dist + node_modules built in the 'build' job
+      - run: npm run setup
+
       - uses: actions/download-artifact@v4
         with:
           name: dpr-package
-          # extract into repo root so dist/ and node_modules/ are in place
-          path: .
+          path: dist
 
-      # Fix node_module permissions
-      - name: Fix executable permissions in node_modules
-        run: |
-          find node_modules -type f -name "esbuild" -exec chmod +x {} \;
-          find node_modules -type f -path "*/@esbuild/*/bin/*" -exec chmod +x {} \;
-
-      # optionally rebuild native modules — safe & fast
-      - run: npm rebuild
-
-      # Count screenshots BEFORE running tests
       - name: Count screenshots before
         id: count-screenshots-before
         run: |
           echo -n "screenshots_before=$(find src/dpr/components/_dashboards/visual-regression-tests \
             -name '*.png' | wc -l | tr -d '[:space:]')" >> "$GITHUB_OUTPUT"
 
-      # Install Playwright dependencies
       - name: Install Playwright dependencies
         run: |
           sudo apt update
           npx playwright install --with-deps
 
-      # Run the visual regression tests for dashboards
       - name: Run visual regression tests
         run: npm run int-test-visual:ci
 
-      # Count screenshots AFTER and compare
       - name: Count screenshots after
         id: count-screenshots-after
         run: |
-          echo "screenshots before: ${{ steps.count-screenshots-before.outputs.screenshots_before }}"
           screenshots_after=$(find src/dpr/components/_dashboards/visual-regression-tests \
             -name '*.png' | wc -l | tr -d '[:space:]')
-          echo "screenshots after: $screenshots_after"
-
           screenshot_diff=$((${{ steps.count-screenshots-before.outputs.screenshots_before }} - screenshots_after))
-
-          if [ $screenshot_diff -eq 0 ]; then
-            exit 0
-          else
-            exit 1
-          fi
+          if [ $screenshot_diff -eq 0 ]; then exit 0; else exit 1; fi
 
       - name: Package screenshots
         if: success() || failure()
@@ -408,14 +313,12 @@ jobs:
             -name '*.png' -exec cp {} screenshots \;
 
       - uses: actions/upload-artifact@v4
-        name: Upload screenshots artifact
         if: success() || failure()
         with:
           name: vrt-screenshots
           path: screenshots
 
       - uses: actions/upload-artifact@v4
-        name: Upload Playwright test results
         if: success() || failure()
         with:
           name: vrt-test-results
@@ -424,9 +327,4 @@ jobs:
       - name: Output success or failure
         if: success() || failure()
         run: |
-          if [[ "${{ steps.count-screenshots-after.outcome }}" != "success" ]]; then
-            echo 'Visual regression test screenshots number changed - new tests likely added!'
-            exit 1
-          else
-            exit 0
-          fi
+          if [[ "${{ steps.count-screenshots-after.outcome }}" != "success" ]]; then exit 1; else exit 0; fi

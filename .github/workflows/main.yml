@@ -19,7 +19,6 @@ jobs:
           node-version: '24.x'
           cache: 'npm'
 
-      - run: npm ci
       - run: npm run setup
       - run: npm run rpack
 

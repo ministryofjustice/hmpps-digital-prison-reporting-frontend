@@ -142,12 +142,15 @@ jobs:
       # -----------------------
       # Wait for Redis properly
       # -----------------------
-      # Use wait-on to ensure TCP 6379 is accepting connections before starting the app.
-      - name: Wait for Redis (TCP 6379)
+      - name: Wait for Redis
         run: |
-          echo "Waiting for Redis to accept connections on tcp:localhost:6379..."
-          npx wait-on tcp:localhost:6379 --timeout 60000
-          echo "Redis is ready."
+          for i in {1..30}; do
+            if redis-cli ping; then
+              echo "Redis is ready"; break
+            fi
+            echo "Waiting for Redis..."
+            sleep 1
+          done
 
       # -----------------------
       # Inline sharding (no external scripts)

@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## 5.8.0
+
+- Feature Config: Enable/disable feedack form requirement before download. Default: false/disabled
+
 ## 5.7.2
 
 - BugFix: Fix component path issue

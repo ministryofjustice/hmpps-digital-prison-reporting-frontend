@@ -162,9 +162,40 @@ You can enable certain features by adding optional config to the `createDprServi
 
 ```js
 const featureConfig = {
-  bookmarking: true    // Enables bookmarking feature
-  download: true       // Enables download feature
-  saveDefaults: true,  // Enables save user defaults feature
+  /** Enable/disable bookmarking
+   *  - Bookmark links/buttons will be hidden
+   *  - Bookmark service will be disabled
+   */
+  bookmarking: true
+
+  /** Enable/disable download
+   *  - Download links/buttons will be hidden
+   */
+  download: true
+
+    /** Enable/disable feedbackOnDownload
+   *  - If disabled, the download functionality will be available immediately
+   *  - If enabled, users are required to fill out feedback to gain access to download
+   */
+  feedbackOnDownload: true,
+
+   /** Enable/disable collections
+   *  - collections dropdown will be hidden
+   *  - collections service will be disabled
+   */
+  collections: true,
+
+  /** Enable/disable Missing reports
+   *  - Missing reports will be hidden in the report catalogue
+   *  - Bookmark service will be disabled
+   */
+  missingReports: true,
+
+  /** Enable/disable Save defaults
+   *  - Save defaults button will be hidden in report filters
+   *  - Save defaults service will be disabled
+   */
+  saveDefaults: true,
 }
 
 const dprServices = createDprServices(dprClients, featureConfig)

@@ -54,9 +54,9 @@ export const setupResources = (
     populateValidationErrors(req, res)
     try {
       await setFeaturesLocals(res, services.featureFlagService)
-      await setDefinitionsLocals(services, req, res, config)
+      await populateDefinitions(services, req, res, config)
       await setLocalsFromServices(services, res)
-      await setUserReportsLocals(services, res)
+      await populateRequestedReports(services, res)
 
       setupRequestAwareNunjucks(env, res)
       setUpNunjucksFilters(env)
@@ -88,7 +88,7 @@ const populateValidationErrors = (req: Request, res: Response) => {
   }
 }
 
-export const setDefinitionsLocals = async (services: Services, req: Request, res: Response, config?: DprConfig) => {
+export const populateDefinitions = async (services: Services, req: Request, res: Response, config?: DprConfig) => {
   // Get the DPD path from the query
   const { token, dprUser } = localsHelper.getValues(res)
 
@@ -146,7 +146,7 @@ export const setLocalsFromServices = async (services: Services, res: Response) =
   }
 }
 
-export const setUserReportsLocals = async (services: Services, res: Response) => {
+export const populateRequestedReports = async (services: Services, res: Response) => {
   const { dprUser } = localsHelper.getValues(res)
   if (dprUser.id) {
     const { definitions, definitionsPath } = res.locals

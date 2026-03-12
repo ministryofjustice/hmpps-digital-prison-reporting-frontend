@@ -6,12 +6,6 @@ on:
   push:
     branches: [main]
 
-env:
-  HOME_URL: 'http://localhost:3010/embedded/platform/'
-  REQUEST_URL: 'http://localhost:3010/embedded/platform/async/report/request-examples/request-example-success/request'
-  POLLING_URL: 'http://localhost:3010/embedded/platform/async/report/request-examples/request-example-success/request/exId_1729765628165'
-  REPORT_URL: 'http://localhost:3010/embedded/platform/async/report/request-examples/request-example-success/request/tblId_1729765628165/report'
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -20,15 +14,40 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version: '24.x'
+          cache: 'npm'
+
       - run: npm run setup
-      - run: npm run rpack
+
+      # ---- Artifact 1: Build using rpack ----
+      - name: Build using rpack
+        run: npm run rpack
+
+      - uses: actions/upload-artifact@v4
+        name: Upload rpack artifact
+        with:
+          name: dpr-package-rpack
+          path: dist
+
+      # clean dist to avoid blending outputs if rpack/package differ
+      - name: Clean dist
+        run: rm -rf dist/*
+
+      # ---- Artifact 2: Build using package ----
+      - name: Build using package
+        run: npm run package
+
       - uses: actions/upload-artifact@v4
         with:
-          name: dpr-package
-          path: dist
+          name: dpr-package-package
+          path: |
+            dist
+            node_modules
+            package.json
+            package-lock.json
 
   test:
     runs-on: ubuntu-latest
@@ -38,76 +57,23 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version: '24.x'
+          cache: 'npm'
+
       - run: npm run setup
+
       - uses: actions/download-artifact@v4
         with:
-          name: dpr-package
+          name: dpr-package-rpack
           path: dist
+
       - run: npm run test
 
-  # test_with_app:
-  #   runs-on: ubuntu-latest
-  #   permissions:
-  #     contents: read
-
-  #   services:
-  #     redis:
-  #       image: redis
-  #       ports:
-  #         - 6379:6379
-  #       options: >-
-  #         --health-cmd "redis-cli ping"
-  #         --health-interval 10s
-  #         --health-timeout 5s
-  #         --health-retries 5
-
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     - uses: actions/setup-node@v4
-  #       with:
-  #         node-version: '22.x'
-  #     - run: npm run setup
-
-  #     - name: Clone mi-ui
-  #       run: |
-  #         git clone https://github.com/ministryofjustice/hmpps-digital-prison-reporting-mi-ui.git ../app
-  #     - name: mi-ui setup using this branch
-  #       run: npm run setup
-  #       working-directory: ${{ github.workspace }}/../app
-  #     - name: Build lib and copy output into node_modules of mi-ui for lib
-  #       working-directory: ${{ github.workspace }}
-  #       run: |
-  #         npm run rpack
-  #         rm -rf ../app/node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend/*
-  #         cp -R dist/* ../app/node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend/
-  #     - name: Build mi-ui
-  #       run: npm run build
-  #       working-directory: ${{ github.workspace }}/../app
-  #     - name: mi-ui unit tests
-  #       run: npm run test:ci
-  #       working-directory: ${{ github.workspace }}/../app
-  #     - name: Get wiremock
-  #       run: curl -o wiremock.jar https://repo1.maven.org/maven2/com/github/tomakehurst/wiremock-standalone/2.27.1/wiremock-standalone-2.27.1.jar
-  #       working-directory: ${{ github.workspace }}/../app
-  #     - name: Run wiremock
-  #       run: java -jar wiremock.jar --port 9091 &
-  #       working-directory: ${{ github.workspace }}/../app
-  #     - name: Run mi-ui
-  #       run: npm run start-feature &
-  #       working-directory: ${{ github.workspace }}/../app
-  #     - name: Wait for mi-ui to start
-  #       run: sleep 5
-  #       working-directory: ${{ github.workspace }}/../app
-  #     - name: mi-ui integration tests
-  #       run: npm run int-test
-  #       working-directory: ${{ github.workspace }}/../app
-
-  integration_test:
+  test_with_app:
     runs-on: ubuntu-latest
-    needs: build
     permissions:
       contents: read
 
@@ -126,75 +92,290 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '24.x'
+          node-version: '22.x'
+          cache: 'npm'
+
       - run: npm run setup
-      - run: npm run package
 
-      - name: count number of screenshots for visual regression tests before running
+      - name: Clone mi-ui
+        run: |
+          git clone https://github.com/ministryofjustice/hmpps-digital-prison-reporting-mi-ui.git ../app
+      - name: mi-ui setup using this branch
+        run: npm run setup
+        working-directory: ${{ github.workspace }}/../app
+      - name: Build lib and copy output into node_modules of mi-ui for lib
+        working-directory: ${{ github.workspace }}
+        run: |
+          npm run rpack
+          rm -rf ../app/node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend/*
+          cp -R dist/* ../app/node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend/
+      - name: Build mi-ui
+        run: npm run build
+        working-directory: ${{ github.workspace }}/../app
+      - name: mi-ui unit tests
+        run: npm run test:ci
+        working-directory: ${{ github.workspace }}/../app
+      - name: Get wiremock
+        run: curl -o wiremock.jar https://repo1.maven.org/maven2/com/github/tomakehurst/wiremock-standalone/2.27.1/wiremock-standalone-2.27.1.jar
+        working-directory: ${{ github.workspace }}/../app
+      - name: Run wiremock
+        run: java -jar wiremock.jar --port 9091 &
+        working-directory: ${{ github.workspace }}/../app
+      - name: Run mi-ui
+        run: npm run start-feature &
+        working-directory: ${{ github.workspace }}/../app
+      - name: Wait for mi-ui to start
+        run: sleep 5
+        working-directory: ${{ github.workspace }}/../app
+      - name: mi-ui integration tests
+        run: npm run int-test
+        working-directory: ${{ github.workspace }}/../app
+
+  integration_test:
+    runs-on: ubuntu-latest
+    needs: build
+
+    services:
+      redis:
+        image: redis
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+      wiremock:
+        image: wiremock/wiremock:latest
+        ports:
+          - 9091:8080
+        options: >-
+          --entrypoint "/docker-entrypoint.sh"
+
+    strategy:
+      matrix:
+        shard_index: [0, 1, 2, 3]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.x'
+          cache: 'npm'
+
+      # Download dist + node_modules (dpr-package-package)
+      - uses: actions/download-artifact@v4
+        with:
+          name: dpr-package-package
+          path: .
+
+      # Fix lost executable permissions in node_modules
+      - name: Fix permissions for native modules
+        run: |
+          # esbuild binaries
+          find node_modules -type f -path "*/@esbuild/*/bin/*" -exec chmod +x {} \;
+          # .bin folder
+          chmod -R +x node_modules/.bin || true
+          # any native executable
+          find node_modules -type f -path "*/bin/*" -exec chmod +x {} \; || true
+          # shared native modules
+          find node_modules -type f -name "*.node" -exec chmod +x {} \; || true
+
+      # Rebuild any native modules (optional but safe)
+      - run: npm rebuild
+
+      # Cypress binary install (must run per-runner)
+      - name: Install Cypress binary
+        run: |
+          npx cypress install
+          npx cypress verify
+
+      - name: Wait for Redis
+        run: npx wait-on tcp:localhost:6379 --timeout 60000
+
+      # -------------------------
+      # SHARD SPEC SELECTOR
+      # -------------------------
+      - name: Select spec files for this shard
+        id: shard
+        shell: bash
+        run: |
+          mapfile -t FILES < <(
+            ( find ./src -type f -name "*.cy.ts" ;
+              find ./test-app -type f -name "*.cy.ts" ) | sort
+          )
+
+          TOTAL=${#FILES[@]}
+          SHARDS=4
+          INDEX=${{ matrix.shard_index }}
+
+          SLICE=$(( (TOTAL + SHARDS - 1) / SHARDS ))
+          START=$(( INDEX * SLICE ))
+          END=$(( START + SLICE ))
+          [ "$END" -gt "$TOTAL" ] && END=$TOTAL
+
+          if [ "$START" -ge "$TOTAL" ]; then
+            echo "specs=" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          SELECTED=("${FILES[@]:$START:$((END-START))}")
+          SPECS=$(IFS=,; echo "${SELECTED[*]}")
+          echo "specs=$SPECS" >> "$GITHUB_OUTPUT"
+
+      # -------------------------
+      # START SERVER (dev mode)
+      # -------------------------
+      - name: Start server
+        if: steps.shard.outputs.specs != ''
+        shell: bash
+        env:
+          PORT: 3010
+        run: |
+          PORT=$PORT npm run start:dev:noMockClients:noLogs > app.log 2>&1 &
+          npx wait-on "tcp:localhost:$PORT" --timeout 60000
+          echo "BASE_URL=http://localhost:$PORT" >> "$GITHUB_ENV"
+
+      # -------------------------
+      # CYPRESS RUN
+      # -------------------------
+      - name: Run Cypress
+        id: int-tests
+        if: steps.shard.outputs.specs != ''
+        env:
+          CYPRESS_BASE_URL: ${{ env.BASE_URL }}
+        run: |
+          npx cypress run \
+            --browser electron \
+            --config "baseUrl=$CYPRESS_BASE_URL" \
+            --spec "${{ steps.shard.outputs.specs }}"
+
+      # -------------------------
+      # ARTIFACTS
+      # -------------------------
+      - name: Upload app log
+        if: success() || failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-log-${{ matrix.shard_index }}
+          path: app.log
+          if-no-files-found: ignore
+
+      - uses: actions/upload-artifact@v4
+        if: success() || failure()
+        with:
+          name: cypress-results-${{ matrix.shard_index }}
+          path: test_results
+
+      - uses: actions/upload-artifact@v4
+        if: success() || failure()
+        with:
+          name: cypress-videos-${{ matrix.shard_index }}
+          path: cypress-tests/integration-tests/videos
+
+      - uses: actions/upload-artifact@v4
+        if: success() || failure()
+        with:
+          name: cypress-screenshots-${{ matrix.shard_index }}
+          path: cypress-tests/integration-tests/screenshots
+
+      - name: Final Pass/Fail
+        if: success() || failure()
+        run: |
+          if [[ "${{ steps.int-tests.outcome }}" != "success" && "${{ steps.shard.outputs.specs }}" != "" ]]; then
+            exit 1
+          fi
+
+  visual_regression_tests:
+    runs-on: ubuntu-latest
+    needs: build
+    permissions:
+      contents: read
+
+    services:
+      redis:
+        image: redis
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.x'
+          cache: 'npm'
+
+      # Download dist + node_modules (package build)
+      - uses: actions/download-artifact@v4
+        with:
+          name: dpr-package-package
+          path: .
+
+      # Fix stripped executable permissions (Playwright also uses native binaries)
+      - name: Fix permissions for native modules
+        run: |
+          find node_modules -type f -path "*/@esbuild/*/bin/*" -exec chmod +x {} \;
+          chmod -R +x node_modules/.bin || true
+          find node_modules -type f -path "*/bin/*" -exec chmod +x {} \; || true
+          find node_modules -type f -name "*.node" -exec chmod +x {} \; || true
+
+      - run: npm rebuild
+
+      # Count screenshots BEFORE running tests
+      - name: Count screenshots before
         id: count-screenshots-before
-        run: echo -n "screenshots_before=$(find src/dpr/components/_dashboards/visual-regression-tests -name \*.png | wc -l | tr -d '[:space:]')" >> "$GITHUB_OUTPUT"
+        run: |
+          echo -n "screenshots_before=$(find src/dpr/components/_dashboards/visual-regression-tests \
+            -name '*.png' | wc -l | tr -d '[:space:]')" >> "$GITHUB_OUTPUT"
 
-      - name: Run the visual regression tests for dashboards
+      - name: Install Playwright dependencies
         run: |
           sudo apt update
           npx playwright install --with-deps
-          npm run int-test-visual:ci
 
-      - name: count number of screenshots for visual regression tests after running
+      - name: Run visual regression tests
+        run: npm run int-test-visual:ci
+
+      - name: Count screenshots after
         id: count-screenshots-after
         run: |
-          echo "screenshots before: ${{ steps.count-screenshots-before.outputs.screenshots_before }}"
-          screenshots_after=$(find src/dpr/components/_dashboards/visual-regression-tests -name \*.png | wc -l | tr -d '[:space:]')
-          echo "screenshots after: $screenshots_after"
-          screenshot_diff=$((${{ steps.count-screenshots-before.outputs.screenshots_before }}-$screenshots_after))
+          screenshots_after=$(find src/dpr/components/_dashboards/visual-regression-tests \
+            -name '*.png' | wc -l | tr -d '[:space:]')
+          screenshot_diff=$((${{ steps.count-screenshots-before.outputs.screenshots_before }} - screenshots_after))
           if [ $screenshot_diff -eq 0 ]; then exit 0; else exit 1; fi
-      - name: Package up screenshots
+
+      - name: Package screenshots
         if: success() || failure()
         run: |
           mkdir screenshots
-          find src/dpr/components/_dashboards/visual-regression-tests -name \*.png -exec cp {} screenshots \;
+          find src/dpr/components/_dashboards/visual-regression-tests \
+            -name '*.png' -exec cp {} screenshots \;
 
       - uses: actions/upload-artifact@v4
-        name: Create screenshots artifact
         if: success() || failure()
         with:
-          name: screenshots
+          name: vrt-screenshots
           path: screenshots
 
       - uses: actions/upload-artifact@v4
-        name: Create playwright test-results artifact
         if: success() || failure()
         with:
-          name: test-results
+          name: vrt-test-results
           path: test-results
 
-      - name: Output success or failure
-        id: output-visual-regressions
+      - name: Final Pass/Fail
         if: success() || failure()
-        run: if [[ ${{ steps.count-screenshots-after.outcome }} != "success" ]]; then echo 'Visual regression test screenshots number changed - new tests likely added!' && exit 1; else exit 0; fi
-
-      - name: Run the node app and integration tests
-        id: int-test-step
         run: |
-          npm run start:dev:noMockClients:noLogs &
-          sleep 5
-          npm run int-test
-      - uses: actions/upload-artifact@v4
-        if: success() || failure()
-        with:
-          name: test_results
-          path: test_results
-      - uses: actions/upload-artifact@v4
-        if: success() || failure()
-        with:
-          name: videos
-          path: cypress-tests/integration-tests/videos
-      - uses: actions/upload-artifact@v4
-        if: success() || failure()
-        with:
-          name: screenshots
-          path: cypress-tests/integration-tests/screenshots
-      - name: Output success or failure
-        id: output
-        if: success() || failure()
-        run: if [[ ${{ steps.int-test-step.outcome }} != "success" ]]; then echo 'Int tests failed!' && exit 1; else exit 0; fi
+          if [[ "${{ steps.count-screenshots-after.outcome }}" != "success" ]]; then
+            exit 1
+          else
+            exit 0
+          fi

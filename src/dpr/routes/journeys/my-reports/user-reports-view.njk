@@ -1,5 +1,6 @@
-{% extends "views/page.njk" %}
-{% from "components/user-reports/view.njk" import dprUserReports %}
+{% extends layoutPath %}
+
+{% from "../../../components/user-reports/view.njk" import dprUserReports %}
 
 {% block content %}
   <div class="govuk-width-container">

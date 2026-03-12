@@ -29,6 +29,7 @@ const setFeatures = (res: Response) => {
   return {
     bookmarkingEnabled: <boolean>res.locals['bookmarkingEnabled'],
     downloadingEnabled: <boolean>res.locals['downloadingEnabled'],
+    feedbackOnDownloadEnabled: <boolean>res.locals['feedbackOnDownloadEnabled'],
   }
 }
 

@@ -417,6 +417,7 @@ const setFeatures = async (
   const { downloadPermissionService, bookmarkService } = services
 
   let canDownload = false
+  console.log(typeof downloadingEnabled)
   if (downloadingEnabled) {
     canDownload = await downloadPermissionService.downloadEnabledForReport(dprUser.id, reportId, id)
   }

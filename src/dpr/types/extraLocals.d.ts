@@ -12,6 +12,7 @@ export interface ExtraLocals {
   definition?: components['schemas']['SingleVariantReportDefinition'] | components['schemas']['DashboardDefinition']
   bookmarkingEnabled: boolean
   downloadingEnabled: boolean
+  feedbackOnDownloadEnabled: boolean
   collectionsEnabled: boolean
   requestMissingEnabled: boolean
   saveDefaultsEnabled: boolean
@@ -23,7 +24,7 @@ export interface ExtraLocals {
   bookmarks?: BookmarkStoreData[]
   validationErrors?: string
   featureFlags: {
-    lastUpdated: number
+    lastUpdated?: number | undefined
     flags: {
       [flagName: string]: Flag
     }

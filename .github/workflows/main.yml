@@ -63,7 +63,6 @@ jobs:
           node-version: '24.x'
           cache: 'npm'
 
-      - run: npm ci
       - run: npm run setup
 
       - uses: actions/download-artifact@v4
@@ -96,7 +95,6 @@ jobs:
           node-version: '22.x'
           cache: 'npm'
 
-      - run: npm ci
       - run: npm run setup
 
       - name: Clone mi-ui

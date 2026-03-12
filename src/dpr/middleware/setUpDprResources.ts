@@ -53,7 +53,7 @@ export const setupResources = (
   return async (req, res, next) => {
     populateValidationErrors(req, res)
     try {
-      await setFeaturesLocals(res, services.featureFlagService)
+      await setFeatures(res, services.featureFlagService)
       await populateDefinitions(services, req, res, config)
       await setLocalsFromServices(services, res)
       await populateRequestedReports(services, res)
@@ -71,7 +71,7 @@ const setupRequestAwareNunjucks = (env: Environment, res: Response) => {
   env.addGlobal('getLocals', () => ({ locals: { ...res.locals, ...res.app.locals } }))
 }
 
-const setFeaturesLocals = async (res: Response, featureFlagService: FeatureFlagService) => {
+const setFeatures = async (res: Response, featureFlagService: FeatureFlagService) => {
   if (res.app.locals['featureFlags'] === undefined) {
     res.app.locals['featureFlags'] = {
       flags: {},

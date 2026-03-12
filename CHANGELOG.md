@@ -2,6 +2,10 @@ Below you can find the changes included in each release.
 
 ## 5.7.2
 
+- BugFix: Fix component path issue
+
+## 5.7.2
+
 - BugFix: Fix layout path for new routes
 - Type fixes
 

@@ -53,10 +53,11 @@ export const setupResources = (
   return async (req, res, next) => {
     populateValidationErrors(req, res)
     try {
-      await setFeatures(res, services.featureFlagService)
-      await populateDefinitions(services, req, res, config)
-      await setFeaturesFromConfig(services, res)
-      await populateRequestedReports(services, res)
+      await setFeaturesLocals(res, services.featureFlagService)
+      await setDefinitionsLocals(services, req, res, config)
+      await setLocalsFromServices(services, res)
+      await setUserReportsLocals(services, res)
+
       setupRequestAwareNunjucks(env, res)
       setUpNunjucksFilters(env)
       return next()
@@ -70,7 +71,7 @@ const setupRequestAwareNunjucks = (env: Environment, res: Response) => {
   env.addGlobal('getLocals', () => ({ locals: { ...res.locals, ...res.app.locals } }))
 }
 
-const setFeatures = async (res: Response, featureFlagService: FeatureFlagService) => {
+const setFeaturesLocals = async (res: Response, featureFlagService: FeatureFlagService) => {
   if (res.app.locals['featureFlags'] === undefined) {
     res.app.locals['featureFlags'] = {
       flags: {},
@@ -87,7 +88,7 @@ const populateValidationErrors = (req: Request, res: Response) => {
   }
 }
 
-export const populateDefinitions = async (services: Services, req: Request, res: Response, config?: DprConfig) => {
+export const setDefinitionsLocals = async (services: Services, req: Request, res: Response, config?: DprConfig) => {
   // Get the DPD path from the query
   const { token, dprUser } = localsHelper.getValues(res)
 
@@ -130,7 +131,7 @@ export const populateDefinitions = async (services: Services, req: Request, res:
     })) ?? []
 }
 
-export const setFeaturesFromConfig = async (services: Services, res: Response) => {
+export const setLocalsFromServices = async (services: Services, res: Response) => {
   const { dprUser } = localsHelper.getValues(res)
   if (dprUser.id) {
     res.locals['downloadingEnabled'] = services.downloadPermissionService.enabled
@@ -141,7 +142,7 @@ export const setFeaturesFromConfig = async (services: Services, res: Response) =
   }
 }
 
-export const populateRequestedReports = async (services: Services, res: Response) => {
+export const setUserReportsLocals = async (services: Services, res: Response) => {
   const { dprUser } = localsHelper.getValues(res)
   if (dprUser.id) {
     const { definitions, definitionsPath } = res.locals

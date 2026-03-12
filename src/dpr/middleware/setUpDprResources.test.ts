@@ -30,7 +30,7 @@ describe('setUpDprResources', () => {
     let services: Services
     let res: Response
 
-    beforeEach(() => {
+    beforeEach(async () => {
       requestedReportService = {
         getAllReports: jest.fn().mockReturnValueOnce([]),
         cleanList: jest.fn(),
@@ -93,6 +93,8 @@ describe('setUpDprResources', () => {
           },
         },
       } as unknown as Response
+
+      await Middleware.setLocalsFromServices(services, res)
     })
 
     it('should get the request and recently viewed reports', async () => {

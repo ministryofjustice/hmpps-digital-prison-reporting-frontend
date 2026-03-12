@@ -138,7 +138,11 @@ export const setLocalsFromServices = async (services: Services, res: Response) =
     res.locals['bookmarkingEnabled'] = services.bookmarkService.enabled
     res.locals['collectionsEnabled'] = services.productCollectionService.enabled
     res.locals['requestMissingEnabled'] = services.missingReportService.enabled
+
+    // If featureFlag is set use it, otherwise fall back to service config
     res.locals['saveDefaultsEnabled'] = isBooleanFlagEnabledOrMissing('saveDefaultsEnabled', res.app)
+      ? true
+      : services.defaultFilterValuesService.enabled
   }
 }
 

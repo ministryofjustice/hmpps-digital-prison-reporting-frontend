@@ -6,9 +6,10 @@ const app = createApp(
   initServices({
     bookmarking: true,
     download: true,
-    saveDefaults: true,
+    saveDefaults: false,
     collections: true,
     missingReports: true,
+    feedbackOnDownload: true,
   }),
 )
 

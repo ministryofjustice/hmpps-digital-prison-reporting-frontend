@@ -1,20 +1,12 @@
-import { Response } from 'express'
+import { Response, Request } from 'express'
 import { setNestedPath } from '../../../utils/urlHelper'
 import CatalogueListUtils from '../catalogue-list/utils'
 import { Services } from '../../../types/Services'
 import LocalsHelper from '../../../utils/localsHelper'
-import { CatalogueFeatures } from './types'
 
-export const initCatalogue = async ({
-  features,
-  res,
-  services,
-}: {
-  features?: CatalogueFeatures
-  res: Response
-  services: Services
-}) => {
+export const initCatalogue = async ({ res, services, req }: { res: Response; services: Services; req?: Request }) => {
   const data = await CatalogueListUtils.getReportsList(res, services)
+  const currentUrl = req?.originalUrl || '/'
   const { token, bookmarkingEnabled, dprUser, csrfToken, nestedBaseUrl } = LocalsHelper.getValues(res)
   const productCollections = (await services.productCollectionService.getProductCollections(token))?.map(
     (collection) => ({
@@ -46,15 +38,9 @@ export const initCatalogue = async ({
       },
       nestedBaseUrl,
       csrfToken,
-      features: setFeatures(bookmarkingEnabled, features),
+      currentUrl,
+      features: { bookmarkingEnabled },
     },
-  }
-}
-
-const setFeatures = (bookmarkingEnabled: boolean, features?: CatalogueFeatures) => {
-  return {
-    bookmarkingEnabled,
-    unauthorisedToggleEnabled: features?.unauthorisedToggleEnabled === undefined || features.unauthorisedToggleEnabled,
   }
 }
 

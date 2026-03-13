@@ -12,12 +12,8 @@ class ReportCatalogueController {
     this.services = services
   }
 
-  GET: RequestHandler = async (_req, res) => {
-    const features = {
-      bookmarkingEnabled: res.locals['bookmarkingEnabled'],
-      unauthorisedToggleEnabled: res.app.locals['unauthorisedToggleEnabled'] || false,
-    }
-    const catalogue = await initCatalogue({ res, services: this.services, features })
+  GET: RequestHandler = async (req, res) => {
+    const catalogue = await initCatalogue({ res, req, services: this.services })
 
     res.render(`dpr/routes/journeys/report-catalogue/view`, {
       layoutPath: this.layoutPath,

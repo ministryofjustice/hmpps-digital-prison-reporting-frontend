@@ -3,6 +3,7 @@
 
 {% macro dprCatalogueSearch(id, config) %}
   {% set csrfToken = config.csrfToken %}
+  {% set currentUrl = config.currentUrl %}
   {% set productCollectionInfo = config.productCollectionInfo %}
   {% set productCollections = productCollectionInfo.productCollections %}
   {% set selectedProductCollection = productCollectionInfo.selectedProductCollection %}
@@ -27,6 +28,7 @@
         {% if productCollections.length > 0 %}
           <form method="post" action="{{ formAction }}">
             <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+            <input type="hidden" name="returnTo" value="{{ currentUrl }}">
             {{ govukSelect({
               id: 'productCollection',
               name: 'productCollection',

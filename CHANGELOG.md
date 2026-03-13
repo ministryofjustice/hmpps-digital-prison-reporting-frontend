@@ -1,5 +1,15 @@
 Below you can find the changes included in each release.
 
+## 5.7.3
+
+- BugFix: Fixed collections redirect on the `/dpr` route, where upon changing collection the redirect went to `/`.
+  - `initCatalogue` function now accepts an optional `req` param.
+  - <b>Do I need to update this function?</b>
+    - If the collections service is enabled
+    - and you have manually implemented the report catalogue
+    - and the catalogue is not at the root `/`
+    - otherwise, no.
+
 ## 5.7.2
 
 - BugFix: Fix component path issue

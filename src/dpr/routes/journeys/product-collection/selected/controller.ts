@@ -14,17 +14,16 @@ export class SelectedProductCollectionController {
   }
 
   POST: RequestHandler = async (req, res, _next) => {
-    const { productCollection } = req.body
+    const { productCollection, returnTo } = req.body
     const { dprUser } = LocalsHelper.getValues(res)
-    const back = req.get('referer') || '/'
 
     await this.productCollectionStoreService
       .setSelectedProductCollectionId(dprUser.id, productCollection === 'RESET' ? undefined : productCollection)
       .then(() => {
-        res.redirect(303, back)
+        res.redirect(303, returnTo)
       })
       .catch(() => {
-        res.redirect(303, back)
+        res.redirect(303, returnTo)
       })
   }
 }

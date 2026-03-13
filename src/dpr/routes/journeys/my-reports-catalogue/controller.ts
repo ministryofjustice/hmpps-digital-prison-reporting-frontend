@@ -13,13 +13,10 @@ class MyReportsCatalogueController {
     this.services = services
   }
 
-  GET: RequestHandler = async (_req, res) => {
-    const features = {
-      bookmarkingEnabled: res.locals['bookmarkingEnabled'],
-      unauthorisedToggleEnabled: res.app.locals['unauthorisedToggleEnabled'] || false,
-    }
-    const catalogue = await initCatalogue({ res, services: this.services, features })
-    const userReportsLists = await initUserReports({ services: this.services, res, maxRows: 20 })
+  GET: RequestHandler = async (req, res) => {
+    const args = { res, req, services: this.services }
+    const catalogue = await initCatalogue(args)
+    const userReportsLists = await initUserReports({ ...args, maxRows: 20 })
 
     res.render(`dpr/routes/journeys/my-reports-catalogue/view`, {
       layoutPath: this.layoutPath,

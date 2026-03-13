@@ -21,10 +21,6 @@ export default function routes(services: Services): Router {
     services.bookmarkService.enabled = !services.bookmarkService.enabled
     res.sendStatus(200)
   })
-  router.post('/toggleUnauthorisedFilterEnabled', async (_req: Request, res: Response) => {
-    res.app.locals['unauthorisedToggleEnabled'] = !Boolean(res.app.locals['unauthorisedToggleEnabled'])
-    res.sendStatus(200)
-  })
   router.get('/getRedisState/:userId', async (req: Request, res: Response) => {
     const { userId } = req.params
     const state = await services.bookmarkService.getState(<string>userId)

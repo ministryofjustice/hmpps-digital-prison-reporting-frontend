@@ -44,7 +44,6 @@ class DprCatalogueUnauthorisedFilter extends DprCatalogueFilters {
 
   updateUnauthorisedRows(queryParams) {
     const value = queryParams.get('show-unauthorised')
-    console.log({ updateUnauthorisedRows: value })
     const hideClassName = this.hideClasses[0]
     const tag = 'dpr-unauthorised-report'
     this.updateRows(value, hideClassName, tag)

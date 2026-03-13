@@ -55,7 +55,9 @@ export const setupResources = (
     try {
       await setFeatures(res, services.featureFlagService)
       await populateDefinitions(services, req, res, config)
+      await setLocalsFromServices(services, res)
       await populateRequestedReports(services, res)
+
       setupRequestAwareNunjucks(env, res)
       setUpNunjucksFilters(env)
       return next()
@@ -129,6 +131,21 @@ export const populateDefinitions = async (services: Services, req: Request, res:
     })) ?? []
 }
 
+export const setLocalsFromServices = async (services: Services, res: Response) => {
+  const { dprUser } = localsHelper.getValues(res)
+  if (dprUser.id) {
+    res.locals['downloadingEnabled'] = services.downloadPermissionService.enabled
+    res.locals['bookmarkingEnabled'] = services.bookmarkService.enabled
+    res.locals['collectionsEnabled'] = services.productCollectionService.enabled
+    res.locals['requestMissingEnabled'] = services.missingReportService.enabled
+
+    // If saveDefaultsEnabled is turned off by feature flag, overwrite all other privileges,
+    // otherwise let the defaultFilterValuesService decide.
+    const saveDefaultsEnabledFlag = isBooleanFlagEnabledOrMissing('saveDefaultsEnabled', res.app)
+    res.locals.saveDefaultsEnabled = saveDefaultsEnabledFlag ? services.defaultFilterValuesService.enabled : false
+  }
+}
+
 export const populateRequestedReports = async (services: Services, res: Response) => {
   const { dprUser } = localsHelper.getValues(res)
   if (dprUser.id) {
@@ -149,12 +166,6 @@ export const populateRequestedReports = async (services: Services, res: Response
       : recent.filter((report: StoredReportData) => {
           return DefinitionUtils.getCurrentVariantDefinition(definitions, report.reportId, report.id)
         })
-
-    res.locals['downloadingEnabled'] = services.downloadPermissionService.enabled
-    res.locals['bookmarkingEnabled'] = services.bookmarkService.enabled
-    res.locals['collectionsEnabled'] = services.productCollectionService.enabled
-    res.locals['requestMissingEnabled'] = services.missingReportService.enabled
-    res.locals['saveDefaultsEnabled'] = isBooleanFlagEnabledOrMissing('saveDefaultsEnabled', res.app)
 
     if (res.locals['bookmarkingEnabled']) {
       const bookmarks = await services.bookmarkService.getAllBookmarks(dprUser.id)

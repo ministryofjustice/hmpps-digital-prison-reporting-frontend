@@ -139,10 +139,10 @@ export const setLocalsFromServices = async (services: Services, res: Response) =
     res.locals['collectionsEnabled'] = services.productCollectionService.enabled
     res.locals['requestMissingEnabled'] = services.missingReportService.enabled
 
-    // If featureFlag is set use it, otherwise fall back to service config
-    res.locals['saveDefaultsEnabled'] = isBooleanFlagEnabledOrMissing('saveDefaultsEnabled', res.app)
-      ? true
-      : services.defaultFilterValuesService.enabled
+    // If saveDefaultsEnabled is turned off by feature flag, overwrite all other privileges,
+    // otherwise let the defaultFilterValuesService decide.
+    const saveDefaultsEnabledFlag = isBooleanFlagEnabledOrMissing('saveDefaultsEnabled', res.app)
+    res.locals.saveDefaultsEnabled = saveDefaultsEnabledFlag ? services.defaultFilterValuesService.enabled : false
   }
 }
 

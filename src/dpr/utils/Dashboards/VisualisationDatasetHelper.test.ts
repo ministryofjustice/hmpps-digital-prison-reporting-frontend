@@ -1,9 +1,9 @@
 import { expect } from '@jest/globals'
-import { components } from '../types/api'
-import { DashboardDataResponse } from '../types/Metrics'
-import DatasetHelper from './datasetHelper'
+import { components } from '../../types/api'
+import { DashboardDataResponse } from '../../types/Metrics'
+import VisualisationDatasetHelper from './VisualisationDatasetHelper'
 
-describe('DatasetHelper', () => {
+describe('VisualisationDatasetHelper', () => {
   describe('getDatasetRows', () => {
     describe('get the data set rows', () => {
       it('target rows with some null values', () => {
@@ -60,7 +60,7 @@ describe('DatasetHelper', () => {
           },
         } as unknown as components['schemas']['DashboardVisualisationDefinition']
 
-        const result = DatasetHelper.getDatasetRows(definition, dataset)
+        const result = VisualisationDatasetHelper.getDatasetRows(definition, dataset)
         expect(result).toEqual(expectedResult)
       })
 
@@ -124,7 +124,7 @@ describe('DatasetHelper', () => {
           },
         } as unknown as components['schemas']['DashboardVisualisationDefinition']
 
-        const result = DatasetHelper.getDatasetRows(definition, dataset)
+        const result = VisualisationDatasetHelper.getDatasetRows(definition, dataset)
         expect(result).toEqual(expectedResult)
       })
 
@@ -168,7 +168,7 @@ describe('DatasetHelper', () => {
           },
         } as unknown as components['schemas']['DashboardVisualisationDefinition']
 
-        const result = DatasetHelper.getDatasetRows(definition, dataset)
+        const result = VisualisationDatasetHelper.getDatasetRows(definition, dataset)
         expect(result).toEqual(expectedResult)
       })
 
@@ -277,7 +277,7 @@ describe('DatasetHelper', () => {
           },
         } as unknown as components['schemas']['DashboardVisualisationDefinition']
 
-        const result = DatasetHelper.getDatasetRows(definition, dataset)
+        const result = VisualisationDatasetHelper.getDatasetRows(definition, dataset)
         expect(result).toEqual(expectedResult)
       })
 
@@ -399,7 +399,7 @@ describe('DatasetHelper', () => {
           },
         } as unknown as components['schemas']['DashboardVisualisationDefinition']
 
-        const result = DatasetHelper.getDatasetRows(definition, dataset)
+        const result = VisualisationDatasetHelper.getDatasetRows(definition, dataset)
         expect(result).toEqual(expectedResult)
       })
     })
@@ -448,7 +448,7 @@ describe('DatasetHelper', () => {
           total_prisoners: { raw: '6' },
         },
       ]
-      const result = DatasetHelper.filterRowsByDisplayColumns(definition, data)
+      const result = VisualisationDatasetHelper.filterRowsByDisplayColumns(definition, data)
       expect(result).toEqual(expectedResult)
     })
 
@@ -496,7 +496,7 @@ describe('DatasetHelper', () => {
           wing: { raw: 'I' },
         },
       ]
-      const result = DatasetHelper.filterRowsByDisplayColumns(definition, data, true)
+      const result = VisualisationDatasetHelper.filterRowsByDisplayColumns(definition, data, true)
       expect(result).toEqual(expectedResult)
     })
   })
@@ -528,7 +528,7 @@ describe('DatasetHelper', () => {
         },
       ]
 
-      const result = DatasetHelper.getGroupKey(data, keys)
+      const result = VisualisationDatasetHelper.getGroupKey(data, keys)
       expect(result).toEqual({ id: 'key3' })
     })
 
@@ -543,7 +543,7 @@ describe('DatasetHelper', () => {
         },
       ]
 
-      const result = DatasetHelper.getGroupKey(data, keys)
+      const result = VisualisationDatasetHelper.getGroupKey(data, keys)
       expect(result).toEqual({ id: 'key2' })
     })
 
@@ -558,7 +558,7 @@ describe('DatasetHelper', () => {
         },
       ]
 
-      const result = DatasetHelper.getGroupKey(data, keys)
+      const result = VisualisationDatasetHelper.getGroupKey(data, keys)
       expect(result).toEqual({ id: 'key1' })
     })
 
@@ -571,7 +571,7 @@ describe('DatasetHelper', () => {
         { measure2: { raw: 'value' } },
       ]
 
-      const result = DatasetHelper.getGroupKey(data, keys)
+      const result = VisualisationDatasetHelper.getGroupKey(data, keys)
       expect(result).toEqual(undefined)
     })
 
@@ -586,7 +586,7 @@ describe('DatasetHelper', () => {
         },
       ]
 
-      const result = DatasetHelper.getGroupKey(data, keys)
+      const result = VisualisationDatasetHelper.getGroupKey(data, keys)
       expect(result).toEqual({ id: 'key2' })
     })
 
@@ -601,7 +601,7 @@ describe('DatasetHelper', () => {
         },
       ]
 
-      const result = DatasetHelper.getGroupKey(data, keys)
+      const result = VisualisationDatasetHelper.getGroupKey(data, keys)
       expect(result).toEqual({ id: 'key1' })
     })
 
@@ -614,7 +614,7 @@ describe('DatasetHelper', () => {
         { measure2: { raw: 'value' } },
       ]
 
-      const result = DatasetHelper.getGroupKey(data, keys)
+      const result = VisualisationDatasetHelper.getGroupKey(data, keys)
       expect(result).toEqual(undefined)
     })
 
@@ -629,7 +629,7 @@ describe('DatasetHelper', () => {
         },
       ]
 
-      const result = DatasetHelper.getGroupKey(data, keys)
+      const result = VisualisationDatasetHelper.getGroupKey(data, keys)
       expect(result).toEqual({ id: 'key2' })
     })
 
@@ -644,7 +644,7 @@ describe('DatasetHelper', () => {
         },
       ]
 
-      const result = DatasetHelper.getGroupKey(data, keys)
+      const result = VisualisationDatasetHelper.getGroupKey(data, keys)
       expect(result).toEqual({ id: 'key1' })
     })
 
@@ -657,7 +657,7 @@ describe('DatasetHelper', () => {
         { measure2: { raw: 'value' } },
       ]
 
-      const result = DatasetHelper.getGroupKey(data, keys)
+      const result = VisualisationDatasetHelper.getGroupKey(data, keys)
       expect(result).toEqual(undefined)
     })
 
@@ -671,7 +671,7 @@ describe('DatasetHelper', () => {
         },
       ]
 
-      const result = DatasetHelper.getGroupKey(data, keys)
+      const result = VisualisationDatasetHelper.getGroupKey(data, keys)
       expect(result).toEqual({ id: 'key2' })
     })
 
@@ -684,395 +684,29 @@ describe('DatasetHelper', () => {
         },
       ]
 
-      const result = DatasetHelper.getGroupKey(data, keys)
+      const result = VisualisationDatasetHelper.getGroupKey(data, keys)
       expect(result).toEqual({ id: 'key1' })
     })
 
     it('should set the correct key - key is undefined - none', () => {
       const data: DashboardDataResponse[] = [{ measure1: { raw: 'value' } }, { measure2: { raw: 'value' } }]
 
-      const result = DatasetHelper.getGroupKey(data, keys)
+      const result = VisualisationDatasetHelper.getGroupKey(data, keys)
       expect(result).toEqual(undefined)
     })
 
     it('should return undefined when no keys are provided', () => {
       const data: DashboardDataResponse[] = [{ measure1: { raw: 'value' } }, { measure2: { raw: 'value' } }]
 
-      const result = DatasetHelper.getGroupKey(data, undefined)
+      const result = VisualisationDatasetHelper.getGroupKey(data, undefined)
       expect(result).toEqual(undefined)
     })
 
     it('should return undefined when no keys empty', () => {
       const data: DashboardDataResponse[] = [{ measure1: { raw: 'value' } }, { measure2: { raw: 'value' } }]
 
-      const result = DatasetHelper.getGroupKey(data, [])
+      const result = VisualisationDatasetHelper.getGroupKey(data, [])
       expect(result).toEqual(undefined)
-    })
-  })
-
-  describe('getKeyVariations', () => {
-    let keys: components['schemas']['DashboardVisualisationColumnDefinition'][]
-
-    it('should get the key variations', () => {
-      keys = [{ id: 'field1' }, { id: 'field2' }, { id: 'field3' }]
-      const result = DatasetHelper.getKeyVariations(keys)
-
-      expect(result).toEqual([
-        ['field1', 'field2', 'field3'],
-        ['field1', 'field2', 'field3'],
-        ['field1', 'field2', 'field3'],
-      ])
-    })
-
-    it('should get the key variations with optional', () => {
-      keys = [{ id: 'field1' }, { id: 'field2' }, { id: 'field3', optional: true }]
-      const result = DatasetHelper.getKeyVariations(keys)
-
-      expect(result).toEqual([
-        ['field1', 'field2', 'field3'],
-        ['field1', 'field2'],
-        ['field1', 'field2'],
-      ])
-    })
-
-    it('should get the key variations with optional', () => {
-      keys = [{ id: 'field1' }, { id: 'field2', optional: true }, { id: 'field3', optional: true }]
-      const result = DatasetHelper.getKeyVariations(keys)
-
-      expect(result).toEqual([['field1', 'field2', 'field3'], ['field1', 'field2'], ['field1']])
-    })
-
-    it('should get the key variations with optional', () => {
-      keys = [
-        { id: 'field1', optional: true },
-        { id: 'field2', optional: true },
-        { id: 'field3', optional: true },
-      ]
-      const result = DatasetHelper.getKeyVariations(keys)
-
-      expect(result).toEqual([['field1', 'field2', 'field3'], ['field1', 'field2'], ['field1'], []])
-    })
-  })
-
-  describe('getKeyIds', () => {
-    let data: DashboardDataResponse[]
-    let colIdVariations: string[][]
-
-    it('should get the key variations 1', () => {
-      data = [
-        {
-          field1: { raw: 'field1' },
-          field2: { raw: 'field2' },
-          field3: { raw: 'field3' },
-          field4: { raw: 'field4' },
-          field5: { raw: 'field5' },
-        },
-      ]
-
-      colIdVariations = [
-        ['field1', 'field2', 'field3'],
-        ['field1', 'field2', 'field3'],
-        ['field1', 'field2', 'field3'],
-      ]
-
-      const result = DatasetHelper.getKeyIds(data, colIdVariations)
-      expect(result).toEqual(['field1', 'field2', 'field3'])
-    })
-
-    it('should get the key variations 2 ', () => {
-      data = [
-        {
-          field1: { raw: 'field1' },
-          field2: { raw: 'field2' },
-          field3: { raw: '' },
-          field4: { raw: 'field4' },
-          field5: { raw: 'field5' },
-        },
-      ]
-
-      colIdVariations = [
-        ['field1', 'field2', 'field3'],
-        ['field1', 'field2'],
-        ['field1', 'field2'],
-      ]
-
-      const result = DatasetHelper.getKeyIds(data, colIdVariations)
-      expect(result).toEqual(['field1', 'field2'])
-    })
-
-    it('should get the key variations 3', () => {
-      data = [
-        {
-          field1: { raw: 'field1' },
-          field2: { raw: 'field2' },
-          field3: { raw: '' },
-          field4: { raw: 'field4' },
-          field5: { raw: 'field5' },
-        },
-      ]
-
-      colIdVariations = [['field1', 'field2', 'field3'], ['field1', 'field2'], ['field1']]
-
-      const result = DatasetHelper.getKeyIds(data, colIdVariations)
-      expect(result).toEqual(['field1', 'field2'])
-    })
-
-    it('should get the key variations 4', () => {
-      data = [
-        {
-          field1: { raw: 'field1' },
-          field2: { raw: '' },
-          field3: { raw: '' },
-          field4: { raw: 'field4' },
-          field5: { raw: 'field5' },
-        },
-      ]
-
-      colIdVariations = [['field1', 'field2', 'field3'], ['field1', 'field2'], ['field1']]
-
-      const result = DatasetHelper.getKeyIds(data, colIdVariations)
-      expect(result).toEqual(['field1'])
-    })
-
-    it('should get the key variations 5', () => {
-      data = [
-        {
-          field1: { raw: '' },
-          field2: { raw: '' },
-          field3: { raw: '' },
-          field4: { raw: 'field4' },
-          field5: { raw: 'field5' },
-        },
-      ]
-
-      colIdVariations = [['field1', 'field2', 'field3'], ['field1', 'field2'], ['field1']]
-
-      const result = DatasetHelper.getKeyIds(data, colIdVariations)
-      expect(result).toEqual(['field1'])
-    })
-
-    it('should get the key variations 6', () => {
-      data = [
-        {
-          field1: { raw: '' },
-          field2: { raw: '' },
-          field3: { raw: '' },
-          field4: { raw: 'field4' },
-          field5: { raw: 'field5' },
-        },
-      ]
-
-      colIdVariations = [
-        ['field1', 'field2', 'field3'],
-        ['field1', 'field2', 'field3'],
-        ['field1', 'field2', 'field3'],
-      ]
-
-      const result = DatasetHelper.getKeyIds(data, colIdVariations)
-      expect(result).toEqual(['field1', 'field2', 'field3'])
-    })
-
-    it('should get the key variations 7', () => {
-      data = [
-        {
-          field1: { raw: '' },
-          field2: { raw: '' },
-          field3: { raw: '' },
-          field4: { raw: 'field4' },
-          field5: { raw: 'field5' },
-        },
-      ]
-
-      colIdVariations = [['field1', 'field2', 'field3'], ['field1', 'field2'], ['field1'], []]
-
-      const result = DatasetHelper.getKeyIds(data, colIdVariations)
-      expect(result).toEqual([])
-    })
-  })
-
-  describe('filterKeys', () => {
-    let data: DashboardDataResponse[]
-    let keys: components['schemas']['DashboardVisualisationColumnDefinition'][]
-
-    it('should filter the data by the keys 1', () => {
-      data = [
-        {
-          field1: { raw: 'field1' },
-          field2: { raw: 'field2' },
-          field3: { raw: 'field3' },
-          field4: { raw: 'field4' },
-          field5: { raw: 'field5' },
-        },
-      ]
-
-      keys = [{ id: 'field1' }, { id: 'field2' }, { id: 'field3' }]
-
-      const result = DatasetHelper.filterKeys(data, keys)
-      expect(result).toEqual([
-        {
-          field1: { raw: 'field1' },
-          field2: { raw: 'field2' },
-          field3: { raw: 'field3' },
-          field4: { raw: 'field4' },
-          field5: { raw: 'field5' },
-        },
-      ])
-    })
-
-    it('should filter the data by the keys 2', () => {
-      data = [
-        {
-          field1: { raw: 'field1' },
-          field2: { raw: 'field2' },
-          field3: { raw: '' },
-          field4: { raw: 'field4' },
-          field5: { raw: 'field5' },
-        },
-      ]
-
-      keys = [{ id: 'field1' }, { id: 'field2' }, { id: 'field3' }]
-
-      const result = DatasetHelper.filterKeys(data, keys)
-
-      expect(result).toEqual([])
-    })
-
-    it('should filter the data by the keys 3', () => {
-      data = [
-        {
-          field1: { raw: 'field1' },
-          field2: { raw: 'field2' },
-          field3: { raw: '' },
-          field4: { raw: 'field4' },
-          field5: { raw: 'field5' },
-        },
-      ]
-
-      keys = [{ id: 'field1' }, { id: 'field2' }, { id: 'field3', optional: true }]
-
-      const result = DatasetHelper.filterKeys(data, keys)
-
-      expect(result).toEqual([
-        {
-          field1: { raw: 'field1' },
-          field2: { raw: 'field2' },
-          field3: { raw: '' },
-          field4: { raw: 'field4' },
-          field5: { raw: 'field5' },
-        },
-      ])
-    })
-
-    it('should filter the data by the keys 4', () => {
-      data = [
-        {
-          field1: { raw: 'field1' },
-          field2: { raw: '' },
-          field3: { raw: '' },
-          field4: { raw: 'field4' },
-          field5: { raw: 'field5' },
-        },
-      ]
-
-      keys = [{ id: 'field1' }, { id: 'field2' }, { id: 'field3', optional: true }]
-
-      const result = DatasetHelper.filterKeys(data, keys)
-
-      expect(result).toEqual([])
-    })
-
-    it('should filter the data by the keys 5', () => {
-      data = [
-        {
-          field1: { raw: 'field1' },
-          field2: { raw: '' },
-          field3: { raw: '' },
-          field4: { raw: 'field4' },
-          field5: { raw: 'field5' },
-        },
-      ]
-
-      keys = [{ id: 'field1' }, { id: 'field2', optional: true }, { id: 'field3', optional: true }]
-
-      const result = DatasetHelper.filterKeys(data, keys)
-
-      expect(result).toEqual([
-        {
-          field1: {
-            raw: 'field1',
-          },
-          field2: {
-            raw: '',
-          },
-          field3: {
-            raw: '',
-          },
-          field4: {
-            raw: 'field4',
-          },
-          field5: {
-            raw: 'field5',
-          },
-        },
-      ])
-    })
-
-    it('should filter the data by the keys 6', () => {
-      data = [
-        {
-          field1: { raw: '' },
-          field2: { raw: '' },
-          field3: { raw: '' },
-          field4: { raw: 'field4' },
-          field5: { raw: 'field5' },
-        },
-      ]
-
-      keys = [{ id: 'field1' }, { id: 'field2', optional: true }, { id: 'field3', optional: true }]
-
-      const result = DatasetHelper.filterKeys(data, keys)
-
-      expect(result).toEqual([])
-    })
-
-    it('should filter the data by the keys 7', () => {
-      data = [
-        {
-          field1: { raw: '' },
-          field2: { raw: '' },
-          field3: { raw: '' },
-          field4: { raw: 'field4' },
-          field5: { raw: 'field5' },
-        },
-      ]
-
-      keys = [
-        { id: 'field1', optional: true },
-        { id: 'field2', optional: true },
-        { id: 'field3', optional: true },
-      ]
-
-      const result = DatasetHelper.filterKeys(data, keys)
-
-      expect(result).toEqual([
-        {
-          field1: {
-            raw: '',
-          },
-          field2: {
-            raw: '',
-          },
-          field3: {
-            raw: '',
-          },
-          field4: {
-            raw: 'field4',
-          },
-          field5: {
-            raw: 'field5',
-          },
-        },
-      ])
     })
   })
 
@@ -1119,7 +753,7 @@ describe('DatasetHelper', () => {
         },
       ]
 
-      const result = DatasetHelper.getLastestDataset(data)
+      const result = VisualisationDatasetHelper.getLastestDataset(data)
 
       expect(result).toEqual([
         {
@@ -1156,7 +790,7 @@ describe('DatasetHelper', () => {
         },
       ]
 
-      const result = DatasetHelper.getLastestDataset(data)
+      const result = VisualisationDatasetHelper.getLastestDataset(data)
       expect(result).toEqual(data)
     })
   })
@@ -1204,7 +838,7 @@ describe('DatasetHelper', () => {
         },
       ]
 
-      const result = DatasetHelper.getEarliestDataset(data)
+      const result = VisualisationDatasetHelper.getEarliestDataset(data)
 
       expect(result).toEqual([
         {
@@ -1241,7 +875,7 @@ describe('DatasetHelper', () => {
         },
       ]
 
-      const result = DatasetHelper.getEarliestDataset(data)
+      const result = VisualisationDatasetHelper.getEarliestDataset(data)
       expect(result).toEqual(data)
     })
   })
@@ -1289,7 +923,7 @@ describe('DatasetHelper', () => {
         },
       ]
 
-      const result = DatasetHelper.groupRowsByTimestamp(data)
+      const result = VisualisationDatasetHelper.groupRowsByTimestamp(data)
 
       expect(result).toEqual([
         [
@@ -1356,7 +990,7 @@ describe('DatasetHelper', () => {
         },
       ]
 
-      const result = DatasetHelper.getLastestDataset(data)
+      const result = VisualisationDatasetHelper.getLastestDataset(data)
       expect(result).toEqual(data)
     })
   })
@@ -1404,7 +1038,7 @@ describe('DatasetHelper', () => {
         },
       ]
 
-      const result = DatasetHelper.groupRowsByKey(data, 'field2')
+      const result = VisualisationDatasetHelper.groupRowsByKey(data, 'field2')
 
       expect(result).toEqual([
         [

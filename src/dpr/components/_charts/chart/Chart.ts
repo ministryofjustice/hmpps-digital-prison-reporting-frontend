@@ -11,7 +11,7 @@ import ChartLabelsHelper from './ChartLabels'
 import { BarDefinitionMeasure } from './bar/types'
 import ChartConfig from './chart-config'
 import { LineDefinitionMeasure } from './line/types'
-import DatasetHelper from '../../../utils/datasetHelper'
+import DatasetHelper from '../../../utils/Dashboards/VisualisationDatasetHelper'
 
 class Chart {
   labels: string[] = []
@@ -48,7 +48,7 @@ class Chart {
     return this
   }
 
-  initUnit = (measures: ChartMeasure) => {
+  initUnit = (measures: ChartMeasure[]) => {
     this.unit = measures.find((m) => m.unit)?.unit
   }
 
@@ -66,11 +66,11 @@ class Chart {
    * - where each row is a dataset
    * - each column name is an x axis label
    *
-   * @param {ChartMeasure} measures
+   * @param {ChartMeasure[]} measures
    * @param {VisualisationDefinitionKey[]} keys
    * @memberof Chart
    */
-  createDatasets = (measures: ChartMeasure, keys: VisualisationDefinitionKey[]) => {
+  createDatasets = (measures: ChartMeasure[], keys: VisualisationDefinitionKey[]) => {
     this.datasets = this.responseData.map((row, datasetIndex) => {
       const label = this.chartLabelsHelper.getDatasetLabel(keys, row)
       const data = this.createDatasetValues(measures, row)
@@ -92,11 +92,11 @@ class Chart {
    * - ecah column is a dataset
    * - each value in a column is an x axis label
    *
-   * @param {ChartMeasure} measures
+   * @param {ChartMeasure[]} measures
    * @param {VisualisationDefinitionKey[]} keys
    * @memberof Chart
    */
-  createListDatasets = (measures: ChartMeasure, keys: VisualisationDefinitionKey[]) => {
+  createListDatasets = (measures: ChartMeasure[], keys: VisualisationDefinitionKey[]) => {
     this.xAxisColumn = measures.find((col: BarDefinitionMeasure | LineDefinitionMeasure) => col.axis === 'x')
     this.yAxisColumn = measures.find((col: BarDefinitionMeasure | LineDefinitionMeasure) => col.axis === 'y')
     const yId = this.yAxisColumn?.id || ''
@@ -131,7 +131,7 @@ class Chart {
     })
   }
 
-  private createDatasetValues = (measures: ChartMeasure, row: DashboardDataResponse) => {
+  private createDatasetValues = (measures: ChartMeasure[], row: DashboardDataResponse) => {
     return measures.map((column) => {
       const rowId = column.id
       return row[rowId] && row[rowId].raw ? Number(row[rowId].raw) : 0

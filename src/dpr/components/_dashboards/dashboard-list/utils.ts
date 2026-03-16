@@ -6,7 +6,7 @@ import {
   MoJTableHead,
   MoJTableRow,
 } from '../dashboard-visualisation/types'
-import DatasetHelper from '../../../utils/datasetHelper'
+import DatasetHelper from '../../../utils/Dashboards/VisualisationDatasetHelper'
 import { components } from '../../../types/api'
 import ListVisSchemas from './validate'
 

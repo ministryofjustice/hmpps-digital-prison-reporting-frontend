@@ -4,7 +4,7 @@ import { DashboardVisualisationBucket } from '../dashboard-visualisation/types'
 import { CreateScorecardDataArgs, Scorecard, ScorecardDataset, ScorecardDefinitionType, ScorecardTrend } from './types'
 import Buckets from '../../_charts/chart/buckets/Buckets'
 import { components } from '../../../types/api'
-import DatasetHelper from '../../../utils/datasetHelper'
+import DatasetHelper from '../../../utils/Dashboards/VisualisationDatasetHelper'
 import ScorecardSchemas from './validate'
 import { ScorecardGroupDefinitionType } from '../scorecard-group/types'
 

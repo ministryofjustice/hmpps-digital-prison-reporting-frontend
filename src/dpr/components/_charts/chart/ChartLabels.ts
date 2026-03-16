@@ -12,7 +12,7 @@ export default class ChartLabelsHelper {
    * @param {ChartMeasure} measures
    * @memberof ChartLabelsHelper
    */
-  getLabels = (measures: ChartMeasure) => {
+  getLabels = (measures: ChartMeasure[]) => {
     return measures.map((col) => col.display || '')
   }
 

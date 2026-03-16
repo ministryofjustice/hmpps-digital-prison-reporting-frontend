@@ -1,6 +1,6 @@
 /* eslint-disable prefer-destructuring */
 import { DashboardDataResponse } from '../../../types/Metrics'
-import DatasetHelper from '../../../utils/datasetHelper'
+import DatasetHelper from '../../../utils/Dashboards/VisualisationDatasetHelper'
 import { ScorecardDataset, ScorecardGroup } from '../scorecard/types'
 import Buckets from '../../_charts/chart/buckets/Buckets'
 import { components } from '../../../types/api'

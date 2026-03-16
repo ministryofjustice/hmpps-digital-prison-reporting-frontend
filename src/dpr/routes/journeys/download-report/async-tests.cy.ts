@@ -106,17 +106,17 @@ context('Download report', () => {
       )
       cy.findByRole('link', { name: /Return to report to download/ }).click()
       cy.findAllByRole('heading').contains('Successful Report').should('exist')
-      cy.findByRole('button', { name: /download/ }).should('be.visible')
+      cy.findByRole('button', { name: /Download/ }).should('be.visible')
 
       cy.task('stubAsyncReportDownload')
-      cy.findByRole('button', { name: /download/ }).click()
+      cy.findByRole('button', { name: /Download/ }).click()
       cy.task('checkCsvDownload4RowsValid').should('equal', true)
     })
 
     it('should redirect on trying to download after having the permission to download removed', () => {
       updateRedisState('downloadPermissions', [])
       cy.findByRole('heading', { name: /To download this report/ }).should('not.exist')
-      cy.findByRole('button', { name: /download/ }).click()
+      cy.findByRole('button', { name: /Enable download/ }).click()
       cy.findByRole('heading', { name: /To download this report/ }).should('be.visible')
     })
   })

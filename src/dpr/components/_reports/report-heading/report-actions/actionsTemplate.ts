@@ -30,6 +30,6 @@ export const actionTemplates: ActionTemplates = {
     id: 'dpr-button-downloadable',
     disabled: false,
     text: 'Download',
-    ariaLabelText: 'download report',
+    ariaLabelText: 'Download report',
   },
 }

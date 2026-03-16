@@ -234,7 +234,7 @@ describe('Request a report', () => {
 
     it('should correctly set the input values from the query parameters', () => {
       cy.visit(
-        `${path}?filters.field1=value1.3&filters.field3.start=2004-02-01&filters.field3.end=2006-05-04&filters.field7=2004-02-01&filters.field8=value8.2&filters.field8=value8.4&sortColumn=field1&sortedAsc=false&filters.field2=value2.3&filters.field4=PrHu&preventDefault=true&filters.field8=value8.3&filters.field8=value8.1`,
+        `${path}?filters.field1=no-filter&filters.field3.start=2004-02-01&filters.field3.end=2006-05-04&filters.field7=2004-02-01&filters.field8=value8.2&filters.field8=value8.4&sortColumn=field1&sortedAsc=false&filters.field2=value2.3&filters.field4=PrHu&preventDefault=true&filters.field8=value8.3&filters.field8=value8.1`,
       )
 
       cy.findByLabelText(/Selected filters.*/i).within(() => {
@@ -244,7 +244,7 @@ describe('Request a report', () => {
             switch (index) {
               case 0:
                 cy.wrap(filter).contains('Field 1')
-                cy.wrap(filter).contains('Value 1.3')
+                cy.wrap(filter).contains('None')
                 break
               case 1:
                 cy.wrap(filter).contains('Field 3 start')

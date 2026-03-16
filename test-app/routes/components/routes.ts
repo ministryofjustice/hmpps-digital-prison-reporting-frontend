@@ -6,6 +6,7 @@ import CatalogueRoutes from './catalogue/routes'
 import DashboardRoutes from './dashboards/routes'
 import UserReportsRoutes from './user-reports/routes'
 import FiltersRoutes from './filters/routes'
+import { ReportHeadingRoutes } from './report-heading/routes'
 
 import ComponentsController from './controller'
 import { Services } from '../../../src/dpr/types/Services'
@@ -21,6 +22,7 @@ export function Routes(services: Services): Router {
   router.use(`/user-reports`, UserReportsRoutes(services))
   router.use(`/dashboards`, DashboardRoutes())
   router.use(`/filters`, FiltersRoutes())
+  router.use('/report-heading', ReportHeadingRoutes())
 
   return router
 }

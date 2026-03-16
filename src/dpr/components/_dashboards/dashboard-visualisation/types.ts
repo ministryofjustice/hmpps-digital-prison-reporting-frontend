@@ -126,14 +126,6 @@ export type VisualisationDefinitionMeasure = z.infer<
   typeof DashboardVisualisationSchemas.DashboardVisualisationMeasureSchema
 >
 
-export enum VisualisationDefinitionUnitType {
-  NUMBER = UnitType.NUMBER,
-  PERCENTAGE = UnitType.PERCENTAGE,
-}
-export enum VisualisationDefinitionAggregateType {
-  SUM = AggregateType.SUM,
-}
-
 export type ChartMeasure =
   | BarDefinitionMeasure
   | DoughnutDefinitionMeasure

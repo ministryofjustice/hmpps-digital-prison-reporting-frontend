@@ -3,6 +3,8 @@ import { ChartMeasure } from '../../components/_dashboards/dashboard-visualisati
 /**
  * Gets the unit type & symbol from the measures
  *
+ * @param {ChartMeasure[]} measures
+ * @return {*}  {({ unit: string; symbol?: string } | undefined)}
  */
 export const getUnitFromMeasures = (measures: ChartMeasure[]): { unit: string; symbol?: string } | undefined => {
   const unit = measures.find((m) => m.unit)?.unit

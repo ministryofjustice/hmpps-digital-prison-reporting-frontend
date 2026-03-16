@@ -4,8 +4,8 @@ import {
   DashboardVisualisationDataSet,
   VisualisationDefinitionKey,
   ChartMeasure,
-  VisualisationDefinitionUnitType,
 } from '../../_dashboards/dashboard-visualisation/types'
+import { UnitType } from '../../_dashboards/dashboard-visualisation/Validate'
 import ChartColoursHelper from './ChartColours'
 import ChartLabelsHelper from './ChartLabels'
 import { BarDefinitionMeasure } from './bar/types'
@@ -18,7 +18,7 @@ class Chart {
 
   datasets: DashboardVisualisationDataSet[] = []
 
-  unit: VisualisationDefinitionUnitType | undefined
+  unit: UnitType | undefined
 
   responseData: DashboardDataResponse[] = []
 

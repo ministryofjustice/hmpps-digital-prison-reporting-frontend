@@ -9,6 +9,7 @@ const app = createApp(
     saveDefaults: true,
     collections: true,
     missingReports: true,
+    feedbackOnDownload: true,
   }),
 )
 

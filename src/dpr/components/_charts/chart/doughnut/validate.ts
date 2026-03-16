@@ -1,10 +1,14 @@
 import { z } from 'zod'
-import { DashboardVisualisationSchema, DashboardColumns } from '../../../_dashboards/dashboard-visualisation/Validate'
+import {
+  DashboardVisualisationSchema,
+  DashboardColumns,
+  UnitType,
+} from '../../../_dashboards/dashboard-visualisation/Validate'
 
 const DounutMeasureSchema = z.object({
   id: z.string(),
   display: z.string().optional(),
-  unit: z.enum(['NUMBER', 'PERCENTAGE']).optional(),
+  unit: z.enum(UnitType).optional(),
 })
 
 const DonutOptions = z.object({

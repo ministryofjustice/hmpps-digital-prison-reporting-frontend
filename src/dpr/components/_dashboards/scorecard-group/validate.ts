@@ -3,13 +3,14 @@ import {
   DashboardVisualisationSchema,
   DashboardColumns,
   BucketOptionsSchema,
+  UnitType,
 } from '../dashboard-visualisation/Validate'
 
 const ScorecardGroupColumn = z.object({
   id: z.string(),
   display: z.string().optional(),
   displayValue: z.boolean().optional(),
-  unit: z.enum(['NUMBER', 'PERCENTAGE']).optional(),
+  unit: z.enum(UnitType).optional(),
 })
 
 const ScorecardGroupSchema = z.object({

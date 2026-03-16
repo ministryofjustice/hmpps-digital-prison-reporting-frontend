@@ -100,7 +100,7 @@ context('Viewing a report', () => {
     describe('Actions', () => {
       it('should show the actions and go to the filters page when refresh action is clicked', () => {
         cy.findByLabelText('Refresh report').should('be.visible')
-        cy.findByLabelText(/download/).should('be.visible')
+        cy.findByLabelText(/Enable download/).should('be.visible')
         cy.findByLabelText(/Copy report link/).should('be.visible')
         cy.findByRole('link', { name: /Add bookmark/ }).should('be.visible')
 

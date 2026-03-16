@@ -1,5 +1,12 @@
 Below you can find the changes included in each release.
 
+## 5.8.1
+
+- removing a whole bunch of tests that were already covered by our existing ones
+- fixing a label
+- fixing a test controller
+- added new test route+controller for report heading and new test for it
+
 ## 5.8.0
 
 - Feature Config: Enable/disable feedack form requirement before download. Default: false/disabled

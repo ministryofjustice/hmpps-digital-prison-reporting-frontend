@@ -1,0 +1,12 @@
+{% extends "views/page.njk" %}
+
+{% from "components/_reports/report-heading/view.njk" import dprReportHeading %}
+
+{% block content %}
+  <span class="govuk-caption-l">Components</span>
+  <h1 class="govuk-heading-l">{{ title }}</h1>
+
+  <div class="govuk-width-container">
+    {{ dprReportHeading(reportData) }}
+  </div>
+{% endblock %}

@@ -5,11 +5,17 @@ import { FilterType } from '../../../../../../src/dpr/components/_filters/filter
 import { FilterValue } from '../../../../../../src/dpr/components/_filters/types'
 
 export default class DateRangeController {
-  GET: RequestHandler = async (_req, res) => {
+  GET: RequestHandler = async (req, res) => {
+    const { min, max } = req.query as {
+      min?: string
+      max?: string
+    }
     const filter = {
       type: 'daterange' as components['schemas']['FilterDefinition']['type'],
       mandatory: true,
       defaultValue: '2003-02-01 - 2007-05-04',
+      min: min ?? '',
+      max: max ?? ''
     }
 
     const filterData: FilterValue = {

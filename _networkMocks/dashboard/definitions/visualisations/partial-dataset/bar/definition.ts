@@ -10,14 +10,20 @@ export const definition: components['schemas']['DashboardDefinition'] = {
   sections: [
     {
       id: 'section-1',
-      display: 'Section 1 title',
-      description: 'Section 1 description',
+      display: 'Bar charts from a list',
+      description: 'Examples of bar charts where the bars are generated from list values',
       visualisations: [
         BarCharts.dietTotalsBar,
         BarCharts.dietTotalsByEstablishmentBar,
         BarCharts.dietTotalsByEstablishmentByWingBar,
         BarCharts.dietTotalsByEstablishmentByWingByCellBar,
       ],
+    },
+    {
+      id: 'section-2',
+      display: 'Bar charts from a list, with units',
+      description: 'Examples of bar charts where the bars are generated from list values, with units',
+      visualisations: [BarCharts.dietTotalsByEstablishmentBarWithUnit],
     },
     {
       id: 'totals-breakdown',

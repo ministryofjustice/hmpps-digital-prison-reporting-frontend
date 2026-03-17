@@ -11,7 +11,7 @@ export const definition: components['schemas']['DashboardDefinition'] = {
     {
       id: 'section-1',
       display: 'Simple bar charts',
-      description: 'Section 1 description',
+      description: 'Examples of simple bar charts',
       visualisations: [
         BarChart.dataQualityMetricOneBar,
         BarChart.dataQualityMetricTwoBar,
@@ -22,8 +22,14 @@ export const definition: components['schemas']['DashboardDefinition'] = {
     {
       id: 'section-2',
       display: 'Horizontal bar charts',
-      description: 'Section 1 description',
+      description: 'Examples of horizontal bar charts',
       visualisations: [BarChart.dataQualityMetricOneBarHorizontal, BarChart.dataQualityAllBarHorizontal],
+    },
+    {
+      id: 'section-2',
+      display: 'Specified Unit type',
+      description: 'Examples of bar charts with specified units',
+      visualisations: [BarChart.dataQualityAllBarWithUnit, BarChart.dataQualityAllBarWithUnitHorizontal],
     },
     {
       id: 'totals-breakdown',

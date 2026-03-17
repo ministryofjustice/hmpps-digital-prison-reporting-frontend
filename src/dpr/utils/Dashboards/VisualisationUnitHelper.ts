@@ -1,4 +1,5 @@
 import { ChartMeasure } from '../../components/_dashboards/dashboard-visualisation/types'
+import { UnitType } from '../../components/_dashboards/dashboard-visualisation/Validate'
 
 /**
  * Gets the unit type & symbol from the measures
@@ -13,7 +14,7 @@ export const getUnitFromMeasures = (measures: ChartMeasure[]): { unit: string; s
 
   return {
     unit,
-    ...(unit && { symbol: mapUnitFromMeasure(unit) }),
+    ...(unit && { symbol: mapUnitToSymbol(unit) }),
   }
 }
 
@@ -23,7 +24,7 @@ export const getUnitFromMeasures = (measures: ChartMeasure[]): { unit: string; s
  * @param {string} unit
  * @return {*}  {string}
  */
-export const mapUnitFromMeasure = (unit: string): string => {
+export const mapUnitToSymbol = (unit?: UnitType): string => {
   switch (unit) {
     case 'PERCENTAGE':
       return '%'

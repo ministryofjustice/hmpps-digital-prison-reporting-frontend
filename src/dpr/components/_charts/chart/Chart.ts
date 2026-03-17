@@ -12,6 +12,7 @@ import { BarDefinitionMeasure } from './bar/types'
 import ChartConfig from './chart-config'
 import { LineDefinitionMeasure } from './line/types'
 import DatasetHelper from '../../../utils/Dashboards/VisualisationDatasetHelper'
+import { mapUnitToSymbol } from '../../../utils/Dashboards/VisualisationUnitHelper'
 
 class Chart {
   labels: string[] = []
@@ -83,7 +84,6 @@ class Chart {
         ...this.setStyles(datasetIndex),
       }
     })
-
     this.labels = this.chartLabelsHelper.getLabels(measures)
   }
 
@@ -101,7 +101,6 @@ class Chart {
     this.yAxisColumn = measures.find((col: BarDefinitionMeasure | LineDefinitionMeasure) => col.axis === 'y')
     const yId = this.yAxisColumn?.id || ''
     const xId = this.xAxisColumn?.id || ''
-
     const keyIds = keys.map((key) => key.id)
     this.groupedData = keyIds.length ? DatasetHelper.groupRowsBy(this.responseData, keyIds) : [this.responseData]
     this.labels = this.chartLabelsHelper.getListLabels(this.groupedData, xId)
@@ -129,6 +128,9 @@ class Chart {
         ...this.setStyles(groupIndex),
       }
     })
+
+    const unitSymbol = mapUnitToSymbol(this.yAxisColumn?.unit)
+    this.labels = this.chartLabelsHelper.getListLabels(this.groupedData, xId, unitSymbol)
   }
 
   private createDatasetValues = (measures: ChartMeasure[], row: DashboardDataResponse) => {
@@ -144,6 +146,34 @@ class Chart {
 
   private setStyles = (datasetIndex: number) => {
     return this.chartColoursHelper.setColourStyles(datasetIndex)
+  }
+
+  // -----------------------------------------------------------------------------
+  //  Scales
+  // ----------------------------------------------------------------------------
+
+  setScales = (args?: { label?: string; horizontal?: boolean | undefined }) => {
+    const labelText = args?.label || 'Total'
+    const unitSymbol = mapUnitToSymbol(this.unit)
+    const text = unitSymbol ? `${labelText} (${unitSymbol})` : labelText
+    const title = {
+      display: true,
+      text,
+    }
+
+    const scales = {
+      x: {
+        ...(args?.horizontal && { title }),
+      },
+      y: {
+        ...(!args?.horizontal && { title }),
+      },
+    }
+
+    this.config = {
+      ...this.config,
+      scales,
+    }
   }
 }
 

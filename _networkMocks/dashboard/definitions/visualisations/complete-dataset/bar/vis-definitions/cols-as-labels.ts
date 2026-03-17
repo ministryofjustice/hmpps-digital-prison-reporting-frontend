@@ -1,3 +1,4 @@
+import { UnitType } from '../../../../../../../src/dpr/components/_dashboards/dashboard-visualisation/Validate'
 import { components } from '../../../../../../../src/dpr/types/api'
 import { DashboardVisualisationType } from '../../../../../../../src/dpr/components/_dashboards/dashboard-visualisation/types'
 
@@ -186,6 +187,106 @@ export const dataQualityAllBarHorizontal: components['schemas']['DashboardVisual
       {
         id: 'metric_one_is_missing',
         display: 'No MetricOne',
+      },
+    ],
+    expectNulls: false,
+  },
+}
+
+export const dataQualityAllBarWithUnit: components['schemas']['DashboardVisualisationDefinition'] = {
+  id: 'bar-data-quality-all-with-unit',
+  type: DashboardVisualisationType.BAR,
+  display: 'All metrics together with unit',
+  options: {
+    horizontal: false,
+  },
+  columns: {
+    keys: [
+      {
+        id: 'establishment_id',
+        display: 'Establishment ID',
+      },
+    ],
+    measures: [
+      {
+        id: 'has_metric_two',
+        display: 'Has MetricTwo',
+        unit: UnitType.PERCENTAGE,
+      },
+      {
+        id: 'metric_two_is_missing',
+        display: 'No MetricTwo',
+        unit: UnitType.PERCENTAGE,
+      },
+      {
+        id: 'has_metric_three',
+        display: 'Has MetricThree',
+        unit: UnitType.PERCENTAGE,
+      },
+      {
+        id: 'metric_three_is_missing',
+        display: 'No MetricThree',
+        unit: UnitType.PERCENTAGE,
+      },
+      {
+        id: 'has_metric_one',
+        display: 'Has MetricOne',
+        unit: UnitType.PERCENTAGE,
+      },
+      {
+        id: 'metric_one_is_missing',
+        display: 'No MetricOne',
+        unit: UnitType.PERCENTAGE,
+      },
+    ],
+    expectNulls: false,
+  },
+}
+
+export const dataQualityAllBarWithUnitHorizontal: components['schemas']['DashboardVisualisationDefinition'] = {
+  id: 'bar-data-quality-all-with-unit-horizontal',
+  type: DashboardVisualisationType.BAR,
+  display: 'All metrics together with unit, horizontal',
+  options: {
+    horizontal: true,
+  },
+  columns: {
+    keys: [
+      {
+        id: 'establishment_id',
+        display: 'Establishment ID',
+      },
+    ],
+    measures: [
+      {
+        id: 'has_metric_two',
+        display: 'Has MetricTwo',
+        unit: UnitType.PERCENTAGE,
+      },
+      {
+        id: 'metric_two_is_missing',
+        display: 'No MetricTwo',
+        unit: UnitType.PERCENTAGE,
+      },
+      {
+        id: 'has_metric_three',
+        display: 'Has MetricThree',
+        unit: UnitType.PERCENTAGE,
+      },
+      {
+        id: 'metric_three_is_missing',
+        display: 'No MetricThree',
+        unit: UnitType.PERCENTAGE,
+      },
+      {
+        id: 'has_metric_one',
+        display: 'Has MetricOne',
+        unit: UnitType.PERCENTAGE,
+      },
+      {
+        id: 'metric_one_is_missing',
+        display: 'No MetricOne',
+        unit: UnitType.PERCENTAGE,
       },
     ],
     expectNulls: false,

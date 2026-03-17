@@ -1,9 +1,6 @@
+import { mapUnitToSymbol } from '../../../utils/Dashboards/VisualisationUnitHelper'
 import { DashboardDataResponse } from '../../../types/Metrics'
-import {
-  ChartMeasure,
-  VisualisationDefinitionKey,
-  VisualisationDefinitionUnitType,
-} from '../../_dashboards/dashboard-visualisation/types'
+import { ChartMeasure, VisualisationDefinitionKey } from '../../_dashboards/dashboard-visualisation/types'
 
 export default class ChartLabelsHelper {
   /**
@@ -13,7 +10,15 @@ export default class ChartLabelsHelper {
    * @memberof ChartLabelsHelper
    */
   getLabels = (measures: ChartMeasure[]) => {
-    return measures.map((col) => col.display || '')
+    return measures.map((col) => {
+      const { unit, display } = col
+      let label = `${display}`
+      const unitSymbol = mapUnitToSymbol(unit)
+      if (unitSymbol) {
+        label += ` (${unitSymbol})`
+      }
+      return label
+    })
   }
 
   /**
@@ -22,11 +27,7 @@ export default class ChartLabelsHelper {
    *
    * @memberof ChartLabels
    */
-  getDatasetLabel = (
-    keys: VisualisationDefinitionKey[],
-    row: DashboardDataResponse,
-    unit?: VisualisationDefinitionUnitType,
-  ) => {
+  getDatasetLabel = (keys: VisualisationDefinitionKey[], row: DashboardDataResponse) => {
     return keys
       .map((key: VisualisationDefinitionKey) => {
         // Only set the label if there is more than one key
@@ -46,11 +47,15 @@ export default class ChartLabelsHelper {
    * @param {string} axisId
    * @memberof ChartLabelsHelper
    */
-  getListLabels = (groups: DashboardDataResponse[][], axisId: string) => {
+  getListLabels = (groups: DashboardDataResponse[][], axisId: string, unitSymbol?: string) => {
     const allLabels = groups.flatMap((gd) => {
       return gd.map((row) => {
         const field = row[axisId]
-        return field ? `${field.raw}` : ''
+        let label = ''
+        if (field) {
+          label = unitSymbol ? `${field.raw} (${unitSymbol})` : `${field.raw}`
+        }
+        return label
       })
     })
 

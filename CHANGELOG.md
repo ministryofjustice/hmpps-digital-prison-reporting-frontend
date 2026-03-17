@@ -1,6 +1,17 @@
 Below you can find the changes included in each release.
 
-## 5.7.3
+## 5.8.1
+
+- removing a whole bunch of tests that were already covered by our existing ones
+- fixing a label
+- fixing a test controller
+- added new test route+controller for report heading and new test for it
+
+## 5.8.0
+
+- Feature Config: Enable/disable feedack form requirement before download. Default: false/disabled
+
+## 5.7.4
 
 - BugFix: Fixed collections redirect on the `/dpr` route, where upon changing collection the redirect went to `/`.
   - `initCatalogue` function now accepts an optional `req` param.
@@ -10,7 +21,7 @@ Below you can find the changes included in each release.
     - and the catalogue is not at the root `/`
     - otherwise, no.
 
-## 5.7.2
+## 5.7.3
 
 - BugFix: Fix component path issue
 

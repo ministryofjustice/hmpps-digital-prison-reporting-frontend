@@ -7,9 +7,12 @@ import { ServiceFeatureConfig } from '../../../../types/DprConfig'
 class DownloadPermissionService extends ReportStoreService {
   enabled: boolean
 
+  feedbackEnabled: boolean
+
   constructor(userDataStore: UserDataStore, serviceFeatureConfig: ServiceFeatureConfig) {
     super(userDataStore)
     this.enabled = Boolean(serviceFeatureConfig.download)
+    this.feedbackEnabled = Boolean(serviceFeatureConfig.feedbackOnDownload)
     if (!this.enabled) logger.info(`Download: disabled `)
   }
 
@@ -47,6 +50,8 @@ class DownloadPermissionService extends ReportStoreService {
   }
 
   async downloadEnabledForReport(userId: string, reportId: string, id: string): Promise<boolean> {
+    if (!this.feedbackEnabled) return true
+
     if (!this.enabled) return false
 
     const userConfig = await this.getState(userId)

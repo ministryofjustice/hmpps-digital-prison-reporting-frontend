@@ -52,6 +52,7 @@ export const createDprServices = (
     collections: false,
     missingReports: false,
     saveDefaults: false,
+    feedbackOnDownload: false,
   },
 ): Services => {
   logger.info('Initialising DPR services...')

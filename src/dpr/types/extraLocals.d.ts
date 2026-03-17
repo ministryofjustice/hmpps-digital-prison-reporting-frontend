@@ -23,7 +23,7 @@ export interface ExtraLocals {
   bookmarks?: BookmarkStoreData[]
   validationErrors?: string
   featureFlags: {
-    lastUpdated: number
+    lastUpdated?: number | undefined
     flags: {
       [flagName: string]: Flag
     }

@@ -329,23 +329,26 @@ jobs:
 
       - run: npm rebuild
 
-      # Optional: pre-count, just for logging; don't fail on changes
+      # Optional: just log the current baseline count (no failing)
       - name: Count screenshots before
         id: count-screenshots-before
         run: |
           echo -n "screenshots_before=$(find src/dpr/components/_dashboards/visual-regression-tests -name '*.png' | wc -l | tr -d '[:space:]')" >> "$GITHUB_OUTPUT"
 
-      - name: Install Playwright dependencies
+      - name: Install Playwright dependencies + fonts
         run: |
           sudo apt-get update
           sudo apt-get install -y fonts-liberation fonts-dejavu fonts-noto || true
           npx playwright install --with-deps
 
-      # PASS 1: run tests WITHOUT updating snapshots
-      - name: Run visual regression tests (no update)
-        run: npm run int-test-visual:ci
+      # =========================
+      # PASS 1: DO NOT UPDATE (fail on diffs), create ONLY missing baselines
+      # =========================
+      - name: Run VRT (pass 1 -u missing)
+        run: |
+          npm run int-test-visual:ci -- -u missing
 
-      # Always upload test-results (contains actual/expected/diff when failing)
+      # Upload test-results (will include actual/expected/diff on failures)
       - name: Upload test-results (diffs)
         if: success() || failure()
         uses: actions/upload-artifact@v4
@@ -353,7 +356,7 @@ jobs:
           name: vrt-test-results
           path: test-results
 
-      # Collect only the diff triplets for convenience
+      # Optional: Collect only visual diff triplets for convenience
       - name: Collect visual diffs
         if: success() || failure()
         run: |
@@ -366,20 +369,20 @@ jobs:
           name: vrt-visual-diffs
           path: visual-diffs
 
-      # PASS 2: re-run tests WITH updates to produce new baselines as artifacts
-      - name: Generate updated baselines (non-blocking)
+      # =========================
+      # PASS 2: UPDATE SNAPSHOTS (non-blocking) to produce downloadable baselines
+      # =========================
+      - name: Generate updated baselines (pass 2: --update-snapshots)
         if: always()
         continue-on-error: true
-        env:
-          SNAPSHOT_UPDATE: all # equivalent to --update-snapshots
-        run: npm run int-test-visual:ci
+        run: |
+          SNAPSHOT_UPDATE=all npm run int-test-visual:ci
 
-      # Package the updated baselines after the update pass
+      # Package updated baselines from your baseline directory
       - name: Package updated screenshots
         if: always()
         run: |
           mkdir -p updated-screenshots
-          # Copy all baseline .png files your project uses for snapshots
           find src/dpr/components/_dashboards/visual-regression-tests -name '*.png' -exec cp --parents {} updated-screenshots \;
 
       - name: Upload updated baselines artifact
@@ -389,10 +392,12 @@ jobs:
           name: vrt-updated-snapshots
           path: updated-screenshots
 
-      # Log counts (for visibility only)
+      # Optional visibility: print counts before/after
       - name: Count screenshots after
         if: always()
         id: count-screenshots-after
         run: |
           screenshots_after=$(find src/dpr/components/_dashboards/visual-regression-tests -name '*.png' | wc -l | tr -d '[:space:]')
           echo "Before: ${{ steps.count-screenshots-before.outputs.screenshots_before }}, After: $screenshots_after"
+
+      # Final status is determined by Pass 1 step naturally.

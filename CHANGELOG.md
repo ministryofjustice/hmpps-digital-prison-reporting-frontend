@@ -1,5 +1,10 @@
 Below you can find the changes included in each release.
 
+## 5.8.2
+
+- fix 404 on download form
+- fix 404 when clicking enable download twice
+
 ## 5.8.1
 
 - removing a whole bunch of tests that were already covered by our existing ones

@@ -319,7 +319,7 @@ const getTemplateData = async (
     throw new Error('Unable to set url data from request')
   }
 
-  const urls = url ? setUrls(url, req) : undefined
+  const urls = setUrls(url, req)
 
   // get from definition
   const definitionData = extractDataFromDefinition(definition)
@@ -354,11 +354,17 @@ const getTemplateData = async (
     totals = TotalsUtils.getTotals(pageSize, currentPage, totalRows, dataTable.rowCount)
   }
 
+  const feedbackFormHref = setNestedPath(
+    `/dpr/download-report/request-download/${meta.reportId}/${meta.id}/tableId/${meta.tableId}/form?reportUrl=${urls.reportUrl}`,
+    nestedBaseUrl,
+  )
+
   return {
     ...(showColumns(specification) && { columns }),
     filterData,
     count,
     nestedBaseUrl,
+    feedbackFormHref,
     ...meta,
     ...features,
     ...definitionData,

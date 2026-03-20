@@ -48,6 +48,9 @@ context('Download report', () => {
     it('should show the download disabled message with link to form', () => {
       cy.findByLabelText(/Enable download/).click()
       cy.url().should('have.string', '/report/download-disabled')
+      // Check that clicking it twice doesn't keep appending - if it works fine we should be able to continue the test
+      cy.findByLabelText(/Enable download/).click()
+      cy.url().should('have.string', '/report/download-disabled')
       cy.findByRole('heading', { name: 'To download this report' }).should('be.visible')
       cy.findByRole('link', { name: 'Fill out a form' })
     })

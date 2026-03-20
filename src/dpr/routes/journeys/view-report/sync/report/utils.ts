@@ -201,8 +201,14 @@ export const getReport = async ({ req, res, services }: { req: Request; res: Res
     })
   }
 
+  const feedbackFormHref = setNestedPath(
+    `/dpr/download-report/request-download/${reportId}/${id}/form?reportUrl=${renderData.reportUrl}`,
+    res.locals.nestedBaseUrl,
+  )
+
   return {
     renderData: {
+      feedbackFormHref,
       ...renderData,
       csrfToken,
       loadType: LoadType.SYNC,

@@ -9,14 +9,7 @@
   {% set dataProductDefinitionsPath = reportData.dataProductDefinitionsPath %}
   {% set reportUrl = reportData.reportUrl %}
   {% set encodedSearch = reportData.encodedSearch %}
-
-  {# TODO: Improvement: move logic server side #}
-  {% if loadType === 'async' %}
-    {% set tableId = reportData.tableId %}
-    {% set feedbackFormHref = nestedBaseUrl + "/dpr/download-report/request-download/"+ reportId + "/" + id + "/tableId/" + tableId + "/form?reportUrl=" + reportUrl   %}
-  {% else %}
-    {% set feedbackFormHref = nestedBaseUrl + "/dpr/download-report/request-download/"+ reportId + "/" + id + "/form?reportUrl=" + reportUrl  %}
-  {% endif %}
+  {% set feedbackFormHref = reportData.feedbackFormHref %}
 
   {% if encodedSearch %}
     {% set feedbackFormHref = feedbackFormHref + '&reportSearch=' + encodedSearch  %}

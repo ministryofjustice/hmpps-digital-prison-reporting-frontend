@@ -108,6 +108,7 @@ class ScorecardGroupVisualisation {
           .map((colId) => {
             const measure = this.measures.find((m) => m.id === colId)
             const title = measure?.display || colId
+            const unit = measure?.unit
             const rowCol = row[colId]
             const { raw, rag } = rowCol
             const value = Number(raw)
@@ -130,6 +131,7 @@ class ScorecardGroupVisualisation {
               prevVal,
               valueFor,
               valueFrom,
+              unit,
             })
           }),
       }

@@ -372,7 +372,7 @@ jobs:
       # =========================
       # PASS 2: UPDATE SNAPSHOTS (non-blocking) to produce downloadable baselines
       # =========================
-      - name: Generate updated baselines (pass 2: --update-snapshots)
+      - name: Generate updated baselines (pass 2 --update-snapshots)
         if: always()
         continue-on-error: true
         run: |

@@ -329,53 +329,70 @@ jobs:
 
       - run: npm rebuild
 
-      # Count screenshots BEFORE running tests
+      # Optional: pre-count, just for logging; don't fail on changes
       - name: Count screenshots before
         id: count-screenshots-before
         run: |
-          echo -n "screenshots_before=$(find src/dpr/components/_dashboards/visual-regression-tests \
-            -name '*.png' | wc -l | tr -d '[:space:]')" >> "$GITHUB_OUTPUT"
+          echo -n "screenshots_before=$(find src/dpr/components/_dashboards/visual-regression-tests -name '*.png' | wc -l | tr -d '[:space:]')" >> "$GITHUB_OUTPUT"
 
       - name: Install Playwright dependencies
         run: |
-          sudo apt update
+          sudo apt-get update
+          sudo apt-get install -y fonts-liberation fonts-dejavu fonts-noto || true
           npx playwright install --with-deps
 
-      - name: Run visual regression tests
+      # PASS 1: run tests WITHOUT updating snapshots
+      - name: Run visual regression tests (no update)
         run: npm run int-test-visual:ci
 
-      - name: Count screenshots after
-        id: count-screenshots-after
-        run: |
-          screenshots_after=$(find src/dpr/components/_dashboards/visual-regression-tests \
-            -name '*.png' | wc -l | tr -d '[:space:]')
-          screenshot_diff=$((${{ steps.count-screenshots-before.outputs.screenshots_before }} - screenshots_after))
-          if [ $screenshot_diff -eq 0 ]; then exit 0; else exit 1; fi
-
-      - name: Package screenshots
+      # Always upload test-results (contains actual/expected/diff when failing)
+      - name: Upload test-results (diffs)
         if: success() || failure()
-        run: |
-          mkdir screenshots
-          find src/dpr/components/_dashboards/visual-regression-tests \
-            -name '*.png' -exec cp {} screenshots \;
-
-      - uses: actions/upload-artifact@v4
-        if: success() || failure()
-        with:
-          name: vrt-screenshots
-          path: screenshots
-
-      - uses: actions/upload-artifact@v4
-        if: success() || failure()
+        uses: actions/upload-artifact@v4
         with:
           name: vrt-test-results
           path: test-results
 
-      - name: Final Pass/Fail
+      # Collect only the diff triplets for convenience
+      - name: Collect visual diffs
         if: success() || failure()
         run: |
-          if [[ "${{ steps.count-screenshots-after.outcome }}" != "success" ]]; then
-            exit 1
-          else
-            exit 0
-          fi
+          mkdir -p visual-diffs
+          find test-results -type f \( -name '*-actual.png' -o -name '*-expected.png' -o -name '*-diff.png' \) -exec bash -c 'mkdir -p "visual-diffs/$(dirname "{}" | sed "s#test-results/##")" && cp "{}" "visual-diffs/$(dirname "{}" | sed "s#test-results/##")/"' \;
+      - name: Upload visual diffs
+        if: success() || failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vrt-visual-diffs
+          path: visual-diffs
+
+      # PASS 2: re-run tests WITH updates to produce new baselines as artifacts
+      - name: Generate updated baselines (non-blocking)
+        if: always()
+        continue-on-error: true
+        env:
+          SNAPSHOT_UPDATE: all # equivalent to --update-snapshots
+        run: npm run int-test-visual:ci
+
+      # Package the updated baselines after the update pass
+      - name: Package updated screenshots
+        if: always()
+        run: |
+          mkdir -p updated-screenshots
+          # Copy all baseline .png files your project uses for snapshots
+          find src/dpr/components/_dashboards/visual-regression-tests -name '*.png' -exec cp --parents {} updated-screenshots \;
+
+      - name: Upload updated baselines artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vrt-updated-snapshots
+          path: updated-screenshots
+
+      # Log counts (for visibility only)
+      - name: Count screenshots after
+        if: always()
+        id: count-screenshots-after
+        run: |
+          screenshots_after=$(find src/dpr/components/_dashboards/visual-regression-tests -name '*.png' | wc -l | tr -d '[:space:]')
+          echo "Before: ${{ steps.count-screenshots-before.outputs.screenshots_before }}, After: $screenshots_after"

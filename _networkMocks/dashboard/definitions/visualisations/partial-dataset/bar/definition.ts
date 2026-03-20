@@ -21,7 +21,7 @@ export const definition: components['schemas']['DashboardDefinition'] = {
     },
     {
       id: 'section-2',
-      display: 'Bar charts from a list, with units',
+      display: 'Bar charts with units',
       description: 'Examples of bar charts where the bars are generated from list values, with units',
       visualisations: [BarCharts.dietTotalsByEstablishmentBarWithUnit],
     },

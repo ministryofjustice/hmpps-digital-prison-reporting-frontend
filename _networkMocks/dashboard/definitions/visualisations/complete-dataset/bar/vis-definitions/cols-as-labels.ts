@@ -246,7 +246,7 @@ export const dataQualityAllBarWithUnit: components['schemas']['DashboardVisualis
 export const dataQualityAllBarWithUnitHorizontal: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'bar-data-quality-all-with-unit-horizontal',
   type: DashboardVisualisationType.BAR,
-  display: 'All metrics together with unit, horizontal',
+  display: 'All metrics together horizontal with unit',
   options: {
     horizontal: true,
   },

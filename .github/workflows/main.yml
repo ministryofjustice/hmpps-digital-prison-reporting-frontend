@@ -288,7 +288,8 @@ jobs:
             exit 1
           fi
 
-  visual_regression_tests:
+  vrt_tests:
+    name: VRT – Tests (fail on diffs)
     runs-on: ubuntu-latest
     needs: build
     permissions:
@@ -313,13 +314,11 @@ jobs:
           node-version: '24.x'
           cache: 'npm'
 
-      # Download dist + node_modules (package build)
       - uses: actions/download-artifact@v4
         with:
           name: dpr-package-package
           path: .
 
-      # Fix stripped executable permissions (Playwright also uses native binaries)
       - name: Fix permissions for native modules
         run: |
           find node_modules -type f -path "*/@esbuild/*/bin/*" -exec chmod +x {} \;
@@ -329,75 +328,90 @@ jobs:
 
       - run: npm rebuild
 
-      # Optional: just log the current baseline count (no failing)
-      - name: Count screenshots before
-        id: count-screenshots-before
-        run: |
-          echo -n "screenshots_before=$(find src/dpr/components/_dashboards/visual-regression-tests -name '*.png' | wc -l | tr -d '[:space:]')" >> "$GITHUB_OUTPUT"
-
-      - name: Install Playwright dependencies + fonts
+      - name: Install Playwright browsers + deps + fonts
         run: |
           sudo apt-get update
           sudo apt-get install -y fonts-liberation fonts-dejavu fonts-noto || true
           npx playwright install --with-deps
 
-      # =========================
-      # PASS 1: DO NOT UPDATE (fail on diffs), create ONLY missing baselines
-      # =========================
-      - name: Run VRT (pass 1 -u missing)
-        run: |
-          npm run int-test-visual:ci -- -u missing
+      - name: Run visual regression tests (-u missing)
+        run: npx playwright test -u missing
 
-      # Upload test-results (will include actual/expected/diff on failures)
-      - name: Upload test-results (diffs)
+      - name: Upload test-results (actual/expected/diff)
         if: success() || failure()
         uses: actions/upload-artifact@v4
         with:
           name: vrt-test-results
           path: test-results
 
-      # Optional: Collect only visual diff triplets for convenience
-      - name: Collect visual diffs
+      - name: Collect visual diffs (optional)
         if: success() || failure()
         run: |
           mkdir -p visual-diffs
           find test-results -type f \( -name '*-actual.png' -o -name '*-expected.png' -o -name '*-diff.png' \) -exec bash -c 'mkdir -p "visual-diffs/$(dirname "{}" | sed "s#test-results/##")" && cp "{}" "visual-diffs/$(dirname "{}" | sed "s#test-results/##")/"' \;
-      - name: Upload visual diffs
+      - name: Upload visual diffs (optional)
         if: success() || failure()
         uses: actions/upload-artifact@v4
         with:
           name: vrt-visual-diffs
           path: visual-diffs
 
-      # =========================
-      # PASS 2: UPDATE SNAPSHOTS (non-blocking) to produce downloadable baselines
-      # =========================
-      - name: Generate updated baselines (pass 2 --update-snapshots)
-        if: always()
-        continue-on-error: true
-        run: |
-          SNAPSHOT_UPDATE=all npm run int-test-visual:ci
+  vrt_update_snapshots:
+    name: VRT – Update Baselines (artifact only)
+    runs-on: ubuntu-latest
+    needs: build
+    # Do NOT make this job required in branch protections
+    continue-on-error: true
+    permissions:
+      contents: read
+    services:
+      redis:
+        image: redis
+        ports: ['6379:6379']
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
 
-      # Package updated baselines from your baseline directory
-      - name: Package updated screenshots
-        if: always()
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.x'
+          cache: 'npm'
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: dpr-package-package
+          path: .
+
+      - name: Fix permissions for native modules
+        run: |
+          find node_modules -type f -path "*/@esbuild/*/bin/*" -exec chmod +x {} \;
+          chmod -R +x node_modules/.bin || true
+          find node_modules -type f -path "*/bin/*" -exec chmod +x {} \; || true
+          find node_modules -type f -name "*.node" -exec chmod +x {} \; || true
+
+      - run: npm rebuild
+
+      - name: Install Playwright browsers + deps + fonts
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y fonts-liberation fonts-dejavu fonts-noto || true
+          npx playwright install --with-deps
+
+      # PASS 2: regenerate baselines for download
+      - name: Generate updated baselines (--update-snapshots)
+        run: npx playwright test --update-snapshots
+
+      - name: Package updated baselines
         run: |
           mkdir -p updated-screenshots
           find src/dpr/components/_dashboards/visual-regression-tests -name '*.png' -exec cp --parents {} updated-screenshots \;
 
-      - name: Upload updated baselines artifact
-        if: always()
+      - name: Upload updated baselines
         uses: actions/upload-artifact@v4
         with:
           name: vrt-updated-snapshots
           path: updated-screenshots
-
-      # Optional visibility: print counts before/after
-      - name: Count screenshots after
-        if: always()
-        id: count-screenshots-after
-        run: |
-          screenshots_after=$(find src/dpr/components/_dashboards/visual-regression-tests -name '*.png' | wc -l | tr -d '[:space:]')
-          echo "Before: ${{ steps.count-screenshots-before.outputs.screenshots_before }}, After: $screenshots_after"
-
-      # Final status is determined by Pass 1 step naturally.

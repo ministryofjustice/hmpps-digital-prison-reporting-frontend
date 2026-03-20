@@ -354,7 +354,10 @@ const getTemplateData = async (
     totals = TotalsUtils.getTotals(pageSize, currentPage, totalRows, dataTable.rowCount)
   }
 
-  const feedbackFormHref = setNestedPath(`/dpr/download-report/request-download/${meta.reportId}/${meta.id}/tableId/${meta.tableId}/form?reportUrl=${urls.reportUrl}`, nestedBaseUrl)
+  const feedbackFormHref = setNestedPath(
+    `/dpr/download-report/request-download/${meta.reportId}/${meta.id}/tableId/${meta.tableId}/form?reportUrl=${urls.reportUrl}`,
+    nestedBaseUrl,
+  )
 
   return {
     ...(showColumns(specification) && { columns }),

@@ -3,6 +3,7 @@ import {
   DashboardVisualisationSchema,
   DashboardColumns,
   BucketOptionsSchema,
+  UnitType,
 } from '../dashboard-visualisation/Validate'
 
 const scorecardKey = z.object({
@@ -12,7 +13,7 @@ const scorecardKey = z.object({
 
 const scorecardMeasure = z.object({
   id: z.string(),
-  unit: z.enum(['NUMBER', 'PERCENTAGE']).optional(),
+  unit: z.enum(UnitType).optional(),
 })
 
 const ScorecardMeasuresSchema = z.array(scorecardMeasure).length(1, 'Measure must contain a single item')

@@ -23,11 +23,22 @@ const DashboardVisualisationKeySchema = z.object({
   optional: z.boolean().default(false),
 })
 
+export enum UnitType {
+  NUMBER = 'NUMBER',
+  PERCENTAGE = 'PERCENTAGE',
+}
+export const DashboardVisualisationUnitType = z.enum(UnitType)
+
+export enum AggregateType {
+  SUM = 'sum',
+}
+export const DashboardVisualisationAggregateType = z.enum(AggregateType)
+
 export const DashboardVisualisationMeasureSchema = z.object({
   id: z.string(),
   display: z.string().optional(),
-  unit: z.enum(['NUMBER', 'PERCENTAGE']).optional(),
-  aggregate: z.enum(['sum', 'average']).optional(),
+  unit: DashboardVisualisationUnitType.optional(),
+  aggregate: DashboardVisualisationAggregateType.optional(),
 })
 
 export const DashboardColumns = z.object({
@@ -68,6 +79,8 @@ const DashboardVisualisationSchemas = {
   DashboardVisualisationSchema,
   DashboardVisualisationMeasureSchema,
   DashboardVisualisationKeySchema,
+  DashboardVisualisationUnitType,
+  DashboardVisualisationAggregateType,
 }
 
 export default DashboardVisualisationSchemas

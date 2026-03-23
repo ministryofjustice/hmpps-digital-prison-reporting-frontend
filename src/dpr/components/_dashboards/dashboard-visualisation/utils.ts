@@ -10,6 +10,7 @@ import ListChartSchemas from '../dashboard-list/validate'
 import ScorecardChartSchemas from '../scorecard/validate'
 import ScorecardGroupChartSchemas from '../scorecard-group/validate'
 import { AggregatedValidationError } from '../../../utils/ErrorHandler/AggregatedValidationError'
+import { VisualisationDefinitionUnitType } from './types'
 
 const schemaMap: Record<string, ZodType<unknown>> = {
   list: ListChartSchemas.ListSchema,
@@ -97,4 +98,13 @@ export async function validateDashboardVisualisations(
   }
 
   return results.filter((r): r is Success<unknown> => r.success).map((r) => r.data)
+}
+
+export const mapUnitType = (unit: VisualisationDefinitionUnitType): string => {
+  switch (unit) {
+    case VisualisationDefinitionUnitType.PERCENTAGE:
+      return '%'
+    default:
+      return ''
+  }
 }

@@ -29,6 +29,7 @@ import UserReportsUtils from '../../../../../components/user-reports/utils'
 import LocalsHelper from '../../../../../utils/localsHelper'
 import ReportTemplateUtils from '../../../../../components/_reports/report-page/report-template/utils'
 import RequestedReportService from '../../../my-reports/requested-reports/service'
+import { setUpBookmark } from '../../../../../components/bookmark/utils'
 
 export const getData = async ({
   res,
@@ -363,7 +364,6 @@ const getTemplateData = async (
     ...(showColumns(specification) && { columns }),
     filterData,
     count,
-    nestedBaseUrl,
     feedbackFormHref,
     ...meta,
     ...features,
@@ -418,7 +418,7 @@ const setFeatures = async (
   requestData?: ExtractedRequestData,
   urls?: ReportUrls,
 ) => {
-  const { csrfToken, dprUser, bookmarkingEnabled, downloadingEnabled } = LocalsHelper.getValues(res)
+  const { csrfToken, dprUser, downloadingEnabled } = LocalsHelper.getValues(res)
   const { reportId, id } = <{ id: string; reportId: string }>req.params
   const { downloadPermissionService, bookmarkService } = services
 
@@ -427,18 +427,13 @@ const setFeatures = async (
     canDownload = await downloadPermissionService.downloadEnabledForReport(dprUser.id, reportId, id)
   }
 
-  let bookmarked
-  if (bookmarkingEnabled) {
-    bookmarked = await bookmarkService.isBookmarked(id, reportId, dprUser.id)
-  }
-
+  const bookmarkConfig = setUpBookmark(res, bookmarkService)
   const actions = setActions(csrfToken, columns, canDownload, res, req, definitionData, requestData, urls)
 
   return {
     actions,
     canDownload,
-    bookmarked,
-    bookmarkingEnabled,
+    bookmarkConfig,
   }
 }
 

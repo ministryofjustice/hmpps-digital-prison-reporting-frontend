@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { Router } from 'express'
+import setUpViewReportActionsPaths from '../../../middleware/setUpReportActionsPaths'
 import { Services } from '../../../types/Services'
 import ViewReportController from './controller'
 
@@ -11,9 +12,23 @@ export function Routes({ layoutPath, services }: { services: Services; layoutPat
   const router = Router({ mergeParams: true })
 
   const controller = new ViewReportController(layoutPath, services)
-  router.use(`/sync/:type/:reportId/:id`, viewSyncReportRoutes({ layoutPath, services }), controller.errorHandler)
+
+  // -------------------
+  // SYNC
+  // -------------------
+  router.use(
+    `/sync/:type/:reportId/:id`,
+    setUpViewReportActionsPaths(services),
+    viewSyncReportRoutes({ layoutPath, services }),
+    controller.errorHandler,
+  )
+
+  // -------------------
+  // ASYNC
+  // -------------------
   router.use(
     `/async/:type/:reportId/:id/:tableId`,
+    setUpViewReportActionsPaths(services),
     viewAyncReportRoutes({ layoutPath, services }),
     controller.errorHandler,
   )

@@ -4,6 +4,7 @@ import {
   DashboardVisualisationDataSet,
   VisualisationDefinitionKey,
   ChartMeasure,
+  VisualisationDefinitionUnitType,
 } from '../../_dashboards/dashboard-visualisation/types'
 import ChartColoursHelper from './ChartColours'
 import ChartLabelsHelper from './ChartLabels'
@@ -17,7 +18,7 @@ class Chart {
 
   datasets: DashboardVisualisationDataSet[] = []
 
-  unit: 'NUMBER' | 'PERCENTAGE' | undefined
+  unit: VisualisationDefinitionUnitType | undefined
 
   responseData: DashboardDataResponse[] = []
 

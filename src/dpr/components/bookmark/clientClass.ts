@@ -1,5 +1,4 @@
 import { ReportType } from 'src/dpr/types/UserReports'
-import { setNestedPath } from 'src/dpr/utils/urlHelper'
 import { DprClientClass } from '../../DprClientClass'
 
 export enum BookmarkAction {
@@ -27,15 +26,10 @@ class BookmarkButton extends DprClientClass {
     element.style.opacity = '1'
     this.id = element.getAttribute('data-id')
     this.reportId = element.getAttribute('data-report-id')
+    this.linkType = (this.element.getAttribute('data-link-type') as BookmarkAction) || BookmarkAction.ADD
     this.setReportType()
-    this.setLinkType()
-    this.baseUrl = element.getAttribute('data-base-url') || ''
+    this.endpoint = element.getAttribute('data-endpoint') || ''
     this.csrfToken = element.getAttribute('data-csrf-token') || ''
-    this.endpoint =
-      this.baseUrl && this.baseUrl !== 'undefined'
-        ? `${this.baseUrl}/dpr/my-reports/bookmarks/`
-        : `/dpr/my-reports/bookmarks/`
-    this.endpoint = setNestedPath('/dpr/my-reports/bookmarks/', this.baseUrl)
 
     this.initEventListener()
   }
@@ -48,11 +42,10 @@ class BookmarkButton extends DprClientClass {
    * @memberof BookmarkButton
    */
   updateUI() {
-    this.setLinkType()
-    const type = this.linkType === BookmarkAction.ADD ? BookmarkAction.REMOVE : BookmarkAction.ADD
-    const textContent = this.linkType === BookmarkAction.ADD ? 'Remove bookmark' : 'Add bookmark'
+    this.linkType = this.linkType === BookmarkAction.ADD ? BookmarkAction.REMOVE : BookmarkAction.ADD
+    const textContent = this.linkType === BookmarkAction.ADD ? 'Add bookmark' : 'Remove bookmark'
     const element = this.getElement()
-    element.setAttribute('data-link-type', type)
+    element.setAttribute('data-link-type', this.linkType)
     element.textContent = textContent
   }
 
@@ -114,11 +107,6 @@ class BookmarkButton extends DprClientClass {
       throw new Error(`Report type for bookmark setup was unexpected: ${rawReportTypeValue}`)
     }
     this.reportType = rawReportTypeValue as ReportType
-  }
-
-  setLinkType() {
-    const linkType = this.element.getAttribute('data-link-type')
-    this.linkType = linkType ? (linkType as BookmarkAction) : BookmarkAction.ADD
   }
 }
 

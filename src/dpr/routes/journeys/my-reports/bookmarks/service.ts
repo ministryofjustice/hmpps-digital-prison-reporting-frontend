@@ -35,6 +35,7 @@ class BookmarkService extends ReportStoreService {
     if (!this.isBookmarkedCheck(userConfig, id, reportId)) {
       userConfig.bookmarks.unshift({ reportId, id, type, automatic })
     }
+
     await this.saveState(userId, userConfig)
   }
 
@@ -57,6 +58,7 @@ class BookmarkService extends ReportStoreService {
 
     const userConfig = await this.getState(userId)
     const isBookmarked = this.isBookmarkedCheck(userConfig, id, reportId)
+
     let bookmark
     if (isBookmarked) {
       bookmark = this.getBookmark(userConfig, id, reportId)

@@ -22,7 +22,7 @@
   {% set count = reportData.count %}
   {% set nestedBaseUrl = reportData.nestedBaseUrl %}
   {% set csrfToken = reportData.csrfToken %}
-  {% set bookmarkingEnabled = reportData.bookmarkingEnabled %}
+  {% set bookmarkConfig = reportData.bookmarkConfig %}
 
   <div class="dpr-report-header">
 
@@ -32,10 +32,9 @@
           {{ dprReportActions(actions) }}
         {% endif %}
 
-        {% if bookmarkingEnabled %}
+        {% if bookmarkConfig.showBookmark %}
           {% set id = reportData.id %}
-          {% set actions = reportData.actions %}
-          {{ dprBookmarkButton(reportId, id, csrfToken, bookmarked, 'report', type, nestedBaseUrl) }}
+          {{ dprBookmarkButton(reportId, id, type, csrfToken, bookmarkConfig) }}
         {% endif %}
       </div>
     {% endif %}

@@ -15,6 +15,7 @@ class BookmarkController {
   POST: RequestHandler = async (req, res) => {
     const { dprUser } = LocalsHelper.getValues(res)
     const { reportId, id, reportType, type } = req.body
+
     if (type === 'add') {
       await this.services.bookmarkService.addBookmark(dprUser.id, reportId, id, reportType)
     } else {

@@ -30,6 +30,7 @@ import { FilterType } from '../../../../../components/_filters/filter-input/enum
 import { FEATURE_FLAG_KEYS } from '../../../../../utils/featureFlagsHelper'
 import { validateDashboardVisualisations } from '../../../../../components/_dashboards/dashboard-visualisation/utils'
 import DashboardSchema from './validate'
+import { setUpBookmark } from '../../../../../components/bookmark/utils'
 
 const setDashboardActions = (
   dashboardDefinition: components['schemas']['DashboardDefinition'],
@@ -247,7 +248,7 @@ const getPartialDate = (filters: FilterValue[]) => {
 }
 
 export const renderAsyncDashboard = async ({ req, res, services }: AsyncReportUtilsParams) => {
-  const { token, csrfToken, dprUser, nestedBaseUrl, bookmarkingEnabled } = LocalsHelper.getValues(res)
+  const { token, csrfToken, dprUser, nestedBaseUrl } = LocalsHelper.getValues(res)
   const { reportId, id, tableId } = <{ id: string; variantId: string; tableId: string; reportId: string }>req.params
   const { bookmarkService, requestedReportService } = services
   const { id: userId } = dprUser
@@ -277,10 +278,7 @@ export const renderAsyncDashboard = async ({ req, res, services }: AsyncReportUt
     : []
   const partialDate = getPartialDate(filters.filters)
 
-  let bookmarked
-  if (bookmarkingEnabled) {
-    bookmarked = await bookmarkService.isBookmarked(id, reportId, dprUser.id)
-  }
+  const bookmarkConfig = setUpBookmark(res, bookmarkService)
 
   // Get the dashboard parts
   const dashboardFeatureFlags = res.app.locals['featureFlags'].flags
@@ -305,8 +303,7 @@ export const renderAsyncDashboard = async ({ req, res, services }: AsyncReportUt
       name: dashboardDefinition.name,
       description: dashboardDefinition.description,
       reportName: reportDefinition.name,
-      bookmarked,
-      bookmarkingEnabled,
+      ...bookmarkConfig,
       nestedBaseUrl,
       csrfToken,
       sections,

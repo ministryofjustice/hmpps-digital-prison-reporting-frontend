@@ -14,7 +14,6 @@ import type { AsyncSummary, RequestedReport } from '../../../../../types/UserRep
 import { LoadType, ReportType } from '../../../../../types/UserReports'
 import ReportQuery from '../../../../../types/ReportQuery'
 import type { ExtractedDefinitionData, ExtractedRequestData, ReportUrls } from './types'
-import type { DownloadActionParams } from '../../../../../components/_reports/report-heading/report-actions/types'
 import { FiltersType } from '../../../../../components/_filters/filtersTypeEnum'
 import type { Services } from '../../../../../types/Services'
 
@@ -30,6 +29,7 @@ import LocalsHelper from '../../../../../utils/localsHelper'
 import ReportTemplateUtils from '../../../../../components/_reports/report-page/report-template/utils'
 import RequestedReportService from '../../../my-reports/requested-reports/service'
 import { setUpBookmark } from '../../../../../components/bookmark/utils'
+import { setUpDownload } from '../../../download-report/utils'
 
 export const getData = async ({
   res,
@@ -355,16 +355,10 @@ const getTemplateData = async (
     totals = TotalsUtils.getTotals(pageSize, currentPage, totalRows, dataTable.rowCount)
   }
 
-  const feedbackFormHref = setNestedPath(
-    `/dpr/download-report/request-download/${meta.reportId}/${meta.id}/tableId/${meta.tableId}/form?reportUrl=${urls.reportUrl}`,
-    nestedBaseUrl,
-  )
-
   return {
     ...(showColumns(specification) && { columns }),
     filterData,
     count,
-    feedbackFormHref,
     ...meta,
     ...features,
     ...definitionData,
@@ -418,22 +412,16 @@ const setFeatures = async (
   requestData?: ExtractedRequestData,
   urls?: ReportUrls,
 ) => {
-  const { csrfToken, dprUser, downloadingEnabled } = LocalsHelper.getValues(res)
-  const { reportId, id } = <{ id: string; reportId: string }>req.params
-  const { downloadPermissionService, bookmarkService } = services
-
-  let canDownload = false
-  if (downloadingEnabled) {
-    canDownload = await downloadPermissionService.downloadEnabledForReport(dprUser.id, reportId, id)
-  }
-
-  const bookmarkConfig = setUpBookmark(res, bookmarkService)
-  const actions = setActions(csrfToken, columns, canDownload, res, req, definitionData, requestData, urls)
+  const bookmarkConfig = setUpBookmark(res, services.bookmarkService)
+  const downloadConfig = setUpDownload(res, req, definitionData, columns, LoadType.ASYNC, requestData, urls)
+  const actions = ReportActionsUtils.setActions(definitionData, downloadConfig, requestData)
+  const feedbackFormHref = res.locals['feedbackSubmissionFormPath']
 
   return {
     actions,
-    canDownload,
+    downloadConfig,
     bookmarkConfig,
+    feedbackFormHref,
   }
 }
 
@@ -486,79 +474,6 @@ const extractDataFromRequest = (requestData: RequestedReport): ExtractedRequestD
     defaultQuery: url?.report?.default,
     dataProductDefinitionsPath: requestData.dataProductDefinitionsPath,
   }
-}
-
-const setActions = (
-  csrfToken: string,
-  columns: Columns,
-  canDownload: boolean,
-  res: Response,
-  req: Request,
-  definitionData: ExtractedDefinitionData,
-  requestData?: ExtractedRequestData,
-  urls?: ReportUrls,
-) => {
-  const { reportName, name, printable, specification } = definitionData
-  const { tableId, id, reportId } = <{ id: string; tableId: string; reportId: string }>req.params
-  const { nestedBaseUrl, definitionsPath, downloadingEnabled } = LocalsHelper.getValues(res)
-
-  let downloadConfig: DownloadActionParams | undefined
-  if (urls && downloadingEnabled) {
-    // Ensure that columns used as section headings are always included in the download
-    const sections = specification.sections || []
-    const downloadColumns = [...new Set([...columns.value, ...sections])]
-    const formAction = setNestedPath('/dpr/download-report/', nestedBaseUrl)
-
-    downloadConfig = {
-      enabled: downloadingEnabled,
-      name,
-      reportName,
-      csrfToken,
-      reportId,
-      id,
-      tableId,
-      columns: downloadColumns,
-      definitionPath: definitionsPath,
-      loadType: LoadType.ASYNC,
-      formAction,
-      canDownload,
-      currentUrl: urls.pathname,
-      currentQueryParams: urls.reportSearch,
-      ...(requestData?.queryData && {
-        sortColumn: <string>requestData.queryData['sortColumn'],
-        sortedAsc: <string>requestData.queryData['sortedAsc'],
-      }),
-    }
-  }
-
-  let shareConfig
-  let copyConfig
-  if (requestData?.requestUrl?.fullUrl) {
-    shareConfig = {
-      reportName,
-      name,
-      url: requestData.requestUrl.fullUrl,
-    }
-    copyConfig = {
-      url: requestData.requestUrl.fullUrl,
-    }
-  }
-
-  let refreshConfig
-  if (requestData?.executionId && requestData?.requestUrl?.fullUrl) {
-    refreshConfig = {
-      url: requestData.requestUrl.fullUrl,
-      executionId: requestData.executionId,
-    }
-  }
-
-  return ReportActionsUtils.getActions({
-    ...(downloadConfig && { download: downloadConfig }),
-    ...(shareConfig && { share: shareConfig }),
-    ...(refreshConfig && { refresh: refreshConfig }),
-    ...(copyConfig && { copy: copyConfig }),
-    print: { enabled: printable },
-  })
 }
 
 export default {

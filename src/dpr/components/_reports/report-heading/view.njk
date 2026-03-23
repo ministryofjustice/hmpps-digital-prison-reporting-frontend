@@ -23,9 +23,9 @@
   {% set nestedBaseUrl = reportData.nestedBaseUrl %}
   {% set csrfToken = reportData.csrfToken %}
   {% set bookmarkConfig = reportData.bookmarkConfig %}
+  {% set downloadConfig = reportData.downloadConfig %}
 
   <div class="dpr-report-header">
-
     {% if actions or bookmarked is defined %}
       <div class="dpr-report-heading__actions">
         {% if actions %}
@@ -48,9 +48,9 @@
       </div>
     </div>
     
-    {% if reportData.canDownload is defined %}
+    {% if downloadConfig.canDownload is defined %}
 
-      {{ dprDownloadMessage(reportData) }}
+      {{ dprDownloadMessage(reportData.feedbackFormHref) }}
     
     {% endif %}
 

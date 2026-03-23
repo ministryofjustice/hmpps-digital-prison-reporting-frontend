@@ -12,6 +12,7 @@ import AsyncDashboardUtils from '../../async/dashboard/utils'
 import { DashboardSection } from '../../../../../components/_dashboards/dashboard-visualisation/types'
 import { components } from '../../../../../types/api'
 import ReportActionsUtils from '../../../../../components/_reports/report-heading/report-actions/utils'
+import { setUpBookmark } from '../../../../../components/bookmark/utils'
 
 const setAsRecentlyViewed = async ({
   req,
@@ -99,6 +100,8 @@ export const renderSyncDashboard = async ({
     dashboardFeatureFlags,
   )
 
+  const bookmarkConfig = setUpBookmark(res, services.bookmarkService)
+
   await setAsRecentlyViewed({
     req,
     services,
@@ -119,7 +122,7 @@ export const renderSyncDashboard = async ({
       name: dashboardDefinition.name,
       description: dashboardDefinition.description,
       reportName: reportDefinition.name,
-      bookmarked: await services.bookmarkService.isBookmarked(id, reportId, dprUser.id),
+      bookmarkConfig,
       nestedBaseUrl,
       csrfToken,
       sections,

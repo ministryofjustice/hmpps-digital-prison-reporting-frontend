@@ -1,4 +1,5 @@
 import { Response, Request } from 'express'
+import { DownloadActionParams } from '../../../components/_reports/report-heading/report-actions/types'
 import { Services } from '../../../types/Services'
 import { LoadType } from '../../../types/UserReports'
 import { components } from '../../../types/api'
@@ -6,6 +7,8 @@ import LocalsHelper from '../../../utils/localsHelper'
 import { Template } from '../../../types/Templates'
 import ReportQuery from '../../../types/ReportQuery'
 import logger from '../../../utils/logger'
+import { ExtractedDefinitionData, ExtractedRequestData, ReportUrls } from '../view-report/async/report/types'
+import type { Columns } from '../../../components/_reports/report-heading/report-columns/report-columns-form/types'
 
 const streamDownloadAsyncData = async (args: {
   services: Services
@@ -109,6 +112,60 @@ export const downloadReport = async ({
   }
 }
 
+export const setUpDownload = (
+  res: Response,
+  req: Request,
+  definitionData: ExtractedDefinitionData,
+  columns: Columns,
+  loadType: LoadType,
+  requestData?: ExtractedRequestData,
+  urls?: ReportUrls,
+): DownloadActionParams => {
+  const { reportName, name, specification } = definitionData
+  const { tableId, id, reportId } = <{ id: string; tableId: string; reportId: string }>req.params
+  const { definitionsPath, downloadingEnabled, csrfToken } = LocalsHelper.getValues(res)
+
+  const enabled = downloadingEnabled
+  let canDownload = false
+  let formAction
+  let downloadColumns = <string[]>[]
+  let currentUrl = ''
+  let currentQueryParams
+  let sortedAsc
+  let sortColumn
+
+  if (enabled) {
+    canDownload = Boolean(res.locals['downloadAvailableForCurrentReport']) || false
+    formAction = res.locals['downloadActionEndpoint']
+    const sections = specification.sections || []
+    downloadColumns = [...new Set([...columns.value, ...sections])]
+    currentUrl = urls?.pathname || ''
+    currentQueryParams = urls?.reportSearch
+    sortColumn = <string>requestData?.queryData?.['sortColumn']
+    sortedAsc = <string>requestData?.queryData?.['sortedAsc']
+  }
+
+  return {
+    enabled,
+    name,
+    reportName,
+    reportId,
+    id,
+    tableId,
+    columns: downloadColumns,
+    definitionPath: definitionsPath,
+    loadType,
+    formAction,
+    canDownload,
+    currentUrl,
+    currentQueryParams,
+    ...(sortColumn && { sortColumn }),
+    ...(sortedAsc && { sortedAsc }),
+    csrfToken,
+  }
+}
+
 export default {
   downloadReport,
+  setUpDownload,
 }

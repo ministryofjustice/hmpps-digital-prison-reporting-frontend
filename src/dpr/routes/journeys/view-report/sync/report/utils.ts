@@ -25,6 +25,7 @@ import { FiltersType } from '../../../../../components/_filters/filtersTypeEnum'
 import { ReportTemplateData } from '../../../../../utils/TemplateBuilder/SectionedDataHelper/types'
 import ReportTemplateUtils from '../../../../../components/_reports/report-page/report-template/utils'
 import { setNestedPath } from '../../../../../utils/urlHelper'
+import { setUpBookmark } from '../../../../../components/bookmark/utils'
 
 export const setActions = (
   csrfToken: string,
@@ -173,7 +174,8 @@ export const getReport = async ({ req, res, services }: { req: Request; res: Res
   const canDownload = Boolean(
     await services.downloadPermissionService?.downloadEnabledForReport(dprUser.id, reportId, id),
   )
-  const bookmarked = Boolean(await services.bookmarkService?.isBookmarked(id, reportId, dprUser.id))
+
+  const bookmarkConfig = setUpBookmark(res, services.bookmarkService)
 
   const renderData = await getRenderData({
     req,
@@ -214,7 +216,7 @@ export const getReport = async ({ req, res, services }: { req: Request; res: Res
       loadType: LoadType.SYNC,
       reportId,
       id,
-      bookmarked,
+      bookmarkConfig,
       dataProductDefinitionsPath,
     },
   }

@@ -1,3 +1,11 @@
+import { Request, Response } from 'express'
+import {
+  ExtractedDefinitionData,
+  ExtractedRequestData,
+  ReportUrls,
+} from '../../../../routes/journeys/view-report/async/report/types'
+import { LoadType } from '../../../../types/UserReports'
+import { setUpDownload } from '../../../../routes/journeys/download-report/utils'
 import {
   ActionTemplate,
   CopyActionParams,
@@ -9,6 +17,7 @@ import {
   ShareActionParams,
 } from './types'
 import { actionTemplates } from './actionsTemplate'
+import { Columns } from '../report-columns/report-columns-form/types'
 
 export const getActions = ({ refresh, print, share, copy, download }: GetActionsParams): ReportAction[] => {
   const actions: ReportAction[] = []
@@ -93,6 +102,43 @@ const setPrintAction = (template: ActionTemplate, data: PrintActionParams) => {
   }
 }
 
+const setActions = (
+  definitionData: ExtractedDefinitionData,
+  downloadConfig: DownloadActionParams,
+  requestData?: ExtractedRequestData,
+) => {
+  const { reportName, name, printable } = definitionData
+  let shareConfig
+  let copyConfig
+  if (requestData?.requestUrl?.fullUrl) {
+    shareConfig = {
+      reportName,
+      name,
+      url: requestData.requestUrl.fullUrl,
+    }
+    copyConfig = {
+      url: requestData.requestUrl.fullUrl,
+    }
+  }
+
+  let refreshConfig
+  if (requestData?.executionId && requestData?.requestUrl?.fullUrl) {
+    refreshConfig = {
+      url: requestData.requestUrl.fullUrl,
+      executionId: requestData.executionId,
+    }
+  }
+
+  return getActions({
+    ...(downloadConfig && { download: downloadConfig }),
+    ...(shareConfig && { share: shareConfig }),
+    ...(refreshConfig && { refresh: refreshConfig }),
+    ...(copyConfig && { copy: copyConfig }),
+    print: { enabled: printable },
+  })
+}
+
 export default {
   getActions,
+  setActions,
 }

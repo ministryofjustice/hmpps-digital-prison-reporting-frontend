@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { Router } from 'express'
 import { captureException } from '@sentry/node'
+import { storeJourneySessionParams } from '../../../middleware/setUpCurrentReport'
 import { Services } from '../../../types/Services'
 import RequestReportController from './controller'
 
@@ -19,12 +20,14 @@ export function Routes({ layoutPath, services }: { services: Services; layoutPat
   router.post(`/:type/:reportId/:id/:executionId/cancel`, controller.CANCEL)
   router.use(
     `/:type/:reportId/:id/filters`,
+    storeJourneySessionParams(),
     reportAuthoriser(services, layoutPath),
     requestReportRoutes({ layoutPath, services }),
     controller.errorHandler,
   )
   router.use(
     `/:type/:reportId/:id/:executionId/status`,
+    storeJourneySessionParams(),
     reportAuthoriser(services, layoutPath),
     requestStatusRoutes({ layoutPath, services }),
     controller.errorHandler,

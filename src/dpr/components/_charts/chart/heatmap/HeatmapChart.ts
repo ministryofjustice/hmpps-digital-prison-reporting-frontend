@@ -8,7 +8,7 @@ import {
   DashboardVisualisationDataSet,
 } from '../../../_dashboards/dashboard-visualisation/types'
 import { MatrixChartData, MatrixTimeseriesDefinitionType } from './types'
-import DatasetHelper from '../../../../utils/datasetHelper'
+import DatasetHelper from '../../../../utils/Dashboards/VisualisationDatasetHelper'
 import Buckets from '../buckets/Buckets'
 import { components } from '../../../../types/api'
 import MatrixSchema from './validate'

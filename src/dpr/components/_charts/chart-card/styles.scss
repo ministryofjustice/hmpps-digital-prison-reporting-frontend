@@ -9,7 +9,7 @@
   column-gap: 30px;
   row-gap: 20px;
 
-  @media(max-width: 1019px) {
+  @media (max-width: 1019px) {
     grid-template-columns: 1fr;
   }
 }
@@ -27,11 +27,11 @@
 
 .dpr-chart-details-label {
   margin-bottom: govuk-spacing(2);
-  border-bottom: dotted 2px #b1b4b6
+  border-bottom: dotted 2px #b1b4b6;
 }
 
 .dpr-dotted-unterline {
-  border-bottom: dotted 2px #b1b4b6
+  border-bottom: dotted 2px #b1b4b6;
 }
 
 .dpr-chart-details-legend {
@@ -62,4 +62,10 @@
   border: 0px;
   border-bottom: 1px solid #b1b4b6;
   margin-top: govuk-spacing(6);
+}
+
+@media (max-width: 768px) {
+  .chart-tabs-details {
+    display: none;
+  }
 }

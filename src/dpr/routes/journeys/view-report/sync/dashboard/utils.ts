@@ -12,6 +12,7 @@ import AsyncDashboardUtils from '../../async/dashboard/utils'
 import { DashboardSection } from '../../../../../components/_dashboards/dashboard-visualisation/types'
 import { components } from '../../../../../types/api'
 import ReportActionsUtils from '../../../../../components/_reports/report-heading/report-actions/utils'
+import { createDashboardSections } from '../../../../../components/_dashboards/dashboard-section/utils'
 
 const setAsRecentlyViewed = async ({
   req,
@@ -92,7 +93,7 @@ export const renderSyncDashboard = async ({
 
   // Get the dashboard parts
   const dashboardFeatureFlags = res.app.locals['featureFlags'].flags
-  const sections: DashboardSection[] = AsyncDashboardUtils.getSections(
+  const sections: DashboardSection[] = createDashboardSections(
     dashboardDefinition,
     flattenedData,
     query,

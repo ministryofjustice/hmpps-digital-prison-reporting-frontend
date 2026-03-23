@@ -1,11 +1,7 @@
 import { Request, Response } from 'express'
 import { Services } from '../../../../../types/Services'
 import Dict = NodeJS.Dict
-import {
-  DashboardSection,
-  DashboardVisualisation,
-  DashboardVisualisationType,
-} from '../../../../../components/_dashboards/dashboard-visualisation/types'
+import { DashboardSection } from '../../../../../components/_dashboards/dashboard-visualisation/types'
 import type { AsyncReportUtilsParams } from '../../../../../types/AsyncReportUtils'
 
 import type { DashboardDataResponse } from '../../../../../types/Metrics'
@@ -13,22 +9,17 @@ import type { RequestedReport } from '../../../../../types/UserReports'
 import { ReportType } from '../../../../../types/UserReports'
 import type { components } from '../../../../../types/api'
 
-import ChartUtils from '../../../../../components/_charts/utils'
 import DefinitionUtils from '../../../../../utils/definitionUtils'
 import UserReportsUtils from '../../../../../components/user-reports/utils'
-import DashboardListUtils from '../../../../../components/_dashboards/dashboard-list/utils'
 import FilterUtils from '../../../../../components/_filters/utils'
-import ScorecardsUtils from '../../../../../components/_dashboards/scorecard/utils'
-import ScorecardVisualisation from '../../../../../components/_dashboards/scorecard/Scorecard'
-import ScorecardGroupVisualisation from '../../../../../components/_dashboards/scorecard-group/ScorecardGroup'
 import ReportActionsUtils from '../../../../../components/_reports/report-heading/report-actions/utils'
 import ReportQuery from '../../../../../types/ReportQuery'
 import LocalsHelper from '../../../../../utils/localsHelper'
 import { FilterValue, GranularDateRangeFilterValue, PartialDate } from '../../../../../components/_filters/types'
 import { FiltersType } from '../../../../../components/_filters/filtersTypeEnum'
 import { FilterType } from '../../../../../components/_filters/filter-input/enum'
-import { FEATURE_FLAG_KEYS } from '../../../../../utils/featureFlagsHelper'
 import { validateDashboardVisualisations } from '../../../../../components/_dashboards/dashboard-visualisation/utils'
+import { createDashboardSections } from '../../../../../components/_dashboards/dashboard-section/utils'
 import DashboardSchema from './validate'
 
 const setDashboardActions = (
@@ -129,87 +120,6 @@ const getDefinitionData = async ({
   }
 }
 
-const getSections = (
-  dashboardDefinition: components['schemas']['DashboardDefinition'],
-  dashboardData: DashboardDataResponse[],
-  query: Record<string, string | string[]>,
-  dashboardFeatureFlags: Record<string, boolean>,
-  partialDate?: PartialDate,
-): DashboardSection[] => {
-  return dashboardDefinition.sections.map((section: components['schemas']['DashboardSectionDefinition']) => {
-    const { id, display: title, description } = section
-
-    const featureFlagVisTypeMap = {
-      [DashboardVisualisationType.LIST]: true,
-      [DashboardVisualisationType.BAR]: dashboardFeatureFlags[FEATURE_FLAG_KEYS.BAR_CHARTS],
-      [DashboardVisualisationType.LINE]: dashboardFeatureFlags[FEATURE_FLAG_KEYS.LINE_CHARTS],
-      [DashboardVisualisationType.DONUT]: dashboardFeatureFlags[FEATURE_FLAG_KEYS.DONUT_CHARTS],
-      [DashboardVisualisationType.SCORECARD]: dashboardFeatureFlags[FEATURE_FLAG_KEYS.SCORECARD_CHARTS],
-      [DashboardVisualisationType.SCORECARD_GROUP]: dashboardFeatureFlags[FEATURE_FLAG_KEYS.SCORECARD_GROUP_CHARTS],
-      [DashboardVisualisationType.MATRIX_TIMESERIES]: dashboardFeatureFlags[FEATURE_FLAG_KEYS.MATRIX_TIMESERIES_CHARTS],
-      [DashboardVisualisationType.BAR_TIMESERIES]: dashboardFeatureFlags[FEATURE_FLAG_KEYS.BAR_TIMESERIES_CHARTS],
-      [DashboardVisualisationType.LINE_TIMESERIES]: dashboardFeatureFlags[FEATURE_FLAG_KEYS.LINE_TIMESERIES_CHARTS],
-    }
-
-    let hasScorecard = false
-    const visualisations: DashboardVisualisation[] = section.visualisations.map(
-      (visDefinition: components['schemas']['DashboardVisualisationDefinition']) => {
-        const { type, display, description: visDescription, id: visId } = visDefinition
-        const isEnabled = featureFlagVisTypeMap[type]
-
-        let data: DashboardVisualisation['data'] | undefined
-
-        switch (type) {
-          case DashboardVisualisationType.LIST:
-            data = DashboardListUtils.createList(visDefinition, dashboardData)
-            break
-
-          case DashboardVisualisationType.SCORECARD:
-            hasScorecard = true
-            data = new ScorecardVisualisation().withDefinition(visDefinition).withData(dashboardData).build()
-            break
-
-          case DashboardVisualisationType.SCORECARD_GROUP:
-            data = new ScorecardGroupVisualisation().withDefinition(visDefinition).withData(dashboardData).build()
-            break
-
-          case DashboardVisualisationType.BAR:
-          case DashboardVisualisationType.LINE:
-          case DashboardVisualisationType.DONUT: {
-            data = ChartUtils.createChart(visDefinition, dashboardData, type)
-            break
-          }
-          case DashboardVisualisationType.MATRIX_TIMESERIES:
-          case DashboardVisualisationType.BAR_TIMESERIES:
-          case DashboardVisualisationType.LINE_TIMESERIES: {
-            data = ChartUtils.createTimeseriesCharts(visDefinition, dashboardData, type, query, partialDate)
-            break
-          }
-          default:
-            break
-        }
-
-        return {
-          id: visId,
-          title: display || '',
-          description: visDescription || '',
-          type,
-          data,
-          isEnabled: isEnabled ?? true,
-        }
-      },
-    )
-
-    if (hasScorecard)
-      ScorecardsUtils.mergeScorecardsIntoGroup(
-        visualisations,
-        featureFlagVisTypeMap[DashboardVisualisationType.SCORECARD_GROUP],
-      )
-
-    return { id, title: title || '', description: description || '', visualisations }
-  })
-}
-
 const updateStore = async (
   services: Services,
   tableId: string,
@@ -284,7 +194,7 @@ export const renderAsyncDashboard = async ({ req, res, services }: AsyncReportUt
 
   // Get the dashboard parts
   const dashboardFeatureFlags = res.app.locals['featureFlags'].flags
-  const sections: DashboardSection[] = getSections(
+  const sections: DashboardSection[] = createDashboardSections(
     dashboardDefinition,
     flattenedData,
     query,
@@ -320,6 +230,5 @@ export const renderAsyncDashboard = async ({ req, res, services }: AsyncReportUt
 export default {
   renderAsyncDashboard,
   getDefinitionData,
-  getSections,
   setDashboardActions,
 }

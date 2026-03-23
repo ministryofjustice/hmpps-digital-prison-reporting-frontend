@@ -1,3 +1,4 @@
+import { UnitType } from '../../../../../../../src/dpr/components/_dashboards/dashboard-visualisation/Validate'
 import { components } from '../../../../../../../src/dpr/types/api'
 import { DashboardVisualisationType } from '../../../../../../../src/dpr/components/_dashboards/dashboard-visualisation/types'
 
@@ -46,6 +47,35 @@ export const dietTotalsByEstablishmentBar: components['schemas']['DashboardVisua
         id: 'count',
         display: 'Total prisoners',
         axis: 'y',
+      },
+    ],
+    expectNulls: true,
+  },
+}
+
+export const dietTotalsByEstablishmentBarWithUnit: components['schemas']['DashboardVisualisationDefinition'] = {
+  id: 'diet-totals-by-establishment-bar-with-unit',
+  type: DashboardVisualisationType.BAR,
+  display: 'Diet totals by establishment',
+  description: '',
+  columns: {
+    keys: [
+      {
+        id: 'establishment_id',
+        display: 'Establishment ID',
+      },
+    ],
+    measures: [
+      {
+        id: 'diet',
+        display: 'Diet',
+        axis: 'x',
+      },
+      {
+        id: 'count',
+        display: 'Total prisoners',
+        axis: 'y',
+        unit: UnitType.PERCENTAGE,
       },
     ],
     expectNulls: true,

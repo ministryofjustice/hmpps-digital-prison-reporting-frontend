@@ -1,20 +1,28 @@
-import { DashboardDataResponse } from '../types/Metrics'
-import { components } from '../types/api'
-import logger from './logger'
+import { DashboardDataResponse } from '../../types/Metrics'
+import { components } from '../../types/api'
+import * as OptionalKeysHelper from './VisualisationOptionalKeysHelper'
 
+/**
+ * Creates the dataset for a single visualisation
+ * - given the visualisation definition will extract the relevant
+ * - rows from the master dataset to produce a visualisation dataset
+ *
+ * @param {components['schemas']['DashboardVisualisationDefinition']} visDefinition
+ * @param {DashboardDataResponse[]} dashboardData
+ * @return {DashboardDataResponse[]} the visualisation dataset
+ */
 export const getDatasetRows = (
-  listDefinition: components['schemas']['DashboardVisualisationDefinition'],
+  visDefinition: components['schemas']['DashboardVisualisationDefinition'],
   dashboardData: DashboardDataResponse[],
 ) => {
-  const { measures, filters, expectNulls } = listDefinition.columns
-  logger.info('DEBUG: Dashboard vis filterValues:', filters)
-  const keys = <Array<components['schemas']['DashboardVisualisationColumnDefinition']>>listDefinition.columns.keys
+  const { measures, filters, expectNulls } = visDefinition.columns
+  const { keys } = visDefinition.columns
 
   const displayColumnsIds = measures.map((col) => col.id)
   const keyColumnsIds = keys?.map((col) => col.id) || []
   let filterColIds = filters?.map((col) => col.id) || []
   filterColIds = [...new Set(filterColIds)]
-  const hasOptionalKeys = keys?.some((key) => key.optional)
+  const hasOptionalKeys = OptionalKeysHelper.hasOptionalKeys(keys || [])
 
   if (dashboardData.length && dashboardData[0]['ts']) keyColumnsIds.unshift('ts')
 
@@ -63,83 +71,10 @@ export const getDatasetRows = (
   })
 
   if (hasOptionalKeys) {
-    return filterKeys(filtered, keys || [])
+    return OptionalKeysHelper.filterRowsByKeys(filtered, keys || [])
   }
 
   return filtered
-}
-
-export const getKeyVariations = (keys: Array<components['schemas']['DashboardVisualisationColumnDefinition']>) => {
-  const colIdVariations: string[][] = []
-  const keyColumnsIds = keys.map((col) => col.id)
-  const allOptional = keys.every((key) => key.optional)
-  const colIdCopy = [...keyColumnsIds]
-
-  keyColumnsIds.reverse().forEach((id) => {
-    const key = keys.find((k) => k.id === id)
-    colIdVariations.push([...colIdCopy])
-    if (key && key.optional) {
-      colIdCopy.pop()
-    }
-  })
-
-  if (allOptional) colIdVariations.push([])
-  return colIdVariations
-}
-
-export const getKeyIds = (dashboardData: DashboardDataResponse[], colIdVariations: string[][]) => {
-  let validHeadIds: string[] = []
-  colIdVariations.every((ids: string[]) => {
-    const validRows = []
-
-    dashboardData.forEach((datasetRow: DashboardDataResponse) => {
-      const validRow: boolean[] = []
-
-      Object.keys(datasetRow).forEach((datasetField) => {
-        const value = datasetRow[datasetField].raw
-        let valid = true
-        if (ids.includes(datasetField)) {
-          valid = value !== '' && value !== undefined && value !== null
-        }
-        validRow.push(valid)
-      })
-
-      if (validRow.every((val) => val)) {
-        validRows.push(datasetRow)
-      }
-    })
-
-    if (validRows.length > 0) {
-      validHeadIds = ids
-      return false
-    }
-    validHeadIds = ids
-    return true
-  })
-
-  return validHeadIds
-}
-
-export const filterKeys = (
-  dashboardData: DashboardDataResponse[],
-  keys: Array<components['schemas']['DashboardVisualisationColumnDefinition']>,
-) => {
-  const colIdVariations = getKeyVariations(keys)
-  const validHeadIds = getKeyIds(dashboardData, colIdVariations)
-
-  return dashboardData.filter((datasetRow: DashboardDataResponse) => {
-    const validRow: boolean[] = []
-    Object.keys(datasetRow).forEach((datasetField) => {
-      const value = datasetRow[datasetField].raw
-      let valid = true
-      if (validHeadIds.includes(datasetField)) {
-        valid = value !== '' && value !== undefined && value !== null
-      }
-      validRow.push(valid)
-    })
-
-    return validRow.every((val) => val)
-  })
 }
 
 export const getLastestDataset = (dashboardData: DashboardDataResponse[]): DashboardDataResponse[] => {
@@ -245,7 +180,4 @@ export default {
   groupRowsByKey,
   groupRowsBy,
   getGroupKey,
-  getKeyVariations,
-  getKeyIds,
-  filterKeys,
 }

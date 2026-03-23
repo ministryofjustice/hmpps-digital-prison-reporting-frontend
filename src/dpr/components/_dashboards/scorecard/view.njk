@@ -9,31 +9,22 @@
   {% set trend = scorecard.trend %}
   {% set valueFor = scorecard.valueFor %}
   {% set group = scorecard.group %}
+  {% set trend = scorecard.trend %} 
 
-  {% set trend = scorecard.trend %}
-  {% if trend.direction === 1 %}
-    {% set directionIcon = '▲' %}
-    {% set directionDisplay = 'Up' %}
-  {% elif trend.direction === -1 %}
-    {% set directionIcon = '▼' %}
-    {% set directionDisplay = 'Down' %}
-  {% else %}
-    {% set directionIcon = '◼' %}
-    {% set directionDisplay = '' %}
-  {% endif %}
   <div class="dpr-scorecard" data-dpr-module="scorecard" aria-labelledby="{{ id }}_title_{{index }}">
     <p id="{{ id }}_title_{{index}}" class="govuk-heading-s govuk-!-margin-bottom-1">
       {{ title }}
     </p>
 
     <p {% if rag %}style="background-color: {{ rag.colour }}"{% endif %} class="govuk-body dpr-scorecard__value {% if rag %}govuk-tag--{{ rag.colour }}{% endif %}">{{ value }}</p>
-    {% if rag.score !== 'undefined' %}
+
+    {% if rag.score and rag.score !== 'undefined' %}
       <p class="govuk-body dpr-scorecard__value-description">Status: {{ rag.score }}</p>
     {% endif %}
 
     {% if trend %}
     <p class="govuk-body-s govuk-!-margin-bottom-2">
-      {{ directionIcon }} {{ directionDisplay }} {{ trend.value }} from {{ trend.from }}
+      {{ trend.direction }} {{ trend.value }} from {{ trend.from }}
     </p>
     {% endif %}
 

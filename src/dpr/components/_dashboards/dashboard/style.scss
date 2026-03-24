@@ -3,6 +3,18 @@
   flex-direction: row;
 
   .dashboard-content {
-    width: 870px
+    width: 870px;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-wrapper {
+    .dashboard-sidebar {
+      display: none;
+    }
+
+    .dashboard-content {
+      width: 100%;
+    }
   }
 }

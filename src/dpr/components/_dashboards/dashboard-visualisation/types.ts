@@ -3,7 +3,6 @@ import { components } from '../../../types/api'
 import { Scorecard, ScorecardGroup } from '../scorecard/types'
 import { MatrixChartData } from '../../_charts/chart/heatmap/types'
 import { ChartDetails } from '../../../types/Charts'
-import DashboardVisualisationSchemas from './Validate'
 import { BarDefinitionMeasure } from '../../_charts/chart/bar/types'
 import { DoughnutDefinitionMeasure } from '../../_charts/chart/doughnut/types'
 import { LineDefinitionMeasure } from '../../_charts/chart/line/types'
@@ -127,9 +126,9 @@ export type VisualisationDefinitionMeasure = z.infer<
 >
 
 export type ChartMeasure =
-  | BarDefinitionMeasure[]
-  | DoughnutDefinitionMeasure[]
-  | LineDefinitionMeasure[]
-  | VisualisationDefinitionMeasure[]
+  | BarDefinitionMeasure
+  | DoughnutDefinitionMeasure
+  | LineDefinitionMeasure
+  | VisualisationDefinitionMeasure
 
 export type TimeseriesChartMeasure = LineTimeseriesDefinitionMeasure[] | BarTimeseriesDefinitionMeasure[]

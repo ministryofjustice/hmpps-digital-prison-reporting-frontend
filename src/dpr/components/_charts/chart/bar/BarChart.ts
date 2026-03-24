@@ -51,7 +51,6 @@ class BarChart extends Chart {
     } else {
       this.createListDatasets(this.measures, this.keys)
     }
-
     // Augment the datasets with chart specific config
     this.augmentDataset()
 
@@ -92,16 +91,25 @@ class BarChart extends Chart {
   }
 
   setBespokeOptions = () => {
-    let indexAxis = 'x'
-    let scales
+    // Initialise the scales
+    this.setScales({ horizontal: this.options?.horizontal })
 
+    let indexAxis = 'x'
     if (this.options) {
       const { horizontal, xStacked, yStacked } = this.options
       indexAxis = horizontal ? 'y' : indexAxis
-      if (xStacked || yStacked) {
-        scales = {
-          ...(xStacked && { x: { stacked: xStacked } }),
-          ...(yStacked && { y: { stacked: yStacked } }),
+
+      if (xStacked) {
+        this.config.scales!.x = {
+          ...this.config.scales!.x,
+          stacked: xStacked,
+        }
+      }
+
+      if (yStacked) {
+        this.config.scales!.y = {
+          ...this.config.scales!.y,
+          stacked: yStacked,
         }
       }
     }
@@ -109,7 +117,6 @@ class BarChart extends Chart {
     this.config = {
       ...this.config,
       indexAxis,
-      ...(scales && { scales }),
     }
   }
 }

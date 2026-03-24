@@ -2,7 +2,7 @@ import dayjs from 'dayjs'
 import weekOfYear from 'dayjs/plugin/weekOfYear'
 import { ChartDetails, ChartMetaData } from '../../types/Charts'
 import { DashboardDataResponse } from '../../types/Metrics'
-import DatasetHelper from '../../utils/datasetHelper'
+import DatasetHelper from '../../utils/Dashboards/VisualisationDatasetHelper'
 import DashboardListUtils from '../_dashboards/dashboard-list/utils'
 import { Granularity } from '../_inputs/granular-date-range/types'
 import HeatmapChart from './chart/heatmap/HeatmapChart'
@@ -19,6 +19,8 @@ import LineChart from './chart/line/LineChart'
 import LineTimeseriesChart from './chart/line-timeseries/LineTimeseriesChart'
 import BarTimeseriesChart from './chart/bar-timeseries/BarTimeseriesChart'
 import { PartialDate } from '../_filters/types'
+import { mapUnitToSymbol } from '../../utils/Dashboards/VisualisationUnitHelper'
+import { UnitType } from '../_dashboards/dashboard-visualisation/Validate'
 
 dayjs.extend(weekOfYear)
 
@@ -227,6 +229,14 @@ const createHeadlines = (
   return headlines
 }
 
+const mapTableHead = (headerColumns: components['schemas']['DashboardVisualisationColumnDefinition'][]) => {
+  return headerColumns.map((column) => {
+    const unitSymbol = mapUnitToSymbol(column.unit as UnitType)
+    const headText = unitSymbol ? `${column.display} (${unitSymbol})` : column.display
+    return { text: headText || '' }
+  })
+}
+
 const createSnapshotTable = (
   chartDefinition: components['schemas']['DashboardVisualisationDefinition'],
   data: DashboardDataResponse[],
@@ -234,11 +244,7 @@ const createSnapshotTable = (
   const { columns } = chartDefinition
   const { measures } = columns
   const keys = columns.keys || []
-
-  const headerColumns = [...keys, ...measures]
-  const head = headerColumns.map((column) => {
-    return { text: column.display || '' }
-  })
+  const head = mapTableHead([...keys, ...measures])
 
   const filteredRowData = DatasetHelper.filterRowsByDisplayColumns(chartDefinition, data, true)
   const rows = DashboardListUtils.createTableRows(filteredRowData)
@@ -274,10 +280,7 @@ const createTimeseriesTable = (
     flatTimeseriesData = DatasetHelper.filterRowsByDisplayColumns(chartDefinition, flatTimeseriesData)
   }
 
-  const head = headerColumns.map((column) => {
-    return { text: column.display }
-  })
-
+  const head = mapTableHead(headerColumns)
   const rows = DashboardListUtils.createTableRows(flatTimeseriesData)
 
   return {

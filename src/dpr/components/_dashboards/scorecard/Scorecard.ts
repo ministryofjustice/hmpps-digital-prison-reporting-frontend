@@ -1,10 +1,12 @@
 /* eslint-disable prefer-destructuring */
+import { mapUnitToSymbol, setUnitOnValue } from '../../../utils/Dashboards/VisualisationUnitHelper'
 import { DashboardDataResponse } from '../../../types/Metrics'
 import { DashboardVisualisationBucket } from '../dashboard-visualisation/types'
+import { UnitType } from '../dashboard-visualisation/Validate'
 import { CreateScorecardDataArgs, Scorecard, ScorecardDataset, ScorecardDefinitionType, ScorecardTrend } from './types'
 import Buckets from '../../_charts/chart/buckets/Buckets'
 import { components } from '../../../types/api'
-import DatasetHelper from '../../../utils/datasetHelper'
+import DatasetHelper from '../../../utils/Dashboards/VisualisationDatasetHelper'
 import ScorecardSchemas from './validate'
 import { ScorecardGroupDefinitionType } from '../scorecard-group/types'
 
@@ -30,6 +32,10 @@ class ScorecardVisualisation {
   responseData: DashboardDataResponse[] = []
 
   ragColours: string[] = ['#cce2d8', '#fff7bf', '#f4cdc6']
+
+  trendSymbols: string[] = ['◼', '▲ Up', '▼ Down']
+
+  unit: UnitType | undefined
 
   withDefinition = (definition: components['schemas']['DashboardVisualisationDefinition']) => {
     this.definition = ScorecardSchemas.ScorecardSchema.parse(definition)
@@ -58,6 +64,7 @@ class ScorecardVisualisation {
     // Zod should throw an error on line 40 so should always pass
     if (this.measures[0] !== undefined) {
       this.valueKey = this.measures[0].id
+      this.unit = this.measures[0].unit
     }
   }
 
@@ -113,11 +120,12 @@ class ScorecardVisualisation {
     valueFrom,
     prevVal,
     groupTitle,
+    unit,
   }: CreateScorecardDataArgs): Scorecard => {
     return {
       id,
       title,
-      value,
+      value: setUnitOnValue(value, mapUnitToSymbol(unit || this.unit), false),
       ...(rag && { rag }),
       valueFor,
       trend: this.createTrend(valueFor, valueFrom, value, prevVal),
@@ -132,15 +140,18 @@ class ScorecardVisualisation {
     valueFrom: string,
     latestValue: string | number,
     earliestValue: string | number | null | undefined,
+    unit?: UnitType | undefined,
   ): ScorecardTrend | undefined => {
     let trendData
 
     if (valueFrom !== valueFor) {
       const value = earliestValue ? Number(latestValue) - Number(earliestValue) : 0
-      const direction = Math.sign(value)
+      const direction: string = this.trendSymbols[Math.sign(value)] || this.trendSymbols[2]
+      const diplayValue = setUnitOnValue(Math.abs(value), mapUnitToSymbol(unit || this.unit), false)
+
       trendData = {
         direction,
-        value: Math.abs(value),
+        value: diplayValue,
         from: valueFrom,
       }
     }

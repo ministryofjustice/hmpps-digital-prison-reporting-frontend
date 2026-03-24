@@ -248,7 +248,7 @@ const getPartialDate = (filters: FilterValue[]) => {
 }
 
 export const renderAsyncDashboard = async ({ req, res, services }: AsyncReportUtilsParams) => {
-  const { token, csrfToken, dprUser, nestedBaseUrl } = LocalsHelper.getValues(res)
+  const { token, csrfToken, dprUser } = LocalsHelper.getValues(res)
   const { reportId, id, tableId } = <{ id: string; variantId: string; tableId: string; reportId: string }>req.params
   const { bookmarkService, requestedReportService } = services
   const { id: userId } = dprUser
@@ -278,7 +278,7 @@ export const renderAsyncDashboard = async ({ req, res, services }: AsyncReportUt
     : []
   const partialDate = getPartialDate(filters.filters)
 
-  const bookmarkConfig = setUpBookmark(res, bookmarkService)
+  const bookmarkConfig = setUpBookmark(res, req, bookmarkService)
 
   // Get the dashboard parts
   const dashboardFeatureFlags = res.app.locals['featureFlags'].flags
@@ -304,7 +304,6 @@ export const renderAsyncDashboard = async ({ req, res, services }: AsyncReportUt
       description: dashboardDefinition.description,
       reportName: reportDefinition.name,
       ...bookmarkConfig,
-      nestedBaseUrl,
       csrfToken,
       sections,
       filters,

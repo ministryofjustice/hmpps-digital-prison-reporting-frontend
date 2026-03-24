@@ -13,6 +13,7 @@ import localsHelper from '../utils/localsHelper'
 import { FeatureFlagService, isBooleanFlagEnabledOrMissing } from '../services/featureFlagService'
 import { FEATURE_FLAGS, getFeatureFlagEvaluationSubject } from '../utils/featureFlagsHelper'
 import setUpNunjucksFilters from '../setUpNunjucksFilters'
+import logger from '../utils/logger'
 
 const getQueryParamAsString = (query: ParsedQs, name: string) => (query[name] ? query[name].toString() : null)
 const getDefinitionsPath = (query: ParsedQs) => getQueryParamAsString(query, 'dataProductDefinitionsPath')
@@ -57,6 +58,7 @@ export const setupResources = (
       await populateDefinitions(services, req, res, config)
       await setLocalsFromServices(services, res)
       await populateRequestedReports(services, res)
+      setUpCurrentReportSessionProtection(req)
 
       setupRequestAwareNunjucks(env, res)
       setUpNunjucksFilters(env)
@@ -175,6 +177,24 @@ export const populateRequestedReports = async (services: Services, res: Response
             return DefinitionUtils.getCurrentVariantDefinition(definitions, bookmark.reportId, bookmark.id)
           })
     }
+  }
+}
+
+const setUpCurrentReportSessionProtection = (req: Request) => {
+  if (!req.session || req.method !== 'GET') return
+
+  const ignored = ['/.well-known', '/favicon.ico', '/manifest.json', '/robots.txt', '/assets/dpr/assets/']
+  if (ignored.some((prefix) => req.originalUrl.startsWith(prefix))) {
+    return
+  }
+
+  const path = req.originalUrl
+  const currentReportJourneyAllowedPaths = ['/dpr/view-report/', '/dpr/request-report/', '/dpr/download-report/']
+  const isJourneyRoute = currentReportJourneyAllowedPaths.some((urlSegment) => path.includes(urlSegment))
+
+  if (!isJourneyRoute && req.session.currentReportJourney) {
+    delete req.session.currentReportJourney
+    logger.info('Current report session cleared')
   }
 }
 

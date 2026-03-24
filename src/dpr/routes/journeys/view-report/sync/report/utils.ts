@@ -4,9 +4,7 @@ import Dict = NodeJS.Dict
 import type { components } from '../../../../../types/api'
 import type { DataTable } from '../../../../../utils/DataTableBuilder/types'
 import type { ListWithWarnings } from '../../../../../data/types'
-import type { Columns } from '../../../../../components/_reports/report-heading/report-columns/report-columns-form/types'
 import type { Services } from '../../../../../types/Services'
-import type { DownloadActionParams } from '../../../../../components/_reports/report-heading/report-actions/types'
 import { LoadType, ReportType, RequestStatus } from '../../../../../types/UserReports'
 import ReportQuery from '../../../../../types/ReportQuery'
 import { Template } from '../../../../../types/Templates'
@@ -24,55 +22,10 @@ import UserStoreItemBuilder from '../../../../../utils/UserStoreItemBuilder'
 import { FiltersType } from '../../../../../components/_filters/filtersTypeEnum'
 import { ReportTemplateData } from '../../../../../utils/TemplateBuilder/SectionedDataHelper/types'
 import ReportTemplateUtils from '../../../../../components/_reports/report-page/report-template/utils'
-import { setNestedPath } from '../../../../../utils/urlHelper'
 import { setUpBookmark } from '../../../../../components/bookmark/utils'
-
-export const setActions = (
-  csrfToken: string,
-  reportDefinition: components['schemas']['SingleVariantReportDefinition'],
-  columns: Columns,
-  url: string,
-  canDownload: boolean,
-  count: number,
-  dataProductDefinitionsPath: string,
-  currentUrl: string,
-  currentQueryParams: string,
-  nestedBaseUrl?: string,
-) => {
-  const { name: reportName, variant, id: reportId } = reportDefinition
-  const { name, id, printable } = variant
-
-  const downloadConfig: DownloadActionParams = {
-    enabled: count > 0,
-    name,
-    reportName,
-    csrfToken,
-    reportId,
-    id,
-    columns: columns.value,
-    loadType: LoadType.SYNC,
-    definitionPath: dataProductDefinitionsPath,
-    canDownload,
-    currentUrl,
-    currentQueryParams,
-    formAction: setNestedPath('/dpr/download-report/', nestedBaseUrl),
-  }
-
-  return ReportActionsUtils.getActions({
-    download: downloadConfig,
-    print: {
-      enabled: Boolean(printable),
-    },
-    share: {
-      reportName,
-      name,
-      url,
-    },
-    copy: {
-      url,
-    },
-  })
-}
+import { setUpDownload } from '../../../download-report/utils'
+import ViewAsyncReportUtils from '../../async/report/utils'
+import { Columns } from '../../../../../components/_reports/report-heading/report-columns/report-columns-form/types'
 
 const setAsRecentlyViewed = async ({
   req,
@@ -162,6 +115,7 @@ export const getReport = async ({ req, res, services }: { req: Request; res: Res
   const { reportId, id } = <{ id: string; reportId: string }>req.params
   const dataProductDefinitionsPath = <string>req.query['dataProductDefinitionsPath']
 
+  // Get the report data
   const { reportData, reportDefinition, reportQuery } = await getReportData({
     services,
     req,
@@ -170,13 +124,27 @@ export const getReport = async ({ req, res, services }: { req: Request; res: Res
     id,
     dataProductDefinitionsPath,
   })
+  const { variant } = reportDefinition
+  const { specification } = variant
+
+  if (!specification) {
+    throw new Error('No specification found in variant definition')
+  }
+
+  // Get the columns
+  const columns = ColumnUtils.getColumns(specification, req)
+
+  // Get the count
   const count = await services.reportingService.getCount(reportDefinition.variant.resourceName, token, reportQuery)
-  const canDownload = Boolean(
-    await services.downloadPermissionService?.downloadEnabledForReport(dprUser.id, reportId, id),
-  )
 
-  const bookmarkConfig = setUpBookmark(res, services.bookmarkService)
+  // Get the report actions
+  const extractedDefinitionData = ViewAsyncReportUtils.extractDataFromDefinition(reportDefinition)
+  const bookmarkConfig = setUpBookmark(res, req, services.bookmarkService)
+  const downloadConfig = setUpDownload(res, req, extractedDefinitionData, columns, LoadType.SYNC)
+  const actions = ReportActionsUtils.setActions(extractedDefinitionData, downloadConfig)
+  const feedbackFormHref = req.session.currentReportJourney?.feedbackSubmissionFormPath
 
+  // Get the table data and filters, pagination etc
   const renderData = await getRenderData({
     req,
     res,
@@ -186,7 +154,7 @@ export const getReport = async ({ req, res, services }: { req: Request; res: Res
     reportData,
     count,
     csrfToken,
-    canDownload,
+    columns,
   })
 
   if (Object.keys(renderData).length) {
@@ -203,11 +171,6 @@ export const getReport = async ({ req, res, services }: { req: Request; res: Res
     })
   }
 
-  const feedbackFormHref = setNestedPath(
-    `/dpr/download-report/request-download/${reportId}/${id}/form?reportUrl=${renderData.reportUrl}`,
-    res.locals.nestedBaseUrl,
-  )
-
   return {
     renderData: {
       feedbackFormHref,
@@ -217,6 +180,8 @@ export const getReport = async ({ req, res, services }: { req: Request; res: Res
       reportId,
       id,
       bookmarkConfig,
+      downloadConfig,
+      actions,
       dataProductDefinitionsPath,
     },
   }
@@ -232,6 +197,7 @@ export const getReportRenderData = async ({
   data,
   filtersType,
   definition,
+  columns,
 }: {
   req: Request
   res?: Response
@@ -242,11 +208,11 @@ export const getReportRenderData = async ({
   data: Dict<string>[]
   filtersType?: FiltersType
   definition: components['schemas']['SingleVariantReportDefinition']
+  columns: Columns
 }) => {
   const url = parseUrl(req)
   const fullUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`
   const pathname = url?.search ? req.originalUrl.split(url.search)[0] : req.originalUrl
-  const columns = ColumnUtils.getColumns(specification, req)
   const reportDefinition = {
     ...definition,
     variant: {
@@ -307,8 +273,7 @@ export const getRenderData = async ({
   reportQuery,
   reportData,
   count,
-  csrfToken,
-  canDownload,
+  columns,
 }: {
   req: Request
   res: Response
@@ -318,10 +283,8 @@ export const getRenderData = async ({
   reportData: ListWithWarnings
   csrfToken: string
   count: number
-  canDownload: boolean
+  columns: Columns
 }) => {
-  const { dataProductDefinitionsPath } = req.query
-  const { nestedBaseUrl } = LocalsHelper.getValues(res)
   const { name: reportName, description: reportDescription } = reportDefinition
   const { specification, name, description, classification, printable } = reportDefinition.variant
   const { data } = reportData
@@ -339,20 +302,8 @@ export const getRenderData = async ({
     reportQuery,
     data,
     definition: reportDefinition,
+    columns,
   })
-
-  const actions = setActions(
-    csrfToken,
-    reportDefinition,
-    reportRenderData.columns,
-    `${req.protocol}://${req.get('host')}${req.originalUrl}`,
-    canDownload,
-    count,
-    <string>dataProductDefinitionsPath,
-    reportRenderData.reportUrl,
-    reportRenderData.reportSearch || '',
-    nestedBaseUrl,
-  )
 
   return {
     ...reportRenderData,
@@ -363,10 +314,7 @@ export const getRenderData = async ({
     type: ReportType.REPORT,
     classification,
     printable,
-    actions,
     warnings: reportData.warnings,
-    canDownload,
-    nestedBaseUrl,
   }
 }
 
@@ -375,5 +323,4 @@ export default {
   getReport,
   getReportData,
   getReportRenderData,
-  setActions,
 }

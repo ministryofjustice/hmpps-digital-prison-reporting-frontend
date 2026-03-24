@@ -1,7 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { Router } from 'express'
-import { storeJourneySessionParams } from 'src/dpr/middleware/setUpCurrentReport'
-import { setUpViewReportActionsPaths } from '../../../middleware/setUpReportActionsPaths'
+import { storeCurrentReportJourneySessionParams } from 'src/dpr/middleware/setUpCurrentReport'
 import { Services } from '../../../types/Services'
 import ViewReportController from './controller'
 
@@ -19,8 +18,7 @@ export function Routes({ layoutPath, services }: { services: Services; layoutPat
   // -------------------
   router.use(
     `/sync/:type/:reportId/:id`,
-    storeJourneySessionParams(),
-    setUpViewReportActionsPaths(services),
+    storeCurrentReportJourneySessionParams(services),
     viewSyncReportRoutes({ layoutPath, services }),
     controller.errorHandler,
   )
@@ -30,8 +28,7 @@ export function Routes({ layoutPath, services }: { services: Services; layoutPat
   // -------------------
   router.use(
     `/async/:type/:reportId/:id/:tableId`,
-    storeJourneySessionParams(),
-    setUpViewReportActionsPaths(services),
+    storeCurrentReportJourneySessionParams(services),
     viewAyncReportRoutes({ layoutPath, services }),
     controller.errorHandler,
   )

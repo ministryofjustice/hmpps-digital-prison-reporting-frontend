@@ -1,7 +1,7 @@
-import { Response } from 'express'
+import { Request, Response } from 'express'
 import { BookmarkService } from '../../services'
 
-const setUpBookmark = (res: Response, bookmarkService: BookmarkService) => {
+const setUpBookmark = (res: Response, req: Request, bookmarkService: BookmarkService) => {
   let bookmarked
   let bookmarkActionEndoint
   let showBookmark = false
@@ -9,7 +9,7 @@ const setUpBookmark = (res: Response, bookmarkService: BookmarkService) => {
   let linkType = 'add'
 
   if (bookmarkService.enabled) {
-    bookmarked = Boolean(res.locals['currentReportIsBookmarked']) || false
+    bookmarked = Boolean(req.session?.currentReportJourney?.reportIsBookmarked) || false
     bookmarkActionEndoint = res.locals['bookmarkActionEndoint']
     showBookmark = true
   }

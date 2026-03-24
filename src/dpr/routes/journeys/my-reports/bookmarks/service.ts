@@ -5,6 +5,7 @@ import { ReportStoreConfig } from '../../../../types/ReportStore'
 import logger from '../../../../utils/logger'
 import { BookmarkStoreData } from '../../../../types/Bookmark'
 import { ServiceFeatureConfig } from '../../../../types/DprConfig'
+import { setNestedPath } from 'src/dpr/utils/urlHelper'
 
 class BookmarkService extends ReportStoreService {
   enabled: boolean
@@ -104,6 +105,7 @@ class BookmarkService extends ReportStoreService {
     let automatic = false
     let linkType = 'add'
 
+
     if (userConfig?.bookmarks) {
       const bookmark = this.getBookmark(userConfig, id, reportId)
       if (bookmark) {
@@ -112,6 +114,9 @@ class BookmarkService extends ReportStoreService {
         automatic = Boolean(bookmark.automatic)
       }
     }
+
+    const bookmarkPath = `/dpr/my-reports/bookmarks`
+    const endpoint = setNestedPath(bookmarkPath, nestedBaseUrl)
 
     const classes = 'govuk-link govuk-link--no-visited-state dpr-bookmark-link dpr-user-list-action'
     const linkId = `${reportId}-${id}-${ctxId}`
@@ -123,7 +128,7 @@ class BookmarkService extends ReportStoreService {
       data-id="${id}" 
       data-report-id="${reportId}" 
       data-report-type="${reportType}" 
-      data-base-url="${nestedBaseUrl}"  
+      data-endpoint="${endpoint}"  
       data-csrf-token="${csrfToken}" 
       data-link-type="${linkType}"
     >${linkText}</a>`

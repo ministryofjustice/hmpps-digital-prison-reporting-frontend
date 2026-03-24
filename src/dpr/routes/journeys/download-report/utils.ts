@@ -119,7 +119,6 @@ export const setUpDownload = (
   columns: Columns,
   loadType: LoadType,
   requestData?: ExtractedRequestData,
-  urls?: ReportUrls,
 ): DownloadActionParams => {
   const { reportName, name, specification } = definitionData
   const { tableId, id, reportId } = <{ id: string; tableId: string; reportId: string }>req.params
@@ -127,20 +126,16 @@ export const setUpDownload = (
 
   const enabled = downloadingEnabled
   let canDownload = false
-  let formAction
+  let formAction = res.locals['downloadActionEndpoint']
   let downloadColumns = <string[]>[]
-  let currentUrl = ''
-  let currentQueryParams
   let sortedAsc
   let sortColumn
 
   if (enabled) {
-    canDownload = Boolean(res.locals['downloadAvailableForCurrentReport']) || false
+    canDownload = Boolean(req.session?.currentReportJourney?.downloadEnabled) || false
     formAction = res.locals['downloadActionEndpoint']
     const sections = specification.sections || []
     downloadColumns = [...new Set([...columns.value, ...sections])]
-    currentUrl = urls?.pathname || ''
-    currentQueryParams = urls?.reportSearch
     sortColumn = <string>requestData?.queryData?.['sortColumn']
     sortedAsc = <string>requestData?.queryData?.['sortedAsc']
   }
@@ -157,8 +152,6 @@ export const setUpDownload = (
     loadType,
     formAction,
     canDownload,
-    currentUrl,
-    currentQueryParams,
     ...(sortColumn && { sortColumn }),
     ...(sortedAsc && { sortedAsc }),
     csrfToken,

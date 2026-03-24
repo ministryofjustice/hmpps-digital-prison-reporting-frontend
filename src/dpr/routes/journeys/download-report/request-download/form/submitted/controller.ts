@@ -15,14 +15,13 @@ class RequestDownloadSubmittedController {
   GET: RequestHandler = async (req, res, _next) => {
     const { dprUser } = localsHelper.getValues(res)
     const { reportId, variantId } = req.params
-    const { reportName, variantName, reportUrl, reportSearch } = req.query
+    const { reportName, variantName } = req.query
 
-    let decodedReportSearch
-    if (reportSearch) {
-      decodedReportSearch = decodeURIComponent(<string>reportSearch)
+    let reportHref
+    if (req.session.currentReportJourney) {
+      reportHref = req.session.currentReportJourney.currentReportUrl || ''
+      reportHref = reportHref.replaceAll('/download-disabled', '')
     }
-
-    const reportHref = reportSearch ? `${reportUrl}${decodedReportSearch}` : `${reportUrl}`
 
     await this.services.downloadPermissionService.saveDownloadPermissionData(
       dprUser.id,

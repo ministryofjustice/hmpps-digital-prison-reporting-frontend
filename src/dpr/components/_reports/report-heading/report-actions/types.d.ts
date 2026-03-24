@@ -12,8 +12,6 @@ export interface DownloadActionParams {
   definitionPath: string
   canDownload: boolean
   loadType: LoadType
-  currentUrl: string
-  currentQueryParams?: string | undefined
   formAction: string
   sortColumn?: string
   sortedAsc?: string

@@ -20,14 +20,9 @@ class RequestDownloadController {
     const { reportId, variantId, tableId } = req.params
     const loadType = tableId ? LoadType.ASYNC : LoadType.SYNC
 
-    const { reportSearch, reportUrl } = req.query
-    let queryString
-    let dataProductDefinitionsPath
-
-    if (reportSearch) {
-      queryString = decodeURIComponent(<string>reportSearch)
-      const params = new URLSearchParams(queryString)
-      dataProductDefinitionsPath = params.get('dataProductDefinitionsPath') || definitionsPath
+    let reportUrl
+    if (req.session.currentReportJourney) {
+      reportUrl = req.session.currentReportJourney.currentReportUrl
     }
 
     const variantData: components['schemas']['SingleVariantReportDefinition'] =
@@ -35,7 +30,7 @@ class RequestDownloadController {
         token,
         reportId as string,
         variantId as string,
-        dataProductDefinitionsPath,
+        definitionsPath,
       )
 
     try {
@@ -51,11 +46,9 @@ class RequestDownloadController {
           reportName: variantData.name,
           variantId,
           variantName: variantData.variant.name,
-          tableId,
           loadType,
-          reportUrl,
-          reportSearch: reportSearch || undefined,
           time: new Date().toDateString(),
+          reportUrl,
         },
         csrfToken,
         layoutPath: this.layoutPath,
@@ -67,19 +60,8 @@ class RequestDownloadController {
 
   POST: RequestHandler = async (req, res, _next) => {
     const { body, baseUrl } = req
-    const { reportName, variantName, reportUrl, reportSearch } = body
     logger.info('Download Feedback Submission:', `${JSON.stringify(body)}`)
-
-    let queryParams
-    queryParams = `?reportName=${reportName}&variantName=${variantName}&reportUrl=${reportUrl}`
-
-    if (reportSearch) {
-      const encodedSearch = encodeURIComponent(reportSearch)
-      queryParams = `${queryParams}&reportSearch=${encodedSearch}`
-    }
-
-    const redirect = `${baseUrl}/submitted${queryParams}`
-
+    const redirect = `${baseUrl}/submitted`
     res.redirect(redirect)
   }
 }

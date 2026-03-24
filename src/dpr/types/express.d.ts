@@ -17,8 +17,12 @@ declare module 'express-session' {
       tableId?: string | string[]
       executionId?: string | string[]
       type?: ReportType
+      reportIsBookmarked?: boolean
+      downloadEnabled?: boolean
+      feedbackSubmissionFormPath?: string
       currentReportPathname?: string
       currentReportSearch?: string
+      currentReportUrl?: string
     }
   }
 }

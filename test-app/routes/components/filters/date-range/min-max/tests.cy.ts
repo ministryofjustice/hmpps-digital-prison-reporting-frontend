@@ -1,10 +1,11 @@
+import { checkA11y } from "cypress-tests/cypressUtils"
+
 context('Inputs: date range with min and max', () => {
   const path = '/components/filters/date-range/min-max-date-range'
 
   it('is accessible', () => {
     cy.visit(path)
-    cy.injectAxe()
-    cy.checkA11y()
+    checkA11y()
   })
 
   const expectMinValues = () => {

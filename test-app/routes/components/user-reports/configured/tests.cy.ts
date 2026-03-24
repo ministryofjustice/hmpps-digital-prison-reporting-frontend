@@ -1,3 +1,5 @@
+import { checkA11y } from "cypress-tests/cypressUtils"
+
 context('User reports component', () => {
   const path = '/components/user-reports/configured'
 
@@ -11,8 +13,7 @@ context('User reports component', () => {
 
   it('is accessible', () => {
     cy.visit(path)
-    cy.injectAxe()
-    cy.checkA11y()
+    checkA11y()
   })
 
   it('should not show the bookmarks tab', () => {

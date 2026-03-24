@@ -135,13 +135,16 @@ class DataTableBuilder {
 
             const url = createUrlForParameters(this.currentQueryParams ?? {}, updateQueryParams, this.fields)
 
+            const visuallyHiddenText = `. ${sortDirection === 'none' ? 'Not sorted' : `Sorted ${sortDirection}`}. Click to sort ${nextAsc ? 'Ascending' : 'Descending'}`
+
             return {
               html:
                 `<a ` +
                 `data-column="${f.name}" ` +
+                `aria-describedby="${f.name}"` +
                 `class="data-table-header-button data-table-header-button-sort-${sortDirection} ${classes}" ` +
                 `href="${url}"` +
-                `>${f.display}</a>`,
+                `>${f.display}<span id=${f.name} class="govuk-visually-hidden">${visuallyHiddenText}</span></a>`,
             }
           }
         }

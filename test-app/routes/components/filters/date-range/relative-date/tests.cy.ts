@@ -1,5 +1,6 @@
 import RelativeDateRange from 'src/dpr/components/_inputs/date-range/types'
 import { setRedisState } from '../../../../integrationTests/appStateUtils'
+import { checkA11y } from 'cypress-tests/cypressUtils'
 
 context('Inputs: Relative date range', () => {
   const path = '/components/filters/date-range/relative-date-range#relative-date-range-relative-range'
@@ -7,8 +8,7 @@ context('Inputs: Relative date range', () => {
 
   it('is accessible', () => {
     cy.visit(path)
-    cy.injectAxe()
-    cy.checkA11y()
+    checkA11y()
   })
 
   describe('Setting the relative date range', () => {

@@ -1,5 +1,5 @@
 import { resetFeatureFlags } from 'test-app/routes/integrationTests/appStateUtils'
-import { executeReportStubs } from '../../../../../../cypress-tests/cypressUtils'
+import { checkA11y, executeReportStubs } from '../../../../../../cypress-tests/cypressUtils'
 
 describe('Request a report', () => {
   const path = '/embedded/platform/dpr/request-report/report/request-examples/request-example-success/filters'
@@ -52,8 +52,7 @@ describe('Request a report', () => {
   })
 
   it('is accessible', () => {
-    cy.injectAxe()
-    cy.checkA11y()
+    checkA11y()
   })
 
   context('Selected filters', () => {

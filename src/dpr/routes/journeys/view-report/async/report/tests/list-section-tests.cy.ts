@@ -3,6 +3,7 @@ import {
   requestReportByNameAndDescription,
   stubBaseTasks,
   startReportRequest,
+  checkA11y,
 } from '../../../../../../../../cypress-tests/cypressUtils'
 
 context('Viewing a report', () => {
@@ -500,8 +501,7 @@ context('Viewing a report', () => {
         requestReportByNameAndDescription(listSectionReport)
 
         cy.findByRole('heading', { level: 1, name: /List-section/ }).should('be.visible')
-        cy.injectAxe()
-        cy.checkA11y()
+        checkA11y()
 
         cy.url().then((url) => {
           listSectionReportUrl = url

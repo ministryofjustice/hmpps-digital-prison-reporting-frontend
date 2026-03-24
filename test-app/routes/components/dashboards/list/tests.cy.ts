@@ -1,4 +1,4 @@
-import { executeDashboardStubs, requestReportByNameAndDescription } from '../../../../../cypress-tests/cypressUtils'
+import { checkA11y, executeDashboardStubs, requestReportByNameAndDescription } from '../../../../../cypress-tests/cypressUtils'
 
 context('Dashboard visualisation: List', () => {
   const path = '/embedded/platform'
@@ -19,8 +19,7 @@ context('Dashboard visualisation: List', () => {
       })
 
       cy.findByRole('heading', { level: 1, name: /List - Complete dataset/ }).should('be.visible')
-      cy.injectAxe()
-      cy.checkA11y()
+      checkA11y()
 
       cy.url().then((url) => {
         completeDashboardUrl = url
@@ -203,8 +202,7 @@ context('Dashboard visualisation: List', () => {
       })
 
       cy.findByRole('heading', { level: 1, name: /List - Complete dataset - Historic/ }).should('be.visible')
-      cy.injectAxe()
-      cy.checkA11y()
+      checkA11y()
 
       cy.url().then((url) => {
         completeHistoricDashboardUrl = url
@@ -339,8 +337,7 @@ context('Dashboard visualisation: List', () => {
         description: 'This dashboard represents example list visualisations using a partial dataset',
       })
 
-      cy.injectAxe()
-      cy.checkA11y()
+      checkA11y()
 
       cy.url().then((url) => {
         partialDashboardUrl = url

@@ -10,12 +10,13 @@
     <div id="table-container-{{ loopIndex }}" class='dpr-table-container dpr-table-container--{{ template }}' data-dpr-module="data-table" aria-labelledby="{{ labelId }}">
       <div class="dpr-overflow-gradient" id="dpr-overflow-gradient-{{ loopIndex }}"></div>
       <div class="dpr-table-wrapper" id="dpr-table-wrapper-{{ loopIndex }}" tabindex="0">
+        {# Dont put anything here, it will be rotated 180deg because we're rotating the wrapper, then the content div, so that the scrollbar is at the top. At the time of development, this is the only reliable non-js way to do this #}
         <div class="dpr-table-content">
           {{ govukTable({
             head: head,
             rows: rows,
             classes: 'dpr-data-table',
-            attributes: { 
+            attributes: {
               'id': 'dpr-data-table-' + loopIndex,
               'data-classification': classification,
               'data-col-length': colCount

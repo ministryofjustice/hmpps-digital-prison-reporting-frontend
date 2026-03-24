@@ -1,3 +1,5 @@
+import { checkA11y } from "cypress-tests/cypressUtils"
+
 context('Requested report list', () => {
   const path = '/embedded/platform/dpr/my-reports/requested-reports/list'
 
@@ -10,7 +12,6 @@ context('Requested report list', () => {
 
   it('is accessible', () => {
     cy.visit(path)
-    cy.injectAxe()
-    cy.checkA11y()
+    checkA11y()
   })
 })

@@ -1,8 +1,9 @@
+import { checkA11y } from "cypress-tests/cypressUtils"
+
 context('Parent child template', () => {
   it('is accessible', () => {
     const path = 'templates/parent-child'
     cy.visit(path)
-    cy.injectAxe()
-    cy.checkA11y()
+    checkA11y()
   })
 })

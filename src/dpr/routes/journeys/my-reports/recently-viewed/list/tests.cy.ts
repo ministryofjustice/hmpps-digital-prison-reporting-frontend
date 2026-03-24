@@ -13,26 +13,80 @@ context('Recently viewed list', () => {
     cy.task('stubReportsFinishedStatus')
   }
 
-  before(() => {
-    cy.task('resetStubs')
-    cy.task('resetRedis')
-    cy.task('stubDefinitions')
-    cy.task('stubSingleSummaries')
-  })
-
   beforeEach(() => {
     executeReportStubs()
     cy.task('stubDefinitionRequestExamplesSuccess')
+    cy.task('stubDefinitionFeatureTestingInteractive')
     cy.task('stubRequestSuccessResult20')
     cy.visit(path)
   })
 
-  it('should have no reports in recently viewed', () => {
+  it('should ensure it most the most recently viewed at the top of the list, even when its a duplicate run', () => {
+    cy.findByLabelText(/Reports catalogue.*/i).within(() => {
+      cy.findByRole('row', {
+        name: (_, element) => {
+          return (
+            Boolean(element.textContent?.includes('Successful Report')) &&
+            Boolean(element.textContent?.includes('this will succeed'))
+          )
+        },
+      }).within(() => {
+        cy.findByRole('link', { name: 'Request report' }).click()
+      })
+    })
+    cy.findByRole('button', { name: 'Request report' }).click()
+    cy.findByRole('button', { name: /Enable download/ }).should('be.visible')
+
     cy.visit(path)
-    cy.findByRole('tab', { name: /Viewed \(0\)/ }).should('be.visible')
+    cy.findByLabelText(/Reports catalogue.*/i).within(() => {
+      cy.findByRole('row', {
+        name: (_, element) => {
+          return (
+            Boolean(element.textContent?.includes('Interactive Report')) &&
+            Boolean(element.textContent?.includes('this is an interactive report'))
+          )
+        },
+      }).within(() => {
+        cy.findByRole('link', { name: 'Request report' }).click()
+      })
+    })
+    cy.findByRole('button', { name: 'Request report' }).click()
+    cy.findByRole('button', { name: /Enable download/ }).should('be.visible')
+
+    cy.visit(path)
+    cy.findByRole('tab', { name: /Viewed/ }).click()
+    cy.findByLabelText(/Viewed/i).within(() => {
+      const rows = cy.findAllByRole('row')
+      rows.should('have.length', 3) // two rows plus header row
+      rows.eq(1).should('contain.text', 'Interactive Report')
+    })
+
+    cy.findByLabelText(/Reports catalogue.*/i).within(() => {
+      cy.findByRole('row', {
+        name: (_, element) => {
+          return (
+            Boolean(element.textContent?.includes('Successful Report')) &&
+            Boolean(element.textContent?.includes('this will succeed'))
+          )
+        },
+      }).within(() => {
+        cy.findByRole('link', { name: 'Request report' }).click()
+      })
+    })
+    cy.findByRole('button', { name: 'Request report' }).click()
+    cy.findByRole('button', { name: /Enable download/ }).should('be.visible')
+
+    cy.visit(path)
+    cy.findByRole('tab', { name: /Viewed/ }).click()
+    cy.findByLabelText(/Viewed \(2\)/i).within(() => {
+      const rows = cy.findAllByRole('row')
+      rows.should('have.length', 3) // two rows plus header row
+      rows.eq(1).should('contain.text', 'Successful Report')
+    })
   })
 
   it('should behave correctly for an expired request', () => {
+    cy.findByRole('tab', { name: /Viewed \(0\)/ }).should('be.visible')
     cy.findByLabelText(/Reports catalogue.*/i).within(() => {
       cy.findByRole('row', {
         name: (_, element) => {

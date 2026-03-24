@@ -1,3 +1,5 @@
+import { checkA11y } from "cypress-tests/cypressUtils"
+
 context('Catalogue component', () => {
   const path = '/components/catalogue/default'
 
@@ -11,8 +13,7 @@ context('Catalogue component', () => {
   })
 
   it('is accessible', () => {
-    cy.injectAxe()
-    cy.checkA11y()
+    checkA11y()
   })
 
   describe('Catalogue filters', () => {

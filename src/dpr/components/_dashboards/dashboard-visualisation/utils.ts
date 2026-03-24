@@ -10,8 +10,7 @@ import ListChartSchemas from '../dashboard-list/validate'
 import ScorecardChartSchemas from '../scorecard/validate'
 import ScorecardGroupChartSchemas from '../scorecard-group/validate'
 import { AggregatedValidationError } from '../../../utils/ErrorHandler/AggregatedValidationError'
-import { VisualisationDefinitionUnitType } from './types'
-import { DashboardVisualisationType } from './types'
+import { VisualisationDefinitionUnitType, DashboardVisualisationType } from './types'
 import { FEATURE_FLAG_KEYS } from '../../../utils/featureFlagsHelper'
 
 const schemaMap: Record<string, ZodType<unknown>> = {

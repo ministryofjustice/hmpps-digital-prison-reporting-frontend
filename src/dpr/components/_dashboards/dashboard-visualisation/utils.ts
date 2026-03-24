@@ -11,6 +11,8 @@ import ScorecardChartSchemas from '../scorecard/validate'
 import ScorecardGroupChartSchemas from '../scorecard-group/validate'
 import { AggregatedValidationError } from '../../../utils/ErrorHandler/AggregatedValidationError'
 import { VisualisationDefinitionUnitType } from './types'
+import { DashboardVisualisationType } from './types'
+import { FEATURE_FLAG_KEYS } from '../../../utils/featureFlagsHelper'
 
 const schemaMap: Record<string, ZodType<unknown>> = {
   list: ListChartSchemas.ListSchema,
@@ -106,5 +108,19 @@ export const mapUnitType = (unit: VisualisationDefinitionUnitType): string => {
       return '%'
     default:
       return ''
+  }
+}
+
+export const getFeatureFlagVisTypeMap = (dashboardFeatureFlags: Record<string, boolean>) => {
+  return {
+    [DashboardVisualisationType.LIST]: true,
+    [DashboardVisualisationType.BAR]: dashboardFeatureFlags[FEATURE_FLAG_KEYS.BAR_CHARTS],
+    [DashboardVisualisationType.LINE]: dashboardFeatureFlags[FEATURE_FLAG_KEYS.LINE_CHARTS],
+    [DashboardVisualisationType.DONUT]: dashboardFeatureFlags[FEATURE_FLAG_KEYS.DONUT_CHARTS],
+    [DashboardVisualisationType.SCORECARD]: dashboardFeatureFlags[FEATURE_FLAG_KEYS.SCORECARD_CHARTS],
+    [DashboardVisualisationType.SCORECARD_GROUP]: dashboardFeatureFlags[FEATURE_FLAG_KEYS.SCORECARD_GROUP_CHARTS],
+    [DashboardVisualisationType.MATRIX_TIMESERIES]: dashboardFeatureFlags[FEATURE_FLAG_KEYS.MATRIX_TIMESERIES_CHARTS],
+    [DashboardVisualisationType.BAR_TIMESERIES]: dashboardFeatureFlags[FEATURE_FLAG_KEYS.BAR_TIMESERIES_CHARTS],
+    [DashboardVisualisationType.LINE_TIMESERIES]: dashboardFeatureFlags[FEATURE_FLAG_KEYS.LINE_TIMESERIES_CHARTS],
   }
 }

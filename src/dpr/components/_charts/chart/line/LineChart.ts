@@ -78,16 +78,20 @@ class LineChart extends Chart {
   }
 
   setBespokeOptions = () => {
+    this.setScales()
+
     this.config = {
       ...this.config,
       scales: {
         y: {
+          ...this.config.scales!.y,
           min: 0,
           ticks: {
             fontSize: 12,
           },
         },
         x: {
+          ...this.config.scales!.x,
           ticks: {
             fontSize: 12,
           },

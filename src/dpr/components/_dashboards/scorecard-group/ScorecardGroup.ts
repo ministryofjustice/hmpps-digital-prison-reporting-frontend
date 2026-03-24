@@ -1,6 +1,6 @@
 /* eslint-disable prefer-destructuring */
 import { DashboardDataResponse } from '../../../types/Metrics'
-import DatasetHelper from '../../../utils/datasetHelper'
+import DatasetHelper from '../../../utils/Dashboards/VisualisationDatasetHelper'
 import { ScorecardDataset, ScorecardGroup } from '../scorecard/types'
 import Buckets from '../../_charts/chart/buckets/Buckets'
 import { components } from '../../../types/api'
@@ -108,6 +108,7 @@ class ScorecardGroupVisualisation {
           .map((colId) => {
             const measure = this.measures.find((m) => m.id === colId)
             const title = measure?.display || colId
+            const unit = measure?.unit
             const rowCol = row[colId]
             const { raw, rag } = rowCol
             const value = Number(raw)
@@ -130,6 +131,7 @@ class ScorecardGroupVisualisation {
               prevVal,
               valueFor,
               valueFrom,
+              unit,
             })
           }),
       }

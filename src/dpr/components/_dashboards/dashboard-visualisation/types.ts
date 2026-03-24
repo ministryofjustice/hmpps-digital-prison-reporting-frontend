@@ -135,9 +135,9 @@ export enum VisualisationDefinitionAggregateType {
 }
 
 export type ChartMeasure =
-  | BarDefinitionMeasure[]
-  | DoughnutDefinitionMeasure[]
-  | LineDefinitionMeasure[]
-  | VisualisationDefinitionMeasure[]
+  | BarDefinitionMeasure
+  | DoughnutDefinitionMeasure
+  | LineDefinitionMeasure
+  | VisualisationDefinitionMeasure
 
 export type TimeseriesChartMeasure = LineTimeseriesDefinitionMeasure[] | BarTimeseriesDefinitionMeasure[]

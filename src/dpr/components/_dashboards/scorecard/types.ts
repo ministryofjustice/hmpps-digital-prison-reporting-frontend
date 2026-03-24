@@ -1,6 +1,7 @@
 import z from 'zod'
 import { DashboardDataResponse } from '../../../types/Metrics'
 import ScorecardSchema from './validate'
+import { UnitType } from '../dashboard-visualisation/Validate'
 
 export interface Scorecard {
   id: string
@@ -30,8 +31,8 @@ export interface ScorecardGroup {
 }
 
 export interface ScorecardTrend {
-  direction: number
-  value: number
+  direction: string
+  value: string
   from: string
 }
 
@@ -61,6 +62,7 @@ export interface CreateScorecardDataArgs {
   valueFrom: string
   prevVal: string | number | null | undefined
   groupTitle?: string
+  unit?: UnitType | undefined
 }
 
 export type ScorecardDefinitionType = z.infer<typeof ScorecardSchema.ScorecardSchema>

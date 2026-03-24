@@ -79,7 +79,7 @@ Below you can find the changes included in each release.
 - Fix an issue where dashboards were erroring when there was no data
 - Bump rollup and other dev dependencies
 
-## 5.2.4
+## 5.2.4 - Requires minimum BE library version [10.0.1](https://github.com/ministryofjustice/hmpps-digital-prison-reporting-lib/blob/main/CHANGELOG.md#1001)
 
 - Enable the new streaming download for sync reports and disable the legacy non-streaming version.
 
@@ -152,7 +152,7 @@ You will then be able to get type inference on the injected `locals`.
 
 - Remove PII from logs
 
-## 4.32.0
+## 4.32.0 - Requires minimum BE library version [9.11.20](https://github.com/ministryofjustice/hmpps-digital-prison-reporting-lib/blob/main/CHANGELOG.md#91120)
 
 - Enable the new streaming download for async reports and disable the legacy non-streaming version.
 

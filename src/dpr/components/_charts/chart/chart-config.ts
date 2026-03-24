@@ -97,6 +97,10 @@ type ChartScaleAxis = {
     display: boolean
     drawBorder: boolean
   }
+  title?: {
+    display: boolean
+    text: string
+  }
   ticks?: {
     fontSize?: number
     padding?: number

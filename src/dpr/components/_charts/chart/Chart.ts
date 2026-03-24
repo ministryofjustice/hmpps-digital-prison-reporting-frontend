@@ -4,21 +4,22 @@ import {
   DashboardVisualisationDataSet,
   VisualisationDefinitionKey,
   ChartMeasure,
-  VisualisationDefinitionUnitType,
 } from '../../_dashboards/dashboard-visualisation/types'
+import { UnitType } from '../../_dashboards/dashboard-visualisation/Validate'
 import ChartColoursHelper from './ChartColours'
 import ChartLabelsHelper from './ChartLabels'
 import { BarDefinitionMeasure } from './bar/types'
 import ChartConfig from './chart-config'
 import { LineDefinitionMeasure } from './line/types'
-import DatasetHelper from '../../../utils/datasetHelper'
+import DatasetHelper from '../../../utils/Dashboards/VisualisationDatasetHelper'
+import { mapUnitToSymbol } from '../../../utils/Dashboards/VisualisationUnitHelper'
 
 class Chart {
   labels: string[] = []
 
   datasets: DashboardVisualisationDataSet[] = []
 
-  unit: VisualisationDefinitionUnitType | undefined
+  unit: UnitType | undefined
 
   responseData: DashboardDataResponse[] = []
 
@@ -48,7 +49,7 @@ class Chart {
     return this
   }
 
-  initUnit = (measures: ChartMeasure) => {
+  initUnit = (measures: ChartMeasure[]) => {
     this.unit = measures.find((m) => m.unit)?.unit
   }
 
@@ -66,11 +67,11 @@ class Chart {
    * - where each row is a dataset
    * - each column name is an x axis label
    *
-   * @param {ChartMeasure} measures
+   * @param {ChartMeasure[]} measures
    * @param {VisualisationDefinitionKey[]} keys
    * @memberof Chart
    */
-  createDatasets = (measures: ChartMeasure, keys: VisualisationDefinitionKey[]) => {
+  createDatasets = (measures: ChartMeasure[], keys: VisualisationDefinitionKey[]) => {
     this.datasets = this.responseData.map((row, datasetIndex) => {
       const label = this.chartLabelsHelper.getDatasetLabel(keys, row)
       const data = this.createDatasetValues(measures, row)
@@ -83,7 +84,6 @@ class Chart {
         ...this.setStyles(datasetIndex),
       }
     })
-
     this.labels = this.chartLabelsHelper.getLabels(measures)
   }
 
@@ -92,16 +92,15 @@ class Chart {
    * - ecah column is a dataset
    * - each value in a column is an x axis label
    *
-   * @param {ChartMeasure} measures
+   * @param {ChartMeasure[]} measures
    * @param {VisualisationDefinitionKey[]} keys
    * @memberof Chart
    */
-  createListDatasets = (measures: ChartMeasure, keys: VisualisationDefinitionKey[]) => {
+  createListDatasets = (measures: ChartMeasure[], keys: VisualisationDefinitionKey[]) => {
     this.xAxisColumn = measures.find((col: BarDefinitionMeasure | LineDefinitionMeasure) => col.axis === 'x')
     this.yAxisColumn = measures.find((col: BarDefinitionMeasure | LineDefinitionMeasure) => col.axis === 'y')
     const yId = this.yAxisColumn?.id || ''
     const xId = this.xAxisColumn?.id || ''
-
     const keyIds = keys.map((key) => key.id)
     this.groupedData = keyIds.length ? DatasetHelper.groupRowsBy(this.responseData, keyIds) : [this.responseData]
     this.labels = this.chartLabelsHelper.getListLabels(this.groupedData, xId)
@@ -129,9 +128,12 @@ class Chart {
         ...this.setStyles(groupIndex),
       }
     })
+
+    const unitSymbol = mapUnitToSymbol(this.yAxisColumn?.unit)
+    this.labels = this.chartLabelsHelper.getListLabels(this.groupedData, xId, unitSymbol)
   }
 
-  private createDatasetValues = (measures: ChartMeasure, row: DashboardDataResponse) => {
+  private createDatasetValues = (measures: ChartMeasure[], row: DashboardDataResponse) => {
     return measures.map((column) => {
       const rowId = column.id
       return row[rowId] && row[rowId].raw ? Number(row[rowId].raw) : 0
@@ -144,6 +146,34 @@ class Chart {
 
   private setStyles = (datasetIndex: number) => {
     return this.chartColoursHelper.setColourStyles(datasetIndex)
+  }
+
+  // -----------------------------------------------------------------------------
+  //  Scales
+  // ----------------------------------------------------------------------------
+
+  setScales = (args?: { label?: string; horizontal?: boolean | undefined }) => {
+    const labelText = args?.label || 'Total'
+    const unitSymbol = mapUnitToSymbol(this.unit)
+    const text = unitSymbol ? `${labelText} (${unitSymbol})` : labelText
+    const title = {
+      display: true,
+      text,
+    }
+
+    const scales = {
+      x: {
+        ...(args?.horizontal && { title }),
+      },
+      y: {
+        ...(!args?.horizontal && { title }),
+      },
+    }
+
+    this.config = {
+      ...this.config,
+      scales,
+    }
   }
 }
 

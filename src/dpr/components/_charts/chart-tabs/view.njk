@@ -2,6 +2,7 @@
 {% from "govuk/components/tabs/macro.njk" import govukTabs %}
 {% from "govuk/components/table/macro.njk" import govukTable %}
 {% from "../../_dashboards/dashboard-visualisation-no-data-message/view.njk" import dprDashboardVisNoData %}
+{% from "../../_reports/report-page/report-template/report-section/report-data-table/view.njk" import dprDataTable %}
 
 {% macro dprChartTabs(id, data) %}
   {% set chartData = data.chart %}
@@ -33,7 +34,7 @@
   {% if tableData %}
   {% set tableHtml %}
   <div class="dpr-chart-tab-table">
-    {{ govukTable(tableData)}}
+    {{ dprDataTable(tableData)}}
   </div>
   {% endset %}
 

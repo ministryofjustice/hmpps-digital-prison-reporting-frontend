@@ -5,7 +5,7 @@ import {
   TimeseriesChartMeasure,
   VisualisationDefinitionKey,
 } from '../../_dashboards/dashboard-visualisation/types'
-import DatasetHelper from '../../../utils/datasetHelper'
+import DatasetHelper from '../../../utils/Dashboards/VisualisationDatasetHelper'
 import { BarTimeseriesDefinitionMeasure, BarTimeseriesDefinitionType } from './bar-timeseries/types'
 import { LineTimeseriesDefinitionMeasure, LineTimeseriesDefinitionType } from './line-timeseries/types'
 import ChartColoursHelper from './ChartColours'

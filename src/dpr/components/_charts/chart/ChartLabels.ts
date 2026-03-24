@@ -1,3 +1,4 @@
+import { mapUnitToSymbol, setUnitOnValue } from '../../../utils/Dashboards/VisualisationUnitHelper'
 import { DashboardDataResponse } from '../../../types/Metrics'
 import {
   ChartMeasure,
@@ -12,8 +13,11 @@ export default class ChartLabelsHelper {
    * @param {ChartMeasure} measures
    * @memberof ChartLabelsHelper
    */
-  getLabels = (measures: ChartMeasure) => {
-    return measures.map((col) => col.display || '')
+  getLabels = (measures: ChartMeasure[]) => {
+    return measures.map((col) => {
+      const { unit, display } = col
+      return setUnitOnValue(display || '', mapUnitToSymbol(unit))
+    })
   }
 
   /**
@@ -46,11 +50,15 @@ export default class ChartLabelsHelper {
    * @param {string} axisId
    * @memberof ChartLabelsHelper
    */
-  getListLabels = (groups: DashboardDataResponse[][], axisId: string) => {
+  getListLabels = (groups: DashboardDataResponse[][], axisId: string, unitSymbol?: string) => {
     const allLabels = groups.flatMap((gd) => {
       return gd.map((row) => {
         const field = row[axisId]
-        return field ? `${field.raw}` : ''
+        let label = ''
+        if (field) {
+          label = setUnitOnValue(field.raw || '', unitSymbol)
+        }
+        return label
       })
     })
 

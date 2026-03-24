@@ -8,7 +8,7 @@ import { DashboardDataResponse } from '../../types/Metrics'
  * @return {*}  {boolean}
  */
 export const hasOptionalKeys = (keys: components['schemas']['DashboardVisualisationColumnDefinition'][]): boolean => {
-  return keys?.some((key) => key.optional)
+  return Boolean(keys?.some((key) => key.optional))
 }
 
 /**

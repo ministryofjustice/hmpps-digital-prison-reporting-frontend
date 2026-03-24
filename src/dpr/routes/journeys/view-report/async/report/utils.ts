@@ -61,6 +61,8 @@ export const getData = async ({
   // Get the columns
   const columns = ColumnUtils.getColumns(specification, req)
 
+  console.log({ columns })
+
   // initialise report query
   const reportQuery = await initReportQuery(definition, columns, res, req, services, requestData)
 

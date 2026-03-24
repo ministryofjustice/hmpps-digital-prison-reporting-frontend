@@ -1,7 +1,7 @@
 import { Request } from 'express'
 import { components } from '../../../../../types/api'
 import { Column, Columns } from './types'
-import { distinct } from '../../../../../utils/arrayUtils'
+import { normalizeQueryStringArray } from '../../../../../utils/urlHelper'
 
 export const mandatoryColumns = (fields: Array<components['schemas']['FieldDefinition']>) =>
   fields.filter((field) => field.mandatory).map((field) => field.name)
@@ -15,13 +15,15 @@ export const ensureMandatoryColumns = (
 ) => {
   let queryCols
   if (queryColumns) {
+    console.log('', { queryColumns })
     queryCols = Array.isArray(queryColumns) ? queryColumns : [queryColumns]
   }
+
   const visibleCols = visibleColumns(fields)
   const mandatoryCols = mandatoryColumns(fields)
 
   const columns = queryCols || visibleCols
-  return [...mandatoryCols, ...columns].reduce(distinct, [])
+  return Array.from(new Set([...mandatoryCols, ...columns]))
 }
 
 /**
@@ -31,7 +33,7 @@ export const ensureMandatoryColumns = (
  * @param requestedColumns
  */
 export const getColumns = (specification: components['schemas']['Specification'], req: Request): Columns => {
-  const requestedColumns = <string[] | string | undefined>req.query['columns']
+  const requestedColumns = normalizeQueryStringArray(<string[] | string | undefined>req.query['columns'])
   const { fields } = specification
 
   const options: Column[] = fields.map((field) => ({

@@ -15,7 +15,6 @@ export const ensureMandatoryColumns = (
 ) => {
   let queryCols
   if (queryColumns) {
-    console.log('', { queryColumns })
     queryCols = Array.isArray(queryColumns) ? queryColumns : [queryColumns]
   }
 

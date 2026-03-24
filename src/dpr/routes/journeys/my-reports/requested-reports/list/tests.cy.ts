@@ -1,4 +1,4 @@
-import { checkA11y } from "cypress-tests/cypressUtils"
+import { checkA11y } from 'cypress-tests/cypressUtils'
 
 context('Requested report list', () => {
   const path = '/embedded/platform/dpr/my-reports/requested-reports/list'

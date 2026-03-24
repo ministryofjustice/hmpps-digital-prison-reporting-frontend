@@ -102,7 +102,7 @@ const populateDefinitions = async (services: Services, req: Request, res: Respon
     (await Promise.all([
       services.reportingService.getDefinitions(token, res.locals['definitionsPath']),
       selectedProductCollectionId &&
-      services.productCollectionService.getProductCollection(token, selectedProductCollectionId),
+        services.productCollectionService.getProductCollection(token, selectedProductCollectionId),
     ]).then(([defs, selectedProductCollection]) => {
       if (selectedProductCollection && selectedProductCollection) {
         const productIds = selectedProductCollection.products.map((product) => product.productId)
@@ -139,22 +139,22 @@ const populateRequestedReports = async (services: Services, res: Response) => {
     res.locals['requestedReports'] = !definitionsPath
       ? requested
       : requested.filter((report: RequestedReport) => {
-        return DefinitionUtils.getCurrentVariantDefinition(definitions, report.reportId, report.id)
-      })
+          return DefinitionUtils.getCurrentVariantDefinition(definitions, report.reportId, report.id)
+        })
 
     res.locals['recentlyViewedReports'] = !definitionsPath
       ? recent
       : recent.filter((report: StoredReportData) => {
-        return DefinitionUtils.getCurrentVariantDefinition(definitions, report.reportId, report.id)
-      })
+          return DefinitionUtils.getCurrentVariantDefinition(definitions, report.reportId, report.id)
+        })
 
     if (res.locals['bookmarkingEnabled']) {
       const bookmarks = await services.bookmarkService.getAllBookmarks(dprUser.id)
       res.locals['bookmarks'] = !definitionsPath
         ? bookmarks
         : bookmarks.filter((bookmark: BookmarkStoreData) => {
-          return DefinitionUtils.getCurrentVariantDefinition(definitions, bookmark.reportId, bookmark.id)
-        })
+            return DefinitionUtils.getCurrentVariantDefinition(definitions, bookmark.reportId, bookmark.id)
+          })
     }
   }
 }

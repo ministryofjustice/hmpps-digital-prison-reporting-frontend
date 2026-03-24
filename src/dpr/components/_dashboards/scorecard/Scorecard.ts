@@ -147,8 +147,6 @@ class ScorecardVisualisation {
     if (valueFrom !== valueFor) {
       const value = earliestValue ? Number(latestValue) - Number(earliestValue) : 0
       const direction: string = this.trendSymbols[Math.sign(value)] || this.trendSymbols[2]
-      console.log({ value, direction })
-
       const diplayValue = setUnitOnValue(Math.abs(value), mapUnitToSymbol(unit || this.unit), false)
 
       trendData = {
@@ -156,8 +154,6 @@ class ScorecardVisualisation {
         value: diplayValue,
         from: valueFrom,
       }
-
-      console.log({ trendData })
     }
 
     return trendData
@@ -184,9 +180,6 @@ class ScorecardVisualisation {
       const valueFor = `${latestTs}`
       const valueFrom = `${earliestTs}`
       const title = this.titleColumn?.display
-
-      console.log(`
-${title}`)
 
       return this.createScorecardData({
         id: this.id,

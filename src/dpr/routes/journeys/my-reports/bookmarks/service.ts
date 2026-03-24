@@ -1,3 +1,4 @@
+import { setNestedPath } from 'src/dpr/utils/urlHelper'
 import ReportStoreService from '../../../../services/reportStoreService'
 import ReportDataStore from '../../../../data/reportDataStore'
 import { ReportType } from '../../../../types/UserReports'
@@ -5,7 +6,6 @@ import { ReportStoreConfig } from '../../../../types/ReportStore'
 import logger from '../../../../utils/logger'
 import { BookmarkStoreData } from '../../../../types/Bookmark'
 import { ServiceFeatureConfig } from '../../../../types/DprConfig'
-import { setNestedPath } from 'src/dpr/utils/urlHelper'
 
 class BookmarkService extends ReportStoreService {
   enabled: boolean
@@ -104,7 +104,6 @@ class BookmarkService extends ReportStoreService {
     let linkText = 'Add bookmark'
     let automatic = false
     let linkType = 'add'
-
 
     if (userConfig?.bookmarks) {
       const bookmark = this.getBookmark(userConfig, id, reportId)

@@ -7,6 +7,7 @@ import LocalsHelper from '../../../utils/localsHelper'
 import definitionUtils from '../../../utils/definitionUtils'
 import DateMapper from '../../../utils/DateMapper/DateMapper'
 import ColumnsUtils from '../../../components/_reports/report-heading/report-columns/report-columns-form/utils'
+import { normalizeQueryStringArray } from 'src/dpr/utils/urlHelper'
 
 export const applyReportInteractiveQuery = async (
   req: Request,
@@ -103,8 +104,9 @@ const applyInteractiveQuery = async (
     const columnsData = [...mandatoryCols, ...bodyColumns]
     formData = { ...formData, columns: columnsData, ...filters }
   } else {
-    const columns = interactiveQueryData?.['columns'] || []
-    formData = { ...formData, columns }
+    const normalizedColumns = normalizeQueryStringArray(interactiveQueryData?.['columns']) || []
+    console.log({ normalizedColumns })
+    formData = { ...formData, columns: normalizedColumns }
   }
 
   // Create query string

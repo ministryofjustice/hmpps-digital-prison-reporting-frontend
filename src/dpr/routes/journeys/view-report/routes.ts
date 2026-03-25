@@ -42,7 +42,9 @@ export function Redirects(): Router {
   // View Report
   router.get([`/async/:type/:reportId/:id/request/:tableId/:type`], (req, res) => {
     const { type, reportId, id, tableId } = req.params
-    res.redirect(`${res.app.locals['nestedBaseUrl']}/dpr/view-report/async/${type}/${reportId}/${id}/${tableId}/${type}`)
+    res.redirect(
+      `${res.app.locals['nestedBaseUrl']}/dpr/view-report/async/${type}/${reportId}/${id}/${tableId}/${type}`,
+    )
   })
 
   // Download

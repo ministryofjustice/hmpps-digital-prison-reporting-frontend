@@ -126,7 +126,7 @@ export const setUpDownload = (
 
   const enabled = downloadingEnabled
   let canDownload = false
-  let formAction = res.app.locals['downloadActionEndpoint']
+  const formAction = res.app.locals['downloadActionEndpoint']
   let downloadColumns = <string[]>[]
   let sortedAsc
   let sortColumn

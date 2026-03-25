@@ -1,11 +1,15 @@
 Below you can find the changes included in each release.
 
-## 5.8.2
+## 5.8.3
+
+- Columns bug fix - Added normalization for query params to ensure consistent string[] output across environments.
+
+## 5.8.2
 
 - fix 404 on download form
 - fix 404 when clicking enable download twice
 
-## 5.8.1
+## 5.8.1
 
 - removing a whole bunch of tests that were already covered by our existing ones
 - fixing a label
@@ -53,7 +57,7 @@ Below you can find the changes included in each release.
 
 - Multiselect inputs: Addition of show/hide all select items toggle
 
-## 5.5.0
+## 5.5.0
 
 - Make client-side JS output be ESM based, not CJS, and ensure the default import has all dependencies bundled, with an optional `/slim` import for unbundled
 - Update `redis` to 5.11.0

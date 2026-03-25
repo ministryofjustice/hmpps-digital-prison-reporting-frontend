@@ -34,7 +34,7 @@ export const storeCurrentReportJourneySessionParams = (services: Services): Requ
     }
 
     // only set the session on get requests
-    if (req.method !== 'GET') return
+    if (req.method !== 'GET') return next()
 
     // Get the bits we need from the req params
     const { id, reportId, type, tableId, executionId } = req.params
@@ -72,8 +72,6 @@ export const storeCurrentReportJourneySessionParams = (services: Services): Requ
         ...params,
       }
     }
-
-    console.log(JSON.stringify(req.session.currentReportJourney, null, 2))
 
     next()
   }

@@ -105,7 +105,6 @@ const applyInteractiveQuery = async (
     formData = { ...formData, columns: columnsData, ...filters }
   } else {
     const normalizedColumns = normalizeQueryStringArray(interactiveQueryData?.['columns']) || []
-    console.log({ normalizedColumns })
     formData = { ...formData, columns: normalizedColumns }
   }
 

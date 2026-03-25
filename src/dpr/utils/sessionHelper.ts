@@ -1,5 +1,14 @@
 import type { Request } from 'express'
 
+/**
+ * Gets the field value for a specific session key
+ *
+ * @export
+ * @param {Request} req
+ * @param {string} sessionKey
+ * @param {string} field
+ * @return {*}
+ */
 export function getSessionValue(req: Request, sessionKey: string, field: string) {
   if (!req.session) return undefined
 

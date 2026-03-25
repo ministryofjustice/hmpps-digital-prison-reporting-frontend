@@ -2,7 +2,12 @@ import type { Request } from 'express'
 
 export function getSessionValue(req: Request, sessionKey: string, field: string) {
   if (!req.session) return undefined
-  const container = (req.session as any)[sessionKey]
-  if (!container) return undefined
-  return container[field]
+
+  const container = (req.session as unknown as Record<string, unknown>)[sessionKey]
+
+  if (!container || typeof container !== 'object') {
+    return undefined
+  }
+
+  return (container as Record<string, unknown>)[field]
 }

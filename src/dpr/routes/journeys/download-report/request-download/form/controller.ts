@@ -20,7 +20,7 @@ class RequestDownloadController {
     const { token, csrfToken, definitionsPath, dprUser } = LocalsHelper.getValues(res)
     const { reportId, variantId, tableId } = req.params
     const loadType = tableId ? LoadType.ASYNC : LoadType.SYNC
-    let reportUrl = getSessionValue(req, 'currentReportJourney', 'currentReportUrl')
+    const reportUrl = getSessionValue(req, 'currentReportJourney', 'currentReportUrl')
 
     const variantData: components['schemas']['SingleVariantReportDefinition'] =
       await this.services.reportingService.getDefinition(

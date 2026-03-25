@@ -213,12 +213,12 @@ export const renderAsyncDashboard = async ({ req, res, services }: AsyncReportUt
       name: dashboardDefinition.name,
       description: dashboardDefinition.description,
       reportName: reportDefinition.name,
-      ...bookmarkConfig,
       csrfToken,
       sections,
       filters,
       type: ReportType.DASHBOARD,
       actions: setDashboardActions(dashboardDefinition, reportDefinition, requestData),
+      bookmarkConfig,
     },
   }
 }

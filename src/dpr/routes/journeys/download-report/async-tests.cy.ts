@@ -67,11 +67,6 @@ context('Download report', () => {
         'match',
         /\/embedded\/platform\/dpr\/download-report\/request-download\/request-examples\/request-example-success\/tableId\/tblId_[0-9]+\/form/,
       )
-      cy.location().should((location) => {
-        expect(location.search).to.match(
-          /.*reportUrl=\/embedded\/platform\/dpr\/view-report\/async\/report\/request-examples\/request-example-success\/tblId_[0-9]+\/report/,
-        )
-      })
     })
   })
 

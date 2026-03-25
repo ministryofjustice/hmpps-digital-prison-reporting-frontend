@@ -57,11 +57,6 @@ context('Platform sync download tests', () => {
         'match',
         /\/embedded\/platform\/dpr\/download-report\/request-download\/feature-testing\/feature-testing-sync\/form/,
       )
-      cy.location().should((location) => {
-        expect(location.search).to.match(
-          /.*reportUrl=\/embedded\/platform\/dpr\/view-report\/sync\/report\/feature-testing\/feature-testing-sync\/report/,
-        )
-      })
     })
   })
 

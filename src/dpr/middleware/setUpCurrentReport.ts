@@ -73,7 +73,7 @@ export const storeCurrentReportJourneySessionParams = (services: Services): Requ
       }
     }
 
-    next()
+    return next()
   }
 }
 

@@ -112,31 +112,21 @@ export const setNestedPath = (url: string, baseUrl?: string) => {
 
 export const normalizeQueryStringArray = (
   queryParamValue: string[] | string | Record<string, string> | undefined,
-): string[] => {
-  if (Array.isArray(queryParamValue)) {
-    return queryParamValue
-  }
+): string[] | undefined => {
+  if (queryParamValue == null) return undefined
 
-  if (queryParamValue && typeof queryParamValue === 'object') {
+  if (Array.isArray(queryParamValue)) return queryParamValue
+
+  if (typeof queryParamValue === 'object') {
     const obj = queryParamValue as Record<string, string>
-
     const numericKeys = Object.keys(obj)
       .filter((k) => /^\d+$/.test(k))
       .sort((a, b) => Number(a) - Number(b))
 
-    if (numericKeys.length > 0) {
-      return numericKeys.map((k) => obj[k])
-    }
-
-    // If it's an object but not numeric-keyed, it's invalid.
-    return []
+    return numericKeys.length > 0 ? numericKeys.map((k) => obj[k]) : undefined
   }
 
-  if (typeof queryParamValue === 'string') {
-    return [queryParamValue]
-  }
-
-  return []
+  return typeof queryParamValue === 'string' ? [queryParamValue] : undefined
 }
 
 export default createUrlForParameters

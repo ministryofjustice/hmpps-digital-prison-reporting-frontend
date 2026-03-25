@@ -1,4 +1,5 @@
 import { Request, Response } from 'express'
+import { normalizeQueryStringArray } from 'src/dpr/utils/urlHelper'
 import { FilterType } from '../../../components/_filters/filter-input/enum'
 import { components } from '../../../types/api'
 import { StoredReportData } from '../../../types/UserReports'
@@ -7,7 +8,6 @@ import LocalsHelper from '../../../utils/localsHelper'
 import definitionUtils from '../../../utils/definitionUtils'
 import DateMapper from '../../../utils/DateMapper/DateMapper'
 import ColumnsUtils from '../../../components/_reports/report-heading/report-columns/report-columns-form/utils'
-import { normalizeQueryStringArray } from 'src/dpr/utils/urlHelper'
 
 export const applyReportInteractiveQuery = async (
   req: Request,

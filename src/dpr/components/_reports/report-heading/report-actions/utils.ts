@@ -99,7 +99,7 @@ const setPrintAction = (template: ActionTemplate, data: PrintActionParams) => {
 
 const setActions = (
   definitionData: ExtractedDefinitionData,
-  downloadConfig: DownloadActionParams,
+  downloadConfig?: DownloadActionParams,
   requestData?: ExtractedRequestData,
 ) => {
   const { reportName, name, printable } = definitionData

@@ -1,6 +1,7 @@
 import { RequestHandler } from 'express'
 import { Services } from '../../../../../../types/Services'
 import localsHelper from '../../../../../../utils/localsHelper'
+import { getSessionValue } from 'src/dpr/utils/sessionHelper'
 
 class RequestDownloadSubmittedController {
   layoutPath: string
@@ -17,9 +18,8 @@ class RequestDownloadSubmittedController {
     const { reportId, variantId } = req.params
     const { reportName, variantName } = req.query
 
-    let reportHref
-    if (req.session.currentReportJourney) {
-      reportHref = req.session.currentReportJourney.currentReportUrl || ''
+    let reportHref = getSessionValue(req, 'currentReportJourney', 'currentReportUrl')
+    if (reportHref) {
       reportHref = reportHref.replaceAll('/download-disabled', '')
     }
 

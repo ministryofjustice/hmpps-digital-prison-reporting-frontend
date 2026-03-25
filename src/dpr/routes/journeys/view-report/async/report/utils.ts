@@ -28,6 +28,7 @@ import ReportTemplateUtils from '../../../../../components/_reports/report-page/
 import RequestedReportService from '../../../my-reports/requested-reports/service'
 import { setUpBookmark } from '../../../../../components/bookmark/utils'
 import { setUpDownload } from '../../../download-report/utils'
+import { getSessionValue } from '../../../../../utils/sessionHelper'
 
 export const getData = async ({
   res,
@@ -393,7 +394,7 @@ const setFeatures = async (
   const bookmarkConfig = setUpBookmark(res, req, services.bookmarkService)
   const downloadConfig = setUpDownload(res, req, definitionData, columns, LoadType.ASYNC, requestData)
   const actions = ReportActionsUtils.setActions(definitionData, downloadConfig, requestData)
-  const feedbackFormHref = req.session.currentReportJourney?.feedbackSubmissionFormPath
+  const feedbackFormHref = getSessionValue(req, 'currentReportJourney', 'feedbackSubmissionFormPath')
 
   return {
     actions,

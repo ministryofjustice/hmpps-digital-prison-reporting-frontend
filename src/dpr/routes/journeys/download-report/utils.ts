@@ -9,6 +9,7 @@ import ReportQuery from '../../../types/ReportQuery'
 import logger from '../../../utils/logger'
 import { ExtractedDefinitionData, ExtractedRequestData } from '../view-report/async/report/types'
 import type { Columns } from '../../../components/_reports/report-heading/report-columns/report-columns-form/types'
+import { getSessionValue } from '../../../utils/sessionHelper'
 
 const streamDownloadAsyncData = async (args: {
   services: Services
@@ -119,42 +120,43 @@ export const setUpDownload = (
   columns: Columns,
   loadType: LoadType,
   requestData?: ExtractedRequestData,
-): DownloadActionParams => {
-  const { reportName, name, specification } = definitionData
-  const { tableId, id, reportId } = <{ id: string; tableId: string; reportId: string }>req.params
-  const { definitionsPath, downloadingEnabled, csrfToken } = LocalsHelper.getValues(res)
+): DownloadActionParams | undefined => {
+  const { downloadingEnabled } = LocalsHelper.getValues(res)
+  let downloadConfig: DownloadActionParams | undefined
 
-  const enabled = downloadingEnabled
-  let canDownload = false
-  const formAction = res.app.locals['downloadActionEndpoint']
-  let downloadColumns = <string[]>[]
-  let sortedAsc
-  let sortColumn
+  if (downloadingEnabled) {
+    const { definitionsPath, csrfToken } = LocalsHelper.getValues(res)
+    const { tableId, id, reportId } = <{ id: string; tableId: string; reportId: string }>req.params
+    const formAction = res.app.locals['downloadActionEndpoint']
+    const canDownload = Boolean(getSessionValue(req, 'currentReportJourney', 'downloadEnabled')) || false
 
-  if (enabled) {
-    canDownload = Boolean(req.session?.currentReportJourney?.downloadEnabled) || false
+    const { reportName, name, specification } = definitionData
+
     const sections = specification.sections || []
-    downloadColumns = [...new Set([...columns.value, ...sections])]
-    sortColumn = <string>requestData?.queryData?.['sortColumn']
-    sortedAsc = <string>requestData?.queryData?.['sortedAsc']
+    const downloadColumns = [...new Set([...columns.value, ...sections])]
+
+    const sortColumn = <string>requestData?.queryData?.['sortColumn']
+    const sortedAsc = <string>requestData?.queryData?.['sortedAsc']
+
+    return {
+      enabled: downloadingEnabled,
+      name,
+      reportName,
+      reportId,
+      id,
+      tableId,
+      columns: downloadColumns,
+      definitionPath: definitionsPath,
+      loadType,
+      formAction,
+      canDownload,
+      ...(sortColumn && { sortColumn }),
+      ...(sortedAsc && { sortedAsc }),
+      csrfToken,
+    }
   }
 
-  return {
-    enabled,
-    name,
-    reportName,
-    reportId,
-    id,
-    tableId,
-    columns: downloadColumns,
-    definitionPath: definitionsPath,
-    loadType,
-    formAction,
-    canDownload,
-    ...(sortColumn && { sortColumn }),
-    ...(sortedAsc && { sortedAsc }),
-    csrfToken,
-  }
+  return downloadConfig
 }
 
 export default {

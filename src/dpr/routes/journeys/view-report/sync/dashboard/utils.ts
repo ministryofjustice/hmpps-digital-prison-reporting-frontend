@@ -69,7 +69,7 @@ export const renderSyncDashboard = async ({
   res: Response
   services: Services
 }) => {
-  const { token, csrfToken, dprUser, nestedBaseUrl } = LocalsHelper.getValues(res)
+  const { token, csrfToken, dprUser } = LocalsHelper.getValues(res)
   const { reportId, id } = <{ id: string; reportId: string }>req.params
   const fullUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`
 
@@ -124,7 +124,6 @@ export const renderSyncDashboard = async ({
       description: dashboardDefinition.description,
       reportName: reportDefinition.name,
       bookmarkConfig,
-      nestedBaseUrl,
       csrfToken,
       sections,
       filters: filterData,

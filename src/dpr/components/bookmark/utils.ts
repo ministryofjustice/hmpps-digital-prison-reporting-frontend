@@ -10,7 +10,7 @@ const setUpBookmark = (res: Response, req: Request, bookmarkService: BookmarkSer
 
   if (bookmarkService.enabled) {
     bookmarked = Boolean(req.session?.currentReportJourney?.reportIsBookmarked) || false
-    bookmarkActionEndoint = res.locals['bookmarkActionEndoint']
+    bookmarkActionEndoint = res.app.locals['bookmarkActionEndoint']
     showBookmark = true
   }
 

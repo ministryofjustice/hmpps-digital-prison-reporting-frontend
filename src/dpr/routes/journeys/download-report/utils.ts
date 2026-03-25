@@ -126,14 +126,13 @@ export const setUpDownload = (
 
   const enabled = downloadingEnabled
   let canDownload = false
-  let formAction = res.locals['downloadActionEndpoint']
+  let formAction = res.app.locals['downloadActionEndpoint']
   let downloadColumns = <string[]>[]
   let sortedAsc
   let sortColumn
 
   if (enabled) {
     canDownload = Boolean(req.session?.currentReportJourney?.downloadEnabled) || false
-    formAction = res.locals['downloadActionEndpoint']
     const sections = specification.sections || []
     downloadColumns = [...new Set([...columns.value, ...sections])]
     sortColumn = <string>requestData?.queryData?.['sortColumn']

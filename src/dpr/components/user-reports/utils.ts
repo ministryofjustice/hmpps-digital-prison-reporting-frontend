@@ -1,6 +1,5 @@
 import { Response, Request } from 'express'
 import dayjs from 'dayjs'
-import { setNestedPath } from 'src/dpr/utils/urlHelper'
 import { RenderTableListResponse } from './types'
 import Dict = NodeJS.Dict
 import {
@@ -178,9 +177,7 @@ const createSummaryHtml = (data: FormattedUserReportData) => {
   return `<ul class="dpr-card-group__item__filters-list govuk-!-margin-top-0 govuk-!-margin-bottom-0">${summaryHtml}${interactiveSummaryHtml}</ul>`
 }
 
-const getMeta = (formattedData: FormattedUserReportData[], res: Response): meta[] => {
-  const { nestedBaseUrl } = LocalsHelper.getValues(res)
-
+const getMeta = (formattedData: FormattedUserReportData[], endpoint: string): meta[] => {
   return formattedData.map((d) => {
     return {
       reportId: d.meta?.reportId,
@@ -193,7 +190,7 @@ const getMeta = (formattedData: FormattedUserReportData[], res: Response): meta[
       dataProductDefinitionsPath: d.meta.dataProductDefinitionsPath,
       pollingUrl: d.meta.pollingUrl,
       reportUrl: d.meta.reportUrl,
-      nestedBaseUrl,
+      endpoint,
     }
   })
 }
@@ -272,7 +269,7 @@ export const renderList = async ({
   filterFunction: (report: UserReportData) => boolean
   type: 'requested' | 'viewed'
 }): Promise<RenderTableListResponse> => {
-  const { csrfToken, nestedBaseUrl } = LocalsHelper.getValues(res)
+  const { csrfToken } = LocalsHelper.getValues(res)
 
   let formatted = reportsData.filter(filterFunction).map(formatData)
   const formattedCount = formatted.length
@@ -280,10 +277,10 @@ export const renderList = async ({
   if (maxRows) formatted = formatted.slice(0, maxRows)
   const tableData = formatTable(formatted, type)
 
-  const path = type === 'requested' ? 'requested-reports' : 'recently-viewed'
-  const headHref = setNestedPath(`/dpr/my-reports/${path}/list`, nestedBaseUrl)
+  const endpoint = type === 'requested' ? res.app.locals['requestedListPath'] : res.app.locals['recentlyViewedListPath']
+
   const head = {
-    ...(formatted.length && { href: headHref }),
+    ...(formatted.length && { href: endpoint }),
     ...(!formatted.length && { emptyMessage: `You have 0 ${type} reports` }),
   }
 
@@ -291,7 +288,7 @@ export const renderList = async ({
     head,
     tableData,
     total: getTotals(formattedCount, maxRows),
-    meta: getMeta(formatted, res),
+    meta: getMeta(formatted, endpoint),
     csrfToken,
     ...(maxRows && { maxRows }),
   }

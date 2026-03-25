@@ -123,7 +123,6 @@ const setUpDownloadConfig = async (req: Request, res: Response, service: Downloa
 }
 
 const setupDownloadFeedbackPaths = (req: Request, res: Response) => {
-  const { nestedBaseUrl } = res.locals
   const { reportId, id, tableId } = <{ id: string; reportId: string; tableId: string }>req.params
 
   let feedbackSubmissionFormPath
@@ -132,7 +131,7 @@ const setupDownloadFeedbackPaths = (req: Request, res: Response) => {
       ? `/dpr/download-report/request-download/${reportId}/${id}/tableId/${tableId}/form`
       : `/dpr/download-report/request-download/${reportId}/${id}/form`
 
-    feedbackSubmissionFormPath = setNestedPath(feedbackSubmissionFormPath, nestedBaseUrl)
+    feedbackSubmissionFormPath = setNestedPath(feedbackSubmissionFormPath, res.app.locals['nestedBaseUrl'])
   }
 
   return feedbackSubmissionFormPath

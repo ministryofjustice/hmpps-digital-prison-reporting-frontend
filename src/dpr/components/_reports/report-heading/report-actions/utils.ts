@@ -1,11 +1,7 @@
-import { Request, Response } from 'express'
 import {
   ExtractedDefinitionData,
   ExtractedRequestData,
-  ReportUrls,
 } from '../../../../routes/journeys/view-report/async/report/types'
-import { LoadType } from '../../../../types/UserReports'
-import { setUpDownload } from '../../../../routes/journeys/download-report/utils'
 import {
   ActionTemplate,
   CopyActionParams,
@@ -17,7 +13,6 @@ import {
   ShareActionParams,
 } from './types'
 import { actionTemplates } from './actionsTemplate'
-import { Columns } from '../report-columns/report-columns-form/types'
 
 export const getActions = ({ refresh, print, share, copy, download }: GetActionsParams): ReportAction[] => {
   const actions: ReportAction[] = []

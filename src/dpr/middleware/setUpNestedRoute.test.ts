@@ -9,7 +9,7 @@ describe('setupNestedRoute middleware', () => {
 
   beforeEach(() => {
     req = { baseUrl: '' } as unknown as Request
-    res = { locals: {} } as unknown as Response
+    res = { app: { locals: {} } } as unknown as Response
     next = jest.fn()
   })
 
@@ -18,7 +18,7 @@ describe('setupNestedRoute middleware', () => {
 
     await middleware(req, res, next)
 
-    expect(res.locals.nestedBaseUrl).toBeUndefined()
+    expect(res.app.locals.nestedBaseUrl).toBeUndefined()
     expect(next).toHaveBeenCalled()
   })
 
@@ -29,7 +29,7 @@ describe('setupNestedRoute middleware', () => {
 
     await middleware(req, res, next)
 
-    expect(res.locals.nestedBaseUrl).toBeUndefined()
+    expect(res.app.locals.nestedBaseUrl).toBeUndefined()
     expect(next).toHaveBeenCalled()
   })
 
@@ -40,7 +40,7 @@ describe('setupNestedRoute middleware', () => {
 
     await middleware(req, res, next)
 
-    expect(res.locals.nestedBaseUrl).toBe('/api')
+    expect(res.app.locals.nestedBaseUrl).toBe('/api')
     expect(next).toHaveBeenCalled()
   })
 
@@ -51,7 +51,7 @@ describe('setupNestedRoute middleware', () => {
 
     await middleware(req, res, next)
 
-    expect(res.locals.nestedBaseUrl).toBe('/api/v1/accounts')
+    expect(res.app.locals.nestedBaseUrl).toBe('/api/v1/accounts')
     expect(next).toHaveBeenCalled()
   })
 })

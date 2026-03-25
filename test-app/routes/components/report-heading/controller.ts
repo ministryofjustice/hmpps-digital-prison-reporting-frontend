@@ -1,5 +1,4 @@
 import { RequestHandler } from 'express'
-import { ReportAction } from 'src/dpr/components/_reports/report-heading/report-actions/types'
 import { getActions } from 'src/dpr/components/_reports/report-heading/report-actions/utils'
 import { LoadType, ReportType } from 'src/dpr/types/UserReports'
 
@@ -10,7 +9,7 @@ export class ReportHeadingController {
       reportName: 'A report',
       reportId: '123',
       csrfToken: 'abc123',
-      columns: []
+      columns: [],
     }
     res.render('views/pages/components/report-heading/view.njk', {
       currentDate: new Date(-(60 * 60 * 1000)).toTimeString(),
@@ -34,8 +33,6 @@ export class ReportHeadingController {
             loadType: LoadType.ASYNC,
             formAction: '/downloadme',
             canDownload: true,
-            currentUrl: '',
-            currentQueryParams: '',
           },
           print: { enabled: true },
           refresh: { executionId: 'exId_234234', url: '/refreshme' },
@@ -50,7 +47,7 @@ export class ReportHeadingController {
         nestedBaseUrl: res.locals.nestedBaseUrl,
         csrfToken,
         bookmarkingEnabled: true,
-      }
+      },
     })
   }
 }

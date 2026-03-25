@@ -1,7 +1,6 @@
 /* eslint-disable class-methods-use-this */
 import DprPollingHelper from 'src/dpr/DprPollingClass'
 import type { meta } from '../../types/UserReports'
-import { setNestedPath } from 'src/dpr/utils/urlHelper'
 
 export enum ListType {
   REQUESTED = 'requested',
@@ -131,7 +130,7 @@ class DprUserReportListHelper {
 
   async removeItemFromList(executionId: string) {
     const itemMeta = this.requestData.find((d) => d.executionId === executionId)
-    if (itemMeta) {
+    if (itemMeta && itemMeta.endpoint) {
       let response
       await fetch(itemMeta.endpoint, {
         method: 'post',

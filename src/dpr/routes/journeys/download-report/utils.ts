@@ -7,7 +7,7 @@ import LocalsHelper from '../../../utils/localsHelper'
 import { Template } from '../../../types/Templates'
 import ReportQuery from '../../../types/ReportQuery'
 import logger from '../../../utils/logger'
-import { ExtractedDefinitionData, ExtractedRequestData, ReportUrls } from '../view-report/async/report/types'
+import { ExtractedDefinitionData, ExtractedRequestData } from '../view-report/async/report/types'
 import type { Columns } from '../../../components/_reports/report-heading/report-columns/report-columns-form/types'
 
 const streamDownloadAsyncData = async (args: {

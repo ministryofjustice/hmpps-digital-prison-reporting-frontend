@@ -14,7 +14,7 @@ export const getValues = (res: Response) => {
     ...setFeatures(res),
     ...setDefinitions(res),
     csrfToken,
-    nestedBaseUrl: res.locals['nestedBaseUrl'],
+    nestedBaseUrl: res.app.locals['nestedBaseUrl'],
   }
 }
 

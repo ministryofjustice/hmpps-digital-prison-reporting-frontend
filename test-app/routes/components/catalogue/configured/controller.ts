@@ -15,9 +15,6 @@ export default class CatalogueController {
     const catalogue = await CatalogueUtils.initCatalogue({
       res,
       services: this.services,
-      features: {
-        unauthorisedToggleEnabled: false,
-      },
     })
 
     res.render('views/pages/components/catalogue/view.njk', {

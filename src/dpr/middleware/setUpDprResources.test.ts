@@ -159,6 +159,9 @@ describe('setUpDprResources', () => {
       } as unknown as Services
 
       res = {
+        app: {
+          locals: {},
+        },
         locals: {
           dprUser: {
             token: 'T0k3n',

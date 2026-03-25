@@ -1,6 +1,5 @@
 import { Response } from 'express'
 import { captureException } from '@sentry/node'
-import { setNestedPath } from '../../../utils/urlHelper'
 import { BookmarkService } from '../../../services'
 import { BookmarkedReportData, BookmarkStoreData } from '../../../types/Bookmark'
 import { FormattedBookmarkData, LoadType, ReportType } from '../../../types/UserReports'

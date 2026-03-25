@@ -3,7 +3,7 @@ import { components } from '../../../types/api'
 import { Scorecard, ScorecardGroup } from '../scorecard/types'
 import { MatrixChartData } from '../../_charts/chart/heatmap/types'
 import { ChartDetails } from '../../../types/Charts'
-import DashboardVisualisationSchemas, { AggregateType, UnitType } from './Validate'
+import DashboardVisualisationSchemas from './Validate'
 import { BarDefinitionMeasure } from '../../_charts/chart/bar/types'
 import { DoughnutDefinitionMeasure } from '../../_charts/chart/doughnut/types'
 import { LineDefinitionMeasure } from '../../_charts/chart/line/types'
@@ -125,14 +125,6 @@ export type VisualisationDefinitionKey = z.infer<typeof DashboardVisualisationSc
 export type VisualisationDefinitionMeasure = z.infer<
   typeof DashboardVisualisationSchemas.DashboardVisualisationMeasureSchema
 >
-
-export enum VisualisationDefinitionUnitType {
-  NUMBER = UnitType.NUMBER,
-  PERCENTAGE = UnitType.PERCENTAGE,
-}
-export enum VisualisationDefinitionAggregateType {
-  SUM = AggregateType.SUM,
-}
 
 export type ChartMeasure =
   | BarDefinitionMeasure

@@ -1,10 +1,6 @@
 import { mapUnitToSymbol, setUnitOnValue } from '../../../utils/Dashboards/VisualisationUnitHelper'
 import { DashboardDataResponse } from '../../../types/Metrics'
-import {
-  ChartMeasure,
-  VisualisationDefinitionKey,
-  VisualisationDefinitionUnitType,
-} from '../../_dashboards/dashboard-visualisation/types'
+import { ChartMeasure, VisualisationDefinitionKey } from '../../_dashboards/dashboard-visualisation/types'
 
 export default class ChartLabelsHelper {
   /**
@@ -26,11 +22,7 @@ export default class ChartLabelsHelper {
    *
    * @memberof ChartLabels
    */
-  getDatasetLabel = (
-    keys: VisualisationDefinitionKey[],
-    row: DashboardDataResponse,
-    unit?: VisualisationDefinitionUnitType,
-  ) => {
+  getDatasetLabel = (keys: VisualisationDefinitionKey[], row: DashboardDataResponse) => {
     return keys
       .map((key: VisualisationDefinitionKey) => {
         // Only set the label if there is more than one key

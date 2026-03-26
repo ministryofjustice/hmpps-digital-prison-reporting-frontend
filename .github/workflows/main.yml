@@ -215,7 +215,7 @@ jobs:
           node-version: '24.x'
           cache: 'npm'
 
-      # Download dist + node_modules (dpr-package-package)
+      # Download dist + node_modules (package build)
       - uses: actions/download-artifact@v4
         with:
           name: dpr-package-package
@@ -224,30 +224,30 @@ jobs:
       # Fix lost executable permissions in node_modules
       - name: Fix permissions for native modules
         run: |
-          # esbuild binaries
+          echo "Restoring permissions for native binaries..."
           find node_modules -type f -path "*/@esbuild/*/bin/*" -exec chmod +x {} \;
-          # .bin folder
           chmod -R +x node_modules/.bin || true
-          # any native executable
           find node_modules -type f -path "*/bin/*" -exec chmod +x {} \; || true
-          # shared native modules
           find node_modules -type f -name "*.node" -exec chmod +x {} \; || true
 
-      # Rebuild any native modules (optional but safe)
       - run: npm rebuild
 
-      # Cypress binary install (must run per-runner)
+      # Setup tasks required for dev server
+      - run: npm run setup
+
+      # Cypress binary install (per runner)
       - name: Install Cypress binary
         run: |
           npx cypress install
           npx cypress verify
 
+      # Wait for Redis
       - name: Wait for Redis
         run: npx wait-on tcp:localhost:6379 --timeout 60000
 
-      # -------------------------
+      # ------------------------------------
       # SHARD SPEC SELECTOR
-      # -------------------------
+      # ------------------------------------
       - name: Select spec files for this shard
         id: shard
         shell: bash
@@ -256,15 +256,15 @@ jobs:
 
           echo "Collecting Cypress spec files..."
 
-          # Correct process substitution syntax (no HTML escaping)
+          # Correct non-escaped bash process substitution
           mapfile -t FILES < <(
-            find ./src -type f -name "*.cy.ts" ;
+            find ./src -type f -name "*.cy.ts"
             find ./test-app -type f -name "*.cy.ts"
           )
 
           echo "=== DEBUG: Found spec files ==="
           printf "%s\n" "${FILES[@]}"
-          echo "==============================="
+          echo "================================"
 
           TOTAL=${#FILES[@]}
           SHARDS=4
@@ -276,8 +276,8 @@ jobs:
           [ "$END" -gt "$TOTAL" ] && END="$TOTAL"
 
           if [ "$START" -ge "$TOTAL" ]; then
-            echo "Shard $INDEX has no spec files."
             echo "specs=" >> "$GITHUB_OUTPUT"
+            echo "Shard $INDEX has no specs."
             exit 0
           fi
 
@@ -285,47 +285,53 @@ jobs:
 
           echo "=== DEBUG: Specs for shard $INDEX ==="
           printf "%s\n" "${SELECTED[@]}"
-          echo "===================================="
+          echo "====================================="
 
           SPECS=$(IFS=, ; echo "${SELECTED[*]}")
           echo "specs=$SPECS" >> "$GITHUB_OUTPUT"
-          echo "Shard $INDEX selected: $SPECS"
+          echo "Shard $INDEX specs: $SPECS"
 
-      # -------------------------
-      # START SERVER (dev mode)
-      # -------------------------
+      # ------------------------------------
+      # START APP WITH UNBUFFERED LOGGING
+      # ------------------------------------
       - name: Start server
         if: steps.shard.outputs.specs != ''
         shell: bash
         env:
           PORT: 3010
         run: |
-          echo "Starting app with unbuffered output..."
+          echo "Starting app with unbuffered logging via stdbuf + tee..."
+
           PORT=$PORT npm run start:dev:noMockClients:noLogs \
             -- --no-warnings \
             | stdbuf -o0 -e0 tee app.log &
 
+          echo "Waiting for app to be ready..."
           npx wait-on "tcp:localhost:$PORT" --timeout 60000
-          echo "BASE_URL=http://localhost:$PORT" >> "$GITHUB_ENV"
-          echo "App server started."
 
-      # -------------------------
-      # CYPRESS RUN
-      # -------------------------
+          echo "BASE_URL=http://localhost:$PORT" >> "$GITHUB_ENV"
+          echo "App started."
+
+      # ------------------------------------
+      # CYPRESS EXECUTION
+      # ------------------------------------
       - name: Run Cypress
         id: int-tests
         if: steps.shard.outputs.specs != ''
         env:
           CYPRESS_BASE_URL: ${{ env.BASE_URL }}
         run: |
+          echo "Running Cypress with baseUrl=$CYPRESS_BASE_URL"
           npx cypress run \
             --browser electron \
             --config "baseUrl=$CYPRESS_BASE_URL" \
             --spec "${{ steps.shard.outputs.specs }}"
 
-      # -------------------------
+      # ------------------------------------
       # ARTIFACTS
-      # -------------------------
+      # ------------------------------------
+
+      # App logs (now include ALL runtime logs)
       - name: Upload app log
         if: success() || failure()
         uses: actions/upload-artifact@v4
@@ -334,24 +340,29 @@ jobs:
           path: app.log
           if-no-files-found: ignore
 
+      # Cypress results
       - uses: actions/upload-artifact@v4
         if: success() || failure()
         with:
           name: cypress-results-${{ matrix.shard_index }}
           path: test_results
+          if-no-files-found: ignore
 
       - uses: actions/upload-artifact@v4
         if: success() || failure()
         with:
           name: cypress-videos-${{ matrix.shard_index }}
           path: cypress-tests/integration-tests/videos
+          if-no-files-found: ignore
 
       - uses: actions/upload-artifact@v4
         if: success() || failure()
         with:
           name: cypress-screenshots-${{ matrix.shard_index }}
           path: cypress-tests/integration-tests/screenshots
+          if-no-files-found: ignore
 
+      # Final shard-level pass/fail
       - name: Final Pass/Fail
         if: success() || failure()
         run: |

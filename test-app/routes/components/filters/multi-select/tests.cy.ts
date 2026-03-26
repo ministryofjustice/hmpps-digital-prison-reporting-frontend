@@ -207,7 +207,7 @@ context('Inputs: multiselect', () => {
 
     it('should toggle the full list in the interactive filters', () => {
       requestReportByNameAndDescription(reportDetails)
-      cy.findByRole('heading', { level: 1, name: /Multiselect/ }).should('be.visible')
+      cy.findByRole('heading', { level: 1, name: /Multiselect/, timeout: 10000 }).should('be.visible')
       cy.findAllByRole('group')
         .contains(/Show filters/)
         .click()

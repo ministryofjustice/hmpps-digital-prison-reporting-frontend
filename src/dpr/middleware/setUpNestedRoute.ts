@@ -9,8 +9,17 @@ export const setupNestedRoute = (): RequestHandler => {
     const locals = res.app.locals.dprPaths
     const base = req.baseUrl && req.baseUrl.length > 0 ? req.baseUrl : undefined
 
-    if (base) {
-      locals.nestedBaseUrl ??= base
+    // If no base or paths uninitialized: nothing to do
+    if (!base) {
+      return next()
+    }
+
+    const currentBase = locals.nestedBaseUrl
+
+    // Only update paths if base is NEW or CHANGED
+    if (currentBase !== base) {
+      locals.nestedBaseUrl = base
+
       locals.bookmarkActionEndpoint = setNestedPath(locals.bookmarkActionEndpoint, base)
       locals.downloadActionEndpoint = setNestedPath(locals.downloadActionEndpoint, base)
       locals.productCollectionEndpoint = setNestedPath(locals.productCollectionEndpoint, base)

@@ -95,41 +95,91 @@ jobs:
           node-version: '22.x'
           cache: 'npm'
 
+      - run: npm ci
       - run: npm run setup
 
       - name: Clone mi-ui
         run: |
-          git clone https://github.com/ministryofjustice/hmpps-digital-prison-reporting-mi-ui.git ../app
+        git clone https://github.com/ministryofjustice/hmpps-digital-prison-reporting-mi-ui.git ../app
+
       - name: mi-ui setup using this branch
         run: npm run setup
         working-directory: ${{ github.workspace }}/../app
+
       - name: Build lib and copy output into node_modules of mi-ui for lib
         working-directory: ${{ github.workspace }}
         run: |
           npm run rpack
           rm -rf ../app/node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend/*
           cp -R dist/* ../app/node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend/
+
       - name: Build mi-ui
         run: npm run build
         working-directory: ${{ github.workspace }}/../app
+
       - name: mi-ui unit tests
         run: npm run test:ci
         working-directory: ${{ github.workspace }}/../app
+
       - name: Get wiremock
         run: curl -o wiremock.jar https://repo1.maven.org/maven2/com/github/tomakehurst/wiremock-standalone/2.27.1/wiremock-standalone-2.27.1.jar
         working-directory: ${{ github.workspace }}/../app
+
       - name: Run wiremock
-        run: java -jar wiremock.jar --port 9091 &
+        run: java -jar wiremock.jar --port 9091 > wiremock.log 2>&1 &
         working-directory: ${{ github.workspace }}/../app
+
       - name: Run mi-ui
-        run: npm run start-feature &
+        run: npm run start-feature > mi-ui.log 2>&1 &
         working-directory: ${{ github.workspace }}/../app
+
       - name: Wait for mi-ui to start
         run: sleep 5
         working-directory: ${{ github.workspace }}/../app
-      - name: mi-ui integration tests
+
+      - name: mi-ui integration tests (Cypress)
         run: npm run int-test
         working-directory: ${{ github.workspace }}/../app
+
+      # ---------------------------
+      # ARTIFACTS
+      # ---------------------------
+
+      # App logs (ALWAYS upload, even on failure)
+      - name: Upload mi-ui app log
+        if: success() || failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mi-ui-app-log
+          path: ../app/mi-ui.log
+          if-no-files-found: ignore
+
+      # WireMock logs
+      - name: Upload wiremock log
+        if: success() || failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: wiremock-log
+          path: ../app/wiremock.log
+          if-no-files-found: ignore
+
+      # Cypress videos (failing tests only)
+      - name: Upload Cypress videos
+        if: success() || failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-videos
+          path: ../app/cypress-tests/integration-tests/videos
+          if-no-files-found: ignore
+
+      # Cypress screenshots (failures)
+      - name: Upload Cypress screenshots
+        if: success() || failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-screenshots
+          path: ../app/cypress-tests/integration-tests/screenshots
+          if-no-files-found: ignore
 
   integration_test:
     runs-on: ubuntu-latest
@@ -202,10 +252,19 @@ jobs:
         id: shard
         shell: bash
         run: |
+          set -euo pipefail
+
+          echo "Collecting Cypress spec files..."
+
+          # Correct process substitution syntax (no HTML escaping)
           mapfile -t FILES < <(
-            ( find ./src -type f -name "*.cy.ts" ;
-              find ./test-app -type f -name "*.cy.ts" ) | sort
+            find ./src -type f -name "*.cy.ts" ;
+            find ./test-app -type f -name "*.cy.ts"
           )
+
+          echo "=== DEBUG: Found spec files ==="
+          printf "%s\n" "${FILES[@]}"
+          echo "==============================="
 
           TOTAL=${#FILES[@]}
           SHARDS=4
@@ -214,16 +273,23 @@ jobs:
           SLICE=$(( (TOTAL + SHARDS - 1) / SHARDS ))
           START=$(( INDEX * SLICE ))
           END=$(( START + SLICE ))
-          [ "$END" -gt "$TOTAL" ] && END=$TOTAL
+          [ "$END" -gt "$TOTAL" ] && END="$TOTAL"
 
           if [ "$START" -ge "$TOTAL" ]; then
+            echo "Shard $INDEX has no spec files."
             echo "specs=" >> "$GITHUB_OUTPUT"
             exit 0
           fi
 
           SELECTED=("${FILES[@]:$START:$((END-START))}")
-          SPECS=$(IFS=,; echo "${SELECTED[*]}")
+
+          echo "=== DEBUG: Specs for shard $INDEX ==="
+          printf "%s\n" "${SELECTED[@]}"
+          echo "===================================="
+
+          SPECS=$(IFS=, ; echo "${SELECTED[*]}")
           echo "specs=$SPECS" >> "$GITHUB_OUTPUT"
+          echo "Shard $INDEX selected: $SPECS"
 
       # -------------------------
       # START SERVER (dev mode)
@@ -234,9 +300,14 @@ jobs:
         env:
           PORT: 3010
         run: |
-          PORT=$PORT npm run start:dev:noMockClients:noLogs > app.log 2>&1 &
+          echo "Starting app with unbuffered output..."
+          PORT=$PORT npm run start:dev:noMockClients:noLogs \
+            -- --no-warnings \
+            | stdbuf -o0 -e0 tee app.log &
+
           npx wait-on "tcp:localhost:$PORT" --timeout 60000
           echo "BASE_URL=http://localhost:$PORT" >> "$GITHUB_ENV"
+          echo "App server started."
 
       # -------------------------
       # CYPRESS RUN

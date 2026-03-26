@@ -1,9 +1,11 @@
 import { RequestHandler } from 'express'
 import { getActions } from 'src/dpr/components/_reports/report-heading/report-actions/utils'
 import { LoadType, ReportType } from 'src/dpr/types/UserReports'
+import { getRouteLocals } from 'src/dpr/utils/localsHelper'
 
 export class ReportHeadingController {
   GET: RequestHandler = async (_req, res) => {
+    const { nestedBaseUrl } = getRouteLocals(res)
     const { name, reportName, reportId, csrfToken, columns } = {
       name: 'A report',
       reportName: 'A report',
@@ -49,7 +51,7 @@ export class ReportHeadingController {
           linkText: 'Add bookmark',
           linkType: 'add',
         },
-        nestedBaseUrl: res.locals.nestedBaseUrl,
+        nestedBaseUrl,
         csrfToken,
         bookmarkingEnabled: true,
       },

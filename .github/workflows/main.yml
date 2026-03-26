@@ -17,8 +17,8 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '24.x'
-          cache: 'npm'
+          node-version: "24.x"
+          cache: "npm"
 
       - run: npm run setup
 
@@ -60,8 +60,8 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '24.x'
-          cache: 'npm'
+          node-version: "24.x"
+          cache: "npm"
 
       - run: npm run setup
 
@@ -92,8 +92,8 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '22.x'
-          cache: 'npm'
+          node-version: "22.x"
+          cache: "npm"
 
       - run: npm run setup
 
@@ -150,9 +150,10 @@ jobs:
         image: wiremock/wiremock:latest
         ports:
           - 9091:8080
+        env:
+          WIREMOCK_OPTIONS: "--global-response-templating"
         options: >-
           --entrypoint "/docker-entrypoint.sh"
-          --global-response-templating
 
     strategy:
       fail-fast: false
@@ -164,8 +165,8 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '24.x'
-          cache: 'npm'
+          node-version: "24.x"
+          cache: "npm"
 
       # Download dist + node_modules (dpr-package-package)
       - uses: actions/download-artifact@v4
@@ -313,8 +314,8 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '24.x'
-          cache: 'npm'
+          node-version: "24.x"
+          cache: "npm"
 
       - uses: actions/download-artifact@v4
         with:
@@ -369,7 +370,7 @@ jobs:
     services:
       redis:
         image: redis
-        ports: ['6379:6379']
+        ports: ["6379:6379"]
         options: >-
           --health-cmd "redis-cli ping"
           --health-interval 10s
@@ -380,8 +381,8 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '24.x'
-          cache: 'npm'
+          node-version: "24.x"
+          cache: "npm"
 
       - uses: actions/download-artifact@v4
         with:

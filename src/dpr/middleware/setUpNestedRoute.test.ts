@@ -2,6 +2,10 @@ import { expect, jest, describe, test } from '@jest/globals'
 import { Response, Request } from 'express'
 import { setupNestedRoute } from './setUpNestedRoute'
 
+jest.mock('../utils/logger', () => ({
+  info: jest.fn(),
+}))
+
 describe('setupNestedRoute middleware', () => {
   let req: Request
   let res: Response
@@ -9,7 +13,7 @@ describe('setupNestedRoute middleware', () => {
 
   beforeEach(() => {
     req = { baseUrl: '' } as unknown as Request
-    res = { app: { locals: {} } } as unknown as Response
+    res = { app: { locals: { dprPaths: { bookmarkActionEndpoint: '/tests/path' } } } } as unknown as Response
     next = jest.fn()
   })
 
@@ -19,6 +23,7 @@ describe('setupNestedRoute middleware', () => {
     await middleware(req, res, next)
 
     expect(res.app.locals.dprPaths.nestedBaseUrl).toBeUndefined()
+    expect(res.app.locals.dprPaths.bookmarkActionEndpoint).toEqual('/tests/path')
     expect(next).toHaveBeenCalled()
   })
 
@@ -30,6 +35,7 @@ describe('setupNestedRoute middleware', () => {
     await middleware(req, res, next)
 
     expect(res.app.locals.dprPaths.nestedBaseUrl).toBeUndefined()
+    expect(res.app.locals.dprPaths.bookmarkActionEndpoint).toEqual('/tests/path')
     expect(next).toHaveBeenCalled()
   })
 
@@ -41,6 +47,7 @@ describe('setupNestedRoute middleware', () => {
     await middleware(req, res, next)
 
     expect(res.app.locals.dprPaths.nestedBaseUrl).toBe('/api')
+    expect(res.app.locals.dprPaths.bookmarkActionEndpoint).toEqual('/api/tests/path')
     expect(next).toHaveBeenCalled()
   })
 
@@ -52,6 +59,7 @@ describe('setupNestedRoute middleware', () => {
     await middleware(req, res, next)
 
     expect(res.app.locals.dprPaths.nestedBaseUrl).toBe('/api/v1/accounts')
+    expect(res.app.locals.dprPaths.bookmarkActionEndpoint).toEqual('/api/v1/accounts/tests/path')
     expect(next).toHaveBeenCalled()
   })
 })

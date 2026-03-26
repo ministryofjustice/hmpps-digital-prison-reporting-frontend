@@ -20,9 +20,9 @@ export const setupNestedRoute = (): RequestHandler => {
       locals.reportsCatalogue = setNestedPath(locals.reportsCatalogue, base)
       locals.userReportsList = setNestedPath(locals.userReportsList, base)
       locals.dprHomepage = setNestedPath(locals.dprHomepage, base)
-    }
 
-    console.log({ locals })
+      logger.info('Paths updated with nested base url:', { updatedpaths: locals })
+    }
 
     next()
   }

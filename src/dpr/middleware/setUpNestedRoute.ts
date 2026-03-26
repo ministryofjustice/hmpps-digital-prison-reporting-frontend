@@ -2,60 +2,30 @@ import { RequestHandler } from 'express'
 import { setNestedPath } from '../utils/urlHelper'
 
 export const setupNestedRoute = (): RequestHandler => {
-  return async (req, res, next) => {
+  return (req, res, next) => {
+    const locals = (res.app.locals.dpr ??= {})
+
     const currentBase = req.baseUrl && req.baseUrl.length > 0 ? req.baseUrl : undefined
-    const storedBase = res.app.locals['nestedBaseUrl']
 
-    // Allow for mulitple nested routes
-    if (currentBase !== storedBase) {
-      res.app.locals['nestedBaseUrl'] = currentBase
+    if (locals.nestedBaseUrl !== currentBase) {
+      locals.nestedBaseUrl = currentBase
 
-      // Reset derived endpoints so they are recomputed
-      res.app.locals['bookmarkActionEndoint'] = undefined
-      res.app.locals['downloadActionEndpoint'] = undefined
-      res.app.locals['productCollectionEndpoint'] = undefined
-      res.app.locals['bookmarkListPath'] = undefined
-      res.app.locals['requestedListPath'] = undefined
-      res.app.locals['recentlyViewedListPath'] = undefined
+      // Reset cached paths so they can be remade
+      locals.bookmarkActionEndpoint = undefined
+      locals.downloadActionEndpoint = undefined
+      locals.productCollectionEndpoint = undefined
+      locals.bookmarkListPath = undefined
+      locals.requestedListPath = undefined
+      locals.recentlyViewedListPath = undefined
     }
+    const base = locals.nestedBaseUrl
 
-    const nestedBase = res.app.locals['nestedBaseUrl']
-
-    // Bookmark endpoint
-    if (!res.app.locals['bookmarkActionEndoint']) {
-      const bookmarkPath = `/dpr/my-reports/bookmarks`
-      res.app.locals['bookmarkActionEndoint'] = setNestedPath(bookmarkPath, nestedBase)
-    }
-
-    // Download endpoint
-    if (!res.app.locals['downloadActionEndpoint']) {
-      const downloadPath = '/dpr/download-report/'
-      res.app.locals['downloadActionEndpoint'] = setNestedPath(downloadPath, nestedBase)
-    }
-
-    // Product collection endpoint
-    if (!res.app.locals['productCollectionEndpoint']) {
-      const collectionPath = '/dpr/product-collection/selected'
-      res.app.locals['productCollectionEndpoint'] = setNestedPath(collectionPath, nestedBase)
-    }
-
-    // Bookmarks list path
-    if (!res.app.locals['bookmarkListPath']) {
-      const bookmarkListPath = '/dpr/my-reports/bookmarks/list'
-      res.app.locals['bookmarkListPath'] = setNestedPath(bookmarkListPath, nestedBase)
-    }
-
-    // Requested list path
-    if (!res.app.locals['requestedListPath']) {
-      const requestedListPath = '/dpr/my-reports/requested-reports/list'
-      res.app.locals['requestedListPath'] = setNestedPath(requestedListPath, nestedBase)
-    }
-
-    // Viewed list path
-    if (!res.app.locals['recentlyViewedListPath']) {
-      const recentlyViewedListPath = '/dpr/my-reports/recently-viewed/list'
-      res.app.locals['recentlyViewedListPath'] = setNestedPath(recentlyViewedListPath, nestedBase)
-    }
+    locals.bookmarkActionEndpoint ??= setNestedPath('/dpr/my-reports/bookmarks', base)
+    locals.downloadActionEndpoint ??= setNestedPath('/dpr/download-report/', base)
+    locals.productCollectionEndpoint ??= setNestedPath('/dpr/product-collection/selected', base)
+    locals.bookmarkListPath ??= setNestedPath('/dpr/my-reports/bookmarks/list', base)
+    locals.requestedListPath ??= setNestedPath('/dpr/my-reports/requested-reports/list', base)
+    locals.recentlyViewedListPath ??= setNestedPath('/dpr/my-reports/recently-viewed/list', base)
 
     next()
   }

@@ -277,7 +277,8 @@ export const renderList = async ({
   if (maxRows) formatted = formatted.slice(0, maxRows)
   const tableData = formatTable(formatted, type)
 
-  const endpoint = type === 'requested' ? res.app.locals['requestedListPath'] : res.app.locals['recentlyViewedListPath']
+  const { requestedListPath, recentlyViewedListPath } = LocalsHelper.getRouteLocals(res)
+  const endpoint = type === 'requested' ? requestedListPath : recentlyViewedListPath
 
   const head = {
     ...(formatted.length && { href: endpoint }),

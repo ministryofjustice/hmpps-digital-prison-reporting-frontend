@@ -22,6 +22,7 @@ export const initCatalogue = async ({ res, services, req }: { res: Response; ser
   const selectedProductCollection =
     selectedProductCollectionId &&
     (await services.productCollectionService.getProductCollection(token, selectedProductCollectionId))
+  const { productCollectionEndpoint } = LocalsHelper.getRouteLocals(res)
 
   return {
     id: data.id,
@@ -32,7 +33,7 @@ export const initCatalogue = async ({ res, services, req }: { res: Response; ser
     filters: {
       productCollectionInfo: {
         productCollections,
-        formAction: res.app.locals['productCollectionEndpoint'],
+        formAction: productCollectionEndpoint,
         ...(selectedProductCollection && { selectedProductCollection }),
       },
       csrfToken,

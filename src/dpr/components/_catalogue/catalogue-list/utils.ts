@@ -85,6 +85,7 @@ export const getReportsList = async (
       const desc = description || reportDescription || ''
 
       const href = setInitialHref(loadType, type, reportId, id, res, isMissing)
+      const { bookmarkActionEndpoint } = LocalsHelper.getRouteLocals(res)
 
       let bookmarkHtml
       if (bookmarkingEnabled) {
@@ -96,7 +97,7 @@ export const getReportsList = async (
           ctxId: 'reports-list',
           reportType: type,
           isMissing: Boolean(isMissing),
-          endpoint: res.app.locals['bookmarkActionEndoint'],
+          endpoint: bookmarkActionEndpoint,
         })
       }
 

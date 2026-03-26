@@ -3,6 +3,7 @@ import { ReportType } from '../types/UserReports'
 import { Services } from '../types/Services'
 import { BookmarkService, DownloadPermissionService } from '../services'
 import { setNestedPath } from '../utils/urlHelper'
+import { getRouteLocals } from '../utils/localsHelper'
 
 interface CurrentReportJourneySessionData {
   id: string
@@ -122,6 +123,7 @@ const setUpDownloadConfig = async (req: Request, res: Response, service: Downloa
 
 const setupDownloadFeedbackPaths = (req: Request, res: Response) => {
   const { reportId, id, tableId } = <{ id: string; reportId: string; tableId: string }>req.params
+  const { nestedBaseUrl } = getRouteLocals(res)
 
   let feedbackSubmissionFormPath
   if (reportId && id) {
@@ -129,7 +131,7 @@ const setupDownloadFeedbackPaths = (req: Request, res: Response) => {
       ? `/dpr/download-report/request-download/${reportId}/${id}/tableId/${tableId}/form`
       : `/dpr/download-report/request-download/${reportId}/${id}/form`
 
-    feedbackSubmissionFormPath = setNestedPath(feedbackSubmissionFormPath, res.app.locals['nestedBaseUrl'])
+    feedbackSubmissionFormPath = setNestedPath(feedbackSubmissionFormPath, nestedBaseUrl)
   }
 
   return feedbackSubmissionFormPath

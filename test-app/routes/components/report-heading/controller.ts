@@ -44,7 +44,7 @@ export class ReportHeadingController {
         filterData: {},
         count: 5,
         bookmarkConfig: {
-          bookmarkActionEndoint: '/',
+          bookmarkActionEndpoint: '/',
           showBookmark: true,
           linkText: 'Add bookmark',
           linkType: 'add',

@@ -126,9 +126,9 @@ export const setUpDownload = (
 
   if (downloadingEnabled) {
     const { definitionsPath, csrfToken } = LocalsHelper.getValues(res)
+    const { downloadActionEndpoint } = LocalsHelper.getRouteLocals(res)
     const { tableId, id, reportId } = <{ id: string; tableId: string; reportId: string }>req.params
-    const formAction = res.app.locals['downloadActionEndpoint']
-    const canDownload = Boolean(getSessionValue(req, 'currentReportJourney', 'downloadEnabled')) || false
+    const canDownload = Boolean(getSessionValue(req, 'currentReportJourney', 'downloadEnabled')) ?? false
 
     const { reportName, name, specification } = definitionData
 
@@ -148,7 +148,7 @@ export const setUpDownload = (
       columns: downloadColumns,
       definitionPath: definitionsPath,
       loadType,
-      formAction,
+      formAction: downloadActionEndpoint,
       canDownload,
       ...(sortColumn && { sortColumn }),
       ...(sortedAsc && { sortedAsc }),

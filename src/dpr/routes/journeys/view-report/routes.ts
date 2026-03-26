@@ -7,6 +7,7 @@ import ViewReportController from './controller'
 // Routes
 import viewSyncReportRoutes from './sync/routes'
 import viewAyncReportRoutes from './async/routes'
+import { getRouteLocals } from 'src/dpr/utils/localsHelper'
 
 export function Routes({ layoutPath, services }: { services: Services; layoutPath: string }): Router {
   const router = Router({ mergeParams: true })
@@ -42,25 +43,28 @@ export function Redirects(): Router {
   // View Report
   router.get([`/async/:type/:reportId/:id/request/:tableId/:type`], (req, res) => {
     const { type, reportId, id, tableId } = req.params
+    const { nestedBaseUrl } = getRouteLocals(res)
     res.redirect(
-      `${res.app.locals['nestedBaseUrl']}/dpr/view-report/async/${type}/${reportId}/${id}/${tableId}/${type}`,
+      `${nestedBaseUrl}/dpr/view-report/async/${type}/${reportId}/${id}/${tableId}/${type}`,
     )
   })
 
   // Download
   router.get(`/async/:type/:reportId/:id/request/:tableId/report/:download`, (req, res) => {
     const { type, reportId, id, tableId } = req.params
+    const { nestedBaseUrl } = getRouteLocals(res)
     res.redirect(
-      `${res.app.locals['nestedBaseUrl']}/dpr/view-report/async/${type}/${reportId}/${id}/${tableId}/${type}/download-disabled`,
+      `${nestedBaseUrl}/dpr/view-report/async/${type}/${reportId}/${id}/${tableId}/${type}/download-disabled`,
     )
   })
 
   // Expired Status
   router.post('/async/:type/:reportId/:id/request/:tableId/:type', (req, res) => {
     const { type, reportId, id, tableId } = req.params
+    const { nestedBaseUrl } = getRouteLocals(res)
     res.redirect(
       308,
-      `${res.app.locals['nestedBaseUrl']}/dpr/view-report/async/${type}/${reportId}/${id}/${tableId}/${type}`,
+      `${nestedBaseUrl}/dpr/view-report/async/${type}/${reportId}/${id}/${tableId}/${type}`,
     )
   })
 

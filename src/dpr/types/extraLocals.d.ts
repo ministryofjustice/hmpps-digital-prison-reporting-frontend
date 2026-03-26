@@ -6,7 +6,6 @@ import { BookmarkStoreData } from './Bookmark'
 
 export interface ExtraLocals {
   dprUser: DprUser
-  nestedBaseUrl?: string | undefined
   csrfToken: string
   definitions: components['schemas']['ReportDefinitionSummary'][]
   definition?: components['schemas']['SingleVariantReportDefinition'] | components['schemas']['DashboardDefinition']
@@ -22,10 +21,20 @@ export interface ExtraLocals {
   recentlyViewedReports?: StoredReportData[]
   bookmarks?: BookmarkStoreData[]
   validationErrors?: string
+  // fields on app.locals 👇🏽
   featureFlags: {
     lastUpdated?: number | undefined
     flags: {
       [flagName: string]: Flag
     }
+  }
+  dpr: {
+    nestedBaseUrl?: string | undefined
+    bookmarkActionEndpoint?: string | undefined
+    downloadActionEndpoint?: string | undefined
+    productCollectionEndpoint?: string | undefined
+    bookmarkListPath?: string | undefined
+    requestedListPath?: string | undefined
+    recentlyViewedListPath?: string | undefined
   }
 }

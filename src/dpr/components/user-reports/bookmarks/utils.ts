@@ -169,7 +169,7 @@ export const renderBookmarkList = async ({
   res: Response
 }) => {
   const { token, csrfToken, dprUser, bookmarks } = LocalsHelper.getValues(res)
-  const endpoint = res.app.locals['bookmarkActionEndoint']
+  const { bookmarkActionEndpoint, bookmarkListPath } = LocalsHelper.getRouteLocals(res)
 
   const bookmarksData: BookmarkedReportData[] = await mapBookmarkIdsToDefinition(bookmarks, res, token, services)
 
@@ -177,10 +177,17 @@ export const renderBookmarkList = async ({
   const formattedCount = formatted.length
 
   if (maxRows) formatted = formatted.slice(0, maxRows)
-  const tableData = await formatTable(bookmarksData, services.bookmarkService, csrfToken, dprUser.id, endpoint, maxRows)
+  const tableData = await formatTable(
+    bookmarksData,
+    services.bookmarkService,
+    csrfToken,
+    dprUser.id,
+    bookmarkActionEndpoint,
+    maxRows,
+  )
 
   const head = {
-    ...(formatted.length && { href: res.app.locals['bookmarkListPath'] }),
+    ...(formatted.length && { href: bookmarkListPath }),
     ...(!formatted.length && { emptyMessage: 'You have 0 bookmarked reports' }),
   }
 

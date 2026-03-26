@@ -10,6 +10,7 @@ import { RequestReportRoutes } from './request-report/routes'
 import { ProductCollectionRoutes } from './product-collection/routes'
 import { ReportCatalogueRoutes } from './report-catalogue/routes'
 import { MyReportsCatalogueRoutes } from './my-reports-catalogue/routes'
+import { getRouteLocals } from 'src/dpr/utils/localsHelper'
 
 export function DprRoutes({ layoutPath, services }: { services: Services; layoutPath: string }): Router {
   const router = Router({ mergeParams: true })
@@ -32,15 +33,15 @@ export function Redirects(): Router {
   // Request route redirect
   router.get(`/async/:type/:reportId/:id/request`, (req, res) => {
     const { type, reportId, id } = req.params
-    res.redirect(`${res.app.locals['nestedBaseUrl']}/dpr/request-report/${type}/${reportId}/${id}/filters`)
+    const { nestedBaseUrl } = getRouteLocals(res)
+    res.redirect(`${nestedBaseUrl}/dpr/request-report/${type}/${reportId}/${id}/filters`)
   })
 
   // Status route redirect
   router.get(`/async/:type/:reportId/:id/request/:executionId`, (req, res) => {
     const { type, reportId, id, executionId } = req.params
-    res.redirect(
-      `${res.app.locals['nestedBaseUrl']}/dpr/request-report/${type}/${reportId}/${id}/${executionId}/status`,
-    )
+    const { nestedBaseUrl } = getRouteLocals(res)
+    res.redirect(`${nestedBaseUrl}/dpr/request-report/${type}/${reportId}/${id}/${executionId}/status`)
   })
 
   return router

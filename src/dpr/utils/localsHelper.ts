@@ -14,7 +14,6 @@ export const getValues = (res: Response) => {
     ...setFeatures(res),
     ...setDefinitions(res),
     csrfToken,
-    nestedBaseUrl: res.app.locals['nestedBaseUrl'],
   }
 }
 
@@ -84,7 +83,34 @@ export const setDdpPathToReqQuery = (req: Request, value: string) => {
   return req.query
 }
 
+interface DprAppLocals {
+  nestedBaseUrl?: string | undefined
+  bookmarkActionEndpoint: string
+  downloadActionEndpoint: string
+  productCollectionEndpoint: string
+  bookmarkListPath: string
+  requestedListPath: string
+  recentlyViewedListPath: string
+}
+
+export const getRouteLocals = (res: Response): DprAppLocals => {
+  const locals = res.app.locals.dpr
+  if (!locals) {
+    throw new Error('Dpr Library locals not initialized. Did you run setupNestedRoute?')
+  }
+  return {
+    nestedBaseUrl: locals.nestedBaseUrl,
+    bookmarkActionEndpoint: locals.bookmarkActionEndpoint ?? '',
+    downloadActionEndpoint: locals.downloadActionEndpoint ?? '',
+    productCollectionEndpoint: locals.productCollectionEndpoint ?? '',
+    bookmarkListPath: locals.bookmarkListPath ?? '',
+    requestedListPath: locals.requestedListPath ?? '',
+    recentlyViewedListPath: locals.recentlyViewedListPath ?? '',
+  }
+}
+
 export default {
   getValues,
+  getRouteLocals,
   setDdpPathToReqQuery,
 }

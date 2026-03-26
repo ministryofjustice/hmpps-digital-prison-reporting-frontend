@@ -1,5 +1,5 @@
 import { RequestHandler } from 'express'
-import localsHelper from '../../../../utils/localsHelper'
+import { getRouteLocals } from '../../../../utils/localsHelper'
 import { setNestedPath } from '../../../../utils/urlHelper'
 
 class MissingReportSubmittedController {
@@ -10,7 +10,7 @@ class MissingReportSubmittedController {
   }
 
   GET: RequestHandler = async (req, res, next) => {
-    const { nestedBaseUrl } = localsHelper.getValues(res)
+    const { nestedBaseUrl } = getRouteLocals(res)
     const cataloguePath = setNestedPath('/', nestedBaseUrl)
     const { reportId, variantId, reportName, name } = req.query
 

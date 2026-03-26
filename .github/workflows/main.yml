@@ -263,8 +263,8 @@ jobs:
 
           # Correct non-escaped bash process substitution
           mapfile -t FILES < <(
-            find ./src -type f -name "*.cy.ts"
-            find ./test-app -type f -name "*.cy.ts"
+            ( find ./src -type f -name "*.cy.ts";
+              find ./test-app -type f -name "*.cy.ts" ) | sort
           )
 
           echo "=== DEBUG: Found spec files ==="

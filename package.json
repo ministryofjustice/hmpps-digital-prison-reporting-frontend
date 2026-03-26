@@ -49,7 +49,7 @@
     "test:docs": "npm run rpack && npm run docs",
     "int-test-visual": "npx playwright test",
     "int-test-visual-ui": "npx playwright test --ui",
-    "wiremock": "concurrently -p \"[{name}]\" -n \"Wiremock,SetupMocks\" -c \"yellow.bold,cyan.bold\" \"wiremock --verbose --port=9091\" \"wait-on http-get://localhost:9091/__admin/health && tsx ./_networkMocks/setupMocks.ts\"",
+    "wiremock": "concurrently -p \"[{name}]\" -n \"Wiremock,SetupMocks\" -c \"yellow.bold,cyan.bold\" \"wiremock --verbose --port=9091 --global-response-templating\" \"wait-on http-get://localhost:9091/__admin/health && tsx ./_networkMocks/setupMocks.ts\"",
     "start-test-app": "npm run rpack && node $NODE_OPTIONS test-app/start-server.js",
     "start:dev": "NODE_OPTIONS=\"--enable-source-maps\" USE_MOCK_CLIENTS=true concurrently -k -p \"[{name}]\" -n \"ESBuild,Node\" -c \"yellow.bold,cyan.bold\" \"node esbuild/esbuild.config.js --build --watch\" \"node esbuild/esbuild.config.js --dev-server\"",
     "start:dev:noMockClients": "NODE_OPTIONS=\"--enable-source-maps\" concurrently -k -p \"[{name}]\" -n \"ESBuild,Node\" -c \"yellow.bold,cyan.bold\" \"node esbuild/esbuild.config.js --build --watch\" \"node esbuild/esbuild.config.js --dev-server\"",

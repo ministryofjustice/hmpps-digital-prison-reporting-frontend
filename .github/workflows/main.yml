@@ -119,7 +119,7 @@ jobs:
         run: curl -o wiremock.jar https://repo1.maven.org/maven2/com/github/tomakehurst/wiremock-standalone/2.27.1/wiremock-standalone-2.27.1.jar
         working-directory: ${{ github.workspace }}/../app
       - name: Run wiremock
-        run: java -jar wiremock.jar --port 9091 &
+        run: java -jar wiremock.jar --port 9091 --global-response-templating &
         working-directory: ${{ github.workspace }}/../app
       - name: Run mi-ui
         run: npm run start-feature &
@@ -152,6 +152,7 @@ jobs:
           - 9091:8080
         options: >-
           --entrypoint "/docker-entrypoint.sh"
+          --global-response-templating
 
     strategy:
       fail-fast: false

@@ -1,8 +1,12 @@
 Below you can find the changes included in each release.
 
+## 5.8.4
+
+- Columns bug fix - Added normalization for query params to ensure consistent string[] output across environments when applying filters.
+
 ## 5.8.3
 
-- Columns bug fix - Added normalization for query params to ensure consistent string[] output across environments.
+- Columns bug fix - Added normalization for query params to ensure consistent string[] output across environments when applying columns.
 
 ## 5.8.2
 

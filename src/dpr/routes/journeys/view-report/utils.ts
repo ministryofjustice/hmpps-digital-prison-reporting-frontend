@@ -1,4 +1,5 @@
 import { Request, Response } from 'express'
+import { normalizeQueryStringArray } from 'src/dpr/utils/urlHelper'
 import { FilterType } from '../../../components/_filters/filter-input/enum'
 import { components } from '../../../types/api'
 import { StoredReportData } from '../../../types/UserReports'
@@ -103,8 +104,8 @@ const applyInteractiveQuery = async (
     const columnsData = [...mandatoryCols, ...bodyColumns]
     formData = { ...formData, columns: columnsData, ...filters }
   } else {
-    const columns = interactiveQueryData?.['columns'] || []
-    formData = { ...formData, columns }
+    const normalizedColumns = normalizeQueryStringArray(interactiveQueryData?.['columns']) || []
+    formData = { ...formData, columns: normalizedColumns }
   }
 
   // Create query string

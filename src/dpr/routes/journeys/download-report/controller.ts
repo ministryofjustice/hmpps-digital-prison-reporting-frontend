@@ -17,7 +17,7 @@ class DownloadReportController {
   POST: RequestHandler = async (req, res) => {
     const { dprUser } = LocalsHelper.getValues(res)
     const { reportId, id, loadType } = req.body
-    const currentUrl = getSessionValue(req, 'currentReportJourney', 'currentReportPathname')
+    const currentUrl = <string>getSessionValue(req, 'currentReportJourney', 'currentReportPathname')
     const currentQueryParams = getSessionValue(req, 'currentReportJourney', 'currentReportSearch')
 
     let redirect =

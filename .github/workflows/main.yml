@@ -90,6 +90,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version: '22.x'
@@ -106,7 +107,7 @@ jobs:
         run: npm run setup
         working-directory: ${{ github.workspace }}/../app
 
-      - name: Build lib and copy output into node_modules of mi-ui for lib
+      - name: Build lib and copy output into node_modules of mi-ui
         working-directory: ${{ github.workspace }}
         run: |
           npm run rpack
@@ -141,45 +142,46 @@ jobs:
         run: npm run int-test
         working-directory: ${{ github.workspace }}/../app
 
-      # ---------------------------
-      # ARTIFACTS
-      # ---------------------------
+      # ---------------------------------------------
+      # COLLECT & UPLOAD ARTIFACTS (SAFE PATHS)
+      # ---------------------------------------------
+      - name: Collect logs & Cypress artifacts
+        if: success() || failure()
+        run: |
+          mkdir -p artifacts/mi-ui
+          mkdir -p artifacts/cypress/videos
+          mkdir -p artifacts/cypress/screenshots
 
-      # App logs (ALWAYS upload, even on failure)
-      - name: Upload mi-ui app log
+          # Copy mi-ui app log
+          cp ../app/mi-ui.log artifacts/mi-ui/ 2>/dev/null || true
+
+          # Copy WireMock log
+          cp ../app/wiremock.log artifacts/mi-ui/ 2>/dev/null || true
+
+          # Copy Cypress videos & screenshots
+          cp -R ../app/cypress-tests/integration-tests/videos/* artifacts/cypress/videos/ 2>/dev/null || true
+          cp -R ../app/cypress-tests/integration-tests/screenshots/* artifacts/cypress/screenshots/ 2>/dev/null || true
+
+      - name: Upload mi-ui logs
         if: success() || failure()
         uses: actions/upload-artifact@v4
         with:
-          name: mi-ui-app-log
-          path: ../app/mi-ui.log
-          if-no-files-found: ignore
+          name: mi-ui-logs
+          path: artifacts/mi-ui
 
-      # WireMock logs
-      - name: Upload wiremock log
-        if: success() || failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: wiremock-log
-          path: ../app/wiremock.log
-          if-no-files-found: ignore
-
-      # Cypress videos (failing tests only)
       - name: Upload Cypress videos
         if: success() || failure()
         uses: actions/upload-artifact@v4
         with:
-          name: cypress-videos
-          path: ../app/cypress-tests/integration-tests/videos
-          if-no-files-found: ignore
+          name: mi-ui-cypress-videos
+          path: artifacts/cypress/videos
 
-      # Cypress screenshots (failures)
       - name: Upload Cypress screenshots
         if: success() || failure()
         uses: actions/upload-artifact@v4
         with:
-          name: cypress-screenshots
-          path: ../app/cypress-tests/integration-tests/screenshots
-          if-no-files-found: ignore
+          name: mi-ui-cypress-screenshots
+          path: artifacts/cypress/screenshots
 
   integration_test:
     runs-on: ubuntu-latest

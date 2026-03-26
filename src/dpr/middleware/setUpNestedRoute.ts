@@ -10,7 +10,7 @@ export const setupNestedRoute = (): RequestHandler => {
     const base = req.baseUrl && req.baseUrl.length > 0 ? req.baseUrl : undefined
 
     if (base) {
-      locals.nestedBaseUrl = base
+      locals.nestedBaseUrl ??= base
       locals.bookmarkActionEndpoint = setNestedPath(locals.bookmarkActionEndpoint, base)
       locals.downloadActionEndpoint = setNestedPath(locals.downloadActionEndpoint, base)
       locals.productCollectionEndpoint = setNestedPath(locals.productCollectionEndpoint, base)

@@ -2,7 +2,7 @@ import { RequestHandler } from 'express'
 import LocalsHelper from '../../../utils/localsHelper'
 import DownloadUtils from './utils'
 import { Services } from '../../../types/Services'
-import { getSessionValue } from '../../../utils/sessionHelper'
+import { getSessionValue } from 'src/dpr/utils/sessionHelper'
 
 class DownloadReportController {
   layoutPath: string
@@ -18,7 +18,7 @@ class DownloadReportController {
     const { dprUser } = LocalsHelper.getValues(res)
     const { reportId, id, loadType } = req.body
     const currentUrl = <string>getSessionValue(req, 'currentReportJourney', 'currentReportPathname')
-    const currentQueryParams = getSessionValue(req, 'currentReportJourney', 'currentReportSearch')
+    const currentQueryParams = <string>getSessionValue(req, 'currentReportJourney', 'currentReportSearch')
 
     let redirect =
       currentUrl && currentUrl.includes('/download-disabled') ? currentUrl : `${currentUrl}/download-disabled`

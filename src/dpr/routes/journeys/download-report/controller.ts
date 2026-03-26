@@ -1,8 +1,8 @@
 import { RequestHandler } from 'express'
+import { getSessionValue } from 'src/dpr/utils/sessionHelper'
 import LocalsHelper from '../../../utils/localsHelper'
 import DownloadUtils from './utils'
 import { Services } from '../../../types/Services'
-import { getSessionValue } from 'src/dpr/utils/sessionHelper'
 
 class DownloadReportController {
   layoutPath: string

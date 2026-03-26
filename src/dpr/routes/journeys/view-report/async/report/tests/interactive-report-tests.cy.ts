@@ -27,6 +27,40 @@ context('Interactive report', () => {
     cy.task('stubRequestSuccessResult100')
   })
 
+  describe('List report page with weird data', () => {
+    beforeEach(() => {
+      executeReportStubs()
+      cy.task('stubDefinitionFeatureTestingInteractive')
+      cy.task('stubAsyncRequestSuccessReportTablesCount')
+      cy.task('stubRequestSuccessResult20WithWeirdData')
+    })
+
+    it('should show results correctly even when input data is strange', () => {
+      requestReport({ name: 'Interactive Report', description: 'this is an interactive report', path })
+      cy.findAllByRole('table')
+        .eq(1)
+        .within(() => {
+          cy.findAllByRole('row').eq(1).findAllByRole('cell').eq(2).should('have.text', '01/02/03 01:00')
+          cy.findAllByRole('row')
+            .eq(1)
+            .findAllByRole('cell')
+            .eq(4)
+            .should('be.visible')
+            .then((cell) => {
+              expect(cell.text().trim()).to.equal('')
+            })
+          cy.findAllByRole('row')
+            .eq(0)
+            .findByRole('link', { name: /Field 1/, description: /Sorted ascending/, hidden: true })
+            .should('exist')
+          cy.findAllByRole('row')
+            .eq(0)
+            .findByRole('link', { name: /Field 2/, description: /Not sorted/, hidden: true })
+            .should('exist')
+        })
+    })
+  })
+
   describe('Apply filters', () => {
     before(() => {
       requestReport({ name: 'Interactive Report', description: 'this is an interactive report', path })

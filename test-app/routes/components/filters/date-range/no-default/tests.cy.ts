@@ -1,3 +1,5 @@
+import { checkA11y } from "cypress-tests/cypressUtils"
+
 context('Inputs: date range', () => {
   const path = '/components/filters/date-range/date-range'
   const dateToday = new Date()
@@ -11,8 +13,7 @@ context('Inputs: date range', () => {
   })
 
   it('is accessible', () => {
-    cy.injectAxe()
-    cy.checkA11y()
+    checkA11y()
   })
 
   describe('Setting the value via the input', () => {

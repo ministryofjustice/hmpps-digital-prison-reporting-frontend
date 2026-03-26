@@ -1,4 +1,4 @@
-import { executeReportStubs } from '../../../../../cypress-tests/cypressUtils'
+import { checkA11y, executeReportStubs } from '../../../../../cypress-tests/cypressUtils'
 
 context('Filters: Autocomplete', () => {
   const path = '/components/filters/autocomplete'
@@ -8,8 +8,7 @@ context('Filters: Autocomplete', () => {
   })
 
   it('is accessible', () => {
-    cy.injectAxe()
-    cy.checkA11y()
+    checkA11y()
   })
 
   describe('Setting a value', () => {

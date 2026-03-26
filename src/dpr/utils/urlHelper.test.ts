@@ -1,4 +1,4 @@
-import { expect } from '@jest/globals'
+import { expect, it, describe } from '@jest/globals'
 import { setNestedPath } from './urlHelper'
 
 describe('URL helper', () => {

@@ -62,8 +62,8 @@ export const requestReport = async ({
   cy.findByRole('heading', { level: 1, name: regexName }).should('be.visible')
 }
 
-export const executeReportStubs = () => {
-  stubBaseTasks()
+export const executeReportStubs = (resetRedis: boolean = true) => {
+  stubBaseTasks(resetRedis)
   stubDefinitionsTasks()
   cy.task('stubReportsFinishedStatus')
   cy.task('stubViewAsyncReportingResults')
@@ -88,9 +88,11 @@ export const stubDefinitionsTasks = () => {
   stubBookmarks()
 }
 
-export const stubBaseTasks = () => {
+export const stubBaseTasks = (resetRedis: boolean = true) => {
   cy.task('resetStubs')
-  cy.task('resetRedis')
+  if (resetRedis) {
+    cy.task('resetRedis')
+  }
   cy.task('stubFeatureFlags')
 }
 

@@ -1,5 +1,5 @@
 import { resetFeatureFlags } from 'test-app/routes/integrationTests/appStateUtils'
-import { executeDashboardStubs } from '../../../../../cypress-tests/cypressUtils'
+import { checkA11y, executeDashboardStubs } from '../../../../../cypress-tests/cypressUtils'
 
 context('Dashboard visualisation: Scorecards', () => {
   const scorecardPath =
@@ -38,8 +38,7 @@ context('Dashboard visualisation: Scorecards', () => {
     })
 
     it('is accessible', () => {
-      cy.injectAxe()
-      cy.checkA11y()
+      checkA11y()
     })
 
     it('should show the correct information on a scorecard', () => {
@@ -76,8 +75,7 @@ context('Dashboard visualisation: Scorecards', () => {
     })
 
     it('is accessible', () => {
-      cy.injectAxe()
-      cy.checkA11y()
+      checkA11y()
     })
 
     it('should show the correct information on a scorecard', () => {

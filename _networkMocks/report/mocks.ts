@@ -30,8 +30,8 @@ export const setupSimpleReportDefinitionResponseMock = (
   })
 
 export const requestAsyncReportMock = setupSimpleMock(`/async/reports/[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+`, {
-  executionId: 'exId_238947923',
-  tableId: 'tblId_1729765628165',
+  executionId: `exId_{{randomValue length=9 type='NUMERIC'}}`,
+  tableId: `tblId_{{randomValue length=9 type='NUMERIC'}}`,
 })
 
 export const requestAsyncReportBadDataMock = setupSimpleMock(

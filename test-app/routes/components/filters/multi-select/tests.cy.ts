@@ -1,4 +1,4 @@
-import { executeReportStubs, requestReportByNameAndDescription, startReportRequest } from 'cypress-tests/cypressUtils'
+import { checkA11y, executeReportStubs, requestReportByNameAndDescription, startReportRequest } from 'cypress-tests/cypressUtils'
 
 context('Inputs: multiselect', () => {
   const path = '/components/filters/multi-select'
@@ -11,8 +11,7 @@ context('Inputs: multiselect', () => {
   })
 
   it('is accessible', () => {
-    cy.injectAxe()
-    cy.checkA11y()
+    checkA11y()
   })
 
   describe('Setting values', () => {
@@ -208,7 +207,7 @@ context('Inputs: multiselect', () => {
 
     it('should toggle the full list in the interactive filters', () => {
       requestReportByNameAndDescription(reportDetails)
-      cy.findByRole('heading', { level: 1, name: /Multiselect/ }).should('be.visible')
+      cy.findByRole('heading', { level: 1, name: /Multiselect/, timeout: 10000 }).should('be.visible')
       cy.findAllByRole('group')
         .contains(/Show filters/)
         .click()

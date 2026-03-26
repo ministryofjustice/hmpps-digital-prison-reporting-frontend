@@ -1,4 +1,4 @@
-import { executeDashboardStubs, requestReportByNameAndDescription } from '../../../../../../cypress-tests/cypressUtils'
+import { checkA11y, executeDashboardStubs, requestReportByNameAndDescription } from '../../../../../../cypress-tests/cypressUtils'
 
 context('Dashboard visualisation: Doughnut chart', () => {
   const path = '/embedded/platform'
@@ -19,8 +19,7 @@ context('Dashboard visualisation: Doughnut chart', () => {
       })
 
       cy.findByRole('heading', { level: 1, name: /Doughnut - Complete dataset/ }).should('be.visible')
-      cy.injectAxe()
-      cy.checkA11y()
+      checkA11y()
 
       cy.url().then((url) => {
         completeDashboardUrl = url

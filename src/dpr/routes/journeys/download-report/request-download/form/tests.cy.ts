@@ -1,3 +1,5 @@
+import { checkA11y } from 'cypress-tests/cypressUtils'
+
 context('Request download form', () => {
   const path =
     '/embedded/platform/dpr/download-report/request-download/request-examples/request-example-success/tableId/tblId_1753863906851/form?reportUrl=/embedded/platform/dpr/view-report/async/report/request-examples/request-example-success/tblId_1753863906851/report'
@@ -12,8 +14,7 @@ context('Request download form', () => {
 
   it('is accessible', () => {
     cy.visit(path)
-    cy.injectAxe()
-    cy.checkA11y()
+    checkA11y()
     cy.findByRole('heading', { name: /Download request form/ }).should('be.visible')
     cy.findByRole('button', { name: /Submit request/ }).click()
     cy.findByRole('link', { name: /provide information on how you will use this data/ })

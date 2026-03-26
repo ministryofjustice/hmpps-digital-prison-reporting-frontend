@@ -1,3 +1,4 @@
+import { checkA11y } from 'cypress-tests/cypressUtils'
 import { setRedisState } from '../../../../../../../test-app/routes/integrationTests/appStateUtils'
 import { ReportType } from '../../../../../types/UserReports'
 
@@ -27,8 +28,7 @@ context('Bookmarks list', () => {
       defaultFilters: [],
     })
     cy.visit(path)
-    cy.injectAxe()
-    cy.checkA11y()
+    checkA11y()
     cy.findAllByText(/Successful Report/).should('be.visible')
   })
 })

@@ -1,3 +1,5 @@
+import { checkA11y } from "cypress-tests/cypressUtils"
+
 context('Search component', () => {
   const path = '/components/search'
 
@@ -7,8 +9,7 @@ context('Search component', () => {
 
   it('is accessible', () => {
     cy.visit(path)
-    cy.injectAxe()
-    cy.checkA11y()
+    checkA11y()
   })
 
   it('should filter the reports by the key word search', () => {

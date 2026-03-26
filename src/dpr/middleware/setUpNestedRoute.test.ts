@@ -18,7 +18,7 @@ describe('setupNestedRoute middleware', () => {
 
     await middleware(req, res, next)
 
-    expect(res.app.locals.dpr.nestedBaseUrl).toBeUndefined()
+    expect(res.app.locals.dprPaths.nestedBaseUrl).toBeUndefined()
     expect(next).toHaveBeenCalled()
   })
 
@@ -29,7 +29,7 @@ describe('setupNestedRoute middleware', () => {
 
     await middleware(req, res, next)
 
-    expect(res.app.locals.dpr.nestedBaseUrl).toBeUndefined()
+    expect(res.app.locals.dprPaths.nestedBaseUrl).toBeUndefined()
     expect(next).toHaveBeenCalled()
   })
 
@@ -40,7 +40,7 @@ describe('setupNestedRoute middleware', () => {
 
     await middleware(req, res, next)
 
-    expect(res.app.locals.dpr.nestedBaseUrl).toBe('/api')
+    expect(res.app.locals.dprPaths.nestedBaseUrl).toBe('/api')
     expect(next).toHaveBeenCalled()
   })
 
@@ -51,7 +51,7 @@ describe('setupNestedRoute middleware', () => {
 
     await middleware(req, res, next)
 
-    expect(res.app.locals.dpr.nestedBaseUrl).toBe('/api/v1/accounts')
+    expect(res.app.locals.dprPaths.nestedBaseUrl).toBe('/api/v1/accounts')
     expect(next).toHaveBeenCalled()
   })
 })

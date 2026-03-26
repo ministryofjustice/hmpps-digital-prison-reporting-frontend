@@ -6,7 +6,7 @@ import { BookmarkStoreData } from './Bookmark'
 
 export interface ExtraLocals {
   dprUser: DprUser
-  nestedBaseUrl?: string
+  nestedBaseUrl?: string | undefined
   csrfToken: string
   definitions: components['schemas']['ReportDefinitionSummary'][]
   definition?: components['schemas']['SingleVariantReportDefinition'] | components['schemas']['DashboardDefinition']

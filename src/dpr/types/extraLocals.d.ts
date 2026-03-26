@@ -28,13 +28,16 @@ export interface ExtraLocals {
       [flagName: string]: Flag
     }
   }
-  dpr: {
+  dprPaths: {
     nestedBaseUrl?: string | undefined
-    bookmarkActionEndpoint?: string | undefined
-    downloadActionEndpoint?: string | undefined
-    productCollectionEndpoint?: string | undefined
-    bookmarkListPath?: string | undefined
-    requestedListPath?: string | undefined
-    recentlyViewedListPath?: string | undefined
+    bookmarkActionEndpoint: string
+    downloadActionEndpoint: string
+    productCollectionEndpoint: string
+    bookmarkListPath: string
+    requestedListPath: string
+    recentlyViewedListPath: string
+    reportsCatalogue: string
+    userReportsList: string
+    dprHomepage: string
   }
 }

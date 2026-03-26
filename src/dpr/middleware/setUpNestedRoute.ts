@@ -6,29 +6,21 @@ export const setupNestedRoute = (): RequestHandler => {
   return (req, res, next) => {
     logger.info('Initialising nested route')
 
-    res.app.locals.dpr ??= {}
-    const locals = res.app.locals.dpr
-    const currentBase = req.baseUrl && req.baseUrl.length > 0 ? req.baseUrl : undefined
+    const locals = res.app.locals.dprPaths
+    const base = req.baseUrl && req.baseUrl.length > 0 ? req.baseUrl : undefined
 
-    if (locals.nestedBaseUrl !== currentBase) {
-      locals.nestedBaseUrl = currentBase
-
-      // Reset cached paths so they can be remade
-      locals.bookmarkActionEndpoint = undefined
-      locals.downloadActionEndpoint = undefined
-      locals.productCollectionEndpoint = undefined
-      locals.bookmarkListPath = undefined
-      locals.requestedListPath = undefined
-      locals.recentlyViewedListPath = undefined
+    if (base) {
+      locals.nestedBaseUrl = base
+      locals.bookmarkActionEndpoint = setNestedPath(locals.bookmarkActionEndpoint, base)
+      locals.downloadActionEndpoint = setNestedPath(locals.downloadActionEndpoint, base)
+      locals.productCollectionEndpoint = setNestedPath(locals.productCollectionEndpoint, base)
+      locals.bookmarkListPath = setNestedPath(locals.bookmarkListPath, base)
+      locals.requestedListPath = setNestedPath(locals.requestedListPath, base)
+      locals.recentlyViewedListPath = setNestedPath(locals.recentlyViewedListPath, base)
+      locals.reportsCatalogue = setNestedPath(locals.reportsCatalogue, base)
+      locals.userReportsList = setNestedPath(locals.userReportsList, base)
+      locals.dprHomepage = setNestedPath(locals.dprHomepage, base)
     }
-    const base = locals.nestedBaseUrl
-
-    locals.bookmarkActionEndpoint ??= setNestedPath('/dpr/my-reports/bookmarks', base)
-    locals.downloadActionEndpoint ??= setNestedPath('/dpr/download-report/', base)
-    locals.productCollectionEndpoint ??= setNestedPath('/dpr/product-collection/selected', base)
-    locals.bookmarkListPath ??= setNestedPath('/dpr/my-reports/bookmarks/list', base)
-    locals.requestedListPath ??= setNestedPath('/dpr/my-reports/requested-reports/list', base)
-    locals.recentlyViewedListPath ??= setNestedPath('/dpr/my-reports/recently-viewed/list', base)
 
     console.log({ locals })
 

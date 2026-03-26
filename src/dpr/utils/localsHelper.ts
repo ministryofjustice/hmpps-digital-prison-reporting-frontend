@@ -91,22 +91,17 @@ interface DprAppLocals {
   bookmarkListPath: string
   requestedListPath: string
   recentlyViewedListPath: string
+  reportsCatalogue: string
+  userReportsList: string
+  dprHomepage: string
 }
 
 export const getRouteLocals = (res: Response): DprAppLocals => {
-  const locals = res.app.locals.dpr
-  // if (!locals) {
-  //   throw new Error('Dpr Library locals not initialized. Did you run setupNestedRoute?')
-  // }
-  return {
-    nestedBaseUrl: locals.nestedBaseUrl,
-    bookmarkActionEndpoint: locals.bookmarkActionEndpoint ?? '',
-    downloadActionEndpoint: locals.downloadActionEndpoint ?? '',
-    productCollectionEndpoint: locals.productCollectionEndpoint ?? '',
-    bookmarkListPath: locals.bookmarkListPath ?? '',
-    requestedListPath: locals.requestedListPath ?? '',
-    recentlyViewedListPath: locals.recentlyViewedListPath ?? '',
+  const locals = res.app.locals.dprPaths
+  if (!locals) {
+    throw new Error('Dpr Library Path locals not initialized')
   }
+  return locals
 }
 
 export default {

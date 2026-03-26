@@ -39,6 +39,7 @@ export const setupResources = (
       await populateDefinitions(services, req, res, config)
       await setLocalsFromServices(services, res)
       await populateRequestedReports(services, res)
+      setUpDprPaths(res)
       setUpCurrentReportSessionProtection(req)
 
       setupRequestAwareNunjucks(env, res)
@@ -158,6 +159,20 @@ const populateRequestedReports = async (services: Services, res: Response) => {
             return DefinitionUtils.getCurrentVariantDefinition(definitions, bookmark.reportId, bookmark.id)
           })
     }
+  }
+}
+
+const setUpDprPaths = (res: Response) => {
+  res.app.locals.dprPaths ??= {
+    bookmarkActionEndpoint: '/dpr/my-reports/bookmarks',
+    downloadActionEndpoint: '/dpr/download-report/',
+    productCollectionEndpoint: '/dpr/product-collection/selected',
+    bookmarkListPath: '/dpr/my-reports/bookmarks/list',
+    requestedListPath: '/dpr/my-reports/requested-reports/list',
+    recentlyViewedListPath: '/dpr/my-reports/recently-viewed/list',
+    reportsCatalogue: '/dpr/report-catalogue',
+    userReportsList: '/dpr/my-reports',
+    dprHomepage: '/dpr',
   }
 }
 

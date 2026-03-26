@@ -59,7 +59,6 @@ const streamDownloadSyncData = async (args: {
     },
     definitionsPath: <string>queryParams.dataProductDefinitionsPath,
   })
-  console.log({ resourceName })
   return services.reportingService.downloadSyncReport(token, resourceName, reportQuery, res)
 }
 
@@ -81,10 +80,7 @@ export const downloadReport = async ({
   const { downloadPermissionService } = services
   const canDownloadReport = await downloadPermissionService.downloadEnabledForReport(dprUser.id, reportId, id)
 
-  console.log('downloadReport downloadReport downloadReport')
-
   if (!canDownloadReport) {
-    console.log('downloadReport redirect downloadReport  redirect downloadReport')
     res.redirect(redirect)
   } else {
     const streamDownloadQueryParams = {

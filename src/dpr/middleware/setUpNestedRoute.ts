@@ -3,8 +3,8 @@ import { setNestedPath } from '../utils/urlHelper'
 
 export const setupNestedRoute = (): RequestHandler => {
   return (req, res, next) => {
-    const locals = (res.app.locals.dpr ??= {})
-
+    res.app.locals.dpr ??= {}
+    const locals = res.app.locals.dpr
     const currentBase = req.baseUrl && req.baseUrl.length > 0 ? req.baseUrl : undefined
 
     if (locals.nestedBaseUrl !== currentBase) {

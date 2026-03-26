@@ -1,8 +1,11 @@
 import { RequestHandler } from 'express'
 import { setNestedPath } from '../utils/urlHelper'
+import logger from '../utils/logger'
 
 export const setupNestedRoute = (): RequestHandler => {
   return (req, res, next) => {
+    logger.info('Initialising nested route')
+
     res.app.locals.dpr ??= {}
     const locals = res.app.locals.dpr
     const currentBase = req.baseUrl && req.baseUrl.length > 0 ? req.baseUrl : undefined
@@ -26,6 +29,8 @@ export const setupNestedRoute = (): RequestHandler => {
     locals.bookmarkListPath ??= setNestedPath('/dpr/my-reports/bookmarks/list', base)
     locals.requestedListPath ??= setNestedPath('/dpr/my-reports/requested-reports/list', base)
     locals.recentlyViewedListPath ??= setNestedPath('/dpr/my-reports/recently-viewed/list', base)
+
+    console.log({ locals })
 
     next()
   }

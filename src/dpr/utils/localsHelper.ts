@@ -95,9 +95,9 @@ interface DprAppLocals {
 
 export const getRouteLocals = (res: Response): DprAppLocals => {
   const locals = res.app.locals.dpr
-  if (!locals) {
-    throw new Error('Dpr Library locals not initialized. Did you run setupNestedRoute?')
-  }
+  // if (!locals) {
+  //   throw new Error('Dpr Library locals not initialized. Did you run setupNestedRoute?')
+  // }
   return {
     nestedBaseUrl: locals.nestedBaseUrl,
     bookmarkActionEndpoint: locals.bookmarkActionEndpoint ?? '',

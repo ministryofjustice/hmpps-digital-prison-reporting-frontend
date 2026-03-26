@@ -1,3 +1,5 @@
+import { checkA11y } from "cypress-tests/cypressUtils"
+
 context('Inputs: date range with default values', () => {
   const path = '/components/filters/date-range/default-date-range'
 
@@ -6,8 +8,7 @@ context('Inputs: date range with default values', () => {
   })
 
   it('is accessible', () => {
-    cy.injectAxe()
-    cy.checkA11y()
+    checkA11y()
   })
 
   it('should set the input values to the default value', () => {

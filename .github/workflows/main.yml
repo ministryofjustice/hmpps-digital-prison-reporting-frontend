@@ -127,7 +127,7 @@ jobs:
         working-directory: ${{ github.workspace }}/../app
 
       - name: Run wiremock
-        run: java -jar wiremock.jar --port 9091 > wiremock.log 2>&1 &
+        run: java -jar wiremock.jar --port 9091 --global-response-templating &
         working-directory: ${{ github.workspace }}/../app
 
       - name: Run mi-ui
@@ -202,10 +202,13 @@ jobs:
         image: wiremock/wiremock:latest
         ports:
           - 9091:8080
+        env:
+          WIREMOCK_OPTIONS: '--global-response-templating'
         options: >-
           --entrypoint "/docker-entrypoint.sh"
 
     strategy:
+      fail-fast: false
       matrix:
         shard_index: [0, 1, 2, 3]
 

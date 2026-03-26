@@ -1,4 +1,4 @@
-import { executeDashboardStubs, requestReportByNameAndDescription } from '../../../../../cypress-tests/cypressUtils'
+import { checkA11y, executeDashboardStubs, requestReportByNameAndDescription } from '../../../../../cypress-tests/cypressUtils'
 
 context('Dashboard visualisation: Mixed charts', () => {
   const path = '/embedded/platform'
@@ -19,8 +19,7 @@ context('Dashboard visualisation: Mixed charts', () => {
       })
 
       cy.findByRole('heading', { level: 1, name: /Mixed - Complete dataset/ }).should('be.visible')
-      cy.injectAxe()
-      cy.checkA11y()
+      checkA11y()
 
       cy.url().then((url) => {
         completeDashboardUrl = url
@@ -99,8 +98,7 @@ context('Dashboard visualisation: Mixed charts', () => {
       })
 
       cy.findByRole('heading', { level: 1, name: /Mixed - Partial dataset/ }).should('be.visible')
-      cy.injectAxe()
-      cy.checkA11y()
+      checkA11y()
 
       cy.url().then((url) => {
         partialDashboardUrl = url
@@ -158,8 +156,7 @@ context('Dashboard visualisation: Mixed charts', () => {
       })
 
       cy.findByRole('heading', { level: 1, name: /Mixed - Historic - Partial dataset/ }).should('be.visible')
-      cy.injectAxe()
-      cy.checkA11y()
+      checkA11y()
 
       cy.url().then((url) => {
         partialDashboardUrl = url

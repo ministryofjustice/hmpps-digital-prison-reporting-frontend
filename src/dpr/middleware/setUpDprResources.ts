@@ -1,9 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { type RequestHandler, Response, Request, ErrorRequestHandler, NextFunction } from 'express'
+import { type RequestHandler, Response, Request } from 'express'
 import type { ParsedQs } from 'qs'
-import { HTTPError } from 'superagent'
 import type { Environment } from 'nunjucks'
-import { captureException } from '@sentry/node'
 import { Services } from '../types/Services'
 import { RequestedReport, StoredReportData } from '../types/UserReports'
 import DefinitionUtils from '../utils/definitionUtils'
@@ -14,6 +12,7 @@ import { FeatureFlagService, isBooleanFlagEnabledOrMissing } from '../services/f
 import { FEATURE_FLAGS, getFeatureFlagEvaluationSubject } from '../utils/featureFlagsHelper'
 import setUpNunjucksFilters from '../setUpNunjucksFilters'
 import logger from '../utils/logger'
+import { errorRequestHandler } from '../routes'
 
 const getQueryParamAsString = (query: ParsedQs, name: string) => (query[name] ? query[name].toString() : null)
 const getDefinitionsPath = (query: ParsedQs) => getQueryParamAsString(query, 'dataProductDefinitionsPath')
@@ -26,24 +25,6 @@ const deriveDefinitionsPath = (query: ParsedQs): string | null => {
 
   return null
 }
-
-export const errorRequestHandler =
-  (layoutPath: string): ErrorRequestHandler =>
-  (error: HTTPError, _req: Request, res: Response, next: NextFunction) => {
-    if (error.status === 401 || error.status === 403) {
-      return res.render('dpr/routes/authError.njk', {
-        layoutPath,
-        message: 'Sorry, there is a problem with authenticating your request',
-      })
-    }
-    captureException(error)
-    if (error.status >= 400) {
-      return res.render('dpr/routes/serviceProblem.njk', {
-        layoutPath,
-      })
-    }
-    return next(error)
-  }
 
 export const setupResources = (
   services: Services,
@@ -90,7 +71,7 @@ const populateValidationErrors = (req: Request, res: Response) => {
   }
 }
 
-export const populateDefinitions = async (services: Services, req: Request, res: Response, config?: DprConfig) => {
+const populateDefinitions = async (services: Services, req: Request, res: Response, config?: DprConfig) => {
   // Get the DPD path from the query
   const { token, dprUser } = localsHelper.getValues(res)
 
@@ -133,7 +114,7 @@ export const populateDefinitions = async (services: Services, req: Request, res:
     })) ?? []
 }
 
-export const setLocalsFromServices = async (services: Services, res: Response) => {
+const setLocalsFromServices = async (services: Services, res: Response) => {
   const { dprUser } = localsHelper.getValues(res)
   if (dprUser.id) {
     res.locals['downloadingEnabled'] = services.downloadPermissionService.enabled
@@ -148,7 +129,7 @@ export const setLocalsFromServices = async (services: Services, res: Response) =
   }
 }
 
-export const populateRequestedReports = async (services: Services, res: Response) => {
+const populateRequestedReports = async (services: Services, res: Response) => {
   const { dprUser } = localsHelper.getValues(res)
   if (dprUser.id) {
     const { definitions, definitionsPath } = res.locals

@@ -613,6 +613,28 @@ export const stubs = {
         },
       }),
     ),
+  stubRequestSuccessResult20WithWeirdData: () => {
+    const mockData = createMockData(20)
+    mockData[0].field3 = '2003-2-1T1:00'
+    mockData[0].field7 = null
+    return stubFor(
+      generateNetworkMock({
+        ...getAsyncReportResultMock,
+        request: {
+          ...getAsyncReportResultMock.request,
+          queryParameters: {
+            pageSize: {
+              matches: '20',
+            },
+          },
+        },
+        response: {
+          ...getAsyncReportResultMock.response,
+          jsonBody: mockData,
+        },
+      }),
+    )
+  },
   stubRequestSuccessResult100: () =>
     stubFor(
       generateNetworkMock({

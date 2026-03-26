@@ -98,8 +98,7 @@ context('Request status', () => {
       it('should show the aborted status page', () => {
         cy.task('stubReportsAbortedStatus')
         cy.findByText(/aborted/i).should('be.visible')
-        cy.injectAxe()
-        cy.checkA11y()
+        checkA11y()
 
         cy.visit(path)
         cy.findByRole('tab', { name: /Requested/ }).click()
@@ -118,8 +117,7 @@ context('Request status', () => {
       it('should show the expired status page', () => {
         cy.task('stubReportsExpiredStatus')
         cy.findByText(/expired/i).should('be.visible')
-        cy.injectAxe()
-        cy.checkA11y()
+        checkA11y()
 
         cy.visit(path)
         cy.findByRole('tab', { name: /Requested/ }).click()
@@ -145,7 +143,7 @@ context('Request status', () => {
         cy.findAllByRole('list').contains(`Execution ID: ${executionId}`).should('be.visible')
         cy.findAllByRole('list').contains('Table ID: tblId_').should('be.visible')
         cy.injectAxe()
-        cy.checkA11y()
+        checkA11y()
 
         cy.visit(path)
         cy.findByRole('tab', { name: /Requested/ }).click()

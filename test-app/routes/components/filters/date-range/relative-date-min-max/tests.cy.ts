@@ -1,10 +1,11 @@
+import { checkA11y } from "cypress-tests/cypressUtils"
+
 context('Inputs: Relative date range', () => {
   const path = '/components/filters/date-range/relative-min-max-date-range#relative-date-range-min-max-relative-range'
 
   it('is accessible', () => {
     cy.visit(path)
-    cy.injectAxe()
-    cy.checkA11y()
+    checkA11y()
   })
 
   describe('Setting the relative date range', () => {

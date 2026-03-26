@@ -1,8 +1,9 @@
+import { checkA11y } from "cypress-tests/cypressUtils"
+
 context('List template, with summaries', () => {
   it('is accessible', () => {
     const path = 'templates/list'
     cy.visit(path)
-    cy.injectAxe()
-    cy.checkA11y()
+    checkA11y()
   })
 })

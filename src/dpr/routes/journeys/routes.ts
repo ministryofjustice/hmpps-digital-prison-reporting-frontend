@@ -1,4 +1,5 @@
 import { Router } from 'express'
+import { getRouteLocals } from 'src/dpr/utils/localsHelper'
 import { Services } from '../../types/Services'
 
 // Routes
@@ -10,7 +11,6 @@ import { RequestReportRoutes } from './request-report/routes'
 import { ProductCollectionRoutes } from './product-collection/routes'
 import { ReportCatalogueRoutes } from './report-catalogue/routes'
 import { MyReportsCatalogueRoutes } from './my-reports-catalogue/routes'
-import { getRouteLocals } from 'src/dpr/utils/localsHelper'
 
 export function DprRoutes({ layoutPath, services }: { services: Services; layoutPath: string }): Router {
   const router = Router({ mergeParams: true })

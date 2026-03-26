@@ -1,13 +1,13 @@
 /* eslint-disable no-param-reassign */
 import { Router } from 'express'
 import { storeCurrentReportJourneySessionParams } from 'src/dpr/middleware/setUpCurrentReport'
+import { getRouteLocals } from 'src/dpr/utils/localsHelper'
 import { Services } from '../../../types/Services'
 import ViewReportController from './controller'
 
 // Routes
 import viewSyncReportRoutes from './sync/routes'
 import viewAyncReportRoutes from './async/routes'
-import { getRouteLocals } from 'src/dpr/utils/localsHelper'
 
 export function Routes({ layoutPath, services }: { services: Services; layoutPath: string }): Router {
   const router = Router({ mergeParams: true })
@@ -44,9 +44,7 @@ export function Redirects(): Router {
   router.get([`/async/:type/:reportId/:id/request/:tableId/:type`], (req, res) => {
     const { type, reportId, id, tableId } = req.params
     const { nestedBaseUrl } = getRouteLocals(res)
-    res.redirect(
-      `${nestedBaseUrl}/dpr/view-report/async/${type}/${reportId}/${id}/${tableId}/${type}`,
-    )
+    res.redirect(`${nestedBaseUrl}/dpr/view-report/async/${type}/${reportId}/${id}/${tableId}/${type}`)
   })
 
   // Download
@@ -62,10 +60,7 @@ export function Redirects(): Router {
   router.post('/async/:type/:reportId/:id/request/:tableId/:type', (req, res) => {
     const { type, reportId, id, tableId } = req.params
     const { nestedBaseUrl } = getRouteLocals(res)
-    res.redirect(
-      308,
-      `${nestedBaseUrl}/dpr/view-report/async/${type}/${reportId}/${id}/${tableId}/${type}`,
-    )
+    res.redirect(308, `${nestedBaseUrl}/dpr/view-report/async/${type}/${reportId}/${id}/${tableId}/${type}`)
   })
 
   return router

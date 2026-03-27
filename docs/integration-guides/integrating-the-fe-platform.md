@@ -215,10 +215,13 @@ import { DprUser } from '@ministryofjustice/hmpps-digital-prison-reporting-front
 // example using manage user api
 const user = await this.hmppsManageUsersClient.getUser(token)
 
+// Init the DPR User
 const dprUser = new DprUser()
+
 // required
 dprUser.token = res.locals.user.token
 dprUser.id = user.uuid
+
 // optional
 dprUser.activeCaseLoadId = user.activeCaseLoadId
 dprUser.emailAddress = user.email
@@ -256,13 +259,33 @@ import { routes as dprRoutes } from '@ministryofjustice/hmpps-digital-prison-rep
 
 export function routes(services: Services): Router {
   const router = Router()
-  ...
 
-  router.use('/', dprRoutes({ services, layoutPath: 'path/to/layout.njk'}))
+  // Mount DPR routes BEFORE any root-level handlers.
+  // This ensures internal DPR middleware (e.g. setUpNestedRoute)
+  // runs correctly when the DPR router is entered.
+  router.use('/', dprRoutes({ services, layoutPath: 'path/to/layout.njk' }))
+
+  // Your application's own routes can follow afterwards.
+  router.get('/', controller.GET)
+
+  return router
 }
 
 export default routes
 ```
+
+## Important: Route ordering matters for nested mount paths
+
+Express processes routes in the order they are registered.<br>
+This becomes important when you mount DPR under a nested path, such as:
+
+```js
+router.use('/my/nested/route', dprRoutes(...))
+```
+
+The DPR library uses an internal nested route URL, so its middleware (such as `setUpNestedRoute()`) must run when a request enters the DPR router.
+
+However, if you mount DPR at the application root (`'/'`), the routes are not considered nested and the middleware is a no‑op. In this case, route ordering is not important.
 
 <hr class='dpr-docs-hr'>
 

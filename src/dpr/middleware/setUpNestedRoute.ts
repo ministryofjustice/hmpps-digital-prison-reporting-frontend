@@ -7,12 +7,12 @@ export const setupNestedRoute = (): RequestHandler => {
     const locals = res.app.locals.dprPaths
 
     // Initialise originals once
-    if (!locals._original) {
-      locals._original = { ...locals }
+    if (!locals.original) {
+      locals.original = { ...locals }
     }
 
     const base = req.baseUrl && req.baseUrl.length > 0 ? req.baseUrl : undefined
-    const original = locals._original
+    const original = locals.original
 
     // CASE 1: no baseUrl so reset to originals
     if (!base) {

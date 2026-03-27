@@ -95,7 +95,7 @@ export interface DprAppLocals {
   userReportsList: string
   dprHomepage: string
   /** internal: stores the unmodified raw paths */
-  _original?: Omit<DprAppLocals, '_original' | 'nestedBaseUrl'>
+  original?: Omit<DprAppLocals, 'original' | 'nestedBaseUrl'>
 }
 
 export const getRouteLocals = (res: Response): DprAppLocals => {

@@ -31,7 +31,7 @@ export const setupNestedRoute = (): RequestHandler => {
       JSON.stringify(
         {
           routerBase: req.baseUrl,
-          mountPoint: res.req.originalUrl,
+          mountPoint: req.originalUrl,
         },
         null,
         2,

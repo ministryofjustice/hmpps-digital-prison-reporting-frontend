@@ -12,7 +12,7 @@ export const setupNestedRoute = (): RequestHandler => {
     }
 
     const base = req.baseUrl && req.baseUrl.length > 0 ? req.baseUrl : undefined
-    const original = locals.original
+    const { original } = locals
 
     // CASE 1: no baseUrl so reset to originals
     if (!base) {

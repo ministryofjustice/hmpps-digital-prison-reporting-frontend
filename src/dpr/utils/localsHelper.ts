@@ -83,7 +83,7 @@ export const setDdpPathToReqQuery = (req: Request, value: string) => {
   return req.query
 }
 
-interface DprAppLocals {
+export interface DprAppLocals {
   nestedBaseUrl?: string | undefined
   bookmarkActionEndpoint: string
   downloadActionEndpoint: string
@@ -94,6 +94,8 @@ interface DprAppLocals {
   reportsCatalogue: string
   userReportsList: string
   dprHomepage: string
+  /** internal: stores the unmodified raw paths */
+  _original?: Omit<DprAppLocals, '_original' | 'nestedBaseUrl'>
 }
 
 export const getRouteLocals = (res: Response): DprAppLocals => {

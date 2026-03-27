@@ -74,5 +74,6 @@ export const createDprServices = (
     productCollectionService: new ProductCollectionService(productCollectionClient, serviceFeatureConfig),
     featureFlagService: clients.featureFlagService,
   }
+
   return services as Services
 }

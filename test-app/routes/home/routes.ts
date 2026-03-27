@@ -1,12 +1,12 @@
 /* eslint-disable no-param-reassign */
 import { Router } from 'express'
-import HomepageController from './controller'
+import PlatformRoutes from '../embedded/platform/routes'
+import { Services } from 'src/dpr/types/Services'
 
-export default function routes(): Router {
+export default function routes(services: Services): Router {
   const router = Router({ mergeParams: true })
 
-  const controller = new HomepageController()
-  router.get('/', controller.GET)
+  router.get('/', PlatformRoutes(services))
 
   return router
 }

@@ -6,7 +6,7 @@ import {
 } from '../../../../../../../../cypress-tests/cypressUtils'
 
 context('Parent-child', () => {
-  const path = '/embedded/platform'
+  const path = '/'
 
   describe('viewing parent-child variants', () => {
     before(() => {

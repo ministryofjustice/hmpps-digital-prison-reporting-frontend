@@ -4,30 +4,52 @@ import logger from '../utils/logger'
 
 export const setupNestedRoute = (): RequestHandler => {
   return (req, res, next) => {
-    logger.info('Initialising nested route')
-
     const locals = res.app.locals.dprPaths
-    const base = req.baseUrl && req.baseUrl.length > 0 ? req.baseUrl : undefined
 
-    if (base) {
-      const currentBase = locals.nestedBaseUrl
-
-      if (currentBase !== base) {
-        locals.nestedBaseUrl = base
-
-        locals.bookmarkActionEndpoint = setNestedPath(locals.bookmarkActionEndpoint, base)
-        locals.downloadActionEndpoint = setNestedPath(locals.downloadActionEndpoint, base)
-        locals.productCollectionEndpoint = setNestedPath(locals.productCollectionEndpoint, base)
-        locals.bookmarkListPath = setNestedPath(locals.bookmarkListPath, base)
-        locals.requestedListPath = setNestedPath(locals.requestedListPath, base)
-        locals.recentlyViewedListPath = setNestedPath(locals.recentlyViewedListPath, base)
-        locals.reportsCatalogue = setNestedPath(locals.reportsCatalogue, base)
-        locals.userReportsList = setNestedPath(locals.userReportsList, base)
-        locals.dprHomepage = setNestedPath(locals.dprHomepage, base)
-
-        logger.info('Paths updated with nested base url:', { updatedpaths: locals })
-      }
+    // Initialise originals once
+    if (!locals._original) {
+      locals._original = { ...locals }
     }
+
+    const base = req.baseUrl && req.baseUrl.length > 0 ? req.baseUrl : undefined
+    const original = locals._original
+
+    // CASE 1: no baseUrl so reset to originals
+    if (!base) {
+      locals.nestedBaseUrl = undefined
+      Object.assign(locals, original)
+      return next()
+    }
+
+    // CASE 2: baseUrl is the SAME as last time so skip
+    if (locals.nestedBaseUrl === base) {
+      return next()
+    }
+
+    logger.info(
+      'Running nested-route middleware',
+      JSON.stringify(
+        {
+          routerBase: req.baseUrl,
+          mountPoint: res.req.originalUrl,
+        },
+        null,
+        2,
+      ),
+    )
+
+    // CASE 3: baseUrl is NEW so apply nested version
+    locals.nestedBaseUrl = base
+
+    locals.bookmarkActionEndpoint = setNestedPath(original.bookmarkActionEndpoint, base)
+    locals.downloadActionEndpoint = setNestedPath(original.downloadActionEndpoint, base)
+    locals.productCollectionEndpoint = setNestedPath(original.productCollectionEndpoint, base)
+    locals.bookmarkListPath = setNestedPath(original.bookmarkListPath, base)
+    locals.requestedListPath = setNestedPath(original.requestedListPath, base)
+    locals.recentlyViewedListPath = setNestedPath(original.recentlyViewedListPath, base)
+    locals.reportsCatalogue = setNestedPath(original.reportsCatalogue, base)
+    locals.userReportsList = setNestedPath(original.userReportsList, base)
+    locals.dprHomepage = setNestedPath(original.dprHomepage, base)
 
     return next()
   }

@@ -1,7 +1,11 @@
-import { checkA11y, executeDashboardStubs, requestReportByNameAndDescription } from '../../../../../cypress-tests/cypressUtils'
+import {
+  checkA11y,
+  executeDashboardStubs,
+  requestReportByNameAndDescription,
+} from '../../../../../cypress-tests/cypressUtils'
 
 context('Dashboard visualisation: List', () => {
-  const path = '/embedded/platform'
+  const path = '/'
 
   describe('complete data', () => {
     let completeDashboardUrl = ''

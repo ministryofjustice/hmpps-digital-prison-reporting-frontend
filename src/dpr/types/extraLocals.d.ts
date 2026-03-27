@@ -3,6 +3,7 @@ import DprUser from './DprUser'
 import { components } from './api'
 import { RequestedReport, StoredReportData } from './UserReports'
 import { BookmarkStoreData } from './Bookmark'
+import { DprAppLocals } from '../utils/localsHelper'
 
 export interface ExtraLocals {
   dprUser: DprUser
@@ -28,16 +29,5 @@ export interface ExtraLocals {
       [flagName: string]: Flag
     }
   }
-  dprPaths: {
-    nestedBaseUrl?: string | undefined
-    bookmarkActionEndpoint: string
-    downloadActionEndpoint: string
-    productCollectionEndpoint: string
-    bookmarkListPath: string
-    requestedListPath: string
-    recentlyViewedListPath: string
-    reportsCatalogue: string
-    userReportsList: string
-    dprHomepage: string
-  }
+  dprPaths: DprAppLocals
 }

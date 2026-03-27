@@ -1,7 +1,8 @@
 import { executeReportStubs, requestReportByNameAndDescription } from '../../../../../cypress-tests/cypressUtils'
 
 context('Requesting a report', () => {
-  const paths = ['/embedded/platform', '/embedded/platform/dpr']
+  const paths = ['/', '/embedded/platform', '/embedded/platform/dpr']
+  let basePath = ''
 
   const checkStatuses = () => {
     cy.task('stubReportsSubmittedStatus')
@@ -21,6 +22,7 @@ context('Requesting a report', () => {
           cy.task('stubDefinitionRequestExamplesSuccess')
           cy.task('stubRequestSuccessResult20')
           cy.visit(path)
+          basePath = path !== '/' ? path.replace('/dpr', '') : basePath
         })
 
         it('should succesfully request and load a report', () => {
@@ -38,7 +40,7 @@ context('Requesting a report', () => {
           })
           cy.url().should(
             'have.string',
-            '/embedded/platform/dpr/request-report/report/request-examples/request-example-success/filters',
+            `${basePath}/dpr/request-report/report/request-examples/request-example-success/filters`,
           )
           cy.location().should((location) => {
             expect(location.search).to.contain(`filters.field1=value1.2`)
@@ -52,12 +54,12 @@ context('Requesting a report', () => {
           cy.findByRole('button', { name: 'Request report' }).click()
           cy.url().should(
             'match',
-            /.*\/embedded\/platform\/dpr\/request-report\/report\/request-examples\/request-example-success\/(.*)\/status/i,
+            /.*(?:\/embedded\/platform(?:\/dpr)?)?\/request-report\/report\/request-examples\/request-example-success\/(.*)\/status/i,
           )
           checkStatuses()
           cy.url().should(
             'match',
-            /.*\/embedded\/platform\/dpr\/view-report\/async\/report\/request-examples\/request-example-success\/(.*)\/report/i,
+            /.*(?:\/embedded\/platform(?:\/dpr)?)?\/view-report\/async\/report\/request-examples\/request-example-success\/(.*)\/report/i,
           )
           cy.location().should((location) => {
             expect(location.search).to.contain(
@@ -67,11 +69,11 @@ context('Requesting a report', () => {
         })
 
         it('should redirect the old request url to the new one', () => {
-          const oldPath = '/embedded/platform/async/report/request-examples/request-example-success/request'
+          const oldPath = `${basePath}/async/report/request-examples/request-example-success/request`
           cy.visit(oldPath)
           cy.url().should(
             'have.string',
-            '/embedded/platform/dpr/request-report/report/request-examples/request-example-success/filters',
+            `${basePath}/dpr/request-report/report/request-examples/request-example-success/filters`,
           )
           cy.location().should((location) => {
             expect(location.search).to.contain(`filters.field1=value1.2`)
@@ -228,11 +230,11 @@ context('Requesting a report', () => {
           cy.url().then((url) => {
             const splitUrl = url.split('/')
             const prevExId = splitUrl[splitUrl.length - 2]
-            const oldPath = `/embedded/platform/async/report/request-examples/request-example-success/request/${prevExId}`
+            const oldPath = `${basePath}/async/report/request-examples/request-example-success/request/${prevExId}`
             cy.visit(oldPath)
             cy.url().should(
               'have.string',
-              `/embedded/platform/dpr/request-report/report/request-examples/request-example-success/${prevExId}/status`,
+              `${basePath}/dpr/request-report/report/request-examples/request-example-success/${prevExId}/status`,
             )
           })
         }
@@ -267,8 +269,7 @@ context('Requesting a report', () => {
       })
 
       describe('Aborted request', () => {
-        const filtersHref =
-          '/embedded/platform/dpr/request-report/report/request-examples/request-example-success/filters?filters.field1=value1.2&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&filters.field8=value8.2&filters.field8=value8.3&sortColumn=field1&sortedAsc=false'
+        const filtersHref = `${basePath}/dpr/request-report/report/request-examples/request-example-success/filters?filters.field1=value1.2&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&filters.field8=value8.2&filters.field8=value8.3&sortColumn=field1&sortedAsc=false`
 
         beforeEach(() => {
           executeReportStubs()
@@ -293,22 +294,20 @@ context('Requesting a report', () => {
           })
           cy.url().should(
             'have.string',
-            '/embedded/platform/dpr/request-report/report/request-examples/request-example-success/filters',
+            `${basePath}/dpr/request-report/report/request-examples/request-example-success/filters`,
           )
           cy.findByRole('button', { name: 'Request report' }).click()
-
           cy.url().should(
             'match',
-            /.*\/embedded\/platform\/dpr\/request-report\/report\/request-examples\/request-example-success\/(.*)\/status/i,
+            /.*(?:\/embedded\/platform(?:\/dpr)?)?\/request-report\/report\/request-examples\/request-example-success\/(.*)\/status/i,
           )
-
           cy.findByRole('button', { name: /Cancel/ }).click()
           cy.task('stubReportsAbortedStatus')
           cy.findByRole('strong').contains('ABORTED')
           cy.findByRole('button', { name: /Return to request page/ }).click()
           cy.url().should(
             'have.string',
-            '/embedded/platform/dpr/request-report/report/request-examples/request-example-success/filters',
+            `${basePath}/dpr/request-report/report/request-examples/request-example-success/filters`,
           )
 
           cy.visit(path)

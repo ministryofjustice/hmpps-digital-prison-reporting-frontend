@@ -7,7 +7,7 @@ import {
 } from '../../../../../../../../cypress-tests/cypressUtils'
 
 context('Viewing a report', () => {
-  const path = '/embedded/platform'
+  const path = '/'
 
   describe('list-section variants', () => {
     before(() => {

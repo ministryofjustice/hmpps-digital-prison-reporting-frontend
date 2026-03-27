@@ -1,7 +1,7 @@
 import { requestReport, executeReportStubs } from '../../../../../../../../cypress-tests/cypressUtils'
 
 context('Viewing a report', () => {
-  const path = '/embedded/platform'
+  const path = '/'
   let viewReportUrl: string
   let tableId: string
 

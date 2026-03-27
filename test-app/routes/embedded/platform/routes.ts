@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { Router, Request, Response } from 'express'
-import platformRoutes from '../../../../src/dpr/routes'
+import dprRoutes from '../../../../src/dpr/routes'
 
 import PlatformController from './controller'
 import { ReportStoreConfig } from '../../../../src/dpr/types/ReportStore'
@@ -11,7 +11,7 @@ export default function routes(services: Services): Router {
 
   const controller = new PlatformController(services)
 
-  router.use('/', platformRoutes({ services, layoutPath: 'views/page.njk' }))
+  router.use('/', dprRoutes({ services, layoutPath: 'views/page.njk' }))
   router.get('/', controller.GET)
 
   router.post('/setRedisState', async (req: Request, res: Response) => {

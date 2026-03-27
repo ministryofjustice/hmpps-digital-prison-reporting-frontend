@@ -5,6 +5,9 @@ import logger from '../utils/logger'
 export const setupNestedRoute = (): RequestHandler => {
   return (req, res, next) => {
     const locals = res.app.locals.dprPaths
+    if (!locals) {
+      throw new Error('No DPR path set in locals')
+    }
 
     // Initialise originals once
     if (!locals.original) {

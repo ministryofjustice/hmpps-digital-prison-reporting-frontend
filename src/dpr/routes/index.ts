@@ -28,12 +28,15 @@ export const errorRequestHandler =
 export function routes(routeImportParams: { services: Services; layoutPath: string }): Router {
   logger.info('Initialiasing DPR routes...')
   const router = Router({ mergeParams: true })
+
+  router.get('/', (_req, _res, next) => next())
   router.use(
     '/',
     setUpNestedRoute(),
     JourneyRoutes(routeImportParams),
     errorRequestHandler(routeImportParams.layoutPath),
   )
+
   return router
 }
 

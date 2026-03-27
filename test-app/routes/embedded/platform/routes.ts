@@ -11,7 +11,9 @@ export default function routes(services: Services): Router {
 
   const controller = new PlatformController(services)
 
+  router.use('/', platformRoutes({ services, layoutPath: 'views/page.njk' }))
   router.get('/', controller.GET)
+
   router.post('/setRedisState', async (req: Request, res: Response) => {
     const { userId, data } = req.body
     await services.bookmarkService.saveState(userId, data as ReportStoreConfig)
@@ -39,7 +41,6 @@ export default function routes(services: Services): Router {
     await services.featureFlagService.refresh()
     res.sendStatus(200)
   })
-  router.use('/', platformRoutes({ services, layoutPath: 'views/page.njk' }))
 
   return router
 }

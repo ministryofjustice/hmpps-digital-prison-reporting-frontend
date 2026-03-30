@@ -1,5 +1,4 @@
 import type { meta } from './types/UserReports'
-import logger from './utils/logger'
 
 class DprPollingHelper {
   readonly POLLING_FREQUENCY = 1000
@@ -51,7 +50,8 @@ class DprPollingHelper {
 
       return response.json()
     } catch (err) {
-      logger.error('Error:', err)
+      // eslint-disable-next-line no-console
+      console.error('Error:', err)
       return null
     }
   }

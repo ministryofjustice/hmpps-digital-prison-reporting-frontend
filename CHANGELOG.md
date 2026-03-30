@@ -1,5 +1,13 @@
 Below you can find the changes included in each release.
 
+## 5.8.6
+- Bump deps
+- Pin all github actions to git SHAs
+
+## 5.8.5
+- Bump deps
+- Normalize columns query params on apply filters
+
 ## 5.8.4
 
 - Columns bug fix - Added normalization for query params to ensure consistent string[] output across environments when applying filters.

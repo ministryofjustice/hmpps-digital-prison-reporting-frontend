@@ -40,7 +40,6 @@ export const setupResources = (
       await setLocalsFromServices(services, res)
       await populateRequestedReports(services, res)
       setUpDprPaths(res)
-      setUpCurrentReportSessionProtection(req)
 
       setupRequestAwareNunjucks(env, res)
       setUpNunjucksFilters(env)
@@ -173,24 +172,6 @@ const setUpDprPaths = (res: Response) => {
     reportsCatalogue: '/dpr/report-catalogue',
     userReportsList: '/dpr/my-reports',
     dprHomepage: '/dpr',
-  }
-}
-
-const setUpCurrentReportSessionProtection = (req: Request) => {
-  if (!req.session || req.method !== 'GET') return
-
-  const ignored = ['/.well-known', '/favicon.ico', '/manifest.json', '/robots.txt', '/assets/dpr/assets/']
-  if (ignored.some((prefix) => req.originalUrl.startsWith(prefix))) {
-    return
-  }
-
-  const path = req.originalUrl
-  const currentReportJourneyAllowedPaths = ['/dpr/view-report/', '/dpr/request-report/', '/dpr/download-report/']
-  const isJourneyRoute = currentReportJourneyAllowedPaths.some((urlSegment) => path.includes(urlSegment))
-
-  if (!isJourneyRoute && req.session.currentReportJourney) {
-    delete req.session.currentReportJourney
-    logger.info('Current report session cleared')
   }
 }
 

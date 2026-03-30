@@ -34,11 +34,17 @@ export const storeCurrentReportJourneySessionParams = (services: Services): Requ
       next(new Error('Session not initialized'))
     }
 
+    req.session.currentReportJourney ??= {}
+
     // only set the session on get requests
     if (req.method !== 'GET') return next()
 
     // Get the bits we need from the req params
-    const { id, reportId, type, tableId, executionId } = req.params
+    const { id, reportId, type, tableId, executionId } = req.params as Record<string, string>
+
+    // Build keys
+    const baseKey = buildJourneyKey(id, reportId, type)
+    const fullKey = buildJourneyKey(id, reportId, type, executionId)
 
     // Get the rest of things about a current report
     const reportIsBookmarked = await setUpBookmark(req, res, services.bookmarkService)
@@ -46,7 +52,7 @@ export const storeCurrentReportJourneySessionParams = (services: Services): Requ
     const feedbackSubmissionFormPath = setupDownloadFeedbackPaths(req, res)
     const reportUrls = setUpReportUrls(req)
 
-    const params = {
+    const params: Partial<CurrentReportJourneySessionData> = {
       ...(type && { type: type as ReportType }),
       ...(tableId && { tableId }),
       ...(executionId && { executionId }),
@@ -56,26 +62,56 @@ export const storeCurrentReportJourneySessionParams = (services: Services): Requ
       reportIsBookmarked,
     }
 
-    // Check whether the id or reportId has changed at all.
-    const existing = req.session.currentReportJourney as CurrentReportJourneySessionData | undefined
-    const idChanged = !existing || [existing.id !== id, existing.reportId !== reportId].some((v) => v)
+    const sessionJourneys = req.session.currentReportJourney
 
-    if (idChanged) {
-      // Completely replace the journey object
-      req.session.currentReportJourney = {
+    const hasExecutionId = Boolean(executionId)
+    const preExecutionEntry = sessionJourneys[baseKey]
+    const postExecutionEntry = sessionJourneys[fullKey]
+
+    /**
+     * CASE A: executionId becomes available now (rollback)
+     * We need to MOVE the old entry to the new key.
+     */
+    if (hasExecutionId && preExecutionEntry && !postExecutionEntry) {
+      sessionJourneys[fullKey] = {
+        ...preExecutionEntry,
+        executionId,
+        ...params,
+      }
+
+      delete sessionJourneys[baseKey]
+      return next()
+    }
+
+    /**
+     * CASE B: new entry entirely
+     */
+    if (!sessionJourneys[fullKey]) {
+      sessionJourneys[fullKey] = {
         id,
         reportId,
         ...params,
       }
-    } else {
-      req.session.currentReportJourney = {
-        ...existing,
-        ...params,
-      }
+      return next()
+    }
+
+    /**
+     * CASE C: existing entry so merge updates
+     */
+    sessionJourneys[fullKey] = {
+      ...sessionJourneys[fullKey],
+      ...params,
     }
 
     return next()
   }
+}
+
+function buildJourneyKey(id: string, reportId: string, type?: string, executionId?: string): string {
+  const parts = [reportId, id]
+  if (type) parts.push(type)
+  if (executionId) parts.push(executionId)
+  return parts.join(':')
 }
 
 const setUpReportUrls = (req: Request) => {

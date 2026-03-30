@@ -164,21 +164,21 @@ jobs:
 
       - name: Upload mi-ui logs
         if: success() || failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
         with:
           name: mi-ui-logs
           path: artifacts/mi-ui
 
       - name: Upload Cypress videos
         if: success() || failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
         with:
           name: mi-ui-cypress-videos
           path: artifacts/cypress/videos
 
       - name: Upload Cypress screenshots
         if: success() || failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
         with:
           name: mi-ui-cypress-screenshots
           path: artifacts/cypress/screenshots

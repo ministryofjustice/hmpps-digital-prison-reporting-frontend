@@ -23,9 +23,6 @@ interface CurrentReportJourneySessionData {
  * Handles the session data for a report journey
  * from pre-request filters to viewing a report.
  *
- * - If the ID or report ID change the session is scrubbed.
- * - Updates the session with the relevant data along the report journey
- *
  * @return {*}  {RequestHandler}
  */
 export const storeCurrentReportJourneySessionParams = (services: Services): RequestHandler => {

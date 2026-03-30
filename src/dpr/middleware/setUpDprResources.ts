@@ -11,7 +11,6 @@ import localsHelper from '../utils/localsHelper'
 import { FeatureFlagService, isBooleanFlagEnabledOrMissing } from '../services/featureFlagService'
 import { FEATURE_FLAGS, getFeatureFlagEvaluationSubject } from '../utils/featureFlagsHelper'
 import setUpNunjucksFilters from '../setUpNunjucksFilters'
-import logger from '../utils/logger'
 import { errorRequestHandler } from '../routes'
 
 const getQueryParamAsString = (query: ParsedQs, name: string) => (query[name] ? query[name].toString() : null)

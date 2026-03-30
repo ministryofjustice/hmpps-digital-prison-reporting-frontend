@@ -215,7 +215,7 @@
     "@types/supertest": "^2.0.12",
     "@typescript-eslint/eslint-plugin": "^8.56.1",
     "@typescript-eslint/parser": "^8.56.1",
-    "audit-ci": "^6.6.1",
+    "audit-ci": "^7.1.0",
     "axe-core": "^4.9.0",
     "cypress": "^14.5.4",
     "cypress-axe": "^1.6.0",

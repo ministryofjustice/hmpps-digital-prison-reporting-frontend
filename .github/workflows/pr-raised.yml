@@ -27,6 +27,8 @@ jobs:
         run: npm run lint
 
       - name: Calculate test coverage
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           npm run test:jest > logs.txt
           gh pr comment ${{ github.event.pull_request.number }} --body "$(grep '% Stmts' logs.txt -A2)"

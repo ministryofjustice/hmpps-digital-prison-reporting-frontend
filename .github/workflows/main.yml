@@ -89,15 +89,9 @@ jobs:
           --health-retries 5
 
     steps:
-<<<<<<< HEAD
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-node@v4
-=======
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
->>>>>>> main
         with:
           node-version: '22.x'
           cache: 'npm'
@@ -226,13 +220,8 @@ jobs:
           node-version: '24.x'
           cache: 'npm'
 
-<<<<<<< HEAD
-      # Download dist + node_modules (package build)
-      - uses: actions/download-artifact@v4
-=======
       # Download dist + node_modules (dpr-package-package)
       - uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131
->>>>>>> main
         with:
           name: dpr-package-package
           path: .
@@ -356,12 +345,7 @@ jobs:
           path: app.log
           if-no-files-found: ignore
 
-<<<<<<< HEAD
-      # Cypress results
-      - uses: actions/upload-artifact@v4
-=======
       - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
->>>>>>> main
         if: success() || failure()
         with:
           name: cypress-results-${{ matrix.shard_index }}

@@ -1,4 +1,5 @@
 import type { meta } from './types/UserReports'
+import logger from './utils/logger'
 
 class DprPollingHelper {
   readonly POLLING_FREQUENCY = 1000
@@ -50,7 +51,7 @@ class DprPollingHelper {
 
       return response.json()
     } catch (err) {
-      console.error('Error:', err)
+      logger.error('Error:', err)
       return null
     }
   }

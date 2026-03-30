@@ -11,7 +11,7 @@ export const itemActionsHtml = (
 ) => {
   const text = status === RequestStatus.EXPIRED ? 'Refresh' : 'Retry'
   return `<div class="dpr-icon-wrapper__item-actions">
-      <a class='govuk-link dpr-user-list-action govuk-link--no-visited-state govuk-!-margin-bottom-1' href="${retryHref}">${text}</a>
+      <a class='govuk-link dpr-user-list-action govuk-!-margin-bottom-1' href="${retryHref}">${text}</a>
       <a class="govuk-link dpr-user-list-action govuk-link--no-visited-state dpr-remove-${type}-report-button"" href="#" data-execution-id='${executionId}'>Remove</a>
     </div>`
 }

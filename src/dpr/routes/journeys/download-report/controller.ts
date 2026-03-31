@@ -1,5 +1,5 @@
 import { RequestHandler } from 'express'
-import { getSessionValue } from 'src/dpr/utils/sessionHelper'
+import { getActiveJourneyValue } from '../../../utils/sessionHelper'
 import LocalsHelper from '../../../utils/localsHelper'
 import DownloadUtils from './utils'
 import { Services } from '../../../types/Services'
@@ -16,13 +16,15 @@ class DownloadReportController {
 
   POST: RequestHandler = async (req, res) => {
     const { dprUser } = LocalsHelper.getValues(res)
-    const { reportId, id, loadType } = req.body
-    const currentUrl = <string>getSessionValue(req, 'currentReportJourney', 'currentReportPathname')
-    const currentQueryParams = <string>getSessionValue(req, 'currentReportJourney', 'currentReportSearch')
+    const { reportId, id, loadType, tableId } = req.body
+    const currentReportSearch = getActiveJourneyValue(req, { id, reportId, tableId }, 'currentReportSearch')
+    const currentReportPathname = getActiveJourneyValue(req, { id, reportId, tableId }, 'currentReportPathname')
 
     let redirect =
-      currentUrl && currentUrl.includes('/download-disabled') ? currentUrl : `${currentUrl}/download-disabled`
-    redirect = currentQueryParams ? `${redirect}${currentQueryParams}` : redirect
+      currentReportPathname && currentReportPathname.includes('/download-disabled')
+        ? currentReportPathname
+        : `${currentReportPathname}/download-disabled`
+    redirect = currentReportSearch ? `${redirect}${currentReportSearch}` : redirect
 
     const canDownloadReport = await this.services.downloadPermissionService.downloadEnabledForReport(
       dprUser.id,

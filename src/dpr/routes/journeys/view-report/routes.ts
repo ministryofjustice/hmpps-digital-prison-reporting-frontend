@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { Router } from 'express'
-import { storeCurrentReportJourneySessionParams } from 'src/dpr/middleware/setUpCurrentReport'
+import { storeActiveReportSessionData } from 'src/dpr/middleware/setUpActiveReport'
 import { getRouteLocals } from 'src/dpr/utils/localsHelper'
 import { Services } from '../../../types/Services'
 import ViewReportController from './controller'
@@ -9,6 +9,7 @@ import ViewReportController from './controller'
 import viewSyncReportRoutes from './sync/routes'
 import viewAyncReportRoutes from './async/routes'
 import { setNestedPath } from '../../../utils/urlHelper'
+import { LoadType } from 'src/dpr/types/UserReports'
 
 export function Routes({ layoutPath, services }: { services: Services; layoutPath: string }): Router {
   const router = Router({ mergeParams: true })
@@ -20,7 +21,7 @@ export function Routes({ layoutPath, services }: { services: Services; layoutPat
   // -------------------
   router.use(
     `/sync/:type/:reportId/:id`,
-    storeCurrentReportJourneySessionParams(services),
+    storeActiveReportSessionData(services, LoadType.SYNC),
     viewSyncReportRoutes({ layoutPath, services }),
     controller.errorHandler,
   )
@@ -30,7 +31,7 @@ export function Routes({ layoutPath, services }: { services: Services; layoutPat
   // -------------------
   router.use(
     `/async/:type/:reportId/:id/:tableId`,
-    storeCurrentReportJourneySessionParams(services),
+    storeActiveReportSessionData(services),
     viewAyncReportRoutes({ layoutPath, services }),
     controller.errorHandler,
   )

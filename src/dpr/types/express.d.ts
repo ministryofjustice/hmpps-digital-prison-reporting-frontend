@@ -1,6 +1,7 @@
 import { ExtraLocals } from './extraLocals'
 import 'express-session'
 import { ReportType } from './UserReports'
+import { ActiveReportSession } from '../middleware/setUpCurrentReport'
 
 declare global {
   namespace Express {
@@ -11,21 +12,6 @@ declare global {
 
 declare module 'express-session' {
   interface SessionData {
-    currentReportJourney?: Record<
-      string,
-      {
-        id: string | string[]
-        reportId: string | string[]
-        tableId?: string | string[]
-        executionId?: string | string[]
-        type?: ReportType
-        reportIsBookmarked?: boolean
-        downloadEnabled?: boolean
-        feedbackSubmissionFormPath?: string
-        currentReportPathname?: string
-        currentReportSearch?: string
-        currentReportUrl?: string
-      }
-    >
+    activeReport?: ActiveReportSession
   }
 }

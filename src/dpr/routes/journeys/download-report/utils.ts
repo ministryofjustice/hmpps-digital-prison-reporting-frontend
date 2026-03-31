@@ -9,7 +9,7 @@ import ReportQuery from '../../../types/ReportQuery'
 import logger from '../../../utils/logger'
 import { ExtractedDefinitionData, ExtractedRequestData } from '../view-report/async/report/types'
 import type { Columns } from '../../../components/_reports/report-heading/report-columns/report-columns-form/types'
-import { getSessionValue } from '../../../utils/sessionHelper'
+import { getActiveJourneyValue } from '../../../utils/sessionHelper'
 
 const streamDownloadAsyncData = async (args: {
   services: Services
@@ -129,8 +129,7 @@ export const setUpDownload = (
     const { definitionsPath, csrfToken } = LocalsHelper.getValues(res)
     const { downloadActionEndpoint } = LocalsHelper.getRouteLocals(res)
     const { tableId, id, reportId } = <{ id: string; tableId: string; reportId: string }>req.params
-    const canDownload = Boolean(getSessionValue(req, 'currentReportJourney', 'downloadEnabled')) ?? false
-
+    const downloadEnabled = getActiveJourneyValue(req, { id, reportId }, 'downloadEnabled')
     const { reportName, name, specification } = definitionData
 
     const sections = specification.sections || []
@@ -150,7 +149,7 @@ export const setUpDownload = (
       definitionPath: definitionsPath,
       loadType,
       formAction: downloadActionEndpoint,
-      canDownload,
+      canDownload: downloadEnabled,
       ...(sortColumn && { sortColumn }),
       ...(sortedAsc && { sortedAsc }),
       csrfToken,

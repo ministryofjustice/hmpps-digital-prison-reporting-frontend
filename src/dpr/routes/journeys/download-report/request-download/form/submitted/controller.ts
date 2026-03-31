@@ -1,5 +1,5 @@
 import { RequestHandler } from 'express'
-import { getSessionValue } from 'src/dpr/utils/sessionHelper'
+import { getActiveJourneyValue } from '../../../../../../utils/sessionHelper'
 import { Services } from '../../../../../../types/Services'
 import localsHelper from '../../../../../../utils/localsHelper'
 
@@ -15,10 +15,11 @@ class RequestDownloadSubmittedController {
 
   GET: RequestHandler = async (req, res, _next) => {
     const { dprUser } = localsHelper.getValues(res)
-    const { reportId, variantId } = req.params
+    const { reportId, variantId, tableId } = req.params as Record<string, string>
     const { reportName, variantName } = req.query
+    const currentReportUrl = getActiveJourneyValue(req, { id: variantId, reportId, tableId }, 'currentReportUrl')
 
-    let reportHref = getSessionValue(req, 'currentReportJourney', 'currentReportUrl')
+    let reportHref = currentReportUrl
     if (reportHref) {
       reportHref = reportHref.replaceAll('/download-disabled', '')
     }

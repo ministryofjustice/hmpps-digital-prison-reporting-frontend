@@ -28,7 +28,7 @@ import ReportTemplateUtils from '../../../../../components/_reports/report-page/
 import RequestedReportService from '../../../my-reports/requested-reports/service'
 import { setUpBookmark } from '../../../../../components/bookmark/utils'
 import { setUpDownload } from '../../../download-report/utils'
-import { getSessionValue } from '../../../../../utils/sessionHelper'
+import { getActiveJourneyValue } from '../../../../../utils/sessionHelper'
 
 export const getData = async ({
   res,
@@ -391,16 +391,17 @@ const setFeatures = async (
   definitionData: ExtractedDefinitionData,
   requestData?: ExtractedRequestData,
 ) => {
+  const { tableId, reportId, id } = <{ id: string; tableId: string; reportId: string }>req.params
   const bookmarkConfig = setUpBookmark(res, req, services.bookmarkService)
   const downloadConfig = setUpDownload(res, req, definitionData, columns, LoadType.ASYNC, requestData)
   const actions = ReportActionsUtils.setActions(definitionData, downloadConfig, requestData)
-  const feedbackFormHref = getSessionValue(req, 'currentReportJourney', 'feedbackSubmissionFormPath')
+  const feedbackSubmissionFormPath = getActiveJourneyValue(req, { id, reportId, tableId }, 'feedbackSubmissionFormPath')
 
   return {
     actions,
     downloadConfig,
     bookmarkConfig,
-    feedbackFormHref,
+    feedbackFormHref: feedbackSubmissionFormPath,
   }
 }
 

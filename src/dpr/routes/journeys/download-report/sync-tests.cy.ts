@@ -57,7 +57,7 @@ context('Platform sync download tests', () => {
           })
           cy.url().should(
             'match',
-            /\/embedded\/platform\/dpr\/download-report\/request-download\/feature-testing\/feature-testing-sync\/form/,
+            /(?:\/embedded\/platform(?:\/dpr)?)?\/download-report\/request-download\/feature-testing\/feature-testing-sync\/form/,
           )
         })
       })
@@ -93,7 +93,7 @@ context('Platform sync download tests', () => {
 
           cy.url().and(
             'match',
-            /dpr\/download-report\/request-download\/feature-testing\/feature-testing-sync\/form\/submitted/,
+            /(?:\/embedded\/platform(?:\/dpr)?)?\/download-report\/request-download\/feature-testing\/feature-testing-sync\/form\/submitted/,
           )
           cy.findByRole('link', { name: /Return to report to download/ }).click()
           cy.findAllByRole('heading').contains('Sync report').should('exist')

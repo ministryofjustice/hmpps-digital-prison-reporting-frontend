@@ -26,7 +26,7 @@ import { setUpBookmark } from '../../../../../components/bookmark/utils'
 import { setUpDownload } from '../../../download-report/utils'
 import ViewAsyncReportUtils from '../../async/report/utils'
 import { Columns } from '../../../../../components/_reports/report-heading/report-columns/report-columns-form/types'
-import { getSessionValue } from '../../../../../utils/sessionHelper'
+import { getActiveJourneyValue } from '../../../../../utils/sessionHelper'
 
 const setAsRecentlyViewed = async ({
   req,
@@ -143,7 +143,7 @@ export const getReport = async ({ req, res, services }: { req: Request; res: Res
   const bookmarkConfig = setUpBookmark(res, req, services.bookmarkService)
   const downloadConfig = setUpDownload(res, req, extractedDefinitionData, columns, LoadType.SYNC)
   const actions = ReportActionsUtils.setActions(extractedDefinitionData, downloadConfig)
-  const feedbackFormHref = getSessionValue(req, 'currentReportJourney', 'feedbackSubmissionFormPath')
+  const feedbackFormHref = getActiveJourneyValue(req, { id, reportId }, 'feedbackSubmissionFormPath')
 
   // Get the table data and filters, pagination etc
   const renderData = await getRenderData({

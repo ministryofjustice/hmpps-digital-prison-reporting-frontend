@@ -50,14 +50,6 @@ export const storeActiveReportSessionData =
       }
     }
 
-    console.log(`
--------------------------------------------------------------------------`)
-
-    console.log(JSON.stringify(store, null, 2))
-
-    console.log(`-------------------------------------------------------------------------
-`)
-
     return next()
   }
 

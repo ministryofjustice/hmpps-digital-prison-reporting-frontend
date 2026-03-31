@@ -12,8 +12,6 @@ const setUpBookmark = (res: Response, req: Request, bookmarkService: BookmarkSer
   const { bookmarkActionEndpoint } = getRouteLocals(res)
   const reportIsBookmarked = getActiveJourneyValue(req, { id, reportId }, 'reportIsBookmarked')
 
-  console.log({ reportIsBookmarked })
-
   if (reportIsBookmarked) {
     linkText = 'Remove bookmark'
     linkType = 'remove'

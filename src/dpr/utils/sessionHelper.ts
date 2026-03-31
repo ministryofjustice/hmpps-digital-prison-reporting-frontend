@@ -1,6 +1,6 @@
 import type { Request } from 'express'
-import { AcitveReportSessionData } from '../middleware/setUpActiveReport'
 import logger from './logger'
+import { AcitveReportSessionData } from '../types/ActiveReportSession'
 
 /**
  * Gets the field value for a specific session key

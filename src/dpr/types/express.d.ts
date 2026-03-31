@@ -1,7 +1,6 @@
+import { ActiveReportSession } from './ActiveReportSession'
 import { ExtraLocals } from './extraLocals'
 import 'express-session'
-import { ReportType } from './UserReports'
-import { ActiveReportSession } from '../middleware/setUpCurrentReport'
 
 declare global {
   namespace Express {

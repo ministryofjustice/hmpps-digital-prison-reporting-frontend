@@ -5,28 +5,7 @@ import { BookmarkService, DownloadPermissionService } from '../services'
 import { getRouteLocals } from '../utils/localsHelper'
 import { setNestedPath } from '../utils/urlHelper'
 import { LoadType } from '../types/UserReports'
-
-export interface AcitveReportSessionData {
-  id: string
-  reportId: string
-  tableId?: string
-  executionId?: string
-  loadType: LoadType
-  reportIsBookmarked: boolean
-  downloadEnabled: boolean
-  feedbackSubmissionFormPath?: string
-  currentReportPathname?: string | undefined
-  currentReportSearch?: string | undefined
-  currentReportUrl?: string | undefined
-}
-
-export interface ActiveReportSession {
-  [index: string]: AcitveReportSessionData
-}
-
-export interface ActiveReportsSession {
-  activeReport?: ActiveReportSession
-}
+import { AcitveReportSessionData } from '../types/ActiveReportSession'
 
 export const storeActiveReportSessionData =
   (services: Services, loadType: LoadType = LoadType.ASYNC): RequestHandler =>

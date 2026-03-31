@@ -4,7 +4,7 @@ import { getActiveJourneyValue } from '../../utils/sessionHelper'
 import { getRouteLocals } from '../../utils/localsHelper'
 
 const setUpBookmark = (res: Response, req: Request, bookmarkService: BookmarkService) => {
-  let showBookmark = bookmarkService.enabled
+  const showBookmark = bookmarkService.enabled
   let linkText = 'Add bookmark'
   let linkType = 'add'
 

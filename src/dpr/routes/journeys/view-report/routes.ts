@@ -1,7 +1,8 @@
 /* eslint-disable no-param-reassign */
 import { Router } from 'express'
-import { storeActiveReportSessionData } from 'src/dpr/middleware/setUpActiveReport'
-import { getRouteLocals } from 'src/dpr/utils/localsHelper'
+import { storeActiveReportSessionData } from '../../../middleware/setUpActiveReport'
+import { getRouteLocals } from '../../../utils/localsHelper'
+import { LoadType } from '../../../types/UserReports'
 import { Services } from '../../../types/Services'
 import ViewReportController from './controller'
 
@@ -9,7 +10,6 @@ import ViewReportController from './controller'
 import viewSyncReportRoutes from './sync/routes'
 import viewAyncReportRoutes from './async/routes'
 import { setNestedPath } from '../../../utils/urlHelper'
-import { LoadType } from 'src/dpr/types/UserReports'
 
 export function Routes({ layoutPath, services }: { services: Services; layoutPath: string }): Router {
   const router = Router({ mergeParams: true })

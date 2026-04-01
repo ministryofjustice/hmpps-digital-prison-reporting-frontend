@@ -23,10 +23,7 @@ export const getSortByFromDefinition = (fields: components['schemas']['FieldDefi
     .map((f) => {
       if (f.defaultsort) sortBy[0].value = f.name
       const field: FilterOption = { value: f.name, text: f.display }
-      if (f.sortDirection) {
-        // the 'value' here is whether sortedAsc is true or not
-        sortBy[1].value = f.sortDirection === 'asc' ? 'true' : 'false'
-      }
+      sortBy[1].value = f.sortDirection ? `${f.sortDirection === 'asc'}` : 'true'
       return field
     })
 

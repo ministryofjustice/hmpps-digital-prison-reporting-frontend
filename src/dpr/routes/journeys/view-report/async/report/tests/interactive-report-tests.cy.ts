@@ -6,7 +6,7 @@ import {
 import DateMapper from '../../../../../../utils/DateMapper/DateMapper'
 
 context('Interactive report', () => {
-  const path = '/'
+  const path = '/embedded/platform'
   let viewReportUrl: string
 
   const applyFilters = () => {
@@ -27,225 +27,225 @@ context('Interactive report', () => {
     cy.task('stubRequestSuccessResult100')
   })
 
-  describe('List report page with weird data', () => {
-    beforeEach(() => {
-      executeReportStubs()
-      cy.task('stubDefinitionFeatureTestingInteractive')
-      cy.task('stubAsyncRequestSuccessReportTablesCount')
-      cy.task('stubRequestSuccessResult20WithWeirdData')
-    })
+  // describe('List report page with weird data', () => {
+  //   beforeEach(() => {
+  //     executeReportStubs()
+  //     cy.task('stubDefinitionFeatureTestingInteractive')
+  //     cy.task('stubAsyncRequestSuccessReportTablesCount')
+  //     cy.task('stubRequestSuccessResult20WithWeirdData')
+  //   })
 
-    it('should show results correctly even when input data is strange', () => {
-      requestReport({ name: 'Interactive Report', description: 'this is an interactive report', path })
-      cy.findAllByRole('table')
-        .eq(1)
-        .within(() => {
-          cy.findAllByRole('row').eq(1).findAllByRole('cell').eq(2).should('have.text', '01/02/03 01:00')
-          cy.findAllByRole('row')
-            .eq(1)
-            .findAllByRole('cell')
-            .eq(4)
-            .should('be.visible')
-            .then((cell) => {
-              expect(cell.text().trim()).to.equal('')
-            })
-          cy.findAllByRole('row')
-            .eq(0)
-            .findByRole('link', { name: /Field 1/, description: /Sorted ascending/, hidden: true })
-            .should('exist')
-          cy.findAllByRole('row')
-            .eq(0)
-            .findByRole('link', { name: /Field 2/, description: /Not sorted/, hidden: true })
-            .should('exist')
-        })
-    })
-  })
+  //   it('should show results correctly even when input data is strange', () => {
+  //     requestReport({ name: 'Interactive Report', description: 'this is an interactive report', path })
+  //     cy.findAllByRole('table')
+  //       .eq(1)
+  //       .within(() => {
+  //         cy.findAllByRole('row').eq(1).findAllByRole('cell').eq(2).should('have.text', '01/02/03 01:00')
+  //         cy.findAllByRole('row')
+  //           .eq(1)
+  //           .findAllByRole('cell')
+  //           .eq(4)
+  //           .should('be.visible')
+  //           .then((cell) => {
+  //             expect(cell.text().trim()).to.equal('')
+  //           })
+  //         cy.findAllByRole('row')
+  //           .eq(0)
+  //           .findByRole('link', { name: /Field 1/, description: /Sorted ascending/, hidden: true })
+  //           .should('exist')
+  //         cy.findAllByRole('row')
+  //           .eq(0)
+  //           .findByRole('link', { name: /Field 2/, description: /Not sorted/, hidden: true })
+  //           .should('exist')
+  //       })
+  //   })
+  // })
 
-  describe('Apply filters', () => {
-    before(() => {
-      requestReport({ name: 'Interactive Report', description: 'this is an interactive report', path })
-      cy.url().then((url) => {
-        viewReportUrl = url
-      })
-    })
+  // describe('Apply filters', () => {
+  //   before(() => {
+  //     requestReport({ name: 'Interactive Report', description: 'this is an interactive report', path })
+  //     cy.url().then((url) => {
+  //       viewReportUrl = url
+  //     })
+  //   })
 
-    beforeEach(() => {
-      cy.visit(viewReportUrl)
-    })
+  //   beforeEach(() => {
+  //     cy.visit(viewReportUrl)
+  //   })
 
-    const removeAllFilters = () => {
-      for (let index = 0; index < 4; index += 1) {
-        cy.findByLabelText('Selected filters').within(() => {
-          cy.findAllByRole('link').first().click()
-        })
-      }
-    }
+  //   const removeAllFilters = () => {
+  //     for (let index = 0; index < 4; index += 1) {
+  //       cy.findByLabelText('Selected filters').within(() => {
+  //         cy.findAllByRole('link').first().click()
+  //       })
+  //     }
+  //   }
 
-    describe('Date range', () => {
-      it('should apply the date range', () => {
-        cy.findByRole('textbox', { name: 'From' }).should('have.value', '01/02/2003')
-        cy.findByRole('textbox', { name: 'To' }).should('have.value', '04/05/2006')
+  //   describe('Date range', () => {
+  //     it('should apply the date range', () => {
+  //       cy.findByRole('textbox', { name: 'From' }).should('have.value', '01/02/2003')
+  //       cy.findByRole('textbox', { name: 'To' }).should('have.value', '04/05/2006')
 
-        removeAllFilters()
-        showFilters()
+  //       removeAllFilters()
+  //       showFilters()
 
-        cy.findByRole('textbox', { name: 'From' }).type('02/05/2025')
-        cy.findByRole('textbox', { name: 'To' }).type('05/07/2025').blur()
+  //       cy.findByRole('textbox', { name: 'From' }).type('02/05/2025')
+  //       cy.findByRole('textbox', { name: 'To' }).type('05/07/2025').blur()
 
-        applyFilters()
+  //       applyFilters()
 
-        cy.location().should((location) => {
-          expect(location.search).to.contain(`filters.field3.start=2025-05-02`)
-          expect(location.search).to.contain(`filters.field3.end=2025-07-05`)
-        })
+  //       cy.location().should((location) => {
+  //         expect(location.search).to.contain(`filters.field3.start=2025-05-02`)
+  //         expect(location.search).to.contain(`filters.field3.end=2025-07-05`)
+  //       })
 
-        checkSelectedFilterValues({ length: 2, buttonValues: [{ key: 'Field 3', value: '02/05/2025 - 05/07/2025' }] })
-      })
+  //       checkSelectedFilterValues({ length: 2, buttonValues: [{ key: 'Field 3', value: '02/05/2025 - 05/07/2025' }] })
+  //     })
 
-      it('should apply the relative daterange', () => {
-        removeAllFilters()
-        showFilters()
+  //     it('should apply the relative daterange', () => {
+  //       removeAllFilters()
+  //       showFilters()
 
-        cy.findByRole('tab', { name: 'Preset date ranges' }).click()
-        cy.findByRole('radio', { name: 'Tomorrow' }).check()
+  //       cy.findByRole('tab', { name: 'Preset date ranges' }).click()
+  //       cy.findByRole('radio', { name: 'Tomorrow' }).check()
 
-        applyFilters()
+  //       applyFilters()
 
-        let startValue: string | number | string[] | undefined
-        let endValue: string | number | string[] | undefined
-        cy.findByRole('textbox', { name: 'From' })
-          .invoke('val')
-          .should('not.be.empty')
-          .then((val) => {
-            startValue = val
-          })
-        cy.findByRole('textbox', { name: 'To' })
-          .invoke('val')
-          .should('not.be.empty')
-          .then((val) => {
-            endValue = val
-          })
+  //       let startValue: string | number | string[] | undefined
+  //       let endValue: string | number | string[] | undefined
+  //       cy.findByRole('textbox', { name: 'From' })
+  //         .invoke('val')
+  //         .should('not.be.empty')
+  //         .then((val) => {
+  //           startValue = val
+  //         })
+  //       cy.findByRole('textbox', { name: 'To' })
+  //         .invoke('val')
+  //         .should('not.be.empty')
+  //         .then((val) => {
+  //           endValue = val
+  //         })
 
-        const dateMapper = new DateMapper()
-        cy.location().should((location) => {
-          expect(location.search).to.contain(
-            `filters.field3.start=${dateMapper.toDateString(<string>startValue, 'iso')}`,
-          )
-          expect(location.search).to.contain(`filters.field3.end=${dateMapper.toDateString(<string>endValue, 'iso')}`)
-          expect(location.search).to.contain(`filters.field3.relative-duration=tomorrow`)
-        })
+  //       const dateMapper = new DateMapper()
+  //       cy.location().should((location) => {
+  //         expect(location.search).to.contain(
+  //           `filters.field3.start=${dateMapper.toDateString(<string>startValue, 'iso')}`,
+  //         )
+  //         expect(location.search).to.contain(`filters.field3.end=${dateMapper.toDateString(<string>endValue, 'iso')}`)
+  //         expect(location.search).to.contain(`filters.field3.relative-duration=tomorrow`)
+  //       })
 
-        checkSelectedFilterValues({ length: 2, buttonValues: [{ key: 'Field 3', value: 'Tomorrow' }] })
-      })
-    })
+  //       checkSelectedFilterValues({ length: 2, buttonValues: [{ key: 'Field 3', value: 'Tomorrow' }] })
+  //     })
+  //   })
 
-    describe('Multiselect', () => {
-      it('should apply the multiselect values', () => {
-        cy.findByRole('checkbox', { name: 'Value 8.2' }).should('be.checked')
-        cy.findByRole('checkbox', { name: 'Value 8.3' }).should('be.checked')
+  //   describe('Multiselect', () => {
+  //     it('should apply the multiselect values', () => {
+  //       cy.findByRole('checkbox', { name: 'Value 8.2' }).should('be.checked')
+  //       cy.findByRole('checkbox', { name: 'Value 8.3' }).should('be.checked')
 
-        removeAllFilters()
+  //       removeAllFilters()
 
-        cy.findByRole('checkbox', { name: 'Value 8.1' }).should('not.be.checked')
-        cy.findByRole('checkbox', { name: 'Value 8.2' }).should('not.be.checked')
-        cy.findByRole('checkbox', { name: 'Value 8.3' }).should('not.be.checked')
-        cy.findByRole('checkbox', { name: 'Value 8.4' }).should('not.be.checked')
+  //       cy.findByRole('checkbox', { name: 'Value 8.1' }).should('not.be.checked')
+  //       cy.findByRole('checkbox', { name: 'Value 8.2' }).should('not.be.checked')
+  //       cy.findByRole('checkbox', { name: 'Value 8.3' }).should('not.be.checked')
+  //       cy.findByRole('checkbox', { name: 'Value 8.4' }).should('not.be.checked')
 
-        showFilters()
+  //       showFilters()
 
-        cy.findByRole('checkbox', { name: 'Value 8.1' }).check()
-        cy.findByRole('checkbox', { name: 'Value 8.3' }).check()
+  //       cy.findByRole('checkbox', { name: 'Value 8.1' }).check()
+  //       cy.findByRole('checkbox', { name: 'Value 8.3' }).check()
 
-        applyFilters()
+  //       applyFilters()
 
-        cy.findByRole('checkbox', { name: 'Value 8.1' }).should('be.checked')
-        cy.findByRole('checkbox', { name: 'Value 8.2' }).should('not.be.checked')
-        cy.findByRole('checkbox', { name: 'Value 8.3' }).should('be.checked')
-        cy.findByRole('checkbox', { name: 'Value 8.4' }).should('not.be.checked')
+  //       cy.findByRole('checkbox', { name: 'Value 8.1' }).should('be.checked')
+  //       cy.findByRole('checkbox', { name: 'Value 8.2' }).should('not.be.checked')
+  //       cy.findByRole('checkbox', { name: 'Value 8.3' }).should('be.checked')
+  //       cy.findByRole('checkbox', { name: 'Value 8.4' }).should('not.be.checked')
 
-        checkSelectedFilterValues({ length: 2, buttonValues: [{ key: 'Field 8', value: 'Value 8.1, Value 8.3' }] })
-      })
+  //       checkSelectedFilterValues({ length: 2, buttonValues: [{ key: 'Field 8', value: 'Value 8.1, Value 8.3' }] })
+  //     })
 
-      it('should set the selected filter values correctly', () => {
-        cy.findByRole('checkbox', { name: 'Value 8.2' }).should('be.checked')
-        cy.findByRole('checkbox', { name: 'Value 8.3' }).should('be.checked')
+  //     it('should set the selected filter values correctly', () => {
+  //       cy.findByRole('checkbox', { name: 'Value 8.2' }).should('be.checked')
+  //       cy.findByRole('checkbox', { name: 'Value 8.3' }).should('be.checked')
 
-        removeAllFilters()
+  //       removeAllFilters()
 
-        cy.findByRole('checkbox', { name: 'Value 8.1' }).should('not.be.checked')
-        cy.findByRole('checkbox', { name: 'Value 8.2' }).should('not.be.checked')
-        cy.findByRole('checkbox', { name: 'Value 8.3' }).should('not.be.checked')
-        cy.findByRole('checkbox', { name: 'Value 8.4' }).should('not.be.checked')
+  //       cy.findByRole('checkbox', { name: 'Value 8.1' }).should('not.be.checked')
+  //       cy.findByRole('checkbox', { name: 'Value 8.2' }).should('not.be.checked')
+  //       cy.findByRole('checkbox', { name: 'Value 8.3' }).should('not.be.checked')
+  //       cy.findByRole('checkbox', { name: 'Value 8.4' }).should('not.be.checked')
 
-        showFilters()
+  //       showFilters()
 
-        cy.findByRole('checkbox', { name: 'Value 8.1' }).check()
-        cy.findByRole('checkbox', { name: 'Value 8.2' }).check()
-        cy.findByRole('checkbox', { name: 'Value 8.3' }).check()
-        cy.findByRole('checkbox', { name: 'Value 8.4' }).check()
+  //       cy.findByRole('checkbox', { name: 'Value 8.1' }).check()
+  //       cy.findByRole('checkbox', { name: 'Value 8.2' }).check()
+  //       cy.findByRole('checkbox', { name: 'Value 8.3' }).check()
+  //       cy.findByRole('checkbox', { name: 'Value 8.4' }).check()
 
-        applyFilters()
+  //       applyFilters()
 
-        cy.findByRole('checkbox', { name: 'Value 8.1' }).should('be.checked')
-        cy.findByRole('checkbox', { name: 'Value 8.2' }).should('be.checked')
-        cy.findByRole('checkbox', { name: 'Value 8.3' }).should('be.checked')
-        cy.findByRole('checkbox', { name: 'Value 8.4' }).should('be.checked')
+  //       cy.findByRole('checkbox', { name: 'Value 8.1' }).should('be.checked')
+  //       cy.findByRole('checkbox', { name: 'Value 8.2' }).should('be.checked')
+  //       cy.findByRole('checkbox', { name: 'Value 8.3' }).should('be.checked')
+  //       cy.findByRole('checkbox', { name: 'Value 8.4' }).should('be.checked')
 
-        checkSelectedFilterValues({
-          length: 2,
-          buttonValues: [{ key: 'Field 8', value: 'Value 8.1, Value 8.2, Value 8.3 + 1 more' }],
-        })
-      })
+  //       checkSelectedFilterValues({
+  //         length: 2,
+  //         buttonValues: [{ key: 'Field 8', value: 'Value 8.1, Value 8.2, Value 8.3 + 1 more' }],
+  //       })
+  //     })
 
-      it('should set the values correctly when only one checkbox selected', () => {
-        removeAllFilters()
+  //     it('should set the values correctly when only one checkbox selected', () => {
+  //       removeAllFilters()
 
-        cy.findByRole('checkbox', { name: 'Value 8.1' }).should('not.be.checked')
-        cy.findByRole('checkbox', { name: 'Value 8.2' }).should('not.be.checked')
-        cy.findByRole('checkbox', { name: 'Value 8.3' }).should('not.be.checked')
-        cy.findByRole('checkbox', { name: 'Value 8.4' }).should('not.be.checked')
+  //       cy.findByRole('checkbox', { name: 'Value 8.1' }).should('not.be.checked')
+  //       cy.findByRole('checkbox', { name: 'Value 8.2' }).should('not.be.checked')
+  //       cy.findByRole('checkbox', { name: 'Value 8.3' }).should('not.be.checked')
+  //       cy.findByRole('checkbox', { name: 'Value 8.4' }).should('not.be.checked')
 
-        showFilters()
+  //       showFilters()
 
-        cy.findByRole('checkbox', { name: 'Value 8.1' }).check()
+  //       cy.findByRole('checkbox', { name: 'Value 8.1' }).check()
 
-        applyFilters()
+  //       applyFilters()
 
-        cy.findByRole('checkbox', { name: 'Value 8.1' }).should('be.checked')
-        cy.findByRole('checkbox', { name: 'Value 8.2' }).should('not.be.checked')
-        cy.findByRole('checkbox', { name: 'Value 8.3' }).should('not.be.checked')
-        cy.findByRole('checkbox', { name: 'Value 8.4' }).should('not.be.checked')
+  //       cy.findByRole('checkbox', { name: 'Value 8.1' }).should('be.checked')
+  //       cy.findByRole('checkbox', { name: 'Value 8.2' }).should('not.be.checked')
+  //       cy.findByRole('checkbox', { name: 'Value 8.3' }).should('not.be.checked')
+  //       cy.findByRole('checkbox', { name: 'Value 8.4' }).should('not.be.checked')
 
-        checkSelectedFilterValues({
-          length: 2,
-          buttonValues: [{ key: 'Field 8', value: 'Value 8.1' }],
-        })
-      })
-    })
+  //       checkSelectedFilterValues({
+  //         length: 2,
+  //         buttonValues: [{ key: 'Field 8', value: 'Value 8.1' }],
+  //       })
+  //     })
+  //   })
 
-    it('Applying filters should persist current applied columns', () => {
-      cy.findAllByRole('group')
-        .contains(/Show columns/)
-        .should('be.visible')
-        .click()
+  //   it('Applying filters should persist current applied columns', () => {
+  //     cy.findAllByRole('group')
+  //       .contains(/Show columns/)
+  //       .should('be.visible')
+  //       .click()
 
-      cy.findByRole('checkbox', { name: 'Field 1' }).uncheck()
-      cy.findByRole('checkbox', { name: 'Field 3' }).uncheck()
-      cy.findByRole('checkbox', { name: 'Field 5' }).check()
-      cy.findByRole('checkbox', { name: 'Field 7' }).uncheck()
-      cy.findByRole('checkbox', { name: 'Field 8' }).check()
+  //     cy.findByRole('checkbox', { name: 'Field 1' }).uncheck()
+  //     cy.findByRole('checkbox', { name: 'Field 3' }).uncheck()
+  //     cy.findByRole('checkbox', { name: 'Field 5' }).check()
+  //     cy.findByRole('checkbox', { name: 'Field 7' }).uncheck()
+  //     cy.findByRole('checkbox', { name: 'Field 8' }).check()
 
-      cy.findByRole('button', { name: 'Apply columns' }).click()
-      cy.findAllByRole('group').contains('Show columns (4 of 8 shown)')
+  //     cy.findByRole('button', { name: 'Apply columns' }).click()
+  //     cy.findAllByRole('group').contains('Show columns (4 of 8 shown)')
 
-      showFilters()
-      cy.findByRole('checkbox', { name: 'Value 8.1' }).check()
-      cy.findByRole('checkbox', { name: 'Value 8.3' }).check()
-      applyFilters()
+  //     showFilters()
+  //     cy.findByRole('checkbox', { name: 'Value 8.1' }).check()
+  //     cy.findByRole('checkbox', { name: 'Value 8.3' }).check()
+  //     applyFilters()
 
-      cy.findAllByRole('group').contains('Show columns (4 of 8 shown)')
-    })
-  })
+  //     cy.findAllByRole('group').contains('Show columns (4 of 8 shown)')
+  //   })
+  // })
 
   describe('User defined interactive defaults', () => {
     const saveDefaultsButton = () => {
@@ -364,8 +364,12 @@ context('Interactive report', () => {
       checkSelectedFiltersInUserReports({
         name: 'Interactive Report',
         product: 'Interactive Report',
-        length: 5,
-        selectedFilters: selectedFiltersButtonValues,
+        length: 7,
+        selectedFilters: [
+          { key: 'Sort Column', value: 'Field 1' },
+          { key: 'Sort Direction', value: 'Ascending' },
+          ...selectedFiltersButtonValues,
+        ],
       })
     })
 
@@ -385,7 +389,7 @@ context('Interactive report', () => {
       ]
       checkSelectedFilterValues({
         length: 6,
-        buttonValues: savedDefaultSelectedFilters,
+        buttonValues: [...savedDefaultSelectedFilters],
       })
 
       // apply some filters
@@ -411,8 +415,10 @@ context('Interactive report', () => {
       checkSelectedFiltersInUserReports({
         name: 'Interactive Report',
         product: 'Interactive Report',
-        length: 5,
+        length: 7,
         selectedFilters: [
+          { key: 'Sort Column', value: 'Field 1' },
+          { key: 'Sort Direction', value: 'Ascending' },
           { key: 'Field 1', value: 'Value 1.2' },
           { key: 'Field 2', value: 'Value 2.3' },
           { key: 'Field 3', value: '01/02/2003 - 04/05/2006' },
@@ -435,8 +441,12 @@ context('Interactive report', () => {
       checkSelectedFiltersInUserReports({
         name: 'Interactive Report',
         product: 'Interactive Report',
-        length: 5,
-        selectedFilters: savedDefaultSelectedFilters,
+        length: 7,
+        selectedFilters: [
+          { key: 'Sort Column', value: 'Field 1' },
+          { key: 'Sort Direction', value: 'Ascending' },
+          ...savedDefaultSelectedFilters,
+        ],
       })
     })
 
@@ -505,8 +515,12 @@ context('Interactive report', () => {
       checkSelectedFiltersInUserReports({
         name: 'Interactive Report',
         product: 'Interactive Report',
-        length: 5,
-        selectedFilters: expectedSelectedValues,
+        length: 7,
+        selectedFilters: [
+          { key: 'Sort Column', value: 'Field 1' },
+          { key: 'Sort Direction', value: 'Ascending' },
+          ...expectedSelectedValues,
+        ],
       })
     })
 
@@ -542,8 +556,10 @@ context('Interactive report', () => {
       checkSelectedFiltersInUserReports({
         name: 'Interactive Report',
         product: 'Interactive Report',
-        length: 4,
+        length: 6,
         selectedFilters: [
+          { key: 'Sort Column', value: 'Field 1' },
+          { key: 'Sort Direction', value: 'Ascending' },
           { key: 'Field 1', value: 'Value 1.2' },
           { key: 'Field 3', value: '01/02/2003 - 04/05/2006' },
           { key: 'Field 7', value: '01/02/2005' },

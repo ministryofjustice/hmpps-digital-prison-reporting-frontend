@@ -23,7 +23,7 @@ import type { Services } from '../../../../types/Services'
 import type DashboardService from '../../../../services/dashboardService'
 import PersonalistionUtils from '../../../../utils/Personalisation/personalisationUtils'
 import { FiltersType } from '../../../../components/_filters/filtersTypeEnum'
-import { getFields, hasInteractiveFilters } from 'src/dpr/utils/definitionUtils'
+import { getFields, hasInteractiveFilters } from '../../../../utils/definitionUtils'
 
 /**
  * Updates the store with the request details

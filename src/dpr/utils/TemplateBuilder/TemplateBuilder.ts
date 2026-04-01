@@ -2,7 +2,7 @@ import { AsyncSummary } from '../../types/UserReports'
 import { Template } from '../../types/Templates'
 import { components } from '../../types/api'
 import ReportQuery from '../../types/ReportQuery'
-import { hasInteractiveFilters, validateVariant } from '../definitionUtils'
+import { validateVariant } from '../definitionUtils'
 
 export class TemplateBuilder {
   variant: components['schemas']['VariantDefinition']

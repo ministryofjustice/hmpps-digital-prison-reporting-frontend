@@ -15,7 +15,6 @@ import type {
   GranularDateRangeGranularityValue,
   FilterValueWithOptions,
 } from './types'
-import ReportQuery, { DEFAULT_FILTERS_PREFIX } from '../../types/ReportQuery'
 
 import SelectedFiltersUtils from './filters-selected/utils'
 import DateRangeInputUtils from '../_inputs/date-range/utils'
@@ -23,9 +22,7 @@ import DateInputUtils from '../_inputs/date-input/utils'
 import GranularDateRangeInputUtils from '../_inputs/granular-date-range/utils'
 import AutocompleteUtils from '../_inputs/autocomplete-text-input/utils'
 import MultiSelectUtils from '../_inputs/multi-select/utils'
-import { Granularity, QuickFilters } from '../_inputs/granular-date-range/types'
 import PersonalistionUtils from '../../utils/Personalisation/personalisationUtils'
-import createUrlForParameters from '../../utils/urlHelper'
 import { Services } from '../../types/Services'
 import { FiltersType } from './filtersTypeEnum'
 import LocalsHelper from '../../utils/localsHelper'

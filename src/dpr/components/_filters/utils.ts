@@ -110,51 +110,6 @@ export const setFilterValuesFromRequest = (
   })
 }
 
-export const setFilterQueryFromFilterDefinition = (
-  fields: components['schemas']['FieldDefinition'][],
-  interactive?: boolean,
-) => {
-  let filterFields: components['schemas']['FieldDefinition'][] = fields.filter((f) => f.filter)
-  if (interactive) {
-    filterFields = filterFields.filter(
-      (f) => (<components['schemas']['FilterDefinition'] & { interactive?: boolean }>f.filter).interactive,
-    )
-  }
-
-  return filterFields
-    .filter((field) => field.filter !== undefined)
-    .filter((field) => (<components['schemas']['FilterDefinition']>field.filter).defaultValue !== undefined)
-    .map((field) => {
-      const filter = <components['schemas']['FilterDefinition']>field.filter
-      const type = filter.type.toLocaleLowerCase()
-
-      switch (type) {
-        case FilterType.dateRange.toLowerCase():
-          return DateRangeInputUtils.getQueryFromDefinition(filter, field.name, DEFAULT_FILTERS_PREFIX)
-
-        case FilterType.multiselect.toLowerCase():
-          return MultiSelectUtils.getQueryFromDefinition(filter, field.name, DEFAULT_FILTERS_PREFIX)
-
-        case FilterType.granularDateRange.toLowerCase(): {
-          const startEndParams = DateRangeInputUtils.getQueryFromDefinition(filter, field.name, DEFAULT_FILTERS_PREFIX)
-          return GranularDateRangeInputUtils.getQueryFromDefinition(
-            filter as unknown as components['schemas']['FilterDefinition'] & {
-              defaultGranularity: Granularity
-              defaultQuickFilterValue: QuickFilters
-            },
-            field.name,
-            DEFAULT_FILTERS_PREFIX,
-            startEndParams,
-          )
-        }
-
-        default:
-          return `${DEFAULT_FILTERS_PREFIX}${field.name}=${filter.defaultValue}`
-      }
-    })
-    .join('&')
-}
-
 export const getFiltersFromDefinition = (
   fields: components['schemas']['FieldDefinition'][],
   interactive?: boolean,
@@ -332,52 +287,6 @@ export const setRequestQueryFromFilterValues = (filterValues: FilterValue[], ver
   return requestQuery
 }
 
-export const redirectWithDefaultFilters = (
-  reportQuery: ReportQuery,
-  variantDefinition: components['schemas']['VariantDefinition'],
-  response: Response,
-  request: Request,
-) => {
-  const defaultFilters: Record<string, string> = {}
-  const { specification } = variantDefinition
-  const fields = specification ? specification.fields : []
-  const { preventDefault } = request.query
-  const hasNoQueryFilters = Object.keys(reportQuery.filters).length === 0 && !preventDefault
-  if (hasNoQueryFilters) {
-    fields
-      .filter((f) => f.filter && f.filter.defaultValue)
-      .forEach((f) => {
-        const { filter } = f
-        if (filter) {
-          if (filter.type.toLowerCase() === FilterType.dateRange.toLowerCase()) {
-            const { defaultValue } = <components['schemas']['FilterDefinition']>filter
-            const dates = defaultValue ? defaultValue.split(' - ') : ''
-
-            if (dates.length >= 1) {
-              // eslint-disable-next-line prefer-destructuring
-              defaultFilters[`${DEFAULT_FILTERS_PREFIX}${f.name}.start`] = dates[0]
-
-              if (dates.length >= 2) {
-                // eslint-disable-next-line prefer-destructuring
-                defaultFilters[`${DEFAULT_FILTERS_PREFIX}${f.name}.end`] = dates[1]
-              }
-            }
-          } else {
-            defaultFilters[`${DEFAULT_FILTERS_PREFIX}${f.name}`] = filter.defaultValue || ''
-          }
-        }
-      })
-  }
-
-  if (Object.keys(defaultFilters).length > 0) {
-    const querystring = createUrlForParameters(reportQuery.toRecordWithFilterPrefix(), defaultFilters, fields)
-    response.redirect(`${request.baseUrl}${request.path}${querystring}`)
-    return true
-  }
-
-  return false
-}
-
 export const getPersonalisedFilters = async (
   filters: FilterValue[],
   req: Request,
@@ -456,8 +365,6 @@ export default {
   getFiltersFromDefinition,
   setFilterValuesFromRequest,
   getFilters,
-  setFilterQueryFromFilterDefinition,
-  redirectWithDefaultFilters,
   setRequestQueryFromFilterValues,
   getPersonalisedFilters,
 }

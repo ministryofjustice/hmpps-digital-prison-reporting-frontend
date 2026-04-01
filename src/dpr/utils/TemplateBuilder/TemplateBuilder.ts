@@ -2,7 +2,7 @@ import { AsyncSummary } from '../../types/UserReports'
 import { Template } from '../../types/Templates'
 import { components } from '../../types/api'
 import ReportQuery from '../../types/ReportQuery'
-import { validateVariant } from '../definitionUtils'
+import { hasInteractiveFilters, validateVariant } from '../definitionUtils'
 
 export class TemplateBuilder {
   variant: components['schemas']['VariantDefinition']
@@ -23,8 +23,6 @@ export class TemplateBuilder {
 
   reportQuery!: ReportQuery
 
-  interactive = false
-
   pageSummaries!: AsyncSummary[]
 
   summaries!: AsyncSummary[]
@@ -34,7 +32,6 @@ export class TemplateBuilder {
     const { template, fields, sections } = specification
 
     this.variant = variant
-    this.interactive = Boolean(variant.interactive)
     this.specification = specification
     this.template = template
     this.fields = fields

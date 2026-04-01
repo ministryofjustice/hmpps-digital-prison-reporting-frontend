@@ -1,8 +1,6 @@
-import { FiltersType } from '../components/_filters/filtersTypeEnum'
 import ReportingService from '../services/reportingService'
 import { components } from '../types/api'
 import { Template } from '../types/Templates'
-import { ReportType } from '../types/UserReports'
 import logger from './logger'
 
 export const getFilter = (
@@ -10,30 +8,6 @@ export const getFilter = (
   fieldId: string,
 ): components['schemas']['FilterDefinition'] | undefined => {
   return fields.find((f) => f.name === fieldId)?.filter
-}
-
-export const getFiltersDefaultsValues = (fields: components['schemas']['FieldDefinition'][]) => {
-  return fields
-    .filter((field) => field.filter)
-    .map((field) => {
-      const { name, display } = field
-
-      const defaultValue = field.filter?.defaultValue
-      const defaultGranularity = field.filter?.defaultGranularity
-      const defaultQuickFilterValue = field.filter?.defaultQuickFilterValue
-      const type = field.filter?.type || ReportType.REPORT
-      const interactive = field.filter?.interactive || FiltersType.REQUEST
-
-      return {
-        name,
-        display,
-        type,
-        interactive,
-        ...(defaultValue && { defaultValue }),
-        ...(defaultGranularity && { defaultGranularity }),
-        ...(defaultQuickFilterValue && { defaultQuickFilterValue }),
-      }
-    })
 }
 
 export const getCurrentVariantDefinition = (
@@ -125,6 +99,11 @@ export const validateVariant = (variant: components['schemas']['VariantDefinitio
   return { variant, specification }
 }
 
+export const hasInteractiveFilters = (fields: components['schemas']['FieldDefinition'][]) => {
+  const filters = getFilters(fields)
+  return filters.some((filter) => filter.interactive)
+}
+
 export const getReportSummary = (
   reportId: string,
   reportingService: ReportingService,
@@ -140,6 +119,6 @@ export default {
   getTemplate,
   getFilter,
   getFilters,
-  getFiltersDefaultsValues,
   getReportSummary,
+  hasInteractiveFilters,
 }

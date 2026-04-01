@@ -16,30 +16,25 @@ import { FilterType } from '../../_filters/filter-input/enum'
 /**
  * Initialises the sortData from the definition
  */
-export const getSortByFromDefinition = (
-  fields: components['schemas']['FieldDefinition'][],
-  interactive?: boolean,
-): FilterValue[] => {
-  if (!interactive) {
-    const sortBy = SortHelper.sortByTemplate()
-    const options = fields
-      .filter((f) => f.sortable)
-      .map((f) => {
-        if (f.defaultsort) sortBy[0].value = f.name
-        const field: FilterOption = { value: f.name, text: f.display }
-        if (f.sortDirection) {
-          // the 'value' here is whether sortedAsc is true or not
-          sortBy[1].value = f.sortDirection === 'asc' ? 'true' : 'false'
-        }
-        return field
-      })
+export const getSortByFromDefinition = (fields: components['schemas']['FieldDefinition'][]): FilterValue[] => {
+  const sortBy = SortHelper.sortByTemplate()
+  const options = fields
+    .filter((f) => f.sortable)
+    .map((f) => {
+      if (f.defaultsort) sortBy[0].value = f.name
+      const field: FilterOption = { value: f.name, text: f.display }
+      if (f.sortDirection) {
+        // the 'value' here is whether sortedAsc is true or not
+        sortBy[1].value = f.sortDirection === 'asc' ? 'true' : 'false'
+      }
+      return field
+    })
 
-    if (options.length) {
-      const sortWithOptions: FilterValueWithOptions = <FilterValueWithOptions>sortBy[0]
-      sortWithOptions.options = options
-      sortBy[0] = sortWithOptions
-      return sortBy
-    }
+  if (options.length) {
+    const sortWithOptions: FilterValueWithOptions = <FilterValueWithOptions>sortBy[0]
+    sortWithOptions.options = options
+    sortBy[0] = sortWithOptions
+    return sortBy
   }
   return []
 }
@@ -86,10 +81,10 @@ export const setDurationStartAndEnd = (
  * @param {AsyncReportUtilsParams} { req, res, dataSources }
  * @return {*}
  */
-export const renderFilters = async (fields: components['schemas']['FieldDefinition'][], interactive?: boolean) => {
+export const renderFilters = async (fields: components['schemas']['FieldDefinition'][]) => {
   return {
     filters: FiltersUtils.getFiltersFromDefinition(fields, false),
-    sortBy: getSortByFromDefinition(fields, interactive),
+    sortBy: getSortByFromDefinition(fields),
   }
 }
 

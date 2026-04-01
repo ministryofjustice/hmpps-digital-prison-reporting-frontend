@@ -23,6 +23,7 @@ import type { Services } from '../../../../types/Services'
 import type DashboardService from '../../../../services/dashboardService'
 import PersonalistionUtils from '../../../../utils/Personalisation/personalisationUtils'
 import { FiltersType } from '../../../../components/_filters/filtersTypeEnum'
+import { getFields, hasInteractiveFilters } from 'src/dpr/utils/definitionUtils'
 
 /**
  * Updates the store with the request details
@@ -236,14 +237,15 @@ const renderDashboardRequestData = async ({
 }
 
 const renderReportRequestData = async (definition: components['schemas']['SingleVariantReportDefinition']) => {
+  const fields = getFields(definition)
   return {
     definition,
     reportName: definition.name,
     name: definition.variant.name,
     description: definition.variant.description || definition.description,
     template: definition.variant.specification,
-    fields: definition?.variant?.specification?.fields || [],
-    interactive: definition?.variant?.interactive,
+    fields,
+    interactive: definition?.variant?.interactive || hasInteractiveFilters(fields),
   }
 }
 

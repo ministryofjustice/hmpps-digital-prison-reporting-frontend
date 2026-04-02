@@ -81,7 +81,7 @@ context('Viewing a report', () => {
                           cy.wrap(item).contains('Sort column: Field 1')
                           break
                         case 6:
-                          cy.wrap(item).contains('Sort direction: Descending')
+                          cy.wrap(item).contains('Sort direction: Ascending')
                           break
                         default:
                           break

@@ -23,8 +23,6 @@ export class TemplateBuilder {
 
   reportQuery!: ReportQuery
 
-  interactive = false
-
   pageSummaries!: AsyncSummary[]
 
   summaries!: AsyncSummary[]
@@ -34,7 +32,6 @@ export class TemplateBuilder {
     const { template, fields, sections } = specification
 
     this.variant = variant
-    this.interactive = Boolean(variant.interactive)
     this.specification = specification
     this.template = template
     this.fields = fields

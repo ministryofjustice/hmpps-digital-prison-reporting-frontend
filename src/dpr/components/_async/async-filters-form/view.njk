@@ -13,7 +13,6 @@
   {% set data = args.data %}
   {% set endpoint = args.endpoint %}
   {% set type = args.type %}
-  {% set interactive = args.interactive %}
   {% set saveDefaultsEnabled = args.saveDefaultsEnabled %}
 
   {% set reportId = data.reportId %}
@@ -100,7 +99,7 @@
           {% endif %}
 
           {# SORT OPTIONS #}
-          {%  if sortBy.length > 0 and not interactive and type !== 'dashboard' %}
+          {%  if sortBy.length > 0 and type !== 'dashboard' %}
           <div class="dpr-async-request-filters__section">
             <div class="dpr-async-request-filters__section--heading">
               <h2 class="govuk-heading-m govuk-!-margin-bottom-0">Sort</strong></h2>

@@ -20,8 +20,7 @@ const buildListTable = (
   summariesData: AsyncSummary[],
   reportQuery: ReportQuery,
 ): DataTable => {
-  const { variant, specification } = validateDefinition(definition)
-  const { interactive } = variant
+  const { specification } = validateDefinition(definition)
 
   const collatedSummarries = new CollatedSummaryBuilder(specification, summariesData).collateDataTableSummaries()
   return new DataTableBuilder(specification.fields)
@@ -29,7 +28,7 @@ const buildListTable = (
     .withHeaderOptions({
       columns: columns.value,
       reportQuery,
-      interactive: Boolean(interactive),
+      interactive: true, // Always show sort actions in header
     })
     .buildTable(reportData)
 }

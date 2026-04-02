@@ -481,7 +481,7 @@ describe('Request a report', () => {
           expect(request.query).to.have.property('filters.field8')
           cy.wrap(request.query['filters.field8']).should('deep.eq', ['value8.2', 'value8.3'])
           expect(request.query).to.have.property('sortColumn', 'field1')
-          expect(request.query).to.have.property('sortedAsc', 'false')
+          expect(request.query).to.have.property('sortedAsc', 'true')
         })
     })
   })

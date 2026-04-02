@@ -11,9 +11,7 @@ export const setValueFromRequest = (
   requestfilterValue: MultiselectFilterValue['value']
   requestfilterValues?: MultiselectFilterValue['values']
 } => {
-  console.log(req.query)
   const queryValue = <string[] | string | undefined>req.query[`${prefix}${filter.name}`]
-  console.log({ queryValue })
 
   let valueArr: string[] = []
   let valueString = ''

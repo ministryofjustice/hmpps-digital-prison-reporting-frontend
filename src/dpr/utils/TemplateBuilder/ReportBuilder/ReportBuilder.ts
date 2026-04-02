@@ -26,7 +26,7 @@ export class ReportBuilder extends TemplateBuilder {
       .withHeaderOptions({
         columns: this.columns,
         reportQuery: this.reportQuery,
-        interactive: Boolean(this.interactive),
+        interactive: true, // Always allow sorting regardless of interactive filters
       })
       .buildTable(section.data)
   }

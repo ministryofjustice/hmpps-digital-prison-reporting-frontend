@@ -76,13 +76,6 @@ const applyInteractiveQuery = async (
   const sortColumn = interactiveQueryData?.['sortColumn']
   const sortedAsc = interactiveQueryData?.['sortedAsc']
 
-  let filters = {}
-  if (interactiveQueryData) {
-    filters = Object.keys(interactiveQueryData)
-      .filter((key) => key.includes('filters.'))
-      .reduce((acc, key) => ({ ...acc, [key]: interactiveQueryData[key] }), {})
-  }
-
   // Create merged form data
   let formData: Record<string, string | string[]> = {
     ...(preventDefault && { preventDefault }),
@@ -96,12 +89,20 @@ const applyInteractiveQuery = async (
   if (applyType === 'columns') {
     const { columns } = req.body
     const mandatoryCols = ColumnsUtils.mandatoryColumns(fields)
-
     let bodyColumns = []
     if (columns) {
       bodyColumns = Array.isArray(columns) ? columns : [columns]
     }
     const columnsData = [...mandatoryCols, ...bodyColumns]
+
+    // Ensure filters are set correctly from the saved state.
+    let filters = {}
+    if (interactiveQueryData) {
+      filters = Object.keys(interactiveQueryData)
+        .filter((key) => key.includes('filters.'))
+        .reduce((acc, key) => ({ ...acc, [key]: interactiveQueryData[key] }), {})
+    }
+
     formData = { ...formData, columns: columnsData, ...filters }
   } else {
     const normalizedColumns = normalizeQueryStringArray(interactiveQueryData?.['columns']) || []
@@ -182,8 +183,7 @@ const createQueryParamsFromFormData = ({
     }
   })
 
-  const encodedFilters = params.toString()
-  return decodeURIComponent(encodedFilters)
+  return params.toString()
 }
 
 export default {

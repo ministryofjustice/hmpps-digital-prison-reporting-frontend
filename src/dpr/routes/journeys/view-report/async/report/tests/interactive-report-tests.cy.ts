@@ -364,8 +364,12 @@ context('Interactive report', () => {
       checkSelectedFiltersInUserReports({
         name: 'Interactive Report',
         product: 'Interactive Report',
-        length: 5,
-        selectedFilters: selectedFiltersButtonValues,
+        length: 7,
+        selectedFilters: [
+          { key: 'Sort Column', value: 'Field 1' },
+          { key: 'Sort Direction', value: 'Ascending' },
+          ...selectedFiltersButtonValues,
+        ],
       })
     })
 
@@ -385,7 +389,7 @@ context('Interactive report', () => {
       ]
       checkSelectedFilterValues({
         length: 6,
-        buttonValues: savedDefaultSelectedFilters,
+        buttonValues: [...savedDefaultSelectedFilters],
       })
 
       // apply some filters
@@ -411,8 +415,10 @@ context('Interactive report', () => {
       checkSelectedFiltersInUserReports({
         name: 'Interactive Report',
         product: 'Interactive Report',
-        length: 5,
+        length: 7,
         selectedFilters: [
+          { key: 'Sort Column', value: 'Field 1' },
+          { key: 'Sort Direction', value: 'Ascending' },
           { key: 'Field 1', value: 'Value 1.2' },
           { key: 'Field 2', value: 'Value 2.3' },
           { key: 'Field 3', value: '01/02/2003 - 04/05/2006' },
@@ -435,8 +441,12 @@ context('Interactive report', () => {
       checkSelectedFiltersInUserReports({
         name: 'Interactive Report',
         product: 'Interactive Report',
-        length: 5,
-        selectedFilters: savedDefaultSelectedFilters,
+        length: 7,
+        selectedFilters: [
+          { key: 'Sort Column', value: 'Field 1' },
+          { key: 'Sort Direction', value: 'Ascending' },
+          ...savedDefaultSelectedFilters,
+        ],
       })
     })
 
@@ -505,8 +515,12 @@ context('Interactive report', () => {
       checkSelectedFiltersInUserReports({
         name: 'Interactive Report',
         product: 'Interactive Report',
-        length: 5,
-        selectedFilters: expectedSelectedValues,
+        length: 7,
+        selectedFilters: [
+          { key: 'Sort Column', value: 'Field 1' },
+          { key: 'Sort Direction', value: 'Ascending' },
+          ...expectedSelectedValues,
+        ],
       })
     })
 
@@ -542,8 +556,10 @@ context('Interactive report', () => {
       checkSelectedFiltersInUserReports({
         name: 'Interactive Report',
         product: 'Interactive Report',
-        length: 4,
+        length: 6,
         selectedFilters: [
+          { key: 'Sort Column', value: 'Field 1' },
+          { key: 'Sort Direction', value: 'Ascending' },
           { key: 'Field 1', value: 'Value 1.2' },
           { key: 'Field 3', value: '01/02/2003 - 04/05/2006' },
           { key: 'Field 7', value: '01/02/2005' },

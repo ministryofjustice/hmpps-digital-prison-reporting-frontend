@@ -48,7 +48,7 @@ context('Requesting a report', () => {
             expect(location.search).to.contain(`filters.field3.end=2006-05-04`)
             expect(location.search).to.contain(`filters.field7=2005-02-01`)
             expect(location.search).to.contain(`filters.field8=value8.2&filters.field8=value8.3`)
-            expect(location.search).to.contain(`sortColumn=field1&sortedAsc=false`)
+            expect(location.search).to.contain(`sortColumn=field1&sortedAsc=true`)
           })
 
           cy.findByRole('button', { name: 'Request report' }).click()
@@ -81,7 +81,7 @@ context('Requesting a report', () => {
             expect(location.search).to.contain(`filters.field3.end=2006-05-04`)
             expect(location.search).to.contain(`filters.field7=2005-02-01`)
             expect(location.search).to.contain(`filters.field8=value8.2&filters.field8=value8.3`)
-            expect(location.search).to.contain(`sortColumn=field1&sortedAsc=false`)
+            expect(location.search).to.contain(`sortColumn=field1&sortedAsc=true`)
           })
         })
       })

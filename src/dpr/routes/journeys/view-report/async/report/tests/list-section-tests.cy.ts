@@ -33,16 +33,16 @@ context('Viewing a report', () => {
         cy.findAllByRole('heading', { name: /First.*Second/ }).should('have.length', 4)
 
         // Test headings exist
-        cy.findByRole('heading', { name: /First: Two, Second: B 7 results/ })
-          .should('be.visible')
-          .scrollIntoView()
-        cy.findByRole('heading', { name: /First: Two, Second: A 3 results/ })
+        cy.findByRole('heading', { name: /First: One, Second: A 4 results/ })
           .should('be.visible')
           .scrollIntoView()
         cy.findByRole('heading', { name: /First: One, Second: B 6 results/ })
           .should('be.visible')
           .scrollIntoView()
-        cy.findByRole('heading', { name: /First: One, Second: A 4 results/ })
+        cy.findByRole('heading', { name: /First: Two, Second: A 3 results/ })
+          .should('be.visible')
+          .scrollIntoView()
+        cy.findByRole('heading', { name: /First: Two, Second: B 7 results/ })
           .should('be.visible')
           .scrollIntoView()
 
@@ -74,6 +74,9 @@ context('Viewing a report', () => {
         startReportRequest(listSectionReport)
         cy.findByRole('group', { name: /Column/ })
           .findByRole('radio', { name: 'First' })
+          .check()
+        cy.findByRole('group', { name: /Direction/ })
+          .findByRole('radio', { name: 'Descending' })
           .check()
         cy.findByRole('button', { name: /Request/ }).click()
 
@@ -140,6 +143,9 @@ context('Viewing a report', () => {
         cy.findByRole('group', { name: /Column/ })
           .findByRole('radio', { name: 'Second' })
           .check()
+        cy.findByRole('group', { name: /Direction/ })
+          .findByRole('radio', { name: 'Descending' })
+          .check()
         cy.findByRole('button', { name: /Request/ }).click()
 
         cy.findByRole('heading', { level: 1, name: /List-section/ })
@@ -201,7 +207,14 @@ context('Viewing a report', () => {
 
       it('should navigate the report using the section anchors', () => {
         cy.visit(path)
-        requestReportByNameAndDescription(listSectionReport)
+        startReportRequest(listSectionReport)
+        cy.findByRole('group', { name: /Column/ })
+          .findByRole('radio', { name: 'First' })
+          .check()
+        cy.findByRole('group', { name: /Direction/ })
+          .findByRole('radio', { name: 'Descending' })
+          .check()
+        cy.findByRole('button', { name: /Request/ }).click()
 
         cy.findAllByLabelText(/First: Two, Second: B 7 results/)
           .eq(0)
@@ -273,7 +286,15 @@ context('Viewing a report', () => {
 
       it('should display a list-section variant', () => {
         cy.visit(path)
-        requestReportByNameAndDescription(listSectionReport)
+        startReportRequest(listSectionReport)
+        cy.findByRole('group', { name: /Column/ })
+          .findByRole('radio', { name: 'First' })
+          .check()
+        cy.findByRole('group', { name: /Direction/ })
+          .findByRole('radio', { name: 'Descending' })
+          .check()
+        cy.findByRole('button', { name: /Request/ }).click()
+
         cy.findByRole('heading', { level: 1, name: /List-section/ })
         cy.findAllByRole('heading', { name: /First.*Second/ }).should('have.length', 6)
 
@@ -335,6 +356,9 @@ context('Viewing a report', () => {
         startReportRequest(listSectionReport)
         cy.findByRole('group', { name: /Column/ })
           .findByRole('radio', { name: 'First' })
+          .check()
+        cy.findByRole('group', { name: /Direction/ })
+          .findByRole('radio', { name: 'Descending' })
           .check()
         cy.findByRole('button', { name: /Request/ }).click()
 
@@ -412,6 +436,9 @@ context('Viewing a report', () => {
         startReportRequest(listSectionReport)
         cy.findByRole('group', { name: /Column/ })
           .findByRole('radio', { name: 'Second' })
+          .check()
+        cy.findByRole('group', { name: /Direction/ })
+          .findByRole('radio', { name: 'Descending' })
           .check()
         cy.findByRole('button', { name: /Request/ }).click()
 
@@ -498,7 +525,14 @@ context('Viewing a report', () => {
         cy.task('stubResultSuccessResult')
 
         cy.visit(path)
-        requestReportByNameAndDescription(listSectionReport)
+        startReportRequest(listSectionReport)
+        cy.findByRole('group', { name: /Column/ })
+          .findByRole('radio', { name: 'First' })
+          .check()
+        cy.findByRole('group', { name: /Direction/ })
+          .findByRole('radio', { name: 'Descending' })
+          .check()
+        cy.findByRole('button', { name: /Request/ }).click()
 
         cy.findByRole('heading', { level: 1, name: /List-section/ }).should('be.visible')
         checkA11y()

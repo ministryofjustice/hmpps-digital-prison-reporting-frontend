@@ -27,7 +27,15 @@ context('Parent-child', () => {
 
       it('should display a parent child section variant', () => {
         cy.visit(path)
-        requestReportByNameAndDescription(ParentChildSectionReport)
+        startReportRequest(ParentChildSectionReport)
+        cy.findByRole('group', { name: /Column/ })
+          .findByRole('radio', { name: 'Section 1' })
+          .check()
+        cy.findByRole('group', { name: /Direction/ })
+          .findByRole('radio', { name: 'Descending' })
+          .check()
+        cy.findByRole('button', { name: /Request/ }).click()
+
         cy.findByRole('heading', { level: 1, name: /Parent-child-section/ }).should('be.visible')
 
         cy.findByRole('heading', { name: /Section 1: One, Section 2: A 5 results/ })
@@ -104,11 +112,14 @@ context('Parent-child', () => {
           })
       })
 
-      it('should sort the sections correctly', () => {
+      it('should sort the sections correctly - Desc', () => {
         cy.visit(path)
         startReportRequest(ParentChildSectionReport)
         cy.findByRole('group', { name: /Column/ })
           .findByRole('radio', { name: 'Section 2' })
+          .check()
+        cy.findByRole('group', { name: /Direction/ })
+          .findByRole('radio', { name: 'Descending' })
           .check()
         cy.findByRole('button', { name: /Request/ }).click()
 

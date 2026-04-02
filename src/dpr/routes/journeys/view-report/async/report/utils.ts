@@ -16,7 +16,7 @@ import { FiltersType } from '../../../../../components/_filters/filtersTypeEnum'
 import type { Services } from '../../../../../types/Services'
 
 // Utils
-import definitionUtils from '../../../../../utils/definitionUtils'
+import definitionUtils, { getFields, hasInteractiveFilters } from '../../../../../utils/definitionUtils'
 import PaginationUtils from '../../../../../components/_reports/report-page/report-template/report-pagination/utils'
 import TotalsUtils from '../../../../../components/_reports/report-page/report-template/report-totals/utils'
 import ReportFiltersUtils from '../../../../../components/_filters/utils'
@@ -415,7 +415,7 @@ const getCount = async (
   const { token } = LocalsHelper.getValues(res)
   const { tableId, reportId, id } = <{ id: string; tableId: string; reportId: string }>req.params
 
-  return !definition.variant.interactive
+  return !definition.variant.interactive || !hasInteractiveFilters(getFields(definition))
     ? services.reportingService.getAsyncCount(token, tableId)
     : services.reportingService.getAsyncInteractiveCount(token, tableId, reportId, id, reportQuery)
 }

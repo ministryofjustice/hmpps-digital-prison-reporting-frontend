@@ -69,19 +69,13 @@ const applyInteractiveQuery = async (
 
   // Get the stored interactive query data
   const interactiveQueryData = reportStateData?.interactiveQuery?.data
+  console.log(JSON.stringify({ interactiveQueryData }, null, 2))
 
   const preventDefault = interactiveQueryData?.['preventDefault']
   const pageSize = interactiveQueryData?.['pageSize']
   const selectedPage = applyType === 'columns' ? interactiveQueryData?.['selectedPage'] : 1
   const sortColumn = interactiveQueryData?.['sortColumn']
   const sortedAsc = interactiveQueryData?.['sortedAsc']
-
-  let filters = {}
-  if (interactiveQueryData) {
-    filters = Object.keys(interactiveQueryData)
-      .filter((key) => key.includes('filters.'))
-      .reduce((acc, key) => ({ ...acc, [key]: interactiveQueryData[key] }), {})
-  }
 
   // Create merged form data
   let formData: Record<string, string | string[]> = {
@@ -92,16 +86,25 @@ const applyInteractiveQuery = async (
     ...(sortedAsc && { sortedAsc }),
     ...req.body,
   }
+  console.log(JSON.stringify({ formData }, null, 2))
 
   if (applyType === 'columns') {
     const { columns } = req.body
     const mandatoryCols = ColumnsUtils.mandatoryColumns(fields)
-
     let bodyColumns = []
     if (columns) {
       bodyColumns = Array.isArray(columns) ? columns : [columns]
     }
     const columnsData = [...mandatoryCols, ...bodyColumns]
+
+    // Ensure filters are set correctly from the saved state.
+    let filters = {}
+    if (interactiveQueryData) {
+      filters = Object.keys(interactiveQueryData)
+        .filter((key) => key.includes('filters.'))
+        .reduce((acc, key) => ({ ...acc, [key]: interactiveQueryData[key] }), {})
+    }
+
     formData = { ...formData, columns: columnsData, ...filters }
   } else {
     const normalizedColumns = normalizeQueryStringArray(interactiveQueryData?.['columns']) || []
@@ -113,6 +116,7 @@ const applyInteractiveQuery = async (
     formData,
     fields,
   })
+  console.log(JSON.stringify({ filtersString }, null, 2))
 
   // Redirect back to report
   res.redirect(`${req.baseUrl}?${filtersString}`)

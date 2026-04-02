@@ -63,6 +63,7 @@ export const getData = async ({
 
   // initialise report query
   const reportQuery = await initReportQuery(definition, columns, res, req, services, requestData)
+  console.log(JSON.stringify({ reportQuery }))
 
   // Get the reportData
   const reportData = await getReportData({ definition, services, token, req, res, reportQuery })
@@ -108,6 +109,8 @@ const initReportQuery = async (
     services,
   })
 
+  console.log(JSON.stringify({ filtersData }, null, 2))
+
   // Sort
   const sortColumn = req.query?.['sortColumn'] || requestData?.sortBy?.data?.['sortColumn']
   const sortedAsc = req.query?.['sortedAsc'] || requestData?.sortBy?.data?.['sortedAsc']
@@ -119,6 +122,8 @@ const initReportQuery = async (
   // Filters
   const filtersQuery = ReportFiltersUtils.setRequestQueryFromFilterValues(filtersData.filters)
 
+  console.log(JSON.stringify({ filtersQuery }, null, 2))
+
   const queryParams = {
     ...(sortColumn && { sortColumn }),
     ...(sortedAsc && { sortedAsc }),
@@ -127,6 +132,8 @@ const initReportQuery = async (
     ...(selectedPage && { selectedPage }),
     ...(columns && { columns: columns.value }),
   }
+
+  console.log(JSON.stringify({ queryParams }, null, 2))
 
   return new ReportQuery({
     fields,

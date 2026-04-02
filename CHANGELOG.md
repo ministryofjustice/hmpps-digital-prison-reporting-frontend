@@ -1,5 +1,11 @@
 Below you can find the changes included in each release.
 
+## 5.8.5
+
+- Interactive Report bug fix: The totals count on interactive reports shows correct totals.
+- Bug fix: Fixed url encoding issue on query params with special chars
+- Default sort direction is always Ascending for both interactive and async sort, unless specified in the DPD.
+
 ## 5.8.4
 
 - Columns bug fix - Added normalization for query params to ensure consistent string[] output across environments when applying filters.

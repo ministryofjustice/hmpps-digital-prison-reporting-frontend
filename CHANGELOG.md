@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## 5.8.5
+
+- Bug fix: Ensure summary table headers are unique
+
 ## 5.8.4
 
 - Columns bug fix - Added normalization for query params to ensure consistent string[] output across environments when applying filters.

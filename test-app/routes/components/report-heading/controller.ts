@@ -1,16 +1,17 @@
 import { RequestHandler } from 'express'
-import { ReportAction } from 'src/dpr/components/_reports/report-heading/report-actions/types'
 import { getActions } from 'src/dpr/components/_reports/report-heading/report-actions/utils'
 import { LoadType, ReportType } from 'src/dpr/types/UserReports'
+import { getRouteLocals } from 'src/dpr/utils/localsHelper'
 
 export class ReportHeadingController {
   GET: RequestHandler = async (_req, res) => {
+    const { nestedBaseUrl } = getRouteLocals(res)
     const { name, reportName, reportId, csrfToken, columns } = {
       name: 'A report',
       reportName: 'A report',
       reportId: '123',
       csrfToken: 'abc123',
-      columns: []
+      columns: [],
     }
     res.render('views/pages/components/report-heading/view.njk', {
       currentDate: new Date(-(60 * 60 * 1000)).toTimeString(),
@@ -34,23 +35,26 @@ export class ReportHeadingController {
             loadType: LoadType.ASYNC,
             formAction: '/downloadme',
             canDownload: true,
-            currentUrl: '',
-            currentQueryParams: '',
           },
           print: { enabled: true },
           refresh: { executionId: 'exId_234234', url: '/refreshme' },
           share: { name: 'asd', reportName, url: '/shareme' },
         }),
         detailsOpen: false,
-        bookmarked: false,
         columns: [],
         defaultQuery: '',
         filterData: {},
         count: 5,
-        nestedBaseUrl: res.locals.nestedBaseUrl,
+        bookmarkConfig: {
+          bookmarkActionEndpoint: '/',
+          showBookmark: true,
+          linkText: 'Add bookmark',
+          linkType: 'add',
+        },
+        nestedBaseUrl,
         csrfToken,
         bookmarkingEnabled: true,
-      }
+      },
     })
   }
 }

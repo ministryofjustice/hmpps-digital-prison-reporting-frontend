@@ -1,4 +1,5 @@
 import { Response, Request } from 'express'
+import { DownloadActionParams } from '../../../components/_reports/report-heading/report-actions/types'
 import { Services } from '../../../types/Services'
 import { LoadType } from '../../../types/UserReports'
 import { components } from '../../../types/api'
@@ -6,6 +7,9 @@ import LocalsHelper from '../../../utils/localsHelper'
 import { Template } from '../../../types/Templates'
 import ReportQuery from '../../../types/ReportQuery'
 import logger from '../../../utils/logger'
+import { ExtractedDefinitionData, ExtractedRequestData } from '../view-report/async/report/types'
+import type { Columns } from '../../../components/_reports/report-heading/report-columns/report-columns-form/types'
+import { getActiveJourneyValue } from '../../../utils/sessionHelper'
 
 const streamDownloadAsyncData = async (args: {
   services: Services
@@ -86,6 +90,7 @@ export const downloadReport = async ({
       ...(sortColumn && { sortColumn }),
     }
     const definition = await services.reportingService.getDefinition(token, reportId, id, dataProductDefinitionsPath)
+
     logger.info(`Initiating streaming...`)
     if (loadType === LoadType.SYNC) {
       await streamDownloadSyncData({
@@ -109,6 +114,52 @@ export const downloadReport = async ({
   }
 }
 
+export const setUpDownload = (
+  res: Response,
+  req: Request,
+  definitionData: ExtractedDefinitionData,
+  columns: Columns,
+  loadType: LoadType,
+  requestData?: ExtractedRequestData,
+): DownloadActionParams | undefined => {
+  const { downloadingEnabled } = LocalsHelper.getValues(res)
+  let downloadConfig: DownloadActionParams | undefined
+
+  if (downloadingEnabled) {
+    const { definitionsPath, csrfToken } = LocalsHelper.getValues(res)
+    const { downloadActionEndpoint } = LocalsHelper.getRouteLocals(res)
+    const { tableId, id, reportId } = <{ id: string; tableId: string; reportId: string }>req.params
+    const downloadEnabled = getActiveJourneyValue(req, { id, reportId }, 'downloadEnabled')
+    const { reportName, name, specification } = definitionData
+
+    const sections = specification.sections || []
+    const downloadColumns = [...new Set([...columns.value, ...sections])]
+
+    const sortColumn = <string>requestData?.queryData?.['sortColumn']
+    const sortedAsc = <string>requestData?.queryData?.['sortedAsc']
+
+    return {
+      enabled: downloadingEnabled,
+      name,
+      reportName,
+      reportId,
+      id,
+      tableId,
+      columns: downloadColumns,
+      definitionPath: definitionsPath,
+      loadType,
+      formAction: downloadActionEndpoint,
+      canDownload: downloadEnabled,
+      ...(sortColumn && { sortColumn }),
+      ...(sortedAsc && { sortedAsc }),
+      csrfToken,
+    }
+  }
+
+  return downloadConfig
+}
+
 export default {
   downloadReport,
+  setUpDownload,
 }

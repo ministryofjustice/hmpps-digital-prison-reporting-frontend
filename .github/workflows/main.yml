@@ -17,8 +17,8 @@ jobs:
 
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
-          node-version: "24.x"
-          cache: "npm"
+          node-version: '24.x'
+          cache: 'npm'
 
       - run: npm run setup
 
@@ -60,8 +60,8 @@ jobs:
 
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
-          node-version: "24.x"
-          cache: "npm"
+          node-version: '24.x'
+          cache: 'npm'
 
       - run: npm run setup
 
@@ -93,44 +93,95 @@ jobs:
 
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
-          node-version: "22.x"
-          cache: "npm"
+          node-version: '22.x'
+          cache: 'npm'
 
+      - run: npm ci
       - run: npm run setup
 
       - name: Clone mi-ui
         run: |
           git clone https://github.com/ministryofjustice/hmpps-digital-prison-reporting-mi-ui.git ../app
+
       - name: mi-ui setup using this branch
         run: npm run setup
         working-directory: ${{ github.workspace }}/../app
-      - name: Build lib and copy output into node_modules of mi-ui for lib
+
+      - name: Build lib and copy output into node_modules of mi-ui
         working-directory: ${{ github.workspace }}
         run: |
           npm run rpack
           rm -rf ../app/node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend/*
           cp -R dist/* ../app/node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend/
+
       - name: Build mi-ui
         run: npm run build
         working-directory: ${{ github.workspace }}/../app
+
       - name: mi-ui unit tests
         run: npm run test:ci
         working-directory: ${{ github.workspace }}/../app
+
       - name: Get wiremock
         run: curl -o wiremock.jar https://repo1.maven.org/maven2/com/github/tomakehurst/wiremock-standalone/2.27.1/wiremock-standalone-2.27.1.jar
         working-directory: ${{ github.workspace }}/../app
+
       - name: Run wiremock
         run: java -jar wiremock.jar --port 9091 --global-response-templating &
         working-directory: ${{ github.workspace }}/../app
+
       - name: Run mi-ui
-        run: npm run start-feature &
+        run: npm run start-feature > mi-ui.log 2>&1 &
         working-directory: ${{ github.workspace }}/../app
+
       - name: Wait for mi-ui to start
         run: sleep 5
         working-directory: ${{ github.workspace }}/../app
-      - name: mi-ui integration tests
+
+      - name: mi-ui integration tests (Cypress)
         run: npm run int-test
         working-directory: ${{ github.workspace }}/../app
+
+      # ---------------------------------------------
+      # COLLECT & UPLOAD ARTIFACTS (SAFE PATHS)
+      # ---------------------------------------------
+      - name: Collect logs & Cypress artifacts
+        if: success() || failure()
+        run: |
+          mkdir -p artifacts/mi-ui
+          mkdir -p artifacts/cypress/videos
+          mkdir -p artifacts/cypress/screenshots
+
+          # Copy mi-ui app log
+          cp ../app/mi-ui.log artifacts/mi-ui/ 2>/dev/null || true
+
+          # Copy WireMock log
+          cp ../app/wiremock.log artifacts/mi-ui/ 2>/dev/null || true
+
+          # Copy Cypress videos & screenshots
+          cp -R ../app/cypress-tests/integration-tests/videos/* artifacts/cypress/videos/ 2>/dev/null || true
+          cp -R ../app/cypress-tests/integration-tests/screenshots/* artifacts/cypress/screenshots/ 2>/dev/null || true
+
+      - name: Upload mi-ui logs
+        if: success() || failure()
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+        with:
+          name: mi-ui-logs
+          path: artifacts/mi-ui
+
+      - name: Upload Cypress videos
+        if: success() || failure()
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+        with:
+          name: mi-ui-cypress-videos
+          path: artifacts/cypress/videos
+
+      - name: Upload Cypress screenshots
+        if: success() || failure()
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+        with:
+          name: mi-ui-cypress-screenshots
+          path: artifacts/cypress/screenshots
 
   integration_test:
     runs-on: ubuntu-latest
@@ -152,7 +203,7 @@ jobs:
         ports:
           - 9091:8080
         env:
-          WIREMOCK_OPTIONS: "--global-response-templating"
+          WIREMOCK_OPTIONS: '--global-response-templating'
         options: >-
           --entrypoint "/docker-entrypoint.sh"
 
@@ -166,8 +217,8 @@ jobs:
 
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
-          node-version: "24.x"
-          cache: "npm"
+          node-version: '24.x'
+          cache: 'npm'
 
       # Download dist + node_modules (dpr-package-package)
       - uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131
@@ -178,38 +229,47 @@ jobs:
       # Fix lost executable permissions in node_modules
       - name: Fix permissions for native modules
         run: |
-          # esbuild binaries
+          echo "Restoring permissions for native binaries..."
           find node_modules -type f -path "*/@esbuild/*/bin/*" -exec chmod +x {} \;
-          # .bin folder
           chmod -R +x node_modules/.bin || true
-          # any native executable
           find node_modules -type f -path "*/bin/*" -exec chmod +x {} \; || true
-          # shared native modules
           find node_modules -type f -name "*.node" -exec chmod +x {} \; || true
 
-      # Rebuild any native modules (optional but safe)
       - run: npm rebuild
 
-      # Cypress binary install (must run per-runner)
+      # Setup tasks required for dev server
+      - run: npm run setup
+
+      # Cypress binary install (per runner)
       - name: Install Cypress binary
         run: |
           npx cypress install
           npx cypress verify
 
+      # Wait for Redis
       - name: Wait for Redis
         run: npx wait-on tcp:localhost:6379 --timeout 60000
 
-      # -------------------------
+      # ------------------------------------
       # SHARD SPEC SELECTOR
-      # -------------------------
+      # ------------------------------------
       - name: Select spec files for this shard
         id: shard
         shell: bash
         run: |
+          set -euo pipefail
+
+          echo "Collecting Cypress spec files..."
+
+          # Correct non-escaped bash process substitution
           mapfile -t FILES < <(
-            ( find ./src -type f -name "*.cy.ts" ;
+            ( find ./src -type f -name "*.cy.ts";
               find ./test-app -type f -name "*.cy.ts" ) | sort
           )
+
+          echo "=== DEBUG: Found spec files ==="
+          printf "%s\n" "${FILES[@]}"
+          echo "================================"
 
           TOTAL=${#FILES[@]}
           SHARDS=4
@@ -218,47 +278,65 @@ jobs:
           SLICE=$(( (TOTAL + SHARDS - 1) / SHARDS ))
           START=$(( INDEX * SLICE ))
           END=$(( START + SLICE ))
-          [ "$END" -gt "$TOTAL" ] && END=$TOTAL
+          [ "$END" -gt "$TOTAL" ] && END="$TOTAL"
 
           if [ "$START" -ge "$TOTAL" ]; then
             echo "specs=" >> "$GITHUB_OUTPUT"
+            echo "Shard $INDEX has no specs."
             exit 0
           fi
 
           SELECTED=("${FILES[@]:$START:$((END-START))}")
-          SPECS=$(IFS=,; echo "${SELECTED[*]}")
-          echo "specs=$SPECS" >> "$GITHUB_OUTPUT"
 
-      # -------------------------
-      # START SERVER (dev mode)
-      # -------------------------
+          echo "=== DEBUG: Specs for shard $INDEX ==="
+          printf "%s\n" "${SELECTED[@]}"
+          echo "====================================="
+
+          SPECS=$(IFS=, ; echo "${SELECTED[*]}")
+          echo "specs=$SPECS" >> "$GITHUB_OUTPUT"
+          echo "Shard $INDEX specs: $SPECS"
+
+      # ------------------------------------
+      # START APP WITH UNBUFFERED LOGGING
+      # ------------------------------------
       - name: Start server
         if: steps.shard.outputs.specs != ''
         shell: bash
         env:
           PORT: 3010
         run: |
-          PORT=$PORT npm run start:dev:noMockClients:noLogs > app.log 2>&1 &
-          npx wait-on "tcp:localhost:$PORT" --timeout 60000
-          echo "BASE_URL=http://localhost:$PORT" >> "$GITHUB_ENV"
+          echo "Starting app with unbuffered logging via stdbuf + tee..."
 
-      # -------------------------
-      # CYPRESS RUN
-      # -------------------------
+          PORT=$PORT npm run start:dev:noMockClients:noLogs \
+            -- --no-warnings \
+            | stdbuf -o0 -e0 tee app.log &
+
+          echo "Waiting for app to be ready..."
+          npx wait-on "tcp:localhost:$PORT" --timeout 60000
+
+          echo "BASE_URL=http://localhost:$PORT" >> "$GITHUB_ENV"
+          echo "App started."
+
+      # ------------------------------------
+      # CYPRESS EXECUTION
+      # ------------------------------------
       - name: Run Cypress
         id: int-tests
         if: steps.shard.outputs.specs != ''
         env:
           CYPRESS_BASE_URL: ${{ env.BASE_URL }}
         run: |
+          echo "Running Cypress with baseUrl=$CYPRESS_BASE_URL"
           npx cypress run \
             --browser electron \
             --config "baseUrl=$CYPRESS_BASE_URL" \
             --spec "${{ steps.shard.outputs.specs }}"
 
-      # -------------------------
+      # ------------------------------------
       # ARTIFACTS
-      # -------------------------
+      # ------------------------------------
+
+      # App logs (now include ALL runtime logs)
       - name: Upload app log
         if: success() || failure()
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
@@ -272,19 +350,23 @@ jobs:
         with:
           name: cypress-results-${{ matrix.shard_index }}
           path: test_results
+          if-no-files-found: ignore
 
       - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
         if: success() || failure()
         with:
           name: cypress-videos-${{ matrix.shard_index }}
           path: cypress-tests/integration-tests/videos
+          if-no-files-found: ignore
 
       - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
         if: success() || failure()
         with:
           name: cypress-screenshots-${{ matrix.shard_index }}
           path: cypress-tests/integration-tests/screenshots
+          if-no-files-found: ignore
 
+      # Final shard-level pass/fail
       - name: Final Pass/Fail
         if: success() || failure()
         run: |
@@ -315,8 +397,8 @@ jobs:
 
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
-          node-version: "24.x"
-          cache: "npm"
+          node-version: '24.x'
+          cache: 'npm'
 
       - uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131
         with:
@@ -371,7 +453,7 @@ jobs:
     services:
       redis:
         image: redis
-        ports: ["6379:6379"]
+        ports: ['6379:6379']
         options: >-
           --health-cmd "redis-cli ping"
           --health-interval 10s
@@ -382,8 +464,8 @@ jobs:
 
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
-          node-version: "24.x"
-          cache: "npm"
+          node-version: '24.x'
+          cache: 'npm'
 
       - uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131
         with:

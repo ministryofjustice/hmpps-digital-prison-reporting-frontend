@@ -1,5 +1,4 @@
 import { Response, Request } from 'express'
-import { setNestedPath } from '../../../utils/urlHelper'
 import CatalogueListUtils from '../catalogue-list/utils'
 import { Services } from '../../../types/Services'
 import LocalsHelper from '../../../utils/localsHelper'
@@ -7,7 +6,7 @@ import LocalsHelper from '../../../utils/localsHelper'
 export const initCatalogue = async ({ res, services, req }: { res: Response; services: Services; req?: Request }) => {
   const data = await CatalogueListUtils.getReportsList(res, services)
   const currentUrl = req?.originalUrl || '/'
-  const { token, bookmarkingEnabled, dprUser, csrfToken, nestedBaseUrl } = LocalsHelper.getValues(res)
+  const { token, bookmarkingEnabled, dprUser, csrfToken } = LocalsHelper.getValues(res)
   const productCollections = (await services.productCollectionService.getProductCollections(token))?.map(
     (collection) => ({
       value: collection.id,
@@ -23,6 +22,7 @@ export const initCatalogue = async ({ res, services, req }: { res: Response; ser
   const selectedProductCollection =
     selectedProductCollectionId &&
     (await services.productCollectionService.getProductCollection(token, selectedProductCollectionId))
+  const { productCollectionEndpoint } = LocalsHelper.getRouteLocals(res)
 
   return {
     id: data.id,
@@ -33,10 +33,9 @@ export const initCatalogue = async ({ res, services, req }: { res: Response; ser
     filters: {
       productCollectionInfo: {
         productCollections,
-        formAction: setNestedPath('/dpr/product-collection/selected', nestedBaseUrl),
+        formAction: productCollectionEndpoint,
         ...(selectedProductCollection && { selectedProductCollection }),
       },
-      nestedBaseUrl,
       csrfToken,
       currentUrl,
       features: { bookmarkingEnabled },

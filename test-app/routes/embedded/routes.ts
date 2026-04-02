@@ -5,7 +5,6 @@ import EmbeddedController from './controller'
 // Routes
 import PlatformRoutes from './platform/routes'
 import { Services } from '../../../src/dpr/types/Services'
-import setUpNestedRoute from '../../../src/dpr/middleware/setUpNestedRoute'
 
 export function Routes(services: Services): Router {
   const router = Router({ mergeParams: true })
@@ -13,7 +12,7 @@ export function Routes(services: Services): Router {
   const controller = new EmbeddedController()
   router.get('/', controller.GET)
 
-  router.use(`/platform/`, setUpNestedRoute(), PlatformRoutes(services))
+  router.use(`/platform/`, PlatformRoutes(services))
 
   return router
 }

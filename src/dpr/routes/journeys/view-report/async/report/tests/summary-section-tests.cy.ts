@@ -5,7 +5,7 @@ import {
 } from '../../../../../../../../cypress-tests/cypressUtils'
 
 context('Summary Section', () => {
-  const path = '/embedded/platform'
+  const path = '/'
 
   describe('Viewing a report summary-section report', () => {
     before(() => {

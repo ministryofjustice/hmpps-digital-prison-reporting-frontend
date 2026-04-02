@@ -14,7 +14,6 @@ export const getValues = (res: Response) => {
     ...setFeatures(res),
     ...setDefinitions(res),
     csrfToken,
-    nestedBaseUrl: res.locals['nestedBaseUrl'],
   }
 }
 
@@ -84,7 +83,31 @@ export const setDdpPathToReqQuery = (req: Request, value: string) => {
   return req.query
 }
 
+export interface DprAppLocals {
+  nestedBaseUrl?: string | undefined
+  bookmarkActionEndpoint: string
+  downloadActionEndpoint: string
+  productCollectionEndpoint: string
+  bookmarkListPath: string
+  requestedListPath: string
+  recentlyViewedListPath: string
+  reportsCatalogue: string
+  userReportsList: string
+  dprHomepage: string
+  /** internal: stores the unmodified raw paths */
+  original?: Omit<DprAppLocals, 'original' | 'nestedBaseUrl'>
+}
+
+export const getRouteLocals = (res: Response): DprAppLocals => {
+  const locals = res.app.locals.dprPaths
+  if (!locals) {
+    throw new Error('Dpr Library Path locals not initialized')
+  }
+  return locals
+}
+
 export default {
   getValues,
+  getRouteLocals,
   setDdpPathToReqQuery,
 }

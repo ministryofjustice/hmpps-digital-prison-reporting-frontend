@@ -4,15 +4,19 @@ title: Integrating the FE platform
 subsection: Integration Guides
 ---
 
-This integration quide describes the steps required to use DPR's FE Platform into your service, using the <a href="https://github.com/ministryofjustice/hmpps-template-typescript" target="_blank">HMPPS TS template</a>
+This guide explains how to integrate the DPR Frontend (FE) Platform into your service, using the <a href="https://github.com/ministryofjustice/hmpps-template-typescript" target="_blank">HMPPS TS template</a> as a reference.
 
-The FE platform provides means for services to integrate DPR reporting processes and features.
+The FE Platform provides a ready‑made user interface and routing layer that allows services to embed DPR’s reporting journeys and features with minimal setup.
 
-**NOTE:** These steps are not required if you are only using DPRs embedded sync report handlers.
+**NOTE:**
+
+These integration steps are only required if you want to use the full FE Platform.<br>
+They are <i>not</i> required if you are only consuming DPR’s embedded synchronous report handlers.
 
 ## Outcome
 
-By following this guide and integrating successfully you have and use of a set of predefined routes to help you manage, view and request reports. See [reporting routes](/get-started/routes) for more information about what routes are available.
+By completing this guide, your service will have access to a set of predefined, fully‑integrated DPR routes for managing, viewing, and requesting reports.<br>
+For details of the available endpoints, see the [reporting routes](/get-started/routes) section.
 
 ## Pre-requisites
 
@@ -60,7 +64,7 @@ See <a href="/get-started/environments" target="_blank">DPR Environments</a> for
 
 The DPD path is location in the definitions repo where your DPDs are stored. The path commonly follows this pattern:
 
-```
+```js
 definitions/prisons/dps/${yourServiceName}
 ```
 
@@ -215,10 +219,13 @@ import { DprUser } from '@ministryofjustice/hmpps-digital-prison-reporting-front
 // example using manage user api
 const user = await this.hmppsManageUsersClient.getUser(token)
 
+// Init the DPR User
 const dprUser = new DprUser()
+
 // required
 dprUser.token = res.locals.user.token
 dprUser.id = user.uuid
+
 // optional
 dprUser.activeCaseLoadId = user.activeCaseLoadId
 dprUser.emailAddress = user.email
@@ -240,6 +247,7 @@ import config from './config'
 
 ...
 const env = nunjucksSetup(app, applicationInfo)
+
 app.use(setupResources(services, 'path/to/layout.njk', env, config.dpr))
 ```
 
@@ -256,13 +264,44 @@ import { routes as dprRoutes } from '@ministryofjustice/hmpps-digital-prison-rep
 
 export function routes(services: Services): Router {
   const router = Router()
-  ...
 
-  router.use('/', dprRoutes({ services, layoutPath: 'path/to/layout.njk'}))
+  // Mount DPR routes BEFORE any root-level handlers.
+  // This ensures internal DPR middleware (e.g. setUpNestedRoute)
+  // runs correctly when the DPR router is entered.
+  router.use('/', dprRoutes({ services, layoutPath: 'path/to/layout.njk' }))
+
+  // Your application's own routes can follow afterwards
+  router.get('/', controller.GET)
+
+  return router
 }
 
 export default routes
 ```
+
+This will give your application the preset DPR routes to use to run and manage your reports.
+
+Note that all DPR routes are automatically namespaced under `/dpr`.  
+So mounting the DPR router at a nested path like `/my/nested/route` will produce routes such as:
+
+```js
+/my/nested/route/dpr/...
+```
+
+See [reporting routes](/get-started/routes) to learn about the routes available to you.
+
+## Important: Route ordering matters for nested mount paths
+
+Express processes routes in the order they are registered.<br>
+This becomes important when you mount DPR under a nested path, such as:
+
+```js
+router.use('/my/nested/route', dprRoutes(...))
+```
+
+The DPR library uses an internal nested route URL, so its middleware (such as `setUpNestedRoute()`) must run when a request enters the DPR router.
+
+However, if you mount DPR at the application root (`'/'`), the routes are not considered nested and the middleware is a no‑op. In this case, route ordering is not important.
 
 <hr class='dpr-docs-hr'>
 

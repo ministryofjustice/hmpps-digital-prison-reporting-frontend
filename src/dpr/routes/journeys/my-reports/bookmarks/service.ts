@@ -35,6 +35,7 @@ class BookmarkService extends ReportStoreService {
     if (!this.isBookmarkedCheck(userConfig, id, reportId)) {
       userConfig.bookmarks.unshift({ reportId, id, type, automatic })
     }
+
     await this.saveState(userId, userConfig)
   }
 
@@ -57,6 +58,7 @@ class BookmarkService extends ReportStoreService {
 
     const userConfig = await this.getState(userId)
     const isBookmarked = this.isBookmarkedCheck(userConfig, id, reportId)
+
     let bookmark
     if (isBookmarked) {
       bookmark = this.getBookmark(userConfig, id, reportId)
@@ -87,7 +89,7 @@ class BookmarkService extends ReportStoreService {
     ctxId,
     reportType,
     isMissing,
-    nestedBaseUrl,
+    endpoint,
   }: {
     userConfig: ReportStoreConfig
     reportId: string
@@ -96,7 +98,7 @@ class BookmarkService extends ReportStoreService {
     ctxId: string
     reportType: ReportType
     isMissing: boolean
-    nestedBaseUrl: string | undefined
+    endpoint: string
   }) {
     let linkText = 'Add bookmark'
     let automatic = false
@@ -121,7 +123,7 @@ class BookmarkService extends ReportStoreService {
       data-id="${id}" 
       data-report-id="${reportId}" 
       data-report-type="${reportType}" 
-      data-base-url="${nestedBaseUrl}"  
+      data-endpoint="${endpoint}"  
       data-csrf-token="${csrfToken}" 
       data-link-type="${linkType}"
     >${linkText}</a>`

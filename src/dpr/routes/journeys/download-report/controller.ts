@@ -1,4 +1,5 @@
 import { RequestHandler } from 'express'
+import { getActiveJourneyValue } from '../../../utils/sessionHelper'
 import LocalsHelper from '../../../utils/localsHelper'
 import DownloadUtils from './utils'
 import { Services } from '../../../types/Services'
@@ -15,10 +16,15 @@ class DownloadReportController {
 
   POST: RequestHandler = async (req, res) => {
     const { dprUser } = LocalsHelper.getValues(res)
-    const { reportId, id, loadType, currentUrl, currentQueryParams } = req.body
+    const { reportId, id, loadType, tableId } = req.body
+    const currentReportSearch = getActiveJourneyValue(req, { id, reportId, tableId }, 'currentReportSearch')
+    const currentReportPathname = getActiveJourneyValue(req, { id, reportId, tableId }, 'currentReportPathname')
 
-    let redirect = currentUrl.includes('/download-disabled') ? currentUrl : `${currentUrl}/download-disabled`
-    redirect = currentQueryParams ? `${redirect}${currentQueryParams}` : redirect
+    let redirect =
+      currentReportPathname && currentReportPathname.includes('/download-disabled')
+        ? currentReportPathname
+        : `${currentReportPathname}/download-disabled`
+    redirect = currentReportSearch ? `${redirect}${currentReportSearch}` : redirect
 
     const canDownloadReport = await this.services.downloadPermissionService.downloadEnabledForReport(
       dprUser.id,

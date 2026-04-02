@@ -1,4 +1,9 @@
-import { checkA11y, executeReportStubs, requestReportByNameAndDescription, startReportRequest } from 'cypress-tests/cypressUtils'
+import {
+  checkA11y,
+  executeReportStubs,
+  requestReportByNameAndDescription,
+  startReportRequest,
+} from 'cypress-tests/cypressUtils'
 
 context('Inputs: multiselect', () => {
   const path = '/components/filters/multi-select'
@@ -183,7 +188,7 @@ context('Inputs: multiselect', () => {
       cy.task('stubMultiselectDefinitionRequest')
       cy.task('stubResultSuccessResult')
 
-      cy.visit('/embedded/platform/')
+      cy.visit('/')
     })
 
     it('should toggle the full list in the pre-request filters', () => {

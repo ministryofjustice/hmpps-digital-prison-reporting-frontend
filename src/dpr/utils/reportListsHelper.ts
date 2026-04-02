@@ -1,6 +1,6 @@
 import { Response } from 'express'
 import { LoadType, ReportType, RequestStatus } from '../types/UserReports'
-import localsHelper from './localsHelper'
+import localsHelper, { getRouteLocals } from './localsHelper'
 import { setNestedPath } from './urlHelper'
 
 export const itemActionsHtml = (
@@ -97,7 +97,8 @@ export const setInitialHref = (
   res: Response,
   isMissing = false,
 ) => {
-  const { pathSuffix, dpdPathFromQuery, nestedBaseUrl } = localsHelper.getValues(res)
+  const { pathSuffix, dpdPathFromQuery } = localsHelper.getValues(res)
+  const { nestedBaseUrl } = getRouteLocals(res)
   const rootPath = setNestedPath(`/dpr`, nestedBaseUrl)
 
   let href = ''

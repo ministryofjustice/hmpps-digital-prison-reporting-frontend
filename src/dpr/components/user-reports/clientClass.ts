@@ -1,7 +1,6 @@
 /* eslint-disable class-methods-use-this */
 import DprPollingHelper from 'src/dpr/DprPollingClass'
 import type { meta } from '../../types/UserReports'
-import { setNestedPath } from 'src/dpr/utils/urlHelper'
 
 export enum ListType {
   REQUESTED = 'requested',
@@ -131,23 +130,25 @@ class DprUserReportListHelper {
 
   async removeItemFromList(executionId: string) {
     const itemMeta = this.requestData.find((d) => d.executionId === executionId)
-    const endpoint = setNestedPath(`/dpr/my-reports/${this.path}/${executionId}`, itemMeta?.nestedBaseUrl)
-
-    let response
-    await fetch(endpoint, {
-      method: 'post',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        'CSRF-Token': this.csrfToken,
-      },
-    })
-      .then(() => {
-        window.location.reload()
+    if (itemMeta && itemMeta.endpoint) {
+      let response
+      await fetch(itemMeta.endpoint, {
+        method: 'post',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          'CSRF-Token': this.csrfToken,
+        },
       })
-      .catch((error) => console.error('Error:', error))
+        .then(() => {
+          window.location.reload()
+        })
+        .catch((error) => console.error('Error:', error))
 
-    return response
+      return response
+    } else {
+      console.warn(`User Reports List: Remove failed for execution ID: ${executionId}`)
+    }
   }
 }
 

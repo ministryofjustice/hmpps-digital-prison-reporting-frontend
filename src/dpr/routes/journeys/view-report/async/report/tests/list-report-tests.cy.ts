@@ -1,7 +1,7 @@
 import { requestReport, executeReportStubs } from '../../../../../../../../cypress-tests/cypressUtils'
 
 context('Viewing a report', () => {
-  const path = '/embedded/platform'
+  const path = '/'
   let viewReportUrl: string
   let tableId: string
 
@@ -107,9 +107,8 @@ context('Viewing a report', () => {
         cy.findByLabelText('Refresh report').should('be.visible').click()
         cy.url().should(
           'match',
-          /.*\/embedded\/platform\/dpr\/request-report\/report\/request-examples\/request-example-success\/filters/i,
+          /(?:\/embedded\/platform(?:\/dpr)?)?\/request-report\/report\/request-examples\/request-example-success\/filters/i,
         )
-
         cy.location().should((location) => {
           expect(location.search).to.contain(`filters.field1=value1.2`)
           expect(location.search).to.contain(`filters.field3.start=2003-02-01`)

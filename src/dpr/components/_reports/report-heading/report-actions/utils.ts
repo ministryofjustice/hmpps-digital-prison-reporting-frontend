@@ -1,4 +1,8 @@
 import {
+  ExtractedDefinitionData,
+  ExtractedRequestData,
+} from '../../../../routes/journeys/view-report/async/report/types'
+import {
   ActionTemplate,
   CopyActionParams,
   DownloadActionParams,
@@ -93,6 +97,43 @@ const setPrintAction = (template: ActionTemplate, data: PrintActionParams) => {
   }
 }
 
+const setActions = (
+  definitionData: ExtractedDefinitionData,
+  downloadConfig?: DownloadActionParams,
+  requestData?: ExtractedRequestData,
+) => {
+  const { reportName, name, printable } = definitionData
+  let shareConfig
+  let copyConfig
+  if (requestData?.requestUrl?.fullUrl) {
+    shareConfig = {
+      reportName,
+      name,
+      url: requestData.requestUrl.fullUrl,
+    }
+    copyConfig = {
+      url: requestData.requestUrl.fullUrl,
+    }
+  }
+
+  let refreshConfig
+  if (requestData?.executionId && requestData?.requestUrl?.fullUrl) {
+    refreshConfig = {
+      url: requestData.requestUrl.fullUrl,
+      executionId: requestData.executionId,
+    }
+  }
+
+  return getActions({
+    ...(downloadConfig && { download: downloadConfig }),
+    ...(shareConfig && { share: shareConfig }),
+    ...(refreshConfig && { refresh: refreshConfig }),
+    ...(copyConfig && { copy: copyConfig }),
+    print: { enabled: printable },
+  })
+}
+
 export default {
   getActions,
+  setActions,
 }

@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { Router } from 'express'
 import { captureException } from '@sentry/node'
+import { storeActiveReportSessionData } from '../../../middleware/setUpActiveReport'
 import { Services } from '../../../types/Services'
 import RequestReportController from './controller'
 
@@ -20,12 +21,14 @@ export function Routes({ layoutPath, services }: { services: Services; layoutPat
   router.use(
     `/:type/:reportId/:id/filters`,
     reportAuthoriser(services, layoutPath),
+    storeActiveReportSessionData(services),
     requestReportRoutes({ layoutPath, services }),
     controller.errorHandler,
   )
   router.use(
     `/:type/:reportId/:id/:executionId/status`,
     reportAuthoriser(services, layoutPath),
+    storeActiveReportSessionData(services),
     requestStatusRoutes({ layoutPath, services }),
     controller.errorHandler,
   )

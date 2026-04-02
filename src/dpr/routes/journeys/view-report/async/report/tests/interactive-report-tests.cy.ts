@@ -6,7 +6,7 @@ import {
 import DateMapper from '../../../../../../utils/DateMapper/DateMapper'
 
 context('Interactive report', () => {
-  const path = '/embedded/platform'
+  const path = '/'
   let viewReportUrl: string
 
   const applyFilters = () => {

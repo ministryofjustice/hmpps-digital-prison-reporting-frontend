@@ -20,22 +20,20 @@
   {% set defaultQuery = reportData.defaultQuery %}
   {% set filterData = reportData.filterData %}
   {% set count = reportData.count %}
-  {% set nestedBaseUrl = reportData.nestedBaseUrl %}
   {% set csrfToken = reportData.csrfToken %}
-  {% set bookmarkingEnabled = reportData.bookmarkingEnabled %}
+  {% set bookmarkConfig = reportData.bookmarkConfig %}
+  {% set downloadConfig = reportData.downloadConfig %}
 
   <div class="dpr-report-header">
-
     {% if actions or bookmarked is defined %}
       <div class="dpr-report-heading__actions">
         {% if actions %}
           {{ dprReportActions(actions) }}
         {% endif %}
 
-        {% if bookmarkingEnabled %}
+        {% if bookmarkConfig.showBookmark %}
           {% set id = reportData.id %}
-          {% set actions = reportData.actions %}
-          {{ dprBookmarkButton(reportId, id, csrfToken, bookmarked, 'report', type, nestedBaseUrl) }}
+          {{ dprBookmarkButton(reportId, id, type, csrfToken, bookmarkConfig) }}
         {% endif %}
       </div>
     {% endif %}
@@ -49,9 +47,9 @@
       </div>
     </div>
     
-    {% if reportData.canDownload is defined %}
+    {% if downloadConfig.canDownload is defined %}
 
-      {{ dprDownloadMessage(reportData) }}
+      {{ dprDownloadMessage(reportData.feedbackFormHref) }}
     
     {% endif %}
 

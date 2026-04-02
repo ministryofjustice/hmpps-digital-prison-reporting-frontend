@@ -10,7 +10,7 @@ export const getReportsList = async (
   res: Response,
   services: Services,
 ): Promise<{ head: { text: string }[]; rows: { text?: string; html?: string }[][]; id: string }> => {
-  const { definitions, csrfToken, bookmarkingEnabled, dprUser, nestedBaseUrl } = LocalsHelper.getValues(res)
+  const { definitions, csrfToken, bookmarkingEnabled, dprUser } = LocalsHelper.getValues(res)
 
   // Sort report Definitions by product name
   const sortedDefinitions = definitions.sort(
@@ -85,6 +85,7 @@ export const getReportsList = async (
       const desc = description || reportDescription || ''
 
       const href = setInitialHref(loadType, type, reportId, id, res, isMissing)
+      const { bookmarkActionEndpoint } = LocalsHelper.getRouteLocals(res)
 
       let bookmarkHtml
       if (bookmarkingEnabled) {
@@ -96,7 +97,7 @@ export const getReportsList = async (
           ctxId: 'reports-list',
           reportType: type,
           isMissing: Boolean(isMissing),
-          nestedBaseUrl,
+          endpoint: bookmarkActionEndpoint,
         })
       }
 

@@ -3,15 +3,15 @@ import { checkA11y, executeDashboardStubs } from '../../../../../cypress-tests/c
 
 context('Dashboard visualisation: Scorecards', () => {
   const scorecardPath =
-    '/embedded/platform/dpr/request-report/dashboard/dashboard-visualisations/scorecard-examples_complete-data/filters'
+    '/dpr/request-report/dashboard/dashboard-visualisations/scorecard-examples_complete-data/filters'
   let scorecardPathViewUrl = ''
 
   const scorecardBucketPath =
-    '/embedded/platform/dpr/request-report/dashboard/dashboard-visualisations/scorecard-example_bucket_complete-data/filters'
+    '/dpr/request-report/dashboard/dashboard-visualisations/scorecard-example_bucket_complete-data/filters'
   let scorecardBucketPathViewUrl = ''
 
   const scorecardsPath =
-    '/embedded/platform/dpr/request-report/dashboard/dashboard-visualisations/scorecard-group-example_complete-data/filters'
+    '/dpr/request-report/dashboard/dashboard-visualisations/scorecard-group-example_complete-data/filters'
   let scorecardsPathViewUrl = ''
 
   before(() => {

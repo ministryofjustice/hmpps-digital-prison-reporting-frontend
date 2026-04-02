@@ -3,7 +3,7 @@ import { featureTestingEmptyQuery } from '@networkMocks/report/mockVariants/feat
 import { stubBaseTasks, stubDefinitionsTasks } from '../../../../../../cypress-tests/cypressUtils'
 
 context('Bookmarks list', () => {
-  const paths = ['/embedded/platform', '/embedded/platform/dpr']
+  const paths = ['/', '/embedded/platform', '/embedded/platform/dpr']
 
   const sharedTests = (path: string) => {
     describe(`Bookmarks list from ${path}`, () => {

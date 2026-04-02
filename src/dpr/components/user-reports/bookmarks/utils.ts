@@ -1,6 +1,5 @@
 import { Response } from 'express'
 import { captureException } from '@sentry/node'
-import { setNestedPath } from '../../../utils/urlHelper'
 import { BookmarkService } from '../../../services'
 import { BookmarkedReportData, BookmarkStoreData } from '../../../types/Bookmark'
 import { FormattedBookmarkData, LoadType, ReportType } from '../../../types/UserReports'
@@ -39,15 +38,15 @@ const formatTable = async (
   bookmarkService: BookmarkService,
   csrfToken: string,
   userId: string,
+  endpoint: string,
   maxRows?: number,
-  nestedBaseUrl?: string,
 ) => {
   const userConfig = await bookmarkService.getState(userId)
   const rows = await Promise.all(
     bookmarksData
       .sort((a, b) => a.name.localeCompare(b.name))
       .map(async (bookmark: BookmarkedReportData) => {
-        return formatTableData(bookmark, bookmarkService, csrfToken, userConfig, nestedBaseUrl)
+        return formatTableData(bookmark, bookmarkService, csrfToken, userConfig, endpoint)
       }),
   )
 
@@ -66,7 +65,7 @@ const formatTableData = async (
   bookmarkService: BookmarkService,
   csrfToken: string,
   userConfig: ReportStoreConfig,
-  nestedBaseUrl?: string,
+  endpoint: string,
 ) => {
   const { description, reportName, reportId, id, href, name, type, loadType } = bookmarksData
   const bookmarkHtml = await bookmarkService.createBookMarkButtonHtml({
@@ -78,7 +77,7 @@ const formatTableData = async (
     reportType: type,
     // We don't have the data here, and missing reports should never get into bookmarked, viewed or requested
     isMissing: false,
-    nestedBaseUrl,
+    endpoint,
   })
   return [
     {
@@ -169,7 +168,9 @@ export const renderBookmarkList = async ({
   maxRows?: number
   res: Response
 }) => {
-  const { token, csrfToken, dprUser, bookmarks, nestedBaseUrl } = LocalsHelper.getValues(res)
+  const { token, csrfToken, dprUser, bookmarks } = LocalsHelper.getValues(res)
+  const { bookmarkActionEndpoint, bookmarkListPath } = LocalsHelper.getRouteLocals(res)
+
   const bookmarksData: BookmarkedReportData[] = await mapBookmarkIdsToDefinition(bookmarks, res, token, services)
 
   let formatted = await formatBookmarks(bookmarksData)
@@ -181,12 +182,12 @@ export const renderBookmarkList = async ({
     services.bookmarkService,
     csrfToken,
     dprUser.id,
+    bookmarkActionEndpoint,
     maxRows,
-    nestedBaseUrl,
   )
-  const headHref = setNestedPath('/dpr/my-reports/bookmarks/list', nestedBaseUrl)
+
   const head = {
-    ...(formatted.length && { href: headHref }),
+    ...(formatted.length && { href: bookmarkListPath }),
     ...(!formatted.length && { emptyMessage: 'You have 0 bookmarked reports' }),
   }
 

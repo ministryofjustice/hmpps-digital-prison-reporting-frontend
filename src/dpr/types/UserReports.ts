@@ -139,7 +139,7 @@ export interface meta {
   dataProductDefinitionsPath?: string | undefined
   pollingUrl?: string | undefined
   reportUrl?: string | undefined
-  nestedBaseUrl?: string | undefined
+  endpoint?: string
 }
 
 export interface RequestFormData {

@@ -1,13 +1,6 @@
-{% macro dprBookmarkButton(reportId, id, csrfToken, bookmarked, ctxId, reportType, nestedBaseUrl) %}
-  {% set type %}{{ type if type else 'report' }}{% endset %}
-  {% set linkText = 'Add bookmark' %}
-  {% set linkType = 'add' %}
-  {% set linkId = reportId + '-' + id + '-' + ctxId %}
-
-  {% if bookmarked %}
-    {% set linkText = 'Remove bookmark' %}
-    {% set linkType = 'remove' %}
-  {% endif %}
+{% macro dprBookmarkButton(reportId, id, reportType, csrfToken, config) %}
+  {% set reportType %}{{ type if type else 'report' }}{% endset %}
+  {% set linkId = reportId + '-' + id + '-' + reportType %}
 
   <a href="#" 
     class="govuk-link govuk-link--no-visited-state"
@@ -16,12 +9,12 @@
     data-id="{{ id }}" 
     data-report-id="{{ reportId }}" 
     data-report-type="{{ reportType }}" 
-    data-base-url="{{ nestedBaseUrl }}"  
-    data-link-type="{{ linkType }}"
     data-csrf-token="{{ csrfToken }}" 
+    data-endpoint="{{ config.bookmarkActionEndpoint }}"  
+    data-link-type="{{ config.linkType }}"
   >
 
-    {{ linkText }}
+    {{ config.linkText }}
 
   </a>
 {% endmacro %}

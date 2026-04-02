@@ -3,10 +3,10 @@ import DprUser from './DprUser'
 import { components } from './api'
 import { RequestedReport, StoredReportData } from './UserReports'
 import { BookmarkStoreData } from './Bookmark'
+import { DprAppLocals } from '../utils/localsHelper'
 
 export interface ExtraLocals {
   dprUser: DprUser
-  nestedBaseUrl?: string
   csrfToken: string
   definitions: components['schemas']['ReportDefinitionSummary'][]
   definition?: components['schemas']['SingleVariantReportDefinition'] | components['schemas']['DashboardDefinition']
@@ -22,10 +22,12 @@ export interface ExtraLocals {
   recentlyViewedReports?: StoredReportData[]
   bookmarks?: BookmarkStoreData[]
   validationErrors?: string
+  // fields on app.locals 👇🏽
   featureFlags: {
     lastUpdated?: number | undefined
     flags: {
       [flagName: string]: Flag
     }
   }
+  dprPaths: DprAppLocals
 }

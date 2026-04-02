@@ -46,7 +46,7 @@ context('Requesting a report', () => {
             expect(location.search).to.contain(`filters.field3.end=2006-05-04`)
             expect(location.search).to.contain(`filters.field7=2005-02-01`)
             expect(location.search).to.contain(`filters.field8=value8.2&filters.field8=value8.3`)
-            expect(location.search).to.contain(`sortColumn=field1&sortedAsc=false`)
+            expect(location.search).to.contain(`sortColumn=field1&sortedAsc=true`)
           })
 
           cy.findByRole('button', { name: 'Request report' }).click()
@@ -79,7 +79,7 @@ context('Requesting a report', () => {
             expect(location.search).to.contain(`filters.field3.end=2006-05-04`)
             expect(location.search).to.contain(`filters.field7=2005-02-01`)
             expect(location.search).to.contain(`filters.field8=value8.2&filters.field8=value8.3`)
-            expect(location.search).to.contain(`sortColumn=field1&sortedAsc=false`)
+            expect(location.search).to.contain(`sortColumn=field1&sortedAsc=true`)
           })
         })
       })
@@ -268,7 +268,7 @@ context('Requesting a report', () => {
 
       describe('Aborted request', () => {
         const filtersHref =
-          '/embedded/platform/dpr/request-report/report/request-examples/request-example-success/filters?filters.field1=value1.2&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&filters.field8=value8.2&filters.field8=value8.3&sortColumn=field1&sortedAsc=false'
+          '/embedded/platform/dpr/request-report/report/request-examples/request-example-success/filters?filters.field1=value1.2&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&filters.field8=value8.2&filters.field8=value8.3&sortColumn=field1&sortedAsc=true'
 
         beforeEach(() => {
           executeReportStubs()

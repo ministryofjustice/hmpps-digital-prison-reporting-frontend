@@ -23,7 +23,7 @@ class SummaryDataTableBuilder extends DataTableBuilder {
     super(<components['schemas']['FieldDefinition'][]>fields, true)
 
     this.summary = summary
-    this.columns = columns
+    this.columns = Array.from(new Set(columns))
   }
 
   buildSummaryTable(): DataTable {

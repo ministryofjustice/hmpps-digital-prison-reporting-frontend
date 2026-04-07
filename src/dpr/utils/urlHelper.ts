@@ -129,4 +129,12 @@ export const normalizeQueryStringArray = (
   return typeof queryParamValue === 'string' ? [queryParamValue] : undefined
 }
 
+export const extractParamsByPrefix = (qs: string, prefix: string): Record<string, string> =>
+  Array.from(new URLSearchParams(qs).entries())
+    .filter(([key]) => key.startsWith(prefix))
+    .reduce<Record<string, string>>((acc, [key, value]) => {
+      acc[key] = value
+      return acc
+    }, {})
+
 export default createUrlForParameters

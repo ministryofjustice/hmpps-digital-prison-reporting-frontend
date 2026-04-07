@@ -203,20 +203,43 @@ export const getFilterFromDefinition = (filter: components['schemas']['FilterDef
   }
 }
 
-export const getQueryFromDefinition = (
-  filter: components['schemas']['FilterDefinition'],
-  name: string,
-  filterPrefix: string,
-) => {
-  const dates = filter.defaultValue ? filter.defaultValue.split(' - ') : []
-  let param = ''
-  if (dates.length >= 1) {
-    param = `${filterPrefix}${name}.start=${dates[0]}`
-    if (dates.length >= 2) {
-      param = `${param}&${filterPrefix}${name}.end=${dates[1]}`
-    }
+/**
+ * Creates the default query string from the definition
+ *
+ * @param {components['schemas']['FilterDefinition']} filter
+ * @param {string} name
+ * @return {*}  {string}
+ */
+export const getQueryFromDefinition = (filter: components['schemas']['FilterDefinition'], name: string): string => {
+  if (!filter.defaultValue) return ''
+
+  const params = new URLSearchParams()
+  appendDateRangeValue(params, name, filter.defaultValue)
+
+  return params.toString()
+}
+
+/**
+ * Creates and appends the daterange query string
+ * to an existing URLSearchParams
+ *
+ * @param {URLSearchParams} params
+ * @param {string} fieldName
+ * @param {string} defaultValue
+ */
+export const appendDateRangeValue = (params: URLSearchParams, fieldName: string, value: string) => {
+  const [start, end] = value
+    .split(' - ')
+    .map((v) => v.trim())
+    .filter(Boolean)
+
+  if (start) {
+    params.append(`filters.${fieldName}.start`, start)
   }
-  return param
+
+  if (end) {
+    params.append(`filters.${fieldName}.end`, end)
+  }
 }
 
 export default {
@@ -228,4 +251,5 @@ export default {
   mapRelativeValue,
   setDefaultValue,
   setFilterValueFromDefault,
+  appendDateRangeValue,
 }

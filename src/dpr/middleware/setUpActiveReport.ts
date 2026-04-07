@@ -1,11 +1,13 @@
 import type { Request, Response, RequestHandler } from 'express'
 import { Services } from '../types/Services'
 import { buildJourneyKey } from '../utils/sessionHelper'
-import { BookmarkService, DownloadPermissionService } from '../services'
+import { BookmarkService, DownloadPermissionService, ReportingService } from '../services'
 import { getRouteLocals } from '../utils/localsHelper'
-import { setNestedPath } from '../utils/urlHelper'
+import { extractParamsByPrefix, setNestedPath } from '../utils/urlHelper'
 import { LoadType } from '../types/UserReports'
 import { AcitveReportSessionData } from '../types/ActiveReportSession'
+import LocalsHelper from '../utils/localsHelper'
+import { getDefaultFiltersQueryString, getFields } from '../utils/definitionUtils'
 
 export const storeActiveReportSessionData =
   (services: Services, loadType: LoadType = LoadType.ASYNC): RequestHandler =>
@@ -50,6 +52,8 @@ export const storeActiveReportSessionData =
       }
     }
 
+    // console.log(JSON.stringify({ store }, null, 2))
+
     return next()
   }
 
@@ -67,19 +71,24 @@ const buildDataConfiguration = async (req: Request, res: Response, services: Ser
 
   const p = req.params as Record<string, string | string[] | undefined>
 
+  // -------------- Get static values -------------------
+  // - values that dont change during the active report journey
+
   const id = asString(p['id'])!
   const reportId = asString(p['reportId'])!
   const executionId = asString(p['executionId'])
   const tableId = asString(p['tableId'])
+  const definitionDefaults = await setUpDefaultsFromDefinition(req, res, services.reportingService)
 
-  // --- Fetch Dynamic Values ---------------------------------------------
+  // -------------- Fetch Dynamic Values -------------------
+  // values that are subject to change during the journey
 
   const reportIsBookmarked = await setUpBookmark(req, res, services.bookmarkService)
   const downloadEnabled = await setUpDownloadConfig(req, res, services.downloadPermissionService)
   const feedbackSubmissionFormPath = setupDownloadFeedbackPaths(req, res)
   const reportUrls = setUpReportUrls(req)
 
-  // --- Prepare Data Payloads --------------------------------------------
+  // -------------- Prepare Data Payloads -------------------
 
   const baseData: Partial<AcitveReportSessionData> = {
     id,
@@ -87,6 +96,7 @@ const buildDataConfiguration = async (req: Request, res: Response, services: Ser
     reportIsBookmarked,
     downloadEnabled,
     loadType,
+    ...definitionDefaults,
   }
 
   // Sync: these values never change → store them under baseKey
@@ -145,6 +155,7 @@ const setUpReportUrls = (req: Request) => {
   let currentReportPathname
   let currentReportSearch
   let currentReportUrl
+  let currentReportFiltersSearch
 
   if (req.originalUrl.includes('view-report')) {
     const url = new URL(req.originalUrl, `${req.protocol}://${req.get('host')}`)
@@ -153,10 +164,29 @@ const setUpReportUrls = (req: Request) => {
     currentReportUrl = req.originalUrl
   }
 
+  if (currentReportSearch) {
+    currentReportFiltersSearch = new URLSearchParams(extractParamsByPrefix(currentReportSearch, 'filters.')).toString()
+  }
+
   return {
     ...(currentReportPathname && { currentReportPathname }),
     ...(currentReportSearch && { currentReportSearch }),
     ...(currentReportUrl && { currentReportUrl }),
+    ...(currentReportFiltersSearch && { currentReportFiltersSearch }),
+  }
+}
+
+const setUpDefaultsFromDefinition = async (req: Request, res: Response, service: ReportingService) => {
+  const { reportId, id } = <{ id: string; reportId: string }>req.params
+  const { definitionsPath, dprUser } = LocalsHelper.getValues(res)
+  const { token } = dprUser
+
+  const definition = await service.getDefinition(token, reportId, id, definitionsPath)
+  const fields = getFields(definition)
+  const queryStrings = getDefaultFiltersQueryString(fields)
+
+  return {
+    ...queryStrings,
   }
 }
 

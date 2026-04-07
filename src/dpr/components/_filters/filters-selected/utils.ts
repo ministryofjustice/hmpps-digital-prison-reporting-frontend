@@ -12,8 +12,25 @@ import {
 import DateRangeFilterUtils from '../../_inputs/date-range/utils'
 import DateMapper from '../../../utils/DateMapper/DateMapper'
 import Dict = NodeJS.Dict
+export interface SelectedFilter {
+  text: string
+  displayValue: string
+  key: string
+  value: (string | DateRange)[]
+  disabled: boolean
+  constraints:
+    | {
+        key: string
+        value: string
+      }[]
+    | undefined
+  classes: string
+  attributes: {
+    'aria-label': string
+  }
+}
 
-export const getSelectedFilters = (filters: FilterValue[], prefix: string) => {
+export const getSelectedFilters = (filters: FilterValue[], prefix: string): SelectedFilter[] => {
   const emptyValues: (string | undefined | null)[] = [undefined, null, '']
 
   return filters

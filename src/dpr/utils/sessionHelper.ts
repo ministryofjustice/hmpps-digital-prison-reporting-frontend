@@ -37,6 +37,7 @@ export function getActiveJourneyValue<F extends keyof AcitveReportSessionData>(
   field: F,
 ): AcitveReportSessionData[F] | undefined {
   const store = req.session?.activeReport
+
   if (!store) return undefined
 
   logger.info('getActiveJourneyValue', keyParts, field)

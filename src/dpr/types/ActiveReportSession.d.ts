@@ -12,6 +12,9 @@ export interface AcitveReportSessionData {
   currentReportPathname?: string | undefined
   currentReportSearch?: string | undefined
   currentReportUrl?: string | undefined
+  currentReportFiltersSearch?: string | undefined
+  defaultFiltersSearch?: string | undefined
+  interactiveDefaultFiltersSearch?: string | undefined
 }
 
 export interface ActiveReportSession {

@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express'
 import { Services } from '../../../../../types/Services'
 import LocalsHelper from '../../../../../utils/localsHelper'
-import AsyncReportUtils from './utils'
+import { renderReport } from './utils'
 import ViewReportUtils from '../../utils'
 import ErrorHandler from '../../../../../utils/ErrorHandler/ErrorHandler'
 
@@ -18,9 +18,7 @@ class ViewAyncReportController {
   GET: RequestHandler = async (req, res, next) => {
     const { type, tableId } = <{ type: string; tableId: string }>req.params
     try {
-      const params = { req, res, services: this.services, next }
-      const renderData = await AsyncReportUtils.renderReport(params)
-
+      const renderData = await renderReport({ req, res, services: this.services, next })
       res.render(`dpr/routes/journeys/view-report/report`, {
         layoutPath: this.layoutPath,
         ...renderData,

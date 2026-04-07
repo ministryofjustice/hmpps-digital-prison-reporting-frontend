@@ -1,3 +1,9 @@
+import { appendDateRangeValue } from '../components/_inputs/date-range/utils'
+import {
+  appendGranularDateRangeValue,
+  resolveGranularDateRangeDefaults,
+} from '../components/_inputs/granular-date-range/utils'
+import { appendMultiSelectValues } from '../components/_inputs/multi-select/utils'
 import ReportingService from '../services/reportingService'
 import { components } from '../types/api'
 import { Template } from '../types/Templates'
@@ -63,6 +69,21 @@ export const getFields = (
   return definition.variant.specification?.fields || []
 }
 
+export const getFieldsWithFiltersFromDefinition = (
+  definition: components['schemas']['SingleVariantReportDefinition'],
+): components['schemas']['FieldDefinition'][] => {
+  const fields = getFields(definition)
+  return fields.filter((f) => f.filter !== undefined)
+}
+
+type FieldWithFilter = Omit<components['schemas']['FieldDefinition'], 'filter'> & {
+  filter: components['schemas']['FilterDefinition']
+}
+
+export const getFieldsWithFilters = (fields: components['schemas']['FieldDefinition'][]): FieldWithFilter[] => {
+  return fields.filter((f): f is FieldWithFilter => f.filter !== undefined)
+}
+
 export const getTemplate = (definition: components['schemas']['SingleVariantReportDefinition']): Template => {
   return definition.variant.specification?.template || 'list'
 }
@@ -111,6 +132,73 @@ export const getReportSummary = (
   definitionPath: string,
 ) => reportingService.getDefinitionSummary(token, reportId, definitionPath)
 
+// ---------------------------------------------------------------------------------------------
+
+export type DefaultFilterQueryStrings = Readonly<{
+  defaultFiltersSearch: string
+  interactiveDefaultFiltersSearch: string
+}>
+
+export const getDefaultFiltersQueryString = (
+  fields: components['schemas']['FieldDefinition'][],
+): DefaultFilterQueryStrings => {
+  const defaultParams = new URLSearchParams()
+  const interactiveParams = new URLSearchParams()
+
+  const fieldsWithFilters = getFieldsWithFilters(fields)
+
+  fieldsWithFilters.forEach((field) => {
+    const { interactive = false } = field.filter
+
+    appendFilterDefaults(interactive ? interactiveParams : defaultParams, field)
+  })
+
+  const buildQueryString = (params: URLSearchParams): string => {
+    const qs = params.toString()
+    return qs ? qs : ''
+  }
+
+  return {
+    defaultFiltersSearch: buildQueryString(defaultParams),
+    interactiveDefaultFiltersSearch: buildQueryString(interactiveParams),
+  }
+}
+
+const appendFilterDefaults = (params: URLSearchParams, field: FieldWithFilter) => {
+  const { name, filter } = field
+  const { type, defaultValue } = filter
+
+  if (!defaultValue) return
+
+  switch (type) {
+    case 'Radio':
+    case 'Select':
+    case 'text':
+    case 'date':
+    case 'autocomplete': {
+      params.append(`filters.${name}`, defaultValue)
+      break
+    }
+
+    case 'multiselect': {
+      appendMultiSelectValues(params, name, defaultValue)
+      break
+    }
+
+    case 'daterange': {
+      appendDateRangeValue(params, name, defaultValue)
+      break
+    }
+
+    case 'granulardaterange': {
+      const resolved = resolveGranularDateRangeDefaults(filter)
+      if (!resolved) break
+      appendGranularDateRangeValue(params, name, resolved)
+      break
+    }
+  }
+}
+
 export default {
   getCurrentVariantDefinition,
   getFieldDisplayName,
@@ -121,4 +209,5 @@ export default {
   getFilters,
   getReportSummary,
   hasInteractiveFilters,
+  getDefaultFiltersQueryString,
 }

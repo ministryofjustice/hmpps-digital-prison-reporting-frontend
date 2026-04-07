@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express'
 import { Services } from '../../../../../types/Services'
 import LocalsHelper from '../../../../../utils/localsHelper'
-import { renderReport } from './utils'
+import { renderReport } from './utils2'
 import ViewReportUtils from '../../utils'
 import ErrorHandler from '../../../../../utils/ErrorHandler/ErrorHandler'
 

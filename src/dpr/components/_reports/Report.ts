@@ -310,7 +310,6 @@ export default class Report {
       services: this.services,
       filtersType: FiltersType.INTERACTIVE,
     })
-    return {}
   }
 
   buildColumns = () => {
@@ -396,8 +395,6 @@ export default class Report {
     if (currentSearch) {
       filtersQuery = extractParamsByPrefix(currentSearch, 'filters.')
     }
-
-    console.log({ filtersQuery })
 
     const queryParams = {
       ...(sortColumn && { sortColumn }),

@@ -197,6 +197,9 @@ const appendFilterDefaults = (params: URLSearchParams, field: FieldWithFilter) =
       appendGranularDateRangeValue(params, name, resolved)
       break
     }
+
+    default:
+      break
   }
 }
 

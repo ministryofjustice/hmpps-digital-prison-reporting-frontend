@@ -29,7 +29,7 @@ import RequestedReportService from '../../../my-reports/requested-reports/servic
 import { setUpBookmark } from '../../../../../components/bookmark/utils'
 import { setUpDownload } from '../../../download-report/utils'
 import { getActiveJourneyValue } from '../../../../../utils/sessionHelper'
-import { extractParamsByPrefix } from 'src/dpr/utils/urlHelper'
+import { qsToQueryObject } from 'src/dpr/utils/urlHelper'
 
 export const getData = async ({
   res,
@@ -124,13 +124,13 @@ const initReportQuery = async (
   // Filters from query string
   // 1. Initialise the filters query to the defaults from the DPD
   const interactiveDefaultSearch = getActiveJourneyValue(req, { id, reportId }, 'interactiveDefaultFiltersSearch')
-  let filtersQuery = interactiveDefaultSearch ? extractParamsByPrefix(interactiveDefaultSearch, 'filters.') : {}
+  let filtersQuery = interactiveDefaultSearch ? qsToQueryObject(interactiveDefaultSearch, 'filters.') : {}
 
   // 2. Get the search params from the current report and use those if they are present
   const currentSearch = getActiveJourneyValue(req, { id, reportId, tableId }, 'currentReportFiltersSearch')
   console.log({ currentSearch })
   if (currentSearch) {
-    filtersQuery = extractParamsByPrefix(currentSearch, 'filters.')
+    filtersQuery = qsToQueryObject(currentSearch, 'filters.')
   }
 
   const queryParams = {

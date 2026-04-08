@@ -9,7 +9,7 @@ class Pagination extends DprQueryParamClass {
   initialise() {
     this.pageSizeSelect = document.getElementById('page-size-select')
 
-    this.initInputsFromQueryParams()
+    // this.initInputsFromQueryParams()
     this.initSelectEvent()
   }
 

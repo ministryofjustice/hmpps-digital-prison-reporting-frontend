@@ -22,6 +22,7 @@ export const renderReport = async ({ req, res, services }: AsyncReportUtilsParam
   // Create the report config
   const reportConfig = await new Report(services, res, req, definition, LoadType.ASYNC, requestData).build()
 
+  // Save the data to redis
   if (requestData && Object.keys(requestData).length) {
     UserReportsUtils.updateLastViewed({
       req,

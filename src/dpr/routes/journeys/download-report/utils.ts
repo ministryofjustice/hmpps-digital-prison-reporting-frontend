@@ -10,7 +10,7 @@ import logger from '../../../utils/logger'
 import { ExtractedDefinitionData, ExtractedRequestData } from '../view-report/async/report/types'
 import type { Columns } from '../../../components/_reports/report-heading/report-columns/report-columns-form/types'
 import { getActiveJourneyValue } from '../../../utils/sessionHelper'
-import { convertFilterQsToObject, extractParamsByPrefix } from '../../../utils/urlHelper'
+import { convertFilterQsToObject, qsToQueryObject } from '../../../utils/urlHelper'
 
 const streamDownloadAsyncData = async (args: {
   services: Services
@@ -95,7 +95,7 @@ export const downloadReport = async ({
     logger.info(`Initiating streaming...`)
     if (loadType === LoadType.SYNC) {
       const currentReportSearch = getActiveJourneyValue(req, { id, reportId }, 'currentReportSearch') || ''
-      const result = extractParamsByPrefix(currentReportSearch, 'filters.')
+      const result = qsToQueryObject(currentReportSearch, 'filters.')
       const queryParams = {
         ...streamDownloadQueryParams,
         ...result,
@@ -110,7 +110,7 @@ export const downloadReport = async ({
       })
     } else {
       const currentReportSearch = getActiveJourneyValue(req, { id, reportId, tableId }, 'currentReportSearch') || ''
-      const result = extractParamsByPrefix(currentReportSearch, 'filters.')
+      const result = qsToQueryObject(currentReportSearch, 'filters.')
       const queryParams = {
         ...streamDownloadQueryParams,
         ...result,

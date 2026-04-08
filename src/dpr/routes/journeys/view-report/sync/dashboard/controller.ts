@@ -32,7 +32,7 @@ class ViewSyncDashboardController {
   }
 
   applyFilters: RequestHandler = async (req, res, _next) => {
-    await ViewReportUtils.applyDashboardInteractiveQuery(req, res, this.services, 'filters')
+    await ViewReportUtils.applyDashboardInteractiveQuery(req, res, 'filters')
   }
 }
 

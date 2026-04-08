@@ -4,6 +4,7 @@ import LocalsHelper from '../../../../../utils/localsHelper'
 import { renderReport } from './utils2'
 import ViewReportUtils from '../../utils'
 import ErrorHandler from '../../../../../utils/ErrorHandler/ErrorHandler'
+import { LoadType } from 'src/dpr/types/UserReports'
 
 class ViewAyncReportController {
   layoutPath: string
@@ -42,11 +43,11 @@ class ViewAyncReportController {
   }
 
   applyFilters: RequestHandler = async (req, res, _next) => {
-    await ViewReportUtils.applyReportInteractiveQuery(req, res, this.services, 'filters')
+    await ViewReportUtils.applyReportInteractiveQuery(req, res, this.services, 'filters', LoadType.ASYNC)
   }
 
   applyColumns: RequestHandler = async (req, res, _next) => {
-    await ViewReportUtils.applyReportInteractiveQuery(req, res, this.services, 'columns')
+    await ViewReportUtils.applyReportInteractiveQuery(req, res, this.services, 'columns', LoadType.ASYNC)
   }
 }
 

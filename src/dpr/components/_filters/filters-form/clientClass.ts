@@ -25,8 +25,8 @@ class DprFiltersFormClass extends DprFormValidationClass {
   }
 
   initValues() {
-    this.initInputsFromQueryParams()
-    this.initQueryParamsFromInputs(this.mainForm.elements)
+    // this.initInputsFromQueryParams()
+    // this.initQueryParamsFromInputs(this.mainForm.elements)
     this.initInputEvents(this.mainForm.elements)
   }
 

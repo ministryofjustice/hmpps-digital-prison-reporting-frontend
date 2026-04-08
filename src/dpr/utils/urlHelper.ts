@@ -129,12 +129,44 @@ export const normalizeQueryStringArray = (
   return typeof queryParamValue === 'string' ? [queryParamValue] : undefined
 }
 
-export const extractParamsByPrefix = (qs: string, prefix: string): Record<string, string> =>
-  Array.from(new URLSearchParams(qs).entries())
+/**
+ * Converts a querystring to a query object
+ *
+ * @param {string} qs
+ * @param {string} prefix
+ * @return {*}  {(Record<string, string | string[]>)}
+ */
+export const qsToQueryObject = (qs: string, prefix: string): Record<string, string | string[]> => {
+  return Array.from(new URLSearchParams(qs).entries())
     .filter(([key]) => key.startsWith(prefix))
-    .reduce<Record<string, string>>((acc, [key, value]) => {
-      acc[key] = value
+    .reduce<Record<string, string | string[]>>((acc, [key, value]) => {
+      const existing = acc[key]
+
+      acc[key] = existing === undefined ? value : Array.isArray(existing) ? [...existing, value] : [existing, value]
+
       return acc
     }, {})
+}
+
+/**
+ * Converts a query obect back to a querystring
+ *
+ * @param {(Record<string, string | string[]>)} query
+ * @return {*}  {string}
+ */
+const DEFAULT_EXCLUDED_KEYS = new Set(['_csrf'])
+export const queryObjectToQs = (
+  source: Record<string, string | string[]>,
+  exclude: Set<string> = DEFAULT_EXCLUDED_KEYS,
+): string => {
+  return Object.entries(source)
+    .filter(([key]) => !exclude.has(key))
+    .flatMap(([key, value]) => (Array.isArray(value) ? value.map((v) => [key, v] as const) : [[key, value] as const]))
+    .reduce((params, [key, value]) => {
+      params.append(key, value)
+      return params
+    }, new URLSearchParams())
+    .toString()
+}
 
 export default createUrlForParameters

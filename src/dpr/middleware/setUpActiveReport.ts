@@ -3,7 +3,7 @@ import { Services } from '../types/Services'
 import { buildJourneyKey } from '../utils/sessionHelper'
 import { BookmarkService, DownloadPermissionService, ReportingService } from '../services'
 import { getRouteLocals } from '../utils/localsHelper'
-import { extractParamsByPrefix, setNestedPath } from '../utils/urlHelper'
+import { qsToQueryObject, setNestedPath } from '../utils/urlHelper'
 import { LoadType } from '../types/UserReports'
 import { AcitveReportSessionData } from '../types/ActiveReportSession'
 import LocalsHelper from '../utils/localsHelper'
@@ -165,7 +165,7 @@ const setUpReportUrls = (req: Request) => {
   }
 
   if (currentReportSearch) {
-    currentReportFiltersSearch = new URLSearchParams(extractParamsByPrefix(currentReportSearch, 'filters.')).toString()
+    currentReportFiltersSearch = new URLSearchParams(qsToQueryObject(currentReportSearch, 'filters.')).toString()
   }
 
   return {

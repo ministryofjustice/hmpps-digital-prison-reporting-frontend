@@ -34,7 +34,7 @@ import ReportFiltersUtils from '../_filters/utils'
 import { SelectedFilter } from '../_filters/filters-selected/utils'
 import ColumnUtils from './report-heading/report-columns/report-columns-form/utils'
 import { getChildData } from 'src/dpr/routes/journeys/view-report/async/report/utils'
-import { extractParamsByPrefix } from 'src/dpr/utils/urlHelper'
+import { qsToQueryObject } from 'src/dpr/utils/urlHelper'
 
 export default class Report {
   id: string
@@ -310,6 +310,8 @@ export default class Report {
       services: this.services,
       filtersType: FiltersType.INTERACTIVE,
     })
+
+    console.log(JSON.stringify(this.filterData.filters, null, 2))
   }
 
   buildColumns = () => {
@@ -384,7 +386,7 @@ export default class Report {
       { id: this.id, reportId: this.reportId },
       'interactiveDefaultFiltersSearch',
     )
-    let filtersQuery = interactiveDefaultSearch ? extractParamsByPrefix(interactiveDefaultSearch, 'filters.') : {}
+    let filtersQuery = interactiveDefaultSearch ? qsToQueryObject(interactiveDefaultSearch, 'filters.') : {}
 
     // 2. Get the search params from the current report and use those if they are present
     const currentSearch = getActiveJourneyValue(
@@ -393,7 +395,7 @@ export default class Report {
       'currentReportFiltersSearch',
     )
     if (currentSearch) {
-      filtersQuery = extractParamsByPrefix(currentSearch, 'filters.')
+      filtersQuery = qsToQueryObject(currentSearch, 'filters.')
     }
 
     const queryParams = {

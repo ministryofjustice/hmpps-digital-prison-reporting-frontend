@@ -12,8 +12,8 @@ class Columns extends DprQueryParamClass {
     this.submitButton = this.getElement().querySelector('.dpr-apply-columns-button')
     this.resetButton = this.getElement().querySelector('.dpr-reset-columns-button')
 
-    this.initInputsFromQueryParams()
-    this.initQueryParamsFromInputs(this.form.elements)
+    // this.initInputsFromQueryParams()
+    // this.initQueryParamsFromInputs(this.form.elements)
     this.initInputEvents(this.form.elements)
 
     this.initSubmitButton()

@@ -5,6 +5,7 @@ import SyncReportUtils from './utils'
 import { FiltersType } from '../../../../../components/_filters/filtersTypeEnum'
 import PersonalisationUtils from '../../../../../utils/Personalisation/personalisationUtils'
 import ViewReportUtils from '../../utils'
+import { LoadType } from 'src/dpr/types/UserReports'
 
 class ViewSyncReportController {
   layoutPath: string
@@ -61,11 +62,11 @@ class ViewSyncReportController {
   }
 
   applyFilters: RequestHandler = async (req, res, _next) => {
-    await ViewReportUtils.applyReportInteractiveQuery(req, res, this.services, 'filters')
+    await ViewReportUtils.applyReportInteractiveQuery(req, res, this.services, 'filters', LoadType.SYNC)
   }
 
   applyColumns: RequestHandler = async (req, res, _next) => {
-    await ViewReportUtils.applyReportInteractiveQuery(req, res, this.services, 'columns')
+    await ViewReportUtils.applyReportInteractiveQuery(req, res, this.services, 'columns', LoadType.SYNC)
   }
 }
 

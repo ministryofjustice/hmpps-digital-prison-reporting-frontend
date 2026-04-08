@@ -4,7 +4,7 @@ import LocalsHelper from '../../../../../utils/localsHelper'
 import { renderReport } from './utils2'
 import ViewReportUtils from '../../utils'
 import ErrorHandler from '../../../../../utils/ErrorHandler/ErrorHandler'
-import { LoadType } from 'src/dpr/types/UserReports'
+import { LoadType } from '../../../../../types/UserReports'
 
 class ViewAyncReportController {
   layoutPath: string

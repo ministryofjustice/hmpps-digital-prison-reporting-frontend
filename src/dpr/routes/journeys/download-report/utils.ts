@@ -10,7 +10,7 @@ import logger from '../../../utils/logger'
 import { ExtractedDefinitionData, ExtractedRequestData } from '../view-report/async/report/types'
 import type { Columns } from '../../../components/_reports/report-heading/report-columns/report-columns-form/types'
 import { getActiveJourneyValue } from '../../../utils/sessionHelper'
-import { convertFilterQsToObject, qsToQueryObject } from '../../../utils/urlHelper'
+import { qsToQueryObject } from '../../../utils/urlHelper'
 
 const streamDownloadAsyncData = async (args: {
   services: Services

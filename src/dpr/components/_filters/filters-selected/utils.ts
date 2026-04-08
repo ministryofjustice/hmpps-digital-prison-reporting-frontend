@@ -12,6 +12,7 @@ import {
 import DateRangeFilterUtils from '../../_inputs/date-range/utils'
 import DateMapper from '../../../utils/DateMapper/DateMapper'
 import Dict = NodeJS.Dict
+
 export interface SelectedFilter {
   text: string
   displayValue: string

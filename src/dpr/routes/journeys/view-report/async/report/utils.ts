@@ -29,7 +29,7 @@ import RequestedReportService from '../../../my-reports/requested-reports/servic
 import { setUpBookmark } from '../../../../../components/bookmark/utils'
 import { setUpDownload } from '../../../download-report/utils'
 import { getActiveJourneyValue } from '../../../../../utils/sessionHelper'
-import { qsToQueryObject } from 'src/dpr/utils/urlHelper'
+import { qsToQueryObject } from '../../../../../utils/urlHelper'
 
 export const getData = async ({
   res,

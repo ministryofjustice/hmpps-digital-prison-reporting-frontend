@@ -6,7 +6,7 @@ import { normalizeQueryStringArray } from '../../../../../utils/urlHelper'
 export const mandatoryColumns = (fields: Array<components['schemas']['FieldDefinition']>) =>
   fields.filter((field) => field.mandatory).map((field) => field.name)
 
-const visibleColumns = (fields: Array<components['schemas']['FieldDefinition']>) =>
+export const visibleColumns = (fields: Array<components['schemas']['FieldDefinition']>) =>
   fields.filter((field) => field.visible).map((field) => field.name)
 
 export const ensureMandatoryColumns = (

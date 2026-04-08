@@ -174,4 +174,24 @@ export const queryObjectToQs = (
     .toString()
 }
 
+/**
+ * Merges two sets of query strings
+ *
+ * @param {string} baseQs
+ * @param {string} overrideQs
+ * @return {*}  {string}
+ */
+export const mergeQueryStrings = (baseQs: string, overrideQs: string): string => {
+  const baseParams = new URLSearchParams(baseQs)
+  const overrideParams = new URLSearchParams(overrideQs)
+
+  Array.from(overrideParams.entries()).forEach(([key, value]) => {
+    baseParams.delete(key)
+    baseParams.append(key, value)
+  })
+
+  const result = baseParams.toString()
+  return result ? `${result}` : ''
+}
+
 export default createUrlForParameters

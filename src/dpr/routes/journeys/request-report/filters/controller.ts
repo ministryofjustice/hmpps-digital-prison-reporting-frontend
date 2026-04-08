@@ -5,6 +5,7 @@ import AysncRequestUtils from './utils'
 import PersonalisationUtils from '../../../../utils/Personalisation/personalisationUtils'
 import { FiltersType } from '../../../../components/_filters/filtersTypeEnum'
 import ErrorHandler from '../../../../utils/ErrorHandler/ErrorHandler'
+import { getActiveJourneyValue } from '../../../../utils/sessionHelper'
 
 class RequestReportController {
   layoutPath: string
@@ -16,17 +17,33 @@ class RequestReportController {
     this.services = services
   }
 
-  // Render request page
   GET: RequestHandler = async (req, res, next) => {
     try {
-      const requestRenderData = <RequestDataResult>await AysncRequestUtils.renderRequest({
+      const { id, reportId } = req.params as {
+        id: string
+        reportId: string
+      }
+
+      const defaultFiltersSearch = getActiveJourneyValue(req, { id, reportId }, 'defaultFiltersSearch')
+      const savedRequestDefaultsSearch = getActiveJourneyValue(req, { id, reportId }, 'savedRequestDefaultsSearch')
+      const effectiveQueryString =
+        savedRequestDefaultsSearch && savedRequestDefaultsSearch.length > 0
+          ? savedRequestDefaultsSearch
+          : defaultFiltersSearch
+
+      if (effectiveQueryString && Object.keys(req.query).length === 0) {
+        const baseUrl = req.originalUrl.split('?')[0].replace(/\/$/, '')
+        return res.redirect(`${baseUrl}?${effectiveQueryString}`)
+      }
+
+      const requestRenderData = (await AysncRequestUtils.renderRequest({
         req,
         res,
         services: this.services,
         next,
-      })
+      })) as RequestDataResult
 
-      res.render(`dpr/routes/journeys/request-report/filters/view`, {
+      return res.render('dpr/routes/journeys/request-report/filters/view', {
         layoutPath: this.layoutPath,
         ...requestRenderData,
       })
@@ -77,7 +94,7 @@ class RequestReportController {
   saveDefaultFilterValues: RequestHandler = async (req, res, next) => {
     try {
       await PersonalisationUtils.saveDefaults(FiltersType.REQUEST, res, req, this.services)
-      res.redirect(`${req.baseUrl}?defaultsSaved=true`)
+      res.redirect(req.baseUrl)
     } catch (error) {
       req.body = {
         title: 'Failed to save defaults',
@@ -90,8 +107,16 @@ class RequestReportController {
 
   removeDefaultFilterValues: RequestHandler = async (req, res, next) => {
     try {
+      const { id, reportId } = req.params as {
+        id: string
+        reportId: string
+      }
       await PersonalisationUtils.removeDefaults(FiltersType.REQUEST, res, req, this.services)
-      res.redirect(req.baseUrl)
+
+      const defaultFiltersSearch = getActiveJourneyValue(req, { id, reportId }, 'defaultFiltersSearch')
+      const defaultPath = defaultFiltersSearch ? `${req.baseUrl}?${defaultFiltersSearch}` : req.baseUrl
+
+      res.redirect(defaultPath)
     } catch (error) {
       req.body = {
         title: 'Failed to remove defaults',

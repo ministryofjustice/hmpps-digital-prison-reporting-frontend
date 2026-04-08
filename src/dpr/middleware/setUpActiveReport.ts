@@ -1,12 +1,14 @@
 import type { Request, Response, RequestHandler } from 'express'
 import { Services } from '../types/Services'
 import { buildJourneyKey } from '../utils/sessionHelper'
-import { BookmarkService, DownloadPermissionService, ReportingService } from '../services'
-import { qsToQueryObject, setNestedPath } from '../utils/urlHelper'
+import { BookmarkService, DefaultFilterValuesService, DownloadPermissionService, ReportingService } from '../services'
+import { qsToQueryObject, queryObjectToQs, setNestedPath } from '../utils/urlHelper'
 import { LoadType } from '../types/UserReports'
 import { AcitveReportSessionData } from '../types/ActiveReportSession'
 import LocalsHelper from '../utils/localsHelper'
-import { getDefaultFiltersQueryString, getFields } from '../utils/definitionUtils'
+import { getDefaultColumnsQueryString, getDefaultFiltersQueryString, getFields } from '../utils/definitionUtils'
+import { FiltersType } from '../components/_filters/filtersTypeEnum'
+import { createQsFromSavedDefaults } from '../utils/Personalisation/personalisationUtils'
 
 export const storeActiveReportSessionData =
   (services: Services, loadType: LoadType = LoadType.ASYNC): RequestHandler =>
@@ -51,7 +53,7 @@ export const storeActiveReportSessionData =
       }
     }
 
-    // console.log(JSON.stringify({ store }, null, 2))
+    console.log(JSON.stringify({ store }, null, 2))
 
     return next()
   }
@@ -86,6 +88,7 @@ const buildDataConfiguration = async (req: Request, res: Response, services: Ser
   const downloadEnabled = await setUpDownloadConfig(req, res, services.downloadPermissionService)
   const feedbackSubmissionFormPath = setupDownloadFeedbackPaths(req, res)
   const reportUrls = setUpReportUrls(req)
+  const savedDefaults = await setupSavedDefaults(req, res, services.defaultFilterValuesService)
 
   // -------------- Prepare Data Payloads -------------------
 
@@ -96,6 +99,7 @@ const buildDataConfiguration = async (req: Request, res: Response, services: Ser
     downloadEnabled,
     loadType,
     ...definitionDefaults,
+    ...savedDefaults,
   }
 
   // Sync: these values never change → store them under baseKey
@@ -164,7 +168,8 @@ const setUpReportUrls = (req: Request) => {
   }
 
   if (currentReportSearch) {
-    currentReportFiltersSearch = new URLSearchParams(qsToQueryObject(currentReportSearch, 'filters.').toString())
+    const qObj = qsToQueryObject(currentReportSearch, 'filters.')
+    currentReportFiltersSearch = queryObjectToQs(qObj)
   }
 
   return {
@@ -175,6 +180,14 @@ const setUpReportUrls = (req: Request) => {
   }
 }
 
+/**
+ * Sets up the default query strings from the definition
+ *
+ * @param {Request} req
+ * @param {Response} res
+ * @param {ReportingService} service
+ * @return {*}
+ */
 const setUpDefaultsFromDefinition = async (req: Request, res: Response, service: ReportingService) => {
   const { reportId, id } = <{ id: string; reportId: string }>req.params
   const { definitionsPath, dprUser } = LocalsHelper.getValues(res)
@@ -182,10 +195,12 @@ const setUpDefaultsFromDefinition = async (req: Request, res: Response, service:
 
   const definition = await service.getDefinition(token, reportId, id, definitionsPath)
   const fields = getFields(definition)
-  const queryStrings = getDefaultFiltersQueryString(fields)
+  const filtersQueryStrings = getDefaultFiltersQueryString(fields)
+  const columnsQueryString = getDefaultColumnsQueryString(fields)
 
   return {
-    ...queryStrings,
+    ...filtersQueryStrings,
+    defaultColumnsSearch: columnsQueryString,
   }
 }
 
@@ -250,4 +265,28 @@ const setupDownloadFeedbackPaths = (req: Request, res: Response) => {
   }
 
   return feedbackSubmissionFormPath
+}
+
+/**
+ * Sets up the saved defaults as query strings
+ *
+ * @param {Request} req
+ * @param {Response} res
+ * @param {DefaultFilterValuesService} service
+ * @return {*}
+ */
+const setupSavedDefaults = async (req: Request, res: Response, service: DefaultFilterValuesService) => {
+  const { reportId, id } = <{ id: string; reportId: string }>req.params
+  const userId = res.locals['dprUser'].id
+  const savedRequestFilterValues = await service.get(userId, reportId, id, FiltersType.REQUEST)
+  const savedInteractiveFilterValues = await service.get(userId, reportId, id, FiltersType.INTERACTIVE)
+
+  return {
+    ...(savedRequestFilterValues && {
+      savedRequestDefaultsSearch: createQsFromSavedDefaults(savedRequestFilterValues),
+    }),
+    ...(savedInteractiveFilterValues && {
+      savedInteractiveDefaultsSearch: createQsFromSavedDefaults(savedInteractiveFilterValues),
+    }),
+  }
 }

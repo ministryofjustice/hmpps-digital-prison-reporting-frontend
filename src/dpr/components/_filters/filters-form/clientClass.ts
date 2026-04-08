@@ -64,11 +64,14 @@ class DprFiltersFormClass extends DprFormValidationClass {
 
   resetAction() {
     if (this.defaultQuery) {
+      console.log(this.defaultQuery)
+
       const filters = this.defaultQuery.substring(1)
       const href = `${window.location.href}&${filters}`
-      window.location.href = href
+      // window.location.href = href
     } else {
-      window.location.reload()
+      console.log('no reload')
+      // window.location.reload()
     }
   }
 

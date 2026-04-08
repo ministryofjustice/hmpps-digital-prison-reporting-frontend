@@ -217,4 +217,46 @@ export const setUserContextDefaults = (res: Response, filters: FilterValue[]) =>
   return filters
 }
 
+/**
+ * Createa a query string from the saved defaults
+ *
+ * @param {defaultFilterValue[]} defaults
+ * @return {*}  {string}
+ */
+export const createQsFromSavedDefaults = (defaults: defaultFilterValue[]): string => {
+  return defaults
+    .flatMap(({ name, value }): Array<[string, string]> => {
+      const keyBase = `filters.${name}`
+
+      if (typeof value === 'string') {
+        return [[keyBase, value]]
+      }
+
+      if ('granularity' in value) {
+        return [
+          [`${keyBase}.start`, value.start],
+          [`${keyBase}.end`, value.end],
+          [`${keyBase}.granularity`, String(value.granularity)],
+          [`${keyBase}.quickFilter`, String(value.quickFilter)],
+        ]
+      }
+
+      const pairs: Array<[string, string]> = [
+        [`${keyBase}.start`, value.start],
+        [`${keyBase}.end`, value.end],
+      ]
+
+      if (value.relative !== undefined) {
+        pairs.push([`${keyBase}.relative`, value.relative])
+      }
+
+      return pairs
+    })
+    .reduce((params, [key, value]) => {
+      params.append(key, value)
+      return params
+    }, new URLSearchParams())
+    .toString()
+}
+
 export default { saveDefaults, removeDefaults, setFilterValuesFromSavedDefaults, setUserContextDefaults }

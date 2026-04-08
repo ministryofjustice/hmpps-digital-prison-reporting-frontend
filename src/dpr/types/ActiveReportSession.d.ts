@@ -14,7 +14,10 @@ export interface AcitveReportSessionData {
   currentReportUrl?: string | undefined
   currentReportFiltersSearch?: string | undefined
   defaultFiltersSearch?: string | undefined
+  defaultColumnsSearch?: string | undefined
   interactiveDefaultFiltersSearch?: string | undefined
+  savedRequestDefaultsSearch?: string | undefined
+  savedInteractiveDefaultsSearch?: string | undefined
 }
 
 export interface ActiveReportSession {

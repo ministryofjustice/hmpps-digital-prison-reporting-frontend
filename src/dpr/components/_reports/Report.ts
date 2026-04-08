@@ -331,8 +331,6 @@ export default class Report {
       services: this.services,
       filtersType: FiltersType.INTERACTIVE,
     })
-
-    console.log(JSON.stringify(this.filterData.filters, null, 2))
   }
 
   /**

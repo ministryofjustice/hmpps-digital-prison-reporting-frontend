@@ -1,3 +1,4 @@
+import { FilterType } from '../components/_filters/filter-input/enum'
 import { appendDateRangeValue } from '../components/_inputs/date-range/utils'
 import {
   appendGranularDateRangeValue,
@@ -170,27 +171,27 @@ const appendFilterDefaults = (params: URLSearchParams, field: FieldWithFilter) =
 
   if (!defaultValue) return
 
-  switch (type) {
-    case 'Radio':
-    case 'Select':
-    case 'text':
-    case 'date':
-    case 'autocomplete': {
+  switch (type.toLowerCase()) {
+    case FilterType.radio.toLowerCase():
+    case FilterType.select.toLowerCase():
+    case FilterType.text.toLowerCase():
+    case FilterType.date.toLowerCase():
+    case FilterType.autocomplete.toLowerCase(): {
       params.append(`filters.${name}`, defaultValue)
       break
     }
 
-    case 'multiselect': {
+    case FilterType.multiselect.toLowerCase(): {
       appendMultiSelectValues(params, name, defaultValue)
       break
     }
 
-    case 'daterange': {
+    case FilterType.dateRange.toLowerCase(): {
       appendDateRangeValue(params, name, defaultValue)
       break
     }
 
-    case 'granulardaterange': {
+    case FilterType.granularDateRange.toLowerCase(): {
       const resolved = resolveGranularDateRangeDefaults(filter)
       if (!resolved) break
       appendGranularDateRangeValue(params, name, resolved)

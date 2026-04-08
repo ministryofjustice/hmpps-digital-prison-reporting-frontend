@@ -29,7 +29,6 @@ import RequestedReportService from '../../../my-reports/requested-reports/servic
 import { setUpBookmark } from '../../../../../components/bookmark/utils'
 import { setUpDownload } from '../../../download-report/utils'
 import { getActiveJourneyValue } from '../../../../../utils/sessionHelper'
-import { qsToQueryObject } from '../../../../../utils/urlHelper'
 
 export const getData = async ({
   res,
@@ -97,7 +96,6 @@ const initReportQuery = async (
   services: Services,
   requestData?: RequestedReport,
 ) => {
-  const { id, tableId, reportId } = <{ id: string; variantId: string; tableId: string; reportId: string }>req.params
   const { definitionsPath } = LocalsHelper.getValues(res)
   const fields = definitionUtils.getFields(definition)
   const template = definitionUtils.getTemplate(definition)
@@ -119,19 +117,7 @@ const initReportQuery = async (
   const pageSize = req.query?.['pageSize']
 
   // Filters
-  // const filtersQuery = ReportFiltersUtils.setRequestQueryFromFilterValues(filtersData.filters)
-
-  // Filters from query string
-  // 1. Initialise the filters query to the defaults from the DPD
-  const interactiveDefaultSearch = getActiveJourneyValue(req, { id, reportId }, 'interactiveDefaultFiltersSearch')
-  let filtersQuery = interactiveDefaultSearch ? qsToQueryObject(interactiveDefaultSearch, 'filters.') : {}
-
-  // 2. Get the search params from the current report and use those if they are present
-  const currentSearch = getActiveJourneyValue(req, { id, reportId, tableId }, 'currentReportFiltersSearch')
-  console.log({ currentSearch })
-  if (currentSearch) {
-    filtersQuery = qsToQueryObject(currentSearch, 'filters.')
-  }
+  const filtersQuery = ReportFiltersUtils.setRequestQueryFromFilterValues(filtersData.filters)
 
   const queryParams = {
     ...(sortColumn && { sortColumn }),

@@ -2,7 +2,6 @@ import type { Request, Response, RequestHandler } from 'express'
 import { Services } from '../types/Services'
 import { buildJourneyKey } from '../utils/sessionHelper'
 import { BookmarkService, DownloadPermissionService, ReportingService } from '../services'
-import { getRouteLocals } from '../utils/localsHelper'
 import { qsToQueryObject, setNestedPath } from '../utils/urlHelper'
 import { LoadType } from '../types/UserReports'
 import { AcitveReportSessionData } from '../types/ActiveReportSession'
@@ -153,7 +152,7 @@ export const buildKeyVariants = (req: Request) => {
  */
 const setUpReportUrls = (req: Request) => {
   let currentReportPathname
-  let currentReportSearch
+  let currentReportSearch: string | undefined
   let currentReportUrl
   let currentReportFiltersSearch
 
@@ -165,7 +164,7 @@ const setUpReportUrls = (req: Request) => {
   }
 
   if (currentReportSearch) {
-    currentReportFiltersSearch = new URLSearchParams(qsToQueryObject(currentReportSearch, 'filters.')).toString()
+    currentReportFiltersSearch = new URLSearchParams(qsToQueryObject(currentReportSearch, 'filters.').toString())
   }
 
   return {
@@ -239,7 +238,7 @@ const setUpDownloadConfig = async (req: Request, res: Response, service: Downloa
  */
 const setupDownloadFeedbackPaths = (req: Request, res: Response) => {
   const { reportId, id, tableId } = <{ id: string; reportId: string; tableId: string }>req.params
-  const { nestedBaseUrl } = getRouteLocals(res)
+  const { nestedBaseUrl } = LocalsHelper.getRouteLocals(res)
 
   let feedbackSubmissionFormPath
   if (reportId && id) {

@@ -2,6 +2,20 @@ import { components } from 'src/dpr/types/api'
 import { Request, Response } from 'express'
 import parseUrl from 'parseurl'
 
+// Utils
+import { setUpBookmark } from '../bookmark/utils'
+import { setUpDownload } from 'src/dpr/routes/journeys/download-report/utils'
+import ReportActionsUtils from './report-heading/report-actions/utils'
+import { hasInteractiveFilters, getFields, getTemplate } from 'src/dpr/utils/definitionUtils'
+import PaginationUtils from './report-page/report-template/report-pagination/utils'
+import TotalsUtils from './report-page/report-template/report-totals/utils'
+import ReportTemplateUtils from './report-page/report-template/utils'
+import ReportFiltersUtils from '../_filters/utils'
+import { SelectedFilter } from '../_filters/filters-selected/utils'
+import ColumnUtils from './report-heading/report-columns/report-columns-form/utils'
+import { getChildData } from 'src/dpr/routes/journeys/view-report/async/report/utils'
+import { qsToQueryObject } from 'src/dpr/utils/urlHelper'
+
 // Types
 import { Services } from 'src/dpr/types/Services'
 import { AsyncSummary, LoadType, ReportType, RequestedReport } from 'src/dpr/types/UserReports'
@@ -22,31 +36,27 @@ import ReportQuery from 'src/dpr/types/ReportQuery'
 import { getActiveJourneyValue } from 'src/dpr/utils/sessionHelper'
 import LocalsHelper from 'src/dpr/utils/localsHelper'
 
-// Utils
-import { setUpBookmark } from '../bookmark/utils'
-import { setUpDownload } from 'src/dpr/routes/journeys/download-report/utils'
-import ReportActionsUtils from './report-heading/report-actions/utils'
-import { hasInteractiveFilters, getFields, getTemplate } from 'src/dpr/utils/definitionUtils'
-import PaginationUtils from './report-page/report-template/report-pagination/utils'
-import TotalsUtils from './report-page/report-template/report-totals/utils'
-import ReportTemplateUtils from './report-page/report-template/utils'
-import ReportFiltersUtils from '../_filters/utils'
-import { SelectedFilter } from '../_filters/filters-selected/utils'
-import ColumnUtils from './report-heading/report-columns/report-columns-form/utils'
-import { getChildData } from 'src/dpr/routes/journeys/view-report/async/report/utils'
-import { qsToQueryObject } from 'src/dpr/utils/urlHelper'
-
 export default class Report {
   id: string
+
   reportId: string
+
   tableId: string
+
   token: string
+
   variant: components['schemas']['VariantDefinition']
+
   specification: components['schemas']['Specification']
+
   reportData!: Record<string, string>[]
+
   childData!: ChildData[]
+
   summariesData!: AsyncSummary[]
+
   reportDetails!: ExtractedDefinitionData
+
   actions!: {
     actions: ReportAction[]
     downloadConfig: DownloadActionParams | undefined
@@ -58,17 +68,24 @@ export default class Report {
     }
     feedbackFormHref: string | undefined
   }
+
   columns!: Columns
+
   count!: number
+
   pagination!: Pagination
+
   totals!: string
+
   dataTable!: DataTable | ReportTemplateData
+
   filterData!: {
     filters: FilterValue[]
-    selectedFilters: SelectedFilter[] // todo
+    selectedFilters: SelectedFilter[]
     hasDefaults: boolean | undefined
     canSaveDefaults: boolean
   }
+
   reportQuery!: ReportQuery
 
   constructor(
@@ -302,6 +319,10 @@ export default class Report {
     }
   }
 
+  /**
+   * Build thee filters
+   *
+   */
   buildFilters = async () => {
     this.filterData = await ReportFiltersUtils.getFilters({
       fields: getFields(this.definition),
@@ -314,6 +335,10 @@ export default class Report {
     console.log(JSON.stringify(this.filterData.filters, null, 2))
   }
 
+  /**
+   * Build columns
+   *
+   */
   buildColumns = () => {
     this.columns = ColumnUtils.getColumns(this.specification, this.req)
   }

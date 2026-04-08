@@ -142,7 +142,13 @@ export const qsToQueryObject = (qs: string, prefix: string): Record<string, stri
     .reduce<Record<string, string | string[]>>((acc, [key, value]) => {
       const existing = acc[key]
 
-      acc[key] = existing === undefined ? value : Array.isArray(existing) ? [...existing, value] : [existing, value]
+      if (existing === undefined) {
+        acc[key] = value
+      } else if (Array.isArray(existing)) {
+        acc[key] = [...existing, value]
+      } else {
+        acc[key] = [existing, value]
+      }
 
       return acc
     }, {})

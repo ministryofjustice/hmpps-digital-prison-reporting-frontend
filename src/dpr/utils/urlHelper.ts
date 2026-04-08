@@ -109,7 +109,6 @@ export const setNestedPath = (url: string, baseUrl?: string) => {
  * @param value The raw query parameter value from req.query.
  * @returns An array of strings representing the normalized parameter.
  */
-
 export const normalizeQueryStringArray = (
   queryParamValue: string[] | string | Record<string, string> | undefined,
 ): string[] | undefined => {

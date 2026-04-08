@@ -4,37 +4,37 @@ import parseUrl from 'parseurl'
 
 // Utils
 import { setUpBookmark } from '../bookmark/utils'
-import { setUpDownload } from 'src/dpr/routes/journeys/download-report/utils'
+import { setUpDownload } from '../../routes/journeys/download-report/utils'
 import ReportActionsUtils from './report-heading/report-actions/utils'
-import { hasInteractiveFilters, getFields, getTemplate } from 'src/dpr/utils/definitionUtils'
+import { hasInteractiveFilters, getFields, getTemplate } from '../../utils/definitionUtils'
 import PaginationUtils from './report-page/report-template/report-pagination/utils'
 import TotalsUtils from './report-page/report-template/report-totals/utils'
 import ReportTemplateUtils from './report-page/report-template/utils'
 import ReportFiltersUtils from '../_filters/utils'
 import { SelectedFilter } from '../_filters/filters-selected/utils'
 import ColumnUtils from './report-heading/report-columns/report-columns-form/utils'
-import { getChildData } from 'src/dpr/routes/journeys/view-report/async/report/utils'
-import { qsToQueryObject } from 'src/dpr/utils/urlHelper'
+import { getChildData } from '../../routes/journeys/view-report/async/report/utils'
+import { qsToQueryObject } from '../../utils/urlHelper'
 
 // Types
-import { Services } from 'src/dpr/types/Services'
-import { AsyncSummary, LoadType, ReportType, RequestedReport } from 'src/dpr/types/UserReports'
-import { ExtractedDefinitionData, ExtractedRequestData } from 'src/dpr/routes/journeys/view-report/async/report/types'
+import { Services } from '../../types/Services'
+import { AsyncSummary, LoadType, ReportType, RequestedReport } from '../../types/UserReports'
+import { ExtractedDefinitionData, ExtractedRequestData } from '../../routes/journeys/view-report/async/report/types'
 import { Columns } from './report-heading/report-columns/report-columns-form/types'
 import { DownloadActionParams, ReportAction } from './report-heading/report-actions/types'
 import { Pagination } from './report-page/report-template/report-pagination/types'
-import { ReportTemplateData } from 'src/dpr/utils/TemplateBuilder/SectionedDataHelper/types'
-import { DataTable } from 'src/dpr/utils/DataTableBuilder/types'
+import { ReportTemplateData } from '../../utils/TemplateBuilder/SectionedDataHelper/types'
+import { DataTable } from '../../utils/DataTableBuilder/types'
 import { FiltersType } from '../_filters/filtersTypeEnum'
 import { FilterValue } from '../_filters/types'
-import { ChildData } from 'src/dpr/utils/TemplateBuilder/ParentChildDataBuilder/types'
+import { ChildData } from '../../utils/TemplateBuilder/ParentChildDataBuilder/types'
 
 // Classes
-import ReportQuery from 'src/dpr/types/ReportQuery'
+import ReportQuery from '../../types/ReportQuery'
 
 // Helpers
-import { getActiveJourneyValue } from 'src/dpr/utils/sessionHelper'
-import LocalsHelper from 'src/dpr/utils/localsHelper'
+import { getActiveJourneyValue } from '../../utils/sessionHelper'
+import LocalsHelper from '../../utils/localsHelper'
 
 export default class Report {
   id: string

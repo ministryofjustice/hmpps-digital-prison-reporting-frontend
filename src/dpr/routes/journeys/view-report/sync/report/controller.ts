@@ -5,7 +5,7 @@ import SyncReportUtils from './utils'
 import { FiltersType } from '../../../../../components/_filters/filtersTypeEnum'
 import PersonalisationUtils from '../../../../../utils/Personalisation/personalisationUtils'
 import ViewReportUtils from '../../utils'
-import { LoadType } from 'src/dpr/types/UserReports'
+import { LoadType } from '../../../../../types/UserReports'
 
 class ViewSyncReportController {
   layoutPath: string

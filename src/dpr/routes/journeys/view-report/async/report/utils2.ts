@@ -2,7 +2,7 @@ import { LoadType, RequestedReport } from 'src/dpr/types/UserReports'
 import Report from '../../../../../components/_reports/Report'
 import LocalsHelper from '../../../../../utils/localsHelper'
 import { AsyncReportUtilsParams } from '../../../../../types/AsyncReportUtils'
-import { components } from 'src/dpr/types/api'
+import { components } from '../../../../../types/api'
 import UserReportsUtils from '../../../../../components/user-reports/utils'
 
 export const renderReport = async ({ req, res, services }: AsyncReportUtilsParams) => {

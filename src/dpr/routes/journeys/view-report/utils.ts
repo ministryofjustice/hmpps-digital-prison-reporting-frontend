@@ -1,12 +1,12 @@
 import { Request, Response } from 'express'
-import { qsToQueryObject, normalizeQueryStringArray, queryObjectToQs } from 'src/dpr/utils/urlHelper'
+import { qsToQueryObject, normalizeQueryStringArray, queryObjectToQs } from '../../../utils/urlHelper'
 import { components } from '../../../types/api'
 import { Services } from '../../../types/Services'
 import LocalsHelper from '../../../utils/localsHelper'
 import ColumnsUtils from '../../../components/_reports/report-heading/report-columns/report-columns-form/utils'
-import { getActiveJourneyValue } from 'src/dpr/utils/sessionHelper'
-import { getFields } from 'src/dpr/utils/definitionUtils'
-import { LoadType } from 'src/dpr/types/UserReports'
+import { getActiveJourneyValue } from '../../../utils/sessionHelper'
+import { getFields } from '../../../utils/definitionUtils'
+import { LoadType } from '../../../types/UserReports'
 
 /**
  * Apply interactive query to a REPORT

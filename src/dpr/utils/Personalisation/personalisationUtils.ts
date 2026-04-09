@@ -1,4 +1,5 @@
 import { Request, Response } from 'express'
+import dayjs from 'dayjs'
 import { Services } from '../../types/Services'
 import localsHelper from '../localsHelper'
 import { ReportType } from '../../types/UserReports'
@@ -20,7 +21,6 @@ import {
 import { defaultFilterValue } from './types'
 import { FiltersType } from '../../components/_filters/filtersTypeEnum'
 import { getRequestParam } from '../indexedAccesHelper'
-import dayjs from 'dayjs'
 
 export const saveDefaults = async (type: FiltersType, res: Response, req: Request, services: Services) => {
   const defaultValuesForReport = await getDefaultValues(req, res, services, type)

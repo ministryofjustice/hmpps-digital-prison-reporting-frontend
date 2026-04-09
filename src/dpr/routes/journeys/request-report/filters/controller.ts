@@ -24,8 +24,9 @@ class RequestReportController {
         reportId: string
       }
 
-      const defaultFiltersSearch = getActiveJourneyValue(req, { id, reportId }, 'defaultFiltersSearch')
-      const savedRequestDefaultsSearch = getActiveJourneyValue(req, { id, reportId }, 'savedRequestDefaultsSearch')
+      const sessionKey = { id, reportId }
+      const defaultFiltersSearch = getActiveJourneyValue(req, sessionKey, 'defaultFiltersSearch')
+      const savedRequestDefaultsSearch = getActiveJourneyValue(req, sessionKey, 'savedRequestDefaultsSearch')
       const effectiveQueryString =
         savedRequestDefaultsSearch && savedRequestDefaultsSearch.length > 0
           ? savedRequestDefaultsSearch
@@ -53,7 +54,8 @@ class RequestReportController {
       req.body.title = 'Request failed'
       req.body.errorDescription = `Your ${req.params['type']} has failed to generate.`
       req.body.error = new ErrorHandler(error).formatError()
-      next(req.body.error)
+
+      return next(req.body.error)
     }
   }
 

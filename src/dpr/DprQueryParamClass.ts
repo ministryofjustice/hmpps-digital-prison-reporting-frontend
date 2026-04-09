@@ -20,8 +20,6 @@ class DprQueryParamClass extends DprClientClass {
         if (type === 'radio' || type === 'checkbox') {
           this.setMultiSelectValue(inputs, value)
         } else if (input.classList.contains('moj-js-datepicker-input')) {
-          console.log('------->', value)
-
           const formatted = dayjs(value, 'YYYY-MM-DD').format('DD/MM/YYYY')
           input.value = formatted !== 'Invalid Date' ? formatted : ''
         } else {

@@ -268,14 +268,13 @@ const getFilterData = async (
   req: Request,
   res: Response,
   fields: components['schemas']['FieldDefinition'][],
-  interactive: boolean,
   services: Services,
   userId: string,
 ) => {
   const { reportId, id } = req.params
 
   // 1. Get filters from definition with default values
-  let filtersData = <RenderFiltersReturnValue>await FiltersFormUtils.renderFilters(fields, interactive)
+  let filtersData = <RenderFiltersReturnValue>await FiltersFormUtils.renderFilters(fields)
 
   // 2. Update filter values with user context values. eg. establishmnent code
   filtersData.filters = PersonalistionUtils.setUserContextDefaults(res, filtersData.filters)
@@ -387,12 +386,11 @@ export const renderRequest = async ({
     let description
     let fields: components['schemas']['FieldDefinition'][] = []
     let sections
-    let interactive
     let filtersData
     let defaultFilterValues: defaultFilterValue[] = []
 
     if (type === ReportType.REPORT) {
-      ;({ name, reportName, description, fields, interactive } = await renderReportRequestData(
+      ;({ name, reportName, description, fields } = await renderReportRequestData(
         definition as components['schemas']['SingleVariantReportDefinition'],
       ))
     }
@@ -405,7 +403,7 @@ export const renderRequest = async ({
     }
 
     if (fields) {
-      const filterData = await getFilterData(req, res, fields, interactive || false, services, dprUser.id)
+      const filterData = await getFilterData(req, res, fields, services, dprUser.id)
       defaultFilterValues = filterData.defaultFilterValues || defaultFilterValues
       filtersData = filterData.filtersData
     }
@@ -423,6 +421,7 @@ export const renderRequest = async ({
       defaultsSaved,
       type: type as ReportType,
       saveDefaultsEnabled: res.locals['saveDefaultsEnabled'],
+      defaultQuery: `defaultQuery`,
     }
 
     return {

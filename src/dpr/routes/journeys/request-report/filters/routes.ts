@@ -9,6 +9,7 @@ export function routes({ layoutPath, services }: { layoutPath: string; services:
 
   router.get('/', controller.GET)
   router.post('/', controller.POST)
+  router.post('/resetFilters', controller.resetFilters)
   router.post('/save-defaults', controller.saveDefaultFilterValues)
   router.post('/remove-defaults', controller.removeDefaultFilterValues)
 

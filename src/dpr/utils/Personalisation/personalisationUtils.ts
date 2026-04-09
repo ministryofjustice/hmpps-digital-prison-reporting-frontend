@@ -20,6 +20,7 @@ import {
 import { defaultFilterValue } from './types'
 import { FiltersType } from '../../components/_filters/filtersTypeEnum'
 import { getRequestParam } from '../indexedAccesHelper'
+import dayjs from 'dayjs'
 
 export const saveDefaults = async (type: FiltersType, res: Response, req: Request, services: Services) => {
   const defaultValuesForReport = await getDefaultValues(req, res, services, type)
@@ -217,6 +218,13 @@ export const setUserContextDefaults = (res: Response, filters: FilterValue[]) =>
   return filters
 }
 
+// TODO move to correct spot?
+
+const formatToIsoDate = (value: string): string => {
+  const parsed = dayjs(value, ['D/M/YYYY', 'DD/MM/YYYY'], true)
+  return parsed.isValid() ? parsed.format('YYYY-MM-DD') : value
+}
+
 /**
  * Createa a query string from the saved defaults
  *
@@ -229,21 +237,21 @@ export const createQsFromSavedDefaults = (defaults: defaultFilterValue[]): strin
       const keyBase = `filters.${name}`
 
       if (typeof value === 'string') {
-        return [[keyBase, value]]
+        return [[keyBase, formatToIsoDate(value)]]
       }
 
       if ('granularity' in value) {
         return [
-          [`${keyBase}.start`, value.start],
-          [`${keyBase}.end`, value.end],
+          [`${keyBase}.start`, formatToIsoDate(value.start)],
+          [`${keyBase}.end`, formatToIsoDate(value.end)],
           [`${keyBase}.granularity`, String(value.granularity)],
           [`${keyBase}.quickFilter`, String(value.quickFilter)],
         ]
       }
 
       const pairs: Array<[string, string]> = [
-        [`${keyBase}.start`, value.start],
-        [`${keyBase}.end`, value.end],
+        [`${keyBase}.start`, formatToIsoDate(value.start)],
+        [`${keyBase}.end`, formatToIsoDate(value.end)],
       ]
 
       if (value.relative !== undefined) {

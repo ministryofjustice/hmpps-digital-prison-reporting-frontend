@@ -1,0 +1,9 @@
+
+{% from "../../../../_filters/filter-input/view.njk" import dprFilterInput %}
+
+{% macro dprAsyncFiltersFormFields(filters) %}
+  {%- for filter in filters %}
+    {{ dprFilterInput(filter, 'filters.') }}
+  {%- endfor %}
+  
+{% endmacro %}

@@ -34,6 +34,7 @@ export interface RequestReportData {
   hasDefaults: boolean
   defaultsSaved?: string
   saveDefaultsEnabled: boolean
+  defaultQuery?: string
 }
 
 export interface RequestDataResult {

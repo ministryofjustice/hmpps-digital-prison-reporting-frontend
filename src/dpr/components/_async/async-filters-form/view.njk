@@ -14,6 +14,7 @@
   {% set endpoint = args.endpoint %}
   {% set type = args.type %}
   {% set saveDefaultsEnabled = args.saveDefaultsEnabled %}
+  {% set defaultQuery = args.defaultFiltersSearch %}
 
   {% set reportId = data.reportId %}
   {% set id = data.id %}
@@ -31,6 +32,7 @@
   {% set interactive = data.interactive %}
 
   <div class="dpr-async-request-filters dpr-filters govuk-!-margin-top-4" data-dpr-module="async-filters">
+    defaultQuery: {{ defaultQuery }}
     <form 
       {% if endpoint %}
       action="{{ endpoint }}" 
@@ -81,7 +83,10 @@
             </div>
 
             <div class='dpr-request-selected-filters-container'>
-              {{ dprSelectedFilters() }}
+              {{ dprSelectedFilters([], { 
+                resetId: 'async-request-reset-filters-button',
+                defaultQuery: defaultQuery 
+              }) }}
             </div>
 
             {% if saveDefaultsEnabled %}

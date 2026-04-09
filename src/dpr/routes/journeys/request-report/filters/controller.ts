@@ -46,6 +46,7 @@ class RequestReportController {
       return res.render('dpr/routes/journeys/request-report/filters/view', {
         layoutPath: this.layoutPath,
         ...requestRenderData,
+        defaultFiltersSearch,
       })
     } catch (error) {
       req.body ??= {}
@@ -56,7 +57,6 @@ class RequestReportController {
     }
   }
 
-  // Request report
   POST: RequestHandler = async (req, res, next) => {
     try {
       const executionData = await AysncRequestUtils.request({
@@ -94,6 +94,7 @@ class RequestReportController {
   saveDefaultFilterValues: RequestHandler = async (req, res, next) => {
     try {
       await PersonalisationUtils.saveDefaults(FiltersType.REQUEST, res, req, this.services)
+
       res.redirect(req.baseUrl)
     } catch (error) {
       req.body = {
@@ -107,10 +108,7 @@ class RequestReportController {
 
   removeDefaultFilterValues: RequestHandler = async (req, res, next) => {
     try {
-      const { id, reportId } = req.params as {
-        id: string
-        reportId: string
-      }
+      const { id, reportId } = req.params as { id: string; reportId: string }
       await PersonalisationUtils.removeDefaults(FiltersType.REQUEST, res, req, this.services)
 
       const defaultFiltersSearch = getActiveJourneyValue(req, { id, reportId }, 'defaultFiltersSearch')
@@ -120,6 +118,30 @@ class RequestReportController {
     } catch (error) {
       req.body = {
         title: 'Failed to remove defaults',
+        error: new ErrorHandler(error).formatError(),
+        ...(req.body && { ...req.body }),
+      }
+      next(error)
+    }
+  }
+
+  /**
+   * Reset the form filters to default
+   *
+   * @param {*} req
+   * @param {*} res
+   * @param {*} next
+   */
+  resetFilters: RequestHandler = async (req, res, next) => {
+    try {
+      const { id, reportId } = req.params as { id: string; reportId: string }
+      const defaultFiltersSearch = getActiveJourneyValue(req, { id, reportId }, 'defaultFiltersSearch')
+      const defaultPath = defaultFiltersSearch ? `${req.baseUrl}?${defaultFiltersSearch}` : req.baseUrl
+
+      res.redirect(defaultPath)
+    } catch (error) {
+      req.body = {
+        title: 'Failed to reset filters',
         error: new ErrorHandler(error).formatError(),
         ...(req.body && { ...req.body }),
       }

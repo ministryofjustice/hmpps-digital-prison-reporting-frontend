@@ -53,8 +53,6 @@ export const storeActiveReportSessionData =
       }
     }
 
-    console.log(JSON.stringify({ store }, null, 2))
-
     return next()
   }
 
@@ -281,12 +279,16 @@ const setupSavedDefaults = async (req: Request, res: Response, service: DefaultF
   const savedRequestFilterValues = await service.get(userId, reportId, id, FiltersType.REQUEST)
   const savedInteractiveFilterValues = await service.get(userId, reportId, id, FiltersType.INTERACTIVE)
 
+  const savedRequestDefaultsSearch = savedRequestFilterValues
+    ? createQsFromSavedDefaults(savedRequestFilterValues)
+    : undefined
+
+  const savedInteractiveDefaultsSearch = savedInteractiveFilterValues
+    ? createQsFromSavedDefaults(savedInteractiveFilterValues)
+    : undefined
+
   return {
-    ...(savedRequestFilterValues && {
-      savedRequestDefaultsSearch: createQsFromSavedDefaults(savedRequestFilterValues),
-    }),
-    ...(savedInteractiveFilterValues && {
-      savedInteractiveDefaultsSearch: createQsFromSavedDefaults(savedInteractiveFilterValues),
-    }),
+    ...(savedRequestFilterValues && { savedRequestDefaultsSearch }),
+    ...(savedInteractiveDefaultsSearch && { savedInteractiveDefaultsSearch }),
   }
 }

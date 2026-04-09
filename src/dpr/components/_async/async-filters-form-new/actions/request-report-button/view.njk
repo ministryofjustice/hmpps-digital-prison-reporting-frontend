@@ -1,0 +1,8 @@
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% macro dprRequestReportButton(args) %}
+  {{ govukButton({
+    text: 'Request report',
+    classes: "govuk-button--primary"
+  }) }}
+{% endmacro %}

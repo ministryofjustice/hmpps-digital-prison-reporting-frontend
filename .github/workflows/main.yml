@@ -20,6 +20,9 @@ jobs:
           node-version: '24.x'
           cache: 'npm'
 
+      - name: SLSA - supply chain attack mitigation
+        uses: ministryofjustice/devsecops-actions/sca/slsa@e3c63a5986ea6e7d57d38b7f72e5b8cf08dc7020
+
       - run: npm run setup
 
       # ---- Artifact 1: Build using rpack ----
@@ -63,6 +66,9 @@ jobs:
           node-version: '24.x'
           cache: 'npm'
 
+      - name: SLSA - supply chain attack mitigation
+        uses: ministryofjustice/devsecops-actions/sca/slsa@e3c63a5986ea6e7d57d38b7f72e5b8cf08dc7020
+
       - run: npm run setup
 
       - uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131
@@ -96,7 +102,8 @@ jobs:
           node-version: '22.x'
           cache: 'npm'
 
-      - run: npm ci
+      - name: SLSA - supply chain attack mitigation
+        uses: ministryofjustice/devsecops-actions/sca/slsa@e3c63a5986ea6e7d57d38b7f72e5b8cf08dc7020
       - run: npm run setup
 
       - name: Clone mi-ui
@@ -219,6 +226,9 @@ jobs:
         with:
           node-version: '24.x'
           cache: 'npm'
+
+      - name: SLSA - supply chain attack mitigation
+        uses: ministryofjustice/devsecops-actions/sca/slsa@e3c63a5986ea6e7d57d38b7f72e5b8cf08dc7020
 
       # Download dist + node_modules (dpr-package-package)
       - uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131

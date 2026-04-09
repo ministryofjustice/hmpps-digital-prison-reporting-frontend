@@ -1,8 +1,8 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 
-{% macro dprRequestReportButton(args) %}
+{% macro dprRequestReportButton(type) %}
   {{ govukButton({
-    text: 'Request report',
+    text: 'Request ' + type,
     classes: "govuk-button--primary"
   }) }}
 {% endmacro %}

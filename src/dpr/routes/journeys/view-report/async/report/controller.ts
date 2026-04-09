@@ -5,7 +5,7 @@ import { renderReport } from './utils2'
 import ViewReportUtils from '../../utils'
 import ErrorHandler from '../../../../../utils/ErrorHandler/ErrorHandler'
 import { LoadType } from '../../../../../types/UserReports'
-import { getActiveJourneyValue } from 'src/dpr/utils/sessionHelper'
+import { getActiveJourneyValue } from '../../../../../utils/sessionHelper'
 
 class ViewAyncReportController {
   layoutPath: string
@@ -69,7 +69,7 @@ class ViewAyncReportController {
         next,
       })
 
-      res.render(`dpr/routes/journeys/view-report/report`, {
+      return res.render(`dpr/routes/journeys/view-report/report`, {
         layoutPath: this.layoutPath,
         ...renderData,
         defaultFiltersSearch,
@@ -93,7 +93,7 @@ class ViewAyncReportController {
         req.body.refreshLink = refreshLink
       }
 
-      next(error)
+      return next(error)
     }
   }
 

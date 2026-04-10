@@ -1,5 +1,11 @@
 Below you can find the changes included in each release.
 
+## 5.8.8
+
+- Add usage of slsa action - defend vs supply chain attacks
+- use min-release-age in npmrc
+- Replace unapproved action in publish GHA
+
 ## 5.8.5
 
 <<<<<<< HEAD

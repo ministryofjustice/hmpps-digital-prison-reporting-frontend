@@ -18,15 +18,15 @@ import ReportTypeFilter from './components/_catalogue/catalogue-filter-by-type/c
 import Pagination from './components/_reports/report-page/report-template/report-pagination/clientClass'
 import ReportActions from './components/_reports/report-heading/report-actions/clientClass'
 import DataTable from './components/_reports/report-page/report-template/report-section/report-data-table/clientClass'
-import Columns from './components/_reports/report-heading/report-columns/report-columns-form/clientClass'
 import DownloadMessage from './components/_reports/report-heading/report-download-message/clientClass'
 
 // Filters
-import InteractiveFilters from './components/_filters/filters-interactive/clientClass'
+import DprFiltersFormClass from './components/_async/async-filters-form/clientClass'
+import DprSelectedAsyncFilters from './components/_async/async-filters-form/actions/selected-filters/clientClass'
+import DprAppliedFilters from './components/_filters/filters-applied/clientClass'
 
 // Async
 import AsyncPolling from './components/_async/async-polling/clientClass'
-import AsyncFilters from './components/_async/async-filters-form/clientClass'
 
 // Sync
 import SyncLoading from './DprSyncLoading'
@@ -51,9 +51,6 @@ import MatrixChartVisualisation from './components/_charts/chart/heatmap/clientC
 // Dashboards
 import ScoreCard from './components/_dashboards/scorecard/clientClass'
 
-// Forms
-import GenericForm from './DprGenericFormClass'
-
 /**
  * Initialise all components
  *
@@ -65,9 +62,6 @@ function initAll() {
   const components = [
     Autocomplete,
     CardGroup,
-    Columns,
-    AsyncFilters,
-    InteractiveFilters,
     Pagination,
     DataTable,
     AsyncPolling,
@@ -89,8 +83,10 @@ function initAll() {
     DownloadMessage,
     SyncLoading,
     GranularDateRange,
-    GenericForm,
     MultiselectInput,
+    DprFiltersFormClass,
+    DprSelectedAsyncFilters,
+    DprAppliedFilters,
   ]
 
   dayjs.extend(customParse)

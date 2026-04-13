@@ -1,6 +1,8 @@
-{% from "dpr/components/_filters/filters-form/view.njk" import dprFiltersForm %}
-{% from "dpr/components/_filters/filters-selected/view.njk" import dprSelectedFilters %}
-{% from "dpr/components/_filters/fitlers-save-defaults/view.njk" import dprFiltersSaveDefaults %}
+{% from "../filters-form/view.njk" import dprFiltersForm %}
+{% from "../filters-selected/view.njk" import dprSelectedFilters %}
+{% from "../fitlers-save-defaults/view.njk" import dprFiltersSaveDefaults %}
+{% from "../filters-applied/view.njk" import dprAppliedFilters %}
+{% from "../filters-reset/view.njk" import dprFiltersFormReset %}
 {% from "govuk/components/details/macro.njk" import govukDetails %}
 
 {% macro dprInteractiveFilters(filterData, templateArgs) %}
@@ -12,33 +14,34 @@
 
   {% set reportType = templateArgs.reportType %}
   {% set prefix = templateArgs.prefix %}
-  {% set defaultQuery = templateArgs.defaultQuery %}
   {% set defaultsSaved = templateArgs.defaultsSaved %}
   {% set csrfToken = templateArgs.csrfToken %}
+  {% set validationErrors = templateArgs.validationErrors %}
+  {% set appliedFilters = templateArgs.appliedFilters %}
+  {% set returnUrl = templateArgs.returnUrl %}
 
   <div class='dpr-interactive-filters-section'>
-    {{ dprSelectedFilters(selectedFilters, { 
-      resetId: 'interactive-reset-filters-button',
-      defaultQuery: defaultQuery 
-    }) }}
+    {{ dprAppliedFilters(appliedFilters) }}
 
     {% if canSaveDefaults %}
       <div class='dpr-interactive-save-defaults-actions'>
+        {{ dprFiltersFormReset(reportType) }}
         {{ dprFiltersSaveDefaults('interactive-filters-form', './report', hasDefaults) }}
       </div>
     {% endif %}
 
+
     {% set filtersHtml %}
       <div class='dpr-interactive-filters'>
-        <div data-dpr-module="interactive-filters" class="dpr-filters sync-filters-form--hidden">
+        <div class="dpr-filters sync-filters-form--hidden">
           {{ dprFiltersForm({
             filters: filters, 
             prefix: prefix,
             formId: 'interactive-filters-form',
             submitId: 'interactive-apply-filters-button',
-            defaultQuery: defaultQuery,
             reportType: reportType,
-            csrfToken: csrfToken 
+            csrfToken: csrfToken,
+            validationErrors: validationErrors
           }) }}
         </div>
       </div>

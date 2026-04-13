@@ -6,14 +6,14 @@ import parseUrl from 'parseurl'
 import { setUpBookmark } from '../bookmark/utils'
 import { setUpDownload } from '../../routes/journeys/download-report/utils'
 import ReportActionsUtils from './report-heading/report-actions/utils'
-import { hasInteractiveFilters, getFields, getTemplate } from '../../utils/definitionUtils'
+import { hasInteractiveFilters, getFields, getTemplate, getFieldsWithFilters } from '../../utils/definitionUtils'
 import PaginationUtils from './report-page/report-template/report-pagination/utils'
 import TotalsUtils from './report-page/report-template/report-totals/utils'
 import ReportTemplateUtils from './report-page/report-template/utils'
 import ReportFiltersUtils from '../_filters/utils'
 import { SelectedFilter } from '../_filters/filters-selected/utils'
 import ColumnUtils from './report-heading/report-columns/report-columns-form/utils'
-import { getChildData } from '../../routes/journeys/view-report/async/report/utils'
+import { getChildData } from '../../routes/journeys/view-report/async/report/utils_OLD'
 import { qsToQueryObject } from '../../utils/urlHelper'
 
 // Types
@@ -35,6 +35,7 @@ import ReportQuery from '../../types/ReportQuery'
 // Helpers
 import { getActiveJourneyValue } from '../../utils/sessionHelper'
 import LocalsHelper from '../../utils/localsHelper'
+import { AppliedFilterChip, buildAppliedFilterChips } from '../_filters/filters-applied/utils'
 
 export default class Report {
   id: string
@@ -51,9 +52,9 @@ export default class Report {
 
   reportData!: Record<string, string>[]
 
-  childData!: ChildData[]
+  childData: ChildData[] = []
 
-  summariesData!: AsyncSummary[]
+  summariesData: AsyncSummary[] = []
 
   reportDetails!: ExtractedDefinitionData
 
@@ -88,13 +89,15 @@ export default class Report {
 
   reportQuery!: ReportQuery
 
+  appliedFilters!: AppliedFilterChip[]
+
   constructor(
     readonly services: Services,
     readonly res: Response,
     readonly req: Request,
     readonly definition: components['schemas']['SingleVariantReportDefinition'],
     readonly loadType: LoadType,
-    readonly requestData: RequestedReport | undefined,
+    readonly requestData?: RequestedReport | undefined,
   ) {
     // From locals
     this.token = res.locals['dprUser'].token
@@ -121,6 +124,7 @@ export default class Report {
     // Columns and filters
     this.buildColumns()
     await this.buildFilters()
+    this.buildAppliedFilters()
 
     // Data retrieval
     this.buildReportQuery()
@@ -136,6 +140,7 @@ export default class Report {
       renderData: {
         columns: this.columns,
         filterData: this.filterData,
+        appliedFilters: this.appliedFilters,
         count: this.count,
         ...reportMeta,
         ...this.actions,
@@ -152,18 +157,23 @@ export default class Report {
    *
    */
   getData = async () => {
-    await this.getSummariesData()
-    await this.getChildData()
+    if (this.loadType === LoadType.ASYNC) {
+      await this.getSummariesData()
+      await this.getChildData()
+    }
     await this.getReportData()
   }
 
   /**
    * Gets the report data
-   *
    */
   getReportData = async () => {
+    this.reportData = this.loadType === LoadType.SYNC ? await this.getSyncData() : await this.getAysncData()
+  }
+
+  private getAysncData = async () => {
     const reportQueryRecord = this.reportQuery.toRecordWithFilterPrefix(true)
-    this.reportData = await this.services.reportingService.getAsyncReport(
+    return await this.services.reportingService.getAsyncReport(
       this.token,
       this.reportId,
       this.id,
@@ -172,8 +182,19 @@ export default class Report {
     )
   }
 
+  private getSyncData = async () => {
+    const resourceName = this.variant.resourceName
+    const listWithWarnings = await this.services.reportingService.getListWithWarnings(
+      resourceName,
+      this.token,
+      this.reportQuery,
+    )
+    return listWithWarnings.data
+  }
+
   /**
    * Gets the summaries data for summary tables
+   * NOTE: Only available for Async
    *
    * @return {*}
    */
@@ -204,6 +225,7 @@ export default class Report {
 
   /**
    * Gets the child date for a parent child report
+   * NOTE: Only available for Async
    *
    */
   getChildData = async () => {
@@ -259,7 +281,7 @@ export default class Report {
     return {
       id: this.id,
       reportId: this.reportId,
-      tableId: this.tableId,
+      ...(this.tableId && { tableId: this.tableId }),
       loadType: this.loadType,
       csrfToken: this.res.locals['csrfToken'],
       type: ReportType.REPORT,
@@ -293,9 +315,13 @@ export default class Report {
    * - general actions
    */
   buildActions = () => {
-    const extractedRequestData = this.requestData ? this.extractDataFromRequest(this.requestData) : undefined
     const { tableId, reportId, id } = <{ id: string; tableId: string; reportId: string }>this.req.params
+    const extractedRequestData = this.requestData ? this.extractDataFromRequest(this.requestData) : undefined
+
+    // Setup bookmark
     const bookmarkConfig = setUpBookmark(this.res, this.req, this.services.bookmarkService)
+
+    // Setup download
     const downloadConfig = setUpDownload(
       this.res,
       this.req,
@@ -304,12 +330,13 @@ export default class Report {
       this.loadType,
       extractedRequestData,
     )
+
+    // Setup other actions
     const actions = ReportActionsUtils.setActions(this.reportDetails, downloadConfig, extractedRequestData)
-    const feedbackSubmissionFormPath = getActiveJourneyValue(
-      this.req,
-      { id, reportId, tableId },
-      'feedbackSubmissionFormPath',
-    )
+
+    // Get the feedback submission path
+    const sessionKey = this.loadType === LoadType.SYNC ? { id, reportId } : { id, reportId, tableId }
+    const feedbackSubmissionFormPath = getActiveJourneyValue(this.req, sessionKey, 'feedbackSubmissionFormPath')
 
     this.actions = {
       actions,
@@ -331,6 +358,21 @@ export default class Report {
       services: this.services,
       filtersType: FiltersType.INTERACTIVE,
     })
+  }
+
+  /**
+   * Builds the applied filters buttons
+   *
+   */
+  buildAppliedFilters = () => {
+    const sessionKey = { id: this.id, reportId: this.reportId, tableId: this.tableId }
+    const currentReportFiltersSearch = getActiveJourneyValue(this.req, sessionKey, 'currentReportFiltersSearch')
+
+    if (currentReportFiltersSearch) {
+      const query = qsToQueryObject(currentReportFiltersSearch, 'filters.')
+      const fields = getFieldsWithFilters(getFields(this.definition))
+      this.appliedFilters = buildAppliedFilterChips(query, fields)
+    }
   }
 
   /**

@@ -1,8 +1,6 @@
-{% from "govuk/components/button/macro.njk" import govukButton %}
-
-{% macro dprFiltersReset(args) %}
-  {% set resetId = args.resetId %}
-  {% set defaultQuery =  args.defaultQuery %}
-
-  <a id="{{ resetId }}" class="govuk-link govuk-link--no-visited-state dpr-reset-filters-button govuk-body-s" href="#" defaultQuery="{{ defaultQuery }}" >Reset filterss</a>
+{% macro dprFiltersFormReset(reportType) %}
+  {% set classes = 'dpr-clear-button-styles govuk-link govuk-link--no-visited-state govuk-!-margin-bottom-3' %}
+  <form method='post' action='./{{ reportType }}/reset-filters'>
+    <button class="{{ classes }}" type="submit">Reset filters</button>
+  </form>
 {% endmacro %}

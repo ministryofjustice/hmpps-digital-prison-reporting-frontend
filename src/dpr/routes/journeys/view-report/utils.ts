@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import { qsToQueryObject, normalizeQueryStringArray, queryObjectToQs } from '../../../utils/urlHelper'
+import { qsToQueryObject, normalizeQueryStringArray, queryObjectToQs, joinQueryStrings } from '../../../utils/urlHelper'
 import { components } from '../../../types/api'
 import { Services } from '../../../types/Services'
 import LocalsHelper from '../../../utils/localsHelper'
@@ -154,7 +154,107 @@ const applyFilters = (queryData: Record<string, string | string[]>, formData: Re
   return { ...formData, columns }
 }
 
+/**
+ * Creates the query string to reset the filters
+ *
+ * @param {Request} req
+ * @param {{ id: string; reportId: string; tableId?: string }} sessionKey
+ * @return {*}  {string}
+ */
+const resetFiltersQueryString = (
+  req: Request,
+  sessionKey: { id: string; reportId: string; tableId?: string },
+): string => {
+  const defaultSessionKey = { id: sessionKey.id, reportId: sessionKey.reportId }
+  const defaultFiltersSearch = getActiveJourneyValue(req, defaultSessionKey, 'interactiveDefaultFiltersSearch')
+
+  // Get all the current stuff
+  const currentColumnsSearch = getActiveJourneyValue(req, sessionKey, 'currentReportColumnsSearch')
+  const currentSortSearch = getActiveJourneyValue(req, sessionKey, 'currentSortSearch')
+  const currentPageSizeSearch = getActiveJourneyValue(req, sessionKey, 'currentPageSizeSearch')
+
+  // Create the final querystring
+  return joinQueryStrings(defaultFiltersSearch, currentColumnsSearch, currentSortSearch, currentPageSizeSearch)
+}
+
+/**
+ * Creates the query string to reset the columns
+ *
+ * @param {Request} req
+ * @param {{ id: string; reportId: string; tableId?: string }} sessionKey
+ * @return {*}  {string}
+ */
+const resetColumnsQueryString = (
+  req: Request,
+  sessionKey: { id: string; reportId: string; tableId?: string },
+): string => {
+  // get the default DPD filters
+  const defaultSessionKey = { id: sessionKey.id, reportId: sessionKey.reportId }
+  const defaultColumnsSearch = getActiveJourneyValue(req, defaultSessionKey, 'defaultColumnsSearch')
+
+  // Get all the current stuff
+  const currentReportFiltersSearch = getActiveJourneyValue(req, sessionKey, 'currentReportFiltersSearch')
+  const currentSortSearch = getActiveJourneyValue(req, sessionKey, 'currentSortSearch')
+  const currentPageSizeSearch = getActiveJourneyValue(req, sessionKey, 'currentPageSizeSearch')
+
+  // Create the final querystring
+  return joinQueryStrings(defaultColumnsSearch, currentReportFiltersSearch, currentSortSearch, currentPageSizeSearch)
+}
+
+/**
+ * Creates the default query string
+ *
+ * @param {Request} req
+ * @return {*}  {(string | undefined)}
+ */
+const createDefaultQueryString = (req: Request): string | undefined => {
+  const { id, reportId } = req.params as {
+    id: string
+    reportId: string
+  }
+
+  // Get the report defaults
+  const sessionKey = { id, reportId }
+  const defaultFiltersSearch = getActiveJourneyValue(req, sessionKey, 'interactiveDefaultFiltersSearch')
+  const defaultColumnsSearch = getActiveJourneyValue(req, sessionKey, 'defaultColumnsSearch')
+  const savedInteractiveDefaultsSearch = getActiveJourneyValue(req, sessionKey, 'savedInteractiveDefaultsSearch')
+
+  /**
+   * A report will always have default columns.
+   * Redirect when the request has no query params,
+   * applying default columns and optional filters.
+   */
+  const hasIncomingQueryParams = Object.keys(req.query).length > 0
+
+  let filtersToApply
+  if (!hasIncomingQueryParams && defaultColumnsSearch) {
+    filtersToApply = savedInteractiveDefaultsSearch?.length ? savedInteractiveDefaultsSearch : defaultFiltersSearch
+  }
+
+  return filtersToApply ? joinQueryStrings(defaultColumnsSearch, filtersToApply) : undefined
+}
+
+/**
+ * Redirects the report to use the defaults
+ *
+ * @param {Response} res
+ * @param {Request} req
+ * @return {*}
+ */
+const redirectWithDefaults = (res: Response, req: Request) => {
+  const finalQuery = createDefaultQueryString(req)
+  if (finalQuery) {
+    const baseUrl = req.originalUrl.split('?')[0].replace(/\/$/, '')
+    res.redirect(`${baseUrl}?${finalQuery}`)
+    return true
+  }
+  return false
+}
+
 export default {
   applyDashboardInteractiveQuery,
   applyReportInteractiveQuery,
+  resetFiltersQueryString,
+  resetColumnsQueryString,
+  redirectWithDefaults,
 }

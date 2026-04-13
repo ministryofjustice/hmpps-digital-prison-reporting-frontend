@@ -8,7 +8,7 @@
 
 {% from "govuk/components/details/macro.njk" import govukDetails %}
 
-{% macro dprReportHeading(reportData) %}
+{% macro dprReportHeading(reportData, validationErrors) %}
   {% set name = reportData.name %}
   {% set reportName = reportData.reportName %}
   {% set reportId = reportData.reportId %}
@@ -23,6 +23,7 @@
   {% set csrfToken = reportData.csrfToken %}
   {% set bookmarkConfig = reportData.bookmarkConfig %}
   {% set downloadConfig = reportData.downloadConfig %}
+  {% set appliedFilters = reportData.appliedFilters %}
 
   <div class="dpr-report-header">
     {% if actions or bookmarked is defined %}
@@ -80,7 +81,7 @@
         {{ dprReportColumns(columns, csrfToken) }}
       {% endif %}
 
-      {{ dprReportFilters(filterData, defaultQuery, csrfToken) }}
+      {{ dprReportFilters(filterData, validationErrors, appliedFilters, csrfToken) }}
     </div>
   </div>
 {% endmacro %}

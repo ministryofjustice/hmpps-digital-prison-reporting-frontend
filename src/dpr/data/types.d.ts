@@ -26,7 +26,7 @@ export interface Count {
 }
 
 export interface ListWithWarnings {
-  data: Array<Dict<string>>
+  data: Record<string, string>[]
   warnings: Warnings
 }
 

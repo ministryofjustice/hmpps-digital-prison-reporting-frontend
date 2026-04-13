@@ -2,18 +2,21 @@
 
 {% from "./report-print-message/view.njk" import dprReportPrintMessage %}
 {% from "./report-template/view.njk" import dprReportTemplate %}
+{% from "../../validation-summary/view.njk" import dprValidationSummary %}
 
-{% macro dprReportPage(renderData) %}
+{% macro dprReportPage(renderData, validationErrors) %}
   {% set printable = renderData.printable %}
   <div class="govuk-width-container">
     <div id="dpr-report-page" class="dpr-report-page govuk-width-container report-list-container">
+
+      {{ dprValidationSummary(validationErrors, 'There is a problem') }}
 
       <div class="dpr-report-print-message-container">
         {{ dprReportPrintMessage(printable) }}
       </div>
       
       <div class="dpr-report-page__heading-container">
-        {{ dprReportHeading(renderData) }}
+        {{ dprReportHeading(renderData, validationErrors) }}
       </div>
 
       <div class="dpr-report-page__template-container">

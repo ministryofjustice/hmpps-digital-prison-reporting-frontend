@@ -194,4 +194,44 @@ export const mergeQueryStrings = (baseQs: string, overrideQs: string): string =>
   return result ? `${result}` : ''
 }
 
+/**
+ * Joins two query strings together
+ *
+ * @param {(...Array<string | undefined>)} parts
+ * @return {*}
+ */
+export const joinQueryStrings = (...parts: Array<string | undefined>) => {
+  return parts
+    .filter((p): p is string => Boolean(p && p.length))
+    .map((p) => p.replace(/^\?/, ''))
+    .join('&')
+}
+
+/**
+ * Builds a query string from a form body
+ *
+ * @param {Record<string, unknown>} body
+ * @param {Set<string>} [exclude=new Set()]
+ * @return {*}  {string}
+ */
+export const formBodyToQs = (body: Record<string, unknown>, exclude: Set<string> = DEFAULT_EXCLUDED_KEYS): string => {
+  const params = new URLSearchParams()
+
+  Object.entries(body).forEach(([key, value]) => {
+    if (exclude.has(key)) return
+    if (value == null || value === '') return
+    // Multi-selects & repeated fields
+    if (Array.isArray(value)) {
+      value.forEach((v) => {
+        if (v != null && v !== '') {
+          params.append(key, String(v))
+        }
+      })
+      return
+    }
+    params.append(key, String(value))
+  })
+  return params.toString()
+}
+
 export default createUrlForParameters

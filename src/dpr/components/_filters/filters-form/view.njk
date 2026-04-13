@@ -1,6 +1,6 @@
 {% from "../filter-input/view.njk" import dprFilterInput %}
-{% from "../filters-actions/view.njk" import dprFiltersActions %}
 
+{% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 
 {% macro dprFiltersForm(args) %}
@@ -13,28 +13,22 @@
     {% set prefix = args.prefix | default("filters.", true) %}
     {% set defaultQuery = args.defaultQuery | default("", true) %}
     {% set reportType = args.reportType %}
+    {% set validationErrors = args.validationErrors %}
 
-    <form id="{{ formId }}" method="post" action="./{{ reportType }}/apply-filters">
+    <form method="POST" action="./{{ reportType }}/apply-filters" novalidate>
       <input type="hidden" name="_csrf" value="{{ csrfToken }}">
-
-      <div id="query-error-summary" class="query-error-summary query-error-summary--hidden">
-        {{ govukErrorSummary({
-          titleText: "There is a problem",
-          errorList: []
-        }) }}
-      </div>
 
       <div class="filter-form-container">
         <div class="filter-container">
           {%- for filter in filters %}
-            {{ dprFilterInput(filter, prefix) }}
+            {{ dprFilterInput(filter, validationErrors,  prefix) }}
           {%- endfor %}
         </div>
 
         <div class="filter-actions">
-          {{ dprFiltersActions({
-            submitText: "Apply filters",
-            submitId: submitId
+          {{ govukButton({
+            text: 'Apply filters',
+            classes: "govuk-button--primary"
           }) }}
         </div>
       </div>

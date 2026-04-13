@@ -1,11 +1,12 @@
 {% from "../../../_filters/filters-interactive/view.njk" import dprInteractiveFilters %}
 
-{% macro dprReportFilters(filterData, defaultQuery, csrfToken) %}
+{% macro dprReportFilters(filterData, validationErrors, appliedFilters, csrfToken) %}
     {% set templateArgs = {
-      defaultQuery: defaultQuery,
       reportType: 'report',
       hasDefaults: filterData.hasDefaults,
-      csrfToken: csrfToken
+      csrfToken: csrfToken,
+      validationErrors: validationErrors,
+      appliedFilters: appliedFilters
     }%}
     
     {% if filterData.filters.length %}

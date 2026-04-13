@@ -90,8 +90,8 @@ export const setValueFromRequest = (
   }
 
   const value = {
-    start: start || filter.min,
-    end: end || filter.max,
+    start: start,
+    end: end,
     ...(relative && !relativeDisabled && { relative }),
   } as DateRange
 

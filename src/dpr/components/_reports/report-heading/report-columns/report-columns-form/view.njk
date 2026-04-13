@@ -1,5 +1,6 @@
 {% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "../reset-columns/view.njk" import dprColumnsFormReset %}
 
 {% macro dprColumnsForm(columns, csrfToken) %}
   {% set items = columns.options %}
@@ -7,7 +8,7 @@
   {% set text = columns.text %}
   {% set values = columns.value %}
 
-  <form data-dpr-module="columns" class="dpr-columns-form" method="post" action="./report/apply-columns">
+  <form class="dpr-columns-form" method="post" action="./report/apply-columns">
     <input type="hidden" name="_csrf" value="{{ csrfToken }}">
     <div class="columns-container">
       {{ govukCheckboxes({
@@ -37,7 +38,7 @@
         classes: "govuk-button govuk-!-margin-bottom-0 dpr-apply-columns-button"
       }) }}
 
-      <a class="govuk-link govuk-link--no-visited-state dpr-reset-columns-button" href="#">Reset columns</a>
+      {{ dprColumnsFormReset() }}
     </div>
   </form>
 {% endmacro %}

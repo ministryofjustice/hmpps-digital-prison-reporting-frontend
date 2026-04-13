@@ -378,7 +378,6 @@ export const renderRequest = async ({
     const { reportId, type, id } = req.params
     const { definition } = res.locals
     const defaultsSaved = <string>req.query['defaultsSaved']
-
     const definitionApiArgs = { token, reportId: reportId as string, definitionPath, services }
 
     let name
@@ -421,7 +420,6 @@ export const renderRequest = async ({
       defaultsSaved,
       type: type as ReportType,
       saveDefaultsEnabled: res.locals['saveDefaultsEnabled'],
-      defaultQuery: `defaultQuery`,
     }
 
     return {

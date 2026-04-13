@@ -1,4 +1,4 @@
-import { RequestHandler } from 'express'
+import { RequestHandler, Request, Response } from 'express'
 import { Services } from '../../../../types/Services'
 import { RequestDataResult } from '../../../../types/AsyncReportUtils'
 import AysncRequestUtils from './utils'
@@ -24,19 +24,14 @@ class RequestReportController {
         reportId: string
       }
 
-      const sessionKey = { id, reportId }
-      const defaultFiltersSearch = getActiveJourneyValue(req, sessionKey, 'defaultFiltersSearch')
-      const savedRequestDefaultsSearch = getActiveJourneyValue(req, sessionKey, 'savedRequestDefaultsSearch')
-      const effectiveQueryString =
-        savedRequestDefaultsSearch && savedRequestDefaultsSearch.length > 0
-          ? savedRequestDefaultsSearch
-          : defaultFiltersSearch
-
-      if (effectiveQueryString && Object.keys(req.query).length === 0) {
-        const baseUrl = req.originalUrl.split('?')[0].replace(/\/$/, '')
-        return res.redirect(`${baseUrl}?${effectiveQueryString}`)
+      if (this.redirectWithDefaults(res, req)) {
+        return
       }
 
+      const sessionKey = { id, reportId }
+      const defaultFiltersSearch = getActiveJourneyValue(req, sessionKey, 'defaultFiltersSearch')
+
+      // Get config to render the filters
       const requestRenderData = (await AysncRequestUtils.renderRequest({
         req,
         res,
@@ -44,10 +39,15 @@ class RequestReportController {
         next,
       })) as RequestDataResult
 
+      // Get the validation errors
+      const validationErrors = res.locals['validationErrors'] || []
+
+      // Render the filters view
       return res.render('dpr/routes/journeys/request-report/filters/view', {
         layoutPath: this.layoutPath,
         ...requestRenderData,
         defaultFiltersSearch,
+        validationErrors,
       })
     } catch (error) {
       req.body ??= {}
@@ -149,6 +149,36 @@ class RequestReportController {
       }
       next(error)
     }
+  }
+
+  /**
+   * Ensures that the request will always contain the correct qs on first render
+   *
+   * @param {Response} res
+   * @param {Request} req
+   * @return {*}
+   */
+  redirectWithDefaults = (res: Response, req: Request) => {
+    const { id, reportId } = req.params as {
+      id: string
+      reportId: string
+    }
+    const sessionKey = { id, reportId }
+    const defaultFiltersSearch = getActiveJourneyValue(req, sessionKey, 'defaultFiltersSearch')
+    const savedRequestDefaultsSearch = getActiveJourneyValue(req, sessionKey, 'savedRequestDefaultsSearch')
+
+    // If DPD defaults, use those unless there are saved defaults
+    const effectiveQueryString =
+      savedRequestDefaultsSearch && savedRequestDefaultsSearch.length > 0
+        ? savedRequestDefaultsSearch
+        : defaultFiltersSearch
+
+    if (effectiveQueryString && Object.keys(req.query).length === 0) {
+      const baseUrl = req.originalUrl.split('?')[0].replace(/\/$/, '')
+      res.redirect(`${baseUrl}?${effectiveQueryString}`)
+      return true
+    }
+    return false
   }
 }
 

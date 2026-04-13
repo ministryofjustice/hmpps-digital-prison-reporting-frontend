@@ -164,7 +164,7 @@ export const setUpDownload = (
       definitionPath: definitionsPath,
       loadType,
       formAction: downloadActionEndpoint,
-      canDownload: downloadEnabled,
+      canDownload: Boolean(downloadEnabled),
       ...(sortColumn && { sortColumn }),
       ...(sortedAsc && { sortedAsc }),
       csrfToken,

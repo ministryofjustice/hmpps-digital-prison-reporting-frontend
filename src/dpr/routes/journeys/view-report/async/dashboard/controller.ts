@@ -4,6 +4,7 @@ import { Services } from '../../../../../types/Services'
 import LocalsHelper from '../../../../../utils/localsHelper'
 import DashboardUtils from './utils'
 import ViewReportUtils from '../../utils'
+import { LoadType } from '../../../../../types/UserReports'
 
 class ViewAsyncDashboardController {
   layoutPath: string
@@ -44,7 +45,7 @@ class ViewAsyncDashboardController {
   }
 
   applyFilters: RequestHandler = async (req, res, _next) => {
-    await ViewReportUtils.applyDashboardInteractiveQuery(req, res, 'filters')
+    await ViewReportUtils.applyDashboardInteractiveQuery(req, res, 'filters', LoadType.ASYNC)
   }
 }
 

@@ -110,6 +110,18 @@ export const getFields = (
 }
 
 /**
+ * Get all fields from a definition
+ *
+ * @param {components['schemas']['SingleVariantReportDefinition']} definition
+ * @return {*}  {components['schemas']['FieldDefinition'][]}
+ */
+export const getDashboardFields = (
+  definition: components['schemas']['DashboardDefinition'],
+): components['schemas']['FieldDefinition'][] => {
+  return definition.filterFields || []
+}
+
+/**
  * Gets only the fields that have filters, from the definition
  *
  * @param {components['schemas']['SingleVariantReportDefinition']} definition

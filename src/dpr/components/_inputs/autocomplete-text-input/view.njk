@@ -1,7 +1,7 @@
 {% from "govuk/components/input/macro.njk" import govukInput %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 
-{% macro dprAutocompleteTextInput(options) %}
+{% macro dprAutocompleteTextInput(options, validationErrors) %}
 
     {%  set listId = (options.id | replace(".", "")) + "-list" %}
 
@@ -15,9 +15,7 @@
             name: options.name,
             value: options.value,
             type: "search",
-            errorMessage: {
-                text: ""
-            } if options.mandatory,
+            errorMessage: validationErrors | dpr.findError(options.id),
             attributes: {
                 "aria-autocomplete": "list",
                 "aria-expanded": "false",

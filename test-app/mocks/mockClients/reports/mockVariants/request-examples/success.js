@@ -28,8 +28,8 @@ const requestExampleSuccess = {
             { name: 'value1.2', display: 'Value 1.2' },
             { name: 'value1.3', display: 'Value 1.3' },
           ],
-          defaultValue: 'value1.2',
-          mandatory: false,
+          // defaultValue: 'value1.2',
+          mandatory: true,
         },
       },
       {
@@ -50,7 +50,7 @@ const requestExampleSuccess = {
             { name: 'value2.2', display: 'Value 2.2' },
             { name: 'value2.3', display: 'Value 2.3' },
           ],
-          mandatory: false,
+          mandatory: true,
         },
       },
       {
@@ -95,7 +95,7 @@ const requestExampleSuccess = {
             { name: 'Princess Buttercup', display: 'Princess Buttercup' },
             { name: 'Westley', display: 'Westley' },
           ],
-          mandatory: false,
+          mandatory: true,
         },
       },
       {
@@ -115,7 +115,7 @@ const requestExampleSuccess = {
             minimumLength: 3,
             returnAsStaticOptions: false,
           },
-          mandatory: false,
+          mandatory: true,
         },
       },
       {
@@ -131,6 +131,7 @@ const requestExampleSuccess = {
         wordWrap: 'none',
         filter: {
           type: 'text',
+          mandatory: true,
         },
       },
       {
@@ -149,6 +150,7 @@ const requestExampleSuccess = {
           defaultValue: '2005-02-01',
           min: '2003-02-01',
           max: '2007-05-04',
+          mandatory: true,
         },
       },
       {
@@ -170,6 +172,7 @@ const requestExampleSuccess = {
             { name: 'value8.4', display: 'Value 8.4' },
           ],
           defaultValue: 'value8.2,value8.3',
+          mandatory: true,
         },
       },
     ],

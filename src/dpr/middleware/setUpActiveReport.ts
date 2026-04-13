@@ -157,6 +157,9 @@ const setUpReportUrls = (req: Request) => {
   let currentReportSearch: string | undefined
   let currentReportUrl
   let currentReportFiltersSearch
+  let currentReportColumnsSearch
+  let currentPageSizeSearch
+  let currentSortSearch
 
   if (req.originalUrl.includes('view-report')) {
     const url = new URL(req.originalUrl, `${req.protocol}://${req.get('host')}`)
@@ -165,16 +168,34 @@ const setUpReportUrls = (req: Request) => {
     currentReportUrl = req.originalUrl
   }
 
-  if (currentReportSearch) {
-    const qObj = qsToQueryObject(currentReportSearch, 'filters.')
-    currentReportFiltersSearch = queryObjectToQs(qObj)
+  if (currentReportSearch !== undefined) {
+    // Create the current filters string
+    const filterQueryObject = qsToQueryObject(currentReportSearch, 'filters.')
+    currentReportFiltersSearch = queryObjectToQs(filterQueryObject)
+
+    // Create the current columns string
+    const columnsQueryObject = qsToQueryObject(currentReportSearch, 'columns')
+    currentReportColumnsSearch = queryObjectToQs(columnsQueryObject)
+
+    // Create the current paging string
+    const pageSizeQueryObject = qsToQueryObject(currentReportSearch, 'pageSize')
+    currentPageSizeSearch = queryObjectToQs(pageSizeQueryObject)
+
+    // Create the current sort string
+    const pageSortQueryObject = qsToQueryObject(currentReportSearch, 'sort')
+    currentSortSearch = queryObjectToQs(pageSortQueryObject)
   }
+
+  console.log({ currentReportFiltersSearch, currentReportColumnsSearch, currentPageSizeSearch, currentSortSearch })
 
   return {
     ...(currentReportPathname && { currentReportPathname }),
-    ...(currentReportSearch && { currentReportSearch }),
+    ...(currentReportSearch !== undefined && { currentReportSearch }),
     ...(currentReportUrl && { currentReportUrl }),
-    ...(currentReportFiltersSearch && { currentReportFiltersSearch }),
+    ...(currentReportFiltersSearch !== undefined && { currentReportFiltersSearch }),
+    ...(currentReportColumnsSearch !== undefined && { currentReportColumnsSearch }),
+    ...(currentPageSizeSearch !== undefined && { currentPageSizeSearch }),
+    ...(currentSortSearch !== undefined && { currentSortSearch }),
   }
 }
 

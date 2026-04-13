@@ -1,6 +1,7 @@
 import { Result } from 'axe-core'
 import fs from 'fs'
 import { globSync } from 'glob'
+import DateMapper from 'src/dpr/utils/DateMapper/DateMapper'
 import { resetStubs, resetRedis, deleteStub } from './cypress-tests/mockApis/wiremock'
 import missingRequestStubs from './cypress-tests/mockApis/missingRequest'
 import reportingStubs from './cypress-tests/mockApis/reporting'
@@ -27,6 +28,9 @@ const config: Cypress.ConfigOptions = {
         ...missingRequestStubs,
         ...reportingStubs,
         ...dashboardStubs,
+        dateMapperToDateString(dateValue) {
+          return new DateMapper().toDateString(dateValue, 'iso')
+        },
         countFiles() {
           return fs.readdirSync(cfg.downloadsFolder).length
         },

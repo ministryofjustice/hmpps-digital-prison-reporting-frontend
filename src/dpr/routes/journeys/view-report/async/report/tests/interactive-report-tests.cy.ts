@@ -3,7 +3,6 @@ import {
   requestReport,
   executeReportStubs,
 } from '../../../../../../../../cypress-tests/cypressUtils'
-import DateMapper from '../../../../../../utils/DateMapper/DateMapper'
 
 context('Interactive report', () => {
   const path = '/'
@@ -126,12 +125,13 @@ context('Interactive report', () => {
             endValue = val
           })
 
-        const dateMapper = new DateMapper()
-        cy.location().should((location) => {
-          expect(location.search).to.contain(
-            `filters.field3.start=${dateMapper.toDateString(<string>startValue, 'iso')}`,
-          )
-          expect(location.search).to.contain(`filters.field3.end=${dateMapper.toDateString(<string>endValue, 'iso')}`)
+        cy.location().then((location) => {
+          cy.task('dateMapperToDateString', startValue).then((startDate) => {
+            expect(location.search).to.contain(`filters.field3.start=${startDate}`)
+          })
+          cy.task('dateMapperToDateString', endValue).then((endDate) => {
+            expect(location.search).to.contain(`filters.field3.end=${endDate}`)
+          })
           expect(location.search).to.contain(`filters.field3.relative-duration=tomorrow`)
         })
 

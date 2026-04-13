@@ -1,11 +1,11 @@
 import { Result } from 'axe-core'
 import fs from 'fs'
 import { globSync } from 'glob'
+import DateMapper from 'src/dpr/utils/DateMapper/DateMapper'
 import { resetStubs, resetRedis, deleteStub } from './cypress-tests/mockApis/wiremock'
 import missingRequestStubs from './cypress-tests/mockApis/missingRequest'
 import reportingStubs from './cypress-tests/mockApis/reporting'
 import dashboardStubs from './cypress-tests/mockApis/dashboards'
-import DateMapper from 'src/dpr/utils/DateMapper/DateMapper'
 
 const config: Cypress.ConfigOptions = {
   chromeWebSecurity: false,

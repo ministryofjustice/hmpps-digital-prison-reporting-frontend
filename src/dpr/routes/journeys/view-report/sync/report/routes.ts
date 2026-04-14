@@ -4,7 +4,7 @@ import ViewSyncReportController from './controller'
 import { Services } from '../../../../../types/Services'
 import { loadReportDefinition } from '../../../../../middleware/loadReportDefinition'
 import { validateFilters } from '../../../../../validation/validateFIlters'
-import { LoadType } from 'src/dpr/types/UserReports'
+import { LoadType } from '../../../../../types/UserReports'
 
 export function routes({ layoutPath, services }: { layoutPath: string; services: Services }): Router {
   const router = Router({ mergeParams: true })

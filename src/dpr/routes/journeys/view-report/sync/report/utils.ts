@@ -1,5 +1,5 @@
-import { LoadType, ReportType, RequestStatus } from '../../../../../types/UserReports'
 import type { Request } from 'express'
+import { LoadType, ReportType, RequestStatus } from '../../../../../types/UserReports'
 import Report from '../../../../../components/_reports/Report'
 import LocalsHelper from '../../../../../utils/localsHelper'
 import { AsyncReportUtilsParams } from '../../../../../types/AsyncReportUtils'

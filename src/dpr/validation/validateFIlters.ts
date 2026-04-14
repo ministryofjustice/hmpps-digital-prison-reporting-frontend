@@ -1,7 +1,7 @@
 import { RequestHandler, Request } from 'express'
 import { components } from '../types/api'
 import { getFields, getDashboardFields, getFieldsWithFilters } from '../utils/definitionUtils'
-import { buildFilterSchemaFromFields } from '../validation/buildFilterSchema'
+import { buildFilterSchemaFromFields } from './buildFilterSchema'
 import { extractFiltersFromBody } from '../utils/request/extractFiltersFromBody'
 import { formBodyToQs, joinQueryStrings } from '../utils/urlHelper'
 import { getActiveJourneyValue } from '../utils/sessionHelper'
@@ -82,6 +82,7 @@ export const validateFilters =
     }
 
     res.redirect(redirect)
+    return
   }
 
 /**

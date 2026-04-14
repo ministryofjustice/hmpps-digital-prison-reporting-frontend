@@ -2,8 +2,8 @@ import { Router } from 'express'
 import ViewAsyncReportController from './controller'
 import ViewReportController from '../controller'
 import { Services } from '../../../../../types/Services'
-import { loadReportDefinition } from 'src/dpr/middleware/loadReportDefinition'
-import { validateFilters } from 'src/dpr/validation/validateFIlters'
+import { loadReportDefinition } from '../../../../../middleware/loadReportDefinition'
+import { validateFilters } from '../../../../../validation/validateFIlters'
 
 export function routes({ layoutPath, services }: { layoutPath: string; services: Services }): Router {
   const router = Router({ mergeParams: true })

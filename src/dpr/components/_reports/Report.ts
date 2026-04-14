@@ -35,7 +35,7 @@ import ReportQuery from '../../types/ReportQuery'
 import { getActiveJourneyValue } from '../../utils/sessionHelper'
 import LocalsHelper from '../../utils/localsHelper'
 import { AppliedFilterChip, buildAppliedFilterChips } from '../_filters/filters-applied/utils'
-import { apiTimestampToUiDateTime } from 'src/dpr/utils/dateHelper'
+import { apiTimestampToUiDateTime } from '../../utils/dateHelper'
 
 export default class Report {
   id: string

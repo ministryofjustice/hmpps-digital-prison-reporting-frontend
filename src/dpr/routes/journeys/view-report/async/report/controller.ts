@@ -76,7 +76,7 @@ class ViewAyncReportController {
         req.body.refreshLink = refreshLink
       }
 
-      return next(error)
+      next(error)
     }
   }
 

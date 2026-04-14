@@ -43,7 +43,7 @@ class RequestReportController {
       const validationErrors = res.locals['validationErrors'] || []
 
       // Render the filters view
-      return res.render('dpr/routes/journeys/request-report/filters/view', {
+      res.render('dpr/routes/journeys/request-report/filters/view', {
         layoutPath: this.layoutPath,
         ...requestRenderData,
         defaultFiltersSearch,
@@ -55,7 +55,7 @@ class RequestReportController {
       req.body.errorDescription = `Your ${req.params['type']} has failed to generate.`
       req.body.error = new ErrorHandler(error).formatError()
 
-      return next(req.body.error)
+      next(req.body.error)
     }
   }
 

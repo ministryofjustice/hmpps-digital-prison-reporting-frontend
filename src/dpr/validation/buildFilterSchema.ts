@@ -8,11 +8,9 @@ type FieldDefinition = components['schemas']['FieldDefinition']
 export const buildFilterSchemaFromFields = (fields: FieldDefinition[]) => {
   const shape: Record<string, z.ZodTypeAny> = {}
 
-  const fieldsWithFilters = getFieldsWithFilters(fields)
-
-  for (const field of fieldsWithFilters) {
+  getFieldsWithFilters(fields).forEach((field) => {
     shape[field.name] = buildFilterValidator(field)
-  }
+  })
 
   return z.object(shape)
 }

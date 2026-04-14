@@ -6,19 +6,17 @@
  * @return {*}  {Record<string, unknown>}
  */
 export const extractFiltersFromBody = (body: Record<string, unknown>): Record<string, unknown> =>
-  Object.entries(body).reduce<Record<string, any>>((acc, [key, value]) => {
+  Object.entries(body).reduce<Record<string, unknown>>((acc, [key, value]) => {
     if (!key.startsWith('filters.')) return acc
 
     const path = key.replace('filters.', '').split('.')
-    let target = acc
+    const target = path.slice(0, -1).reduce<Record<string, unknown>>((current, segment) => {
+      if (typeof current[segment] !== 'object' || current[segment] === null) {
+        current[segment] = {}
+      }
+      return current[segment] as Record<string, unknown>
+    }, acc)
 
-    // handle field.something fields, like date.start & date.end
-    // result will be `field3: { start: '01/02/2003', end: '04/05/2006' }` for example
-    for (let i = 0; i < path.length - 1; i++) {
-      target[path[i]] ??= {}
-      target = target[path[i]]
-    }
     target[path[path.length - 1]] = value
-
     return acc
   }, {})

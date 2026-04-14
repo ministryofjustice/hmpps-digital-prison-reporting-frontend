@@ -5,7 +5,7 @@ import { Services } from '../../../../types/Services'
 
 // middleware
 import { loadReportDefinition } from '../../../../middleware/loadReportDefinition'
-import { validateFilters } from 'src/dpr/validation/validateFIlters'
+import { validateFilters } from '../../../../validation/validateFIlters'
 
 export function routes({ layoutPath, services }: { layoutPath: string; services: Services }): Router {
   const router = Router({ mergeParams: true })

@@ -167,6 +167,13 @@ const resetFiltersQueryString = (
 ): string => {
   const defaultSessionKey = { id: sessionKey.id, reportId: sessionKey.reportId }
   const defaultFiltersSearch = getActiveJourneyValue(req, defaultSessionKey, 'interactiveDefaultFiltersSearch')
+  const savedInteractiveDefaultsSearch = getActiveJourneyValue(req, defaultSessionKey, 'savedInteractiveDefaultsSearch')
+
+  // Set the effective qs: if saved defaults, use those. Otherwise use DPD defaults
+  const effectiveQueryString =
+    savedInteractiveDefaultsSearch && savedInteractiveDefaultsSearch.length
+      ? savedInteractiveDefaultsSearch
+      : defaultFiltersSearch
 
   // Get all the current stuff
   const currentColumnsSearch = getActiveJourneyValue(req, sessionKey, 'currentReportColumnsSearch')
@@ -174,7 +181,7 @@ const resetFiltersQueryString = (
   const currentPageSizeSearch = getActiveJourneyValue(req, sessionKey, 'currentPageSizeSearch')
 
   // Create the final querystring
-  return joinQueryStrings(defaultFiltersSearch, currentColumnsSearch, currentSortSearch, currentPageSizeSearch)
+  return joinQueryStrings(effectiveQueryString, currentColumnsSearch, currentSortSearch, currentPageSizeSearch)
 }
 
 /**
@@ -211,6 +218,7 @@ const createDefaultQueryString = (req: Request): string | undefined => {
   const { id, reportId } = req.params as {
     id: string
     reportId: string
+    tableId: string
   }
 
   // Get the report defaults
@@ -228,7 +236,10 @@ const createDefaultQueryString = (req: Request): string | undefined => {
 
   let filtersToApply
   if (!hasIncomingQueryParams && defaultColumnsSearch) {
-    filtersToApply = savedInteractiveDefaultsSearch?.length ? savedInteractiveDefaultsSearch : defaultFiltersSearch
+    filtersToApply =
+      savedInteractiveDefaultsSearch && savedInteractiveDefaultsSearch?.length
+        ? savedInteractiveDefaultsSearch
+        : defaultFiltersSearch
   }
 
   return filtersToApply ? joinQueryStrings(defaultColumnsSearch, filtersToApply) : undefined

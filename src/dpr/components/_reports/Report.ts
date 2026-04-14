@@ -13,7 +13,6 @@ import ReportTemplateUtils from './report-page/report-template/utils'
 import ReportFiltersUtils from '../_filters/utils'
 import { SelectedFilter } from '../_filters/filters-selected/utils'
 import ColumnUtils from './report-heading/report-columns/report-columns-form/utils'
-import { getChildData } from '../../routes/journeys/view-report/async/report/utils_OLD'
 import { qsToQueryObject } from '../../utils/urlHelper'
 
 // Types

@@ -1,6 +1,5 @@
 {% extends layoutPath %}
 
-{# {% from "../../../../components/_async/async-filters-form/view.njk" import dprAsyncFiltersForm %}  #}
 {% from "../../../../components/_async/async-filters-form/view.njk" import dprAsyncFiltersForm %} 
 {% from "../../../../components/_filters/filters-help/view.njk" import dprFiltersHelp %}
 {% from "../../../../components/_async/request-details/view.njk" import dprRequestDetails %}
@@ -27,7 +26,7 @@
   }) }}
 
   {{ dprFiltersHelp(saveDefaultsEnabled) }}
- 
+  
   {{ dprAsyncFiltersForm({ 
     filters: filtersData.filters,
     selectedFilters: selectedFilters, 

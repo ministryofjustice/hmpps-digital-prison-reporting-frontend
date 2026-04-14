@@ -136,10 +136,8 @@ class RequestReportController {
    */
   resetFilters: RequestHandler = async (req, res, next) => {
     try {
-      const { id, reportId } = req.params as { id: string; reportId: string }
-      const defaultFiltersSearch = getActiveJourneyValue(req, { id, reportId }, 'defaultFiltersSearch')
-      const defaultPath = defaultFiltersSearch ? `${req.baseUrl}?${defaultFiltersSearch}` : req.baseUrl
-
+      const effectiveQueryString = this.setDefaultQueryString(req)
+      const defaultPath = effectiveQueryString ? `${req.baseUrl}?${effectiveQueryString}` : req.baseUrl
       res.redirect(defaultPath)
     } catch (error) {
       req.body = {
@@ -159,6 +157,16 @@ class RequestReportController {
    * @return {*}
    */
   redirectWithDefaults = (res: Response, req: Request) => {
+    const effectiveQueryString = this.setDefaultQueryString(req)
+    if (effectiveQueryString && Object.keys(req.query).length === 0) {
+      const baseUrl = req.originalUrl.split('?')[0].replace(/\/$/, '')
+      res.redirect(`${baseUrl}?${effectiveQueryString}`)
+      return true
+    }
+    return false
+  }
+
+  setDefaultQueryString = (req: Request) => {
     const { id, reportId } = req.params as {
       id: string
       reportId: string
@@ -173,12 +181,7 @@ class RequestReportController {
         ? savedRequestDefaultsSearch
         : defaultFiltersSearch
 
-    if (effectiveQueryString && Object.keys(req.query).length === 0) {
-      const baseUrl = req.originalUrl.split('?')[0].replace(/\/$/, '')
-      res.redirect(`${baseUrl}?${effectiveQueryString}`)
-      return true
-    }
-    return false
+    return effectiveQueryString
   }
 }
 

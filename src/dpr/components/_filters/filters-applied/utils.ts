@@ -70,8 +70,8 @@ function buildChipForField(field: FieldDefinition, query: QueryParams): AppliedF
  * - Missing bounds rendered as 'unset'
  */
 function buildDateRangeChip(field: FieldDefinition, baseKey: string, query: QueryParams): AppliedFilterChip | null {
-  const start = query[`${baseKey}.start`]
-  const end = query[`${baseKey}.end`]
+  const start = query[`${baseKey}.start`] as string | undefined
+  const end = query[`${baseKey}.end`] as string | undefined
 
   if (!start && !end) return null
 
@@ -97,8 +97,8 @@ function buildGranularDateRangeChip(
 ): AppliedFilterChip | null {
   const quick = query[`${baseKey}.quick-filter`]
   const granularity = query[`${baseKey}.granularity`]
-  const start = query[`${baseKey}.start`]
-  const end = query[`${baseKey}.end`]
+  const start = query[`${baseKey}.start`] as string | undefined
+  const end = query[`${baseKey}.end`] as string | undefined
 
   if (!quick && !start && !end) return null
 
@@ -173,9 +173,10 @@ function getDisplayLabel(filter: FilterDefinition, value: string): string {
   return staticOption?.display ?? value
 }
 
-function formatDateOrUnset(value?: string | string[]): string {
+function formatDateOrUnset(value?: string): string {
   if (!value) return 'unset'
-  return dayjs(String(value)).format('DD/MM/YYYY')
+  const parsed = dayjs(value, ['D/M/YYYY', 'DD/MM/YYYY', 'YYYY-MM-DD'], true)
+  return parsed.isValid() ? parsed.format('DD/MM/YYYY') : 'unset'
 }
 
 function humanise(value: string | string[]): string {

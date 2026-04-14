@@ -299,7 +299,8 @@ export class DprSelectedAsyncFilters extends DprClientClass {
 
   private formatDateOrUnset(value?: string): string {
     if (!value) return 'unset'
-    return dayjs(value).format('DD/MM/YYYY')
+    const parsed = dayjs(value, ['D/M/YYYY', 'DD/MM/YYYY'], true)
+    return parsed.isValid() ? parsed.format('DD/MM/YYYY') : 'unset'
   }
 
   private humanise(value: string): string {

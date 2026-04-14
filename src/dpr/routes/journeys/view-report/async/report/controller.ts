@@ -85,8 +85,6 @@ class ViewAyncReportController {
   // -----------------------------
 
   applyFilters: RequestHandler = async (req, res, _next) => {
-    console.log('applyFilters applyFilters applyFilters applyFilters applyFilters applyFilters')
-
     await ViewReportUtils.applyReportInteractiveQuery(req, res, this.services, 'filters', LoadType.ASYNC)
   }
 

@@ -3,8 +3,9 @@
 {% from "./fields/hidden-fields/view.njk" import dprAsyncFiltersFormHiddenFields %}
 {% from "./actions/request-report-button/view.njk" import dprRequestReportButton %}
 {% from "./actions/reset-form-button/view.njk" import dprFiltersFormReset %}
-{% from "./actions/save-defaults/view.njk" import dprFiltersSaveDefaults %}
 {% from "./actions/selected-filters/view.njk" import dprSelectedFilters %}
+{% from "./actions/save-defaults/view.njk" import dprAsyncFiltersSaveDefaults %}
+
 {% from "../../validation-summary/view.njk" import dprValidationSummary %}
 
 {% macro dprAsyncFiltersForm(args) %}
@@ -12,6 +13,7 @@
   {% set sortBy = args.sortBy %}
   {% set validationErrors = args.validationErrors %}
   {% set type = args.type %}
+  {% set data = args.data %}
   {% set hasDefaults = data.hasDefaults %}
 
   {{ dprValidationSummary(validationErrors, 'There is a problem') }}
@@ -39,7 +41,7 @@
 
           <div class='dpr-request-save-filters-container'>
             {{ dprFiltersFormReset() }}
-            {{ dprFiltersSaveDefaults('./filters', hasDefaults) }}
+            {{ dprAsyncFiltersSaveDefaults('./filters', hasDefaults) }}
           </div>
 
           <div class="filter-container">

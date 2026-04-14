@@ -289,6 +289,7 @@ const getFilterData = async (
       FiltersType.REQUEST,
     )
   }
+
   if (defaultFilterValues) {
     filtersData = PersonalistionUtils.setFilterValuesFromSavedDefaults(
       filtersData.filters,

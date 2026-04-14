@@ -60,6 +60,7 @@ class DefaultFilterValuesService extends ReportStoreService {
     const defaultConfig = userConfig.defaultFilters?.find((defaultFilter) => {
       return defaultFilter.id === id && defaultFilter.reportId === reportId
     })
+
     if (!defaultConfig) {
       return undefined
     }

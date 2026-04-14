@@ -231,15 +231,35 @@ const formatToIsoDate = (value: string): string => {
  * @param {defaultFilterValue[]} defaults
  * @return {*}  {string}
  */
-export const createQsFromSavedDefaults = (defaults: defaultFilterValue[]): string => {
+export const createQsFromSavedDefaults = (
+  defaults: defaultFilterValue[],
+  fieldDefinitions: components['schemas']['FieldDefinition'][],
+): string => {
+  const fieldMap = new Map(fieldDefinitions.map((f) => [f.name, f]))
+
   return defaults
     .flatMap(({ name, value }): Array<[string, string]> => {
       const keyBase = `filters.${name}`
+      const fieldDef = fieldMap.get(name)
 
+      // --------------------------------------------
+      // STRING
+      // --------------------------------------------
       if (typeof value === 'string') {
+        const isMultiSelect = fieldDef?.filter?.type === 'multiselect'
+        if (isMultiSelect) {
+          return value
+            .split(',')
+            .map((v) => v.trim())
+            .filter(Boolean)
+            .map((v) => [keyBase, v])
+        }
         return [[keyBase, formatToIsoDate(value)]]
       }
 
+      // --------------------------------------------
+      // GRANULAR DATERANGE
+      // --------------------------------------------
       if ('granularity' in value) {
         return [
           [`${keyBase}.start`, formatToIsoDate(value.start)],
@@ -249,6 +269,9 @@ export const createQsFromSavedDefaults = (defaults: defaultFilterValue[]): strin
         ]
       }
 
+      // --------------------------------------------
+      // DATE RANGE
+      // --------------------------------------------
       const pairs: Array<[string, string]> = [
         [`${keyBase}.start`, formatToIsoDate(value.start)],
         [`${keyBase}.end`, formatToIsoDate(value.end)],

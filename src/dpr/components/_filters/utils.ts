@@ -55,7 +55,6 @@ export const setFilterValuesFromRequest = (
     switch (type) {
       case FilterType.dateRange.toLowerCase():
         requestfilterValue = DateRangeInputUtils.setValueFromRequest(<DateRangeFilterValue>filter, req, prefix)
-        console.log('dateRange -----> ', requestfilterValue)
         break
 
       case FilterType.granularDateRange.toLowerCase():

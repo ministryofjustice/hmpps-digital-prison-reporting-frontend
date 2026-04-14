@@ -9,6 +9,7 @@ import LocalsHelper from '../utils/localsHelper'
 import { getDefaultColumnsQueryString, getDefaultFiltersQueryString, getFields } from '../utils/definitionUtils'
 import { FiltersType } from '../components/_filters/filtersTypeEnum'
 import { createQsFromSavedDefaults } from '../utils/Personalisation/personalisationUtils'
+import { components } from '../types/api'
 
 export const storeActiveReportSessionData =
   (services: Services, loadType: LoadType = LoadType.ASYNC): RequestHandler =>
@@ -77,7 +78,10 @@ const buildDataConfiguration = async (req: Request, res: Response, services: Ser
   const reportId = asString(p['reportId'])!
   const executionId = asString(p['executionId'])
   const tableId = asString(p['tableId'])
-  const definitionDefaults = await setUpDefaultsFromDefinition(req, res, services.reportingService)
+  const { definitionsPath, dprUser } = LocalsHelper.getValues(res)
+  const { token } = dprUser
+  const definition = await services.reportingService.getDefinition(token, reportId, id, definitionsPath)
+  const definitionDefaults = await setUpDefaultsFromDefinition(definition)
 
   // -------------- Fetch Dynamic Values -------------------
   // values that are subject to change during the journey
@@ -86,7 +90,7 @@ const buildDataConfiguration = async (req: Request, res: Response, services: Ser
   const downloadEnabled = await setUpDownloadConfig(req, res, services.downloadPermissionService)
   const feedbackSubmissionFormPath = setupDownloadFeedbackPaths(req, res)
   const reportUrls = setUpReportUrls(req)
-  const savedDefaults = await setupSavedDefaults(req, res, services.defaultFilterValuesService)
+  const savedDefaults = await setupSavedDefaults(req, res, services.defaultFilterValuesService, definition)
 
   // -------------- Prepare Data Payloads -------------------
 
@@ -186,7 +190,13 @@ const setUpReportUrls = (req: Request) => {
     currentSortSearch = queryObjectToQs(pageSortQueryObject)
   }
 
-  console.log({ currentReportFiltersSearch, currentReportColumnsSearch, currentPageSizeSearch, currentSortSearch })
+  console.log({
+    currentReportFiltersSearch,
+    currentReportColumnsSearch,
+    currentPageSizeSearch,
+    currentSortSearch,
+    currentReportSearch,
+  })
 
   return {
     ...(currentReportPathname && { currentReportPathname }),
@@ -207,12 +217,7 @@ const setUpReportUrls = (req: Request) => {
  * @param {ReportingService} service
  * @return {*}
  */
-const setUpDefaultsFromDefinition = async (req: Request, res: Response, service: ReportingService) => {
-  const { reportId, id } = <{ id: string; reportId: string }>req.params
-  const { definitionsPath, dprUser } = LocalsHelper.getValues(res)
-  const { token } = dprUser
-
-  const definition = await service.getDefinition(token, reportId, id, definitionsPath)
+const setUpDefaultsFromDefinition = async (definition: components['schemas']['SingleVariantReportDefinition']) => {
   const fields = getFields(definition)
   const filtersQueryStrings = getDefaultFiltersQueryString(fields)
   const columnsQueryString = getDefaultColumnsQueryString(fields)
@@ -294,22 +299,31 @@ const setupDownloadFeedbackPaths = (req: Request, res: Response) => {
  * @param {DefaultFilterValuesService} service
  * @return {*}
  */
-const setupSavedDefaults = async (req: Request, res: Response, service: DefaultFilterValuesService) => {
+const setupSavedDefaults = async (
+  req: Request,
+  res: Response,
+  service: DefaultFilterValuesService,
+  definition: components['schemas']['SingleVariantReportDefinition'],
+) => {
   const { reportId, id } = <{ id: string; reportId: string }>req.params
   const userId = res.locals['dprUser'].id
+
   const savedRequestFilterValues = await service.get(userId, reportId, id, FiltersType.REQUEST)
   const savedInteractiveFilterValues = await service.get(userId, reportId, id, FiltersType.INTERACTIVE)
+  const fields = getFields(definition)
 
-  const savedRequestDefaultsSearch = savedRequestFilterValues
-    ? createQsFromSavedDefaults(savedRequestFilterValues)
-    : undefined
+  const savedRequestDefaultsSearch =
+    savedRequestFilterValues && savedRequestFilterValues.length
+      ? createQsFromSavedDefaults(savedRequestFilterValues, fields)
+      : ''
 
-  const savedInteractiveDefaultsSearch = savedInteractiveFilterValues
-    ? createQsFromSavedDefaults(savedInteractiveFilterValues)
-    : undefined
+  const savedInteractiveDefaultsSearch =
+    savedInteractiveFilterValues && savedInteractiveFilterValues.length
+      ? createQsFromSavedDefaults(savedInteractiveFilterValues, fields)
+      : ''
 
   return {
-    ...(savedRequestFilterValues && { savedRequestDefaultsSearch }),
-    ...(savedInteractiveDefaultsSearch && { savedInteractiveDefaultsSearch }),
+    savedRequestDefaultsSearch,
+    savedInteractiveDefaultsSearch,
   }
 }

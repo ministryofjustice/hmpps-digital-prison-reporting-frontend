@@ -1,5 +1,9 @@
 import { z } from 'zod'
 import { components } from '../types/api'
+import { isValidUiDate, UI_INPUT_FORMATS } from '../utils/dateHelper'
+import dayjs from 'dayjs'
+import isSameOrBefore from 'dayjs/plugin/isSameOrBefore'
+dayjs.extend(isSameOrBefore)
 
 type FieldDefinition = components['schemas']['FieldDefinition']
 
@@ -72,44 +76,40 @@ const buildMultiSelectField = (field: FieldDefinition) => {
 /**
  * DATE / DATE RANGE FIELDS
  */
-const buildDateField = (field: FieldDefinition) => {
+export const buildDateField = (field: FieldDefinition) => {
   const { filter, display } = field
   if (!filter) throw new Error('Missing filter')
 
-  // Date *range* (object form)
+  // Date range (object form)
   if (filter.type === 'daterange' || filter.type === 'granulardaterange') {
     let base = z.object({
       start: z
         .string()
         .min(1, `${display} start date is required`)
-        .refine((v) => !Number.isNaN(Date.parse(v)), `${display} start date must be a valid date`),
+        .refine(isValidUiDate, `${display} start date must be a valid date`),
+
       end: z
         .string()
         .min(1, `${display} end date is required`)
-        .refine((v) => !Number.isNaN(Date.parse(v)), `${display} end date must be a valid date`),
+        .refine(isValidUiDate, `${display} end date must be a valid date`),
     })
 
     // Cross-field validation: start must be <= end
     base = base.refine(
       ({ start, end }) => {
-        const startDate = new Date(start)
-        const endDate = new Date(end)
-        return startDate <= endDate
+        const startDate = dayjs(start, [...UI_INPUT_FORMATS], true)
+        const endDate = dayjs(end, [...UI_INPUT_FORMATS], true)
+
+        return startDate.isSameOrBefore(endDate)
       },
       {
         message: `${display} end date must be the same as or after the start date`,
-        path: ['end'], // attach error to the "end" field
+        path: ['end'],
       },
     )
 
     return filter.mandatory ? base : base.optional()
   }
 
-  // Single date (string form)
-  let base = z
-    .string()
-    .min(1, `${display} is required`)
-    .refine((v) => !Number.isNaN(Date.parse(v)), `${display} must be a valid date`)
-
-  return filter.mandatory ? base : base.optional()
+  throw new Error(`Unsupported filter type: ${filter.type}`)
 }

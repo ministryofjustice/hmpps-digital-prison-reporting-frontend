@@ -2,6 +2,7 @@
 import { FilterType } from '../components/_filters/filter-input/enum'
 import { components } from '../types/api'
 import { DprConfig } from '../types/DprConfig'
+import { uiDateToApi } from './dateHelper'
 
 export const clearFilterValue = '~clear~'
 
@@ -166,7 +167,11 @@ export const queryObjectToQs = (
 ): string => {
   return Object.entries(source)
     .filter(([key]) => !exclude.has(key))
-    .flatMap(([key, value]) => (Array.isArray(value) ? value.map((v) => [key, v] as const) : [[key, value] as const]))
+    .flatMap(([key, value]) =>
+      Array.isArray(value)
+        ? value.map((v) => [key, uiDateToApi(v) ?? v] as const)
+        : [[key, uiDateToApi(value) ?? value] as const],
+    )
     .reduce((params, [key, value]) => {
       params.append(key, value)
       return params
@@ -220,17 +225,22 @@ export const formBodyToQs = (body: Record<string, unknown>, exclude: Set<string>
   Object.entries(body).forEach(([key, value]) => {
     if (exclude.has(key)) return
     if (value == null || value === '') return
+
     // Multi-selects & repeated fields
     if (Array.isArray(value)) {
       value.forEach((v) => {
         if (v != null && v !== '') {
-          params.append(key, String(v))
+          const stringValue = String(v)
+          params.append(key, uiDateToApi(stringValue) ?? stringValue)
         }
       })
       return
     }
-    params.append(key, String(value))
+
+    const stringValue = String(value)
+    params.append(key, uiDateToApi(stringValue) ?? stringValue)
   })
+
   return params.toString()
 }
 

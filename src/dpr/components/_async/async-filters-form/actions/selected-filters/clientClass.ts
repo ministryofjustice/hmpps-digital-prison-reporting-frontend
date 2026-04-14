@@ -1,5 +1,5 @@
-import dayjs from 'dayjs'
 import { DprClientClass } from '../../../../../DprClientClass'
+import { formatDateOrUnset } from '../../../../../utils/dateHelper'
 
 type FilterControl = HTMLInputElement | HTMLSelectElement
 
@@ -149,7 +149,7 @@ export class DprSelectedAsyncFilters extends DprClientClass {
 
     return {
       displayName,
-      displayValue: `${this.formatDateOrUnset(start?.value)} – ${this.formatDateOrUnset(end?.value)}`,
+      displayValue: `${formatDateOrUnset(start?.value)} – ${formatDateOrUnset(end?.value)}`,
       inputs: controls,
     }
   }
@@ -175,8 +175,7 @@ export class DprSelectedAsyncFilters extends DprClientClass {
       displayValue = `${this.humanise(quick.value)} / ${granularity?.value ?? 'unset'}`
     } else {
       displayValue =
-        `${this.formatDateOrUnset(start?.value)} – ${this.formatDateOrUnset(end?.value)}` +
-        ` / ${granularity?.value ?? 'unset'}`
+        `${formatDateOrUnset(start?.value)} – ${formatDateOrUnset(end?.value)}` + ` / ${granularity?.value ?? 'unset'}`
     }
 
     return {
@@ -295,12 +294,6 @@ export class DprSelectedAsyncFilters extends DprClientClass {
 
   private getAllFilterControls(): FilterControl[] {
     return Array.from(document.querySelectorAll<FilterControl>('input[name^="filters."], select[name^="filters."]'))
-  }
-
-  private formatDateOrUnset(value?: string): string {
-    if (!value) return 'unset'
-    const parsed = dayjs(value, ['D/M/YYYY', 'DD/MM/YYYY'], true)
-    return parsed.isValid() ? parsed.format('DD/MM/YYYY') : 'unset'
   }
 
   private humanise(value: string): string {

@@ -1,5 +1,4 @@
 import { RequestHandler, Request } from 'express'
-import { z } from 'zod'
 import { components } from '../types/api'
 import { getFields, getDashboardFields, getFieldsWithFilters } from '../utils/definitionUtils'
 import { buildFilterSchemaFromFields } from '../validation/buildFilterSchema'

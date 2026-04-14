@@ -1,5 +1,5 @@
-import dayjs from 'dayjs'
-import { components } from 'src/dpr/types/api'
+import { components } from '../../../types/api'
+import { formatDateOrUnset } from '../../../utils/dateHelper'
 
 /**
  * -------------------------------------------------------------------------------------
@@ -171,12 +171,6 @@ function getDisplayLabel(filter: FilterDefinition, value: string): string {
   const staticOption = filter.staticOptions?.find((option) => option.name === value)
 
   return staticOption?.display ?? value
-}
-
-function formatDateOrUnset(value?: string): string {
-  if (!value) return 'unset'
-  const parsed = dayjs(value, ['D/M/YYYY', 'DD/MM/YYYY', 'YYYY-MM-DD'], true)
-  return parsed.isValid() ? parsed.format('DD/MM/YYYY') : 'unset'
 }
 
 function humanise(value: string | string[]): string {

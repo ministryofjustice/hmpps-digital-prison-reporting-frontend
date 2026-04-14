@@ -34,7 +34,7 @@ import ReportQuery from '../../types/ReportQuery'
 // Helpers
 import { getActiveJourneyValue } from '../../utils/sessionHelper'
 import LocalsHelper from '../../utils/localsHelper'
-import { AppliedFilterChip, buildAppliedFilterChips } from '../_filters/filters-applied/utils'
+import { AppliedFilterChip, buildAppliedFilterChips, buildAppliedFilters } from '../_filters/filters-applied/utils'
 import { apiTimestampToUiDateTime } from '../../utils/dateHelper'
 
 export default class Report {
@@ -419,14 +419,9 @@ export default class Report {
    *
    */
   buildAppliedFilters = () => {
+    const fields = getFields(this.definition)
     const sessionKey = { id: this.id, reportId: this.reportId, tableId: this.tableId }
-    const currentReportFiltersSearch = getActiveJourneyValue(this.req, sessionKey, 'currentReportFiltersSearch')
-
-    if (currentReportFiltersSearch) {
-      const query = qsToQueryObject(currentReportFiltersSearch, 'filters.')
-      const fields = getFieldsWithFilters(getFields(this.definition))
-      this.appliedFilters = buildAppliedFilterChips(query, fields)
-    }
+    this.appliedFilters = buildAppliedFilters(this.req, sessionKey, fields)
   }
 
   /**

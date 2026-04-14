@@ -19,13 +19,21 @@ class ViewAsyncDashboardController {
   GET: RequestHandler = async (req, res, next) => {
     const { type, tableId } = <{ tableId: string; type: string }>req.params
     try {
-      const params = { req, res, services: this.services, next }
+      // Redirect the same path to attach query string
+      if (ViewReportUtils.redirectWithDefaults(res, req)) {
+        return
+      }
 
-      const renderData = await DashboardUtils.renderAsyncDashboard(params)
+      // Get the validation errors
+      const validationErrors = res.locals['validationErrors'] || []
+
+      // Get dashboard render data
+      const renderData = await DashboardUtils.renderAsyncDashboard({ req, res, services: this.services, next })
 
       res.render(`dpr/routes/journeys/view-report/dashboard`, {
         layoutPath: this.layoutPath,
         ...renderData,
+        validationErrors,
       })
     } catch (error) {
       const dprError = new ErrorHandler(error).formatError()
@@ -46,6 +54,21 @@ class ViewAsyncDashboardController {
 
   applyFilters: RequestHandler = async (req, res, _next) => {
     await ViewReportUtils.applyDashboardInteractiveQuery(req, res, 'filters', LoadType.ASYNC)
+  }
+
+  resetFilters: RequestHandler = async (req, res, next) => {
+    try {
+      const { id, reportId, tableId } = req.params as { id: string; reportId: string; tableId: string }
+      const sessionKey = { id, reportId, tableId }
+      await ViewReportUtils.resetFilters(req, res, sessionKey)
+    } catch (error) {
+      req.body = {
+        title: 'Failed to reset filters',
+        error: new ErrorHandler(error).formatError(),
+        ...(req.body && { ...req.body }),
+      }
+      next(error)
+    }
   }
 }
 

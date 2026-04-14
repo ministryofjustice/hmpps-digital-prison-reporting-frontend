@@ -1,7 +1,8 @@
 import { RequestHandler } from 'express'
 import LocalsHelper from '../utils/localsHelper'
 import { Services } from '../types/Services'
-import { components } from '../types/api'
+import { ReportType } from '../types/UserReports'
+import { getDefinitionByType } from '../utils/definitionUtils'
 
 /**
  * Middleware to load the report definition
@@ -14,13 +15,16 @@ export const loadReportDefinition = (services: Services): RequestHandler => {
   return async (req, res, next) => {
     try {
       const { token, definitionsPath } = LocalsHelper.getValues(res)
-      const { reportId, id } = req.params as Record<string, string>
-
-      const definition: components['schemas']['SingleVariantReportDefinition'] =
-        await services.reportingService.getDefinition(token, reportId, id, definitionsPath)
-
+      const { reportId, id, type: reportType } = req.params as Record<string, string>
+      const { definition } = await getDefinitionByType(
+        <ReportType>reportType,
+        services,
+        token,
+        reportId,
+        id,
+        definitionsPath,
+      )
       res.locals.definition = definition
-
       next()
     } catch (err) {
       next(err)

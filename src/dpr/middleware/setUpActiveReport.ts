@@ -3,16 +3,26 @@ import { Services } from '../types/Services'
 import { buildJourneyKey } from '../utils/sessionHelper'
 import { BookmarkService, DefaultFilterValuesService, DownloadPermissionService } from '../services'
 import { qsToQueryObject, queryObjectToQs, setNestedPath } from '../utils/urlHelper'
-import { LoadType } from '../types/UserReports'
+import { LoadType, ReportType } from '../types/UserReports'
 import { AcitveReportSessionData } from '../types/ActiveReportSession'
 import LocalsHelper from '../utils/localsHelper'
-import { getDefaultColumnsQueryString, getDefaultFiltersQueryString, getFields } from '../utils/definitionUtils'
+import {
+  getDefaultColumnsQueryString,
+  getDefaultFiltersQueryString,
+  getDefinitionByType,
+} from '../utils/definitionUtils'
 import { FiltersType } from '../components/_filters/filtersTypeEnum'
 import { createQsFromSavedDefaults } from '../utils/Personalisation/personalisationUtils'
 import { components } from '../types/api'
 
+interface ActiveSessionArgs {
+  services: Services
+  loadType?: LoadType
+  reportType?: ReportType
+}
+
 export const storeActiveReportSessionData =
-  (services: Services, loadType: LoadType = LoadType.ASYNC): RequestHandler =>
+  ({ services, loadType = LoadType.ASYNC }: ActiveSessionArgs): RequestHandler =>
   async (req, res, next) => {
     if (!req.session) {
       return next(new Error('Session not initialized'))
@@ -73,24 +83,23 @@ const buildDataConfiguration = async (req: Request, res: Response, services: Ser
 
   // -------------- Get static values -------------------
   // - values that dont change during the active report journey
-
   const id = asString(p['id'])!
   const reportId = asString(p['reportId'])!
   const executionId = asString(p['executionId'])
   const tableId = asString(p['tableId'])
+  const reportType = <ReportType>asString(p['type'])
   const { definitionsPath, dprUser } = LocalsHelper.getValues(res)
   const { token } = dprUser
-  const definition = await services.reportingService.getDefinition(token, reportId, id, definitionsPath)
-  const definitionDefaults = await setUpDefaultsFromDefinition(definition)
+  const { fields } = await getDefinitionByType(reportType, services, token, reportId, id, definitionsPath)
+  const definitionDefaults = await setUpDefaultsFromDefinition(fields)
 
   // -------------- Fetch Dynamic Values -------------------
   // values that are subject to change during the journey
-
   const reportIsBookmarked = await setUpBookmark(req, res, services.bookmarkService)
   const downloadEnabled = await setUpDownloadConfig(req, res, services.downloadPermissionService)
   const feedbackSubmissionFormPath = setupDownloadFeedbackPaths(req, res)
   const reportUrls = setUpReportUrls(req)
-  const savedDefaults = await setupSavedDefaults(req, res, services.defaultFilterValuesService, definition)
+  const savedDefaults = await setupSavedDefaults(req, res, services.defaultFilterValuesService, fields)
 
   // -------------- Prepare Data Payloads -------------------
 
@@ -209,8 +218,7 @@ const setUpReportUrls = (req: Request) => {
  * @param {ReportingService} service
  * @return {*}
  */
-const setUpDefaultsFromDefinition = async (definition: components['schemas']['SingleVariantReportDefinition']) => {
-  const fields = getFields(definition)
+const setUpDefaultsFromDefinition = async (fields: components['schemas']['FieldDefinition'][]) => {
   const filtersQueryStrings = getDefaultFiltersQueryString(fields)
   const columnsQueryString = getDefaultColumnsQueryString(fields)
 
@@ -295,14 +303,13 @@ const setupSavedDefaults = async (
   req: Request,
   res: Response,
   service: DefaultFilterValuesService,
-  definition: components['schemas']['SingleVariantReportDefinition'],
+  fields: components['schemas']['FieldDefinition'][],
 ) => {
   const { reportId, id } = <{ id: string; reportId: string }>req.params
   const userId = res.locals['dprUser'].id
 
   const savedRequestFilterValues = await service.get(userId, reportId, id, FiltersType.REQUEST)
   const savedInteractiveFilterValues = await service.get(userId, reportId, id, FiltersType.INTERACTIVE)
-  const fields = getFields(definition)
 
   const savedRequestDefaultsSearch =
     savedRequestFilterValues && savedRequestFilterValues.length

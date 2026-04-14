@@ -21,7 +21,7 @@ export function Routes({ layoutPath, services }: { services: Services; layoutPat
   // -------------------
   router.use(
     `/sync/:type/:reportId/:id`,
-    storeActiveReportSessionData(services, LoadType.SYNC),
+    storeActiveReportSessionData({ services, loadType: LoadType.SYNC }),
     viewSyncReportRoutes({ layoutPath, services }),
     controller.errorHandler,
   )
@@ -31,7 +31,7 @@ export function Routes({ layoutPath, services }: { services: Services; layoutPat
   // -------------------
   router.use(
     `/async/:type/:reportId/:id/:tableId`,
-    storeActiveReportSessionData(services),
+    storeActiveReportSessionData({ services }),
     viewAyncReportRoutes({ layoutPath, services }),
     controller.errorHandler,
   )

@@ -155,6 +155,22 @@ const applyFilters = (queryData: Record<string, string | string[]>, formData: Re
 }
 
 /**
+ * Reset filters action
+ *
+ * @param {Request} req
+ * @param {Response} res
+ */
+const resetFilters = (req: Request, res: Response, sessionKey: { id: string; reportId: string; tableId?: string }) => {
+  // Create the reset querystring
+  const finalQuery = resetFiltersQueryString(req, sessionKey)
+
+  // Redirect with new query string - query string will handle all rendered elements
+  if (finalQuery) {
+    res.redirect(`${req.baseUrl}?${finalQuery}`)
+  }
+}
+
+/**
  * Creates the query string to reset the filters
  *
  * @param {Request} req
@@ -265,6 +281,7 @@ const redirectWithDefaults = (res: Response, req: Request) => {
 export default {
   applyDashboardInteractiveQuery,
   applyReportInteractiveQuery,
+  resetFilters,
   resetFiltersQueryString,
   resetColumnsQueryString,
   redirectWithDefaults,

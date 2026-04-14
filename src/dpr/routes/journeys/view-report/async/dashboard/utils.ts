@@ -9,7 +9,7 @@ import type { RequestedReport } from '../../../../../types/UserReports'
 import { ReportType } from '../../../../../types/UserReports'
 import type { components } from '../../../../../types/api'
 
-import DefinitionUtils from '../../../../../utils/definitionUtils'
+import DefinitionUtils, { getDashboardFields } from '../../../../../utils/definitionUtils'
 import UserReportsUtils from '../../../../../components/user-reports/utils'
 import FilterUtils from '../../../../../components/_filters/utils'
 import ReportActionsUtils from '../../../../../components/_reports/report-heading/report-actions/utils'
@@ -22,6 +22,7 @@ import { validateDashboardVisualisations } from '../../../../../components/_dash
 import { createDashboardSections } from '../../../../../components/_dashboards/dashboard-section/utils'
 import DashboardSchema from './validate'
 import { setUpBookmark } from '../../../../../components/bookmark/utils'
+import { buildAppliedFilters } from '../../../../../components/_filters/filters-applied/utils'
 
 const setDashboardActions = (
   dashboardDefinition: components['schemas']['DashboardDefinition'],
@@ -71,7 +72,7 @@ const getDefinitionData = async ({
   queryData?: Dict<string | string[]> | undefined
 }) => {
   const { token } = LocalsHelper.getValues(res)
-  const { reportId, id } = <{ id: string; reportId: string }>req.params
+  const { reportId, id, tableId } = <{ id: string; reportId: string; tableId: string }>req.params
   const dataProductDefinitionsPath = <string>req.query['dataProductDefinitionsPath']
 
   // Dashboard Definition,
@@ -97,11 +98,15 @@ const getDefinitionData = async ({
   )
 
   // Get the filters
+  const fields = getDashboardFields(dashboardDefinition)
   const filtersData = await FilterUtils.getFilters({
-    fields: dashboardDefinition.filterFields || [],
+    fields,
     req,
     filtersType: FiltersType.INTERACTIVE,
   })
+
+  // Get the applied Filters
+  const appliedFilters = buildAppliedFilters(req, { reportId, id, tableId }, fields)
 
   const filtersQuery = FilterUtils.setRequestQueryFromFilterValues(filtersData.filters)
 
@@ -118,6 +123,7 @@ const getDefinitionData = async ({
     filters: filtersData,
     dashboardDefinition,
     reportDefinition,
+    appliedFilters,
   }
 }
 
@@ -167,7 +173,7 @@ export const renderAsyncDashboard = async ({ req, res, services }: AsyncReportUt
   const queryData = requestData?.query?.data
 
   // Get the definition Data
-  const { query, filters, reportDefinition, dashboardDefinition } = await getDefinitionData({
+  const { query, filters, reportDefinition, dashboardDefinition, appliedFilters } = await getDefinitionData({
     req,
     res,
     services,
@@ -219,6 +225,7 @@ export const renderAsyncDashboard = async ({ req, res, services }: AsyncReportUt
       type: ReportType.DASHBOARD,
       actions: setDashboardActions(dashboardDefinition, reportDefinition, requestData),
       bookmarkConfig,
+      appliedFilters,
     },
   }
 }

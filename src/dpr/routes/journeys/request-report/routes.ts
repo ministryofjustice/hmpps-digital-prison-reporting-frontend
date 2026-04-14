@@ -21,14 +21,14 @@ export function Routes({ layoutPath, services }: { services: Services; layoutPat
   router.use(
     `/:type/:reportId/:id/filters`,
     reportAuthoriser(services, layoutPath),
-    storeActiveReportSessionData(services),
+    storeActiveReportSessionData({ services }),
     requestReportRoutes({ layoutPath, services }),
     controller.errorHandler,
   )
   router.use(
     `/:type/:reportId/:id/:executionId/status`,
     reportAuthoriser(services, layoutPath),
-    storeActiveReportSessionData(services),
+    storeActiveReportSessionData({ services }),
     requestStatusRoutes({ layoutPath, services }),
     controller.errorHandler,
   )

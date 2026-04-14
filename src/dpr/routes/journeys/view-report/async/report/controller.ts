@@ -91,14 +91,8 @@ class ViewAyncReportController {
   resetFilters: RequestHandler = async (req, res, next) => {
     try {
       const { id, reportId, tableId } = req.params as { id: string; reportId: string; tableId: string }
-
-      // Create the reset querystring
-      const finalQuery = ViewReportUtils.resetFiltersQueryString(req, { id, reportId, tableId })
-
-      // Redirect with new query string - query string will handle all rendered elements
-      if (finalQuery) {
-        res.redirect(`${req.baseUrl}?${finalQuery}`)
-      }
+      const sessionKey = { id, reportId, tableId }
+      await ViewReportUtils.resetFilters(req, res, sessionKey)
     } catch (error) {
       req.body = {
         title: 'Failed to reset filters',
@@ -110,7 +104,7 @@ class ViewAyncReportController {
   }
 
   // -----------------------------
-  //  Filters
+  //  Columns
   // -----------------------------
 
   applyColumns: RequestHandler = async (req, res, _next) => {

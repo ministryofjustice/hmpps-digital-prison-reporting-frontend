@@ -5,18 +5,7 @@ import { buildFilterSchemaFromFields } from './buildFilterSchema'
 import { extractFiltersFromBody } from '../utils/request/extractFiltersFromBody'
 import { formBodyToQs, joinQueryStrings } from '../utils/urlHelper'
 import { getActiveJourneyValue } from '../utils/sessionHelper'
-import { LoadType } from '../types/UserReports'
-
-/**
- * Type guard: determines whether a definition is a report definition
- *
- * Adjust the property check if your schema differs.
- */
-const isReportDefinition = (
-  definition: components['schemas']['SingleVariantReportDefinition'] | components['schemas']['DashboardDefinition'],
-): definition is components['schemas']['SingleVariantReportDefinition'] => {
-  return 'variant' in definition
-}
+import { LoadType, ReportType } from '../types/UserReports'
 
 /**
  * Middleware to validate a report or dashboard filter request
@@ -34,6 +23,7 @@ const isReportDefinition = (
 export const validateFilters =
   ({ interactive, loadType = LoadType.ASYNC }: { interactive: boolean; loadType?: LoadType }): RequestHandler =>
   (req, res, next) => {
+    const { type: reportType } = req.params
     const definition = res.locals.definition as
       | components['schemas']['SingleVariantReportDefinition']
       | components['schemas']['DashboardDefinition']
@@ -48,7 +38,10 @@ export const validateFilters =
         rawBody && typeof rawBody === 'object' ? extractFiltersFromBody(rawBody as Record<string, unknown>) : {}
 
       // Get the fields
-      const fields = isReportDefinition(definition) ? getFields(definition) : getDashboardFields(definition)
+      const fields =
+        reportType === ReportType.REPORT
+          ? getFields(<components['schemas']['SingleVariantReportDefinition']>definition)
+          : getDashboardFields(<components['schemas']['DashboardDefinition']>definition)
 
       // Get only the relevant applicable fields for the form type
       const applicableFields = getFieldsWithFilters(fields).filter((field) => {

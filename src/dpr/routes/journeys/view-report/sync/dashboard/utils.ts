@@ -78,6 +78,7 @@ export const renderSyncDashboard = async ({
     filters: filterData,
     reportDefinition,
     dashboardDefinition,
+    appliedFilters,
   } = await AsyncDashboardUtils.getDefinitionData({
     req,
     res,
@@ -129,6 +130,7 @@ export const renderSyncDashboard = async ({
       filters: filterData,
       type: ReportType.DASHBOARD,
       actions: setActions(dashboardDefinition, reportDefinition, fullUrl),
+      appliedFilters,
     },
   }
 }

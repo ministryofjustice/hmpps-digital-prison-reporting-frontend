@@ -1,5 +1,9 @@
+import { Request } from 'express'
+import { getActiveJourneyValue } from '../../../utils/sessionHelper'
 import { components } from '../../../types/api'
 import { formatDateOrUnset } from '../../../utils/dateHelper'
+import { qsToQueryObject } from '../../../utils/urlHelper'
+import { getFieldsWithFilters } from '../../../utils/definitionUtils'
 
 /**
  * -------------------------------------------------------------------------------------
@@ -25,6 +29,23 @@ type QueryParams = Record<string, string | string[] | undefined>
  * Public API
  * -------------------------------------------------------------------------------------
  */
+
+export function buildAppliedFilters(
+  req: Request,
+  sessionKey: { id: string; reportId: string; tableId?: string },
+  fields: components['schemas']['FieldDefinition'][],
+) {
+  const currentReportFiltersSearch = getActiveJourneyValue(req, sessionKey, 'currentReportFiltersSearch')
+
+  let appliedFilters: AppliedFilterChip[] = []
+  if (currentReportFiltersSearch) {
+    const query = qsToQueryObject(currentReportFiltersSearch, 'filters.')
+    const filterFields = getFieldsWithFilters(fields)
+    appliedFilters = buildAppliedFilterChips(query, filterFields)
+  }
+
+  return appliedFilters
+}
 
 export function buildAppliedFilterChips(query: QueryParams, fields: FieldDefinition[]): AppliedFilterChip[] {
   return fields

@@ -1,5 +1,5 @@
 {% macro dprFiltersFormReset(reportType) %}
-  {% set classes = 'dpr-clear-button-styles govuk-link govuk-link--no-visited-state govuk-!-margin-bottom-2' %}
+  {% set classes = 'dpr-clear-button-styles govuk-link govuk-link--no-visited-state govuk-!-margin-bottom-1 govuk-!-margin-top-1' %}
   <form method='post' action='./{{ reportType }}/reset-filters'>
     <button class="{{ classes }}" type="submit">Reset filters</button>
   </form>

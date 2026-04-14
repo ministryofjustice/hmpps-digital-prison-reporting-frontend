@@ -11,8 +11,51 @@ import {
 } from '../components/_reports/report-heading/report-columns/report-columns-form/utils'
 import ReportingService from '../services/reportingService'
 import { components } from '../types/api'
+import { Services } from '../types/Services'
 import { Template } from '../types/Templates'
+import { ReportType } from '../types/UserReports'
 import logger from './logger'
+
+/**
+ * Gets the definition and fields by reportType
+ *
+ * @param {ReportType} reportType
+ * @param {Services} services
+ * @param {string} token
+ * @param {string} reportId
+ * @param {string} id
+ * @param {string} [definitionsPath]
+ */
+export const getDefinitionByType = async (
+  reportType: ReportType,
+  services: Services,
+  token: string,
+  reportId: string,
+  id: string,
+  definitionsPath?: string,
+): Promise<{
+  definition: components['schemas']['SingleVariantReportDefinition'] | components['schemas']['DashboardDefinition']
+  fields: components['schemas']['FieldDefinition'][]
+}> => {
+  let definition: components['schemas']['SingleVariantReportDefinition'] | components['schemas']['DashboardDefinition']
+  let fields: components['schemas']['FieldDefinition'][]
+  if (reportType === ReportType.REPORT) {
+    definition = await services.reportingService.getDefinition(token, reportId, id, definitionsPath)
+    fields = getFields(definition)
+  } else {
+    definition = await services.dashboardService.getDefinition(token, reportId, id, definitionsPath)
+    fields = getDashboardFields(definition)
+  }
+
+  if (!definition) {
+    throw Error(`Unable to retrieve definition for ${reportType} with id:${id} & reportId:${reportId}`)
+  }
+
+  return {
+    definition,
+    fields,
+  }
+}
 
 /**
  * Given a field id, gets its filter object
@@ -356,4 +399,5 @@ export default {
   hasInteractiveFilters,
   getDefaultFiltersQueryString,
   getDefaultColumnsQueryString,
+  getDefinitionByType,
 }

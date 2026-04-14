@@ -130,7 +130,6 @@ class Autocomplete extends DprClientClass {
     // eslint-disable-next-line no-param-reassign
     textInput.staticOptionNameValue = staticOptionNameValue
 
-    textInput.focus()
     const changeEvent = new Event('change')
     textInput.dispatchEvent(changeEvent)
   }

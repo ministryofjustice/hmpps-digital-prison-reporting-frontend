@@ -40,9 +40,7 @@ export class DprSelectedAsyncFilters extends DprClientClass {
 
   private renderFromInputs(): void {
     this.container.innerHTML = ''
-
     const selectedFilters = this.buildSelectedFilters()
-
     if (!selectedFilters.length) {
       this.renderEmptyState()
       return
@@ -85,7 +83,7 @@ export class DprSelectedAsyncFilters extends DprClientClass {
   }
 
   // ----------------------------------
-  // Orchestrator (semantic split)
+  // Orchestration
   // ----------------------------------
 
   private buildFilterFromControls(controls: FilterControl[]): SelectedFilter | null {
@@ -110,7 +108,7 @@ export class DprSelectedAsyncFilters extends DprClientClass {
   }
 
   // ----------------------------------
-  // Predicates / guards
+  // Guards
   // ----------------------------------
 
   private getActiveControls(controls: FilterControl[]): FilterControl[] {
@@ -175,7 +173,7 @@ export class DprSelectedAsyncFilters extends DprClientClass {
       displayValue = `${this.humanise(quick.value)} / ${granularity?.value ?? 'unset'}`
     } else {
       displayValue =
-        `${formatDateOrUnset(start?.value)} – ${formatDateOrUnset(end?.value)}` + ` / ${granularity?.value ?? 'unset'}`
+        `${formatDateOrUnset(start?.value)} - ${formatDateOrUnset(end?.value)}` + ` / ${granularity?.value ?? 'unset'}`
     }
 
     return {

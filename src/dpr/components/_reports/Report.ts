@@ -35,6 +35,7 @@ import ReportQuery from '../../types/ReportQuery'
 import { getActiveJourneyValue } from '../../utils/sessionHelper'
 import LocalsHelper from '../../utils/localsHelper'
 import { AppliedFilterChip, buildAppliedFilterChips } from '../_filters/filters-applied/utils'
+import { apiTimestampToUiDate } from 'src/dpr/utils/dateHelper'
 
 export default class Report {
   id: string
@@ -89,6 +90,8 @@ export default class Report {
   reportQuery!: ReportQuery
 
   appliedFilters!: AppliedFilterChip[]
+
+  extractedRequestData!: ExtractedRequestData | undefined
 
   constructor(
     readonly services: Services,
@@ -145,6 +148,7 @@ export default class Report {
         ...this.actions,
         ...this.reportDetails,
         ...(this.pagination && { pagination: this.pagination }),
+        ...(this.extractedRequestData && this.extractedRequestData),
         totals: this.totals,
         dataTable: this.dataTable,
       },
@@ -158,7 +162,7 @@ export default class Report {
   getData = async () => {
     if (this.loadType === LoadType.ASYNC) {
       await this.getSummariesData()
-      await this.getChildData()
+      await this.setChildData()
     }
     await this.getReportData()
   }
@@ -227,12 +231,64 @@ export default class Report {
    * NOTE: Only available for Async
    *
    */
-  getChildData = async () => {
+  setChildData = async () => {
     // Get the child data, if applicable
     const { childVariants } = this.variant
     this.childData = !childVariants
       ? []
-      : await getChildData(childVariants, this.services, this.token, this.req, this.res, this.requestData)
+      : await this.getChildData(childVariants, this.services, this.token, this.req, this.res, this.requestData)
+  }
+
+  getChildData = async (
+    childVariants: components['schemas']['ChildVariantDefinition'][],
+    services: Services,
+    token: string,
+    req: Request,
+    res: Response,
+    requestData?: RequestedReport,
+  ): Promise<ChildData[]> => {
+    const { definitionsPath: dataProductDefinitionsPath } = LocalsHelper.getValues(res)
+    const { reportId } = <{ reportId: string }>req.params
+    const childExecutionData = requestData?.childExecutionData
+
+    if (!childExecutionData) {
+      throw new Error('getChildData: No execution data found for child variants')
+    }
+
+    return Promise.all(
+      childVariants.map(async (childVariant) => {
+        const { specification } = childVariant
+        if (!specification) {
+          throw new Error('getChildData: No specification found in child variant definition')
+        }
+
+        const query = new ReportQuery({
+          fields: specification?.fields || [],
+          template: 'parent-child',
+          queryParams: req.query,
+          definitionsPath: dataProductDefinitionsPath,
+        }).toRecordWithFilterPrefix(true)
+
+        const childData = childExecutionData.find((e) => e.variantId === childVariant.id)
+        if (!childData || !childData.tableId) {
+          throw new Error('getChildData: No matching child execution data found')
+        }
+        const { tableId: childTableId } = childData
+
+        const childReport = await services.reportingService.getAsyncReport(
+          token,
+          reportId,
+          childVariant.id,
+          childTableId,
+          query,
+        )
+
+        return {
+          id: childVariant.id,
+          data: childReport,
+        }
+      }),
+    )
   }
 
   /**
@@ -295,10 +351,9 @@ export default class Report {
    */
   extractDataFromRequest = (requestData: RequestedReport): ExtractedRequestData => {
     const { query, url, timestamp } = requestData
-
     return {
       executionId: requestData.executionId,
-      requestedTimestamp: timestamp.requested ? new Date(timestamp.requested).toLocaleString() : undefined,
+      requestedTimestamp: apiTimestampToUiDate(timestamp.requested),
       querySummary: query?.summary || [],
       queryData: query?.data,
       requestUrl: url?.request,
@@ -315,7 +370,7 @@ export default class Report {
    */
   buildActions = () => {
     const { tableId, reportId, id } = <{ id: string; tableId: string; reportId: string }>this.req.params
-    const extractedRequestData = this.requestData ? this.extractDataFromRequest(this.requestData) : undefined
+    this.extractedRequestData = this.requestData ? this.extractDataFromRequest(this.requestData) : undefined
 
     // Setup bookmark
     const bookmarkConfig = setUpBookmark(this.res, this.req, this.services.bookmarkService)
@@ -327,11 +382,11 @@ export default class Report {
       this.reportDetails,
       this.columns,
       this.loadType,
-      extractedRequestData,
+      this.extractedRequestData,
     )
 
     // Setup other actions
-    const actions = ReportActionsUtils.setActions(this.reportDetails, downloadConfig, extractedRequestData)
+    const actions = ReportActionsUtils.setActions(this.reportDetails, downloadConfig, this.extractedRequestData)
 
     // Get the feedback submission path
     const sessionKey = this.loadType === LoadType.SYNC ? { id, reportId } : { id, reportId, tableId }

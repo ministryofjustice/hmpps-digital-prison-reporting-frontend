@@ -41,6 +41,13 @@ export function apiDateToUi(value?: string): string | undefined {
   return parsed.isValid() ? parsed.format(UI_OUTPUT_FORMAT) : undefined
 }
 
+export function apiTimestampToUiDate(value?: string | Date): string | undefined {
+  if (!value) return undefined
+
+  const parsed = dayjs(value)
+  return parsed.isValid() ? parsed.format(UI_OUTPUT_FORMAT) : undefined
+}
+
 /**
  * -------------------------------------------------------------------------------------
  * Display helpers

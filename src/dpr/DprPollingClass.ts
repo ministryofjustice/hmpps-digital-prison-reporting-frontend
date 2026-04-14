@@ -1,7 +1,7 @@
 import type { meta } from './types/UserReports'
 
 class DprPollingHelper {
-  readonly POLLING_FREQUENCY = 1000
+  readonly POLLING_FREQUENCY = 3000
 
   readonly POLLING_EXPIRED_FREQUENCY = 60000
 

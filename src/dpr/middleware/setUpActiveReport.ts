@@ -1,7 +1,7 @@
 import type { Request, Response, RequestHandler } from 'express'
 import { Services } from '../types/Services'
 import { buildJourneyKey } from '../utils/sessionHelper'
-import { BookmarkService, DefaultFilterValuesService, DownloadPermissionService, ReportingService } from '../services'
+import { BookmarkService, DefaultFilterValuesService, DownloadPermissionService } from '../services'
 import { qsToQueryObject, queryObjectToQs, setNestedPath } from '../utils/urlHelper'
 import { LoadType } from '../types/UserReports'
 import { AcitveReportSessionData } from '../types/ActiveReportSession'

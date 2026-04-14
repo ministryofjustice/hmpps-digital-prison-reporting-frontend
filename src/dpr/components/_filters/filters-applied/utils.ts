@@ -107,7 +107,7 @@ function buildGranularDateRangeChip(
   if (quick && quick !== 'None') {
     displayValue = `${humanise(quick)} / ${granularity ?? 'unset'}`
   } else {
-    displayValue = `${formatDateOrUnset(start)} – ${formatDateOrUnset(end)}` + ` / ${granularity ?? 'unset'}`
+    displayValue = `${formatDateOrUnset(start)} - ${formatDateOrUnset(end)} / ${granularity ?? 'unset'}`
   }
 
   return {
@@ -126,7 +126,13 @@ function buildGranularDateRangeChip(
  */
 function buildMultiSelectChip(field: FieldDefinition, key: string, query: QueryParams): AppliedFilterChip | null {
   const raw = query[key]
-  const values = Array.isArray(raw) ? raw : raw ? [raw] : []
+
+  let values: string[] = []
+  if (Array.isArray(raw)) {
+    values = raw
+  } else if (raw) {
+    values = [raw]
+  }
 
   if (!values.length) return null
 

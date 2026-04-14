@@ -90,8 +90,8 @@ export const setValueFromRequest = (
   }
 
   const value = {
-    start: start,
-    end: end,
+    start,
+    end,
     ...(relative && !relativeDisabled && { relative }),
   } as DateRange
 

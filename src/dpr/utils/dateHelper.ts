@@ -9,6 +9,7 @@ import dayjs from 'dayjs'
 export const UI_INPUT_FORMATS = ['D/M/YYYY', 'DD/MM/YYYY'] as const
 const API_FORMAT = 'YYYY-MM-DD'
 const UI_OUTPUT_FORMAT = 'DD/MM/YYYY'
+const UI_DATE_TIME_FORMAT = 'DD/MM/YYYY HH:mm'
 
 /**
  * -------------------------------------------------------------------------------------
@@ -46,6 +47,13 @@ export function apiTimestampToUiDate(value?: string | Date): string | undefined 
 
   const parsed = dayjs(value)
   return parsed.isValid() ? parsed.format(UI_OUTPUT_FORMAT) : undefined
+}
+
+export function apiTimestampToUiDateTime(value?: string | Date): string | undefined {
+  if (!value) return undefined
+
+  const parsed = dayjs(value)
+  return parsed.isValid() ? parsed.format(UI_DATE_TIME_FORMAT) : undefined
 }
 
 /**

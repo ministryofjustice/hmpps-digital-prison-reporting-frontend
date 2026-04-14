@@ -35,7 +35,7 @@ import ReportQuery from '../../types/ReportQuery'
 import { getActiveJourneyValue } from '../../utils/sessionHelper'
 import LocalsHelper from '../../utils/localsHelper'
 import { AppliedFilterChip, buildAppliedFilterChips } from '../_filters/filters-applied/utils'
-import { apiTimestampToUiDate } from 'src/dpr/utils/dateHelper'
+import { apiTimestampToUiDateTime } from 'src/dpr/utils/dateHelper'
 
 export default class Report {
   id: string
@@ -176,7 +176,7 @@ export default class Report {
 
   private getAysncData = async () => {
     const reportQueryRecord = this.reportQuery.toRecordWithFilterPrefix(true)
-    return await this.services.reportingService.getAsyncReport(
+    return this.services.reportingService.getAsyncReport(
       this.token,
       this.reportId,
       this.id,
@@ -186,7 +186,7 @@ export default class Report {
   }
 
   private getSyncData = async () => {
-    const resourceName = this.variant.resourceName
+    const { resourceName } = this.variant
     const listWithWarnings = await this.services.reportingService.getListWithWarnings(
       resourceName,
       this.token,
@@ -353,7 +353,7 @@ export default class Report {
     const { query, url, timestamp } = requestData
     return {
       executionId: requestData.executionId,
-      requestedTimestamp: apiTimestampToUiDate(timestamp.requested),
+      requestedTimestamp: apiTimestampToUiDateTime(timestamp.requested),
       querySummary: query?.summary || [],
       queryData: query?.data,
       requestUrl: url?.request,

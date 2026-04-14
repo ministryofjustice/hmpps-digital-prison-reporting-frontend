@@ -52,7 +52,7 @@ class ViewAyncReportController {
       })
 
       // Render the report
-      return res.render(`dpr/routes/journeys/view-report/report`, {
+      res.render(`dpr/routes/journeys/view-report/report`, {
         layoutPath: this.layoutPath,
         ...renderData,
         validationErrors,

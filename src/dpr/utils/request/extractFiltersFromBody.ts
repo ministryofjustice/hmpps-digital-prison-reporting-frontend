@@ -5,18 +5,30 @@
  * @param {Record<string, unknown>} body
  * @return {*}  {Record<string, unknown>}
  */
-export const extractFiltersFromBody = (body: Record<string, unknown>): Record<string, unknown> =>
-  Object.entries(body).reduce<Record<string, unknown>>((acc, [key, value]) => {
-    if (!key.startsWith('filters.')) return acc
+export const extractFiltersFromBody = (body: Record<string, unknown>): Record<string, unknown> => {
+  const result: Record<string, unknown> = {}
+
+  Object.entries(body).forEach(([key, value]) => {
+    if (!key.startsWith('filters.')) return
 
     const path = key.replace('filters.', '').split('.')
-    const target = path.slice(0, -1).reduce<Record<string, unknown>>((current, segment) => {
+    let current: Record<string, unknown> = result
+
+    path.forEach((segment, index) => {
+      const isLast = index === path.length - 1
+
+      if (isLast) {
+        current[segment] = value
+        return
+      }
+
       if (typeof current[segment] !== 'object' || current[segment] === null) {
         current[segment] = {}
       }
-      return current[segment] as Record<string, unknown>
-    }, acc)
 
-    target[path[path.length - 1]] = value
-    return acc
-  }, {})
+      current = current[segment] as Record<string, unknown>
+    })
+  })
+
+  return result
+}

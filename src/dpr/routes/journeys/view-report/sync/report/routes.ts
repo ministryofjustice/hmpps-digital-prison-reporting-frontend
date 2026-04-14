@@ -3,7 +3,7 @@ import { Router } from 'express'
 import ViewSyncReportController from './controller'
 import { Services } from '../../../../../types/Services'
 import { loadReportDefinition } from '../../../../../middleware/loadReportDefinition'
-import { validateFilters } from '../../../../../validation/validateFIlters'
+import { validateFilters } from '../../../../../validation/validateFilters'
 import { LoadType } from '../../../../../types/UserReports'
 
 export function routes({ layoutPath, services }: { layoutPath: string; services: Services }): Router {

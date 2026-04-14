@@ -34,55 +34,53 @@ const isReportDefinition = (
 export const validateFilters =
   ({ interactive, loadType = LoadType.ASYNC }: { interactive: boolean; loadType?: LoadType }): RequestHandler =>
   (req, res, next) => {
-    // definition set in previous middleware
     const definition = res.locals.definition as
       | components['schemas']['SingleVariantReportDefinition']
       | components['schemas']['DashboardDefinition']
       | undefined
 
     if (!definition) {
-      return next(new Error('Definition missing from res.locals'))
+      next(new Error('Definition missing from res.locals'))
+    } else {
+      // Normalise the filters
+      const rawBody = req.body
+      const normalisedFilters =
+        rawBody && typeof rawBody === 'object' ? extractFiltersFromBody(rawBody as Record<string, unknown>) : {}
+
+      // Get the fields
+      const fields = isReportDefinition(definition) ? getFields(definition) : getDashboardFields(definition)
+
+      // Get only the relevant applicable fields for the form type
+      const applicableFields = getFieldsWithFilters(fields).filter((field) => {
+        const isInteractive = field.filter?.interactive === true
+        return interactive ? isInteractive : !isInteractive
+      })
+
+      // Build the schema based on the fields filters and check it
+      const schema = buildFilterSchemaFromFields(applicableFields)
+      const result = schema.safeParse(normalisedFilters)
+
+      if (result.success) {
+        // All good - go to request the report middleware
+        res.locals.validatedFilters = result.data
+        next()
+      } else {
+        const errors = result.error.issues.map((issue) => ({
+          href: `#filters.${issue.path.join('.')}`,
+          text: issue.message,
+        }))
+
+        req.flash('DPR_ERRORS', JSON.stringify(errors))
+
+        let redirect = req.originalUrl
+        if (interactive) {
+          const currentParams = buildRedirectParams(req, rawBody, loadType)
+          redirect = `${req.baseUrl}?${currentParams}`
+        }
+
+        res.redirect(redirect)
+      }
     }
-
-    // Normalise the filters
-    const rawBody = req.body
-    const normalisedFilters =
-      rawBody && typeof rawBody === 'object' ? extractFiltersFromBody(rawBody as Record<string, unknown>) : {}
-
-    // Get the fields
-    const fields = isReportDefinition(definition) ? getFields(definition) : getDashboardFields(definition)
-
-    // Get only the relevant applicable fields for the form type
-    const applicableFields = getFieldsWithFilters(fields).filter((field) => {
-      const isInteractive = field.filter?.interactive === true
-      return interactive ? isInteractive : !isInteractive
-    })
-
-    // Build the schema based on the fields filters
-    const schema = buildFilterSchemaFromFields(applicableFields)
-
-    // check it
-    const result = schema.safeParse(normalisedFilters)
-    if (result.success) {
-      // All good - go to request the report middleware
-      res.locals.validatedFilters = result.data
-      return next()
-    }
-
-    const errors = result.error.issues.map((issue) => ({
-      href: `#filters.${issue.path.join('.')}`,
-      text: issue.message,
-    }))
-    req.flash('DPR_ERRORS', JSON.stringify(errors))
-
-    let redirect = req.originalUrl
-    if (interactive) {
-      const currentParams = buildRedirectParams(req, rawBody, loadType)
-      redirect = `${req.baseUrl}?${currentParams}`
-    }
-
-    res.redirect(redirect)
-    return
   }
 
 /**

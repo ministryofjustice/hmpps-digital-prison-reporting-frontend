@@ -6,7 +6,7 @@ import parseUrl from 'parseurl'
 import { setUpBookmark } from '../bookmark/utils'
 import { setUpDownload } from '../../routes/journeys/download-report/utils'
 import ReportActionsUtils from './report-heading/report-actions/utils'
-import { hasInteractiveFilters, getFields, getTemplate, getFieldsWithFilters } from '../../utils/definitionUtils'
+import { hasInteractiveFilters, getFields, getTemplate } from '../../utils/definitionUtils'
 import PaginationUtils from './report-page/report-template/report-pagination/utils'
 import TotalsUtils from './report-page/report-template/report-totals/utils'
 import ReportTemplateUtils from './report-page/report-template/utils'
@@ -34,7 +34,7 @@ import ReportQuery from '../../types/ReportQuery'
 // Helpers
 import { getActiveJourneyValue } from '../../utils/sessionHelper'
 import LocalsHelper from '../../utils/localsHelper'
-import { AppliedFilterChip, buildAppliedFilterChips, buildAppliedFilters } from '../_filters/filters-applied/utils'
+import { AppliedFilterChip, buildAppliedFilters } from '../_filters/filters-applied/utils'
 import { apiTimestampToUiDateTime } from '../../utils/dateHelper'
 
 export default class Report {

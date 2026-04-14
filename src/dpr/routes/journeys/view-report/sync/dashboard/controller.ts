@@ -3,6 +3,7 @@ import ErrorHandler from '../../../../../utils/ErrorHandler/ErrorHandler'
 import { Services } from '../../../../../types/Services'
 import SyncDashboardUtils from './utils'
 import ViewReportUtils from '../../utils'
+import { LoadType } from 'src/dpr/types/UserReports'
 
 class ViewSyncDashboardController {
   layoutPath: string
@@ -32,7 +33,7 @@ class ViewSyncDashboardController {
   }
 
   applyFilters: RequestHandler = async (req, res, _next) => {
-    await ViewReportUtils.applyDashboardInteractiveQuery(req, res, 'filters')
+    await ViewReportUtils.applyDashboardInteractiveQuery(req, res, 'filters', LoadType.SYNC)
   }
 }
 

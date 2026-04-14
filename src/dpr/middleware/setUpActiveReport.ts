@@ -190,14 +190,6 @@ const setUpReportUrls = (req: Request) => {
     currentSortSearch = queryObjectToQs(pageSortQueryObject)
   }
 
-  console.log({
-    currentReportFiltersSearch,
-    currentReportColumnsSearch,
-    currentPageSizeSearch,
-    currentSortSearch,
-    currentReportSearch,
-  })
-
   return {
     ...(currentReportPathname && { currentReportPathname }),
     ...(currentReportSearch !== undefined && { currentReportSearch }),

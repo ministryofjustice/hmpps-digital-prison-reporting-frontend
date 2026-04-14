@@ -80,7 +80,12 @@ export const buildDateField = (field: FieldDefinition) => {
   const { filter, display } = field
   if (!filter) throw new Error('Missing filter')
 
-  // Date range (object form)
+  if (filter.type === 'date') {
+    const schema = z.string().min(1, `${display} is required`).refine(isValidUiDate, `${display} must be a valid date`)
+
+    return filter.mandatory ? schema : schema.optional()
+  }
+
   if (filter.type === 'daterange' || filter.type === 'granulardaterange') {
     let base = z.object({
       start: z

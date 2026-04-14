@@ -13,5 +13,6 @@ export const buildFilterSchemaFromFields = (fields: FieldDefinition[]) => {
   for (const field of fieldsWithFilters) {
     shape[field.name] = buildFilterValidator(field)
   }
+
   return z.object(shape)
 }

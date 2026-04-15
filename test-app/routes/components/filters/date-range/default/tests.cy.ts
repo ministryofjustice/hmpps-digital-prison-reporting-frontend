@@ -1,4 +1,4 @@
-import { checkA11y } from "cypress-tests/cypressUtils"
+import { checkA11y } from 'cypress-tests/cypressUtils'
 
 context('Inputs: date range with default values', () => {
   const path = '/components/filters/date-range/default-date-range'
@@ -18,17 +18,13 @@ context('Inputs: date range with default values', () => {
 
   it('should set the selected filter buttons correctly', () => {
     cy.findByLabelText(/Selected filters.*/i).within(() => {
-      cy.findAllByRole('link')
-        .should('have.length', 3)
+      cy.findAllByRole('button')
+        .should('have.length', 1)
         .each((filter, index) => {
           switch (index) {
             case 0:
-              cy.wrap(filter).contains('Date-range start')
-              cy.wrap(filter).contains('01/02/2003')
-              break
-            case 1:
-              cy.wrap(filter).contains('Date-range end')
-              cy.wrap(filter).contains('04/05/2007')
+              cy.wrap(filter).contains('Date-range')
+              cy.wrap(filter).contains('01/02/2003 - 04/05/2007')
               break
             default:
               break
@@ -48,7 +44,7 @@ context('Inputs: date range with default values', () => {
       })
 
       cy.findByLabelText(/Selected filters.*/i).within(() => {
-        cy.findAllByRole('link').should('have.length', 3)
+        cy.findAllByRole('button').should('have.length', 1)
       })
       cy.findByRole('link', { name: 'Reset filters' }).click()
       cy.location().should((location) => {
@@ -56,18 +52,14 @@ context('Inputs: date range with default values', () => {
         expect(location.search).to.contain(`filters.default-date-range.end=2007-05-04`)
       })
       cy.findByLabelText(/Selected filters.*/i).within(() => {
-        cy.findAllByRole('link').should('have.length', 3)
+        cy.findAllByRole('button').should('have.length', 1)
       })
       cy.findByLabelText(/Selected filters.*/i).within(() => {
-        cy.findAllByRole('link').each((filter, index) => {
+        cy.findAllByRole('button').each((filter, index) => {
           switch (index) {
             case 0:
-              cy.wrap(filter).contains('Default Date-range start')
-              cy.wrap(filter).contains('01/02/2003')
-              break
-            case 1:
-              cy.wrap(filter).contains('Default Date-range end')
-              cy.wrap(filter).contains('04/05/2007')
+              cy.wrap(filter).contains('Default Date-range')
+              cy.wrap(filter).contains('01/02/2003 - 04/05/2007')
               break
             default:
               break

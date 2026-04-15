@@ -31,7 +31,7 @@ context('Inputs: Relative date range with defaults', () => {
       })
 
       cy.findByLabelText(/Selected filters.*/i).within(() => {
-        cy.findAllByRole('link').each((filter, index) => {
+        cy.findAllByRole('button').each((filter, index) => {
           switch (index) {
             case 0:
               cy.wrap(filter).contains('Preset date range')
@@ -54,7 +54,7 @@ context('Inputs: Relative date range with defaults', () => {
       cy.findByRole('button', { name: 'Update defaults' }).should('exist')
 
       cy.findByLabelText(/Selected filters.*/i).within(() => {
-        cy.findAllByRole('link').each((filter, index) => {
+        cy.findAllByRole('button').each((filter, index) => {
           switch (index) {
             case 0:
               cy.wrap(filter).contains('Preset date range')

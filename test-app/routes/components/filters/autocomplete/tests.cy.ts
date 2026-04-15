@@ -38,8 +38,8 @@ context('Filters: Autocomplete', () => {
       cy.findByRole('combobox').type('Ini')
       cy.findByRole('button', { name: /Inigo/ }).click()
       cy.findByLabelText(/Selected filters.*/i).within(() => {
-        cy.findAllByRole('link').eq(0).contains('Autocomplete')
-        cy.findAllByRole('link').eq(0).contains('Inigo Montoya')
+        cy.findAllByRole('button').eq(0).contains('Autocomplete')
+        cy.findAllByRole('button').eq(0).contains('Inigo Montoya')
       })
     })
 
@@ -75,8 +75,8 @@ context('Filters: Autocomplete', () => {
       )
       cy.findByRole('combobox').should('have.value', 'Est one')
       cy.findByLabelText(/Selected filters.*/i).within(() => {
-        cy.findAllByRole('link').eq(0).contains('Establishment')
-        cy.findAllByRole('link').eq(0).contains('Est one')
+        cy.findAllByRole('button').eq(0).contains('Establishment')
+        cy.findAllByRole('button').eq(0).contains('Est one')
       })
 
       cy.visit(
@@ -84,8 +84,8 @@ context('Filters: Autocomplete', () => {
       )
       cy.findByRole('combobox').should('have.value', 'Est two')
       cy.findByLabelText(/Selected filters.*/i).within(() => {
-        cy.findAllByRole('link').eq(0).contains('Establishment')
-        cy.findAllByRole('link').eq(0).contains('Est two')
+        cy.findAllByRole('button').eq(0).contains('Establishment')
+        cy.findAllByRole('button').eq(0).contains('Est two')
       })
     })
   })

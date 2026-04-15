@@ -33,13 +33,10 @@ context('Inputs: Relative date range', () => {
         })
 
       cy.findByLabelText(/Selected filters.*/i).within(() => {
-        cy.findAllByRole('link').each((filter, index) => {
+        cy.findAllByRole('button').each((filter, index) => {
           switch (index) {
             case 0:
-              cy.wrap(filter).contains('Relative Date-range start')
-              break
-            case 1:
-              cy.wrap(filter).contains('Relative Date-range end')
+              cy.wrap(filter).contains('Relative Date-range')
               break
             default:
               break
@@ -55,7 +52,7 @@ context('Inputs: Relative date range', () => {
         expect(location.search).to.contain(`filters.relative-date-range.relative-duration=none`)
       })
       cy.findByLabelText(/Selected filters.*/i).within(() => {
-        cy.findAllByRole('link').each((filter, index) => {
+        cy.findAllByRole('button').each((filter, index) => {
           switch (index) {
             case 0:
               cy.wrap(filter).contains('Preset date range')
@@ -79,7 +76,7 @@ context('Inputs: Relative date range', () => {
         expect(location.search).to.contain(`filters.relative-date-range.relative-duration=yesterday`)
       })
       cy.findByLabelText(/Selected filters.*/i).within(() => {
-        cy.findAllByRole('link').each((filter, index) => {
+        cy.findAllByRole('button').each((filter, index) => {
           switch (index) {
             case 0:
               cy.wrap(filter).contains('Preset date range')
@@ -101,7 +98,7 @@ context('Inputs: Relative date range', () => {
         expect(location.search).to.contain(`filters.relative-date-range.relative-duration=tomorrow`)
       })
       cy.findByLabelText(/Selected filters.*/i).within(() => {
-        cy.findAllByRole('link').each((filter, index) => {
+        cy.findAllByRole('button').each((filter, index) => {
           switch (index) {
             case 0:
               cy.wrap(filter).contains('Preset date range')
@@ -123,7 +120,7 @@ context('Inputs: Relative date range', () => {
         expect(location.search).to.contain(`filters.relative-date-range.relative-duration=last-seven-days`)
       })
       cy.findByLabelText(/Selected filters.*/i).within(() => {
-        cy.findAllByRole('link').each((filter, index) => {
+        cy.findAllByRole('button').each((filter, index) => {
           switch (index) {
             case 0:
               cy.wrap(filter).contains('Preset date range')
@@ -145,7 +142,7 @@ context('Inputs: Relative date range', () => {
         expect(location.search).to.contain(`filters.relative-date-range.relative-duration=next-seven-days`)
       })
       cy.findByLabelText(/Selected filters.*/i).within(() => {
-        cy.findAllByRole('link').each((filter, index) => {
+        cy.findAllByRole('button').each((filter, index) => {
           switch (index) {
             case 0:
               cy.wrap(filter).contains('Preset date range')
@@ -167,7 +164,7 @@ context('Inputs: Relative date range', () => {
         expect(location.search).to.contain(`filters.relative-date-range.relative-duration=last-month`)
       })
       cy.findByLabelText(/Selected filters.*/i).within(() => {
-        cy.findAllByRole('link').each((filter, index) => {
+        cy.findAllByRole('button').each((filter, index) => {
           switch (index) {
             case 0:
               cy.wrap(filter).contains('Preset date range')
@@ -189,7 +186,7 @@ context('Inputs: Relative date range', () => {
         expect(location.search).to.contain(`filters.relative-date-range.relative-duration=next-month`)
       })
       cy.findByLabelText(/Selected filters.*/i).within(() => {
-        cy.findAllByRole('link').each((filter, index) => {
+        cy.findAllByRole('button').each((filter, index) => {
           switch (index) {
             case 0:
               cy.wrap(filter).contains('Preset date range')
@@ -222,7 +219,7 @@ context('Inputs: Relative date range', () => {
         expect(location.search).to.contain(`filters.field1.relative-duration=yesterday`)
       })
       cy.findByLabelText(/Selected filters.*/i).within(() => {
-        cy.findAllByRole('link').each((filter, index) => {
+        cy.findAllByRole('button').each((filter, index) => {
           switch (index) {
             case 0:
               cy.wrap(filter).contains('Preset date range')
@@ -244,7 +241,7 @@ context('Inputs: Relative date range', () => {
       cy.findByRole('button', { name: 'Delete defaults' }).should('exist')
 
       cy.findByLabelText(/Selected filters.*/i).within(() => {
-        cy.findAllByRole('link').each((filter, index) => {
+        cy.findAllByRole('button').each((filter, index) => {
           switch (index) {
             case 0:
               cy.wrap(filter).contains('Preset date range')
@@ -285,7 +282,7 @@ context('Inputs: Relative date range', () => {
       cy.findByRole('button', { name: 'Delete defaults' }).should('exist')
 
       cy.findByLabelText(/Selected filters.*/i).within(() => {
-        cy.findAllByRole('link').each((filter, index) => {
+        cy.findAllByRole('button').each((filter, index) => {
           switch (index) {
             case 0:
               cy.wrap(filter).contains('Preset date range')
@@ -330,7 +327,7 @@ context('Inputs: Relative date range', () => {
       })
 
       cy.findByLabelText(/Selected filters.*/i).within(() => {
-        cy.findAllByRole('link').each((filter, index) => {
+        cy.findAllByRole('button').each((filter, index) => {
           switch (index) {
             case 0:
               cy.wrap(filter).contains('Preset date range')

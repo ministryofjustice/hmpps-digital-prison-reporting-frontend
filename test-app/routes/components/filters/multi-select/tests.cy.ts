@@ -25,8 +25,8 @@ context('Inputs: multiselect', () => {
       cy.findByRole('checkbox', { name: 'Value 8.4' }).check()
 
       cy.findByLabelText(/Selected filters.*/i).within(() => {
-        cy.findAllByRole('link').eq(0).contains('Multiselect')
-        cy.findAllByRole('link').eq(0).contains('Value 8.2, Value 8.4')
+        cy.findAllByRole('button').eq(0).contains('Multiselect')
+        cy.findAllByRole('button').eq(0).contains('Value 8.2, Value 8.4')
       })
 
       cy.location().should((location) => {
@@ -42,14 +42,14 @@ context('Inputs: multiselect', () => {
       cy.findByRole('checkbox', { name: 'Value 8.4' }).check()
 
       cy.findByLabelText(/Selected filters.*/i).within(() => {
-        cy.findAllByRole('link').eq(0).contains('Multiselect')
-        cy.findAllByRole('link').eq(0).contains('Value 8.1, Value 8.2, Value 8.3 + 1 more')
+        cy.findAllByRole('button').eq(0).contains('Multiselect')
+        cy.findAllByRole('button').eq(0).contains('Value 8.1, Value 8.2, Value 8.3 + 1 more')
       })
     })
 
     it('should uncheck the values when the selected filter button is clicked', () => {
       cy.findByLabelText(/Selected filters.*/i).within(() => {
-        cy.findAllByRole('link').eq(0).click()
+        cy.findAllByRole('button').eq(0).click()
       })
       cy.findByRole('checkbox', { name: 'Value 8.1' }).should('not.be.checked')
       cy.findByRole('checkbox', { name: 'Value 8.2' }).should('not.be.checked')

@@ -1,4 +1,4 @@
-import { checkA11y } from "cypress-tests/cypressUtils"
+import { checkA11y } from 'cypress-tests/cypressUtils'
 
 context('Inputs: date range with min and max', () => {
   const path = '/components/filters/date-range/min-max-date-range'
@@ -32,7 +32,7 @@ context('Inputs: date range with min and max', () => {
       expect(location.search).to.contain(`filters.date-range-min-max.end=2007-05-04`)
     })
     cy.findByLabelText(/Selected filters.*/i).within(() => {
-      cy.findAllByRole('link').each((filter, index) => {
+      cy.findAllByRole('button').each((filter, index) => {
         switch (index) {
           case 0:
             cy.wrap(filter).contains('Date-range, with min and max end')
@@ -66,7 +66,7 @@ context('Inputs: date range with min and max', () => {
         expect(location.search).to.contain(`filters.date-range-min-max.start=2004-06-03`)
       })
       cy.findByLabelText(/Selected filters.*/i).within(() => {
-        cy.findAllByRole('link').each((filter, index) => {
+        cy.findAllByRole('button').each((filter, index) => {
           switch (index) {
             case 0:
               cy.wrap(filter).contains('Date-range, with min and max start')
@@ -85,7 +85,7 @@ context('Inputs: date range with min and max', () => {
         expect(location.search).to.contain(`filters.date-range-min-max.end=2005-11-06`)
       })
       cy.findByLabelText(/Selected filters.*/i).within(() => {
-        cy.findAllByRole('link').each((filter, index) => {
+        cy.findAllByRole('button').each((filter, index) => {
           switch (index) {
             case 0:
               cy.wrap(filter).contains('Date-range, with min and max end')

@@ -313,6 +313,27 @@ export const getDefaultFiltersQueryString = (
 }
 
 /**
+ * Sets the default sort query string
+ *
+ * @param {components['schemas']['FieldDefinition'][]} fields
+ * @return {*}
+ */
+export const getDefaultSortQueryString = (fields: components['schemas']['FieldDefinition'][]) => {
+  const defaultSortField = fields.find((field) => field.defaultsort)
+  if (!defaultSortField) {
+    return ''
+  }
+
+  const defaultSortParams = new URLSearchParams()
+  const isAsc = (defaultSortField.sortDirection ?? 'asc') === 'asc'
+
+  defaultSortParams.set('sortColumn', defaultSortField.name)
+  defaultSortParams.set('sortedAsc', String(isAsc))
+
+  return buildQueryString(defaultSortParams)
+}
+
+/**
  * Builds the querystring
  *
  * @param {URLSearchParams} params

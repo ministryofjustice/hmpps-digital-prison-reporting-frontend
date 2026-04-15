@@ -63,7 +63,7 @@ context('Requesting a report', () => {
           )
           cy.location().should((location) => {
             expect(location.search).to.contain(
-              `columns=field1&columns=field2&columns=field3&columns=field6&columns=field7`,
+              `columns=field2&columns=field6&columns=field1&columns=field3&columns=field7`,
             )
           })
         })

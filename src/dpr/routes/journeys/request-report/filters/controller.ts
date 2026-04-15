@@ -6,6 +6,7 @@ import PersonalisationUtils from '../../../../utils/Personalisation/personalisat
 import { FiltersType } from '../../../../components/_filters/filtersTypeEnum'
 import ErrorHandler from '../../../../utils/ErrorHandler/ErrorHandler'
 import { getActiveJourneyValue } from '../../../../utils/sessionHelper'
+import { joinQueryStrings } from '../../../../utils/urlHelper'
 
 class RequestReportController {
   layoutPath: string
@@ -174,12 +175,17 @@ class RequestReportController {
     const sessionKey = { id, reportId }
     const defaultFiltersSearch = getActiveJourneyValue(req, sessionKey, 'defaultFiltersSearch')
     const savedRequestDefaultsSearch = getActiveJourneyValue(req, sessionKey, 'savedRequestDefaultsSearch')
+    const defautltSortQueryString = getActiveJourneyValue(req, sessionKey, 'defautltSortQueryString')
 
     // If DPD defaults, use those unless there are saved defaults
     const effectiveQueryString =
       savedRequestDefaultsSearch && savedRequestDefaultsSearch.length > 0
         ? savedRequestDefaultsSearch
         : defaultFiltersSearch
+
+    if (defautltSortQueryString && defautltSortQueryString.length > 0) {
+      return joinQueryStrings(effectiveQueryString, defautltSortQueryString)
+    }
 
     return effectiveQueryString
   }

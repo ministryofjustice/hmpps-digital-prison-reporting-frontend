@@ -147,7 +147,7 @@ export class DprSelectedAsyncFilters extends DprClientClass {
 
     return {
       displayName,
-      displayValue: `${formatDateOrUnset(start?.value)} – ${formatDateOrUnset(end?.value)}`,
+      displayValue: `${formatDateOrUnset(start?.value)} - ${formatDateOrUnset(end?.value)}`,
       inputs: controls,
     }
   }
@@ -213,19 +213,36 @@ export class DprSelectedAsyncFilters extends DprClientClass {
   // ----------------------------------
 
   private getDisplayName(controls: FilterControl[]): string {
-    const control = controls[0]
+    const legend = controls[0]?.closest('fieldset')?.querySelector('legend')?.textContent
 
-    const explicit = control.getAttribute('display-name') ?? (control as HTMLElement).dataset['displayName']
-    if (explicit) return explicit
-
-    const legend = control.closest('fieldset')?.querySelector('legend')?.textContent
-    if (legend) return legend.trim()
-
-    if (control instanceof HTMLInputElement && control.labels?.[0]?.innerText) {
-      return control.labels[0].innerText
+    if (legend) {
+      return legend.trim()
     }
 
-    return control.name
+    const isDateRange = controls.some((c) => c.name.endsWith('.start')) && controls.some((c) => c.name.endsWith('.end'))
+
+    if (isDateRange) {
+      const explicit = controls.map((c) => c.getAttribute('display-name')).find(Boolean)
+      if (explicit) {
+        return explicit.replace(/\s+(start|end)$/i, '').trim()
+      }
+    }
+
+    const explicit = controls.map((c) => c.getAttribute('display-name')).find(Boolean)
+
+    if (explicit) {
+      return explicit
+    }
+
+    const label = controls
+      .map((c) => (c instanceof HTMLInputElement ? c.labels?.[0]?.innerText : undefined))
+      .find(Boolean)
+
+    if (label) {
+      return label
+    }
+
+    return controls[0].name
   }
 
   private getDisplayValue(control: FilterControl): string {
@@ -234,6 +251,12 @@ export class DprSelectedAsyncFilters extends DprClientClass {
       return option?.text ?? ''
     }
 
+    // Autocomplete & text inputs should use their value
+    if (control instanceof HTMLInputElement && (control.type === 'search' || control.type === 'text')) {
+      return control.value
+    }
+
+    // Static option value for radios & checkboxes
     if (control.dataset['staticOptionNameValue']) {
       return control.dataset['staticOptionNameValue']
     }
@@ -244,10 +267,6 @@ export class DprSelectedAsyncFilters extends DprClientClass {
       control.labels?.[0]?.innerText
     ) {
       return control.labels[0].innerText
-    }
-
-    if (control instanceof HTMLInputElement && control.classList.contains('moj-js-datepicker-input')) {
-      return control.value
     }
 
     return control.value
@@ -271,16 +290,28 @@ export class DprSelectedAsyncFilters extends DprClientClass {
     button.append(name, value)
 
     button.addEventListener('click', () => {
+      const params = new URLSearchParams(window.location.search)
+
+      // Remove ALL values for this filter from the query string
       filter.inputs.forEach((control) => {
+        params.delete(control.name)
+
         if (control instanceof HTMLSelectElement) {
           control.selectedIndex = 0
-        } else {
-          control.checked = false
-          control.value = ''
+        } else if (control instanceof HTMLInputElement) {
+          if (control.type === 'checkbox' || control.type === 'radio') {
+            control.checked = false
+          } else {
+            control.value = ''
+          }
         }
 
-        control.dispatchEvent(new Event('change'))
+        control.dispatchEvent(new Event('change', { bubbles: true }))
       })
+
+      const query = params.toString()
+      const url = query ? `?${query}` : window.location.pathname
+      window.history.replaceState(null, '', url)
     })
 
     return button

@@ -9,6 +9,7 @@ import LocalsHelper from '../utils/localsHelper'
 import {
   getDefaultColumnsQueryString,
   getDefaultFiltersQueryString,
+  getDefaultSortQueryString,
   getDefinitionByType,
 } from '../utils/definitionUtils'
 import { FiltersType } from '../components/_filters/filtersTypeEnum'
@@ -220,11 +221,13 @@ const setUpReportUrls = (req: Request) => {
  */
 const setUpDefaultsFromDefinition = async (fields: components['schemas']['FieldDefinition'][]) => {
   const filtersQueryStrings = getDefaultFiltersQueryString(fields)
-  const columnsQueryString = getDefaultColumnsQueryString(fields)
+  const defaultColumnsSearch = getDefaultColumnsQueryString(fields)
+  const defautltSortQueryString = getDefaultSortQueryString(fields)
 
   return {
     ...filtersQueryStrings,
-    defaultColumnsSearch: columnsQueryString,
+    defaultColumnsSearch,
+    defautltSortQueryString,
   }
 }
 

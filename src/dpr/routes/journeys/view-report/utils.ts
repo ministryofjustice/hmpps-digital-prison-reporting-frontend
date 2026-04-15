@@ -249,16 +249,16 @@ const createDefaultQueryString = (req: Request): string | undefined => {
    * applying default columns and optional filters.
    */
   const hasIncomingQueryParams = Object.keys(req.query).length > 0
-
-  let filtersToApply
-  if (!hasIncomingQueryParams && defaultColumnsSearch) {
-    filtersToApply =
-      savedInteractiveDefaultsSearch && savedInteractiveDefaultsSearch?.length
-        ? savedInteractiveDefaultsSearch
-        : defaultFiltersSearch
+  if (hasIncomingQueryParams || !defaultColumnsSearch) {
+    return undefined
   }
 
-  return filtersToApply ? joinQueryStrings(defaultColumnsSearch, filtersToApply) : undefined
+  const filtersToApply =
+    savedInteractiveDefaultsSearch && savedInteractiveDefaultsSearch.length
+      ? savedInteractiveDefaultsSearch
+      : defaultFiltersSearch
+
+  return filtersToApply ? joinQueryStrings(defaultColumnsSearch, filtersToApply) : defaultColumnsSearch
 }
 
 /**

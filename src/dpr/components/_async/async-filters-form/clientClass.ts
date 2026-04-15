@@ -60,12 +60,19 @@ export class DprFiltersFormClass extends DprClientClass {
   private updateCheckbox(params: URLSearchParams, input: HTMLInputElement): void {
     const values = params.getAll(input.name)
 
-    if (input.checked) {
-      if (!values.includes(input.value)) {
-        params.append(input.name, input.value)
-      }
-    } else {
-      params.delete(input.name, input.value)
+    // Remove all existing values for this key
+    params.delete(input.name)
+
+    // Re‑add all values except the unchecked one
+    values
+      .filter((value) => value !== input.value || input.checked)
+      .forEach((value) => {
+        params.append(input.name, value)
+      })
+
+    // Add the newly checked value
+    if (input.checked && !values.includes(input.value)) {
+      params.append(input.name, input.value)
     }
   }
 

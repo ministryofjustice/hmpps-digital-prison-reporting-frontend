@@ -15,7 +15,7 @@ export default class DateRangeController {
       mandatory: true,
       defaultValue: '2003-02-01 - 2007-05-04',
       min: min ?? '',
-      max: max ?? ''
+      max: max ?? '',
     }
 
     const filterData: FilterValue = {

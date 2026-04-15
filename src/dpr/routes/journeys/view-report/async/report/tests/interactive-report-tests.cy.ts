@@ -429,7 +429,7 @@ context('Interactive report', () => {
 
       cy.visit(viewReportUrl)
 
-      cy.findByRole('link', { name: 'Reset filters' }).click()
+      cy.findByRole('button', { name: 'Reset filters' }).click()
 
       checkSelectedFilterValues({
         length: 6,
@@ -701,7 +701,7 @@ context('Interactive report', () => {
     })
 
     it('should show the sort direction in the column header and the url', () => {
-      cy.findByRole('link', { name: 'Reset filters' }).click()
+      cy.findByRole('button', { name: 'Reset filters' }).click()
 
       // Initial state
       cy.findByRole('link', { name: 'Field 1' }).should('have.class', 'data-table-header-button-sort-ascending')

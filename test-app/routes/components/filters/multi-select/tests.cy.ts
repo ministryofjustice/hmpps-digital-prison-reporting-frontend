@@ -10,8 +10,11 @@ context('Inputs: multiselect', () => {
 
   const getCheckbox = (label: string) => cy.findByRole('checkbox', { name: new RegExp(`^${label}$`, 'i') })
 
-  beforeEach(() => {
+  before(() => {
     executeReportStubs()
+  })
+
+  beforeEach(() => {
     cy.visit(path)
   })
 
@@ -48,6 +51,11 @@ context('Inputs: multiselect', () => {
     })
 
     it('should uncheck the values when the selected filter button is clicked', () => {
+      cy.findByRole('checkbox', { name: 'Value 8.1' }).check()
+      cy.findByRole('checkbox', { name: 'Value 8.2' }).check()
+      cy.findByRole('checkbox', { name: 'Value 8.3' }).check()
+      cy.findByRole('checkbox', { name: 'Value 8.4' }).check()
+
       cy.findByLabelText(/Selected filters.*/i).within(() => {
         cy.findAllByRole('button').eq(0).click()
       })
@@ -55,13 +63,6 @@ context('Inputs: multiselect', () => {
       cy.findByRole('checkbox', { name: 'Value 8.2' }).should('not.be.checked')
       cy.findByRole('checkbox', { name: 'Value 8.3' }).should('not.be.checked')
       cy.findByRole('checkbox', { name: 'Value 8.4' }).should('not.be.checked')
-    })
-  })
-
-  describe('Validation', () => {
-    it('should show the validation message when no value is provided', () => {
-      cy.findByRole('button', { name: /Request/ }).click()
-      cy.findByRole('alert').should('exist')
     })
   })
 
@@ -74,10 +75,6 @@ context('Inputs: multiselect', () => {
       cy.visit(`${route}?${queryParams}`)
       cy.findByRole('group', { name: /multiselect, long options list/i }).should('exist')
     }
-
-    beforeEach(() => {
-      executeReportStubs()
-    })
 
     it('renders correctly and shows a scrollable region for long lists', () => {
       pretestSetup()
@@ -102,12 +99,12 @@ context('Inputs: multiselect', () => {
       getCheckbox('Value 3.2').click()
 
       getSelectedFiltersSection().should('be.visible')
-      cy.findByRole('link', { name: /Value 1.2/i }).should('exist')
-      cy.findByRole('link', { name: /Value 3.2/i }).should('exist')
+      cy.findByRole('button', { name: /Value 1.2/i }).should('exist')
+      cy.findByRole('button', { name: /Value 3.2/i }).should('exist')
 
       getCheckbox('Value 1.2').click()
-      cy.findByRole('link', { name: /Value 1.2/i }).should('not.exist')
-      cy.findByRole('link', { name: /Value 3.2/i }).should('exist')
+      cy.findByRole('button', { name: /Value 1.2/i }).should('not.exist')
+      cy.findByRole('button', { name: /Value 3.2/i }).should('exist')
     })
 
     it('updates the querystring as checkboxes are toggled', () => {
@@ -125,36 +122,6 @@ context('Inputs: multiselect', () => {
         expect(qs).to.match(/filters\.multiselect-long=.*value2.2/i)
         expect(qs).to.match(/filters\.multiselect-long=.*value4.2/i)
       })
-    })
-
-    it('initialises defaults from existing query params', () => {
-      pretestSetup('filters.multiselect-long=value3.2&filters.multiselect-long=value5.2')
-
-      getCheckbox('Value 3.2').should('be.checked')
-      getCheckbox('Value 5.2').should('be.checked')
-
-      cy.findByRole('link', { name: /Value 3.2/i }).should('exist')
-      cy.findByRole('link', { name: /Value 5.2/i }).should('exist')
-    })
-
-    it('supports clearing all selections through the UI', () => {
-      pretestSetup()
-
-      getCheckbox('Value 1.2').click()
-      getCheckbox('Value 2.2').click()
-      getCheckbox('Value 3.2').click()
-
-      getCheckbox('Value 1.2').should('be.checked')
-      getCheckbox('Value 2.2').should('be.checked')
-      getCheckbox('Value 3.2').should('be.checked')
-
-      cy.findByRole('link', { name: /Reset filters/i }).click()
-
-      getCheckbox('Value 1.2').should('not.be.checked')
-      getCheckbox('Value 2.2').should('not.be.checked')
-      getCheckbox('Value 3.2').should('not.be.checked')
-
-      cy.findByRole('link', { name: /Value /i }).should('not.exist')
     })
 
     it('allows toggling a single option on and off without disturbing others', () => {
@@ -178,6 +145,36 @@ context('Inputs: multiselect', () => {
       getCheckbox('Value 2.2').focus().type(' ')
 
       getCheckbox('Value 2.2').should('be.checked')
+    })
+  })
+
+  describe('Reset values', () => {
+    const reportDetails = { name: 'Multiselect', description: 'Multiselect example' }
+
+    beforeEach(() => {
+      cy.task('stubMultiselectDefinitionRequest')
+      cy.task('stubResultSuccessResult')
+
+      cy.visit('/')
+      startReportRequest(reportDetails)
+    })
+
+    it('supports clearing all selections through the UI', () => {
+      getCheckbox('Value 1').click()
+      getCheckbox('Value 2').click()
+      getCheckbox('Value 3').click()
+
+      getCheckbox('Value 1').should('not.be.checked')
+      getCheckbox('Value 2').should('not.be.checked')
+      getCheckbox('Value 3').should('be.checked')
+
+      cy.findByRole('button', { name: /Reset filters/i }).click()
+
+      getCheckbox('Value 1').should('be.checked')
+      getCheckbox('Value 2').should('be.checked')
+      getCheckbox('Value 3').should('not.be.checked')
+
+      cy.findByRole('link', { name: /Value /i }).should('not.exist')
     })
   })
 

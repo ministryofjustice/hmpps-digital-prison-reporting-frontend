@@ -71,7 +71,7 @@ jobs:
 
       - run: npm run setup
 
-      - uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
           name: dpr-package-rpack
           path: dist
@@ -233,7 +233,7 @@ jobs:
         uses: ministryofjustice/devsecops-actions/sca/slsa@e3c63a5986ea6e7d57d38b7f72e5b8cf08dc7020
 
       # Download dist + node_modules (dpr-package-package)
-      - uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
           name: dpr-package-package
           path: .
@@ -412,7 +412,7 @@ jobs:
           node-version: '24.x'
           cache: 'npm'
 
-      - uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
           name: dpr-package-package
           path: .
@@ -479,7 +479,7 @@ jobs:
           node-version: '24.x'
           cache: 'npm'
 
-      - uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
           name: dpr-package-package
           path: .

@@ -464,16 +464,24 @@ export default class Report {
    * @return {*}
    */
   getCount = async () => {
-    this.count =
-      !this.variant.interactive || !hasInteractiveFilters(getFields(this.definition))
-        ? await this.services.reportingService.getAsyncCount(this.token, this.tableId)
-        : await this.services.reportingService.getAsyncInteractiveCount(
-            this.token,
-            this.tableId,
-            this.reportId,
-            this.id,
-            this.reportQuery,
-          )
+    if (this.loadType === LoadType.SYNC) {
+      this.count = await this.services.reportingService.getCount(
+        this.variant.resourceName,
+        this.token,
+        this.reportQuery,
+      )
+    } else {
+      this.count =
+        !this.variant.interactive || !hasInteractiveFilters(getFields(this.definition))
+          ? await this.services.reportingService.getAsyncCount(this.token, this.tableId)
+          : await this.services.reportingService.getAsyncInteractiveCount(
+              this.token,
+              this.tableId,
+              this.reportId,
+              this.id,
+              this.reportQuery,
+            )
+    }
   }
 
   /**

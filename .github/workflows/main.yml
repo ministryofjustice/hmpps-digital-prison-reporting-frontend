@@ -29,7 +29,7 @@ jobs:
       - name: Build using rpack
         run: npm run rpack
 
-      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         name: Upload rpack artifact
         with:
           name: dpr-package-rpack
@@ -43,7 +43,7 @@ jobs:
       - name: Build using package
         run: npm run package
 
-      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: dpr-package-package
           path: |
@@ -173,21 +173,21 @@ jobs:
 
       - name: Upload mi-ui logs
         if: success() || failure()
-        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: mi-ui-logs
           path: artifacts/mi-ui
 
       - name: Upload Cypress videos
         if: success() || failure()
-        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: mi-ui-cypress-videos
           path: artifacts/cypress/videos
 
       - name: Upload Cypress screenshots
         if: success() || failure()
-        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: mi-ui-cypress-screenshots
           path: artifacts/cypress/screenshots
@@ -351,27 +351,27 @@ jobs:
       # App logs (now include ALL runtime logs)
       - name: Upload app log
         if: success() || failure()
-        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: app-log-${{ matrix.shard_index }}
           path: app.log
           if-no-files-found: ignore
 
-      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         if: success() || failure()
         with:
           name: cypress-results-${{ matrix.shard_index }}
           path: test_results
           if-no-files-found: ignore
 
-      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         if: success() || failure()
         with:
           name: cypress-videos-${{ matrix.shard_index }}
           path: cypress-tests/integration-tests/videos
           if-no-files-found: ignore
 
-      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         if: success() || failure()
         with:
           name: cypress-screenshots-${{ matrix.shard_index }}
@@ -437,7 +437,7 @@ jobs:
 
       - name: Upload test-results (actual/expected/diff)
         if: success() || failure()
-        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: vrt-test-results
           path: test-results
@@ -449,7 +449,7 @@ jobs:
           find test-results -type f \( -name '*-actual.png' -o -name '*-expected.png' -o -name '*-diff.png' \) -exec bash -c 'mkdir -p "visual-diffs/$(dirname "{}" | sed "s#test-results/##")" && cp "{}" "visual-diffs/$(dirname "{}" | sed "s#test-results/##")/"' \;
       - name: Upload visual diffs (optional)
         if: success() || failure()
-        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: vrt-visual-diffs
           path: visual-diffs
@@ -509,7 +509,7 @@ jobs:
           find src/dpr/components/_dashboards/visual-regression-tests -name '*.png' -exec cp --parents {} updated-screenshots \;
 
       - name: Upload updated baselines
-        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: vrt-updated-snapshots
           path: updated-screenshots

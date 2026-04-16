@@ -1,4 +1,4 @@
-import { calcDatesForFilterDefinition } from '../../../utils/durationCalculator'
+import { calcDatesForAPI } from '../../../utils/durationCalculator'
 import { components } from '../../../types/api'
 import { DateRange } from '../../_filters/types'
 import RelativeDateRange from '../date-range/types'
@@ -45,7 +45,7 @@ export const getStartAndEndValueFromDefinition = (filter: components['schemas'][
   if (defaultQuickFilterValue) {
     const relative = defaultQuickFilterValue as RelativeDateRange
     value.relative = relative
-    const calculated = calcDatesForFilterDefinition(relative)
+    const calculated = calcDatesForAPI(relative)
 
     if (calculated) {
       value = {

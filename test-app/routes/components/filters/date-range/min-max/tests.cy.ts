@@ -22,7 +22,7 @@ context('Inputs: date range with min and max', () => {
         switch (index) {
           case 0:
             cy.wrap(filter).contains('Date-range, with min and max')
-            cy.wrap(filter).contains('01/02/2003 - unset')
+            cy.wrap(filter).contains('01/02/2003 - 04/05/2007')
             break
           default:
             break
@@ -41,7 +41,7 @@ context('Inputs: date range with min and max', () => {
         switch (index) {
           case 0:
             cy.wrap(filter).contains('Date-range, with min and max')
-            cy.wrap(filter).contains('unset - 04/05/2007')
+            cy.wrap(filter).contains('01/02/2003 - 04/05/2007')
             break
           default:
             break
@@ -75,7 +75,7 @@ context('Inputs: date range with min and max', () => {
           switch (index) {
             case 0:
               cy.wrap(filter).contains('Date-range, with min and max')
-              cy.wrap(filter).contains('03/06/2004 - unset')
+              cy.wrap(filter).contains('03/06/2004 - 04/05/2007')
               break
             default:
               break
@@ -94,7 +94,7 @@ context('Inputs: date range with min and max', () => {
           switch (index) {
             case 0:
               cy.wrap(filter).contains('Date-range, with min and max')
-              cy.wrap(filter).contains('unset - 06/11/2005')
+              cy.wrap(filter).contains('01/02/2003 - 06/11/2005')
               break
             default:
               break
@@ -104,19 +104,19 @@ context('Inputs: date range with min and max', () => {
     })
   })
 
-  // describe('Min max helper buttons', () => {
-  //   beforeEach(() => {
-  //     cy.visit(path)
-  //   })
+  describe('Min max helper buttons', () => {
+    beforeEach(() => {
+      cy.visit(path)
+    })
 
-  //   it('should set the min value when the min helper button is clicked', () => {
-  //     cy.findByRole('link', { name: /Set value to minimum date/ }).click()
-  //     expectMinValues()
-  //   })
+    it('should set the min value when the min helper button is clicked', () => {
+      cy.findByRole('link', { name: /Set value to minimum date/ }).click()
+      expectMinValues()
+    })
 
-  //   it('should set the max value when the max helper button is clicked', () => {
-  //     cy.findByRole('link', { name: /Set value to maximum date/ }).click()
-  //     expectMaxValues()
-  //   })
-  // })
+    it('should set the max value when the max helper button is clicked', () => {
+      cy.findByRole('link', { name: /Set value to maximum date/ }).click()
+      expectMaxValues()
+    })
+  })
 })

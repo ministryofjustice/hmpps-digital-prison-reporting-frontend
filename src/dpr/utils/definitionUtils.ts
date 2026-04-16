@@ -354,11 +354,7 @@ const appendFilterDefaults = (params: URLSearchParams, field: FieldWithFilter) =
   const { name, filter } = field
   const { type, defaultValue, defaultQuickFilterValue } = filter
 
-  console.log('####', { filter })
-
   if (!defaultValue && !defaultQuickFilterValue) return
-
-  console.log(type.toLowerCase(), FilterType.dateRange.toLowerCase())
 
   switch (type.toLowerCase()) {
     case FilterType.radio.toLowerCase():

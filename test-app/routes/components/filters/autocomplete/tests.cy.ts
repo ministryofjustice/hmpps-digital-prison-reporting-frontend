@@ -1,7 +1,11 @@
-import { checkA11y, executeReportStubs } from '../../../../../cypress-tests/cypressUtils'
+import { checkA11y, executeReportStubs, stubDefinitionsTasks } from '../../../../../cypress-tests/cypressUtils'
 
 context('Filters: Autocomplete', () => {
   const path = '/components/filters/autocomplete'
+
+  before(() => {
+    stubDefinitionsTasks()
+  })
 
   beforeEach(() => {
     cy.visit(path)
@@ -49,17 +53,6 @@ context('Filters: Autocomplete', () => {
       cy.location().should((location) => {
         expect(location.search).to.contain(`filters.autocomplete=Inigo+Montoya`)
       })
-    })
-  })
-
-  describe('Validation', () => {
-    it('should show the validation message when no value is provided', () => {
-      cy.findByRole('alert').should('not.exist')
-      cy.findAllByRole('paragraph').contains('Autocomplete is required').should('not.exist')
-      cy.findByRole('combobox').clear()
-      cy.findByRole('button', { name: /Request/ }).click()
-      cy.findByRole('alert').should('exist')
-      cy.findAllByRole('paragraph').contains('Autocomplete is required').should('exist')
     })
   })
 

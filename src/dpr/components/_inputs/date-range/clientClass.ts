@@ -1,6 +1,6 @@
 import { DprClientClass } from '../../../DprClientClass'
 import { uiDateToApi } from '../../../utils/dateHelper'
-import { calcDates, CalculableRelativeDateRange } from 'src/dpr/utils/durationCalculator'
+import { calcDates, calcDatesForAPI, CalculableRelativeDateRange } from 'src/dpr/utils/durationCalculator'
 import RelativeDateRange from './types'
 
 class DateRangeInput extends DprClientClass {
@@ -54,10 +54,13 @@ class DateRangeInput extends DprClientClass {
         if (radio.value === RelativeDateRange.NONE) {
           return
         }
-        const { startDate, endDate } = calcDates(radio.value as CalculableRelativeDateRange)
-        this.startInput.value = startDate
-        this.endInput.value = endDate
-        this.setDateRangeQueryString(startDate, endDate)
+        const dates = calcDatesForAPI(radio.value as CalculableRelativeDateRange)
+        if (dates) {
+          const { start, end } = dates
+          this.startInput.value = start
+          this.endInput.value = end
+          this.setDateRangeQueryString(start, end)
+        }
       })
     })
 

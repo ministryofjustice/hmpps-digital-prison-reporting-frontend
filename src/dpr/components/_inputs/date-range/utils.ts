@@ -8,7 +8,7 @@ import { DateRangeFilterValue, DateRange, FilterValue } from '../../_filters/typ
 import StartEndDateUtils from '../start-end-date/utils'
 import RelativeDateRange, { RelativeOption } from './types'
 import { DefaultDateFilterValue, defaultFilterValue } from '../../../utils/Personalisation/types'
-import { calcDates, calcDatesForFilterDefinition, calcDatesForInputs } from '../../../utils/durationCalculator'
+import { calcDates, calcDatesForAPI, calcDatesForUI } from '../../../utils/durationCalculator'
 
 dayjs.extend(customParse)
 dayjs.extend(isBetween)
@@ -98,7 +98,7 @@ export const getRelativeDateOptions = (min?: string, max?: string) => {
   let options: RelativeOption[] = getRelativeValues()
   options.forEach((option: RelativeOption) => {
     if (option.value !== RelativeDateRange.NONE) {
-      const dates = calcDatesForInputs(option.value)
+      const dates = calcDatesForUI(option.value)
       if (dates && !dateIsInBounds(dates.start, dates.end, min, max)) {
         option.disabled = true
       }
@@ -202,7 +202,7 @@ export const resolveDateRangeDefaults = (
 ): DateRangeDefaults | undefined => {
   // Case 1: quick filter wins
   if (filter.defaultQuickFilterValue) {
-    const dates = calcDatesForFilterDefinition(<RelativeDateRange>filter.defaultQuickFilterValue)
+    const dates = calcDatesForAPI(<RelativeDateRange>filter.defaultQuickFilterValue)
 
     return {
       relative: filter.defaultQuickFilterValue,

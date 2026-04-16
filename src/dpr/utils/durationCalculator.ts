@@ -87,7 +87,7 @@ export const calcDates = (range: RelativeDateRange): CalculatedDateRange | null 
  * Adapter for date inputs (DD/MM/YYYY)
  * Used by: DateRange client / UI code
  */
-export const calcDatesForInputs = (range: RelativeDateRange): { start: string; end: string } | null => {
+export const calcDatesForUI = (range: RelativeDateRange): { start: string; end: string } | null => {
   const result = calcDates(range)
   if (!result) return null
 
@@ -101,7 +101,7 @@ export const calcDatesForInputs = (range: RelativeDateRange): { start: string; e
  * Adapter for filter definitions (YYYY-MM-DD)
  * Used by: DateRange utils / filters / API payloads
  */
-export const calcDatesForFilterDefinition = (range: RelativeDateRange): { start: string; end: string } | null => {
+export const calcDatesForAPI = (range: RelativeDateRange): { start: string; end: string } | null => {
   const result = calcDates(range)
   if (!result) return null
 

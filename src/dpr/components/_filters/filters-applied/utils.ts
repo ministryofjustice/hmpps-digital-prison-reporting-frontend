@@ -1,9 +1,12 @@
 import { Request } from 'express'
 import { getActiveJourneyValue } from '../../../utils/sessionHelper'
 import { components } from '../../../types/api'
-import { formatDateOrUnset } from '../../../utils/dateHelper'
+import { apiDateToUi, formatDateOrUnset } from '../../../utils/dateHelper'
 import { qsToQueryObject } from '../../../utils/urlHelper'
 import { getFieldsWithFilters } from '../../../utils/definitionUtils'
+import { mapRelativeValue } from '../../_inputs/date-range/utils'
+import RelativeDateRange from '../../_inputs/date-range/types'
+import { FilterType } from '../filter-input/enum'
 
 /**
  * -------------------------------------------------------------------------------------
@@ -64,15 +67,18 @@ function buildChipForField(field: FieldDefinition, query: QueryParams): AppliedF
   const filter = field.filter!
   const baseKey = `filters.${field.name}`
 
-  switch (filter.type) {
-    case 'daterange':
+  switch (filter.type.toLowerCase()) {
+    case FilterType.dateRange.toLowerCase():
       return buildDateRangeChip(field, baseKey, query)
 
-    case 'granulardaterange':
+    case FilterType.granularDateRange.toLowerCase():
       return buildGranularDateRangeChip(field, baseKey, query)
 
-    case 'multiselect':
+    case FilterType.multiselect.toLowerCase():
       return buildMultiSelectChip(field, baseKey, query)
+
+    case FilterType.date.toLowerCase():
+      return buildDateChip(field, baseKey, query)
 
     default:
       return buildSingleValueChip(field, baseKey, query)
@@ -91,16 +97,27 @@ function buildChipForField(field: FieldDefinition, query: QueryParams): AppliedF
  * - Missing bounds rendered as 'unset'
  */
 function buildDateRangeChip(field: FieldDefinition, baseKey: string, query: QueryParams): AppliedFilterChip | null {
+  const duration = query[`${baseKey}.relative-duration`] as string | undefined
   const start = query[`${baseKey}.start`] as string | undefined
   const end = query[`${baseKey}.end`] as string | undefined
 
-  if (!start && !end) return null
+  // Render if anything date-related is set
+  if (!duration && !start && !end) return null
+
+  // Always show the explicit range
+  let displayValue = `${formatDateOrUnset(start)} - ${formatDateOrUnset(end)}`
+
+  // Append duration if present
+  if (duration && duration !== 'None') {
+    const durationLabel = getDisplayLabel(field.filter!, duration)
+    displayValue = `${displayValue} / ${durationLabel}`
+  }
 
   return {
     displayName: field.display,
-    displayValue: `${formatDateOrUnset(start)} - ${formatDateOrUnset(end)}`,
+    displayValue,
     reset: {
-      keys: [`${baseKey}.start`, `${baseKey}.end`],
+      keys: Object.keys(query).filter((key) => key.startsWith(baseKey)),
     },
   }
 }
@@ -172,6 +189,23 @@ function buildMultiSelectChip(field: FieldDefinition, key: string, query: QueryP
 }
 
 /**
+ * Date
+ */
+function buildDateChip(field: FieldDefinition, key: string, query: QueryParams): AppliedFilterChip | null {
+  const value = query[key]
+  if (!value || typeof value !== 'string') return null
+
+  const dateValue = apiDateToUi(value)
+  return {
+    displayName: field.display,
+    displayValue: dateValue || value,
+    reset: {
+      keys: [key],
+    },
+  }
+}
+
+/**
  * Single value
  * - radio / select / text / autocomplete
  */
@@ -195,6 +229,12 @@ function buildSingleValueChip(field: FieldDefinition, key: string, query: QueryP
  */
 
 function getDisplayLabel(filter: FilterDefinition, value: string): string {
+  if (filter.type === 'daterange') {
+    const mapped = mapRelativeValue(<RelativeDateRange>value)
+    if (mapped) {
+      return mapped
+    }
+  }
   const staticOption = filter.staticOptions?.find((option) => option.name === value)
 
   return staticOption?.display ?? value

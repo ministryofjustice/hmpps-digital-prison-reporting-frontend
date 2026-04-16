@@ -10,7 +10,7 @@ export const checkSelectedFilterValues = ({
   buttonValues,
 }: {
   length: number
-  buttonValues: { key: string; value: string }[]
+  buttonValues: { key: string; value: string | RegExp }[]
 }) => {
   cy.findByLabelText(/Selected filters.*/i).within(() => {
     cy.findAllByRole('button')

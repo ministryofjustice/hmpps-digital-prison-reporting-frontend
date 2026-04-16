@@ -1,3 +1,4 @@
+import { calcDatesForFilterDefinition } from '../../../utils/durationCalculator'
 import { components } from '../../../types/api'
 import { DateRange } from '../../_filters/types'
 import RelativeDateRange from '../date-range/types'
@@ -29,22 +30,42 @@ export const compareMax = (max: string, dateValue?: string) => {
   return date > maxDate ? max : dateValue
 }
 
+/**
+ * Given the filter definition for a date-range with defaults
+ * - will initialise the filter with correct start end dates
+ * - if default relative range it will calc the correct start end dates
+ *
+ * @param {components['schemas']['FilterDefinition']} filter
+ * @return {*}  {DateRange}
+ */
 export const getStartAndEndValueFromDefinition = (filter: components['schemas']['FilterDefinition']): DateRange => {
   const { min, max, defaultValue, defaultQuickFilterValue } = filter
-
   let value: DateRange = { start: '', end: '' }
+
   if (defaultQuickFilterValue) {
-    value.relative = defaultQuickFilterValue as RelativeDateRange
-  } else {
-    let startValue
-    let endValue
-    if (min) startValue = min
-    if (max) endValue = max
-    const dateRegEx = /^\d{1,4}-\d{1,2}-\d{2,2} - \d{1,4}-\d{1,2}-\d{1,2}$/
-    if (defaultValue && defaultValue.match(dateRegEx)) {
-      ;[startValue, endValue] = defaultValue.split(' - ')
-      value = setDateRangeValuesWithinMinMax(filter, startValue, endValue)
+    const relative = defaultQuickFilterValue as RelativeDateRange
+    value.relative = relative
+    const calculated = calcDatesForFilterDefinition(relative)
+
+    if (calculated) {
+      value = {
+        ...setDateRangeValuesWithinMinMax(filter, calculated.start, calculated.end),
+        relative,
+      }
     }
+    return value
+  }
+
+  let startValue = min
+  let endValue = max
+  const dateRegEx = /^\d{1,4}-\d{1,2}-\d{2} - \d{1,4}-\d{1,2}-\d{1,2}$/
+
+  if (defaultValue && dateRegEx.test(defaultValue)) {
+    ;[startValue, endValue] = defaultValue.split(' - ')
+  }
+
+  if (startValue || endValue) {
+    value = setDateRangeValuesWithinMinMax(filter, startValue, endValue)
   }
 
   return value

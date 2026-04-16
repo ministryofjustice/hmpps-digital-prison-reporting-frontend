@@ -75,7 +75,7 @@ context('Interactive report', () => {
     const removeAllFilters = () => {
       for (let index = 0; index < 4; index += 1) {
         cy.findByLabelText('Selected filters').within(() => {
-          cy.findAllByRole('link').first().click()
+          cy.findAllByRole('button').first().click()
         })
       }
     }
@@ -98,7 +98,7 @@ context('Interactive report', () => {
           expect(location.search).to.contain(`filters.field3.end=2025-07-05`)
         })
 
-        checkSelectedFilterValues({ length: 2, buttonValues: [{ key: 'Field 3', value: '02/05/2025 - 05/07/2025' }] })
+        checkSelectedFilterValues({ length: 1, buttonValues: [{ key: 'Field 3', value: '02/05/2025 - 05/07/2025' }] })
       })
 
       it('should apply the relative daterange', () => {
@@ -135,7 +135,7 @@ context('Interactive report', () => {
           expect(location.search).to.contain(`filters.field3.relative-duration=tomorrow`)
         })
 
-        checkSelectedFilterValues({ length: 2, buttonValues: [{ key: 'Field 3', value: 'Tomorrow' }] })
+        checkSelectedFilterValues({ length: 1, buttonValues: [{ key: 'Field 3', value: 'Tomorrow' }] })
       })
     })
 

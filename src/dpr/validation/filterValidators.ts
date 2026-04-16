@@ -18,9 +18,11 @@ export const buildFilterValidator = (field: FieldDefinition): z.ZodTypeAny => {
       return buildMultiSelectField(field)
 
     case 'date':
+      return buildDateField(field)
+
     case 'daterange':
     case 'granulardaterange':
-      return buildDateField(field)
+      return buildDateRangeField(field)
 
     case 'Radio':
     case 'Select':
@@ -75,17 +77,26 @@ const buildMultiSelectField = (field: FieldDefinition) => {
 }
 
 /**
- * DATE / DATE RANGE FIELDS
+ * DATE FIELDS
  */
 export const buildDateField = (field: FieldDefinition) => {
   const { filter, display } = field
   if (!filter) throw new Error('Missing filter')
 
-  if (filter.type === 'date') {
-    const schema = z.string().min(1, `${display} is required`).refine(isValidUiDate, `${display} must be a valid date`)
+  const schema = z.preprocess(
+    (v) => (v === '' ? undefined : v),
+    z.string().refine(isValidUiDate, `${display} must be a valid date`).optional(),
+  )
 
-    return filter.mandatory ? schema : schema.optional()
-  }
+  return filter.mandatory ? schema.refine((v) => v !== undefined, `${display} is required`) : schema
+}
+
+/**
+ * DATE RANGE FIELDS
+ */
+export const buildDateRangeField = (field: FieldDefinition) => {
+  const { filter, display } = field
+  if (!filter) throw new Error('Missing filter')
 
   if (filter.type === 'daterange' || filter.type === 'granulardaterange') {
     let base = z.object({

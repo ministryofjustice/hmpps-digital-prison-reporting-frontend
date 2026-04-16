@@ -13,7 +13,7 @@ export const checkSelectedFilterValues = ({
   buttonValues: { key: string; value: string }[]
 }) => {
   cy.findByLabelText(/Selected filters.*/i).within(() => {
-    cy.findAllByRole('link')
+    cy.findAllByRole('button')
       .should('have.length', length)
       .each((filter, index) => {
         if (buttonValues[index]) {

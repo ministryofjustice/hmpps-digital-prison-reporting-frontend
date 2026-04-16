@@ -144,10 +144,21 @@ export class DprSelectedAsyncFilters extends DprClientClass {
   private buildDateRangeFilter(displayName: string, controls: FilterControl[]): SelectedFilter {
     const start = controls.find((c) => c.name.endsWith('.start')) as HTMLInputElement | undefined
     const end = controls.find((c) => c.name.endsWith('.end')) as HTMLInputElement | undefined
+    const relativeDuration = controls.find((c) => {
+      if (!c.name.endsWith('.relative-duration')) return false
+      const input = c as HTMLInputElement
+      return input.type === 'radio' && input.checked
+    }) as HTMLInputElement | undefined
+
+    const rangeDisplay = `${formatDateOrUnset(start?.value)} - ${formatDateOrUnset(end?.value)}`
+    const displayValue =
+      relativeDuration && relativeDuration.value !== 'none'
+        ? `${rangeDisplay} / ${this.getDisplayValue(relativeDuration)}`
+        : rangeDisplay
 
     return {
       displayName,
-      displayValue: `${formatDateOrUnset(start?.value)} - ${formatDateOrUnset(end?.value)}`,
+      displayValue,
       inputs: controls,
     }
   }

@@ -1,76 +1,26 @@
 /* eslint-disable no-param-reassign */
 import dayjs from 'dayjs'
 import customParse from 'dayjs/plugin/customParseFormat'
-import { Request } from 'express'
 import isBetween from 'dayjs/plugin/isBetween'
+import { Request } from 'express'
 import { components } from '../../../types/api'
 import { DateRangeFilterValue, DateRange, FilterValue } from '../../_filters/types'
 import StartEndDateUtils from '../start-end-date/utils'
 import RelativeDateRange, { RelativeOption } from './types'
 import { DefaultDateFilterValue, defaultFilterValue } from '../../../utils/Personalisation/types'
+import { calcDates, calcDatesForFilterDefinition, calcDatesForInputs } from '../../../utils/durationCalculator'
 
 dayjs.extend(customParse)
+dayjs.extend(isBetween)
 
-export const dateIsInBounds = (
-  startDate: dayjs.Dayjs | string,
-  endDate: dayjs.Dayjs | string,
-  min: string,
-  max: string,
-) => {
-  dayjs.extend(isBetween)
+type DateString = string | null | undefined
 
-  const minDate = dayjs(min)
-  const maxDate = dayjs(max)
-
-  const startDateIsBetweenMinAndMax = startDate
-    ? (<dayjs.Dayjs>startDate).isBetween(minDate, maxDate, 'day', '[]')
-    : true
-  const endDateIsBetweenMinAndMax = endDate ? (<dayjs.Dayjs>endDate).isBetween(minDate, maxDate, 'day', '[]') : true
-
-  return startDateIsBetweenMinAndMax && endDateIsBetweenMinAndMax
-}
-
-export const calcDates = (durationValue: string) => {
-  let endDate: string | dayjs.Dayjs = dayjs()
-  let startDate: string | dayjs.Dayjs = dayjs()
-
-  switch (durationValue) {
-    case 'none':
-      endDate = ''
-      startDate = ''
-      break
-    case 'yesterday':
-      endDate = dayjs()
-      startDate = endDate.subtract(1, 'day')
-      break
-    case 'tomorrow':
-      startDate = dayjs()
-      endDate = startDate.add(1, 'day')
-      break
-    case 'last-seven-days':
-      endDate = dayjs()
-      startDate = endDate.subtract(1, 'week')
-      break
-    case 'next-seven-days':
-      startDate = dayjs()
-      endDate = startDate.add(1, 'week')
-      break
-    case 'last-month':
-      endDate = dayjs()
-      startDate = endDate.subtract(1, 'month')
-      break
-    case 'next-month':
-      startDate = dayjs()
-      endDate = startDate.add(1, 'month')
-      break
-    default:
-      break
-  }
-
-  return {
-    endDate,
-    startDate,
-  }
+export const dateIsInBounds = (startDate: DateString, endDate: DateString, min: string, max: string): boolean => {
+  const minDate = dayjs(min, 'YYYY-MM-DD').startOf('day')
+  const maxDate = dayjs(max, 'YYYY-MM-DD').endOf('day')
+  const isStartValid = !startDate || dayjs(startDate, 'DD/MM/YYYY').isBetween(minDate, maxDate, 'day', '[]')
+  const isEndValid = !endDate || dayjs(endDate, 'DD/MM/YYYY').isBetween(minDate, maxDate, 'day', '[]')
+  return isStartValid && isEndValid
 }
 
 export const setValueFromRequest = (
@@ -147,9 +97,9 @@ export const getRelativeDateOptions = (min?: string, max?: string) => {
   if (!max) max = '9999-01-01'
   let options: RelativeOption[] = getRelativeValues()
   options.forEach((option: RelativeOption) => {
-    if (option.value) {
-      const { endDate, startDate } = calcDates(option.value)
-      if (!dateIsInBounds(startDate, endDate, min, max)) {
+    if (option.value !== RelativeDateRange.NONE) {
+      const dates = calcDatesForInputs(option.value)
+      if (dates && !dateIsInBounds(dates.start, dates.end, min, max)) {
         option.disabled = true
       }
     }
@@ -174,19 +124,15 @@ export const mapRelativeValue = (value: RelativeDateRange) => {
   return opt ? opt.text : ''
 }
 
-export const getRelativeValues = (): {
-  value: string
-  text: string
-  disabled?: boolean
-}[] => {
+export const getRelativeValues = (): RelativeOption[] => {
   return [
-    { value: 'none', text: 'None' },
-    { value: 'yesterday', text: 'Yesterday' },
-    { value: 'tomorrow', text: 'Tomorrow' },
-    { value: 'last-seven-days', text: 'Last week' },
-    { value: 'next-seven-days', text: 'Next week' },
-    { value: 'last-month', text: 'Last month' },
-    { value: 'next-month', text: 'Next month' },
+    { value: RelativeDateRange.NONE, text: 'None' },
+    { value: RelativeDateRange.YESTERDAY, text: 'Yesterday' },
+    { value: RelativeDateRange.TOMORROW, text: 'Tomorrow' },
+    { value: RelativeDateRange.LAST_WEEK, text: 'Last week' },
+    { value: RelativeDateRange.NEXT_WEEK, text: 'Next week' },
+    { value: RelativeDateRange.LAST_MONTH, text: 'Last month' },
+    { value: RelativeDateRange.NEXT_MONTH, text: 'Next month' },
   ]
 }
 
@@ -227,19 +173,57 @@ export const getQueryFromDefinition = (filter: components['schemas']['FilterDefi
  * @param {string} fieldName
  * @param {string} defaultValue
  */
-export const appendDateRangeValue = (params: URLSearchParams, fieldName: string, value: string) => {
-  const [start, end] = value
-    .split(' - ')
-    .map((v) => v.trim())
-    .filter(Boolean)
-
-  if (start) {
-    params.append(`filters.${fieldName}.start`, start)
+export const appendDateRangeValue = (
+  params: URLSearchParams,
+  fieldName: string,
+  value: { start?: string; end?: string; relative?: string },
+) => {
+  if (value.start) {
+    params.append(`filters.${fieldName}.start`, value.start)
   }
 
-  if (end) {
-    params.append(`filters.${fieldName}.end`, end)
+  if (value.end) {
+    params.append(`filters.${fieldName}.end`, value.end)
   }
+
+  if (value.relative) {
+    params.append(`filters.${fieldName}.relative-duration`, value.relative)
+  }
+}
+
+export type DateRangeDefaults = {
+  start?: string
+  end?: string
+  relative?: string
+}
+
+export const resolveDateRangeDefaults = (
+  filter: components['schemas']['FilterDefinition'],
+): DateRangeDefaults | undefined => {
+  // Case 1: quick filter wins
+  if (filter.defaultQuickFilterValue) {
+    const dates = calcDatesForFilterDefinition(<RelativeDateRange>filter.defaultQuickFilterValue)
+
+    return {
+      relative: filter.defaultQuickFilterValue,
+      ...(dates?.start !== undefined ? { start: dates.start } : {}),
+      ...(dates?.end !== undefined ? { end: dates.end } : {}),
+    }
+  }
+
+  if (filter.defaultValue) {
+    const [start, end] = filter.defaultValue
+      .split(' - ')
+      .map((v) => v.trim())
+      .filter(Boolean)
+
+    return {
+      ...(start !== undefined ? { start } : {}),
+      ...(end !== undefined ? { end } : {}),
+    }
+  }
+
+  return undefined
 }
 
 export default {

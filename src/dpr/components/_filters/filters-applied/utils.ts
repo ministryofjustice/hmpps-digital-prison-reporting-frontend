@@ -98,7 +98,7 @@ function buildDateRangeChip(field: FieldDefinition, baseKey: string, query: Quer
 
   return {
     displayName: field.display,
-    displayValue: `${formatDateOrUnset(start)} – ${formatDateOrUnset(end)}`,
+    displayValue: `${formatDateOrUnset(start)} - ${formatDateOrUnset(end)}`,
     reset: {
       keys: [`${baseKey}.start`, `${baseKey}.end`],
     },

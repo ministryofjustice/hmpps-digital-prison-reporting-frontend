@@ -278,7 +278,7 @@ export const createQsFromSavedDefaults = (
       ]
 
       if (value.relative !== undefined) {
-        pairs.push([`${keyBase}.relative`, value.relative])
+        pairs.push([`${keyBase}.relative-duration`, value.relative])
       }
 
       return pairs

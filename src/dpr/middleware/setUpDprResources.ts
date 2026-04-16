@@ -32,15 +32,10 @@ export const setupResources = (
   config?: DprConfig,
 ): RequestHandler => {
   return async (req, res, next) => {
-    console.log('setupResources setupResources setupResources setupResources setupResources setupResources')
-
     populateValidationErrors(req, res)
     try {
       await setFeatures(res, services.featureFlagService)
-
-      console.log('setupResources setupResources setupResources setupResources setupResources setupResources 1')
       await populateDefinitions(services, req, res, config)
-      console.log('setupResources setupResources setupResources setupResources setupResources setupResources 2')
       await setLocalsFromServices(services, res)
       await populateRequestedReports(services, res)
       setUpDprPaths(res)

@@ -8,6 +8,7 @@ export default class DateRangeController {
   GET: RequestHandler = async (_req, res) => {
     const defaultQuickFilterValue: components['schemas']['FilterDefinition']['defaultQuickFilterValue'] =
       'last-seven-days'
+
     const filter: components['schemas']['FilterDefinition'] = {
       type: 'daterange' as components['schemas']['FilterDefinition']['type'],
       mandatory: true,

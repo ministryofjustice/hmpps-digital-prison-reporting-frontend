@@ -1,4 +1,5 @@
 export enum RelativeDateRange {
+  NONE = 'none',
   YESTERDAY = 'yesterday',
   TOMORROW = 'tomorrow',
   LAST_WEEK = 'last-seven-days',
@@ -8,7 +9,7 @@ export enum RelativeDateRange {
 }
 
 export interface RelativeOption {
-  value: string
+  value: RelativeDateRange
   text: string
   disabled?: boolean
 }

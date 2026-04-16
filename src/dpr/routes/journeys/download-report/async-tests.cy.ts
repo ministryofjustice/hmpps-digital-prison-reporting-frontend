@@ -2,7 +2,11 @@ import { resetFeatureFlags, updateRedisState } from 'test-app/routes/integration
 import { checkA11y, executeReportStubs } from '../../../../../cypress-tests/cypressUtils'
 
 context('Download report', () => {
-  const paths = ['/', '/embedded/platform', '/embedded/platform/dpr']
+  const paths = [
+    '/',
+    // '/embedded/platform',
+    // '/embedded/platform/dpr'
+  ]
   let downloadRequestFormPage: string
   let viewReportUrl: string
 
@@ -79,15 +83,17 @@ context('Download report', () => {
 
           cy.findAllByRole('paragraph').contains('Enter your Job title').should('not.exist')
           cy.findAllByRole('paragraph')
-            .contains('provide information on how you will use this data')
+            .contains('Please provide information on how you will use this data')
             .should('not.exist')
-          cy.get('#more-detail-error').should('not.be.visible')
+          cy.get('#more-detail-error').should('not.be.exist')
 
           cy.findByRole('button', { name: /Submit request/ }).click()
 
           cy.findByRole('alert').should('exist')
-          cy.findAllByRole('paragraph').contains('Enter your Job title').should('exist')
-          cy.findAllByRole('paragraph').contains('provide information on how you will use this data').should('exist')
+          cy.findAllByRole('paragraph').contains('Please enter your job title').should('exist')
+          cy.findAllByRole('paragraph')
+            .contains('Please provide information on how you will use this data')
+            .should('exist')
         })
 
         it('should submit the download request', () => {

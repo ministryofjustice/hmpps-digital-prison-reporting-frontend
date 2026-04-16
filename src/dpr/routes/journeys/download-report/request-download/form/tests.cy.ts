@@ -23,7 +23,7 @@ context('Request download form', () => {
     cy.findByRole('textbox', { name: /Can you provide more detail/ })
       .should('be.focused')
       .type('foo')
-    cy.findByRole('link', { name: /Enter your Job title/ })
+    cy.findByRole('link', { name: /Please enter your job title/ })
       .should('be.visible')
       .click()
     cy.findByRole('textbox', { name: /What is your Job title\?/ })

@@ -15,6 +15,7 @@
   {% set type = args.type %}
   {% set data = args.data %}
   {% set hasDefaults = data.hasDefaults %}
+  {% set saveDefaultsEnabled = data.saveDefaultsEnabled %}
 
   {{ dprValidationSummary(validationErrors, 'There is a problem') }}
 
@@ -41,7 +42,9 @@
 
           <div class='dpr-request-save-filters-container'>
             {{ dprFiltersFormReset() }}
-            {{ dprAsyncFiltersSaveDefaults('./filters', hasDefaults) }}
+            {% if saveDefaultsEnabled %}
+              {{ dprAsyncFiltersSaveDefaults('./filters', hasDefaults) }}
+            {% endif %}
           </div>
 
           <div class="filter-container">

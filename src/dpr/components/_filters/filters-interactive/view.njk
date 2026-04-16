@@ -19,6 +19,8 @@
   {% set appliedFilters = templateArgs.appliedFilters %}
   {% set formId = 'dpr-interactive-filters-form' %}
 
+  canSaveDefaults: {{ canSaveDefaults }}
+
   <div class='dpr-interactive-filters-section'>
     {{ dprAppliedFilters(appliedFilters) }}
 

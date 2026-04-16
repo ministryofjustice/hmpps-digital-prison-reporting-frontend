@@ -282,7 +282,7 @@ context('Viewing a report', () => {
           .contains(/Show columns/)
           .click()
 
-        cy.findByRole('link', { name: 'Reset columns' }).click()
+        cy.findByRole('button', { name: 'Reset columns' }).click()
 
         expectInitialisedColumns()
       })

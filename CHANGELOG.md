@@ -1,20 +1,31 @@
 Below you can find the changes included in each release.
 
-## 5.8.8
+## 5.9.0
 
+- Decreased polling frequency from 1s -> 3s for /status endpoint when polling for report status
 - Add usage of slsa action - defend vs supply chain attacks
 - use min-release-age in npmrc
 - Replace unapproved action in publish GHA
+- Improve handling of nestedBaseUrl - all nested routes are handled and setup in middleware
+- Create in-memory "session" of running a report to more easily handle relevant vars for the running report
+- Cypress tests by default test at root instead of a nested route
+- Add extra tests to test nested routes
+- Update docs
 
-## 5.8.5
+## 5.8.7
 
-<<<<<<< HEAD
+- Bug fix: Ensure summary table headers are unique
 - Interactive Report bug fix: The totals count on interactive reports shows correct totals.
 - Bug fix: Fixed url encoding issue on query params with special chars
 - Default sort direction is always Ascending for both interactive and async sort, unless specified in the DPD.
-=======
-- Bug fix: Ensure summary table headers are unique
->>>>>>> main
+
+## 5.8.6
+
+- Update github actions so that we're pinned to SHA hashes, replace some now unauthorised actions with simple scripts
+
+## 5.8.5
+
+- remove final remaining jest tests apart from some specific ones left, use centralised checka11y, improve cypress tests
 
 ## 5.8.4
 

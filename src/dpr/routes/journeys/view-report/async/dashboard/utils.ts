@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import { ParsedQs } from 'qs'
+import type { ParsedQs } from 'qs'
 import { Services } from '../../../../../types/Services'
 import Dict = NodeJS.Dict
 import { DashboardSection } from '../../../../../components/_dashboards/dashboard-visualisation/types'

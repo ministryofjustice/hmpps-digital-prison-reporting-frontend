@@ -2,7 +2,6 @@
 import { FilterType } from '../components/_filters/filter-input/enum'
 import { components } from '../types/api'
 import { DprConfig } from '../types/DprConfig'
-import { uiDateToApi } from './dateHelper'
 
 export const clearFilterValue = '~clear~'
 

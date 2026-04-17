@@ -73,17 +73,12 @@ export const renderSyncDashboard = async ({
   const { reportId, id } = <{ id: string; reportId: string }>req.params
   const fullUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`
 
-  const {
-    query,
-    filters: filterData,
-    reportDefinition,
-    dashboardDefinition,
-    appliedFilters,
-  } = await AsyncDashboardUtils.getDefinitionData({
-    req,
-    res,
-    services,
-  })
+  const { query, filters, reportDefinition, dashboardDefinition, appliedFilters } =
+    await AsyncDashboardUtils.getDefinitionData({
+      req,
+      res,
+      services,
+    })
 
   const dashboardData: DashboardDataResponse[][] = await services.dashboardService.getSyncDashboard(
     token,
@@ -113,7 +108,7 @@ export const renderSyncDashboard = async ({
     reportId,
     id,
     userId: dprUser.id,
-    filters: filterData.filters,
+    filters,
   })
 
   return {
@@ -127,7 +122,7 @@ export const renderSyncDashboard = async ({
       bookmarkConfig,
       csrfToken,
       sections,
-      filters: filterData,
+      filters,
       type: ReportType.DASHBOARD,
       actions: setActions(dashboardDefinition, reportDefinition, fullUrl),
       appliedFilters,

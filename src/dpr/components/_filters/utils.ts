@@ -1,6 +1,5 @@
 /* eslint-disable no-param-reassign */
 import { Request, Response } from 'express'
-import { GranularDateRangeQuickFilterValue } from './types'
 import { FilterType } from './filter-input/enum'
 import type { components } from '../../types/api'
 import type { FilterOption } from './filter-input/types'
@@ -11,21 +10,17 @@ import type {
   FilterValue,
   MultiselectFilterValue,
   GranularDateRangeFilterValue,
-  GranularDateRange,
-  GranularDateRangeGranularityValue,
   FilterValueWithOptions,
 } from './types'
 
-import SelectedFiltersUtils from './filters-selected/utils'
 import DateRangeInputUtils from '../_inputs/date-range/utils'
 import DateInputUtils from '../_inputs/date-input/utils'
 import GranularDateRangeInputUtils from '../_inputs/granular-date-range/utils'
 import AutocompleteUtils from '../_inputs/autocomplete-text-input/utils'
 import MultiSelectUtils from '../_inputs/multi-select/utils'
 import PersonalistionUtils from '../../utils/Personalisation/personalisationUtils'
-import { Services } from '../../types/Services'
-import { FiltersType } from './filtersTypeEnum'
-import LocalsHelper from '../../utils/localsHelper'
+import { getSortByFromDefinition } from '../_async/async-filters-form/utils'
+import { RenderFiltersReturnValue } from '../_async/async-filters-form/types'
 
 /**
  * Given a FilterValue[], will update the values to match the req.query values if present
@@ -223,145 +218,71 @@ const orderFilters = (filterValues: FilterValue[]) => {
   return noIndexFilters
 }
 
-export const setRequestQueryFromFilterValues = (filterValues: FilterValue[], verbose = false) => {
-  const requestQuery = filterValues
-    .filter((fv) => fv.value)
-    .reduce((acc, curr) => {
-      const { value, name, type } = curr
-      const filterPrefix = `filters.${name}`
-      switch (type) {
-        case FilterType.granularDateRange.toLowerCase():
-          {
-            const granularDateRangeValue = <GranularDateRange>value
-            Object.keys(granularDateRangeValue).forEach((key) => {
-              let v = granularDateRangeValue[key as keyof GranularDateRange]
-              if (key.includes('partialDate')) {
-                acc = {
-                  ...acc,
-                }
-              } else {
-                if (key.includes('granularity') || key.includes('quickFilter')) {
-                  v = (<GranularDateRangeGranularityValue | GranularDateRangeQuickFilterValue>v).value
-                }
-                acc = {
-                  ...acc,
-                  [`${filterPrefix}.${key}`]: v,
-                }
-              }
-            })
-          }
-          break
-        case FilterType.dateRange.toLowerCase():
-          if (value) {
-            Object.keys(value).forEach((key) => {
-              const attrKey = !verbose && key.includes('relative') ? undefined : `${filterPrefix}.${key}`
-              const attrValue = value[key as keyof FilterValueType]
-              if (attrKey) {
-                acc = {
-                  ...acc,
-                  [`${attrKey}`]: attrValue,
-                }
-              }
-            })
-          }
-          break
-        case FilterType.multiselect.toLowerCase():
-          acc = {
-            ...acc,
-            [`${filterPrefix}`]: (<string>value).split(','),
-          }
-          break
-        default:
-          acc = {
-            ...acc,
-            [`${filterPrefix}`]: value,
-          }
-          break
-      }
-      return acc
-    }, {})
-
-  return requestQuery
-}
-
-export const getPersonalisedFilters = async (
-  filters: FilterValue[],
-  req: Request,
-  res: Response,
-  services: Services,
-  filtersType: FiltersType,
-) => {
-  const { reportId, id } = <{ reportId: string; id: string }>req.params
-  const { dprUser } = LocalsHelper.getValues(res)
-  const defaultFilterValues = await services.defaultFilterValuesService.get(
-    dprUser.id,
-    <string>reportId,
-    <string>id,
-    filtersType,
-  )
-  let defaultFilters = filters
-  if (defaultFilterValues) {
-    const personalisedFilters = PersonalistionUtils.setFilterValuesFromSavedDefaults(filters, [], defaultFilterValues)
-    defaultFilters = personalisedFilters.filters
-  }
-
-  return { filters: defaultFilters, defaultFilterValues }
-}
-
-export const getFilters = async ({
+/**
+ * Gets the filters for an interactive report
+ *
+ * @param {{
+ *   fields: components['schemas']['FieldDefinition'][]
+ *   req: Request
+ * }} {
+ *   fields,
+ *   req,
+ * }
+ * @return {*}
+ */
+export const getInteractiveFilters = async ({
   fields,
   req,
-  res,
-  prefix = 'filters.',
-  services,
-  filtersType,
 }: {
   fields: components['schemas']['FieldDefinition'][]
   req: Request
-  res?: Response | undefined
-  prefix?: string
-  services?: Services | undefined
-  filtersType: FiltersType
 }) => {
   // 1. Set the filters from the product definition
-  let filters = await getFiltersFromDefinition(fields, filtersType === FiltersType.INTERACTIVE)
+  let filters = await getFiltersFromDefinition(fields, true)
 
-  let hasDefaults
-  let canSaveDefaults = false
-  if (services && res && res.locals['saveDefaultsEnabled']) {
-    // 2. If there are personalised filters, overwrite fiters with the personalised filter values.
-    const { filters: personalisedFilterValues, defaultFilterValues } = await getPersonalisedFilters(
-      filters,
-      req,
-      res,
-      services,
-      filtersType,
-    )
-    filters = personalisedFilterValues
-    hasDefaults = defaultFilterValues && defaultFilterValues.length > 0
-    canSaveDefaults = true
+  // 2. Set values from request
+  filters = setFilterValuesFromRequest(filters, req)
+
+  return filters
+}
+
+/**
+ * Gets the filters for pre-request
+ *
+ * @param {Request} req
+ * @param {Response} res
+ * @param {components['schemas']['FieldDefinition'][]} fields
+ * @return {*}  {(Promise<RenderFiltersReturnValue | undefined>)}
+ */
+export const getRequestFilters = async (
+  req: Request,
+  res: Response,
+  fields: components['schemas']['FieldDefinition'][],
+): Promise<RenderFiltersReturnValue | undefined> => {
+  if (!fields || !fields.length) {
+    return
   }
 
-  // If there is a request query, overwrite the filters with the query params
-  if (req.query) {
-    filters = setFilterValuesFromRequest(filters, req)
-  }
+  // 1. Get filters from definition with default values
+  let filters = getFiltersFromDefinition(fields, false)
 
-  // Set the selected filters
-  const selectedFilters = SelectedFiltersUtils.getSelectedFilters(filters, prefix)
+  // 2. Get the sort from the definition
+  const sortBy = getSortByFromDefinition(fields)
+
+  // 3. Update filter values with user context values. eg. establishmnent code
+  filters = PersonalistionUtils.setUserContextDefaults(res, filters)
+
+  // 4. Overwrite filter values with query param values
+  filters = setFilterValuesFromRequest(filters, req)
 
   return {
     filters,
-    selectedFilters,
-    hasDefaults,
-    canSaveDefaults,
+    sortBy,
   }
 }
 
 export default {
   getFiltersFromDefinition,
   setFilterValuesFromRequest,
-  getFilters,
-  setRequestQueryFromFilterValues,
-  getPersonalisedFilters,
+  getInteractiveFilters,
 }

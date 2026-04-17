@@ -16,13 +16,14 @@ import ReportActionsUtils from '../../../../../components/_reports/report-headin
 import ReportQuery from '../../../../../types/ReportQuery'
 import LocalsHelper from '../../../../../utils/localsHelper'
 import { FilterValue, GranularDateRangeFilterValue, PartialDate } from '../../../../../components/_filters/types'
-import { FiltersType } from '../../../../../components/_filters/filtersTypeEnum'
 import { FilterType } from '../../../../../components/_filters/filter-input/enum'
 import { validateDashboardVisualisations } from '../../../../../components/_dashboards/dashboard-visualisation/utils'
 import { createDashboardSections } from '../../../../../components/_dashboards/dashboard-section/utils'
 import DashboardSchema from './validate'
 import { setUpBookmark } from '../../../../../components/bookmark/utils'
 import { buildAppliedFilters } from '../../../../../components/_filters/filters-applied/utils'
+import { extractFiltersFromQuery } from '../../../../../utils/queryMappers'
+import { ParsedQs } from 'qs'
 
 const setDashboardActions = (
   dashboardDefinition: components['schemas']['DashboardDefinition'],
@@ -99,28 +100,25 @@ const getDefinitionData = async ({
 
   // Get the filters
   const fields = getDashboardFields(dashboardDefinition)
-  const filtersData = await FilterUtils.getFilters({
+  const filters = await FilterUtils.getInteractiveFilters({
     fields,
     req,
-    filtersType: FiltersType.INTERACTIVE,
   })
 
   // Get the applied Filters
   const appliedFilters = buildAppliedFilters(req, { reportId, id, tableId }, fields)
 
-  const filtersQuery = FilterUtils.setRequestQueryFromFilterValues(filtersData.filters)
-
   // Create the query
   const query = new ReportQuery({
     fields: dashboardDefinition.filterFields || [],
-    queryParams: filtersQuery,
+    queryParams: extractFiltersFromQuery(req.query) as ParsedQs,
     definitionsPath: <string>dataProductDefinitionsPath,
     reportType: ReportType.DASHBOARD,
   }).toRecordWithFilterPrefix(true)
 
   return {
     query,
-    filters: filtersData,
+    filters,
     dashboardDefinition,
     reportDefinition,
     appliedFilters,
@@ -192,7 +190,7 @@ export const renderAsyncDashboard = async ({ req, res, services }: AsyncReportUt
   const flattenedData: DashboardDataResponse[] = Array.isArray(dashboardData)
     ? dashboardData.flat().filter(Boolean)
     : []
-  const partialDate = getPartialDate(filters.filters)
+  const partialDate = getPartialDate(filters)
 
   const bookmarkConfig = setUpBookmark(res, req, bookmarkService)
 
@@ -208,7 +206,7 @@ export const renderAsyncDashboard = async ({ req, res, services }: AsyncReportUt
 
   // Update the store
   if (requestedReportService) {
-    requestData = await updateStore(services, tableId, dprUser.id, sections, req, filters.filters)
+    requestData = await updateStore(services, tableId, dprUser.id, sections, req, filters)
   }
 
   return {

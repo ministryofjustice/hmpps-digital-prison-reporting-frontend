@@ -12,21 +12,10 @@ export type CalculatedDateRange = {
   endDate: dayjs.Dayjs
 }
 
-/**
- * Subset of RelativeDateRange that can actually be calculated.
- * NONE is intentionally excluded.
- */
 export type CalculableRelativeDateRange = Exclude<RelativeDateRange, RelativeDateRange.NONE>
 
-/**
- * Calculator function signature
- */
 type DateRangeCalculator = (now: dayjs.Dayjs) => CalculatedDateRange
 
-/**
- * Exhaustive, declarative map of all calculable ranges.
- * No conditionals, no switches.
- */
 const RANGE_CALCULATORS: Record<CalculableRelativeDateRange, DateRangeCalculator> = {
   [RelativeDateRange.YESTERDAY]: (now) => ({
     startDate: now.subtract(1, 'day'),
@@ -59,18 +48,11 @@ const RANGE_CALCULATORS: Record<CalculableRelativeDateRange, DateRangeCalculator
   }),
 }
 
-/**
- * Internal pure calculator (cannot be called with NONE)
- */
 const calcDatesInternal = (range: CalculableRelativeDateRange): CalculatedDateRange => {
   const now = dayjs().startOf('day')
   return RANGE_CALCULATORS[range](now)
 }
 
-/**
- * Public API — accepts the full enum, safely handles NONE.
- * Returns null when no dates should be applied.
- */
 export const calcDates = (range: RelativeDateRange): CalculatedDateRange | null => {
   if (range === RelativeDateRange.NONE) {
     return null
@@ -79,13 +61,12 @@ export const calcDates = (range: RelativeDateRange): CalculatedDateRange | null 
   return calcDatesInternal(range)
 }
 
-/* -------------------------------------------------------------------------- */
-/*                                ADAPTER APIS                                 */
-/* -------------------------------------------------------------------------- */
+/* -----------------------------------------
+/* ADAPTERS                                   
+/* -----------------------------------------
 
 /**
  * Adapter for date inputs (DD/MM/YYYY)
- * Used by: DateRange client / UI code
  */
 export const calcDatesForUI = (range: RelativeDateRange): { start: string; end: string } | null => {
   const result = calcDates(range)
@@ -99,7 +80,6 @@ export const calcDatesForUI = (range: RelativeDateRange): { start: string; end: 
 
 /**
  * Adapter for filter definitions (YYYY-MM-DD)
- * Used by: DateRange utils / filters / API payloads
  */
 export const calcDatesForAPI = (range: RelativeDateRange): { start: string; end: string } | null => {
   const result = calcDates(range)

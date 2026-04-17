@@ -28,6 +28,13 @@ export function isValidUiDate(value?: string): boolean {
  * --------------------------------------------
  */
 
+/**
+ * DD/MM/YYYY -> YYYY-MM-DD
+ *
+ * @export
+ * @param {string} [value]
+ * @return {*}  {(string | undefined)}
+ */
 export function uiDateToApi(value?: string): string | undefined {
   if (!value) return undefined
 
@@ -35,6 +42,13 @@ export function uiDateToApi(value?: string): string | undefined {
   return parsed.isValid() ? parsed.format(API_FORMAT) : undefined
 }
 
+/**
+ * YYYY-MM-DD -> DD/MM/YYYY
+ *
+ * @export
+ * @param {string} [value]
+ * @return {*}  {(string | undefined)}
+ */
 export function apiDateToUi(value?: string): string | undefined {
   if (!value) return undefined
 
@@ -42,6 +56,13 @@ export function apiDateToUi(value?: string): string | undefined {
   return parsed.isValid() ? parsed.format(UI_OUTPUT_FORMAT) : undefined
 }
 
+/**
+ * TS -> DD/MM/YYYY
+ *
+ * @export
+ * @param {(string | Date)} [value]
+ * @return {*}  {(string | undefined)}
+ */
 export function apiTimestampToUiDate(value?: string | Date): string | undefined {
   if (!value) return undefined
 
@@ -49,6 +70,13 @@ export function apiTimestampToUiDate(value?: string | Date): string | undefined 
   return parsed.isValid() ? parsed.format(UI_OUTPUT_FORMAT) : undefined
 }
 
+/**
+ * TS -> DD/MM/YYYY HH:mm
+ *
+ * @export
+ * @param {(string | Date)} [value]
+ * @return {*}  {(string | undefined)}
+ */
 export function apiTimestampToUiDateTime(value?: string | Date): string | undefined {
   if (!value) return undefined
 

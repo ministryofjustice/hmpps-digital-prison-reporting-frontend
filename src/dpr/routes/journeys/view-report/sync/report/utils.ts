@@ -32,7 +32,7 @@ export const renderReport = async ({ req, res, services }: AsyncReportUtilsParam
       reportId,
       id,
       userId: dprUser.id,
-      filters: renderData.filterData.filters,
+      filters: renderData.filterData,
     })
   }
 

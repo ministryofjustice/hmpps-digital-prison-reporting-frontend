@@ -5,11 +5,7 @@
 {% from "../filters-reset/view.njk" import dprFiltersFormReset %}
 {% from "govuk/components/details/macro.njk" import govukDetails %}
 
-{% macro dprInteractiveFilters(filterData, templateArgs) %}
-
-  {% set filters = filterData.filters %}
-  {% set hasDefaults = filterData.hasDefaults %}
-  {% set canSaveDefaults = filterData.canSaveDefaults %}
+{% macro dprInteractiveFilters(filters, templateArgs) %}
   {% set selectedFilters = filterData.selectedFilters %}
 
   {% set reportType = templateArgs.reportType %}
@@ -17,9 +13,9 @@
   {% set csrfToken = templateArgs.csrfToken %}
   {% set validationErrors = templateArgs.validationErrors %}
   {% set appliedFilters = templateArgs.appliedFilters %}
+  {% set hasDefaults = templateArgs.hasDefaults %}
+  {% set saveDefaultsEnabled = templateArgs.saveDefaultsEnabled %}
   {% set formId = 'dpr-interactive-filters-form' %}
-
-  canSaveDefaults: {{ canSaveDefaults }}
 
   <div class='dpr-interactive-filters-section'>
     {{ dprAppliedFilters(appliedFilters) }}
@@ -27,7 +23,7 @@
     <div class='dpr-interactive-save-defaults-actions'>
       {{ dprFiltersFormReset(reportType) }}
       
-      {% if canSaveDefaults %}
+      {% if saveDefaultsEnabled %}
         {{ dprFiltersSaveDefaults(reportType, hasDefaults, formId) }}
       {% endif %}
     </div>

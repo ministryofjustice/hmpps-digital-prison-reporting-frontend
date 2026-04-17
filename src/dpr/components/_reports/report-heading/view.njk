@@ -24,6 +24,8 @@
   {% set bookmarkConfig = reportData.bookmarkConfig %}
   {% set downloadConfig = reportData.downloadConfig %}
   {% set appliedFilters = reportData.appliedFilters %}
+  {% set saveDefaultsEnabled = reportData.saveDefaultsEnabled %}
+  {% set hasDefaults = reportData.hasDefaults %}
 
   <div class="dpr-report-header">
     {% if actions or bookmarked is defined %}
@@ -81,7 +83,7 @@
         {{ dprReportColumns(columns, csrfToken) }}
       {% endif %}
 
-      {{ dprReportFilters(filterData, validationErrors, appliedFilters, csrfToken) }}
+      {{ dprReportFilters(filterData, validationErrors, appliedFilters, csrfToken, saveDefaultsEnabled, hasDefaults) }}
     </div>
   </div>
 {% endmacro %}

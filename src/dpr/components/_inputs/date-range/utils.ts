@@ -8,7 +8,7 @@ import { DateRangeFilterValue, DateRange, FilterValue } from '../../_filters/typ
 import StartEndDateUtils from '../start-end-date/utils'
 import RelativeDateRange, { RelativeOption } from './types'
 import { DefaultDateFilterValue, defaultFilterValue } from '../../../utils/Personalisation/types'
-import { calcDates, calcDatesForAPI, calcDatesForUI } from '../../../utils/durationCalculator'
+import { calcDatesForAPI, calcDatesForUI } from '../../../utils/durationCalculator'
 
 dayjs.extend(customParse)
 dayjs.extend(isBetween)
@@ -150,22 +150,6 @@ export const getFilterFromDefinition = (filter: components['schemas']['FilterDef
 }
 
 /**
- * Creates the default query string from the definition
- *
- * @param {components['schemas']['FilterDefinition']} filter
- * @param {string} name
- * @return {*}  {string}
- */
-export const getQueryFromDefinition = (filter: components['schemas']['FilterDefinition'], name: string): string => {
-  if (!filter.defaultValue) return ''
-
-  const params = new URLSearchParams()
-  appendDateRangeValue(params, name, filter.defaultValue)
-
-  return params.toString()
-}
-
-/**
  * Creates and appends the daterange query string
  * to an existing URLSearchParams
  *
@@ -227,11 +211,9 @@ export const resolveDateRangeDefaults = (
 }
 
 export default {
-  calcDates,
   getRelativeDateOptions,
   getFilterFromDefinition,
   setValueFromRequest,
-  getQueryFromDefinition,
   mapRelativeValue,
   setDefaultValue,
   setFilterValueFromDefault,

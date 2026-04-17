@@ -5,9 +5,10 @@ import { Request, Response, NextFunction } from 'express'
 import FiltersFormUtils, {
   buildFilterData,
   buildSortData,
+  getSortByFromDefinition,
 } from '../../../../components/_async/async-filters-form/utils'
 import LocalsHelper from '../../../../utils/localsHelper'
-import FiltersUtils from '../../../../components/_filters/utils'
+import FiltersUtils, { getRequestFilters } from '../../../../components/_filters/utils'
 import { removeDuplicates } from '../../../../utils/reportStoreHelper'
 import UserStoreItemBuilder from '../../../../utils/UserStoreItemBuilder'
 
@@ -228,8 +229,6 @@ const requestProduct = async ({
     query,
   }
 
-  console.log({ querySummary })
-
   const childExecutionData = await requestChildReports(
     childVariants,
     services.reportingService,
@@ -322,7 +321,7 @@ export const renderRequest = async ({
       sections = dashboardData.sections
     }
 
-    const filtersData = await getFilterData(req, res, fields)
+    const filtersData = await getRequestFilters(req, res, fields)
     const hasDefaults = await services.defaultFilterValuesService.hasDefaults(dprUser.id, reportId, id)
 
     const reportData: RequestReportData = {
@@ -389,25 +388,6 @@ const renderReportRequestData = async (definition: components['schemas']['Single
     template: definition.variant.specification,
     fields,
   }
-}
-
-const getFilterData = async (
-  req: Request,
-  res: Response,
-  fields: components['schemas']['FieldDefinition'][],
-): Promise<RenderFiltersReturnValue | undefined> => {
-  if (!fields || !fields.length) {
-    return
-  }
-
-  // 1. Get filters from definition with default values
-  let filtersData = <RenderFiltersReturnValue>await FiltersFormUtils.renderFilters(fields)
-  // 2. Update filter values with user context values. eg. establishmnent code
-  filtersData.filters = PersonalistionUtils.setUserContextDefaults(res, filtersData.filters)
-  // 4. Overwrite filter values with query param values
-  filtersData.filters = FiltersUtils.setFilterValuesFromRequest(filtersData.filters, req)
-
-  return filtersData
 }
 
 /**

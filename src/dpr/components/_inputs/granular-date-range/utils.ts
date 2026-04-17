@@ -425,25 +425,6 @@ export const getFilterFromDefinition = (filter: components['schemas']['FilterDef
 }
 
 /**
- * Creates the query string from the repoort definition
- *
- * @param {components['schemas']['FilterDefinition']} filter
- * @param {string} name
- * @return {*}  {string}
- */
-export const getQueryFromDefinition = (
-  filter: components['schemas']['FilterDefinition'],
-  fieldName: string,
-): string => {
-  const params = new URLSearchParams()
-  const resolved = resolveGranularDateRangeDefaults(filter)
-  if (resolved) {
-    appendGranularDateRangeValue(params, fieldName, resolved)
-  }
-  return params.toString()
-}
-
-/**
  * Creates and appends the granular daterange query string
  * to an existing URLSearchParams
  *
@@ -543,7 +524,6 @@ export const resolveGranularDateRangeDefaults = (
 export default {
   getFilterFromDefinition,
   setValueFromRequest,
-  getQueryFromDefinition,
   setDefaultValue,
   setFilterValueFromDefault,
   appendGranularDateRangeValue,

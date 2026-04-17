@@ -26,14 +26,6 @@ export const setValueFromRequest = (
   }
 }
 
-export const getQueryFromDefinition = (filter: components['schemas']['FilterDefinition'], name: string): string => {
-  if (!filter.defaultValue) return ''
-
-  const params = new URLSearchParams()
-  appendMultiSelectValues(params, name, filter.defaultValue)
-  return params.toString()
-}
-
 export const appendMultiSelectFromDefinition = (
   params: URLSearchParams,
   fieldName: string,
@@ -97,7 +89,6 @@ export const setFilterValuesFromSavedDefault = (
 }
 
 export default {
-  getQueryFromDefinition,
   setValueFromRequest,
   getMultiselectValues,
   setFilterValuesFromSavedDefault,

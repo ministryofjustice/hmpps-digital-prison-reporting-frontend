@@ -101,8 +101,6 @@ export const downloadReport = async ({
         ...result,
       }
 
-      console.log(JSON.stringify({ queryParams }, null, 2))
-
       await streamDownloadSyncData({
         definition,
         services,
@@ -117,8 +115,6 @@ export const downloadReport = async ({
         ...streamDownloadQueryParams,
         ...result,
       }
-
-      console.log(JSON.stringify({ queryParams }, null, 2))
 
       await streamDownloadAsyncData({
         services,

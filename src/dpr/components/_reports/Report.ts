@@ -11,7 +11,6 @@ import PaginationUtils from './report-page/report-template/report-pagination/uti
 import TotalsUtils from './report-page/report-template/report-totals/utils'
 import ReportTemplateUtils from './report-page/report-template/utils'
 import ReportFiltersUtils from '../_filters/utils'
-import { SelectedFilter } from '../_filters/filters-selected/utils'
 import ColumnUtils from './report-heading/report-columns/report-columns-form/utils'
 import { qsToQueryObject } from '../../utils/queryMappers'
 
@@ -24,7 +23,6 @@ import { DownloadActionParams, ReportAction } from './report-heading/report-acti
 import { Pagination } from './report-page/report-template/report-pagination/types'
 import { ReportTemplateData } from '../../utils/TemplateBuilder/SectionedDataHelper/types'
 import { DataTable } from '../../utils/DataTableBuilder/types'
-import { FiltersType } from '../_filters/filtersTypeEnum'
 import { FilterValue } from '../_filters/types'
 import { ChildData } from '../../utils/TemplateBuilder/ParentChildDataBuilder/types'
 
@@ -45,6 +43,8 @@ export default class Report {
   tableId: string
 
   token: string
+
+  userId: string
 
   variant: components['schemas']['VariantDefinition']
 
@@ -80,11 +80,11 @@ export default class Report {
 
   dataTable!: DataTable | ReportTemplateData
 
-  filterData!: {
-    filters: FilterValue[]
-    selectedFilters: SelectedFilter[]
+  filterData!: FilterValue[]
+
+  savedDefaultsConfig!: {
     hasDefaults: boolean | undefined
-    canSaveDefaults: boolean
+    saveDefaultsEnabled: boolean
   }
 
   reportQuery!: ReportQuery
@@ -103,6 +103,7 @@ export default class Report {
   ) {
     // From locals
     this.token = res.locals['dprUser'].token
+    this.userId = res.locals['dprUser'].id
 
     // From params
     this.id = <string>this.req.params['id']
@@ -126,6 +127,7 @@ export default class Report {
     // Columns and filters
     this.buildColumns()
     await this.buildFilters()
+    await this.buildSavedDefaultsConfig()
     this.buildAppliedFilters()
 
     // Data retrieval
@@ -143,6 +145,7 @@ export default class Report {
         columns: this.columns,
         filterData: this.filterData,
         appliedFilters: this.appliedFilters,
+        ...this.savedDefaultsConfig,
         count: this.count,
         ...reportMeta,
         ...this.actions,
@@ -405,13 +408,17 @@ export default class Report {
    *
    */
   buildFilters = async () => {
-    this.filterData = await ReportFiltersUtils.getFilters({
+    this.filterData = await ReportFiltersUtils.getInteractiveFilters({
       fields: getFields(this.definition),
       req: this.req,
-      res: this.res,
-      services: this.services,
-      filtersType: FiltersType.INTERACTIVE,
     })
+  }
+
+  buildSavedDefaultsConfig = async () => {
+    this.savedDefaultsConfig = {
+      hasDefaults: await this.services.defaultFilterValuesService.hasDefaults(this.userId, this.reportId, this.id),
+      saveDefaultsEnabled: this.res.locals['saveDefaultsEnabled'],
+    }
   }
 
   /**

@@ -3,7 +3,7 @@ import { components } from '../types/api'
 import { getFields, getDashboardFields, getFieldsWithFilters } from '../utils/definitionUtils'
 import { buildFilterSchemaFromFields } from './buildFilterSchema'
 import { extractFiltersFromBody } from '../utils/request/extractFiltersFromBody'
-import { formBodyToQs, joinQueryStrings } from '../utils/urlHelper'
+import { formBodyToQs, joinQueryStrings } from '../utils/queryMappers'
 import { getActiveJourneyValue } from '../utils/sessionHelper'
 import { LoadType, ReportType } from '../types/UserReports'
 

@@ -1,12 +1,11 @@
-import { RequestHandler, Request, Response } from 'express'
+import { RequestHandler } from 'express'
 import { Services } from '../../../../types/Services'
 import { RequestDataResult } from '../../../../types/AsyncReportUtils'
-import AysncRequestUtils from './utils'
+import AysncRequestUtils, { redirectWithDefaults, setDefaultQueryString } from './utils'
 import PersonalisationUtils from '../../../../utils/Personalisation/personalisationUtils'
 import { FiltersType } from '../../../../components/_filters/filtersTypeEnum'
 import ErrorHandler from '../../../../utils/ErrorHandler/ErrorHandler'
 import { getActiveJourneyValue } from '../../../../utils/sessionHelper'
-import { joinQueryStrings } from '../../../../utils/urlHelper'
 
 class RequestReportController {
   layoutPath: string
@@ -20,17 +19,9 @@ class RequestReportController {
 
   GET: RequestHandler = async (req, res, next) => {
     try {
-      const { id, reportId } = req.params as {
-        id: string
-        reportId: string
-      }
-
-      if (this.redirectWithDefaults(res, req)) {
+      if (redirectWithDefaults(res, req)) {
         return
       }
-
-      const sessionKey = { id, reportId }
-      const defaultFiltersSearch = getActiveJourneyValue(req, sessionKey, 'defaultFiltersSearch')
 
       // Get config to render the filters
       const requestRenderData = (await AysncRequestUtils.renderRequest({
@@ -47,7 +38,6 @@ class RequestReportController {
       res.render('dpr/routes/journeys/request-report/filters/view', {
         layoutPath: this.layoutPath,
         ...requestRenderData,
-        defaultFiltersSearch,
         validationErrors,
       })
     } catch (error) {
@@ -70,7 +60,6 @@ class RequestReportController {
       })
 
       const { executionId, dataProductDefinitionsPath } = executionData
-
       if (executionId) {
         const redirect = dataProductDefinitionsPath
           ? `${executionId}/status?dataProductDefinitionsPath=${dataProductDefinitionsPath}`
@@ -137,7 +126,7 @@ class RequestReportController {
    */
   resetFilters: RequestHandler = async (req, res, next) => {
     try {
-      const effectiveQueryString = this.setDefaultQueryString(req)
+      const effectiveQueryString = setDefaultQueryString(req)
       const defaultPath = effectiveQueryString ? `${req.baseUrl}?${effectiveQueryString}` : req.baseUrl
       res.redirect(defaultPath)
     } catch (error) {
@@ -148,46 +137,6 @@ class RequestReportController {
       }
       next(error)
     }
-  }
-
-  /**
-   * Ensures that the request will always contain the correct qs on first render
-   *
-   * @param {Response} res
-   * @param {Request} req
-   * @return {*}
-   */
-  redirectWithDefaults = (res: Response, req: Request) => {
-    const effectiveQueryString = this.setDefaultQueryString(req)
-    if (effectiveQueryString && Object.keys(req.query).length === 0) {
-      const baseUrl = req.originalUrl.split('?')[0].replace(/\/$/, '')
-      res.redirect(`${baseUrl}?${effectiveQueryString}`)
-      return true
-    }
-    return false
-  }
-
-  setDefaultQueryString = (req: Request) => {
-    const { id, reportId } = req.params as {
-      id: string
-      reportId: string
-    }
-    const sessionKey = { id, reportId }
-    const defaultFiltersSearch = getActiveJourneyValue(req, sessionKey, 'defaultFiltersSearch')
-    const savedRequestDefaultsSearch = getActiveJourneyValue(req, sessionKey, 'savedRequestDefaultsSearch')
-    const defautltSortQueryString = getActiveJourneyValue(req, sessionKey, 'defautltSortQueryString')
-
-    // If DPD defaults, use those unless there are saved defaults
-    const effectiveQueryString =
-      savedRequestDefaultsSearch && savedRequestDefaultsSearch.length > 0
-        ? savedRequestDefaultsSearch
-        : defaultFiltersSearch
-
-    if (defautltSortQueryString && defautltSortQueryString.length > 0) {
-      return joinQueryStrings(effectiveQueryString, defautltSortQueryString)
-    }
-
-    return effectiveQueryString
   }
 }
 

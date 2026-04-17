@@ -13,7 +13,7 @@ import ReportTemplateUtils from './report-page/report-template/utils'
 import ReportFiltersUtils from '../_filters/utils'
 import { SelectedFilter } from '../_filters/filters-selected/utils'
 import ColumnUtils from './report-heading/report-columns/report-columns-form/utils'
-import { qsToQueryObject } from '../../utils/urlHelper'
+import { qsToQueryObject } from '../../utils/queryMappers'
 
 // Types
 import { Services } from '../../types/Services'

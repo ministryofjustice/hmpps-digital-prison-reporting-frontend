@@ -1,8 +1,8 @@
 import { ErrorRequestHandler, RequestHandler } from 'express'
 import { captureException } from '@sentry/node'
 import { Services } from '../../../types/Services'
-import AsyncRequestUtils from './filters/utils'
 import ErrorHandler from '../../../utils/ErrorHandler/ErrorHandler'
+import { cancelRequest } from './utils'
 
 class RequestReportController {
   layoutPath: string
@@ -27,7 +27,7 @@ class RequestReportController {
 
   CANCEL: RequestHandler = async (req, res, _next) => {
     try {
-      await AsyncRequestUtils.cancelRequest({
+      await cancelRequest({
         req,
         res,
         services: this.services,

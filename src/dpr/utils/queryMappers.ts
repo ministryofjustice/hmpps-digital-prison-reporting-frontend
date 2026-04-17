@@ -1,0 +1,209 @@
+import { uiDateToApi } from './dateHelper'
+
+// ------------------------------------------
+// Normalization
+// ------------------------------------------
+
+/**
+ * Normalizes a querystring parameter into a consistent string array.
+ *
+ * Needed because Express/qs may return repeated query params as strings, arrays,
+ * or numeric‑keyed objects depending on parser settings and arrayLimit behavior
+ *
+ * @param value The raw query parameter value from req.query.
+ * @returns An array of strings representing the normalized parameter.
+ */
+export const normalizeQueryStringArray = (
+  queryParamValue: string[] | string | Record<string, string> | undefined,
+): string[] | undefined => {
+  if (queryParamValue == null) return undefined
+
+  if (Array.isArray(queryParamValue)) return queryParamValue
+
+  if (typeof queryParamValue === 'object') {
+    const obj = queryParamValue as Record<string, string>
+    const numericKeys = Object.keys(obj)
+      .filter((k) => /^\d+$/.test(k))
+      .sort((a, b) => Number(a) - Number(b))
+
+    return numericKeys.length > 0 ? numericKeys.map((k) => obj[k]) : undefined
+  }
+
+  return typeof queryParamValue === 'string' ? [queryParamValue] : undefined
+}
+
+// ------------------------------------------
+// Parsing
+// ------------------------------------------
+
+const DEFAULT_EXCLUDED_KEYS = new Set([
+  '_csrf',
+  'reportName',
+  'name',
+  'reportId',
+  'id',
+  'description',
+  'type',
+  'sections',
+])
+
+/**
+ * Converts a querystring to a query object
+ *
+ * @param {string} qs
+ * @param {string} prefix
+ * @return {*}  {(Record<string, string | string[]>)}
+ */
+export const qsToQueryObject = (qs: string, prefix?: string): Record<string, string | string[]> => {
+  return Array.from(new URLSearchParams(qs).entries())
+    .filter(([key]) => (prefix ? key.startsWith(prefix) : true))
+    .reduce<Record<string, string | string[]>>((acc, [key, value]) => {
+      const existing = acc[key]
+
+      if (existing === undefined) {
+        acc[key] = value
+      } else if (Array.isArray(existing)) {
+        acc[key] = [...existing, value]
+      } else {
+        acc[key] = [existing, value]
+      }
+
+      return acc
+    }, {})
+}
+
+/**
+ * Converts a query obect back to a querystring
+ *
+ * @param {(Record<string, string | string[]>)} query
+ * @return {*}  {string}
+ */
+export const queryObjectToQs = (
+  source: Record<string, string | string[]>,
+  exclude: Set<string> = DEFAULT_EXCLUDED_KEYS,
+): string => {
+  return Object.entries(source)
+    .filter(([key]) => !exclude.has(key))
+    .flatMap(([key, value]) =>
+      Array.isArray(value)
+        ? value.map((v) => [key, uiDateToApi(v) ?? v] as const)
+        : [[key, uiDateToApi(value) ?? value] as const],
+    )
+    .reduce((params, [key, value]) => {
+      params.append(key, value)
+      return params
+    }, new URLSearchParams())
+    .toString()
+}
+
+// ------------------------------------------
+// Composition
+// ------------------------------------------
+
+/**
+ * Merges two sets of query strings
+ *
+ * @param {string} baseQs
+ * @param {string} overrideQs
+ * @return {*}  {string}
+ */
+export const mergeQueryStrings = (baseQs: string, overrideQs: string): string => {
+  const baseParams = new URLSearchParams(baseQs)
+  const overrideParams = new URLSearchParams(overrideQs)
+
+  Array.from(overrideParams.entries()).forEach(([key, value]) => {
+    baseParams.delete(key)
+    baseParams.append(key, value)
+  })
+
+  const result = baseParams.toString()
+  return result ? `${result}` : ''
+}
+
+/**
+ * Joins two query strings together
+ *
+ * @param {(...Array<string | undefined>)} parts
+ * @return {*}
+ */
+export const joinQueryStrings = (...parts: Array<string | undefined>) => {
+  return parts
+    .filter((p): p is string => Boolean(p && p.length))
+    .map((p) => p.replace(/^\?/, ''))
+    .join('&')
+}
+
+// ------------------------------------------
+// UI to API adapters
+// ------------------------------------------
+
+/**
+ * Builds a query string from a form body
+ *
+ * @param {Record<string, unknown>} body
+ * @param {Set<string>} [exclude=new Set()]
+ * @return {*}  {string}
+ */
+export const formBodyToQs = (body: Record<string, unknown>, exclude: Set<string> = DEFAULT_EXCLUDED_KEYS): string => {
+  const params = new URLSearchParams()
+
+  Object.entries(body).forEach(([key, value]) => {
+    if (exclude.has(key)) return
+    if (value == null || value === '') return
+
+    if (Array.isArray(value)) {
+      const values = value
+        .filter((v) => v != null && v !== '')
+        .map((v) => {
+          const stringValue = String(v)
+          return uiDateToApi(stringValue) ?? stringValue
+        })
+
+      if (values.length > 0) {
+        params.set(key, values.join(','))
+      }
+
+      return
+    }
+
+    const stringValue = String(value)
+    params.set(key, uiDateToApi(stringValue) ?? stringValue)
+  })
+
+  return params.toString()
+}
+
+/**
+ * converts a form body to query object
+ *
+ * @param {Record<string, unknown>} body
+ * @return {*}  {(Record<string, string | string[]>)}
+ */
+/**
+ * Converts a form body to an API query object
+ * - Excludes specified keys
+ * - Drops null / empty values
+ * - Collapses arrays to CSV (BE contract)
+ */
+export const formBodyToQueryObject = (
+  body: Record<string, unknown>,
+  exclude: Set<string> = DEFAULT_EXCLUDED_KEYS,
+): Record<string, string> => {
+  return Object.entries(body).reduce<Record<string, string>>((acc, [key, value]) => {
+    if (exclude.has(key)) return acc
+    if (value === undefined || value === null || value === '') return acc
+
+    if (Array.isArray(value)) {
+      const values = value.filter((v) => v != null && v !== '').map((v) => String(v))
+
+      if (values.length > 0) {
+        acc[key] = values.join(',')
+      }
+
+      return acc
+    }
+
+    acc[key] = String(value)
+    return acc
+  }, {})
+}

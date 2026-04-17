@@ -1,4 +1,5 @@
 import { FilterValue } from '../../_filters/types'
+import { QuerySummaryItem } from './utils'
 
 export interface requestAsyncReportParams {
   apiTimeout: number
@@ -34,6 +35,6 @@ export interface RenderFiltersReturnValue {
 export interface SetQueryFromFiltersResult {
   query: Record<string, string>
   filterData: Record<string, string>
-  querySummary: Array<Record<string, string>>
+  querySummary: QuerySummaryItem[]
   sortData?: Record<string, string>
 }

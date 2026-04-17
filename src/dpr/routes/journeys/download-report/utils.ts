@@ -10,7 +10,7 @@ import logger from '../../../utils/logger'
 import { ExtractedDefinitionData, ExtractedRequestData } from '../view-report/async/report/types'
 import type { Columns } from '../../../components/_reports/report-heading/report-columns/report-columns-form/types'
 import { getActiveJourneyValue } from '../../../utils/sessionHelper'
-import { qsToQueryObject } from '../../../utils/urlHelper'
+import { qsToQueryObject } from '../../../utils/queryMappers'
 
 const streamDownloadAsyncData = async (args: {
   services: Services
@@ -101,6 +101,8 @@ export const downloadReport = async ({
         ...result,
       }
 
+      console.log(JSON.stringify({ queryParams }, null, 2))
+
       await streamDownloadSyncData({
         definition,
         services,
@@ -115,6 +117,8 @@ export const downloadReport = async ({
         ...streamDownloadQueryParams,
         ...result,
       }
+
+      console.log(JSON.stringify({ queryParams }, null, 2))
 
       await streamDownloadAsyncData({
         services,

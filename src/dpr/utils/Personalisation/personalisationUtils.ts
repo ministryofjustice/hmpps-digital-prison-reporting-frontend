@@ -1,4 +1,5 @@
 import { Request, Response } from 'express'
+import dayjs from 'dayjs'
 import { Services } from '../../types/Services'
 import localsHelper from '../localsHelper'
 import { ReportType } from '../../types/UserReports'
@@ -154,7 +155,7 @@ export const createQsFromSavedDefaults = (
             .filter(Boolean)
             .map((v) => [keyBase, v])
         }
-        return [[keyBase, uiDateToApi(value) || '']]
+        return [[keyBase, uiDateToApi(value) || value]]
       }
 
       // --------------------------------------------
@@ -164,8 +165,8 @@ export const createQsFromSavedDefaults = (
         return [
           [`${keyBase}.start`, uiDateToApi(value.start) || ''],
           [`${keyBase}.end`, uiDateToApi(value.end) || ''],
-          [`${keyBase}.granularity`, String(value.granularity) || ''],
-          [`${keyBase}.quickFilter`, String(value.quickFilter) || ''],
+          [`${keyBase}.granularity`, String(value.granularity)],
+          [`${keyBase}.quickFilter`, String(value.quickFilter)],
         ]
       }
 

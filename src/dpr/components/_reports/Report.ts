@@ -34,6 +34,7 @@ import { getActiveJourneyValue } from '../../utils/sessionHelper'
 import LocalsHelper from '../../utils/localsHelper'
 import { AppliedFilterChip, buildAppliedFilters } from '../_filters/filters-applied/utils'
 import { apiTimestampToUiDateTime } from '../../utils/dateHelper'
+import { FiltersType } from '../_filters/filtersTypeEnum'
 
 export default class Report {
   id: string
@@ -416,7 +417,12 @@ export default class Report {
 
   buildSavedDefaultsConfig = async () => {
     this.savedDefaultsConfig = {
-      hasDefaults: await this.services.defaultFilterValuesService.hasDefaults(this.userId, this.reportId, this.id),
+      hasDefaults: await this.services.defaultFilterValuesService.hasDefaults(
+        this.userId,
+        this.reportId,
+        this.id,
+        FiltersType.INTERACTIVE,
+      ),
       saveDefaultsEnabled: this.res.locals['saveDefaultsEnabled'],
     }
   }

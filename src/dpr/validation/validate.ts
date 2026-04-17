@@ -15,7 +15,6 @@ export const validate =
         text: Array.isArray(err) ? err[0] : err,
       }),
     )
-
     req.flash(`DPR_ERRORS`, JSON.stringify(errors))
     return res.redirect(`${req.baseUrl}#`)
   }

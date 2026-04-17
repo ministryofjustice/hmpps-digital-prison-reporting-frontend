@@ -70,14 +70,25 @@ class DefaultFilterValuesService extends ReportStoreService {
     })
   }
 
-  async hasDefaults(userId: string, reportId: string, id: string): Promise<boolean> {
+  async hasDefaults(
+    userId: string,
+    reportId: string,
+    id: string,
+    type: FiltersType = FiltersType.REQUEST,
+  ): Promise<boolean> {
     if (!this.enabled) return false
+
     const userConfig = await this.getState(userId)
-    return (
-      userConfig.defaultFilters?.some(
-        (defaultFilter) => defaultFilter.id === id && defaultFilter.reportId === reportId,
-      ) ?? false
-    )
+    const defaults = userConfig.defaultFilters?.find((df) => df.reportId === reportId && df.id === id)
+
+    if (!defaults || !Array.isArray(defaults.values) || defaults.values.length === 0) {
+      return false
+    }
+
+    return defaults.values.some((value) => {
+      const filtersType = !value.type ? FiltersType.REQUEST : value.type
+      return filtersType === type
+    })
   }
 
   private async getIndex(userId: string, reportId: string, id: string) {

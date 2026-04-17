@@ -1,5 +1,4 @@
 import { Request, Response } from 'express'
-import dayjs from 'dayjs'
 import { Services } from '../../types/Services'
 import localsHelper from '../localsHelper'
 import { ReportType } from '../../types/UserReports'

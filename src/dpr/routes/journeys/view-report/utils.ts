@@ -248,9 +248,6 @@ const createDefaultQueryString = (req: Request): string | undefined => {
   const defaultColumnsSearch = getActiveJourneyValue(req, sessionKey, 'defaultColumnsSearch')
   const savedInteractiveDefaultsSearch = getActiveJourneyValue(req, sessionKey, 'savedInteractiveDefaultsSearch')
 
-  console.log({ savedInteractiveDefaultsSearch })
-  console.log({ defaultFiltersSearch })
-
   /**
    * A report will always have default columns.
    * Redirect when the request has no query params,
@@ -265,8 +262,6 @@ const createDefaultQueryString = (req: Request): string | undefined => {
     savedInteractiveDefaultsSearch && savedInteractiveDefaultsSearch.length
       ? savedInteractiveDefaultsSearch
       : defaultFiltersSearch
-
-  console.log({ filtersToApply })
 
   return filtersToApply ? joinQueryStrings(defaultColumnsSearch, filtersToApply) : defaultColumnsSearch
 }

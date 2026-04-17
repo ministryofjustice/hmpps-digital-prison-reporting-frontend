@@ -1,4 +1,5 @@
 import { Request, Response } from 'express'
+import { ParsedQs } from 'qs'
 import { Services } from '../../../../../types/Services'
 import Dict = NodeJS.Dict
 import { DashboardSection } from '../../../../../components/_dashboards/dashboard-visualisation/types'
@@ -23,7 +24,6 @@ import DashboardSchema from './validate'
 import { setUpBookmark } from '../../../../../components/bookmark/utils'
 import { buildAppliedFilters } from '../../../../../components/_filters/filters-applied/utils'
 import { extractFiltersFromQuery } from '../../../../../utils/queryMappers'
-import { ParsedQs } from 'qs'
 
 const setDashboardActions = (
   dashboardDefinition: components['schemas']['DashboardDefinition'],

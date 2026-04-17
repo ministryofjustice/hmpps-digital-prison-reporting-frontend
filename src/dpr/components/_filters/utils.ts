@@ -19,8 +19,8 @@ import GranularDateRangeInputUtils from '../_inputs/granular-date-range/utils'
 import AutocompleteUtils from '../_inputs/autocomplete-text-input/utils'
 import MultiSelectUtils from '../_inputs/multi-select/utils'
 import PersonalistionUtils from '../../utils/Personalisation/personalisationUtils'
-import { getSortByFromDefinition } from '../_async/async-filters-form/utils'
 import { RenderFiltersReturnValue } from '../_async/async-filters-form/types'
+import SortHelper from '../_async/async-filters-form/sortByTemplate'
 
 /**
  * Given a FilterValue[], will update the values to match the req.query values if present
@@ -209,6 +209,29 @@ export const getFiltersFromDefinition = (
   return orderedFilters
 }
 
+/**
+ * Initialises the sortData from the definition
+ */
+export const getSortByFromDefinition = (fields: components['schemas']['FieldDefinition'][]): FilterValue[] => {
+  const sortBy = SortHelper.sortByTemplate()
+  const options = fields
+    .filter((f) => f.sortable)
+    .map((f) => {
+      if (f.defaultsort) sortBy[0].value = f.name
+      const field: FilterOption = { value: f.name, text: f.display }
+      sortBy[1].value = f.sortDirection ? `${f.sortDirection === 'asc'}` : 'true'
+      return field
+    })
+
+  if (options.length) {
+    const sortWithOptions: FilterValueWithOptions = <FilterValueWithOptions>sortBy[0]
+    sortWithOptions.options = options
+    sortBy[0] = sortWithOptions
+    return sortBy
+  }
+  return []
+}
+
 const orderFilters = (filterValues: FilterValue[]) => {
   const noIndexFilters = filterValues.filter((f) => f.index === undefined)
   const indexFilters = filterValues.filter((f) => f.index !== undefined)
@@ -260,7 +283,7 @@ export const getRequestFilters = async (
   fields: components['schemas']['FieldDefinition'][],
 ): Promise<RenderFiltersReturnValue | undefined> => {
   if (!fields || !fields.length) {
-    return
+    return undefined
   }
 
   // 1. Get filters from definition with default values

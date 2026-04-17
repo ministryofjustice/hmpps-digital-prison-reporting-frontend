@@ -17,7 +17,6 @@ import { Services } from '../../types/Services'
 import { AsyncReportUtilsParams } from '../../types/AsyncReportUtils'
 import { getExpiredStatus } from '../../utils/requestStatusHelper'
 import SelectedFiltersUtils from '../_filters/filters-selected/utils'
-import FiltersUtils from '../_filters/utils'
 import { itemActionsHtml, createListItemProduct } from '../../utils/reportListsHelper'
 import RequestedReportUtils from './requested/utils'
 import RecentlyViewedCardGroupUtils from './viewed/utils'
@@ -25,7 +24,7 @@ import BookmarklistUtils from './bookmarks/utils'
 import LocalsHelper from '../../utils/localsHelper'
 import DateMapper from '../../utils/DateMapper/DateMapper'
 import UserStoreItemBuilder from '../../utils/UserStoreItemBuilder'
-import { extractFiltersFromQuery } from 'src/dpr/utils/queryMappers'
+import { extractFiltersFromQuery } from '../../utils/queryMappers'
 
 const formatData = (reportData: UserReportData): FormattedUserReportData => {
   const reportDataCopy: UserReportData = JSON.parse(JSON.stringify(reportData))

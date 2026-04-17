@@ -2,13 +2,9 @@
 import { Request, Response, NextFunction } from 'express'
 
 // Utils
-import FiltersFormUtils, {
-  buildFilterData,
-  buildSortData,
-  getSortByFromDefinition,
-} from '../../../../components/_async/async-filters-form/utils'
+import { buildFilterData, buildSortData } from '../../../../components/_async/async-filters-form/utils'
 import LocalsHelper from '../../../../utils/localsHelper'
-import FiltersUtils, { getRequestFilters } from '../../../../components/_filters/utils'
+import { getRequestFilters } from '../../../../components/_filters/utils'
 import { removeDuplicates } from '../../../../utils/reportStoreHelper'
 import UserStoreItemBuilder from '../../../../utils/UserStoreItemBuilder'
 
@@ -17,13 +13,9 @@ import type ReportingService from '../../../../services/reportingService'
 import { ReportType, RequestFormData, RequestStatus } from '../../../../types/UserReports'
 import type { ExecutionData, ChildReportExecutionData } from '../../../../types/ExecutionData'
 import type { AsyncReportUtilsParams, RequestDataResult, RequestReportData } from '../../../../types/AsyncReportUtils'
-import type {
-  RenderFiltersReturnValue,
-  SetQueryFromFiltersResult,
-} from '../../../../components/_async/async-filters-form/types'
+import type { SetQueryFromFiltersResult } from '../../../../components/_async/async-filters-form/types'
 import type { components } from '../../../../types/api'
 import type { Services } from '../../../../types/Services'
-import PersonalistionUtils from '../../../../utils/Personalisation/personalisationUtils'
 import { getDefinitionByType, getFields } from '../../../../utils/definitionUtils'
 import { getActiveJourneyValue } from '../../../../utils/sessionHelper'
 import { formBodyToQueryObject, joinQueryStrings } from '../../../../utils/queryMappers'

@@ -1,5 +1,5 @@
 import { FilterValue } from '../../_filters/types'
-import { QuerySummaryItem } from './utils'
+import { QuerySummaryItem } from '../request-details/types'
 
 export interface requestAsyncReportParams {
   apiTimeout: number

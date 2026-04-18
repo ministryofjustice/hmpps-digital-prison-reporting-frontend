@@ -18,7 +18,8 @@ import type { components } from '../../../../types/api'
 import type { Services } from '../../../../types/Services'
 import { getDefinitionByType, getFields } from '../../../../utils/definitionUtils'
 import { getActiveJourneyValue } from '../../../../utils/sessionHelper'
-import { formBodyToQueryObject, joinQueryStrings } from '../../../../utils/queryMappers'
+import { formBodyToQueryObject } from '../../../../utils/queryMappers'
+import { joinQueryStrings } from '../../../../utils/urlHelper'
 import { buildQuerySummary } from '../../../../components/_async/request-details/utils'
 
 // ----------------------------------------------------------------------

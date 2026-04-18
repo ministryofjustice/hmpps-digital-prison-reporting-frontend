@@ -1,10 +1,7 @@
 import { Request, Response } from 'express'
-import {
-  qsToQueryObject,
-  normalizeQueryStringArray,
-  queryObjectToQs,
-  joinQueryStrings,
-} from '../../../utils/queryMappers'
+import { qsToQueryObject, normalizeQueryStringArray, queryObjectToQs } from '../../../utils/queryMappers'
+
+import { joinQueryStrings } from '../../../utils/urlHelper'
 import { components } from '../../../types/api'
 import { Services } from '../../../types/Services'
 import LocalsHelper from '../../../utils/localsHelper'

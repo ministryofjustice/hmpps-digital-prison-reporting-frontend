@@ -5,76 +5,82 @@ import { DprConfig } from '../types/DprConfig'
 
 export const clearFilterValue = '~clear~'
 
-export const createUrlForParameters = (
-  currentQueryParams: NodeJS.Dict<string | Array<string>>,
-  updateQueryParams: NodeJS.Dict<string>,
-  fields?: components['schemas']['FieldDefinition'][],
-) => {
-  let queryParams: NodeJS.Dict<string | Array<string>>
+/**
+ * Merges two query objects to produce a query string
+ *
+ * @param {Record<string, unknown>} currentQuery
+ * @param {(Record<string, string | undefined>)} updates
+ * @return {*}  {string}
+ */
+export const mergeAndStringifyQuery = (
+  currentQuery: Record<string, unknown>,
+  updates: Record<string, string | string[] | undefined>,
+  fields: components['schemas']['FieldDefinition'][],
+): string => {
+  const params = new URLSearchParams()
 
-  if (updateQueryParams) {
-    queryParams = {
-      ...currentQueryParams,
-      selectedPage: '1',
-    }
+  Object.entries({ ...currentQuery, ...updates }).forEach(([key, value]) => {
+    if (value == null || value === '') return
 
-    Object.keys(updateQueryParams).forEach((q) => {
-      if (updateQueryParams[q]) {
-        queryParams[q] = updateQueryParams[q]
-      } else {
-        Object.keys(queryParams)
-          .filter((key) => key === q || key.startsWith(`${q}.`))
-          .forEach((key) => {
-            queryParams[key] = clearFilterValue
-          })
+    // Special handling for filters.*
+    if (key.startsWith('filters.') && typeof value === 'string') {
+      const fieldName = key.replace('filters.', '')
+      const fieldDef = fields.find((f) => f.name === fieldName)
+
+      // Only expand CSV for multiselect filters
+      if (fieldDef?.filter?.type?.toLowerCase() === FilterType.multiselect.toLowerCase() && value.includes(',')) {
+        value
+          .split(',')
+          .filter(Boolean)
+          .forEach((v) => params.append(key, v))
+        return
       }
-    })
-  } else {
-    queryParams = {
-      selectedPage: '1',
-      pageSize: currentQueryParams['pageSize'],
-      sortColumn: currentQueryParams['sortColumn'],
-      sortedAsc: currentQueryParams['sortedAsc'],
-      dataProductDefinitionsPath: currentQueryParams['dataProductDefinitionsPath'],
     }
-  }
 
-  const nonEmptyQueryParams: NodeJS.Dict<string | Array<string>> = {}
+    // Arrays = repeated params
+    if (Array.isArray(value)) {
+      value.forEach((v) => params.append(key, String(v)))
+      return
+    }
 
-  Object.keys(queryParams)
-    .filter((key) => queryParams[key])
-    .forEach((key) => {
-      nonEmptyQueryParams[key] = queryParams[key]
-    })
+    // single param
+    params.set(key, String(value))
+  })
 
-  return createQuerystringFromObject(nonEmptyQueryParams, fields)
+  return `?${params.toString()}`
 }
 
-export const createQuerystringFromObject = (
-  source: NodeJS.Dict<string | Array<string>>,
-  fields?: components['schemas']['FieldDefinition'][],
-) => {
-  const querystring = Object.keys(source)
-    .flatMap((key: string) => {
-      const fieldDef = fields?.find((f) => `filters.${f.name}` === key)
-      const value = source[key] || ''
-
-      if (Array.isArray(value)) {
-        return value.map((v) => `${encodeURI(key)}=${encodeURI(v)}`)
-      }
-
-      if (fieldDef && fieldDef.filter && fieldDef.filter.type.toLowerCase() === FilterType.multiselect.toLowerCase()) {
-        const values = value.split(',')
-        return values.map((v) => {
-          return `${encodeURI(key)}=${encodeURI(v)}`
-        })
-      }
-
-      return [`${encodeURI(key)}=${encodeURI(value)}`]
-    })
+/**
+ * Joins two query strings together
+ *
+ * @param {(...Array<string | undefined>)} parts
+ * @return {*}
+ */
+export const joinQueryStrings = (...parts: Array<string | undefined>) => {
+  return parts
+    .filter((p): p is string => Boolean(p && p.length))
+    .map((p) => p.replace(/^\?/, ''))
     .join('&')
+}
 
-  return `?${querystring}`
+/**
+ * Merges two sets of query strings
+ *
+ * @param {string} baseQs
+ * @param {string} overrideQs
+ * @return {*}  {string}
+ */
+export const mergeQueryStrings = (baseQs: string, overrideQs: string): string => {
+  const baseParams = new URLSearchParams(baseQs)
+  const overrideParams = new URLSearchParams(overrideQs)
+
+  Array.from(overrideParams.entries()).forEach(([key, value]) => {
+    baseParams.delete(key)
+    baseParams.append(key, value)
+  })
+
+  const result = baseParams.toString()
+  return result ? `${result}` : ''
 }
 
 export const getDpdPathSuffix = (dpdsPath: string) => {
@@ -99,5 +105,3 @@ export const getRoutePrefix = (config?: DprConfig) => {
 export const setNestedPath = (url: string, baseUrl?: string) => {
   return baseUrl && baseUrl !== 'undefined' ? `${baseUrl}${url}` : url
 }
-
-export default createUrlForParameters

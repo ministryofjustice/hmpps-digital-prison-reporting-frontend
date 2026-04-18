@@ -150,43 +150,6 @@ export const extractFiltersFromBody = (body: Record<string, unknown>): Record<st
 }
 
 // ------------------------------------------
-// Composition
-// ------------------------------------------
-
-/**
- * Merges two sets of query strings
- *
- * @param {string} baseQs
- * @param {string} overrideQs
- * @return {*}  {string}
- */
-export const mergeQueryStrings = (baseQs: string, overrideQs: string): string => {
-  const baseParams = new URLSearchParams(baseQs)
-  const overrideParams = new URLSearchParams(overrideQs)
-
-  Array.from(overrideParams.entries()).forEach(([key, value]) => {
-    baseParams.delete(key)
-    baseParams.append(key, value)
-  })
-
-  const result = baseParams.toString()
-  return result ? `${result}` : ''
-}
-
-/**
- * Joins two query strings together
- *
- * @param {(...Array<string | undefined>)} parts
- * @return {*}
- */
-export const joinQueryStrings = (...parts: Array<string | undefined>) => {
-  return parts
-    .filter((p): p is string => Boolean(p && p.length))
-    .map((p) => p.replace(/^\?/, ''))
-    .join('&')
-}
-
-// ------------------------------------------
 // UI to API adapters
 // ------------------------------------------
 

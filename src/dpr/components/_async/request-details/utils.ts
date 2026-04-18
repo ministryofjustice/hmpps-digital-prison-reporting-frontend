@@ -18,7 +18,6 @@ const collectFieldSummaryState = (body: Record<string, unknown>): Map<string, Fi
     if (value === 'no-filter') return
 
     const [, fieldId, suffix] = key.split('.')
-
     const state = fieldSummaryMap.get(fieldId) ?? { values: [] }
 
     switch (suffix) {
@@ -53,9 +52,7 @@ const buildGroupedFilterSummaries = (
 
   Array.from(fieldSummaryMap.entries()).forEach(([fieldId, state]) => {
     const field = getField(fields, fieldId)
-
     const displayName = getFieldDisplayName(fields, fieldId) ?? fieldId
-
     const parts: string[] = []
 
     // Date range
@@ -105,9 +102,7 @@ const buildSortSummaries = (
 
     if (key === 'sortColumn') {
       const columns = Array.isArray(value) ? value.map(String) : [String(value)]
-
       const displayNames = columns.map((col) => getField(fields, col)?.display ?? col)
-
       summary.push({
         name: 'Sort Column',
         value: displayNames.join(', '),

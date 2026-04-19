@@ -20,7 +20,7 @@
     {{ dprAppliedFilters(appliedFilters) }}
 
     <div class='dpr-interactive-save-defaults-actions'>
-      {{ dprFiltersFormReset(reportType) }}
+      {{ dprFiltersFormReset(reportType, csrfToken) }}
       
       {% if saveDefaultsEnabled %}
         {{ dprFiltersSaveDefaults(reportType, hasDefaults, formId) }}

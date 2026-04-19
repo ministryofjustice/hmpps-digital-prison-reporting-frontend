@@ -123,6 +123,7 @@ export default class Report {
   build = async () => {
     // General report data
     const reportMeta = this.buildReportMeta()
+    console.log({ reportMeta })
     this.buildReportDetails()
 
     // Columns and filters
@@ -337,12 +338,13 @@ export default class Report {
    * @return {*}
    */
   buildReportMeta = () => {
+    const { csrfToken } = LocalsHelper.getValues(this.res)
     return {
       id: this.id,
       reportId: this.reportId,
       ...(this.tableId && { tableId: this.tableId }),
       loadType: this.loadType,
-      csrfToken: this.res.locals['csrfToken'],
+      csrfToken,
       type: ReportType.REPORT,
     }
   }

@@ -133,6 +133,18 @@ describe('Filter validation', () => {
             cy.get(`[id="${id}"]`).should('contain.text', 'Field 5 is required')
           })
       })
+
+      it('should show validation the correct pattern', () => {
+        cy.findByRole('textbox', { name: 'Field 5' }).should('not.have.attr', 'aria-describedby')
+        cy.findByRole('textbox', { name: 'Field 5' }).type('ABC')
+        cy.findByRole('button', { name: /Request/ }).click()
+        cy.findByRole('link', { name: /Field 6 has an invalid format/ }).should('be.visible')
+        cy.findByRole('textbox', { name: 'Field 5' })
+          .invoke('attr', 'aria-describedby')
+          .then((id) => {
+            cy.get(`[id="${id}"]`).should('contain.text', 'Field 6 has an invalid format')
+          })
+      })
     })
 
     describe('Multiselect', () => {
@@ -199,6 +211,21 @@ describe('Filter validation', () => {
         cy.get('[id="filters.field3.end-error"]')
           .should('be.visible')
           .and('contain.text', 'Field 3 end date must be a valid date')
+      })
+
+      it('should validate start is before end date', () => {
+        cy.findByRole('textbox', { name: 'From' }).type('02/01/2026')
+        cy.findByRole('textbox', { name: 'To' }).type('01/01/2026')
+
+        cy.findByRole('button', { name: /Request/ }).click()
+
+        cy.findByRole('link', { name: /Field 3 end date must be the same as or after the start date/ }).should(
+          'be.visible',
+        )
+
+        cy.get('[id="filters.field3.end-error"]')
+          .should('be.visible')
+          .and('contain.text', 'Field 3 end date must be the same as or after the start date')
       })
     })
 

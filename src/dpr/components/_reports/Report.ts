@@ -123,7 +123,6 @@ export default class Report {
   build = async () => {
     // General report data
     const reportMeta = this.buildReportMeta()
-    console.log({ reportMeta })
     this.buildReportDetails()
 
     // Columns and filters

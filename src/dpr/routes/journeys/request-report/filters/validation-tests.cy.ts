@@ -245,8 +245,8 @@ describe('Filter validation', () => {
         cy.location('pathname', { timeout: 20000 }).should('include', '/view-report')
         cy.findByRole('heading', { level: 1, name: /Validation Test/ }).should('be.visible')
 
-        cy.location('pathname').then((path) => {
-          interactiveFiltersPath = path
+        cy.location('pathname').then((interactivePath) => {
+          interactiveFiltersPath = interactivePath
         })
       })
     })

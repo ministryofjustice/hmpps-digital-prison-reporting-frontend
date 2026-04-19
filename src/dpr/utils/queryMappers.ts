@@ -86,14 +86,23 @@ export const queryObjectToQs = (
     .filter(([key]) => !exclude.has(key))
     .flatMap(([key, value]) =>
       Array.isArray(value)
-        ? value.map((v) => [key, uiDateToApi(v) ?? v] as const)
-        : [[key, uiDateToApi(value) ?? value] as const],
+        ? value.map((v) => [key, normaliseUiDateIfPresent(v)] as const)
+        : [[key, normaliseUiDateIfPresent(value)] as const],
     )
     .reduce((params, [key, value]) => {
       params.append(key, value)
       return params
     }, new URLSearchParams())
     .toString()
+}
+
+const UI_DATE_REGEX = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/
+const normaliseUiDateIfPresent = (value: string): string => {
+  if (!UI_DATE_REGEX.test(value)) {
+    return value
+  }
+
+  return uiDateToApi(value) ?? value
 }
 
 /**
@@ -168,22 +177,14 @@ export const formBodyToQs = (body: Record<string, unknown>, exclude: Set<string>
     if (value == null || value === '') return
 
     if (Array.isArray(value)) {
-      const values = value
-        .filter((v) => v != null && v !== '')
-        .map((v) => {
-          const stringValue = String(v)
-          return uiDateToApi(stringValue) ?? stringValue
-        })
-
+      const values = value.filter((v) => v != null && v !== '').map((v) => normaliseUiDateIfPresent(String(v)))
       if (values.length > 0) {
         params.set(key, values.join(','))
       }
-
       return
     }
 
-    const stringValue = String(value)
-    params.set(key, uiDateToApi(stringValue) ?? stringValue)
+    params.set(key, normaliseUiDateIfPresent(String(value)))
   })
 
   return params.toString()

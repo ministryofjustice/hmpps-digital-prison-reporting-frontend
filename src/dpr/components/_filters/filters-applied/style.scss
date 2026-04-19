@@ -10,9 +10,13 @@
 @media print {
   .dpr-selected-filters-container {
     .dpr-selected-filters {
+      background-color: white;
+      padding: govuk-spacing(0);
+
       a,
+      h2,
       p {
-        font-size: 16px;
+        font-size: 12px;
         text-decoration: none;
         margin-right: govuk-spacing(1);
         margin-bottom: govuk-spacing(1);

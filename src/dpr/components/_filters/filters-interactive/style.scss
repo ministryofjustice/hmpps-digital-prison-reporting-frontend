@@ -107,9 +107,14 @@
 
 @media print {
   .dpr-interactive-filters-section {
+    border: 0px;
+
     .dpr-interactive-save-defaults-actions,
     .govuk-details {
       display: none;
+    }
+    .dpr-interactive-filters-accordion {
+      padding: 0px;
     }
   }
 }

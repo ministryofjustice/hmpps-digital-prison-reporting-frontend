@@ -41,3 +41,18 @@ button {
     }
   }
 }
+
+@media print {
+  button {
+    &.dpr-selected-filter {
+      background-color: white;
+      padding: 0px;
+      font-size: 12px;
+      border: 0px;
+
+      &::after {
+        content: none;
+      }
+    }
+  }
+}

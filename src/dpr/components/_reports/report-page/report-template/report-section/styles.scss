@@ -19,8 +19,11 @@
 
 @media print {
   .dpr-report-section {
+    margin-bottom: govuk-spacing(2);
+
     .dpr-report-section__title {
-      border-bottom: solid 1px govuk-colour('mid-grey');
+      border-bottom: solid 2px govuk-colour('mid-grey');
+      margin-bottom: govuk-spacing(0);
 
       h2.govuk-heading-m {
         font-size: 12px;

@@ -211,7 +211,7 @@ describe('setUpActiveReport', () => {
       await middleware(baseLater, res, next)
 
       const store = session.activeReport!
-      const baseKey = buildKeyVariants(baseLater).baseKey
+      const { baseKey } = buildKeyVariants(baseLater)
 
       expect(store[baseKey]).toBeDefined()
     })

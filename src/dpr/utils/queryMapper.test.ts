@@ -125,7 +125,7 @@ describe('form body mapping', () => {
       empty: '',
     })
 
-    expect(result).toBe('a=1,2&b=3')
+    expect(result).toBe('a=1%2C2&b=3')
   })
 
   it('builds an API query object from a form body', () => {

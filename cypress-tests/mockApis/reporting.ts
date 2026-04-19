@@ -37,6 +37,7 @@ import { featureTestingEmptyQuery } from '@networkMocks/report/mockVariants/feat
 import { featureTestingSync } from '@networkMocks/report/mockVariants/feature-testing/sync'
 import { getListWithWarnings, getListWithWarningsCount } from '@networkMocks/report/sync/mocks'
 import { featureTestingOrderFilters } from '@networkMocks/report/mockVariants/feature-testing/orderFilters'
+import { featureTestingValidation } from '@networkMocks/report/mockVariants/feature-testing/validation'
 import {
   getProductCollection1,
   getProductCollection2,
@@ -685,6 +686,8 @@ export const stubs = {
     stubFor(setupSimpleReportDefinitionResponseMock('feature-testing', featureTestingSync)),
   stubDefinitionOrderFilters: () =>
     stubFor(setupSimpleReportDefinitionResponseMock('feature-testing', featureTestingOrderFilters)),
+  stubDefinitionValidation: () =>
+    stubFor(setupSimpleReportDefinitionResponseMock('feature-testing', featureTestingValidation)),
   stubDefinitionAutocomplete: () =>
     stubFor(setupSimpleReportDefinitionResponseMock('filter-inputs', establishmentAutocomplete)),
   stubSyncRequestDataSuccess: () => stubFor(getListWithWarnings),

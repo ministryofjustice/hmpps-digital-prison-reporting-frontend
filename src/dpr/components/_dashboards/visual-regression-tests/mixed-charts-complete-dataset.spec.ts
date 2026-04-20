@@ -16,6 +16,6 @@ test('Mixed chart complete dataset', async ({ page }) => {
   await expect(page).toHaveScreenshot({
     fullPage: true,
     animations: 'disabled',
-    maxDiffPixelRatio: 0.02,
+    maxDiffPixelRatio: 0.015,
   })
 })

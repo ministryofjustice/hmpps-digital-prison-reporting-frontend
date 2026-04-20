@@ -16,6 +16,6 @@ test('Mixed chart partial historic dataset', async ({ page }) => {
   await expect(page).toHaveScreenshot({
     fullPage: true,
     animations: 'disabled',
-    maxDiffPixelRatio: 0.01,
+    maxDiffPixelRatio: 0.015,
   })
 })

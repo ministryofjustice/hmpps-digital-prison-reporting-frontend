@@ -23,7 +23,7 @@ export const setValueFromRequest = (filter: FilterValue, req: Request, prefix: s
   const { min, max, mandatory } = <DateFilterValue>filter
   const dateValue = <string>req.query[`${prefix}${filter.name}`]
   let value = dateValue
-  if (mandatory && !dateValue) {
+  if (mandatory && !dateValue && !req.query['preventDefault']) {
     value = min || max || '1977-05-25'
   }
   return value

@@ -1,80 +1,87 @@
 import { Request, Response } from 'express'
-import { normalizeQueryStringArray } from 'src/dpr/utils/urlHelper'
-import { FilterType } from '../../../components/_filters/filter-input/enum'
+import { qsToQueryObject, normalizeQueryStringArray, queryObjectToQs } from '../../../utils/queryMappers'
+
+import { joinQueryStrings } from '../../../utils/urlHelper'
 import { components } from '../../../types/api'
-import { StoredReportData } from '../../../types/UserReports'
 import { Services } from '../../../types/Services'
 import LocalsHelper from '../../../utils/localsHelper'
-import definitionUtils from '../../../utils/definitionUtils'
-import DateMapper from '../../../utils/DateMapper/DateMapper'
 import ColumnsUtils from '../../../components/_reports/report-heading/report-columns/report-columns-form/utils'
+import { getActiveJourneyValue } from '../../../utils/sessionHelper'
+import { getFields } from '../../../utils/definitionUtils'
+import { LoadType } from '../../../types/UserReports'
 
+/**
+ * Apply interactive query to a REPORT
+ *
+ * @param {Request} req
+ * @param {Response} res
+ * @param {Services} services
+ * @param {('columns' | 'filters')} applyType
+ * @return {*}
+ */
 export const applyReportInteractiveQuery = async (
   req: Request,
   res: Response,
   services: Services,
   applyType: 'columns' | 'filters',
+  loadType: LoadType,
 ) => {
   const { reportId, id } = <{ id: string; reportId: string }>req.params
   const { token, definitionsPath } = LocalsHelper.getValues(res)
 
   // Get the definition
-  const definition: components['schemas']['SingleVariantReportDefinition'] =
-    await services.reportingService.getDefinition(token, reportId, id, definitionsPath)
-  const fields = definition.variant.specification?.fields || []
+  const definition = await services.reportingService.getDefinition(token, reportId, id, definitionsPath)
+  const fields = getFields(definition) || []
 
-  return applyInteractiveQuery(req, res, services, applyType, fields)
+  return applyInteractiveQuery(req, res, applyType, loadType, fields)
 }
 
+/**
+ * Apply interactive query to a DASHBOARD
+ *
+ * @param {Request} req
+ * @param {Response} res
+ * @param {Services} services
+ * @param {('columns' | 'filters')} applyType
+ * @return {*}
+ */
 export const applyDashboardInteractiveQuery = async (
   req: Request,
   res: Response,
-  services: Services,
   applyType: 'columns' | 'filters',
+  loadType: LoadType,
 ) => {
-  const { reportId, id } = <{ id: string; reportId: string }>req.params
-  const { token, definitionsPath } = LocalsHelper.getValues(res)
-
-  // Get the definition
-  const definition: components['schemas']['DashboardDefinition'] = await services.dashboardService.getDefinition(
-    token,
-    reportId,
-    id,
-    definitionsPath,
-  )
-  const fields = definition.filterFields || []
-
-  return applyInteractiveQuery(req, res, services, applyType, fields)
+  return applyInteractiveQuery(req, res, applyType, loadType)
 }
 
+/**
+ * Apply the interactive query
+ *
+ * @param {Request} req
+ * @param {Response} res
+ * @param {('columns' | 'filters')} applyType
+ * @param {components['schemas']['FieldDefinition'][]} fields
+ */
 const applyInteractiveQuery = async (
   req: Request,
   res: Response,
-  services: Services,
   applyType: 'columns' | 'filters',
-  fields: components['schemas']['FieldDefinition'][],
+  loadType: LoadType,
+  fields?: components['schemas']['FieldDefinition'][],
 ) => {
-  const { tableId, id } = <{ id: string; tableId: string }>req.params
-  const { dprUser } = LocalsHelper.getValues(res)
-
-  // get the report state
-  let reportStateData: StoredReportData | undefined
-  if (tableId) {
-    // means its an async report
-    reportStateData = await services.recentlyViewedService?.getReportByTableId(tableId, dprUser.id)
-  } else {
-    // its a sync report and can be indentified by ID as will always only be 1
-    reportStateData = await services.recentlyViewedService?.getReportById(id, dprUser.id)
-  }
+  const { tableId, id, reportId } = <{ id: string; reportId: string; tableId: string }>req.params
 
   // Get the stored interactive query data
-  const interactiveQueryData = reportStateData?.interactiveQuery?.data
+  const sessionkey = loadType === LoadType.ASYNC ? { id, tableId, reportId } : { id, reportId }
+  const queryDataFromSession = getActiveJourneyValue(req, sessionkey, 'currentReportSearch')
+  const queryData = queryDataFromSession ? qsToQueryObject(queryDataFromSession, '') : {}
 
-  const preventDefault = interactiveQueryData?.['preventDefault']
-  const pageSize = interactiveQueryData?.['pageSize']
-  const selectedPage = applyType === 'columns' ? interactiveQueryData?.['selectedPage'] : 1
-  const sortColumn = interactiveQueryData?.['sortColumn']
-  const sortedAsc = interactiveQueryData?.['sortedAsc']
+  // Set the query values from the current query
+  const preventDefault = queryData?.['preventDefault']
+  const pageSize = queryData?.['pageSize']
+  const selectedPage = applyType === 'columns' ? queryData?.['selectedPage'] : 1
+  const sortColumn = queryData?.['sortColumn']
+  const sortedAsc = queryData?.['sortedAsc']
 
   // Create merged form data
   let formData: Record<string, string | string[]> = {
@@ -86,107 +93,198 @@ const applyInteractiveQuery = async (
     ...req.body,
   }
 
-  if (applyType === 'columns') {
-    const { columns } = req.body
-    const mandatoryCols = ColumnsUtils.mandatoryColumns(fields)
-    let bodyColumns = []
-    if (columns) {
-      bodyColumns = Array.isArray(columns) ? columns : [columns]
-    }
-    const columnsData = [...mandatoryCols, ...bodyColumns]
+  formData =
+    applyType === 'columns' && fields
+      ? applyColumns(req, queryData, formData, fields)
+      : applyFilters(queryData, formData)
 
-    // Ensure filters are set correctly from the saved state.
-    let filters = {}
-    if (interactiveQueryData) {
-      filters = Object.keys(interactiveQueryData)
-        .filter((key) => key.includes('filters.'))
-        .reduce((acc, key) => ({ ...acc, [key]: interactiveQueryData[key] }), {})
-    }
-
-    formData = { ...formData, columns: columnsData, ...filters }
-  } else {
-    const normalizedColumns = normalizeQueryStringArray(interactiveQueryData?.['columns']) || []
-    formData = { ...formData, columns: normalizedColumns }
-  }
-
-  // Create query string
-  const filtersString = createQueryParamsFromFormData({
-    formData,
-    fields,
-  })
+  const filtersString = queryObjectToQs(formData)
 
   // Redirect back to report
   res.redirect(`${req.baseUrl}?${filtersString}`)
 }
 
-const createQueryParamsFromFormData = ({
-  formData,
-  fields,
-}: {
-  fields: components['schemas']['FieldDefinition'][]
-  formData: Record<string, string | string[]>
-}) => {
-  // create the query string
-  const params = new URLSearchParams()
-  Object.keys(formData).forEach((key) => {
-    const value = formData[key]
+/**
+ * Apply columns
+ *
+ * @param {Request} req
+ * @param {(Record<string, string | string[]>)} queryData
+ * @param {(Record<string, string | string[]>)} formData
+ * @param {components['schemas']['FieldDefinition'][]} fields
+ * @return {*}
+ */
+const applyColumns = (
+  req: Request,
+  queryData: Record<string, string | string[]>,
+  formData: Record<string, string | string[]>,
+  fields: components['schemas']['FieldDefinition'][],
+) => {
+  const { columns: reqColumns } = req.body
 
-    if (value && key !== '_csrf') {
-      const fieldId = key.split('.')[1] // filters are prefixed with 'filters.'
-      if (fieldId) {
-        const filter = definitionUtils.getFilter(fields, fieldId)
-        if (filter) {
-          const { type: filterType } = filter
-          switch (filterType.toLocaleLowerCase()) {
-            // DATE RANGE TYPES
-            case FilterType.date.toLocaleLowerCase():
-            case FilterType.dateRange.toLocaleLowerCase():
-            case FilterType.granularDateRange.toLocaleLowerCase():
-              {
-                let dateValue: string = <string>value
-                const dateMapper = new DateMapper()
-                const currentDateFormat = dateMapper.getDateType(dateValue)
-                if (currentDateFormat !== 'none') {
-                  dateValue = dateMapper.toDateString(dateValue, 'iso') || ''
-                }
-                if (dateValue) {
-                  params.append(key, dateValue)
-                }
-              }
-              break
+  // Normalize the req columns - should always be an array
+  let bodyColumns: string[] = []
+  if (reqColumns) {
+    bodyColumns = Array.isArray(reqColumns) ? reqColumns : [reqColumns]
+  }
 
-            // MULTIVALUE TYPES: string[] || string if only one value selected
-            case FilterType.multiselect.toLocaleLowerCase():
-              if (Array.isArray(value)) {
-                const multiselectValue = <string[]>value
-                multiselectValue.forEach((v: string) => {
-                  params.append(key, v)
-                })
-              } else {
-                params.append(key, <string>value)
-              }
-              break
+  // ensure mandatory cols are present and set the updated columns
+  const mandatoryCols = ColumnsUtils.mandatoryColumns(fields)
+  const columns = Array.from(new Set([...mandatoryCols, ...bodyColumns]))
 
-            // OTHER TYPES - always a string
-            default:
-              params.append(key, <string>value)
-              break
-          }
-        }
-      } else if (Array.isArray(value)) {
-        value.forEach((v: string) => {
-          params.append(key, v)
-        })
-      } else {
-        params.append(key, value)
-      }
-    }
-  })
+  // Keep the filter values the same as current
+  let filters = {}
+  if (queryData) {
+    filters = Object.keys(queryData)
+      .filter((key) => key.includes('filters.'))
+      .reduce((acc, key) => ({ ...acc, [key]: queryData[key] }), {})
+  }
 
-  return params.toString()
+  return { ...formData, columns, ...filters }
+}
+
+/**
+ * Apply filters
+ *
+ * @param {(Record<string, string | string[]>)} queryData
+ * @param {(Record<string, string | string[]>)} formData
+ * @return {*}
+ */
+const applyFilters = (queryData: Record<string, string | string[]>, formData: Record<string, string | string[]>) => {
+  // Ensure current columns stay the same and are normalized
+  const columns = normalizeQueryStringArray(queryData?.['columns']) || []
+
+  return { ...formData, columns }
+}
+
+/**
+ * Reset filters action
+ *
+ * @param {Request} req
+ * @param {Response} res
+ */
+const resetFilters = (req: Request, res: Response, sessionKey: { id: string; reportId: string; tableId?: string }) => {
+  // Create the reset querystring
+  const finalQuery = resetFiltersQueryString(req, sessionKey)
+
+  // Redirect with new query string - query string will handle all rendered elements
+  if (finalQuery) {
+    res.redirect(`${req.baseUrl}?${finalQuery}`)
+  }
+}
+
+/**
+ * Creates the query string to reset the filters
+ *
+ * @param {Request} req
+ * @param {{ id: string; reportId: string; tableId?: string }} sessionKey
+ * @return {*}  {string}
+ */
+const resetFiltersQueryString = (
+  req: Request,
+  sessionKey: { id: string; reportId: string; tableId?: string },
+): string => {
+  const defaultSessionKey = { id: sessionKey.id, reportId: sessionKey.reportId }
+  const defaultFiltersSearch = getActiveJourneyValue(req, defaultSessionKey, 'interactiveDefaultFiltersSearch')
+  const savedInteractiveDefaultsSearch = getActiveJourneyValue(req, defaultSessionKey, 'savedInteractiveDefaultsSearch')
+
+  // Set the effective qs: if saved defaults, use those. Otherwise use DPD defaults
+  const effectiveQueryString =
+    savedInteractiveDefaultsSearch && savedInteractiveDefaultsSearch.length
+      ? savedInteractiveDefaultsSearch
+      : defaultFiltersSearch
+
+  // Get all the current stuff
+  const currentColumnsSearch = getActiveJourneyValue(req, sessionKey, 'currentReportColumnsSearch')
+  const currentSortSearch = getActiveJourneyValue(req, sessionKey, 'currentSortSearch')
+  const currentPageSizeSearch = getActiveJourneyValue(req, sessionKey, 'currentPageSizeSearch')
+
+  // Create the final querystring
+  return joinQueryStrings(effectiveQueryString, currentColumnsSearch, currentSortSearch, currentPageSizeSearch)
+}
+
+/**
+ * Creates the query string to reset the columns
+ *
+ * @param {Request} req
+ * @param {{ id: string; reportId: string; tableId?: string }} sessionKey
+ * @return {*}  {string}
+ */
+const resetColumnsQueryString = (
+  req: Request,
+  sessionKey: { id: string; reportId: string; tableId?: string },
+): string => {
+  // get the default DPD filters
+  const defaultSessionKey = { id: sessionKey.id, reportId: sessionKey.reportId }
+  const defaultColumnsSearch = getActiveJourneyValue(req, defaultSessionKey, 'defaultColumnsSearch')
+
+  // Get all the current stuff
+  const currentReportFiltersSearch = getActiveJourneyValue(req, sessionKey, 'currentReportFiltersSearch')
+  const currentSortSearch = getActiveJourneyValue(req, sessionKey, 'currentSortSearch')
+  const currentPageSizeSearch = getActiveJourneyValue(req, sessionKey, 'currentPageSizeSearch')
+
+  // Create the final querystring
+  return joinQueryStrings(defaultColumnsSearch, currentReportFiltersSearch, currentSortSearch, currentPageSizeSearch)
+}
+
+/**
+ * Creates the default query string
+ *
+ * @param {Request} req
+ * @return {*}  {(string | undefined)}
+ */
+const createDefaultQueryString = (req: Request): string | undefined => {
+  const { id, reportId } = req.params as {
+    id: string
+    reportId: string
+    tableId: string
+  }
+
+  // Get the report defaults
+  const sessionKey = { id, reportId }
+  const defaultFiltersSearch = getActiveJourneyValue(req, sessionKey, 'interactiveDefaultFiltersSearch')
+  const defaultColumnsSearch = getActiveJourneyValue(req, sessionKey, 'defaultColumnsSearch')
+  const savedInteractiveDefaultsSearch = getActiveJourneyValue(req, sessionKey, 'savedInteractiveDefaultsSearch')
+
+  /**
+   * A report will always have default columns.
+   * Redirect when the request has no query params,
+   * applying default columns and optional filters.
+   */
+  const hasIncomingQueryParams = Object.keys(req.query).length > 0
+  if (hasIncomingQueryParams || !defaultColumnsSearch) {
+    return undefined
+  }
+
+  const filtersToApply =
+    savedInteractiveDefaultsSearch && savedInteractiveDefaultsSearch.length
+      ? savedInteractiveDefaultsSearch
+      : defaultFiltersSearch
+
+  return filtersToApply ? joinQueryStrings(defaultColumnsSearch, filtersToApply) : defaultColumnsSearch
+}
+
+/**
+ * Redirects the report to use the defaults
+ *
+ * @param {Response} res
+ * @param {Request} req
+ * @return {*}
+ */
+const redirectWithDefaults = (res: Response, req: Request) => {
+  const finalQuery = createDefaultQueryString(req)
+  if (finalQuery) {
+    const baseUrl = req.originalUrl.split('?')[0].replace(/\/$/, '')
+    res.redirect(`${baseUrl}?${finalQuery}`)
+    return true
+  }
+  return false
 }
 
 export default {
   applyDashboardInteractiveQuery,
   applyReportInteractiveQuery,
+  resetFilters,
+  resetFiltersQueryString,
+  resetColumnsQueryString,
+  redirectWithDefaults,
 }

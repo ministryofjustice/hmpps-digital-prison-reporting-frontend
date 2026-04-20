@@ -93,7 +93,9 @@ class UserStoreItemBuilder {
   }
 
   addRequestUrls = (req: Request) => {
-    const { origin, pathname, search, href } = this.requestFormData
+    const url = new URL(req.originalUrl, `${req.protocol}://${req.get('host')}`)
+    const { pathname, search, origin } = url
+
     const { executionId, dataProductDefinitionsPath, dpdPathFromQuery } = this.userStoreItem
 
     // Polling path
@@ -101,14 +103,17 @@ class UserStoreItemBuilder {
     if (dpdPathFromQuery) {
       pollingPath = `${pollingPath}?dataProductDefinitionsPath=${dataProductDefinitionsPath}`
     }
+
+    const requestFullUrl = `${origin}${req.originalUrl}`
     const pollingFullUrl = `${origin}${pollingPath}`
+
     this.userStoreItem = {
       ...this.userStoreItem,
       ...{
         url: {
           origin,
           request: {
-            fullUrl: href,
+            fullUrl: requestFullUrl,
             pathname,
             search,
           },

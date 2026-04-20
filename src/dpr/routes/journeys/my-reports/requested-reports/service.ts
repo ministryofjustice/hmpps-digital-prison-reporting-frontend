@@ -54,7 +54,7 @@ class RequestedReportService extends ReportStoreService {
     await this.saveState(userId, userConfig)
   }
 
-  async updateStatus(id: string, userId: string, status?: RequestStatus, errorMessage?: string) {
+  async updateStatus(id: string, userId: string, status: RequestStatus, errorMessage?: string) {
     const userConfig = await this.getState(userId)
     const index = this.findIndexByExecutionId(id, userConfig.requestedReports)
     let report: RequestedReport = userConfig.requestedReports[index]

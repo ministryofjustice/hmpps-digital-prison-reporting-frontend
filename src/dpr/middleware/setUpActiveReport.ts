@@ -1,14 +1,30 @@
 import type { Request, Response, RequestHandler } from 'express'
 import { Services } from '../types/Services'
 import { buildJourneyKey } from '../utils/sessionHelper'
-import { BookmarkService, DownloadPermissionService } from '../services'
-import { getRouteLocals } from '../utils/localsHelper'
+import { BookmarkService, DefaultFilterValuesService, DownloadPermissionService } from '../services'
 import { setNestedPath } from '../utils/urlHelper'
-import { LoadType } from '../types/UserReports'
+import { qsToQueryObject, queryObjectToQs } from '../utils/queryMappers'
+import { LoadType, ReportType } from '../types/UserReports'
 import { AcitveReportSessionData } from '../types/ActiveReportSession'
+import LocalsHelper from '../utils/localsHelper'
+import {
+  getDefaultColumnsQueryString,
+  getDefaultFiltersQueryString,
+  getDefaultSortQueryString,
+  getDefinitionByType,
+} from '../utils/definitionUtils'
+import { FiltersType } from '../components/_filters/filtersTypeEnum'
+import { createQsFromSavedDefaults } from '../utils/Personalisation/personalisationUtils'
+import { components } from '../types/api'
+
+interface ActiveSessionArgs {
+  services: Services
+  loadType?: LoadType
+  reportType?: ReportType
+}
 
 export const storeActiveReportSessionData =
-  (services: Services, loadType: LoadType = LoadType.ASYNC): RequestHandler =>
+  ({ services, loadType = LoadType.ASYNC }: ActiveSessionArgs): RequestHandler =>
   async (req, res, next) => {
     if (!req.session) {
       return next(new Error('Session not initialized'))
@@ -67,19 +83,27 @@ const buildDataConfiguration = async (req: Request, res: Response, services: Ser
 
   const p = req.params as Record<string, string | string[] | undefined>
 
+  // -------------- Get static values -------------------
+  // - values that dont change during the active report journey
   const id = asString(p['id'])!
   const reportId = asString(p['reportId'])!
   const executionId = asString(p['executionId'])
   const tableId = asString(p['tableId'])
+  const reportType = <ReportType>asString(p['type'])
+  const { definitionsPath, dprUser } = LocalsHelper.getValues(res)
+  const { token } = dprUser
+  const { fields } = await getDefinitionByType(reportType, services, token, reportId, id, definitionsPath)
+  const definitionDefaults = await setUpDefaultsFromDefinition(fields)
 
-  // --- Fetch Dynamic Values ---------------------------------------------
-
+  // -------------- Fetch Dynamic Values -------------------
+  // values that are subject to change during the journey
   const reportIsBookmarked = await setUpBookmark(req, res, services.bookmarkService)
   const downloadEnabled = await setUpDownloadConfig(req, res, services.downloadPermissionService)
   const feedbackSubmissionFormPath = setupDownloadFeedbackPaths(req, res)
   const reportUrls = setUpReportUrls(req)
+  const savedDefaults = await setupSavedDefaults(req, res, services.defaultFilterValuesService, fields)
 
-  // --- Prepare Data Payloads --------------------------------------------
+  // -------------- Prepare Data Payloads -------------------
 
   const baseData: Partial<AcitveReportSessionData> = {
     id,
@@ -87,6 +111,8 @@ const buildDataConfiguration = async (req: Request, res: Response, services: Ser
     reportIsBookmarked,
     downloadEnabled,
     loadType,
+    ...definitionDefaults,
+    ...savedDefaults,
   }
 
   // Sync: these values never change → store them under baseKey
@@ -143,8 +169,12 @@ export const buildKeyVariants = (req: Request) => {
  */
 const setUpReportUrls = (req: Request) => {
   let currentReportPathname
-  let currentReportSearch
+  let currentReportSearch: string | undefined
   let currentReportUrl
+  let currentReportFiltersSearch
+  let currentReportColumnsSearch
+  let currentPageSizeSearch
+  let currentSortSearch
 
   if (req.originalUrl.includes('view-report')) {
     const url = new URL(req.originalUrl, `${req.protocol}://${req.get('host')}`)
@@ -153,10 +183,52 @@ const setUpReportUrls = (req: Request) => {
     currentReportUrl = req.originalUrl
   }
 
+  if (currentReportSearch !== undefined) {
+    // Create the current filters string
+    const filterQueryObject = qsToQueryObject(currentReportSearch, 'filters.')
+    currentReportFiltersSearch = queryObjectToQs(filterQueryObject)
+
+    // Create the current columns string
+    const columnsQueryObject = qsToQueryObject(currentReportSearch, 'columns')
+    currentReportColumnsSearch = queryObjectToQs(columnsQueryObject)
+
+    // Create the current paging string
+    const pageSizeQueryObject = qsToQueryObject(currentReportSearch, 'pageSize')
+    currentPageSizeSearch = queryObjectToQs(pageSizeQueryObject)
+
+    // Create the current sort string
+    const pageSortQueryObject = qsToQueryObject(currentReportSearch, 'sort')
+    currentSortSearch = queryObjectToQs(pageSortQueryObject)
+  }
+
   return {
     ...(currentReportPathname && { currentReportPathname }),
-    ...(currentReportSearch && { currentReportSearch }),
+    ...(currentReportSearch !== undefined && { currentReportSearch }),
     ...(currentReportUrl && { currentReportUrl }),
+    ...(currentReportFiltersSearch !== undefined && { currentReportFiltersSearch }),
+    ...(currentReportColumnsSearch !== undefined && { currentReportColumnsSearch }),
+    ...(currentPageSizeSearch !== undefined && { currentPageSizeSearch }),
+    ...(currentSortSearch !== undefined && { currentSortSearch }),
+  }
+}
+
+/**
+ * Sets up the default query strings from the definition
+ *
+ * @param {Request} req
+ * @param {Response} res
+ * @param {ReportingService} service
+ * @return {*}
+ */
+const setUpDefaultsFromDefinition = async (fields: components['schemas']['FieldDefinition'][]) => {
+  const filtersQueryStrings = getDefaultFiltersQueryString(fields)
+  const defaultColumnsSearch = getDefaultColumnsQueryString(fields)
+  const defautltSortQueryString = getDefaultSortQueryString(fields)
+
+  return {
+    ...filtersQueryStrings,
+    defaultColumnsSearch,
+    defautltSortQueryString,
   }
 }
 
@@ -209,7 +281,7 @@ const setUpDownloadConfig = async (req: Request, res: Response, service: Downloa
  */
 const setupDownloadFeedbackPaths = (req: Request, res: Response) => {
   const { reportId, id, tableId } = <{ id: string; reportId: string; tableId: string }>req.params
-  const { nestedBaseUrl } = getRouteLocals(res)
+  const { nestedBaseUrl } = LocalsHelper.getRouteLocals(res)
 
   let feedbackSubmissionFormPath
   if (reportId && id) {
@@ -221,4 +293,40 @@ const setupDownloadFeedbackPaths = (req: Request, res: Response) => {
   }
 
   return feedbackSubmissionFormPath
+}
+
+/**
+ * Sets up the saved defaults as query strings
+ *
+ * @param {Request} req
+ * @param {Response} res
+ * @param {DefaultFilterValuesService} service
+ * @return {*}
+ */
+const setupSavedDefaults = async (
+  req: Request,
+  res: Response,
+  service: DefaultFilterValuesService,
+  fields: components['schemas']['FieldDefinition'][],
+) => {
+  const { reportId, id } = <{ id: string; reportId: string }>req.params
+  const userId = res.locals['dprUser'].id
+
+  const savedRequestFilterValues = await service.get(userId, reportId, id, FiltersType.REQUEST)
+  const savedInteractiveFilterValues = await service.get(userId, reportId, id, FiltersType.INTERACTIVE)
+
+  const savedRequestDefaultsSearch =
+    savedRequestFilterValues && savedRequestFilterValues.length
+      ? createQsFromSavedDefaults(savedRequestFilterValues, fields)
+      : ''
+
+  const savedInteractiveDefaultsSearch =
+    savedInteractiveFilterValues && savedInteractiveFilterValues.length
+      ? createQsFromSavedDefaults(savedInteractiveFilterValues, fields)
+      : ''
+
+  return {
+    savedRequestDefaultsSearch,
+    savedInteractiveDefaultsSearch,
+  }
 }

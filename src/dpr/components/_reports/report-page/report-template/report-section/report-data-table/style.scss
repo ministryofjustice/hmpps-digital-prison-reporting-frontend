@@ -230,6 +230,11 @@
     .dpr-table-wrapper {
       overflow: visible;
 
+      .govuk-table {
+        font-size: 12px;
+        margin-bottom: govuk-spacing(2);
+      }
+
       .data-table-cell-long-string {
         min-width: auto;
       }

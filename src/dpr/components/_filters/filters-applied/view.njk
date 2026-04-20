@@ -1,0 +1,30 @@
+{% macro dprAppliedFilters(filters = []) %}
+  <div class='dpr-selected-filters-container'>
+    <div class='dpr-selected-filters'>
+      <h2 id="dpr-selected-filters-label" class="govuk-heading-s govuk-!-margin-bottom-2">Selected filters</h2>
+      <div id="dpr-selected-filters" aria-labelledby="dpr-selected-filters-label">
+        <div class="dpr-applied-filters" data-dpr-module="dpr-applied-filters">
+          {% if filters.length %}
+            {% for filter in filters %}
+              <button
+                type="button"
+                aria-label="Remove {{ filter.displayName }} filter"
+                class="dpr-clear-button-styles govuk-body dpr-selected-filter"
+                data-reset='{{ filter.reset | dump }}'
+              >
+                <strong class="dpr-selected-filter__name">
+                  {{ filter.displayName }}
+                </strong>
+                : {{ filter.displayValue }}
+              </button>
+            {% endfor %}
+          {% else %}
+            <p class="govuk-body-s govuk-!-margin-top-1 govuk-!-margin-bottom-0">
+              No filters applied
+            </p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endmacro %}

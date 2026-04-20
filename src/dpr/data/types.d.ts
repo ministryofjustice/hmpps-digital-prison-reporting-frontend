@@ -1,5 +1,4 @@
 import AgentConfig from './agentConfig'
-import Dict = NodeJS.Dict
 
 export interface GetRequest {
   path?: string
@@ -26,7 +25,7 @@ export interface Count {
 }
 
 export interface ListWithWarnings {
-  data: Array<Dict<string>>
+  data: Record<string, string>[]
   warnings: Warnings
 }
 

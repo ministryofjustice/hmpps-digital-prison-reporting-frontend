@@ -1,4 +1,5 @@
 import { Request, Response } from 'express'
+import type { ParsedQs } from 'qs'
 import { Services } from '../../../../../types/Services'
 import Dict = NodeJS.Dict
 import { DashboardSection } from '../../../../../components/_dashboards/dashboard-visualisation/types'
@@ -9,19 +10,20 @@ import type { RequestedReport } from '../../../../../types/UserReports'
 import { ReportType } from '../../../../../types/UserReports'
 import type { components } from '../../../../../types/api'
 
-import DefinitionUtils from '../../../../../utils/definitionUtils'
+import DefinitionUtils, { getDashboardFields } from '../../../../../utils/definitionUtils'
 import UserReportsUtils from '../../../../../components/user-reports/utils'
 import FilterUtils from '../../../../../components/_filters/utils'
 import ReportActionsUtils from '../../../../../components/_reports/report-heading/report-actions/utils'
 import ReportQuery from '../../../../../types/ReportQuery'
 import LocalsHelper from '../../../../../utils/localsHelper'
 import { FilterValue, GranularDateRangeFilterValue, PartialDate } from '../../../../../components/_filters/types'
-import { FiltersType } from '../../../../../components/_filters/filtersTypeEnum'
 import { FilterType } from '../../../../../components/_filters/filter-input/enum'
 import { validateDashboardVisualisations } from '../../../../../components/_dashboards/dashboard-visualisation/utils'
 import { createDashboardSections } from '../../../../../components/_dashboards/dashboard-section/utils'
 import DashboardSchema from './validate'
 import { setUpBookmark } from '../../../../../components/bookmark/utils'
+import { buildAppliedFilters } from '../../../../../components/_filters/filters-applied/utils'
+import { extractFiltersFromQuery } from '../../../../../utils/queryMappers'
 
 const setDashboardActions = (
   dashboardDefinition: components['schemas']['DashboardDefinition'],
@@ -71,7 +73,7 @@ const getDefinitionData = async ({
   queryData?: Dict<string | string[]> | undefined
 }) => {
   const { token } = LocalsHelper.getValues(res)
-  const { reportId, id } = <{ id: string; reportId: string }>req.params
+  const { reportId, id, tableId } = <{ id: string; reportId: string; tableId: string }>req.params
   const dataProductDefinitionsPath = <string>req.query['dataProductDefinitionsPath']
 
   // Dashboard Definition,
@@ -97,27 +99,29 @@ const getDefinitionData = async ({
   )
 
   // Get the filters
-  const filtersData = await FilterUtils.getFilters({
-    fields: dashboardDefinition.filterFields || [],
+  const fields = getDashboardFields(dashboardDefinition)
+  const filters = await FilterUtils.getInteractiveFilters({
+    fields,
     req,
-    filtersType: FiltersType.INTERACTIVE,
   })
 
-  const filtersQuery = FilterUtils.setRequestQueryFromFilterValues(filtersData.filters)
+  // Get the applied Filters
+  const appliedFilters = buildAppliedFilters(req, { reportId, id, tableId }, fields)
 
   // Create the query
   const query = new ReportQuery({
     fields: dashboardDefinition.filterFields || [],
-    queryParams: filtersQuery,
+    queryParams: extractFiltersFromQuery(req.query) as ParsedQs,
     definitionsPath: <string>dataProductDefinitionsPath,
     reportType: ReportType.DASHBOARD,
   }).toRecordWithFilterPrefix(true)
 
   return {
     query,
-    filters: filtersData,
+    filters,
     dashboardDefinition,
     reportDefinition,
+    appliedFilters,
   }
 }
 
@@ -167,7 +171,7 @@ export const renderAsyncDashboard = async ({ req, res, services }: AsyncReportUt
   const queryData = requestData?.query?.data
 
   // Get the definition Data
-  const { query, filters, reportDefinition, dashboardDefinition } = await getDefinitionData({
+  const { query, filters, reportDefinition, dashboardDefinition, appliedFilters } = await getDefinitionData({
     req,
     res,
     services,
@@ -186,7 +190,7 @@ export const renderAsyncDashboard = async ({ req, res, services }: AsyncReportUt
   const flattenedData: DashboardDataResponse[] = Array.isArray(dashboardData)
     ? dashboardData.flat().filter(Boolean)
     : []
-  const partialDate = getPartialDate(filters.filters)
+  const partialDate = getPartialDate(filters)
 
   const bookmarkConfig = setUpBookmark(res, req, bookmarkService)
 
@@ -202,7 +206,7 @@ export const renderAsyncDashboard = async ({ req, res, services }: AsyncReportUt
 
   // Update the store
   if (requestedReportService) {
-    requestData = await updateStore(services, tableId, dprUser.id, sections, req, filters.filters)
+    requestData = await updateStore(services, tableId, dprUser.id, sections, req, filters)
   }
 
   return {
@@ -219,6 +223,7 @@ export const renderAsyncDashboard = async ({ req, res, services }: AsyncReportUt
       type: ReportType.DASHBOARD,
       actions: setDashboardActions(dashboardDefinition, reportDefinition, requestData),
       bookmarkConfig,
+      appliedFilters,
     },
   }
 }

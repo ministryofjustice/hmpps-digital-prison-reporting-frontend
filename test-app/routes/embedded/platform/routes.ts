@@ -42,5 +42,14 @@ export default function routes(services: Services): Router {
     res.sendStatus(200)
   })
 
+  router.get('/resetSession', (_req: Request, res: Response) => {
+    res.render('views/pages/platform/resetSession.njk', {})
+  })
+
+  router.post('/resetSession', (req: Request, res: Response) => {
+    req.session.activeReport = {}
+    res.sendStatus(200)
+  })
+
   return router
 }

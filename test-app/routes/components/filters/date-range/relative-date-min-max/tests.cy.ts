@@ -1,7 +1,11 @@
-import { checkA11y } from "cypress-tests/cypressUtils"
+import { checkA11y, stubDefinitionsTasks } from 'cypress-tests/cypressUtils'
 
 context('Inputs: Relative date range', () => {
   const path = '/components/filters/date-range/relative-min-max-date-range#relative-date-range-min-max-relative-range'
+
+  before(() => {
+    stubDefinitionsTasks()
+  })
 
   it('is accessible', () => {
     cy.visit(path)

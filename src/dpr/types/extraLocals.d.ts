@@ -30,4 +30,5 @@ export interface ExtraLocals {
     }
   }
   dprPaths: DprAppLocals
+  validatedFilters?: Record<string, unknown>
 }

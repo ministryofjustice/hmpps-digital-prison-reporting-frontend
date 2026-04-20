@@ -1,7 +1,7 @@
 import Dict = NodeJS.Dict
 import ReportQuery from '../../types/ReportQuery'
 import { Cell, CellFormat, DataTable, SortKey } from './types'
-import createUrlForParameters from '../urlHelper'
+import { mergeAndStringifyQuery } from '../urlHelper'
 import type { SummaryTemplate } from '../../types/Templates'
 import { AsyncSummary } from '../../types/UserReports'
 import DateMapper from '../DateMapper/DateMapper'
@@ -131,10 +131,10 @@ class DataTableBuilder {
             const updateQueryParams = {
               sortColumn: f.name,
               sortedAsc: String(nextAsc),
+              selectedPage: '1',
             }
 
-            const url = createUrlForParameters(this.currentQueryParams ?? {}, updateQueryParams, this.fields)
-
+            const url = mergeAndStringifyQuery(this.currentQueryParams ?? {}, updateQueryParams, this.fields)
             const visuallyHiddenText = `. ${sortDirection === 'none' ? 'Not sorted' : `Sorted ${sortDirection}`}. Click to sort ${nextAsc ? 'Ascending' : 'Descending'}`
 
             return {

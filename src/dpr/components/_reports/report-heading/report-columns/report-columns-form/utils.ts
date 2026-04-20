@@ -1,12 +1,12 @@
 import { Request } from 'express'
 import { components } from '../../../../../types/api'
 import { Column, Columns } from './types'
-import { normalizeQueryStringArray } from '../../../../../utils/urlHelper'
+import { normalizeQueryStringArray } from '../../../../../utils/queryMappers'
 
 export const mandatoryColumns = (fields: Array<components['schemas']['FieldDefinition']>) =>
   fields.filter((field) => field.mandatory).map((field) => field.name)
 
-const visibleColumns = (fields: Array<components['schemas']['FieldDefinition']>) =>
+export const visibleColumns = (fields: Array<components['schemas']['FieldDefinition']>) =>
   fields.filter((field) => field.visible).map((field) => field.name)
 
 export const ensureMandatoryColumns = (

@@ -424,32 +424,108 @@ export const getFilterFromDefinition = (filter: components['schemas']['FilterDef
   }
 }
 
-export const getQueryFromDefinition = (
-  filter: components['schemas']['FilterDefinition'],
-  name: string,
-  filterPrefix: string,
-  startEndParams: string,
+/**
+ * Creates and appends the granular daterange query string
+ * to an existing URLSearchParams
+ *
+ * @param {URLSearchParams} params
+ * @param {string} fieldName
+ * @param {string} defaultValue
+ */
+export const appendGranularDateRangeValue = (
+  params: URLSearchParams,
+  fieldName: string,
+  options: {
+    start?: string
+    end?: string
+    granularity?: components['schemas']['FilterDefinition']['defaultGranularity']
+    quickFilter?: components['schemas']['FilterDefinition']['defaultQuickFilterValue']
+  },
 ) => {
-  const params = []
+  const { start, end, granularity, quickFilter } = options
+
+  if (quickFilter) {
+    params.append(`filters.${fieldName}.quick-filter`, quickFilter)
+  }
+
+  if (granularity) {
+    params.append(`filters.${fieldName}.granularity`, granularity)
+  }
+
+  if (start) {
+    params.append(`filters.${fieldName}.start`, start)
+  }
+
+  if (end) {
+    params.append(`filters.${fieldName}.end`, end)
+  }
+}
+
+type GranularDateRangeDefaults = {
+  start?: string
+  end?: string
+  granularity?: components['schemas']['FilterDefinition']['defaultGranularity']
+  quickFilter?: components['schemas']['FilterDefinition']['defaultQuickFilterValue']
+}
+
+/**
+ * Resolves default values for a `granulardaterange` filter definition.
+ *
+ * Applies precedence rules:
+ * 1. `defaultQuickFilterValue` (derives start, end, and granularity)
+ * 2. `defaultGranularity` combined with `defaultValue` (explicit range)
+ * 3. `defaultGranularity` only
+ *
+ * Returns plain resolved values suitable for query construction, or
+ * `undefined` if the definition does not specify any usable defaults.
+ *
+ * @param {components['schemas']['FilterDefinition']} filter
+ * @return {*}  {(GranularDateRangeDefaults | undefined)}
+ */
+export const resolveGranularDateRangeDefaults = (
+  filter: components['schemas']['FilterDefinition'],
+): GranularDateRangeDefaults | undefined => {
+  // Case 1: quick filter wins
   if (filter.defaultQuickFilterValue) {
     const { start, end, granularity } = setDateRangeFromQuickFilterValue(filter.defaultQuickFilterValue)
-    params.push(`${filterPrefix}${name}.quick-filter=${filter.defaultQuickFilterValue}`)
-    params.push(`${filterPrefix}${name}.granularity=${granularity}`)
-    params.push(`${filterPrefix}${name}.start=${start}`)
-    params.push(`${filterPrefix}${name}.end=${end}`)
-  } else if (filter.defaultGranularity && startEndParams) {
-    params.push(`${filterPrefix}${name}.granularity=${filter.defaultGranularity}`)
-    params.push(`${startEndParams}`)
-  } else if (filter.defaultGranularity) {
-    params.push(`${filterPrefix}${name}.granularity=${filter.defaultGranularity}`)
+
+    return {
+      quickFilter: filter.defaultQuickFilterValue,
+      granularity,
+      ...(start !== undefined ? { start } : {}),
+      ...(end !== undefined ? { end } : {}),
+    }
   }
-  return params.join('&')
+
+  // Case 2: granularity + explicit default range
+  if (filter.defaultGranularity && filter.defaultValue) {
+    const [start, end] = filter.defaultValue
+      .split(' - ')
+      .map((v) => v.trim())
+      .filter(Boolean)
+
+    return {
+      granularity: filter.defaultGranularity,
+      ...(start !== undefined ? { start } : {}),
+      ...(end !== undefined ? { end } : {}),
+    }
+  }
+
+  // Case 3: granularity only
+  if (filter.defaultGranularity) {
+    return {
+      granularity: filter.defaultGranularity,
+    }
+  }
+
+  return undefined
 }
 
 export default {
   getFilterFromDefinition,
   setValueFromRequest,
-  getQueryFromDefinition,
   setDefaultValue,
   setFilterValueFromDefault,
+  appendGranularDateRangeValue,
+  resolveGranularDateRangeDefaults,
 }

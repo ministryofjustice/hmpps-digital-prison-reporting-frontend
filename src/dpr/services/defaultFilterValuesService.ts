@@ -60,11 +60,33 @@ class DefaultFilterValuesService extends ReportStoreService {
     const defaultConfig = userConfig.defaultFilters?.find((defaultFilter) => {
       return defaultFilter.id === id && defaultFilter.reportId === reportId
     })
+
     if (!defaultConfig) {
       return undefined
     }
     return defaultConfig.values.filter((v) => {
       const type = !v.type ? FiltersType.REQUEST : v.type
+      return filtersType === type
+    })
+  }
+
+  async hasDefaults(
+    userId: string,
+    reportId: string,
+    id: string,
+    type: FiltersType = FiltersType.REQUEST,
+  ): Promise<boolean> {
+    if (!this.enabled) return false
+
+    const userConfig = await this.getState(userId)
+    const defaults = userConfig.defaultFilters?.find((df) => df.reportId === reportId && df.id === id)
+
+    if (!defaults || !Array.isArray(defaults.values) || defaults.values.length === 0) {
+      return false
+    }
+
+    return defaults.values.some((value) => {
+      const filtersType = !value.type ? FiltersType.REQUEST : value.type
       return filtersType === type
     })
   }

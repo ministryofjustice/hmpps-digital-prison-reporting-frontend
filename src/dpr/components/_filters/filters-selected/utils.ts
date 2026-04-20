@@ -11,92 +11,8 @@ import {
 } from '../types'
 import DateRangeFilterUtils from '../../_inputs/date-range/utils'
 import DateMapper from '../../../utils/DateMapper/DateMapper'
-import Dict = NodeJS.Dict
 
-export const getSelectedFilters = (filters: FilterValue[], prefix: string) => {
-  const emptyValues: (string | undefined | null)[] = [undefined, null, '']
-
-  return filters
-    .filter((f) => {
-      return (
-        (f.value &&
-          Object.prototype.hasOwnProperty.call(f.value, 'start') &&
-          !emptyValues.includes((<DateRange>f.value).start)) ||
-        (f.value &&
-          Object.prototype.hasOwnProperty.call(f.value, 'end') &&
-          !emptyValues.includes((<DateRange>f.value).end)) ||
-        (f.value &&
-          !Object.prototype.hasOwnProperty.call(f.value, 'start') &&
-          !Object.prototype.hasOwnProperty.call(f.value, 'end'))
-      )
-    })
-    .filter((f) => {
-      return f.value && f.value !== 'no-filter'
-    })
-    .map((f) => {
-      let displayValue = `${f.value}`
-      let value: (string | DateRange)[] = [`"${displayValue}"`]
-      let key: string[] = [`${prefix}${f.name}`]
-      let cantRemoveClass = ''
-      let disabled = false
-      let constraints: { key: string; value: string }[] | undefined
-
-      if (f.type.toLowerCase() === FilterType.dateRange.toLowerCase()) {
-        ;({ key, value, disabled, cantRemoveClass, displayValue, constraints } = setSelectedDateRange(
-          <DateRangeFilterValue>f,
-          prefix,
-        ))
-      }
-
-      if (f.type.toLowerCase() === FilterType.granularDateRange.toLowerCase()) {
-        ;({ key, value, disabled, cantRemoveClass, displayValue, constraints } = setSelectedGranularDateRange(
-          <GranularDateRangeFilterValue>f,
-          prefix,
-        ))
-      }
-
-      if (f.type.toLowerCase() === FilterType.date.toLowerCase()) {
-        ;({ key, value, disabled, cantRemoveClass, displayValue, constraints } = getSelectedDate(
-          <DateFilterValue>f,
-          prefix,
-        ))
-      }
-
-      if (
-        f.type.toLowerCase() === FilterType.autocomplete.toLowerCase() ||
-        f.type.toLowerCase() === FilterType.radio.toLowerCase() ||
-        f.type.toLowerCase() === FilterType.select.toLowerCase()
-      ) {
-        ;({ key, value, displayValue } = getOptionsValue(<FilterValueWithOptions>f, prefix))
-      }
-
-      if (f.type.toLowerCase() === FilterType.multiselect.toLowerCase()) {
-        ;({ key, value, displayValue } = getMultiselectValues(<FilterValueWithOptions>f, prefix))
-      }
-
-      let ariaLabel
-      if (disabled) {
-        ariaLabel = `Selected Filter: ${f.text}: ${displayValue}. This filter cant be removed. Update the filter input to change the value`
-      } else {
-        ariaLabel = `Selected Filter: ${f.text}: ${displayValue}. Click to clear this filter`
-      }
-
-      return {
-        text: f.text,
-        displayValue,
-        key: JSON.stringify(key),
-        value,
-        disabled,
-        constraints,
-        classes: `interactive-remove-filter-button${cantRemoveClass}`,
-        attributes: {
-          'aria-label': ariaLabel,
-        },
-      }
-    })
-}
-
-export const setDateDisplayFormat = (dateValue: string) => {
+const setDateDisplayFormat = (dateValue: string) => {
   const dateMapper = new DateMapper()
   const type = dateMapper.getDateType(dateValue)
   if (type !== 'none') {
@@ -105,7 +21,7 @@ export const setDateDisplayFormat = (dateValue: string) => {
   return dateValue
 }
 
-export const setSelectedDateRange = (f: DateRangeFilterValue, prefix: string) => {
+const setSelectedDateRange = (f: DateRangeFilterValue, prefix: string) => {
   const startValue = (<DateRange>f.value).start || 'Open start'
   const endValue = (<DateRange>f.value).end || 'Open end'
   const value = [`"${startValue}"`, `"${endValue}"`]
@@ -135,7 +51,7 @@ export const setSelectedDateRange = (f: DateRangeFilterValue, prefix: string) =>
   }
 }
 
-export const setMinMaxContraints = (f: DateFilterValue | DateRangeFilterValue, key: string[], singleDate = false) => {
+const setMinMaxContraints = (f: DateFilterValue | DateRangeFilterValue, key: string[], singleDate = false) => {
   const constraints: { key: string; value: string }[] = []
   const { min, max } = f
   if (min) {
@@ -153,7 +69,7 @@ export const setMinMaxContraints = (f: DateFilterValue | DateRangeFilterValue, k
   return constraints.length ? constraints : undefined
 }
 
-export const getOptionsValue = (f: FilterValueWithOptions, prefix: string) => {
+const getOptionsValue = (f: FilterValueWithOptions, prefix: string) => {
   const displayOption = f.options.find((opt) => opt.value === f.value)
   const displayValue = displayOption ? displayOption.text : ''
   const key = [`${prefix}${f.name}`]
@@ -166,7 +82,7 @@ export const getOptionsValue = (f: FilterValueWithOptions, prefix: string) => {
   }
 }
 
-export const getMultiselectValues = (f: FilterValueWithOptions, prefix: string) => {
+const getMultiselectValues = (f: FilterValueWithOptions, prefix: string) => {
   const MAX_VALUES = 3
   const splitValues = (<string>f.value).split(',')
   let displayValue = splitValues
@@ -192,7 +108,7 @@ export const getMultiselectValues = (f: FilterValueWithOptions, prefix: string) 
   }
 }
 
-export const setSelectedGranularDateRange = (f: GranularDateRangeFilterValue, prefix: string) => {
+const setSelectedGranularDateRange = (f: GranularDateRangeFilterValue, prefix: string) => {
   const startValue = f.value.start || 'Open start'
   const endValue = f.value.end || 'Open end'
   const quickFilterValue = f.value.quickFilter?.value
@@ -228,24 +144,7 @@ export const setSelectedGranularDateRange = (f: GranularDateRangeFilterValue, pr
   }
 }
 
-export const getSelectedDate = (f: DateFilterValue, prefix: string) => {
-  const key = [`${prefix}${f.name}`]
-  const value = [`"${f.value}"`]
-  const displayValue = setDateDisplayFormat(<string>f.value)
-  const constraints = setMinMaxContraints(f, key, true)
-
-  const { disabled, cantRemoveClass, displayValue: disabledDisplayValue } = disabledDate(f, value, displayValue)
-  return {
-    key,
-    value,
-    displayValue: disabledDisplayValue || displayValue,
-    disabled,
-    constraints,
-    cantRemoveClass,
-  }
-}
-
-export const disabledDateRange = (f: DateRangeFilterValue | DateFilterValue, value: string[], displayValue: string) => {
+const disabledDateRange = (f: DateRangeFilterValue | DateFilterValue, value: string[], displayValue: string) => {
   const { min, max } = f
   if (min && (<string>value[0]).includes(min) && max && (<string>value[1]).includes(max)) {
     return {
@@ -261,28 +160,7 @@ export const disabledDateRange = (f: DateRangeFilterValue | DateFilterValue, val
   }
 }
 
-export const disabledDate = (f: DateFilterValue, value: (string | DateRange)[], displayValue: string) => {
-  const { min, max } = <DateFilterValue>f
-
-  if ((min && (<string>value[0]).includes(min)) || (max && (<string>value[0]).includes(max))) {
-    let valueType
-    if (min && (<string>value[0]).includes(min)) valueType = 'min'
-    if (max && (<string>value[0]).includes(max)) valueType = 'max'
-
-    return {
-      disabled: true,
-      cantRemoveClass: ' interactive-remove-filter-button--disabled',
-      displayValue: `${displayValue} (${valueType} date)`,
-    }
-  }
-  return {
-    disabled: false,
-    cantRemoveClass: '',
-    displayValue,
-  }
-}
-
-export const getQuerySummary = (reqQuery: Dict<string>, filters: FilterValue[]) => {
+export const getQuerySummary = (reqQuery: Record<string, unknown>, filters: FilterValue[]) => {
   const prefix = 'filters.'
 
   return filters
@@ -325,6 +203,5 @@ export const getQuerySummary = (reqQuery: Dict<string>, filters: FilterValue[]) 
 }
 
 export default {
-  getSelectedFilters,
   getQuerySummary,
 }

@@ -4,33 +4,32 @@ title: Report Filters (example)
 ---
 {% from "dpr/components/_filters/filters-interactive/view.njk" import dprInteractiveFilters %}
 
-{% set filterData = {
-  selectedFilters: [
-    {
-      text: "Radio filter: Two",
-      key: '["radio"]',
-      value: '["Two"]',
-      disabled: false,
-      classes: 'interactive-remove-filter-button',
-      attributes: {
-        'aria-label': 'Selected Filter: Radio filter: Two. Click to clear this filter'
-      }
-    },
-    {
-      text: "Multiselect: Value 8.2, Value 8.3",
-      key: "[\"filters.multiselect\"]",
-      value: [
-        "\"value8.2\"",
-        "\"value8.3\""
-      ],
-      disabled: false,
-      classes: "interactive-remove-filter-button",
-      attributes: {
-        "aria-label": "Selected Filter: Multiselect: Value 8.2, Value 8.3. Click to clear this filter"
-      }
+{% set appliedFilters = [
+  {
+    displayName: 'Radio filter',
+    displayValue: 'two',
+    reset: { 
+      keys: [ "filters.field1" ] 
     }
-  ],
-  filters: [
+  },
+  {
+    displayName: 'Multiselect',
+    displayValue: 'Value 8.2, Value 8.3',
+    reset: { 
+      keys: [ "filters.multiselect" ] 
+    }
+  }
+] %}
+
+{% set templateArgs = { 
+  reportType: "report", 
+  validationErrors: [], 
+  appliedFilters: appliedFilters, 
+  hasDefaults: false, 
+  saveDefaultsEnabled: true }
+%}
+
+{% set filters = [
     {
       text: "Radio filter",
       name: 'field1',
@@ -101,9 +100,6 @@ title: Report Filters (example)
       value: null,
       mandatory: true
     }
-  ]
-} %}
+  ] %}
 
-{% set defaultQuery = '?filters.field1=one&filters.field7=value8.2&filters.field7=value8.3&filters.daterange.start=2003-02-01&filters.daterange.end=2006-05-04&filters.field7=value8.1&filters.field7=value8.4&filters.select=value2.1&filters.text=Hello' %}
-
-{{ dprInteractiveFilters(filterData, defaultQuery, 'filters.', true) }}
+{{ dprInteractiveFilters(filters, templateArgs) }}

@@ -1,13 +1,13 @@
 $govuk-global-styles: true;
 
-$dpr-images-path: "/assets/dpr/assets/images/";
-$govuk-assets-path: "/assets/";
-@import "govuk-frontend/dist/govuk/all";
+$dpr-images-path: '/assets/dpr/assets/images/';
+$govuk-assets-path: '/assets/';
+@import 'govuk-frontend/dist/govuk/all';
 
 // Configure MoJ Frontend
 $moj-assets-path: '/assets/';
 $moj-images-path: '/assets/images/';
-@import "@ministryofjustice/frontend/moj/all";
+@import '@ministryofjustice/frontend/moj/all';
 
 .govuk-width-container {
   max-width: 1170px !important;
@@ -19,14 +19,48 @@ $moj-images-path: '/assets/images/';
 
 .dpr-child-report {
   .govuk-table {
-    border: solid 1px govuk-colour("mid-grey");
+    border: solid 1px govuk-colour('mid-grey');
 
-    th, td {
+    th,
+    td {
       padding: 10px;
     }
   }
 }
 
 .dpr-form--hidden {
-  display: none
+  display: none;
+}
+
+.dpr-clear-button-styles {
+  background: none;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  box-shadow: none;
+
+  font: inherit;
+  color: inherit;
+  text-align: inherit;
+
+  appearance: none;
+  -webkit-appearance: none;
+  border-radius: 0;
+  cursor: pointer;
+
+  // Reset interactive states
+  &:hover,
+  &:focus,
+  &:active {
+    background: none;
+    color: inherit;
+    box-shadow: none;
+    outline: none;
+    transform: none;
+    filter: none;
+  }
+
+  &:focus-visible {
+    outline: none;
+  }
 }

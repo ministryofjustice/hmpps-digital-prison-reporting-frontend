@@ -75,7 +75,7 @@ context('Interactive report', () => {
     const removeAllFilters = () => {
       for (let index = 0; index < 4; index += 1) {
         cy.findByLabelText('Selected filters').within(() => {
-          cy.findAllByRole('link').first().click()
+          cy.findAllByRole('button').first().click()
         })
       }
     }
@@ -98,7 +98,7 @@ context('Interactive report', () => {
           expect(location.search).to.contain(`filters.field3.end=2025-07-05`)
         })
 
-        checkSelectedFilterValues({ length: 2, buttonValues: [{ key: 'Field 3', value: '02/05/2025 - 05/07/2025' }] })
+        checkSelectedFilterValues({ length: 1, buttonValues: [{ key: 'Field 3', value: '02/05/2025 - 05/07/2025' }] })
       })
 
       it('should apply the relative daterange', () => {
@@ -135,7 +135,10 @@ context('Interactive report', () => {
           expect(location.search).to.contain(`filters.field3.relative-duration=tomorrow`)
         })
 
-        checkSelectedFilterValues({ length: 2, buttonValues: [{ key: 'Field 3', value: 'Tomorrow' }] })
+        checkSelectedFilterValues({
+          length: 1,
+          buttonValues: [{ key: 'Field 3', value: /\d{2}\/\d{2}\/\d{4} - \d{2}\/\d{2}\/\d{4} \/ Tomorrow/ }],
+        })
       })
     })
 
@@ -163,7 +166,7 @@ context('Interactive report', () => {
         cy.findByRole('checkbox', { name: 'Value 8.3' }).should('be.checked')
         cy.findByRole('checkbox', { name: 'Value 8.4' }).should('not.be.checked')
 
-        checkSelectedFilterValues({ length: 2, buttonValues: [{ key: 'Field 8', value: 'Value 8.1, Value 8.3' }] })
+        checkSelectedFilterValues({ length: 1, buttonValues: [{ key: 'Field 8', value: 'Value 8.1, Value 8.3' }] })
       })
 
       it('should set the selected filter values correctly', () => {
@@ -192,7 +195,7 @@ context('Interactive report', () => {
         cy.findByRole('checkbox', { name: 'Value 8.4' }).should('be.checked')
 
         checkSelectedFilterValues({
-          length: 2,
+          length: 1,
           buttonValues: [{ key: 'Field 8', value: 'Value 8.1, Value 8.2, Value 8.3 + 1 more' }],
         })
       })
@@ -217,7 +220,7 @@ context('Interactive report', () => {
         cy.findByRole('checkbox', { name: 'Value 8.4' }).should('not.be.checked')
 
         checkSelectedFilterValues({
-          length: 2,
+          length: 1,
           buttonValues: [{ key: 'Field 8', value: 'Value 8.1' }],
         })
       })
@@ -294,7 +297,7 @@ context('Interactive report', () => {
 
       // check the default filters
       checkSelectedFilterValues({
-        length: 5,
+        length: 4,
         buttonValues: [
           { key: 'Field 1', value: 'Value 1.2' },
           { key: 'Field 3', value: '01/02/2003 - 04/05/2006' },
@@ -318,7 +321,7 @@ context('Interactive report', () => {
         { key: 'Field 8', value: 'Value 8.1, Value 8.2, Value 8.3 + 1 more' },
       ]
       checkSelectedFilterValues({
-        length: 6,
+        length: 5,
         buttonValues: selectedFiltersButtonValues,
       })
 
@@ -331,7 +334,7 @@ context('Interactive report', () => {
 
       // check the selected filters
       checkSelectedFilterValues({
-        length: 6,
+        length: 5,
         buttonValues: selectedFiltersButtonValues,
       })
     })
@@ -355,7 +358,7 @@ context('Interactive report', () => {
         { key: 'Field 8', value: 'Value 8.1, Value 8.2, Value 8.3 + 1 more' },
       ]
       checkSelectedFilterValues({
-        length: 6,
+        length: 5,
         buttonValues: selectedFiltersButtonValues,
       })
 
@@ -388,7 +391,7 @@ context('Interactive report', () => {
         { key: 'Field 8', value: 'Value 8.1, Value 8.2, Value 8.3 + 1 more' },
       ]
       checkSelectedFilterValues({
-        length: 6,
+        length: 5,
         buttonValues: [...savedDefaultSelectedFilters],
       })
 
@@ -400,7 +403,7 @@ context('Interactive report', () => {
       applyFilters()
 
       checkSelectedFilterValues({
-        length: 6,
+        length: 5,
         buttonValues: [
           { key: 'Field 1', value: 'Value 1.2' },
           { key: 'Field 2', value: 'Value 2.3' },
@@ -429,10 +432,10 @@ context('Interactive report', () => {
 
       cy.visit(viewReportUrl)
 
-      cy.findByRole('link', { name: 'Reset filters' }).click()
+      cy.findByRole('button', { name: 'Reset filters' }).click()
 
       checkSelectedFilterValues({
-        length: 6,
+        length: 5,
         buttonValues: savedDefaultSelectedFilters,
       })
 
@@ -458,7 +461,7 @@ context('Interactive report', () => {
       deleteDefaultsButton().should('exist')
 
       checkSelectedFilterValues({
-        length: 6,
+        length: 5,
         buttonValues: [
           { key: 'Field 1', value: 'Value 1.2' },
           { key: 'Field 2', value: 'Value 2.2' },
@@ -484,14 +487,14 @@ context('Interactive report', () => {
       ]
 
       checkSelectedFilterValues({
-        length: 6,
+        length: 5,
         buttonValues: expectedSelectedValues,
       })
 
       updateDefaultsButton().click()
 
       checkSelectedFilterValues({
-        length: 6,
+        length: 5,
         buttonValues: expectedSelectedValues,
       })
 
@@ -502,7 +505,7 @@ context('Interactive report', () => {
 
       // check the initial filter values match the default
       checkSelectedFilterValues({
-        length: 6,
+        length: 5,
         buttonValues: expectedSelectedValues,
       })
 
@@ -528,7 +531,7 @@ context('Interactive report', () => {
       cy.visit(viewReportUrl)
 
       checkSelectedFilterValues({
-        length: 6,
+        length: 5,
         buttonValues: [
           { key: 'Field 1', value: 'Value 1.2' },
           { key: 'Field 2', value: 'Value 2.3' },
@@ -542,7 +545,7 @@ context('Interactive report', () => {
 
       // Expect DPD defaults to be applied
       checkSelectedFilterValues({
-        length: 5,
+        length: 4,
         buttonValues: [
           { key: 'Field 1', value: 'Value 1.2' },
           { key: 'Field 3', value: '01/02/2003 - 04/05/2006' },
@@ -575,7 +578,7 @@ context('Interactive report', () => {
           requestReport({ name: 'Interactive Report', description: 'this is an interactive report', path })
 
           checkSelectedFilterValues({
-            length: 5,
+            length: 4,
             buttonValues: [
               { key: 'Field 1', value: 'Value 1.2' },
               { key: 'Field 3', value: '01/02/2003 - 04/05/2006' },
@@ -598,7 +601,7 @@ context('Interactive report', () => {
           ]
 
           checkSelectedFilterValues({
-            length: 5,
+            length: 4,
             buttonValues: expectedUpdatedSelected,
           })
 
@@ -611,7 +614,7 @@ context('Interactive report', () => {
 
           // check the selected filters
           checkSelectedFilterValues({
-            length: 5,
+            length: 4,
             buttonValues: expectedUpdatedSelected,
           })
 
@@ -620,7 +623,7 @@ context('Interactive report', () => {
 
           // check the selected filters
           checkSelectedFilterValues({
-            length: 5,
+            length: 4,
             buttonValues: expectedUpdatedSelected,
           })
 
@@ -634,7 +637,7 @@ context('Interactive report', () => {
           requestReport({ name: 'Interactive Report', description: 'this is an interactive report', path })
 
           checkSelectedFilterValues({
-            length: 5,
+            length: 4,
             buttonValues: [
               { key: 'Field 1', value: 'Value 1.2' },
               { key: 'Field 3', value: '01/02/2003 - 04/05/2006' },
@@ -656,7 +659,7 @@ context('Interactive report', () => {
           ]
 
           checkSelectedFilterValues({
-            length: 5,
+            length: 4,
             buttonValues: expectedUpdatedSelected,
           })
 
@@ -669,7 +672,7 @@ context('Interactive report', () => {
 
           // check the selected filters
           checkSelectedFilterValues({
-            length: 5,
+            length: 4,
             buttonValues: expectedUpdatedSelected,
           })
 
@@ -678,7 +681,7 @@ context('Interactive report', () => {
 
           // check the selected filters
           checkSelectedFilterValues({
-            length: 5,
+            length: 4,
             buttonValues: expectedUpdatedSelected,
           })
 
@@ -701,7 +704,7 @@ context('Interactive report', () => {
     })
 
     it('should show the sort direction in the column header and the url', () => {
-      cy.findByRole('link', { name: 'Reset filters' }).click()
+      cy.findByRole('button', { name: 'Reset filters' }).click()
 
       // Initial state
       cy.findByRole('link', { name: 'Field 1' }).should('have.class', 'data-table-header-button-sort-ascending')

@@ -1,25 +1,24 @@
-// @ts-nocheck
-import DprQueryParamClass from '../../../../../DprQueryParamClass'
+class Pagination {
+  private pageSizeSelect!: HTMLInputElement
 
-class Pagination extends DprQueryParamClass {
   static getModuleName() {
     return 'pagination'
   }
 
   initialise() {
-    this.pageSizeSelect = document.getElementById('page-size-select')
-
-    this.initInputsFromQueryParams()
-    this.initSelectEvent()
+    this.pageSizeSelect = document.getElementById('page-size-select') as HTMLInputElement
+    this.initPageSizeSelectEvent()
   }
 
-  initSelectEvent() {
+  initPageSizeSelectEvent() {
     this.pageSizeSelect.addEventListener('change', () => {
-      this.queryParams = new URLSearchParams(window.location.search)
       const { name, value } = this.pageSizeSelect
-      this.queryParams.set(name, value)
-      this.queryParams.set('selectedPage', '1')
-      window.history.replaceState(null, null, `?${this.queryParams.toString()}`)
+
+      const queryParams = new URLSearchParams(window.location.search)
+      queryParams.set(name, value)
+      queryParams.set('selectedPage', '1')
+
+      window.history.replaceState(null, '', `?${queryParams.toString()}`)
       window.location.reload()
     })
   }

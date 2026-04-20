@@ -10,10 +10,10 @@ export const checkSelectedFilterValues = ({
   buttonValues,
 }: {
   length: number
-  buttonValues: { key: string; value: string }[]
+  buttonValues: { key: string; value: string | RegExp }[]
 }) => {
   cy.findByLabelText(/Selected filters.*/i).within(() => {
-    cy.findAllByRole('link')
+    cy.findAllByRole('button')
       .should('have.length', length)
       .each((filter, index) => {
         if (buttonValues[index]) {
@@ -80,12 +80,13 @@ export const executeDashboardStubs = () => {
 }
 
 export const stubDefinitionsTasks = () => {
-  cy.task('stubFeatureFlags')
-  cy.task('stubDefinitions')
-  cy.task('stubSingleSummaries')
-  cy.task('stubGetProductCollections')
-  cy.task('stubGenericDefinitionRequest')
-  stubBookmarks()
+  cy.log('STUB DEFINITIONS')
+    .then(() => cy.task('stubFeatureFlags'))
+    .then(() => cy.task('stubDefinitions'))
+    .then(() => cy.task('stubSingleSummaries'))
+    .then(() => cy.task('stubGetProductCollections'))
+    .then(() => cy.task('stubGenericDefinitionRequest'))
+    .then(() => stubBookmarks())
 }
 
 export const stubBaseTasks = (resetRedis: boolean = true) => {
@@ -97,6 +98,7 @@ export const stubBaseTasks = (resetRedis: boolean = true) => {
 }
 
 export const stubBookmarks = () => {
-  cy.task('stubDefinitionUnprintable')
-  cy.task('stubDefinitionEmptyReport')
+  cy.log('STUB BOOKMARKS')
+    .then(() => cy.task('stubDefinitionUnprintable'))
+    .then(() => cy.task('stubDefinitionEmptyReport'))
 }

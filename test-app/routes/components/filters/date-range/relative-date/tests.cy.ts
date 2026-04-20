@@ -1,10 +1,14 @@
 import RelativeDateRange from 'src/dpr/components/_inputs/date-range/types'
 import { setRedisState } from '../../../../integrationTests/appStateUtils'
-import { checkA11y } from 'cypress-tests/cypressUtils'
+import { checkA11y, stubDefinitionsTasks } from 'cypress-tests/cypressUtils'
 
 context('Inputs: Relative date range', () => {
   const path = '/components/filters/date-range/relative-date-range#relative-date-range-relative-range'
   const platformPath = '/embedded/platform/dpr/request-report/report/filter-inputs/variantId-15/filters'
+
+  before(() => {
+    stubDefinitionsTasks()
+  })
 
   it('is accessible', () => {
     cy.visit(path)
@@ -33,13 +37,10 @@ context('Inputs: Relative date range', () => {
         })
 
       cy.findByLabelText(/Selected filters.*/i).within(() => {
-        cy.findAllByRole('link').each((filter, index) => {
+        cy.findAllByRole('button').each((filter, index) => {
           switch (index) {
             case 0:
-              cy.wrap(filter).contains('Relative Date-range start')
-              break
-            case 1:
-              cy.wrap(filter).contains('Relative Date-range end')
+              cy.wrap(filter).contains('Relative Date-range')
               break
             default:
               break
@@ -55,11 +56,11 @@ context('Inputs: Relative date range', () => {
         expect(location.search).to.contain(`filters.relative-date-range.relative-duration=none`)
       })
       cy.findByLabelText(/Selected filters.*/i).within(() => {
-        cy.findAllByRole('link').each((filter, index) => {
+        cy.findAllByRole('button').each((filter, index) => {
           switch (index) {
             case 0:
-              cy.wrap(filter).contains('Preset date range')
-              cy.wrap(filter).contains('None')
+              cy.wrap(filter).contains('Relative Date-range')
+              cy.wrap(filter).contains('unset - unset')
               break
             default:
               break
@@ -79,10 +80,10 @@ context('Inputs: Relative date range', () => {
         expect(location.search).to.contain(`filters.relative-date-range.relative-duration=yesterday`)
       })
       cy.findByLabelText(/Selected filters.*/i).within(() => {
-        cy.findAllByRole('link').each((filter, index) => {
+        cy.findAllByRole('button').each((filter, index) => {
           switch (index) {
             case 0:
-              cy.wrap(filter).contains('Preset date range')
+              cy.wrap(filter).contains('Relative Date-range')
               cy.wrap(filter).contains('Yesterday')
               break
             default:
@@ -101,11 +102,11 @@ context('Inputs: Relative date range', () => {
         expect(location.search).to.contain(`filters.relative-date-range.relative-duration=tomorrow`)
       })
       cy.findByLabelText(/Selected filters.*/i).within(() => {
-        cy.findAllByRole('link').each((filter, index) => {
+        cy.findAllByRole('button').each((filter, index) => {
           switch (index) {
             case 0:
-              cy.wrap(filter).contains('Preset date range')
-              cy.wrap(filter).contains('Tomorrow')
+              cy.wrap(filter).contains('Relative Date-range')
+              cy.wrap(filter).contains(/\d{2}\/\d{2}\/\d{4} - \d{2}\/\d{2}\/\d{4} \/ Tomorrow/)
               break
             default:
               break
@@ -123,11 +124,11 @@ context('Inputs: Relative date range', () => {
         expect(location.search).to.contain(`filters.relative-date-range.relative-duration=last-seven-days`)
       })
       cy.findByLabelText(/Selected filters.*/i).within(() => {
-        cy.findAllByRole('link').each((filter, index) => {
+        cy.findAllByRole('button').each((filter, index) => {
           switch (index) {
             case 0:
-              cy.wrap(filter).contains('Preset date range')
-              cy.wrap(filter).contains('Last week')
+              cy.wrap(filter).contains('Relative Date-range')
+              cy.wrap(filter).contains(/\d{2}\/\d{2}\/\d{4} - \d{2}\/\d{2}\/\d{4} \/ Last week/)
               break
             default:
               break
@@ -145,11 +146,11 @@ context('Inputs: Relative date range', () => {
         expect(location.search).to.contain(`filters.relative-date-range.relative-duration=next-seven-days`)
       })
       cy.findByLabelText(/Selected filters.*/i).within(() => {
-        cy.findAllByRole('link').each((filter, index) => {
+        cy.findAllByRole('button').each((filter, index) => {
           switch (index) {
             case 0:
-              cy.wrap(filter).contains('Preset date range')
-              cy.wrap(filter).contains('Next week')
+              cy.wrap(filter).contains('Relative Date-range')
+              cy.wrap(filter).contains(/\d{2}\/\d{2}\/\d{4} - \d{2}\/\d{2}\/\d{4} \/ Next week/)
               break
             default:
               break
@@ -167,11 +168,11 @@ context('Inputs: Relative date range', () => {
         expect(location.search).to.contain(`filters.relative-date-range.relative-duration=last-month`)
       })
       cy.findByLabelText(/Selected filters.*/i).within(() => {
-        cy.findAllByRole('link').each((filter, index) => {
+        cy.findAllByRole('button').each((filter, index) => {
           switch (index) {
             case 0:
-              cy.wrap(filter).contains('Preset date range')
-              cy.wrap(filter).contains('Last month')
+              cy.wrap(filter).contains('Relative Date-range')
+              cy.wrap(filter).contains(/\d{2}\/\d{2}\/\d{4} - \d{2}\/\d{2}\/\d{4} \/ Last month/)
               break
             default:
               break
@@ -189,11 +190,11 @@ context('Inputs: Relative date range', () => {
         expect(location.search).to.contain(`filters.relative-date-range.relative-duration=next-month`)
       })
       cy.findByLabelText(/Selected filters.*/i).within(() => {
-        cy.findAllByRole('link').each((filter, index) => {
+        cy.findAllByRole('button').each((filter, index) => {
           switch (index) {
             case 0:
-              cy.wrap(filter).contains('Preset date range')
-              cy.wrap(filter).contains('Next month')
+              cy.wrap(filter).contains('Relative Date-range')
+              cy.wrap(filter).contains(/\d{2}\/\d{2}\/\d{4} - \d{2}\/\d{2}\/\d{4} \/ Next month/)
               break
             default:
               break
@@ -222,11 +223,11 @@ context('Inputs: Relative date range', () => {
         expect(location.search).to.contain(`filters.field1.relative-duration=yesterday`)
       })
       cy.findByLabelText(/Selected filters.*/i).within(() => {
-        cy.findAllByRole('link').each((filter, index) => {
+        cy.findAllByRole('button').each((filter, index) => {
           switch (index) {
             case 0:
-              cy.wrap(filter).contains('Preset date range')
-              cy.wrap(filter).contains('Yesterday')
+              cy.wrap(filter).contains('Relative date-range')
+              cy.wrap(filter).contains(/\d{2}\/\d{2}\/\d{4} - \d{2}\/\d{2}\/\d{4} \/ Yesterday/)
               break
             default:
               break
@@ -235,20 +236,15 @@ context('Inputs: Relative date range', () => {
       })
 
       cy.findByRole('button', { name: 'Save current filter values as defaults' }).click()
-
-      cy.location().should((location) => {
-        expect(location.search).to.contain('defaultsSaved=true')
-      })
-
       cy.findByRole('button', { name: 'Update defaults' }).should('exist')
       cy.findByRole('button', { name: 'Delete defaults' }).should('exist')
 
       cy.findByLabelText(/Selected filters.*/i).within(() => {
-        cy.findAllByRole('link').each((filter, index) => {
+        cy.findAllByRole('button').each((filter, index) => {
           switch (index) {
             case 0:
-              cy.wrap(filter).contains('Preset date range')
-              cy.wrap(filter).contains('Yesterday')
+              cy.wrap(filter).contains('Relative date-range')
+              cy.wrap(filter).contains(/\d{2}\/\d{2}\/\d{4} - \d{2}\/\d{2}\/\d{4} \/ Yesterday/)
               break
             default:
               break
@@ -285,10 +281,10 @@ context('Inputs: Relative date range', () => {
       cy.findByRole('button', { name: 'Delete defaults' }).should('exist')
 
       cy.findByLabelText(/Selected filters.*/i).within(() => {
-        cy.findAllByRole('link').each((filter, index) => {
+        cy.findAllByRole('button').each((filter, index) => {
           switch (index) {
             case 0:
-              cy.wrap(filter).contains('Preset date range')
+              cy.wrap(filter).contains('Relative date-range')
               cy.wrap(filter).contains('Yesterday')
               break
             default:
@@ -330,11 +326,11 @@ context('Inputs: Relative date range', () => {
       })
 
       cy.findByLabelText(/Selected filters.*/i).within(() => {
-        cy.findAllByRole('link').each((filter, index) => {
+        cy.findAllByRole('button').each((filter, index) => {
           switch (index) {
             case 0:
-              cy.wrap(filter).contains('Preset date range')
-              cy.wrap(filter).contains('Last week')
+              cy.wrap(filter).contains('Relative date-range')
+              cy.wrap(filter).contains(/\d{2}\/\d{2}\/\d{4} - \d{2}\/\d{2}\/\d{4} \/ Last week/)
               break
             default:
               break
@@ -391,8 +387,8 @@ context('Inputs: Relative date range', () => {
       cy.findByRole('textbox', { name: 'To' }).clear().blur()
       cy.findByRole('button', { name: 'Request report' }).click()
       cy.findByRole('alert').should('exist')
-      cy.findAllByRole('paragraph').contains('Relative date-range start is required').should('exist')
-      cy.findAllByRole('paragraph').contains('Relative date-range end is required').should('exist')
+      cy.findAllByRole('paragraph').contains('Relative date-range start date is required').should('exist')
+      cy.findAllByRole('paragraph').contains('Relative date-range end date is required').should('exist')
     })
   })
 })

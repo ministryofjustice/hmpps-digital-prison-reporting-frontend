@@ -7,9 +7,9 @@ export const startData = {
   requestedReports: [
     // mockRequested.requestedSubmitted,
     // mockRequested.requestedReady,
-    // mockRequested.requestedExpired,
-    // mockRequested.requestedFailed,
-    // mockRequested.requestedAborted,
+    mockRequested.requestedExpired,
+    mockRequested.requestedFailed,
+    mockRequested.requestedAborted,
     // mockRequested.requestedReadyViewed,
     // mockRequested.requestedReadyViewed2,
     // // Dashboards
@@ -27,7 +27,7 @@ export const startData = {
     // mockViewed.viewedDashboard,
     // mockViewed.viewedReady,
     // mockViewed.viewedInteractive,
-    // mockViewed.viewedExpired,
+    mockViewed.viewedExpired,
     // mockViewed.expiredDashboard,
     // mockViewed.viewedInteractiveAsync,
   ],

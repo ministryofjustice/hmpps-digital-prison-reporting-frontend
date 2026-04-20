@@ -10,3 +10,9 @@
     text-align: right;
   }
 }
+
+@media print {
+  .dpr-report-section__actions {
+    display: none;
+  }
+}

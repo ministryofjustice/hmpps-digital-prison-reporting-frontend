@@ -1,0 +1,21 @@
+{% macro dprSelectedFilters(resetArgs) %}
+  <div class="dpr-selected-filters-container">
+    <div class="dpr-selected-filters">
+      <h2
+        id="dpr-selected-filters-label"
+        class="govuk-heading-s govuk-!-margin-bottom-2"
+      >
+        Selected filters
+      </h2>
+
+      <div
+        id="dpr-selected-filters"
+        class="dpr-selected-filters__list"
+        aria-labelledby="dpr-selected-filters-label"
+        data-dpr-module="dpr-selected-async-filters"
+      >
+        <!-- Client-side rendered -->
+      </div>
+    </div>
+  </div>
+{% endmacro %}

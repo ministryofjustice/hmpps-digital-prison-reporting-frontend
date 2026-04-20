@@ -26,17 +26,24 @@ export const setValueFromRequest = (
   }
 }
 
-export const getQueryFromDefinition = (
+export const appendMultiSelectFromDefinition = (
+  params: URLSearchParams,
+  fieldName: string,
   filter: components['schemas']['FilterDefinition'],
-  name: string,
-  filterPrefix: string,
 ) => {
-  const values = filter.defaultValue ? filter.defaultValue.split(',') : []
-  return values
-    .map((val: string) => {
-      return `${filterPrefix}${name}=${val}`
+  if (!filter.defaultValue) return
+
+  appendMultiSelectValues(params, fieldName, filter.defaultValue)
+}
+
+export const appendMultiSelectValues = (params: URLSearchParams, fieldName: string, value: string) => {
+  value
+    .split(',')
+    .map((v) => v.trim())
+    .filter(Boolean)
+    .forEach((val) => {
+      params.append(`filters.${fieldName}`, val)
     })
-    .join('&')
 }
 
 export const getMultiselectValues = (f: MultiselectFilterValue, prefix: string) => {
@@ -82,7 +89,6 @@ export const setFilterValuesFromSavedDefault = (
 }
 
 export default {
-  getQueryFromDefinition,
   setValueFromRequest,
   getMultiselectValues,
   setFilterValuesFromSavedDefault,

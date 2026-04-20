@@ -6,20 +6,11 @@ import { components } from '../../types/api'
 import { FilterType } from '../../components/_filters/filter-input/enum'
 import DateRangeInputUtils from '../../components/_inputs/date-range/utils'
 import GranularDateRangeInputUtils from '../../components/_inputs/granular-date-range/utils'
-import MultiSelectUtils from '../../components/_inputs/multi-select/utils'
-import DateInputUtils from '../../components/_inputs/date-input/utils'
-import { RenderFiltersReturnValue } from '../../components/_async/async-filters-form/types'
-import {
-  DateFilterValue,
-  DateRangeFilterValue,
-  FilterValue,
-  FilterValueWithOptions,
-  GranularDateRangeFilterValue,
-  MultiselectFilterValue,
-} from '../../components/_filters/types'
+import { FilterValue, FilterValueWithOptions } from '../../components/_filters/types'
 import { defaultFilterValue } from './types'
 import { FiltersType } from '../../components/_filters/filtersTypeEnum'
 import { getRequestParam } from '../indexedAccesHelper'
+import { uiDateToApi } from '../dateHelper'
 
 export const saveDefaults = async (type: FiltersType, res: Response, req: Request, services: Services) => {
   const defaultValuesForReport = await getDefaultValues(req, res, services, type)
@@ -111,89 +102,6 @@ const getDefaultValues = async (
   return result
 }
 
-export const setFilterValuesFromSavedDefaults = (
-  filters: FilterValue[],
-  sortBy: FilterValue[],
-  defaultValues: defaultFilterValue[],
-): RenderFiltersReturnValue => {
-  const hasDefaults = filters.some((f) => {
-    const defaultValue = defaultValues.findIndex((v) => v.name === f.name)
-    return defaultValue !== -1
-  })
-
-  const filterValues = filters.map((filter) => {
-    const defaultValue = defaultValues.find((v) => v.name === filter.name)
-    let updatedFilter = {
-      ...filter,
-    }
-    const type = filter.type.toLocaleLowerCase()
-
-    switch (type) {
-      case FilterType.multiselect.toLocaleLowerCase():
-        updatedFilter = MultiSelectUtils.setFilterValuesFromSavedDefault(
-          <MultiselectFilterValue>updatedFilter,
-          hasDefaults,
-          defaultValue,
-        )
-        break
-      case FilterType.date.toLocaleLowerCase():
-        if (hasDefaults) {
-          updatedFilter.value = ''
-        }
-        if (defaultValue) {
-          updatedFilter = <DateFilterValue>DateInputUtils.setFilterValueFromDefault(defaultValue, updatedFilter)
-        }
-        break
-      case FilterType.dateRange.toLocaleLowerCase():
-        if (hasDefaults) {
-          updatedFilter.value = { start: '', end: '', relative: undefined }
-        }
-        if (defaultValue) {
-          updatedFilter = <DateRangeFilterValue>(
-            DateRangeInputUtils.setFilterValueFromDefault(defaultValue, updatedFilter)
-          )
-        }
-        break
-      case FilterType.granularDateRange.toLocaleLowerCase():
-        if (hasDefaults) {
-          updatedFilter.value = { start: '', end: '', granularity: undefined, quickFilter: undefined }
-        }
-        if (defaultValue) {
-          updatedFilter = <GranularDateRangeFilterValue>(
-            GranularDateRangeInputUtils.setFilterValueFromDefault(defaultValue, updatedFilter)
-          )
-        }
-        break
-      default:
-        {
-          let value = hasDefaults ? '' : updatedFilter.value
-          value = defaultValue ? defaultValue.value : value
-          updatedFilter = {
-            ...filter,
-            value,
-          }
-        }
-
-        break
-    }
-
-    return updatedFilter
-  })
-
-  const sortValues = sortBy.map((sortFilter) => {
-    const defaultValue = defaultValues.find((v) => v.name === sortFilter.name)
-    return {
-      ...sortFilter,
-      ...(defaultValue && { value: defaultValue.value }),
-    }
-  })
-
-  return {
-    filters: filterValues,
-    sortBy: sortValues,
-  }
-}
-
 export const setUserContextDefaults = (res: Response, filters: FilterValue[]) => {
   const { dprUser } = localsHelper.getValues(res)
   const { activeCaseLoadId } = dprUser
@@ -217,4 +125,69 @@ export const setUserContextDefaults = (res: Response, filters: FilterValue[]) =>
   return filters
 }
 
-export default { saveDefaults, removeDefaults, setFilterValuesFromSavedDefaults, setUserContextDefaults }
+/**
+ * Createa a query string from the saved defaults
+ *
+ * @param {defaultFilterValue[]} defaults
+ * @return {*}  {string}
+ */
+export const createQsFromSavedDefaults = (
+  defaults: defaultFilterValue[],
+  fieldDefinitions: components['schemas']['FieldDefinition'][],
+): string => {
+  const fieldMap = new Map(fieldDefinitions.map((f) => [f.name, f]))
+
+  return defaults
+    .flatMap(({ name, value }): Array<[string, string]> => {
+      const keyBase = `filters.${name}`
+      const fieldDef = fieldMap.get(name)
+
+      // --------------------------------------------
+      // STRING
+      // --------------------------------------------
+      if (typeof value === 'string') {
+        const isMultiSelect = fieldDef?.filter?.type === 'multiselect'
+        if (isMultiSelect) {
+          return value
+            .split(',')
+            .map((v) => v.trim())
+            .filter(Boolean)
+            .map((v) => [keyBase, v])
+        }
+        return [[keyBase, uiDateToApi(value) || value]]
+      }
+
+      // --------------------------------------------
+      // GRANULAR DATERANGE
+      // --------------------------------------------
+      if ('granularity' in value) {
+        return [
+          [`${keyBase}.start`, uiDateToApi(value.start) || ''],
+          [`${keyBase}.end`, uiDateToApi(value.end) || ''],
+          [`${keyBase}.granularity`, String(value.granularity)],
+          [`${keyBase}.quickFilter`, String(value.quickFilter)],
+        ]
+      }
+
+      // --------------------------------------------
+      // DATE RANGE
+      // --------------------------------------------
+      const pairs: Array<[string, string]> = [
+        [`${keyBase}.start`, uiDateToApi(value.start) || ''],
+        [`${keyBase}.end`, uiDateToApi(value.end) || ''],
+      ]
+
+      if (value.relative !== undefined) {
+        pairs.push([`${keyBase}.relative-duration`, value.relative])
+      }
+
+      return pairs
+    })
+    .reduce((params, [key, value]) => {
+      params.append(key, value)
+      return params
+    }, new URLSearchParams())
+    .toString()
+}
+
+export default { saveDefaults, removeDefaults, setUserContextDefaults }

@@ -31,10 +31,10 @@ context('Inputs: Relative date range with defaults', () => {
       })
 
       cy.findByLabelText(/Selected filters.*/i).within(() => {
-        cy.findAllByRole('link').each((filter, index) => {
+        cy.findAllByRole('button').each((filter, index) => {
           switch (index) {
             case 0:
-              cy.wrap(filter).contains('Preset date range')
+              cy.wrap(filter).contains('Relative date-range')
               cy.wrap(filter).contains('Next month')
               break
             default:
@@ -47,17 +47,11 @@ context('Inputs: Relative date range with defaults', () => {
 
       checkA11y()
 
-      cy.location().should((location) => {
-        expect(location.search).to.contain('defaultsSaved=true')
-      })
-
-      cy.findByRole('button', { name: 'Update defaults' }).should('exist')
-
       cy.findByLabelText(/Selected filters.*/i).within(() => {
-        cy.findAllByRole('link').each((filter, index) => {
+        cy.findAllByRole('button').each((filter, index) => {
           switch (index) {
             case 0:
-              cy.wrap(filter).contains('Preset date range')
+              cy.wrap(filter).contains('Relative date-range')
               cy.wrap(filter).contains('Next month')
               break
             default:
@@ -69,7 +63,6 @@ context('Inputs: Relative date range with defaults', () => {
       cy.visit(platformPath)
       cy.location().should((location) => {
         expect(location.search).to.contain(`filters.field1.relative-duration=next-month`)
-        expect(location.search).not.to.contain(`defaultsSaved=true`)
       })
     })
   })

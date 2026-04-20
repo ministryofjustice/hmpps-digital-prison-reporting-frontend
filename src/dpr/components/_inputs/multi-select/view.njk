@@ -1,6 +1,6 @@
 {% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
 
-{% macro dprMultiSelect(filter, parameterPrefix = "filters.", mandatory = false) %}
+{% macro dprMultiSelect(filter, validationErrors, parameterPrefix = "filters.", mandatory = false) %}
   {% set SCROLL_THRESHOLD = 5 %}
   {% set name = parameterPrefix + filter.name %}
   {% set text = filter.text %}
@@ -20,9 +20,7 @@
       formGroup: {
         classes: "govuk-!-margin-bottom-2"
       },
-      errorMessage: {
-        text: ""
-      } if mandatory,
+      errorMessage: validationErrors | dpr.findError(name),
       fieldset: {
         legend: {
           text: text,

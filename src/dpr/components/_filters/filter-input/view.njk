@@ -9,7 +9,7 @@
 {% from "../../_inputs/date-input/view.njk" import dprDate %}
 {% from "../../_inputs/multi-select/view.njk" import dprMultiSelect %}
 
-{% macro dprFilterInput(filter, parameterPrefix) %}
+{% macro dprFilterInput(filter, validationErrors, parameterPrefix) %}
   {% set filterType = filter.type | lower %}
   {% set id = parameterPrefix + filter.name %}
   {% set name = parameterPrefix + filter.name %}
@@ -37,9 +37,7 @@
           text: labelText,
           classes: "govuk-label govuk-!-font-weight-bold"
         },
-        errorMessage: {
-          text: ""
-        } if mandatory,
+        errorMessage: validationErrors | dpr.findError(id),
         attributes: {
           required: true,
           'display-name': labelText
@@ -53,7 +51,7 @@
 
     {%- elif filterType === 'multiselect' %}
 
-      {{ dprMultiSelect(filter, parameterPrefix, mandatory)}}
+      {{ dprMultiSelect(filter, validationErrors, parameterPrefix, mandatory)}}
 
     {% elif filterType === 'radio' %}
 
@@ -68,9 +66,7 @@
           }
         },
         items: (options | addRequiredAttributeToAll) if mandatory else options,
-        errorMessage: {
-          text: ""
-        } if mandatory,
+        errorMessage: validationErrors | dpr.findError(id),
         value: value,
         attributes: {
           required: true,
@@ -85,17 +81,18 @@
 
     {% elif filterType === 'date' %}
 
-      {{ dprDate(filter) }}
+      {{ dprDate(filter, validationErrors) }}
 
     {% elif filterType === 'daterange' %}
 
       <div class="govuk-form-group">
-        {{ dprDateRange(filter, parameterPrefix, mandatory) }}
+        {{ dprDateRange(filter, validationErrors, parameterPrefix, mandatory) }}
       </div>
 
     {% elif filterType === 'granulardaterange' %}
+
       <div class="govuk-form-group">
-        {{ dprGranularDateRange(filter, parameterPrefix, mandatory) }}
+        {{ dprGranularDateRange(filter, validationErrors, parameterPrefix, mandatory) }}
       </div>
 
     {% elif filterType === 'autocomplete' %}
@@ -114,7 +111,7 @@
         dynamicResourceEndpoint: dynamicResourceEndpoint,
         pattern: pattern,
         mandatory: mandatory
-      }) }}
+      }, validationErrors) }}
 
     {% elif filterType === 'text' %}
 
@@ -127,9 +124,7 @@
           classes: 'govuk-!-font-weight-bold'
         },
         classes: 'govuk-input--width-20',
-        errorMessage: {
-          text: ""
-        } if mandatory,
+        errorMessage: validationErrors | dpr.findError(id),
         attributes: {
           pattern: pattern,
           required: true,

@@ -2,7 +2,7 @@
 {%- from "moj/components/date-picker/macro.njk" import mojDatePicker -%}
 
 
-{% macro dprDate(dateData, label, parameterSuffix = '', toggleMin = true, toggleMax = true, parameterPrefix = 'filters.') %}
+{% macro dprDate(dateData, validationErrors, label, parameterSuffix = '', toggleMin = true, toggleMax = true, parameterPrefix = 'filters.') %}
   {% set name = dateData.name %}
   {% set text = dateData.text %}
   {% set displayName = dateData.displayName %}
@@ -63,9 +63,7 @@
       hint: {
         text: "For example 17/05/2024."
       },
-      errorMessage: {
-        text: ''
-      } if mandatory
+      errorMessage: validationErrors | dpr.findError(id)
     }) }}
 
     {% if toggleMin and minDate or toggleMax and maxDate %}

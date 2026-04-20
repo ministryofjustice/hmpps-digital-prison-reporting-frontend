@@ -1,0 +1,13 @@
+
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+
+{% macro dprValidationSummary(validationErrors, title) %}
+  {% if validationErrors.length > 0 %}
+    <div id="dpr-form-summary--error-summary" class="query-error-summary">
+      {{ govukErrorSummary({
+        titleText: title,
+        errorList: validationErrors
+      }) }}
+    </div>
+  {% endif %}
+{% endmacro %}

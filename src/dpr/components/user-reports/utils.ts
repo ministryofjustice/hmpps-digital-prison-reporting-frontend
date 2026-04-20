@@ -17,7 +17,6 @@ import { Services } from '../../types/Services'
 import { AsyncReportUtilsParams } from '../../types/AsyncReportUtils'
 import { getExpiredStatus } from '../../utils/requestStatusHelper'
 import SelectedFiltersUtils from '../_filters/filters-selected/utils'
-import FiltersUtils from '../_filters/utils'
 import { itemActionsHtml, createListItemProduct } from '../../utils/reportListsHelper'
 import RequestedReportUtils from './requested/utils'
 import RecentlyViewedCardGroupUtils from './viewed/utils'
@@ -25,6 +24,7 @@ import BookmarklistUtils from './bookmarks/utils'
 import LocalsHelper from '../../utils/localsHelper'
 import DateMapper from '../../utils/DateMapper/DateMapper'
 import UserStoreItemBuilder from '../../utils/UserStoreItemBuilder'
+import { extractFiltersFromQuery } from '../../utils/queryMappers'
 
 const formatData = (reportData: UserReportData): FormattedUserReportData => {
   const reportDataCopy: UserReportData = JSON.parse(JSON.stringify(reportData))
@@ -370,9 +370,10 @@ export const updateLastViewed = async ({
   const executionData = { executionId, tableId }
   const queryData = query ? { query: query.data, querySummary: query.summary } : { query: {}, querySummary: [] }
 
+  const filtersQuery = extractFiltersFromQuery(req.query)
   const columns = <string[]>req.query?.['columns']
   const { selectedPage, pageSize, sortColumn, sortedAsc } = <Dict<string>>req.query
-  const filtersQuery = FiltersUtils.setRequestQueryFromFilterValues(filters, true)
+
   const reqQuery = {
     ...filtersQuery,
     ...(columns && { columns }),
@@ -381,6 +382,7 @@ export const updateLastViewed = async ({
     ...(sortColumn && { sortColumn }),
     ...(sortedAsc && { sortedAsc }),
   }
+
   const interactiveQueryData: { query: Dict<string | string[]>; querySummary: Array<Dict<string>> } = {
     query: reqQuery,
     querySummary: SelectedFiltersUtils.getQuerySummary(filtersQuery, filters),

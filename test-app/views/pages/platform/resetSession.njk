@@ -1,0 +1,9 @@
+{% extends "views/page.njk" %}
+
+{% block content %}
+  <div class="govuk-width-container">
+    <form action="/resetSession" method="POST">
+      <button type="submit">Reset Session</button>
+    </form>
+  </div>
+{% endblock %}

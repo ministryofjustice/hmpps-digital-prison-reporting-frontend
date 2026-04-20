@@ -1,10 +1,14 @@
-import { checkA11y } from "cypress-tests/cypressUtils"
+import { checkA11y, stubDefinitionsTasks } from 'cypress-tests/cypressUtils'
 
 context('Inputs: date range', () => {
   const path = '/components/filters/date-range/date-range'
   const dateToday = new Date()
   let dateRangeStart: Cypress.Chainable<JQuery<HTMLElement>>
   let dateRangeEnd: Cypress.Chainable<JQuery<HTMLElement>>
+
+  before(() => {
+    stubDefinitionsTasks()
+  })
 
   beforeEach(() => {
     cy.visit(path)
@@ -49,17 +53,13 @@ context('Inputs: date range', () => {
       setDateRangeValuesViaInput()
 
       cy.findByLabelText(/Selected filters.*/i).within(() => {
-        cy.findAllByRole('link')
-          .should('have.length', 3)
+        cy.findAllByRole('button')
+          .should('have.length', 1)
           .each((filter, index) => {
             switch (index) {
               case 0:
-                cy.wrap(filter).contains('Date-range start')
-                cy.wrap(filter).contains('02/05/2025')
-                break
-              case 1:
-                cy.wrap(filter).contains('Date-range end')
-                cy.wrap(filter).contains('05/07/2025')
+                cy.wrap(filter).contains('Date-range')
+                cy.wrap(filter).contains('02/05/2025 - 05/07/2025')
                 break
               default:
                 break
@@ -72,17 +72,13 @@ context('Inputs: date range', () => {
       setDateRangeValuesViaInputSingleDigit()
 
       cy.findByLabelText(/Selected filters.*/i).within(() => {
-        cy.findAllByRole('link')
-          .should('have.length', 3)
+        cy.findAllByRole('button')
+          .should('have.length', 1)
           .each((filter, index) => {
             switch (index) {
               case 0:
-                cy.wrap(filter).contains('Date-range start')
-                cy.wrap(filter).contains('2/5/2025')
-                break
-              case 1:
-                cy.wrap(filter).contains('Date-range end')
-                cy.wrap(filter).contains('5/7/2025')
+                cy.wrap(filter).contains('Date-range')
+                cy.wrap(filter).contains('02/05/2025 - 05/07/2025')
                 break
               default:
                 break
@@ -128,6 +124,14 @@ context('Inputs: date range', () => {
     const getMOJFormattedDate = (date: Date) => {
       return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`
     }
+
+    const getMOJISOFormattedDate = (date: Date) => {
+      const year = date.getFullYear()
+      const month = date.getMonth() + 1 > 9 ? date.getMonth() + 1 : `0${date.getMonth() + 1}`
+      const twoDigitDate = date.getDate() > 9 ? date.getDate() : `0${date.getDate()}`
+      return `${twoDigitDate}/${month}/${year}`
+    }
+
     const getISOFormattedDate = (date: Date) => {
       const year = date.getFullYear()
       const month = date.getMonth() + 1 > 9 ? date.getMonth() + 1 : `0${date.getMonth() + 1}`
@@ -192,12 +196,12 @@ context('Inputs: date range', () => {
     it('should set the selected filters correctly', () => {
       setDateRangeValuesViaCalendar(11, 28)
 
+      const start = new Date(dateToday.getFullYear(), dateToday.getMonth(), 11)
+      const end = new Date(dateToday.getFullYear(), dateToday.getMonth(), 28)
+
       cy.findByLabelText(/Selected filters.*/i).within(() => {
-        cy.findByRole('link', { name: /Date-range start/ })
-          .contains(getMOJFormattedDate(new Date(dateToday.getFullYear(), dateToday.getMonth(), 11)))
-          .should('be.visible')
-        cy.findByRole('link', { name: /Date-range end/ })
-          .contains(getMOJFormattedDate(new Date(dateToday.getFullYear(), dateToday.getMonth(), 28)))
+        cy.findByRole('button', { name: /Date-range/ })
+          .contains(`${getMOJISOFormattedDate(start)} - ${getMOJISOFormattedDate(end)}`)
           .should('be.visible')
       })
     })
@@ -205,39 +209,13 @@ context('Inputs: date range', () => {
     it('should set the selected filters correctly with single digits', () => {
       setDateRangeValuesViaCalendar(1, 9)
 
+      const start = new Date(dateToday.getFullYear(), dateToday.getMonth(), 1)
+      const end = new Date(dateToday.getFullYear(), dateToday.getMonth(), 9)
+
       cy.findByLabelText(/Selected filters.*/i).within(() => {
-        cy.findByRole('link', { name: /Date-range start/ })
-          .contains(getMOJFormattedDate(new Date(dateToday.getFullYear(), dateToday.getMonth(), 1)))
+        cy.findByRole('button', { name: /Date-range/ })
+          .contains(`${getMOJISOFormattedDate(start)} - ${getMOJISOFormattedDate(end)}`)
           .should('be.visible')
-        cy.findByRole('link', { name: /Date-range end/ })
-          .contains(getMOJFormattedDate(new Date(dateToday.getFullYear(), dateToday.getMonth(), 9)))
-          .should('be.visible')
-      })
-    })
-  })
-
-  describe('Reseting to default values', () => {
-    it('should reset the input to the default DPD values', () => {
-      dateRangeStart.type('02/05/2025')
-      dateRangeEnd.type('05/07/2025').blur()
-
-      cy.location().should((location) => {
-        expect(location.search).to.contain(`filters.date-range.start=2025-05-02`)
-        expect(location.search).to.contain(`filters.date-range.end=2025-07-05`)
-      })
-
-      cy.findByLabelText(/Selected filters.*/i).within(() => {
-        cy.findAllByRole('link').should('have.length', 3)
-      })
-
-      cy.findByRole('link', { name: 'Reset filters' }).click()
-
-      cy.location().should((location) => {
-        expect(location.search).not.to.contain(`filters.date-range.start`)
-        expect(location.search).not.to.contain(`filters.date-range.end`)
-      })
-      cy.findByLabelText(/Selected filters.*/i).within(() => {
-        cy.findAllByRole('link').should('have.length', 1)
       })
     })
   })

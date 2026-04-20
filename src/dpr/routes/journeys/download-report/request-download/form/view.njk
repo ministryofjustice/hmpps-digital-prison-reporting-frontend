@@ -6,5 +6,5 @@
 
 {% block content %}
   <h1>{{ title }}</h1>
-  {{ dprDownloadRequestForm(user, report, csrfToken) }}
+  {{ dprDownloadRequestForm(user, report, validationErrors, csrfToken) }}
 {% endblock %}

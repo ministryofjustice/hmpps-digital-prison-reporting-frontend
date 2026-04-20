@@ -2,19 +2,9 @@ import { LoadType, ReportType } from '../../../../types/UserReports'
 
 export interface DownloadActionParams {
   enabled: boolean
-  csrfToken: string
-  reportId: string
-  reportName: string
-  name: string
-  id: string
-  tableId?: string
-  columns: string[]
-  definitionPath: string
   canDownload: boolean
-  loadType: LoadType
+  csrfToken: string
   formAction: string
-  sortColumn?: string
-  sortedAsc?: string
 }
 
 export interface ShareActionParams {
@@ -66,14 +56,7 @@ export interface ReportAction {
   ariaLabelText: string
   href?: string
   attributes?: {
-    reportId?: string
-    id?: string
+    formAction?: string
     csrfToken?: string
-    tableId?: string
-    type?: ReportType
-    reportName?: string
-    name?: string
-    columns: string[]
-    definitionPath: string
   }
 }

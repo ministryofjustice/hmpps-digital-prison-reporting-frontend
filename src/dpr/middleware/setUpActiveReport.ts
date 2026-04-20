@@ -223,12 +223,12 @@ const setUpReportUrls = (req: Request) => {
 const setUpDefaultsFromDefinition = async (fields: components['schemas']['FieldDefinition'][]) => {
   const filtersQueryStrings = getDefaultFiltersQueryString(fields)
   const defaultColumnsSearch = getDefaultColumnsQueryString(fields)
-  const defautltSortQueryString = getDefaultSortQueryString(fields)
+  const defaultSortQueryString = getDefaultSortQueryString(fields)
 
   return {
     ...filtersQueryStrings,
     defaultColumnsSearch,
-    defautltSortQueryString,
+    defaultSortQueryString,
   }
 }
 

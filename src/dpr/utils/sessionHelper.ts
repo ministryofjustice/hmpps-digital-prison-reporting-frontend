@@ -26,9 +26,8 @@ export function getSessionValue(req: Request, sessionKey: string, field: string)
 interface ActiveJourneyKey {
   id: string
   reportId: string
-  type?: string
-  executionId?: string
-  tableId?: string
+  executionId?: string | undefined
+  tableId?: string | undefined
 }
 
 export function getActiveJourneyValue<F extends keyof AcitveReportSessionData>(

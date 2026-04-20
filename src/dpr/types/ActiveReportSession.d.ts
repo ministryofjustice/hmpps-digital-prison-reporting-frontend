@@ -22,7 +22,7 @@ export interface AcitveReportSessionData {
   // Defaults from the DPD
   defaultFiltersSearch?: string | undefined
   defaultColumnsSearch?: string | undefined
-  defautltSortQueryString?: string | undefined
+  defaultSortQueryString?: string | undefined
   interactiveDefaultFiltersSearch?: string | undefined
 
   // Saved defaults

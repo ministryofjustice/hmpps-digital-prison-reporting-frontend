@@ -414,7 +414,7 @@ export const setDefaultQueryString = (req: Request) => {
   const sessionKey = { id, reportId }
   const defaultFiltersSearch = getActiveJourneyValue(req, sessionKey, 'defaultFiltersSearch')
   const savedRequestDefaultsSearch = getActiveJourneyValue(req, sessionKey, 'savedRequestDefaultsSearch')
-  const defautltSortQueryString = getActiveJourneyValue(req, sessionKey, 'defautltSortQueryString')
+  const defaultSortQueryString = getActiveJourneyValue(req, sessionKey, 'defaultSortQueryString')
 
   // If DPD defaults, use those unless there are saved defaults
   const effectiveQueryString =
@@ -422,8 +422,8 @@ export const setDefaultQueryString = (req: Request) => {
       ? savedRequestDefaultsSearch
       : defaultFiltersSearch
 
-  if (defautltSortQueryString && defautltSortQueryString.length > 0) {
-    return joinQueryStrings(effectiveQueryString, defautltSortQueryString)
+  if (defaultSortQueryString && defaultSortQueryString.length > 0) {
+    return joinQueryStrings(effectiveQueryString, defaultSortQueryString)
   }
 
   return effectiveQueryString

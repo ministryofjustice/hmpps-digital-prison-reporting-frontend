@@ -251,7 +251,7 @@
     "prettier-plugin-jinja-template": "2.1.0",
     "rollup": "4.59.0",
     "rollup-plugin-copy": "3.5.0",
-    "rollup-plugin-dts": "6.3.0",
+    "rollup-plugin-dts": "6.4.1",
     "sass": "^1.66.1",
     "serve": "^14.2.4",
     "superagent": "^10.3.0",

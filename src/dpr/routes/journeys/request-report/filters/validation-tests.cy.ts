@@ -138,11 +138,11 @@ describe('Filter validation', () => {
         cy.findByRole('textbox', { name: 'Field 5' }).should('not.have.attr', 'aria-describedby')
         cy.findByRole('textbox', { name: 'Field 5' }).type('ABC')
         cy.findByRole('button', { name: /Request/ }).click()
-        cy.findByRole('link', { name: /Field 6 has an invalid format/ }).should('be.visible')
+        cy.findByRole('link', { name: /Field 5 has an invalid format/ }).should('be.visible')
         cy.findByRole('textbox', { name: 'Field 5' })
           .invoke('attr', 'aria-describedby')
           .then((id) => {
-            cy.get(`[id="${id}"]`).should('contain.text', 'Field 6 has an invalid format')
+            cy.get(`[id="${id}"]`).should('contain.text', 'Field 5 has an invalid format')
           })
       })
     })
@@ -356,6 +356,21 @@ describe('Filter validation', () => {
           .invoke('attr', 'aria-describedby')
           .then((id) => {
             cy.get(`[id="${id}"]`).should('contain.text', 'Field 12 is required')
+          })
+      })
+
+      it('should show validation the correct pattern', () => {
+        cy.findByRole('textbox', { name: 'Field 12' }).should('not.have.attr', 'aria-describedby')
+        cy.findByRole('textbox', { name: 'Field 12' }).type('ABC')
+        cy.findByRole('button', { name: 'Apply filters' }).click()
+        cy.findAllByRole('group')
+          .contains(/Show filters/)
+          .click()
+        cy.findByRole('link', { name: /Field 12 has an invalid format/ }).should('be.visible')
+        cy.findByRole('textbox', { name: 'Field 12' })
+          .invoke('attr', 'aria-describedby')
+          .then((id) => {
+            cy.get(`[id="${id}"]`).should('contain.text', 'Field 12 has an invalid format')
           })
       })
     })

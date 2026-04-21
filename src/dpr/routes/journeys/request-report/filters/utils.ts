@@ -187,6 +187,9 @@ const requestProduct = async ({
 
   const query = formBodyToQueryObject(req.body)
 
+  console.log(`######## =>`)
+  console.log(JSON.stringify({ query }, null, 2))
+
   let executionId
   let tableId
   let childVariants: components['schemas']['ChildVariantDefinition'][] = []

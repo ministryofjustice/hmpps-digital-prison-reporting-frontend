@@ -1,197 +1,112 @@
-// @ts-nocheck
-/* eslint-disable class-methods-use-this */
-import dayjs from 'dayjs'
-
 import { DprClientClass } from '../../../DprClientClass'
+import { uiDateToApi } from '../../../utils/dateHelper'
+import { calcDatesForUI, CalculableRelativeDateRange } from 'src/dpr/utils/durationCalculator'
+import RelativeDateRange from './types'
 
 class DateRangeInput extends DprClientClass {
-  static getModuleName() {
+  static override getModuleName(): string {
     return 'date-range-input'
   }
 
-  initialise() {
-    this.dateRangeInputs = document.getElementById('dpr-date-range')
-    this.filtersAccordion = document.getElementById('dpr-interactive-filters-details')
-    this.fieldName = this.dateRangeInputs.getAttribute('data-field-name')
+  private startName!: string
 
-    this.startInputID = `filters.${this.fieldName}.start`
-    this.endInputID = `filters.${this.fieldName}.end`
-    this.durationInputID = `filters.${this.fieldName}.relative-duration`
+  private endName!: string
 
-    this.relativeRangeRadioButtons = document.querySelectorAll(`input[name='${this.durationInputID}']`)
-    this.startInput = document.querySelector(`input[name='${this.startInputID}']`)
-    this.endInput = document.querySelector(`input[name='${this.endInputID}']`)
+  private durationName!: string
 
-    this.startRequired = this.startInput.required
-    this.endRequired = this.endInput.required
+  private startInput!: HTMLInputElement
 
-    this.datePickerTab = document.getElementById(`tab_${this.fieldName}-date-picker`)
-    this.relativeDurationTab = document.getElementById(`tab_${this.fieldName}-relative-range`)
-    this.durationValue = undefined
+  private endInput!: HTMLInputElement
 
-    if (this.datePickerTab && this.relativeDurationTab) {
-      this.initDatePickerTabClick()
-      this.initRelativeDurationTabClick()
-      this.initTabs()
-      this.initDurationRadionButtonClick()
-      this.initDatePickerUpdateEvents()
-    }
+  private radios!: HTMLInputElement[]
+
+  override initialise(): void {
+    const root = document.getElementById('dpr-date-range')
+    if (!root) return
+
+    const fieldName = root.getAttribute('data-field-name')
+    if (!fieldName) return
+
+    // ------------------------------
+    // Elements
+    // ------------------------------
+
+    this.startName = `filters.${fieldName}.start`
+    this.endName = `filters.${fieldName}.end`
+    this.durationName = `filters.${fieldName}.relative-duration`
+
+    this.startInput = root.querySelector(`input[name='${this.startName}']`) as HTMLInputElement
+    this.endInput = root.querySelector(`input[name='${this.endName}']`) as HTMLInputElement
+    this.radios = Array.from(document.querySelectorAll<HTMLInputElement>(`input[name='${this.durationName}']`))
+
+    this.bindEvents()
   }
 
-  initTabs() {
-    this.queryParams = new URLSearchParams(window.location.search)
-    if (this.queryParams.has(this.durationInputID)) {
-      this.relativeRangeRadioButtons.forEach((durationRadioButton) => {
-        this.updateCheckedDuration(durationRadioButton)
-      })
-    }
-  }
+  // ------------------------------
+  // Events
+  // ------------------------------
 
-  initDatePickerTabClick() {
-    this.datePickerTab.addEventListener('click', () => {
-      let value
-      this.queryParams = new URLSearchParams(window.location.search)
-      if (this.queryParams.has(this.durationInputID)) {
-        value = this.queryParams.get(this.durationInputID)
-        this.removeSearchParam(this.durationInputID)
-      }
-      this.updateInputs(value)
-
-      const changeEvent = new Event('change')
-      this.startInput.dispatchEvent(changeEvent)
-      this.endInput.dispatchEvent(changeEvent)
-    })
-  }
-
-  initRelativeDurationTabClick() {
-    this.relativeDurationTab.addEventListener('click', () => {
-      this.relativeRangeRadioButtons.forEach((durationRadioButton) => {
-        this.updateCheckedDuration(durationRadioButton)
-      })
-    })
-  }
-
-  resetDurationValue() {
-    this.relativeRangeRadioButtons.forEach((durationRadioButton) => {
-      // eslint-disable-next-line no-param-reassign
-      durationRadioButton.checked = false
-    })
-  }
-
-  initDurationRadionButtonClick() {
-    this.relativeRangeRadioButtons.forEach((durationRadioButton) => {
-      durationRadioButton.addEventListener('click', (e) => {
-        const durationValue = e.target.value
-        this.durationValue = durationValue
-        this.updateInputs(durationValue)
-      })
-    })
-
-    this.relativeRangeRadioButtons.forEach((durationRadioButton) => {
-      durationRadioButton.addEventListener('change', () => {
-        if (Array.from(this.relativeRangeRadioButtons).every((input) => !input.checked)) {
-          this.durationValue = null
-          this.updateInputs(this.durationValue)
+  private bindEvents(): void {
+    // Relative radios
+    this.radios.forEach((radio) => {
+      radio.addEventListener('change', () => {
+        if (!radio.checked) return
+        if (radio.value === RelativeDateRange.NONE) {
+          return
+        }
+        const dates = calcDatesForUI(radio.value as CalculableRelativeDateRange)
+        if (dates) {
+          const { start, end } = dates
+          this.startInput.value = start
+          this.endInput.value = end
+          this.setDateRangeQueryString(start, end)
         }
       })
     })
-  }
 
-  removeSearchParam(name, name2) {
-    this.queryParams = new URLSearchParams(window.location.search)
-    this.queryParams.delete(name)
-    if (name2) this.queryParams.delete(name2)
-
-    window.history.replaceState(null, null, `?${this.queryParams.toString()}`)
-  }
-
-  updateCheckedDuration(durationRadioButton) {
-    if (durationRadioButton.checked) {
-      const durationValue = durationRadioButton.value
-      this.updateInputs(durationValue)
-      const changeEvent = new Event('change')
-      durationRadioButton.dispatchEvent(changeEvent)
-    }
-  }
-
-  removeRequiredFromDatePickers() {
-    this.startInput.removeAttribute('required')
-    this.endInput.removeAttribute('required')
-    this.startInput.value = ''
-    this.endInput.value = ''
-  }
-
-  updateInputs(durationValue) {
-    this.startInput.required = this.startRequired
-    this.endInput.required = this.endRequired
-
-    if (durationValue || this.durationValue) {
-      const d = durationValue || this.durationValue
-      const { startDate, endDate } = this.calculateDateForDatepicker(d)
-      this.startInput.value = startDate
-      this.endInput.value = endDate
-    } else {
-      this.startInput.value = null
-      this.endInput.value = null
-    }
-  }
-
-  initDatePickerUpdateEvents() {
-    this.startInput.addEventListener('change', () => {
-      this.removeSearchParam(this.durationInputID)
-      this.resetDurationValue()
-    })
-    this.endInput.addEventListener('change', () => {
-      this.removeSearchParam(this.durationInputID)
-      this.resetDurationValue()
+    // Date inputs (manual changes)
+    ;[this.startInput, this.endInput].forEach((input) => {
+      input.addEventListener('change', () => {
+        this.radios.forEach((radio) => {
+          radio.checked = false
+        })
+        this.removeQueryParam(this.durationName)
+      })
     })
   }
 
-  calculateDateForDatepicker(duration) {
-    let startDate
-    let endDate
+  // ------------------------------
+  // Query string helpers
+  // ------------------------------
 
-    switch (duration) {
-      case 'none':
-        startDate = ''
-        endDate = ''
-        break
-      case 'yesterday':
-        endDate = dayjs()
-        startDate = endDate.subtract(1, 'day')
-        break
-      case 'tomorrow':
-        startDate = dayjs()
-        endDate = startDate.add(1, 'day')
-        break
-      case 'last-seven-days':
-        endDate = dayjs()
-        startDate = endDate.subtract(1, 'week')
-        break
-      case 'next-seven-days':
-        startDate = dayjs()
-        endDate = startDate.add(1, 'week')
-        break
-      case 'last-month':
-        endDate = dayjs()
-        startDate = endDate.subtract(1, 'month')
-        break
-      case 'next-month':
-        startDate = dayjs()
-        endDate = startDate.add(1, 'month')
-        break
-      default:
-        startDate = ''
-        endDate = ''
-        break
+  private setDateRangeQueryString(startUi: string, endUi: string): void {
+    const params = new URLSearchParams(window.location.search)
+
+    const startApi = uiDateToApi(startUi)
+    const endApi = uiDateToApi(endUi)
+
+    if (startApi) {
+      params.set(this.startName, startApi)
     }
 
-    return {
-      startDate: startDate ? startDate.format('DD/MM/YYYY').toString() : '',
-      endDate: endDate ? endDate.format('DD/MM/YYYY').toString() : '',
+    if (endApi) {
+      params.set(this.endName, endApi)
     }
+
+    // Also keep the relative-range param in the URL
+    const checkedRadio = this.radios.find((r) => r.checked)
+    if (checkedRadio) {
+      params.set(this.durationName, checkedRadio.value)
+    }
+
+    window.history.replaceState(null, '', `?${params.toString()}`)
+  }
+
+  private removeQueryParam(name: string): void {
+    const params = new URLSearchParams(window.location.search)
+    params.delete(name)
+    window.history.replaceState(null, '', `?${params.toString()}`)
   }
 }
 
-export { DateRangeInput }
 export default DateRangeInput

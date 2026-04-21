@@ -13,8 +13,8 @@ describe('Request a report', () => {
   let field7: Cypress.Chainable<JQuery<HTMLElement>>
 
   const clearSelectedFilters = () => {
-    Array.from(Array(5).keys()).forEach(() =>
-      cy.findByLabelText(/Selected filters/).within(() => cy.findAllByRole('link').first().click(1, 1)),
+    Array.from(Array(4).keys()).forEach(() =>
+      cy.findByLabelText(/Selected filters/).within(() => cy.findAllByRole('button').first().click(1, 1)),
     )
   }
 
@@ -58,8 +58,8 @@ describe('Request a report', () => {
   context('Selected filters', () => {
     it('should show the default selected filters', () => {
       cy.findByLabelText(/Selected filters.*/i).within(() => {
-        cy.findAllByRole('link')
-          .should('have.length', 6)
+        cy.findAllByRole('button')
+          .should('have.length', 4)
           .each((filter, index) => {
             switch (index) {
               case 0:
@@ -67,23 +67,16 @@ describe('Request a report', () => {
                 cy.wrap(filter).contains('Value 1.2')
                 break
               case 1:
-                cy.wrap(filter).contains('Field 3 start')
-                cy.wrap(filter).contains('01/02/2003')
+                cy.wrap(filter).contains('Field 3')
+                cy.wrap(filter).contains('01/02/2003 - 04/05/2006')
                 break
               case 2:
-                cy.wrap(filter).contains('Field 3 end')
-                cy.wrap(filter).contains('04/05/2006')
-                break
-              case 3:
                 cy.wrap(filter).contains('Field 7')
                 cy.wrap(filter).contains('01/02/2005')
                 break
-              case 4:
+              case 3:
                 cy.wrap(filter).contains('Field 8')
                 cy.wrap(filter).contains('Value 8.2, Value 8.3')
-                break
-              case 5:
-                cy.wrap(filter).contains('Reset filters')
                 break
               default:
                 break
@@ -94,11 +87,11 @@ describe('Request a report', () => {
 
     it('should remove the selected filter and reset the input', () => {
       cy.findByLabelText(/Selected filters.*/i).within(() => {
-        cy.findAllByRole('link').should('have.length', 6)
+        cy.findAllByRole('button').should('have.length', 4)
       })
       clearSelectedFilters()
       cy.findByLabelText(/Selected filters.*/i).within(() => {
-        cy.findAllByRole('link').should('have.length', 1)
+        cy.findAllByRole('button').should('have.length', 0)
       })
 
       cy.findByRole('radio', { name: 'None' }).should('not.be.checked')
@@ -117,13 +110,13 @@ describe('Request a report', () => {
     it('should add selected filters when inputs values are updated', () => {
       clearSelectedFilters()
       cy.findByLabelText(/Selected filters.*/i).within(() => {
-        cy.findAllByRole('link').should('have.length', 1)
+        cy.findAllByRole('button').should('have.length', 0)
       })
 
       updateFilterValues()
       cy.findByLabelText(/Selected filters.*/i).within(() => {
-        cy.findAllByRole('link')
-          .should('have.length', 8)
+        cy.findAllByRole('button')
+          .should('have.length', 6)
           .each((filter, index) => {
             switch (index) {
               case 0:
@@ -131,26 +124,22 @@ describe('Request a report', () => {
                 cy.wrap(filter).contains('Value 2.2')
                 break
               case 1:
-                cy.wrap(filter).contains('Field 3 start')
-                cy.wrap(filter).contains('01/02/2003')
+                cy.wrap(filter).contains('Field 3')
+                cy.wrap(filter).contains('01/02/2003 - 04/05/2007')
                 break
               case 2:
-                cy.wrap(filter).contains('Field 3 end')
-                cy.wrap(filter).contains('4/5/2007')
-                break
-              case 3:
                 cy.wrap(filter).contains('Field 4')
                 cy.wrap(filter).contains('Inigo Montoya')
                 break
-              case 4:
+              case 3:
                 cy.wrap(filter).contains('Field 6')
                 cy.wrap(filter).contains('Value 6.1')
                 break
-              case 5:
+              case 4:
                 cy.wrap(filter).contains('Field 7')
                 cy.wrap(filter).contains('05/05/2005')
                 break
-              case 6:
+              case 5:
                 cy.wrap(filter).contains('Field 8')
                 cy.wrap(filter).contains('Value 8.1, Value 8.2, Value 8.3 + 1 more')
                 break
@@ -172,18 +161,18 @@ describe('Request a report', () => {
 
     it('should reset the filters back to their DPD defaults', () => {
       cy.findByLabelText(/Selected filters.*/i).within(() => {
-        cy.findAllByRole('link').should('have.length', 6)
+        cy.findAllByRole('button').should('have.length', 4)
       })
       clearSelectedFilters()
 
       cy.findByLabelText(/Selected filters.*/i).within(() => {
-        cy.findAllByRole('link').should('have.length', 1)
+        cy.findAllByRole('button').should('have.length', 0)
       })
 
-      cy.findByRole('link', { name: 'Reset filters' }).click()
+      cy.findByRole('button', { name: 'Reset filters' }).click()
 
       cy.findByLabelText(/Selected filters.*/i).within(() => {
-        cy.findAllByRole('link').should('have.length', 6)
+        cy.findAllByRole('button').should('have.length', 4)
       })
     })
   })
@@ -208,9 +197,10 @@ describe('Request a report', () => {
         expect(location.search).to.contain(`filters.field4=Inigo+Montoya`)
         expect(location.search).to.contain(`filters.field6=Value+6.1`)
         expect(location.search).to.contain(`filters.field7=2005-05-05`)
-        expect(location.search).to.contain(
-          `filters.field8=value8.1&filters.field8=value8.2&filters.field8=value8.3&filters.field8=value8.4`,
-        )
+        expect(location.search).to.contain(`filters.field8=value8.1`)
+        expect(location.search).to.contain(`filters.field8=value8.2`)
+        expect(location.search).to.contain(`filters.field8=value8.3`)
+        expect(location.search).to.contain(`filters.field8=value8.4`)
       })
     })
 
@@ -225,9 +215,10 @@ describe('Request a report', () => {
         expect(location.search).to.contain(`filters.field4=Inigo+Montoya`)
         expect(location.search).to.contain(`filters.field6=Value+6.1`)
         expect(location.search).to.contain(`filters.field7=2005-05-05`)
-        expect(location.search).to.contain(
-          `filters.field8=value8.1&filters.field8=value8.2&filters.field8=value8.3&filters.field8=value8.4`,
-        )
+        expect(location.search).to.contain(`filters.field8=value8.1`)
+        expect(location.search).to.contain(`filters.field8=value8.2`)
+        expect(location.search).to.contain(`filters.field8=value8.3`)
+        expect(location.search).to.contain(`filters.field8=value8.4`)
       })
     })
 
@@ -237,8 +228,8 @@ describe('Request a report', () => {
       )
 
       cy.findByLabelText(/Selected filters.*/i).within(() => {
-        cy.findAllByRole('link')
-          .should('have.length', 8)
+        cy.findAllByRole('button')
+          .should('have.length', 6)
           .each((filter, index) => {
             switch (index) {
               case 0:
@@ -246,31 +237,24 @@ describe('Request a report', () => {
                 cy.wrap(filter).contains('None')
                 break
               case 1:
-                cy.wrap(filter).contains('Field 3 start')
-                cy.wrap(filter).contains('01/02/2004')
-                break
-              case 2:
-                cy.wrap(filter).contains('Field 3 end')
-                cy.wrap(filter).contains('04/05/2006')
-                break
-              case 3:
-                cy.wrap(filter).contains('Field 7')
-                cy.wrap(filter).contains('01/02/2004')
-                break
-              case 4:
-                cy.wrap(filter).contains('Field 8')
-                cy.wrap(filter).contains('Value 8.1, Value 8.2, Value 8.3 + 1 more')
-                break
-              case 5:
                 cy.wrap(filter).contains('Field 2')
                 cy.wrap(filter).contains('Value 2.3')
                 break
-              case 6:
+              case 2:
+                cy.wrap(filter).contains('Field 3')
+                cy.wrap(filter).contains('01/02/2004 - 04/05/2006')
+                break
+              case 3:
                 cy.wrap(filter).contains('Field 4')
                 cy.wrap(filter).contains('Prince Humperdink')
                 break
-              case 7:
-                cy.wrap(filter).contains('Reset filters')
+              case 4:
+                cy.wrap(filter).contains('Field 7')
+                cy.wrap(filter).contains('01/02/2004')
+                break
+              case 5:
+                cy.wrap(filter).contains('Field 8')
+                cy.wrap(filter).contains('Value 8.1, Value 8.2, Value 8.3 + 1 more')
                 break
               default:
                 break
@@ -285,8 +269,8 @@ describe('Request a report', () => {
       )
 
       cy.findByLabelText(/Selected filters.*/i).within(() => {
-        cy.findAllByRole('link')
-          .should('have.length', 8)
+        cy.findAllByRole('button')
+          .should('have.length', 6)
           .each((filter, index) => {
             switch (index) {
               case 0:
@@ -294,31 +278,24 @@ describe('Request a report', () => {
                 cy.wrap(filter).contains('Value 1.3')
                 break
               case 1:
-                cy.wrap(filter).contains('Field 3 start')
-                cy.wrap(filter).contains('01/02/2003')
-                break
-              case 2:
-                cy.wrap(filter).contains('Field 3 end')
-                cy.wrap(filter).contains('04/05/2007')
-                break
-              case 3:
-                cy.wrap(filter).contains('Field 7')
-                cy.wrap(filter).contains('01/02/2004')
-                break
-              case 4:
-                cy.wrap(filter).contains('Field 8')
-                cy.wrap(filter).contains('Value 8.1, Value 8.2, Value 8.3 + 1 more')
-                break
-              case 5:
                 cy.wrap(filter).contains('Field 2')
                 cy.wrap(filter).contains('Value 2.3')
                 break
-              case 6:
+              case 2:
+                cy.wrap(filter).contains('Field 3')
+                cy.wrap(filter).contains('01/02/2003 - 04/05/2007')
+                break
+              case 3:
                 cy.wrap(filter).contains('Field 4')
                 cy.wrap(filter).contains('Prince Humperdink')
                 break
-              case 7:
-                cy.wrap(filter).contains('Reset filters')
+              case 4:
+                cy.wrap(filter).contains('Field 7')
+                cy.wrap(filter).contains('01/02/2004')
+                break
+              case 5:
+                cy.wrap(filter).contains('Field 8')
+                cy.wrap(filter).contains('Value 8.1, Value 8.2, Value 8.3 + 1 more')
                 break
               default:
                 break
@@ -338,11 +315,6 @@ describe('Request a report', () => {
       updateFilterValues()
 
       cy.findByRole('button', { name: 'Save current filter values as defaults' }).click()
-
-      cy.location().should((location) => {
-        expect(location.search).to.contain('defaultsSaved=true')
-      })
-
       cy.findByRole('button', { name: 'Update defaults' }).should('exist')
       cy.findByRole('button', { name: 'Delete defaults' }).should('exist')
     })
@@ -355,10 +327,10 @@ describe('Request a report', () => {
         expect(location.search).to.contain(`filters.field4=Inigo+Montoya`)
         expect(location.search).to.contain(`filters.field6=Value+6.1`)
         expect(location.search).to.contain(`filters.field7=2005-05-05`)
-        expect(location.search).not.to.contain(`defaultsSaved=true`)
-        expect(location.search).to.contain(
-          `filters.field8=value8.1&filters.field8=value8.2&filters.field8=value8.3&filters.field8=value8.4`,
-        )
+        expect(location.search).to.contain(`filters.field8=value8.1`)
+        expect(location.search).to.contain(`filters.field8=value8.2`)
+        expect(location.search).to.contain(`filters.field8=value8.3`)
+        expect(location.search).to.contain(`filters.field8=value8.4`)
       })
 
       cy.findByRole('button', { name: 'Update defaults' }).should('exist')
@@ -367,9 +339,9 @@ describe('Request a report', () => {
 
     it('should update the saved defaults', () => {
       cy.findByLabelText(/Selected filters.*/i).within(() => {
-        cy.findAllByRole('link').eq(1).click(1, 1)
-        cy.findAllByRole('link').eq(1).click(1, 1)
-        cy.findAllByRole('link').eq(1).click(1, 1)
+        cy.findAllByRole('button').eq(1).click(1, 1)
+        cy.findAllByRole('button').eq(1).click(1, 1)
+        cy.findAllByRole('button').eq(1).click(1, 1)
       })
 
       cy.findByRole('checkbox', { name: 'Value 8.2' }).uncheck()
@@ -379,55 +351,52 @@ describe('Request a report', () => {
       cy.findByRole('button', { name: 'Update defaults' }).click()
 
       cy.findByLabelText(/Selected filters.*/i).within(() => {
-        cy.findAllByRole('link').should('have.length', 5)
+        cy.findAllByRole('button').should('have.length', 3)
       })
 
       cy.location().should((location) => {
         expect(location.search).to.contain(`filters.field2=value2.3`)
         expect(location.search).not.to.contain(`filters.field3.start=2003-02-01`)
         expect(location.search).not.to.contain(`filters.field3.end=2007-05-04`)
-        expect(location.search).to.contain(`filters.field6=Value+6.1`)
+        expect(location.search).not.to.contain(`filters.field6=Value+6.1`)
         expect(location.search).to.contain(`filters.field7=2005-05-05`)
-        expect(location.search).to.contain(`defaultsSaved=true`)
         expect(location.search).not.to.contain(`filters.field4=Inigo+Montoya`)
-        expect(location.search).not.to.contain(
-          `filters.field8=value8.1&filters.field8=value8.2&filters.field8=value8.3&filters.field8=value8.4`,
-        )
-        expect(location.search).to.contain(`&filters.field8=value8.1&filters.field8=value8.4`)
+        expect(location.search).to.contain(`filters.field8=value8.1`)
+        expect(location.search).not.to.contain(`filters.field8=value8.2`)
+        expect(location.search).not.to.contain(`filters.field8=value8.3`)
+        expect(location.search).to.contain(`filters.field8=value8.4`)
       })
 
       cy.reload()
 
       cy.location().should((location) => {
         expect(location.search).to.contain(`filters.field2=value2.3`)
-        expect(location.search).to.contain(`filters.field3.start=2003-02-01`)
-        expect(location.search).to.contain(`filters.field3.end=2007-05-04`)
-        expect(location.search).to.contain(`filters.field6=Value+6.1`)
+        expect(location.search).not.to.contain(`filters.field3.start=2003-02-01`)
+        expect(location.search).not.to.contain(`filters.field3.end=2007-05-04`)
+        expect(location.search).not.to.contain(`filters.field6=Value+6.1`)
         expect(location.search).to.contain(`filters.field7=2005-05-05`)
-        expect(location.search).to.contain(`defaultsSaved=true`)
         expect(location.search).not.to.contain(`filters.field4=Inigo+Montoya`)
-        expect(location.search).not.to.contain(
-          `filters.field8=value8.1&filters.field8=value8.2&filters.field8=value8.3&filters.field8=value8.4`,
-        )
-        expect(location.search).to.contain(`&filters.field8=value8.1&filters.field8=value8.4`)
+        expect(location.search).to.contain(`filters.field8=value8.1`)
+        expect(location.search).not.to.contain(`filters.field8=value8.2`)
+        expect(location.search).not.to.contain(`filters.field8=value8.3`)
+        expect(location.search).to.contain(`filters.field8=value8.4`)
       })
     })
 
     it('should reset the defaults back to the user saved defaults', () => {
       cy.findByLabelText(/Selected filters.*/i).within(() => {
-        cy.findAllByRole('link').eq(1).click(1, 1)
-        cy.findAllByRole('link').eq(1).click(1, 1)
-        cy.findAllByRole('link').eq(1).click(1, 1)
+        cy.findAllByRole('button').eq(1).click(1, 1)
+        cy.findAllByRole('button').eq(1).click(1, 1)
       })
 
       cy.findByLabelText(/Selected filters.*/i).within(() => {
-        cy.findAllByRole('link').should('have.length', 2)
+        cy.findAllByRole('button').should('have.length', 1)
       })
 
-      cy.findByRole('link', { name: 'Reset filters' }).click()
+      cy.findByRole('button', { name: 'Reset filters' }).click()
 
       cy.findByLabelText(/Selected filters.*/i).within(() => {
-        cy.findAllByRole('link').should('have.length', 5)
+        cy.findAllByRole('button').should('have.length', 3)
       })
     })
 
@@ -439,7 +408,8 @@ describe('Request a report', () => {
         expect(location.search).to.contain(`filters.field3.start=2003-02-01`)
         expect(location.search).to.contain(`filters.field3.end=2006-05-04`)
         expect(location.search).to.contain(`filters.field7=2005-02-01`)
-        expect(location.search).to.contain(`filters.field8=value8.2&filters.field8=value8.3`)
+        expect(location.search).to.contain(`filters.field8=value8.2`)
+        expect(location.search).to.contain(`filters.field8=value8.3`)
       })
     })
   })

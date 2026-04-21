@@ -69,7 +69,7 @@ const requestExampleSuccess = {
           defaultValue: '2003-02-01 - 2006-05-04',
           min: '2003-02-01',
           max: '2007-05-04',
-          mandatory: true,
+          mandatory: false,
         },
       },
       {
@@ -131,6 +131,7 @@ const requestExampleSuccess = {
         wordWrap: 'none',
         filter: {
           type: 'text',
+          mandatory: false,
         },
       },
       {
@@ -149,6 +150,7 @@ const requestExampleSuccess = {
           defaultValue: '2005-02-01',
           min: '2003-02-01',
           max: '2007-05-04',
+          mandatory: false,
         },
       },
       {
@@ -170,6 +172,7 @@ const requestExampleSuccess = {
             { name: 'value8.4', display: 'Value 8.4' },
           ],
           defaultValue: 'value8.2,value8.3',
+          mandatory: false,
         },
       },
     ],

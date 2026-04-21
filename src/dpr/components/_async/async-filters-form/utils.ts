@@ -1,17 +1,10 @@
 /* eslint-disable no-param-reassign */
-import { Request } from 'express'
-import { Dayjs } from 'dayjs'
-import type { SetQueryFromFiltersResult } from './types'
 import type { components } from '../../../types/api'
 
 import SortHelper from './sortByTemplate'
-import DefinitionUtils from '../../../utils/definitionUtils'
-import DateMapper from '../../../utils/DateMapper/DateMapper'
 import FiltersUtils from '../../_filters/utils'
-import DateRangeInputUtils from '../../_inputs/date-range/utils'
-import AutocompleteUtils from '../../_inputs/autocomplete-text-input/utils'
 import { FilterOption, FilterValue, FilterValueWithOptions } from '../../_filters/types'
-import { FilterType } from '../../_filters/filter-input/enum'
+import { uiDateToApi } from '../../../utils/dateHelper'
 
 /**
  * Initialises the sortData from the definition
@@ -36,42 +29,6 @@ export const getSortByFromDefinition = (fields: components['schemas']['FieldDefi
   return []
 }
 
-export const setDurationStartAndEnd = (
-  name: string,
-  value: string,
-  query: Record<string, string>,
-  filterData: Record<string, string>,
-  querySummary: Array<Record<string, string>>,
-  fields: components['schemas']['FieldDefinition'][],
-) => {
-  const { startDate, endDate } = DateRangeInputUtils.calcDates(value)
-  const startDateDisplayString = startDate ? (<Dayjs>startDate).format('YYYY-MM-DD').toString() : ''
-  const endDateDisplayString = endDate ? (<Dayjs>endDate).format('YYYY-MM-DD').toString() : ''
-
-  const fieldId = name.split('.')[1]
-  const field = fields.find((f) => {
-    return f.name === fieldId
-  })
-
-  query[`filters.${fieldId}.start`] = startDateDisplayString
-  query[`filters.${fieldId}.end`] = endDateDisplayString
-
-  filterData[name] = value
-
-  let queryValue = `${value.charAt(0).toUpperCase() + value.slice(1).replaceAll('-', ' ')}`
-  queryValue = `${queryValue} (${startDateDisplayString} - ${endDateDisplayString})`
-  querySummary.push({
-    name: field ? `${field.display}` : name,
-    value: queryValue,
-  })
-
-  return {
-    querySummary,
-    filterData,
-    query,
-  }
-}
-
 /**
  * Returns the data required for rendering the async filters component
  *
@@ -85,98 +42,79 @@ export const renderFilters = async (fields: components['schemas']['FieldDefiniti
   }
 }
 
-export const setQueryFromFilters = (
-  req: Request,
-  fields: components['schemas']['FieldDefinition'][],
-): SetQueryFromFiltersResult => {
-  let query: Record<string, string> = {}
-  let filterData: Record<string, string> = {}
-  let querySummary: Array<Record<string, string>> = []
-  const sortData: Record<string, string> = {}
-  const dateMapper = new DateMapper()
-  const urlParams = new URLSearchParams(req.body.search)
+/**
+ * Builds filter data from req.body filters.
+ *
+ * - Processes only `filters.*` keys
+ * - Strips `filters.` prefix
+ * - Drops empty values
+ * - Normalizes UI dates via uiDateToApi
+ * - Collapses arrays to CSV (BE contract)
+ *
+ * @param {Record<string, unknown>} body
+ * @return {*}  {Record<string, string>}
+ */
+export const buildFilterData = (body: Record<string, unknown>): Record<string, string> => {
+  return Object.entries(body).reduce<Record<string, string>>((acc, [key, value]) => {
+    if (!key.startsWith('filters.')) return acc
+    if (value === undefined || value === null || value === '') return acc
 
-  Object.keys(req.body)
-    .filter((name) => name !== '_csrf' && req.body[name] !== '')
-    .forEach((name) => {
-      const shortName = name.replace('filters.', '')
-      const queryValue = req.body[name]
-      let summaryValue = queryValue
+    const shortName = key.replace(/^filters\./, '')
 
-      if (name.startsWith('filters.') && queryValue !== '' && !query[name] && queryValue !== 'no-filter') {
-        if (name.includes('relative-duration')) {
-          ;({ query, filterData, querySummary } = setDurationStartAndEnd(
-            name,
-            queryValue,
-            query,
-            filterData,
-            querySummary,
-            fields,
-          ))
-        } else {
-          const fieldId = name.split('.')[1]
-          const filter: components['schemas']['FilterDefinition'] | undefined = fields.find(
-            (f) => f.name === fieldId,
-          )?.filter
+    if (Array.isArray(value)) {
+      const csv = value
+        .filter((v) => v != null && v !== '')
+        .map(String)
+        .join(',')
 
-          let urlParamValue: string | string[] = urlParams.getAll(name)
-          urlParamValue = !urlParamValue || urlParamValue.length === 0 ? queryValue : urlParamValue
-          urlParamValue = urlParamValue.length === 1 ? `${urlParamValue[0]}` : `${urlParamValue}`
-
-          let dateDisplayValue
-          if (dateMapper.isDate(queryValue)) {
-            dateDisplayValue = dateMapper.toDateString(queryValue, 'local-date')
-            const isoFormatDate = dateMapper.toDateString(queryValue, 'iso')
-            if (isoFormatDate) {
-              query[name] = isoFormatDate
-              filterData[shortName] = isoFormatDate
-            }
-          } else {
-            query[name] = urlParamValue
-            filterData[shortName] = urlParamValue
-          }
-
-          if (filter?.type === FilterType.autocomplete.toLowerCase()) {
-            summaryValue = AutocompleteUtils.getDisplayValue(filter, queryValue)
-          } else {
-            summaryValue = dateDisplayValue || summaryValue
-          }
-
-          const fieldDisplayName = DefinitionUtils.getFieldDisplayName(fields, shortName)
-          querySummary.push({
-            name: fieldDisplayName || shortName,
-            value: summaryValue,
-          })
-        }
-      } else if (name.startsWith('sort')) {
-        query[name] = queryValue
-        sortData[name] = queryValue
-
-        const fieldDef = DefinitionUtils.getField(fields, queryValue)
-
-        let displayName = 'Sort Direction'
-        let displayValue = queryValue === 'true' ? 'Ascending' : 'Descending'
-        if (fieldDef) {
-          displayName = 'Sort Column'
-          displayValue = fieldDef.display
-        }
-
-        querySummary.push({
-          name: displayName,
-          value: displayValue,
-        })
+      if (csv) {
+        acc[shortName] = csv
       }
-    })
+
+      return acc
+    }
+
+    const stringValue = String(value)
+
+    acc[shortName] = uiDateToApi(stringValue) ?? stringValue
+
+    return acc
+  }, {})
+}
+
+/**
+ * Builds sort data from the request body.
+ *
+ * - Supports single (radio) or multiple (checkbox) sort columns
+ * - Uses a global sort direction
+ * - Collapses columns to CSV (API contract)
+ *
+ * @param {Record<string, unknown>} body
+ * @return {*}  {Record<string, string>}
+ */
+export const buildSortData = (body: Record<string, unknown>): Record<string, string> => {
+  const rawColumns = body['sortColumn']
+
+  if (rawColumns == null || rawColumns === '') {
+    return {}
+  }
+
+  const columns = Array.isArray(rawColumns)
+    ? rawColumns.filter((v) => v != null && v !== '').map(String)
+    : [String(rawColumns)]
+
+  if (columns.length === 0) {
+    return {}
+  }
+
+  const direction = body['sortedAsc'] === 'false' ? 'false' : 'true'
 
   return {
-    query,
-    filterData,
-    querySummary,
-    sortData,
+    sortColumn: columns.join(','),
+    sortedAsc: direction,
   }
 }
 
 export default {
   renderFilters,
-  setQueryFromFilters,
 }

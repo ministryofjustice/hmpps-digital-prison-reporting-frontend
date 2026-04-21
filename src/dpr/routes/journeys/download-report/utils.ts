@@ -10,6 +10,7 @@ import logger from '../../../utils/logger'
 import { ExtractedDefinitionData, ExtractedRequestData } from '../view-report/async/report/types'
 import type { Columns } from '../../../components/_reports/report-heading/report-columns/report-columns-form/types'
 import { getActiveJourneyValue } from '../../../utils/sessionHelper'
+import { qsToQueryObject } from '../../../utils/queryMappers'
 
 const streamDownloadAsyncData = async (args: {
   services: Services
@@ -93,21 +94,35 @@ export const downloadReport = async ({
 
     logger.info(`Initiating streaming...`)
     if (loadType === LoadType.SYNC) {
+      const currentReportSearch = getActiveJourneyValue(req, { id, reportId }, 'currentReportSearch') || ''
+      const result = qsToQueryObject(currentReportSearch, 'filters.')
+      const queryParams = {
+        ...streamDownloadQueryParams,
+        ...result,
+      }
+
       await streamDownloadSyncData({
         definition,
         services,
         token,
-        queryParams: streamDownloadQueryParams,
+        queryParams,
         res,
       })
     } else {
+      const currentReportSearch = getActiveJourneyValue(req, { id, reportId, tableId }, 'currentReportSearch') || ''
+      const result = qsToQueryObject(currentReportSearch, 'filters.')
+      const queryParams = {
+        ...streamDownloadQueryParams,
+        ...result,
+      }
+
       await streamDownloadAsyncData({
         services,
         token,
         reportId,
         id,
         tableId,
-        queryParams: streamDownloadQueryParams,
+        queryParams,
         res,
       })
     }
@@ -149,7 +164,7 @@ export const setUpDownload = (
       definitionPath: definitionsPath,
       loadType,
       formAction: downloadActionEndpoint,
-      canDownload: downloadEnabled,
+      canDownload: Boolean(downloadEnabled),
       ...(sortColumn && { sortColumn }),
       ...(sortedAsc && { sortedAsc }),
       csrfToken,

@@ -1,6 +1,7 @@
 import { RequestHandler } from 'express'
 import ErrorHandler from '../../../../../utils/ErrorHandler/ErrorHandler'
 import { Services } from '../../../../../types/Services'
+import { LoadType } from '../../../../../types/UserReports'
 import SyncDashboardUtils from './utils'
 import ViewReportUtils from '../../utils'
 
@@ -16,11 +17,21 @@ class ViewSyncDashboardController {
 
   GET: RequestHandler = async (req, res, next) => {
     try {
+      // Redirect the same path to attach query string
+      if (ViewReportUtils.redirectWithDefaults(res, req)) {
+        return
+      }
+
+      // Get the validation errors
+      const validationErrors = res.locals['validationErrors'] || []
+
+      // Render the dashaboad
       const renderData = await SyncDashboardUtils.renderSyncDashboard({ req, res, services: this.services })
 
       res.render(`dpr/routes/journeys/view-report/dashboard`, {
         layoutPath: this.layoutPath,
         ...renderData,
+        validationErrors,
       })
     } catch (error) {
       req.body ??= {}
@@ -32,7 +43,22 @@ class ViewSyncDashboardController {
   }
 
   applyFilters: RequestHandler = async (req, res, _next) => {
-    await ViewReportUtils.applyDashboardInteractiveQuery(req, res, this.services, 'filters')
+    await ViewReportUtils.applyDashboardInteractiveQuery(req, res, 'filters', LoadType.SYNC)
+  }
+
+  resetFilters: RequestHandler = async (req, res, next) => {
+    try {
+      const { id, reportId } = req.params as { id: string; reportId: string }
+      const sessionKey = { id, reportId }
+      await ViewReportUtils.resetFilters(req, res, sessionKey)
+    } catch (error) {
+      req.body = {
+        title: 'Failed to reset filters',
+        error: new ErrorHandler(error).formatError(),
+        ...(req.body && { ...req.body }),
+      }
+      next(error)
+    }
   }
 }
 

@@ -1,6 +1,6 @@
 {% from "../date-input/view.njk" import dprDate %}
 
-{% macro dprStartEndDate(data, mandatory, label) %}
+{% macro dprStartEndDate(data, mandatory, validationErrors, label) %}
   {% set name = data.name %}
   {% set text = data.text %}
   {% set value = data.value %}
@@ -25,6 +25,7 @@
           mandatory: mandatory,
           displayName: text + ' start'
         },
+        validationErrors,
         'From',
         '.start',
         true,
@@ -43,6 +44,7 @@
           mandatory: mandatory,
           displayName: text + ' end'
         },
+        validationErrors,
         'To',
         '.end',
         false

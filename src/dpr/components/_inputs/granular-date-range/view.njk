@@ -4,7 +4,7 @@
 {% from "../date-input/view.njk" import dprDate %}
 {% from "../start-end-date/view.njk" import dprStartEndDate %}
 
-{% macro dprGranularDateRange(data, parameterPrefix = "filters.", mandatory = false) %}
+{% macro dprGranularDateRange(data, validationErrors, parameterPrefix = "filters.", mandatory = false) %}
   {% set filterId = 'dpr-granular-date-range' %}
   {% set filterName = data.text %}
   {% set fieldName = data.name %}
@@ -79,6 +79,6 @@
     </div>
 
     {# DATEPICKER #}
-    {{ dprStartEndDate(data, mandatory) }}
+    {{ dprStartEndDate(data, mandatory, validationErrors) }}
   </div>
 {% endmacro %}

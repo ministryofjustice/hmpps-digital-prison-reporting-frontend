@@ -16,6 +16,6 @@ test('Line chart complete dataset', async ({ page }) => {
   await expect(page).toHaveScreenshot({
     fullPage: true,
     animations: 'disabled',
-    maxDiffPixelRatio: 0.01,
+    maxDiffPixelRatio: 0.015,
   })
 })

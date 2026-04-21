@@ -1,10 +1,11 @@
 import { RequestHandler } from 'express'
 import ErrorHandler from '../../../../../utils/ErrorHandler/ErrorHandler'
 import { Services } from '../../../../../types/Services'
-import SyncReportUtils from './utils'
 import { FiltersType } from '../../../../../components/_filters/filtersTypeEnum'
 import PersonalisationUtils from '../../../../../utils/Personalisation/personalisationUtils'
 import ViewReportUtils from '../../utils'
+import { LoadType } from '../../../../../types/UserReports'
+import { renderReport } from './utils'
 
 class ViewSyncReportController {
   layoutPath: string
@@ -18,10 +19,21 @@ class ViewSyncReportController {
 
   GET: RequestHandler = async (req, res, next) => {
     try {
-      const renderData = await SyncReportUtils.getReport({ req, res, services: this.services })
+      // Redirect the same path to attach query string
+      if (ViewReportUtils.redirectWithDefaults(res, req)) {
+        return
+      }
+
+      // Get the validation errors
+      const validationErrors = res.locals['validationErrors'] || []
+
+      // Render the report
+      const renderData = await renderReport({ req, res, services: this.services })
+
       res.render(`dpr/routes/journeys/view-report/report`, {
         layoutPath: this.layoutPath,
         ...renderData,
+        validationErrors,
       })
     } catch (error) {
       req.body ??= {}
@@ -31,6 +43,10 @@ class ViewSyncReportController {
       next(error)
     }
   }
+
+  // -----------------------------
+  //  Save Defaults
+  // -----------------------------
 
   saveDefaultFilterValues: RequestHandler = async (req, res, next) => {
     try {
@@ -60,12 +76,56 @@ class ViewSyncReportController {
     }
   }
 
+  // -----------------------------
+  //  Filters
+  // -----------------------------
+
   applyFilters: RequestHandler = async (req, res, _next) => {
-    await ViewReportUtils.applyReportInteractiveQuery(req, res, this.services, 'filters')
+    await ViewReportUtils.applyReportInteractiveQuery(req, res, this.services, 'filters', LoadType.SYNC)
   }
 
+  resetFilters: RequestHandler = async (req, res, next) => {
+    try {
+      const { id, reportId } = req.params as { id: string; reportId: string }
+      const sessionKey = { id, reportId }
+      await ViewReportUtils.resetFilters(req, res, sessionKey)
+    } catch (error) {
+      req.body = {
+        title: 'Failed to reset filters',
+        error: new ErrorHandler(error).formatError(),
+        ...(req.body && { ...req.body }),
+      }
+      next(error)
+    }
+  }
+
+  // -----------------------------
+  //  Columns
+  // -----------------------------
+
   applyColumns: RequestHandler = async (req, res, _next) => {
-    await ViewReportUtils.applyReportInteractiveQuery(req, res, this.services, 'columns')
+    await ViewReportUtils.applyReportInteractiveQuery(req, res, this.services, 'columns', LoadType.SYNC)
+  }
+
+  resetColumns: RequestHandler = async (req, res, next) => {
+    try {
+      const { id, reportId } = req.params as { id: string; reportId: string; tableId: string }
+
+      // Create the final querystring
+      const finalQuery = ViewReportUtils.resetColumnsQueryString(req, { id, reportId })
+
+      // Redirect with new query string - query string will handle all rendered elements
+      if (finalQuery) {
+        res.redirect(`${req.baseUrl}?${finalQuery}`)
+      }
+    } catch (error) {
+      req.body = {
+        title: 'Failed to reset filters',
+        error: new ErrorHandler(error).formatError(),
+        ...(req.body && { ...req.body }),
+      }
+      next(error)
+    }
   }
 }
 

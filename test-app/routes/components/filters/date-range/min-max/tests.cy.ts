@@ -1,7 +1,11 @@
-import { checkA11y } from "cypress-tests/cypressUtils"
+import { checkA11y, stubDefinitionsTasks } from 'cypress-tests/cypressUtils'
 
 context('Inputs: date range with min and max', () => {
   const path = '/components/filters/date-range/min-max-date-range'
+
+  before(() => {
+    stubDefinitionsTasks()
+  })
 
   it('is accessible', () => {
     cy.visit(path)
@@ -13,16 +17,17 @@ context('Inputs: date range with min and max', () => {
     cy.location().should((location) => {
       expect(location.search).to.contain(`filters.date-range-min-max.start=2003-02-01`)
     })
-    const selectedFilters = cy.get('#dpr-selected-filters').children()
-    selectedFilters.each((filter, index) => {
-      switch (index) {
-        case 0:
-          cy.wrap(filter).contains('Date-range, with min and max start')
-          cy.wrap(filter).contains('01/02/2003')
-          break
-        default:
-          break
-      }
+    cy.findByLabelText(/Selected filters.*/i).within(() => {
+      cy.findAllByRole('button').each((filter, index) => {
+        switch (index) {
+          case 0:
+            cy.wrap(filter).contains('Date-range, with min and max')
+            cy.wrap(filter).contains('01/02/2003 - 04/05/2007')
+            break
+          default:
+            break
+        }
+      })
     })
   }
 
@@ -32,11 +37,11 @@ context('Inputs: date range with min and max', () => {
       expect(location.search).to.contain(`filters.date-range-min-max.end=2007-05-04`)
     })
     cy.findByLabelText(/Selected filters.*/i).within(() => {
-      cy.findAllByRole('link').each((filter, index) => {
+      cy.findAllByRole('button').each((filter, index) => {
         switch (index) {
           case 0:
-            cy.wrap(filter).contains('Date-range, with min and max end')
-            cy.wrap(filter).contains('04/05/2007')
+            cy.wrap(filter).contains('Date-range, with min and max')
+            cy.wrap(filter).contains('01/02/2003 - 04/05/2007')
             break
           default:
             break
@@ -66,11 +71,11 @@ context('Inputs: date range with min and max', () => {
         expect(location.search).to.contain(`filters.date-range-min-max.start=2004-06-03`)
       })
       cy.findByLabelText(/Selected filters.*/i).within(() => {
-        cy.findAllByRole('link').each((filter, index) => {
+        cy.findAllByRole('button').each((filter, index) => {
           switch (index) {
             case 0:
-              cy.wrap(filter).contains('Date-range, with min and max start')
-              cy.wrap(filter).contains('03/06/2004')
+              cy.wrap(filter).contains('Date-range, with min and max')
+              cy.wrap(filter).contains('03/06/2004 - 04/05/2007')
               break
             default:
               break
@@ -85,11 +90,11 @@ context('Inputs: date range with min and max', () => {
         expect(location.search).to.contain(`filters.date-range-min-max.end=2005-11-06`)
       })
       cy.findByLabelText(/Selected filters.*/i).within(() => {
-        cy.findAllByRole('link').each((filter, index) => {
+        cy.findAllByRole('button').each((filter, index) => {
           switch (index) {
             case 0:
-              cy.wrap(filter).contains('Date-range, with min and max end')
-              cy.wrap(filter).contains('06/11/2005')
+              cy.wrap(filter).contains('Date-range, with min and max')
+              cy.wrap(filter).contains('01/02/2003 - 06/11/2005')
               break
             default:
               break

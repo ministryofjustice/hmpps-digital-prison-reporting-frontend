@@ -26,14 +26,15 @@
   }) }}
 
   {{ dprFiltersHelp(saveDefaultsEnabled) }}
- 
+  
   {{ dprAsyncFiltersForm({ 
     filters: filtersData.filters,
     selectedFilters: selectedFilters, 
     sortBy: filtersData.sortBy, 
     data: reportData, 
     endpoint: postEndpoint,
-    type: type,
-    saveDefaultsEnabled: saveDefaultsEnabled
+    type: reportData.type,
+    saveDefaultsEnabled: saveDefaultsEnabled,
+    validationErrors: validationErrors
   }) }}
 {% endblock %}

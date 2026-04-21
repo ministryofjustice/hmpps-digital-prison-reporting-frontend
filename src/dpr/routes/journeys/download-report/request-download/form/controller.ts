@@ -19,8 +19,12 @@ class RequestDownloadController {
   GET: RequestHandler = async (req, res, next) => {
     const { token, csrfToken, definitionsPath, dprUser } = LocalsHelper.getValues(res)
     const { reportId, variantId, tableId } = req.params as Record<string, string>
+
     const loadType = tableId ? LoadType.ASYNC : LoadType.SYNC
     const currentReportUrl = getActiveJourneyValue(req, { id: variantId, reportId, tableId }, 'currentReportUrl')
+
+    // Get the validation errors
+    const validationErrors = res.locals['validationErrors'] || []
 
     const variantData: components['schemas']['SingleVariantReportDefinition'] =
       await this.services.reportingService.getDefinition(
@@ -47,6 +51,7 @@ class RequestDownloadController {
           time: new Date().toDateString(),
           reportUrl: currentReportUrl,
         },
+        validationErrors,
         csrfToken,
         layoutPath: this.layoutPath,
       })

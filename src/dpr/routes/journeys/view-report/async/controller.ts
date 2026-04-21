@@ -32,8 +32,8 @@ class AsyncController {
 
   saveDefaultFilterValues: RequestHandler = async (req, res, next) => {
     try {
-      PersonalisationUtils.saveDefaults(FiltersType.INTERACTIVE, res, req, this.services)
-      res.redirect(`${req.baseUrl}?defaultsSaved=true`)
+      await PersonalisationUtils.saveDefaults(FiltersType.INTERACTIVE, res, req, this.services)
+      res.redirect(req.baseUrl)
     } catch (error) {
       req.body = {
         title: 'Failed to save defaults',
@@ -46,7 +46,7 @@ class AsyncController {
 
   removeDefaultFilterValues: RequestHandler = async (req, res, next) => {
     try {
-      PersonalisationUtils.removeDefaults(FiltersType.INTERACTIVE, res, req, this.services)
+      await PersonalisationUtils.removeDefaults(FiltersType.INTERACTIVE, res, req, this.services)
       res.redirect(req.baseUrl)
     } catch (error) {
       req.body = {

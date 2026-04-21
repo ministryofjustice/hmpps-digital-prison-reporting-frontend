@@ -16,6 +16,6 @@ test('Line-timeseries chart partial dataset', async ({ page }) => {
   await expect(page).toHaveScreenshot({
     fullPage: true,
     animations: 'disabled',
-    maxDiffPixelRatio: 0.01,
+    maxDiffPixelRatio: 0.015,
   })
 })

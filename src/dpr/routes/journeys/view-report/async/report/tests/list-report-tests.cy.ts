@@ -66,21 +66,18 @@ context('Viewing a report', () => {
                           cy.wrap(item).contains('Field 1: value1.2')
                           break
                         case 1:
-                          cy.wrap(item).contains('Field 3 start: 01/02/2003')
+                          cy.wrap(item).contains('Field 3: 01/02/2003 - 04/05/2006')
                           break
                         case 2:
-                          cy.wrap(item).contains('Field 3 end: 04/05/2006')
-                          break
-                        case 3:
                           cy.wrap(item).contains('Field 7: 01/02/2005')
                           break
-                        case 4:
+                        case 3:
                           cy.wrap(item).contains('Field 8: value8.2,value8.3')
                           break
-                        case 5:
+                        case 4:
                           cy.wrap(item).contains('Sort column: Field 1')
                           break
-                        case 6:
+                        case 5:
                           cy.wrap(item).contains('Sort direction: Ascending')
                           break
                         default:
@@ -282,7 +279,7 @@ context('Viewing a report', () => {
           .contains(/Show columns/)
           .click()
 
-        cy.findByRole('link', { name: 'Reset columns' }).click()
+        cy.findByRole('button', { name: 'Reset columns' }).click()
 
         expectInitialisedColumns()
       })

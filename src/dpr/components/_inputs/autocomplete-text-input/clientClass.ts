@@ -31,7 +31,7 @@ class Autocomplete extends DprClientClass {
     this.getElement()
       .querySelectorAll('.autocomplete-text-input-list-button')
       .forEach((button) => {
-        button.addEventListener('click', (event) => {
+        button.addEventListener('mousedown', (event) => {
           this.onOptionClick(event, textInput, this.getElement())
         })
       })
@@ -118,7 +118,10 @@ class Autocomplete extends DprClientClass {
 
   onOptionClick(event, textInput, topLevelElement) {
     event.preventDefault()
-    this.setValue(textInput, event.target.innerText.trim(), event.target.dataset.staticOptionNameValue)
+
+    const button = event.currentTarget.closest('button')
+    this.setValue(textInput, button.innerText.trim(), button.dataset.staticOptionNameValue)
+
     topLevelElement.querySelectorAll('li').forEach((item) => {
       item.classList.add('autocomplete-text-input-item-hide')
     })
@@ -142,7 +145,7 @@ class Autocomplete extends DprClientClass {
     this.getElement().querySelector(this.listParentSelector).appendChild(item)
 
     if (clickEvent) {
-      item.addEventListener('click', (event) => {
+      item.addEventListener('mousedown', (event) => {
         clickEvent(event)
       })
     }

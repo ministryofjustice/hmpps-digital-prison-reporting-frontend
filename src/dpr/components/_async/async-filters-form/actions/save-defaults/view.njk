@@ -1,10 +1,13 @@
-{% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/details/macro.njk" import govukDetails %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
 
-{% macro dprFiltersSaveDefaults(formId, action, hasDefaults, defaultsSaved) %}
-
+{% macro dprAsyncFiltersSaveDefaults(reportType, hasDefaults) %}
   <div class="dpr-save-defaults-action">
+    {% set classes = 'dpr-clear-button-styles govuk-link govuk-link--no-visited-state govuk-!-margin-bottom-2 govuk-!-margin-right-2' %}
     {% set text = 'Save current filter values as defaults' %}
+    {% set submitAction = './' + reportType + '/save-defaults'  %}
+    {% set removeAction = './' + reportType + '/remove-defaults' %}
+    
     {% if hasDefaults %}
       <p class="govuk-body-xs govuk-!-margin-bottom-2">Your saved default filter values have been applied to this form.</p>
       {% set text = 'Update defaults' %}
@@ -12,28 +15,21 @@
 
     {{ govukButton({
       text: text,
-      classes: "govuk-button--secondary",
+      classes: classes,
       attributes: {
-        id: 'dpr-save-user-defaults',
-        form: formId,
-        formaction: action + '/save-defaults'
+        formaction: submitAction
       }
     }) }}
-    
+
     {% if hasDefaults %}
       {{ govukButton({
         text: 'Delete defaults',
-        classes: "govuk-button--secondary",
+        classes: classes,
         attributes: {
-          id: 'dpr-remove-user-defaults',
-          form: formId,
-          formaction: action + '/remove-defaults'
+          formaction: removeAction
         }
       }) }}
     {% endif %}
 
-    {% if defaultsSaved %}
-      <p class="govuk-body-s dpr-default-saved">Defaults saved!</p>
-    {% endif %}
   </div>
 {% endmacro %}

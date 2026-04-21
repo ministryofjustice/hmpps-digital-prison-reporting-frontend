@@ -5,7 +5,9 @@
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 {% from "govuk/components/warning-text/macro.njk" import govukWarningText %}
 
-{% macro dprDownloadRequestForm(user, report, csrfToken) %}
+{% from "../../../../../components/validation-summary/view.njk" import dprValidationSummary %}
+
+{% macro dprDownloadRequestForm(user, report, validationErrors, csrfToken) %}
   {% set name = user.displayName %}
   {% set staffId = user.staffId %}
   {% set activeCaseLoadId = user.activeCaseLoadId %}
@@ -21,21 +23,15 @@
   {% set reportSearch = report.reportSearch %}
   {% set csrfToken = csrfToken %}
 
-  <div class="dpr-download-feedback-form-wrapper" data-dpr-module="dpr-generic-form">
+  {{ dprValidationSummary(validationErrors, 'There is a problem') }}
 
-    <form method="post" id="dpr-form" class="dpr-form--hidden">
+  <div class="dpr-download-feedback-form-wrapper">
+    <form method="post" novalidate>
 
       <p>To enable downloads for this report (<strong>{{ reportName}} - {{ variantName }}</strong>), take a few moments to fill out this request form.</p><p>Once you have submitted the form you the download button will be enabled immediately.</p>
 
       <h2 class="govuk-heading-m">Help us improve our service</h2>
       <p>We would like to understand more about your reasons for downloading this report. The more detail you provide, the better we can understand how to improve our service and offer features that meet your needs.</p>
-
-      <div id="dpr-form-summary--error-summary" class="query-error-summary query-error-summary--hidden">
-        {{ govukErrorSummary({
-          titleText: "There is a problem",
-          errorList: []
-        }) }}
-      </div>
 
       <input type="hidden" name="_csrf" value="{{ csrfToken }}">
       <input type="hidden" name="reportId" value="{{ reportId }}">
@@ -59,9 +55,7 @@
           text: 'What is your Job title?'
         },
         classes: "govuk-!-width-one-third",
-        errorMessage: {
-          text: "Enter your Job title"
-        },
+        errorMessage: validationErrors | dpr.findError('role'),
         attributes: {
           required: true
         }
@@ -105,7 +99,7 @@
 
       {{ govukTextarea({
         name: "moreDetail",
-        id: "more-detail",
+        id: "moreDetail",
         rows: "8",
         classes: "govuk-!-width-three-quarters",
         label: {
@@ -116,9 +110,7 @@
         hint: {
           text: "In your own words describe how you will use this data once it's downloaded."
         },
-        errorMessage: {
-          text: "provide information on how you will use this data"
-        },
+        errorMessage: validationErrors | dpr.findError('moreDetail'),
         attributes: {
           required: true
         }

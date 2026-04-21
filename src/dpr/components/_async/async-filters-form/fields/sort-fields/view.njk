@@ -1,0 +1,7 @@
+{% from "../../../../_filters/filter-input/view.njk" import dprFilterInput %}
+
+{% macro dprAsyncSortFormFields(sortBy, validationErrors) %}
+  {% for option in sortBy %}
+    {{ dprFilterInput(option, validationErrors, '') }}
+  {% endfor %}
+{% endmacro %}

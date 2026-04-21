@@ -1,5 +1,13 @@
 Below you can find the changes included in each release.
 
+## 5.10.0
+
+- Feature update: Download filtered dataset
+- Filters update: Server side input validation for all filter forms
+- Filters update: Reset button are post requests
+- Bugfix: US formatted dates (MM/DD/YYYY) fixed to correct format (DD/MM/YYYY)
+- Bugfix: Request correct data on first load
+
 ## 5.9.0
 
 - Decreased polling frequency from 1s -> 3s for /status endpoint when polling for report status

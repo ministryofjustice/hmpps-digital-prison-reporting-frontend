@@ -177,7 +177,7 @@ class ReportingClient {
     return this.restClient.getStream(
       {
         path: `/${resourceName}/download`,
-        query: query,
+        query,
         token,
       },
       res,

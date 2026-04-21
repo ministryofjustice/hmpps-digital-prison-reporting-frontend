@@ -1,5 +1,3 @@
-import { LoadType, ReportType } from '../../../../types/UserReports'
-
 export interface DownloadActionParams {
   enabled: boolean
   canDownload: boolean

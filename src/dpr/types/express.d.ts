@@ -1,4 +1,4 @@
-import { ActiveReportSessionData, ActiveReportSession } from './ActiveReportSession'
+import { ActiveReportSessionData } from './ActiveReportSession'
 import { ExtraLocals } from './extraLocals'
 import 'express-session'
 

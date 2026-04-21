@@ -1,6 +1,6 @@
 import type { Request } from 'express'
 import logger from './logger'
-import { ActiveReportSessionData, ActiveReportSession } from '../types/ActiveReportSession'
+import { ActiveReportSessionData } from '../types/ActiveReportSession'
 import { queryObjectToQs } from './queryMappers'
 
 /**
@@ -67,6 +67,15 @@ export function getActiveJourneyValue<F extends keyof ActiveReportSessionData>(
   return value
 }
 
+/**
+ * Sets a key value on the active report session
+ *
+ * @template F
+ * @param {Request} req
+ * @param {ActiveJourneyKey} keyParts
+ * @param {F} field
+ * @param {ActiveReportSessionData[F]} value
+ */
 function setActiveJourneyValue<F extends keyof ActiveReportSessionData>(
   req: Request,
   keyParts: ActiveJourneyKey,
@@ -75,16 +84,22 @@ function setActiveJourneyValue<F extends keyof ActiveReportSessionData>(
 ): void {
   if (!req.session) return
 
-  const store = (req.session.activeReport ??= {})
-  const { reportId, id, executionId, tableId } = keyParts
+  if (!req.session.activeReport) {
+    req.session.activeReport = {}
+  }
+  const store = req.session.activeReport
 
+  const { reportId, id, executionId, tableId } = keyParts
   const baseKey = buildJourneyKey({ reportId, id })
   const execKey = executionId ? buildJourneyKey({ reportId, id, executionId }) : undefined
   const tableKey = tableId ? buildJourneyKey({ reportId, id, tableId }) : undefined
 
   const targetKey = tableKey ?? execKey ?? baseKey
 
-  store[targetKey] ??= {}
+  if (!store[targetKey]) {
+    store[targetKey] = {}
+  }
+
   store[targetKey][field] = value
 }
 

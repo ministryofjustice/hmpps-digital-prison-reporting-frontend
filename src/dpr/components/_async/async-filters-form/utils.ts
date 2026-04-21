@@ -96,7 +96,7 @@ export const buildSortData = (body: Record<string, unknown>): Record<string, str
   const rawColumns = body['sortColumn']
 
   if (rawColumns == null || rawColumns === '') {
-    return
+    return undefined
   }
 
   const columns = Array.isArray(rawColumns)
@@ -104,7 +104,7 @@ export const buildSortData = (body: Record<string, unknown>): Record<string, str
     : [String(rawColumns)]
 
   if (columns.length === 0) {
-    return {}
+    return undefined
   }
 
   const direction = body['sortedAsc'] === 'false' ? 'false' : 'true'

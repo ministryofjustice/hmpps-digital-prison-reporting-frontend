@@ -51,9 +51,6 @@ class ViewAyncReportController {
         next,
       })
 
-      console.log('################################', 'GET')
-      console.log(JSON.stringify(renderData, null, 2))
-
       // Render the report
       res.render(`dpr/routes/journeys/view-report/report`, {
         layoutPath: this.layoutPath,

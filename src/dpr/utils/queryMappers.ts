@@ -191,7 +191,10 @@ export const formBodyToQs = (body: Record<string, unknown>, exclude: Set<string>
 }
 
 /**
- * converts a form body to query object
+ * Converts a form body to an API query object
+ * - Excludes specified keys
+ * - Drops null / empty values
+ * - Collapses arrays to CSV (BE contract)
  *
  * @param {Record<string, unknown>} body
  * @return {*}  {(Record<string, string | string[]>)}
@@ -206,9 +209,11 @@ export const formBodyToQueryObject = (
 
     if (Array.isArray(value)) {
       const values = value.filter((v) => v != null && v !== '').map((v) => normaliseUiDateIfPresent(String(v)))
+
       if (values.length > 0) {
         acc[key] = values.join(',')
       }
+
       return acc
     }
 

@@ -156,7 +156,6 @@ class ReportingClient {
     res: Response,
   ): Promise<void> {
     this.logInfo('Streaming download data', { reportId, variantId, tableId })
-
     return this.restClient.getStream(
       {
         path: `/reports/${reportId}/${variantId}/tables/${tableId}/download`,

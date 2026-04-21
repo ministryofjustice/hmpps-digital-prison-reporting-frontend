@@ -1,61 +1,40 @@
 import { components } from 'src/dpr/types/api'
 
-export const featureTestingInteractive: components['schemas']['VariantDefinition'] = {
-  id: 'feature-testing-interactive',
-  name: 'Interactive Report',
-  description: 'this is an interactive report',
+export const featureTestingInteractiveDownload: components['schemas']['VariantDefinition'] = {
+  id: 'feature-testing-interactive-download',
+  name: 'Interactive Download Report',
+  description: 'This is an interactive report for download testing',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
   printable: false,
   interactive: true,
   specification: {
-    sections: [],
+    sections: ['field1', 'field2'],
     template: 'list',
     fields: [
       {
         name: 'field1',
         display: 'Field 1',
         sortable: true,
-        defaultsort: true,
+        defaultsort: false,
         type: 'string',
         mandatory: false,
-        visible: true,
+        visible: false,
         calculated: false,
         header: false,
         fieldSource: 'specfield',
-        filter: {
-          type: 'Radio',
-          staticOptions: [
-            { name: 'value1.1', display: 'Value 1.1' },
-            { name: 'value1.2', display: 'Value 1.2' },
-            { name: 'value1.3', display: 'Value 1.3' },
-          ],
-          defaultValue: 'value1.2',
-          mandatory: false,
-          interactive: true,
-        },
       },
       {
         name: 'field2',
         display: 'Field 2',
         sortable: true,
         type: 'string',
-        mandatory: true,
-        visible: true,
+        mandatory: false,
+        visible: false,
         calculated: false,
         header: false,
         defaultsort: false,
         fieldSource: 'specfield',
-        filter: {
-          type: 'Select',
-          staticOptions: [
-            { name: 'value2.1', display: 'Value 2.1' },
-            { name: 'value2.2', display: 'Value 2.2' },
-            { name: 'value2.3', display: 'Value 2.3' },
-          ],
-          mandatory: false,
-          interactive: true,
-        },
       },
       {
         name: 'field3',
@@ -71,8 +50,6 @@ export const featureTestingInteractive: components['schemas']['VariantDefinition
         filter: {
           type: 'daterange',
           defaultValue: '2003-02-01 - 2006-05-04',
-          // min: '2003-02-01',
-          // max: '2007-05-04',
           mandatory: false,
           interactive: true,
         },
@@ -86,8 +63,8 @@ export const featureTestingInteractive: components['schemas']['VariantDefinition
         calculated: false,
         header: false,
         defaultsort: false,
-        fieldSource: 'specfield',
         mandatory: false,
+        fieldSource: 'specfield',
         filter: {
           type: 'autocomplete',
           dynamicOptions: {
@@ -119,13 +96,14 @@ export const featureTestingInteractive: components['schemas']['VariantDefinition
       {
         name: 'field6',
         display: 'Field 6',
-        sortable: false,
+        sortable: true,
         type: 'HTML',
         mandatory: true,
         visible: true,
         calculated: false,
         header: false,
-        defaultsort: false,
+        defaultsort: true,
+        sortDirection: 'desc',
         fieldSource: 'specfield',
         filter: {
           mandatory: false,
@@ -143,13 +121,7 @@ export const featureTestingInteractive: components['schemas']['VariantDefinition
         calculated: false,
         header: false,
         defaultsort: false,
-        fieldSource: 'specfield',
-        filter: {
-          mandatory: false,
-          type: 'date',
-          defaultValue: '2005-02-01',
-          interactive: true,
-        },
+        fieldSource: 'paramfield',
       },
       {
         name: 'field8',

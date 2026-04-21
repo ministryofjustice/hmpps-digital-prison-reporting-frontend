@@ -62,6 +62,15 @@ export const requestReport = async ({
   cy.findByRole('heading', { level: 1, name: regexName }).should('be.visible')
 }
 
+export const enableDownload = () => {
+  cy.findByLabelText(/Enable download/).click()
+  cy.findByRole('link', { name: 'Fill out a form' }).click()
+  cy.findByRole('textbox', { name: 'What is your Job title?' }).type('Software engineer')
+  cy.findByRole('textbox', { name: 'Can you provide more detail' }).type('I like this report')
+  cy.findByRole('button', { name: 'Submit request' }).click()
+  cy.findByRole('link', { name: /Return to report to download/ }).click()
+}
+
 export const executeReportStubs = (resetRedis: boolean = true) => {
   stubBaseTasks(resetRedis)
   stubDefinitionsTasks()

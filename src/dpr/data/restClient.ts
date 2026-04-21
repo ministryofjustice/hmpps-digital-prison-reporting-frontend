@@ -62,6 +62,8 @@ class RestClient {
       }
     })
 
+    console.log('####### =>', url)
+
     const client = url.protocol === 'https:' ? https : http
 
     const req = client.request(

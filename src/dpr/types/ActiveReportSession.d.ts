@@ -1,6 +1,6 @@
 import { LoadType } from './UserReports'
 
-export interface AcitveReportSessionData {
+export interface ActiveReportSessionData {
   id: string
   reportId: string
   tableId?: string
@@ -25,13 +25,16 @@ export interface AcitveReportSessionData {
   defaultSortQueryString?: string | undefined
   interactiveDefaultFiltersSearch?: string | undefined
 
+  // Pre-request
+  requestedSortSearch?: string | undefined
+
   // Saved defaults
   savedRequestDefaultsSearch?: string | undefined
   savedInteractiveDefaultsSearch?: string | undefined
 }
 
 export interface ActiveReportSession {
-  [index: string]: AcitveReportSessionData
+  [index: string]: ActiveReportSessionData
 }
 
 export interface ActiveReportsSession {

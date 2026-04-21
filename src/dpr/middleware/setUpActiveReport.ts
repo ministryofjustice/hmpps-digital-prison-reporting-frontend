@@ -5,7 +5,7 @@ import { BookmarkService, DefaultFilterValuesService, DownloadPermissionService 
 import { setNestedPath } from '../utils/urlHelper'
 import { qsToQueryObject, queryObjectToQs } from '../utils/queryMappers'
 import { LoadType, ReportType } from '../types/UserReports'
-import { AcitveReportSessionData } from '../types/ActiveReportSession'
+import { ActiveReportSessionData } from '../types/ActiveReportSession'
 import LocalsHelper from '../utils/localsHelper'
 import {
   getDefaultColumnsQueryString,
@@ -105,7 +105,7 @@ const buildDataConfiguration = async (req: Request, res: Response, services: Ser
 
   // -------------- Prepare Data Payloads -------------------
 
-  const baseData: Partial<AcitveReportSessionData> = {
+  const baseData: Partial<ActiveReportSessionData> = {
     id,
     reportId,
     reportIsBookmarked,
@@ -123,8 +123,8 @@ const buildDataConfiguration = async (req: Request, res: Response, services: Ser
     })
   }
 
-  const execData: Partial<AcitveReportSessionData> | undefined = executionId ? { executionId } : undefined
-  const tableData: Partial<AcitveReportSessionData> | undefined = tableId
+  const execData: Partial<ActiveReportSessionData> | undefined = executionId ? { executionId } : undefined
+  const tableData: Partial<ActiveReportSessionData> | undefined = tableId
     ? {
         tableId,
         ...(executionId && { executionId }),

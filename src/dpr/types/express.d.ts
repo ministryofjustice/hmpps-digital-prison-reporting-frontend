@@ -1,4 +1,4 @@
-import { ActiveReportSession } from './ActiveReportSession'
+import { ActiveReportSessionData } from './ActiveReportSession'
 import { ExtraLocals } from './extraLocals'
 import 'express-session'
 
@@ -11,6 +11,6 @@ declare global {
 
 declare module 'express-session' {
   interface SessionData {
-    activeReport?: ActiveReportSession
+    activeReport?: Record<string, Partial<ActiveReportSessionData>>
   }
 }

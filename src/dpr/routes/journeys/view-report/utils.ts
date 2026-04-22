@@ -233,17 +233,23 @@ const resetColumnsQueryString = (
  * @return {*}  {(string | undefined)}
  */
 const createDefaultQueryString = (req: Request): string | undefined => {
-  const { id, reportId } = req.params as {
+  const { id, reportId, tableId } = req.params as {
     id: string
     reportId: string
     tableId: string
   }
 
-  // Get the report defaults
+  // Get the interactive report defaults
   const sessionKey = { id, reportId }
+
+  // Definition defaults
   const defaultFiltersSearch = getActiveJourneyValue(req, sessionKey, 'interactiveDefaultFiltersSearch')
   const defaultColumnsSearch = getActiveJourneyValue(req, sessionKey, 'defaultColumnsSearch')
+  const defaultSort = getActiveJourneyValue(req, sessionKey, 'defaultSortQueryString')
+
+  // User defined values
   const savedInteractiveDefaultsSearch = getActiveJourneyValue(req, sessionKey, 'savedInteractiveDefaultsSearch')
+  const requestedSort = getActiveJourneyValue(req, { id, reportId, tableId }, 'requestedSortSearch')
 
   /**
    * A report will always have default columns.
@@ -255,12 +261,24 @@ const createDefaultQueryString = (req: Request): string | undefined => {
     return undefined
   }
 
+  // Filters: saved defaults override interactive default
   const filtersToApply =
     savedInteractiveDefaultsSearch && savedInteractiveDefaultsSearch.length
       ? savedInteractiveDefaultsSearch
       : defaultFiltersSearch
 
-  return filtersToApply ? joinQueryStrings(defaultColumnsSearch, filtersToApply) : defaultColumnsSearch
+  // Sort precedence: requested > default > none
+  const sortToApply = requestedSort ?? defaultSort
+
+  // Build the query string progressively
+  let query = defaultColumnsSearch
+  if (filtersToApply) {
+    query = joinQueryStrings(query, filtersToApply)
+  }
+  if (sortToApply) {
+    query = joinQueryStrings(query, sortToApply)
+  }
+  return query
 }
 
 /**

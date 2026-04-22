@@ -80,10 +80,10 @@ class ReportingService {
   async downloadSyncReport(
     token: string,
     resourceName: string,
-    reportQuery: ReportQuery,
+    query: Record<string, string | string[]>,
     res: Response,
   ): Promise<void> {
-    return this.reportingClient.downloadSyncReport(token, resourceName, reportQuery, res)
+    return this.reportingClient.downloadSyncReport(token, resourceName, query, res)
   }
 
   async getAsyncReport(

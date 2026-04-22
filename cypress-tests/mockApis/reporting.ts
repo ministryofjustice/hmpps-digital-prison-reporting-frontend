@@ -28,6 +28,7 @@ import {
   requestAsyncReportBadDataMock,
   setupSimpleReportDefinitionResponseMock,
   getAsyncSummaryReport,
+  getInteractiveReportDownloadMock,
 } from '@networkMocks/report/mocks'
 import { generateIndividualDefinitionSummaries, getDefinitionSummaries, pollingEndpoint } from '@networkMocks/mocks'
 import { generateNetworkMock, stubFor } from '@networkMocks/generateNetworkMock'
@@ -51,6 +52,7 @@ import reportTemplateExampleSummarySection from '@networkMocks/report/mockVarian
 import multiselectExample from '@networkMocks/report/mockVariants/filter-input-examples/multiselect'
 import { getFlagsMockDisabled, getFlagsMockEmpty, getFlagsMockEnabled } from '@networkMocks/featureFlags/mocks'
 import { listSectionData } from '@networkMocks/report/mockVariants/data/list-section'
+import { featureTestingInteractiveDownload } from '@networkMocks/report/mockVariants/feature-testing/download'
 
 export const stubs = {
   stubGetFeatureTestingMissing: () =>
@@ -111,6 +113,8 @@ export const stubs = {
     stubFor(setupSimpleReportDefinitionResponseMock('request-examples', requestExampleFailStatus)),
   stubDefinitionFeatureTestingInteractive: () =>
     stubFor(setupSimpleReportDefinitionResponseMock('feature-testing', featureTestingInteractive)),
+  stubDefinitionFeatureTestingInteractiveDownload: () =>
+    stubFor(setupSimpleReportDefinitionResponseMock('feature-testing', featureTestingInteractiveDownload)),
   stubDefinitionFeatureTestingMissingDesc: () =>
     stubFor(setupSimpleReportDefinitionResponseMock('feature-testing', featureTestingMissingDescription)),
   stubDefinitionMockReportVariant35: () =>
@@ -677,6 +681,7 @@ export const stubs = {
   stubMissingRequestSubmitSuccess: () => stubFor(missingReportSubmitSuccessMock),
   stubMissingRequestSubmitFail: () => stubFor(missingReportSubmitFailMock),
   stubAsyncReportDownload: () => stubFor(getAsyncReportDownloadMock),
+  stubAsyncInteractiveReportDownload: () => stubFor(getInteractiveReportDownloadMock),
   stubSyncReportDownload: () => stubFor(getSyncReportDownloadMock),
   stubDefinitionUnprintable: () =>
     stubFor(setupSimpleReportDefinitionResponseMock(`feature-testing`, featureTestingUnprintable)),

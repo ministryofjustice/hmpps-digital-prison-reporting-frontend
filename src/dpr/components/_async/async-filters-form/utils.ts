@@ -92,11 +92,11 @@ export const buildFilterData = (body: Record<string, unknown>): Record<string, s
  * @param {Record<string, unknown>} body
  * @return {*}  {Record<string, string>}
  */
-export const buildSortData = (body: Record<string, unknown>): Record<string, string> => {
+export const buildSortData = (body: Record<string, unknown>): Record<string, string> | undefined => {
   const rawColumns = body['sortColumn']
 
   if (rawColumns == null || rawColumns === '') {
-    return {}
+    return undefined
   }
 
   const columns = Array.isArray(rawColumns)
@@ -104,7 +104,7 @@ export const buildSortData = (body: Record<string, unknown>): Record<string, str
     : [String(rawColumns)]
 
   if (columns.length === 0) {
-    return {}
+    return undefined
   }
 
   const direction = body['sortedAsc'] === 'false' ? 'false' : 'true'

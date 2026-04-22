@@ -16,16 +16,20 @@ class DownloadReportController {
 
   POST: RequestHandler = async (req, res) => {
     const { dprUser } = LocalsHelper.getValues(res)
-    const { reportId, id, loadType, tableId } = req.body
-    const currentReportSearch = getActiveJourneyValue(req, { id, reportId, tableId }, 'currentReportSearch')
-    const currentReportPathname = getActiveJourneyValue(req, { id, reportId, tableId }, 'currentReportPathname')
+    const { reportId, id, tableId } = req.params as { reportId: string; id: string; tableId?: string }
 
+    const sessionKey = tableId ? { reportId, id, tableId } : { reportId, id }
+    const currentReportSearch = getActiveJourneyValue(req, sessionKey, 'currentReportSearch')
+    const currentReportPathname = getActiveJourneyValue(req, sessionKey, 'currentReportPathname')
+
+    // Initialises the redirect back to the report
     let redirect =
       currentReportPathname && currentReportPathname.includes('/download-disabled')
         ? currentReportPathname
         : `${currentReportPathname}/download-disabled`
     redirect = currentReportSearch ? `${redirect}${currentReportSearch}` : redirect
 
+    // Check if user has enabled the report for download
     const canDownloadReport = await this.services.downloadPermissionService.downloadEnabledForReport(
       dprUser.id,
       reportId,
@@ -33,7 +37,7 @@ class DownloadReportController {
     )
 
     if (canDownloadReport) {
-      await DownloadUtils.downloadReport({ req, res, services: this.services, redirect, loadType })
+      await DownloadUtils.downloadReport({ req, res, services: this.services })
     } else {
       res.redirect(redirect)
     }

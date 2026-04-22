@@ -55,23 +55,6 @@ export interface paths {
     patch?: never
     trace?: never
   }
-  '/reports/{reportId}/{reportVariantId}/{fieldId}': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** @description Returns the dataset for the given report ID and report variant ID filtered by the filters provided in the query. */
-    get: operations['configuredApiDynamicFilter']
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
   '/reports/{reportId}/{reportVariantId}/tables/{tableId}/result': {
     parameters: {
       query?: never
@@ -147,7 +130,8 @@ export interface paths {
       path?: never
       cookie?: never
     }
-    /** @description Returns the status of the statement execution based on the statement ID provided.The following status values can be returned:
+    /**
+     * @description Returns the status of the statement execution based on the statement ID provided.The following status values can be returned:
      *     ABORTED - The query run was stopped by the user.
      *     ALL - A status value that includes all query statuses. This value can be used to filter results.
      *     FAILED - The query run failed.
@@ -158,8 +142,25 @@ export interface paths {
      *     Note: When the status is FAILED the error field of the response will be populated.ResultRows is the number of rows returned from the SQL statement. A -1 indicates the value is null.ResultSize is the size in bytes of the returned results. A -1 indicates the value is null.
      *     For Athena:
      *     Athena automatically retries your queries in cases of certain transient errors. As a result, you may see the query state transition from STARTED or FAILED to SUBMITTED.
-     *      */
+     */
     get: operations['getQueryExecutionStatus']
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/reports/{reportId}/{reportVariantId}/download': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /** @description Streams the entire result set of the sync query execution as a csv file. */
+    get: operations['downloadCsv_1']
     put?: never
     post?: never
     delete?: never
@@ -226,7 +227,8 @@ export interface paths {
       path?: never
       cookie?: never
     }
-    /** @description Returns the status of the dashboard statement execution based on the statement ID provided.The following status values can be returned:
+    /**
+     * @description Returns the status of the dashboard statement execution based on the statement ID provided.The following status values can be returned:
      *     ABORTED - The query run was stopped by the user.
      *     ALL - A status value that includes all query statuses. This value can be used to filter results.
      *     FAILED - The query run failed.
@@ -237,7 +239,7 @@ export interface paths {
      *     Note: When the status is FAILED the error field of the response will be populated.ResultRows is the number of rows returned from the SQL statement. A -1 indicates the value is null.ResultSize is the size in bytes of the returned results. A -1 indicates the value is null.
      *     For Athena:
      *     Athena automatically retries your queries in cases of certain transient errors. As a result, you may see the query state transition from STARTED or FAILED to SUBMITTED.
-     *      */
+     */
     get: operations['getDashboardExecutionStatus']
     put?: never
     post?: never
@@ -390,7 +392,7 @@ export interface paths {
       path?: never
       cookie?: never
     }
-    /** @description Executes asynchronously the dataset query for the given dashboard and stores the result into an external table.The response returned contains the table ID and the execution ID.  */
+    /** @description Executes asynchronously the dataset query for the given dashboard and stores the result into an external table.The response returned contains the table ID and the execution ID. */
     get: operations['asyncExecuteDashboard']
     put?: never
     post?: never
@@ -442,18 +444,18 @@ export interface components {
       /** Format: int32 */
       status: number
       /** Format: int32 */
-      errorCode?: number
-      userMessage?: string
-      developerMessage?: string
-      moreInfo?: string
+      errorCode?: number | null
+      userMessage?: string | null
+      developerMessage?: string | null
+      moreInfo?: string | null
     }
     MissingReportSubmission: {
       userId: string
       reportId: string
       reportVariantId: string
-      reason?: string
+      reason?: string | null
       /** Format: int32 */
-      id?: number
+      id?: number | null
     }
     Count: {
       /**
@@ -464,7 +466,16 @@ export interface components {
       count: number
     }
     StatementExecutionStatus: {
-      /** @description The status of the statement execution. */
+      /**
+       * @description The status of the statement execution.
+       * @example FINISHED
+       * @example SUBMITTED
+       * @example STARTED
+       * @example PICKED
+       * @example FAILED
+       * @example ALL
+       * @example ABORTED
+       */
       status: string
       /**
        * Format: int64
@@ -483,19 +494,22 @@ export interface components {
        * @description The size in bytes of the returned results. A -1 indicates the value is null.
        * @example 0
        */
-      resultSize?: number
+      resultSize?: number | null
       /** @description Contains a short description of the error that occurred. */
-      error?: string
+      error?: string | null
       /**
        * Format: int32
        * @description Specific to Athena queries. An integer value that specifies the category of a query failure error. The following list shows the category for each integer value.
        *     1 - System
        *     2 - User
        *     3 - Other
+       * @example 1
+       * @example 2
+       * @example 3
        */
-      errorCategory?: number
+      errorCategory?: number | null
       /** @description Specific to Athena queries. Further detail about the status of the query. */
-      stateChangeReason?: string
+      stateChangeReason?: string | null
     }
     ProductCollectionSummary: {
       id: string
@@ -516,68 +530,70 @@ export interface components {
     DashboardDefinitionSummary: {
       id: string
       name: string
-      description?: string
-      /** @enum {string} */
-      loadType?: 'sync' | 'async'
+      description?: string | null
+      /** @enum {string|null} */
+      loadType?: 'sync' | 'async' | null
     }
     ReportDefinitionSummary: {
       id: string
       name: string
-      description?: string
+      description?: string | null
       variants: components['schemas']['VariantDefinitionSummary'][]
-      dashboards?: components['schemas']['DashboardDefinitionSummary'][]
+      dashboards?: components['schemas']['DashboardDefinitionSummary'][] | null
       authorised: boolean
     }
     VariantDefinitionSummary: {
       id: string
       name: string
-      description?: string
+      description?: string | null
       isMissing: boolean
-      /** @enum {string} */
-      loadType?: 'sync' | 'async'
+      /** @enum {string|null} */
+      loadType?: 'sync' | 'async' | null
     }
     ChildVariantDefinition: {
       id: string
       name: string
       resourceName: string
-      specification?: components['schemas']['Specification']
+      specification?: components['schemas']['Specification'] | null
       joinFields: string[]
     }
     DynamicFilterOption: {
       /** Format: int32 */
-      minimumLength?: number
+      minimumLength?: number | null
     }
     FieldDefinition: {
       name: string
       display: string
-      /** @enum {string} */
-      wordWrap?: 'none' | 'normal' | 'break-words'
-      filter?: components['schemas']['FilterDefinition']
+      /** @enum {string|null} */
+      wordWrap?: 'none' | 'normal' | 'break-words' | null
+      filter?: components['schemas']['FilterDefinition'] | null
       sortable: boolean
       defaultsort: boolean
-      /** @enum {string} */
-      sortDirection?: 'asc' | 'desc'
+      /** @enum {string|null} */
+      sortDirection?: 'asc' | 'desc' | null
       /** @enum {string} */
       type: 'boolean' | 'date' | 'double' | 'HTML' | 'long' | 'string' | 'time'
       mandatory: boolean
       visible: boolean
       calculated: boolean
       header: boolean
+      /** @enum {string} */
+      fieldSource: 'specfield' | 'paramfield'
     }
     FilterDefinition: {
       /** @enum {string} */
       type: 'Radio' | 'Select' | 'multiselect' | 'daterange' | 'autocomplete' | 'text' | 'date' | 'granulardaterange'
       mandatory: boolean
-      pattern?: string
-      staticOptions?: components['schemas']['FilterOption'][]
-      dynamicOptions?: components['schemas']['DynamicFilterOption']
-      defaultValue?: string
-      min?: string
-      max?: string
-      interactive?: boolean
-      /** @enum {string} */
-      defaultGranularity?: 'hourly' | 'daily' | 'weekly' | 'monthly' | 'quarterly' | 'annually'
-      /** @enum {string} */
+      pattern?: string | null
+      staticOptions?: components['schemas']['FilterOption'][] | null
+      dynamicOptions?: components['schemas']['DynamicFilterOption'] | null
+      defaultValue?: string | null
+      min?: string | null
+      max?: string | null
+      interactive?: boolean | null
+      /** @enum {string|null} */
+      defaultGranularity?: 'hourly' | 'daily' | 'weekly' | 'monthly' | 'quarterly' | 'annually' | null
+      /** @enum {string|null} */
       defaultQuickFilterValue?:
         | 'today'
         | 'yesterday'
@@ -600,8 +616,9 @@ export interface components {
         | 'next-full-three-months'
         | 'next-year'
         | 'next-full-year'
+        | null
       /** Format: int32 */
-      index?: number
+      index?: number | null
     }
     FilterOption: {
       name: string
@@ -616,7 +633,7 @@ export interface components {
     SingleVariantReportDefinition: {
       id: string
       name: string
-      description?: string
+      description?: string | null
       variant: components['schemas']['VariantDefinition']
     }
     Specification: {
@@ -636,71 +653,71 @@ export interface components {
     }
     SummaryField: {
       name: string
-      display?: string
-      /** @enum {string} */
-      type?: 'boolean' | 'date' | 'double' | 'HTML' | 'long' | 'string' | 'time'
-      header?: boolean
-      mergeRows?: boolean
+      display?: string | null
+      /** @enum {string|null} */
+      type?: 'boolean' | 'date' | 'double' | 'HTML' | 'long' | 'string' | 'time' | null
+      header?: boolean | null
+      mergeRows?: boolean | null
     }
     VariantDefinition: {
       id: string
       name: string
       resourceName: string
-      description?: string
-      specification?: components['schemas']['Specification']
-      classification?: string
-      printable?: boolean
-      summaries?: components['schemas']['ReportSummary'][]
-      interactive?: boolean
-      childVariants?: components['schemas']['ChildVariantDefinition'][]
+      description?: string | null
+      specification?: components['schemas']['Specification'] | null
+      classification?: string | null
+      printable?: boolean | null
+      summaries?: components['schemas']['ReportSummary'][] | null
+      interactive?: boolean | null
+      childVariants?: components['schemas']['ChildVariantDefinition'][] | null
     }
     DashboardBucketDefinition: {
       /** Format: int64 */
-      min?: number
+      min?: number | null
       /** Format: int64 */
-      max?: number
-      hexColour?: string
+      max?: number | null
+      hexColour?: string | null
     }
     DashboardDefinition: {
       id: string
       name: string
-      description?: string
+      description?: string | null
       sections: components['schemas']['DashboardSectionDefinition'][]
-      filterFields?: components['schemas']['FieldDefinition'][]
+      filterFields?: components['schemas']['FieldDefinition'][] | null
     }
     DashboardOptionDefinition: {
-      useRagColour?: boolean
-      baseColour?: string
-      buckets?: components['schemas']['DashboardBucketDefinition'][]
-      showLatest?: boolean
-      columnsAsList?: boolean
-      horizontal?: boolean
-      xStacked?: boolean
-      yStacked?: boolean
+      useRagColour?: boolean | null
+      baseColour?: string | null
+      buckets?: components['schemas']['DashboardBucketDefinition'][] | null
+      showLatest?: boolean | null
+      columnsAsList?: boolean | null
+      horizontal?: boolean | null
+      xStacked?: boolean | null
+      yStacked?: boolean | null
       xstacked?: boolean
       ystacked?: boolean
     }
     DashboardSectionDefinition: {
       id: string
-      display?: string
-      description?: string
+      display: string
+      description?: string | null
       visualisations: components['schemas']['DashboardVisualisationDefinition'][]
     }
     DashboardVisualisationColumnDefinition: {
       id: string
-      display?: string
-      /** @enum {string} */
-      aggregate?: 'sum' | 'average'
-      /** @enum {string} */
-      unit?: 'NUMBER' | 'PERCENTAGE'
-      displayValue?: boolean
-      axis?: string
-      optional?: boolean
+      display?: string | null
+      /** @enum {string|null} */
+      aggregate?: 'sum' | 'average' | null
+      /** @enum {string|null} */
+      unit?: 'NUMBER' | 'PERCENTAGE' | null
+      displayValue?: boolean | null
+      axis?: string | null
+      optional?: boolean | null
     }
     DashboardVisualisationColumnsDefinition: {
-      keys?: components['schemas']['DashboardVisualisationColumnDefinition'][]
+      keys?: components['schemas']['DashboardVisualisationColumnDefinition'][] | null
       measures: components['schemas']['DashboardVisualisationColumnDefinition'][]
-      filters?: components['schemas']['ValueVisualisationColumnDefinition'][]
+      filters?: components['schemas']['ValueVisualisationColumnDefinition'][] | null
       expectNulls: boolean
     }
     DashboardVisualisationDefinition: {
@@ -716,21 +733,25 @@ export interface components {
         | 'scorecard-group'
         | 'matrix-timeseries'
         | 'line-timeseries'
-      display?: string
-      description?: string
+      display: string
+      description?: string | null
       columns: components['schemas']['DashboardVisualisationColumnsDefinition']
-      options?: components['schemas']['DashboardOptionDefinition']
+      options?: components['schemas']['DashboardOptionDefinition'] | null
     }
     ValueVisualisationColumnDefinition: {
       id: string
-      equals?: string
+      equals?: string | null
     }
     StatementExecutionResponse: {
       tableId: string
       executionId: string
     }
     StatementCancellationResponse: {
-      /** @description A value that indicates whether the cancel statement succeeded (true). */
+      /**
+       * @description A value that indicates whether the cancel statement succeeded (true).
+       * @example true
+       * @example false
+       */
       cancellationSucceeded: boolean
     }
   }
@@ -895,7 +916,6 @@ export interface operations {
          *           For range filters, like date for instance, these need to be followed by a .start or .end suffix accordingly.
          *           For multiselect filters, these are passed as one query parameter per filter with a comma separated list of values:
          *           filters.someMultiselectFilter=a,b,c
-         *
          * @example {
          *       "filters.date.start": "2023-04-25",
          *       "filters.date.end": "2023-05-30",
@@ -981,110 +1001,6 @@ export interface operations {
       }
     }
   }
-  configuredApiDynamicFilter: {
-    parameters: {
-      query: {
-        pageSize?: number
-        sortedAsc?: boolean
-        /**
-         * @description The filter query parameters have to start with the prefix "filters." followed by the name of the filter.
-         *           For range filters, like date for instance, these need to be followed by a .start or .end suffix accordingly.
-         *           For multiselect filters, these are passed as one query parameter per filter with a comma separated list of values:
-         *           filters.someMultiselectFilter=a,b,c
-         *
-         * @example {
-         *       "filters.date.start": "2023-04-25",
-         *       "filters.date.end": "2023-05-30",
-         *       "filters.someMultiselectFilter": "a,b,c"
-         *     }
-         */
-        filters: {
-          [key: string]: string
-        }
-        /**
-         * @description The value to match the start of the fieldId
-         * @example Lond
-         */
-        prefix: string
-        /**
-         * @description This optional parameter sets the path of the directory of the data product definition files your application will use.
-         *           "This query parameter is intended to be used in conjunction with the `dpr.lib.dataProductDefinitions.host` property to retrieve definition files from another application by using a web client.
-         * @example definitions/prisons/orphanage
-         */
-        dataProductDefinitionsPath?: string
-      }
-      header?: never
-      path: {
-        reportId: string
-        reportVariantId: string
-        /**
-         * @description The name of the schema field which will be used as a dynamic filter.
-         * @example name
-         */
-        fieldId: string
-      }
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Bad Request */
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponse']
-        }
-      }
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponse']
-        }
-      }
-      /** @description Gone */
-      410: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponse']
-        }
-      }
-      /** @description Too Many Requests */
-      429: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponse']
-        }
-      }
-      /** @description Internal Server Error */
-      500: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponse']
-        }
-      }
-      /** @description default response */
-      default: {
-        headers: {
-          /** @description Provides additional information about why no data has been returned. */
-          'x-no-data-warning'?: string
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': string[]
-        }
-      }
-    }
-  }
   getQueryExecutionResult: {
     parameters: {
       query: {
@@ -1096,7 +1012,6 @@ export interface operations {
          *           For range filters, like date for instance, these need to be followed by a .start or .end suffix accordingly.
          *           For multiselect filters, these are passed as one query parameter per filter with a comma separated list of values:
          *           filters.someMultiselectFilter=a,b,c
-         *
          * @example {
          *       "filters.date.start": "2023-04-25",
          *       "filters.date.end": "2023-05-30",
@@ -1186,7 +1101,6 @@ export interface operations {
          *           For range filters, like date for instance, these need to be followed by a .start or .end suffix accordingly.
          *           For multiselect filters, these are passed as one query parameter per filter with a comma separated list of values:
          *           filters.someMultiselectFilter=a,b,c
-         *
          * @example {
          *       "filters.date.start": "2023-04-25",
          *       "filters.date.end": "2023-05-30",
@@ -1275,7 +1189,6 @@ export interface operations {
          *           For range filters, like date for instance, these need to be followed by a .start or .end suffix accordingly.
          *           For multiselect filters, these are passed as one query parameter per filter with a comma separated list of values:
          *           filters.someMultiselectFilter=a,b,c
-         *
          * @example {
          *       "filters.date.start": "2023-04-25",
          *       "filters.date.end": "2023-05-30",
@@ -1511,6 +1424,92 @@ export interface operations {
       }
     }
   }
+  downloadCsv_1: {
+    parameters: {
+      query: {
+        dataProductDefinitionsPath?: string
+        /**
+         * @description The filter query parameters have to start with the prefix "filters." followed by the name of the filter.
+         *           For range filters, like date for instance, these need to be followed by a .start or .end suffix accordingly.
+         *           For multiselect filters, these are passed as one query parameter per filter with a comma separated list of values:
+         *           filters.someMultiselectFilter=a,b,c
+         * @example {
+         *       "filters.date.start": "2023-04-25",
+         *       "filters.date.end": "2023-05-30",
+         *       "filters.someMultiselectFilter": "a,b,c"
+         *     }
+         */
+        filters: {
+          [key: string]: string
+        }
+        /** @description List of column names to include in the generated report. If not provided all the columns will be returned. */
+        columns?: string[]
+        sortColumn?: string
+        sortedAsc?: boolean
+      }
+      header?: never
+      path: {
+        reportId: string
+        reportVariantId: string
+      }
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content?: never
+      }
+      /** @description Bad Request */
+      400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description Gone */
+      410: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description Too Many Requests */
+      429: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description Internal Server Error */
+      500: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+    }
+  }
   configuredApiCount: {
     parameters: {
       query: {
@@ -1519,7 +1518,6 @@ export interface operations {
          *           For range filters, like date for instance, these need to be followed by a .start or .end suffix accordingly.
          *           For multiselect filters, these are passed as one query parameter per filter with a comma separated list of values:
          *           filters.someMultiselectFilter=a,b,c
-         *
          * @example {
          *       "filters.date.start": "2023-04-25",
          *       "filters.date.end": "2023-05-30",
@@ -1615,7 +1613,6 @@ export interface operations {
          *           For range filters, like date for instance, these need to be followed by a .start or .end suffix accordingly.
          *           For multiselect filters, these are passed as one query parameter per filter with a comma separated list of values:
          *           filters.someMultiselectFilter=a,b,c
-         *
          * @example {
          *       "filters.date.start": "2023-04-25",
          *       "filters.date.end": "2023-05-30",
@@ -1712,7 +1709,6 @@ export interface operations {
          *           For range filters, like date for instance, these need to be followed by a .start or .end suffix accordingly.
          *           For multiselect filters, these are passed as one query parameter per filter with a comma separated list of values:
          *           filters.someMultiselectFilter=a,b,c
-         *
          * @example {
          *       "filters.date.start": "2023-04-25",
          *       "filters.date.end": "2023-05-30",
@@ -2246,7 +2242,6 @@ export interface operations {
          *           For range filters, like date for instance, these need to be followed by a .start or .end suffix accordingly.
          *           For multiselect filters, these are passed as one query parameter per filter with a comma separated list of values:
          *           filters.someMultiselectFilter=a,b,c
-         *
          * @example {
          *       "filters.date.start": "2023-04-25",
          *       "filters.date.end": "2023-05-30",
@@ -2344,7 +2339,6 @@ export interface operations {
          *           For range filters, like date for instance, these need to be followed by a .start or .end suffix accordingly.
          *           For multiselect filters, these are passed as one query parameter per filter with a comma separated list of values:
          *           filters.someMultiselectFilter=a,b,c
-         *
          * @example {
          *       "filters.date.start": "2023-04-25",
          *       "filters.date.end": "2023-05-30",
@@ -2536,7 +2530,6 @@ export interface operations {
          *           For range filters, like date for instance, these need to be followed by a .start or .end suffix accordingly.
          *           For multiselect filters, these are passed as one query parameter per filter with a comma separated list of values:
          *           filters.someMultiselectFilter=a,b,c
-         *
          * @example {
          *       "filters.date.start": "2023-04-25",
          *       "filters.date.end": "2023-05-30",

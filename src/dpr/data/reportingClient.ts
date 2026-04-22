@@ -156,7 +156,6 @@ class ReportingClient {
     res: Response,
   ): Promise<void> {
     this.logInfo('Streaming download data', { reportId, variantId, tableId })
-
     return this.restClient.getStream(
       {
         path: `/reports/${reportId}/${variantId}/tables/${tableId}/download`,
@@ -167,13 +166,18 @@ class ReportingClient {
     )
   }
 
-  downloadSyncReport(token: string, resourceName: string, reportQuery: ReportQuery, res: Response): Promise<void> {
+  downloadSyncReport(
+    token: string,
+    resourceName: string,
+    query: Record<string, string | string[]>,
+    res: Response,
+  ): Promise<void> {
     this.logInfo('Streaming download data', { resourceName })
 
     return this.restClient.getStream(
       {
         path: `/${resourceName}/download`,
-        query: reportQuery.toRecordWithFilterPrefix(true),
+        query,
         token,
       },
       res,

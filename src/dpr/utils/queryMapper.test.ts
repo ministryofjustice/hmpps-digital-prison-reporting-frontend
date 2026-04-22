@@ -128,16 +128,20 @@ describe('form body mapping', () => {
     expect(result).toBe('a=1%2C2&b=3')
   })
 
-  it('builds an API query object from a form body', () => {
+  it('builds an API query object from a form body, normalising dates', () => {
     const result = formBodyToQueryObject({
       a: ['1', '2'],
       b: '3',
+      start: '21/04/2026',
+      end: ['01/01/2025', null, ''],
       c: null,
     })
 
     expect(result).toEqual({
       a: '1,2',
       b: '3',
+      start: '2026-04-21',
+      end: '2025-01-01',
     })
   })
 })

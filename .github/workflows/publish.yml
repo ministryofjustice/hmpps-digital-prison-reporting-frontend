@@ -33,7 +33,7 @@ jobs:
         run: npm install -g npm@latest
 
       - name: SLSA - supply chain attack mitigation
-        uses: ministryofjustice/devsecops-actions/sca/slsa@877a6683738d4643f16c2c306e908bb5ef5487c2
+        uses: ministryofjustice/devsecops-actions/sca/slsa@5fc4b3e73c559ecb4cfa08284159efea4ea18836
 
       - run: npm run setup
       - run: npm run rpack

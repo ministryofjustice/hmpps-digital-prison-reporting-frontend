@@ -1,11 +1,14 @@
 {% from "./remove-action/view.njk" import dprMyReportListItemRemoveAction %}
 
 {% macro dprMyReportListItemActions(actions) %}
+
   {% set remove = actions.remove %}
   {% set refresh = actions.refresh %}
   {% set retry = actions.retry %}
   {% set request = actions.request %}
   {% set bookmark = actions.bookmark %}
+  {% set view = actions.view %}
+  {% set polling = actions.polling %}
 
   <ul class="dpr-my-reports__actions-list">
     {% if remove %}
@@ -29,6 +32,12 @@
     {% if view %}
       <li>
         <a href="{{ view.href }}" class="govuk-link govuk-link--no-visited-state">Go to {{ view.reportType }}</a>
+      </li>
+    {% endif %}
+
+    {% if polling %}
+      <li>
+        <a href="{{ polling.href }}" class="govuk-link govuk-link--no-visited-state">Go to status</a>
       </li>
     {% endif %}
 

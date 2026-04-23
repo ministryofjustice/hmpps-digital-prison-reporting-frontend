@@ -186,9 +186,9 @@ const mapBookmarks = async (
         const summary = await services.reportingService.getDefinitionSummary(token, reportId, definitionsPath)
         const defSummary = summary.dashboards?.find((d) => d.id === sourceId)
 
-        reportName = definition.name
-        name = summary.name || ''
-        description = definition.description || summary.description || ''
+        reportName = definition?.name || ''
+        name = summary?.name || ''
+        description = definition?.description || summary?.description || ''
         loadType = defSummary && defSummary.loadType ? (defSummary.loadType as LoadType) : LoadType.ASYNC
       }
 
@@ -261,7 +261,7 @@ const buildActionsCell = (
   // TODO: Asses whether these can be constructed without store?
   const pollingPageUrl = url?.polling?.fullUrl || ''
   const requestPageUrl = url?.request?.fullUrl || ''
-  const reportPageUrl = url?.request?.fullUrl || ''
+  const reportPageUrl = url?.report?.fullUrl || ''
 
   switch (status) {
     case RequestStatus.FAILED:
@@ -282,6 +282,7 @@ const buildActionsCell = (
         href: reportPageUrl,
         reportType: type,
       }
+      remove = buildRemoveAction(data, res, req, listType)
       break
     case RequestStatus.PICKED:
     case RequestStatus.SUBMITTED:
@@ -335,6 +336,12 @@ const buildRemoveAction = (data: StoredReportData, res: Response, req: Request, 
   }
 }
 
+/**
+ * Builds the timestamp to display
+ *
+ * @param {StoredReportData} data
+ * @return {*}
+ */
 const buildTimestamp = (data: StoredReportData) => {
   const { status, timestamp } = data
 

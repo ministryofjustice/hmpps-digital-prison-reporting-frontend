@@ -85,6 +85,7 @@ export type DprMyReportItem = {
    ========================================================================== */
 
 export type DprMyReportListConfig = {
+  title: string
   listType: ListType
   headings: DprMyReportHeading[]
   items: DprMyReportItem[]

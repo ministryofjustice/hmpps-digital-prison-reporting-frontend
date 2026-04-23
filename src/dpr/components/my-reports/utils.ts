@@ -49,6 +49,7 @@ export const initMyReports = async (req: Request, res: Response, services: Servi
  */
 const initBookmarks = async (res: Response, services: Services): Promise<DprMyReportListConfig> => {
   return {
+    title: 'Bookmarks',
     listType: ListType.BOOKMARKS,
     headings: buildHeadings(ListType.BOOKMARKS),
     items: await buildBookmarkListItems(res, services),
@@ -64,6 +65,7 @@ const initBookmarks = async (res: Response, services: Services): Promise<DprMyRe
  */
 const initRequested = (req: Request, res: Response) => {
   return {
+    title: 'Requested reports',
     listType: ListType.REQUESTED,
     headings: buildHeadings(ListType.REQUESTED),
     items: buildListItems(req, res, ListType.REQUESTED),
@@ -79,6 +81,7 @@ const initRequested = (req: Request, res: Response) => {
  */
 const initViewed = (req: Request, res: Response) => {
   return {
+    title: 'Requested reports',
     listType: ListType.VIEWED,
     headings: buildHeadings(ListType.VIEWED),
     items: buildListItems(req, res, ListType.VIEWED),
@@ -172,7 +175,7 @@ const mapBookmarks = async (
       let description = ''
       let loadType: LoadType = LoadType.ASYNC
 
-      if (type && type === ReportType.REPORT) {
+      if (!type || (type && type === ReportType.REPORT)) {
         const definition = await services.reportingService.getDefinition(token, reportId, sourceId, definitionsPath)
         const summary = await services.reportingService.getDefinitionSummary(token, reportId, definitionsPath)
         const defSummary = summary.variants.find((v) => v.id === sourceId)
@@ -302,7 +305,6 @@ const buildActionsCell = (
   }
 }
 
-// TODO
 /**
  * Builds the remove action
  *
@@ -434,9 +436,18 @@ const getDataForList = (res: Response, listType: ListType): StoredReportData[] |
   const { requestedReports, recentlyViewedReports } = LocalsHelper.getValues(res)
   switch (listType) {
     case ListType.REQUESTED:
-      return requestedReports
+      // Only show reports in the list that have not been viewed
+      return requestedReports.filter((report) => {
+        return report.timestamp ? !report.timestamp.lastViewed : false
+      })
     case ListType.VIEWED:
-      return recentlyViewedReports
+      // Only show READY or EXPIRED reports
+      return recentlyViewedReports.filter((report) => {
+        return Boolean(
+          report.status === RequestStatus.READY ||
+          Boolean(report.executionId?.length && report.status === RequestStatus.EXPIRED),
+        )
+      })
     default:
       break
   }

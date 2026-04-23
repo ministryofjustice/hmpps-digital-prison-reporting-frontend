@@ -2,6 +2,8 @@
 {% from "../my-reports-list-headings/view.njk" import dprMyReportListHeadings %}
 
 {% macro dprMyReportList(listConfig) %}
+  {% set title = listConfig.title %}
+
   {% set headings = listConfig.headings %}
   {% set items = listConfig.items %}
   {% set listType = listConfig.listType %}
@@ -11,19 +13,23 @@
     {% set classes = 'dpr-my-reports__table--bookmarks' %}
   {% endif %}
 
-  <div class="dpr-my-reports">
-    <div class="dpr-my-reports__table {{ classes }}">
-      
-      {# Header row #}
-      {{ dprMyReportListHeadings(headings) }}
+  <div>
+    <h1 class="govuk-heading-m govuk-!-margin-bottom-0">{{ title }}</h1>
+    <p class="dpr-my-reports-totals govuk-body">Showing <strong>{{ items.length }}</strong> of <strong>{{ items.length }}</strong> reports.</p>
 
-      <div class="dpr-my-reports__row-separator"></div>
+    {# THE ITEMS #}
+    <div class="dpr-my-reports">
+      <div class="dpr-my-reports__table {{ classes }}">
+        
+        {# Header row #}
+        {{ dprMyReportListHeadings(headings) }}
 
-      {# Body rows #}
-      {% for item in items %}
-        {{ dprMyReportListItem(item) }}
-      {% endfor %}
+        {# Body rows #}
+        {% for item in items %}
+          {{ dprMyReportListItem(item) }}
+        {% endfor %}
 
+      </div>
     </div>
   </div>
 {% endmacro %}

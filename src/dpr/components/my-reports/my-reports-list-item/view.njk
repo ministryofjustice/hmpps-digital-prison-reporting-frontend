@@ -11,6 +11,8 @@
   {% set filters = item.filters %} 
   {% set status = item.status %} 
 
+  <div class="dpr-my-reports__row-separator"></div>
+
   <div class="dpr-my-reports__row">
     <div class="dpr-my-reports__cell dpr-my-reports__cell--title">
       {{ dprMyReportListItemTitle(title) }}
@@ -38,6 +40,5 @@
       {{ dprMyReportListItemActions(actions) }}
     </div>
   </div>
-  
-  <div class="dpr-my-reports__row-separator"></div>
+
 {% endmacro %}

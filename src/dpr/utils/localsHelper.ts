@@ -94,6 +94,8 @@ export interface DprAppLocals {
   reportsCatalogue: string
   userReportsList: string
   dprHomepage: string
+  requestReportPath: string
+  viewReportPath: string
   /** internal: stores the unmodified raw paths */
   original?: Omit<DprAppLocals, 'original' | 'nestedBaseUrl'>
 }

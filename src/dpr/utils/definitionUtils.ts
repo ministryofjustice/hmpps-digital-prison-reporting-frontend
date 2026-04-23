@@ -39,6 +39,7 @@ export const getDefinitionByType = async (
 }> => {
   let definition: components['schemas']['SingleVariantReportDefinition'] | components['schemas']['DashboardDefinition']
   let fields: components['schemas']['FieldDefinition'][]
+
   if (reportType === ReportType.REPORT) {
     definition = await services.reportingService.getDefinition(token, reportId, id, definitionsPath)
     fields = getFields(definition)

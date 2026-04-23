@@ -4,7 +4,8 @@
   {% set remove = actions.remove %}
   {% set refresh = actions.refresh %}
   {% set retry = actions.retry %}
-  {% set view = actions.view %}
+  {% set request = actions.request %}
+  {% set bookmark = actions.bookmark %}
 
   <ul class="dpr-my-reports__actions-list">
     {% if remove %}
@@ -15,19 +16,31 @@
 
     {% if refresh %}
       <li>
-        <a href="{{ refresh.href }}" class="govuk-link">Refresh</a>
+        <a href="{{ refresh.href }}" class="govuk-link govuk-link--no-visited-state">Refresh</a>
       </li>
     {% endif %}
 
     {% if retry %}
       <li>
-        <a href="{{ retry.href }}" class="govuk-link">Retry</a>
+        <a href="{{ retry.href }}" class="govuk-link govuk-link--no-visited-state">Retry</a>
       </li>
     {% endif %}
 
     {% if view %}
       <li>
-        <a href="{{ view.href }}" class="govuk-link">Go to {{ view.reportType }}</a>
+        <a href="{{ view.href }}" class="govuk-link govuk-link--no-visited-state">Go to {{ view.reportType }}</a>
+      </li>
+    {% endif %}
+
+    {% if load %}
+      <li>
+        <a href="{{ load.href }}" class="govuk-link govuk-link--no-visited-state">Load {{ load.reportType }}</a>
+      </li>
+    {% endif %}
+    
+    {% if request %}
+      <li>
+        <a href="{{ request.href }}" class="govuk-link govuk-link--no-visited-state">Request {{ request.reportType }}</a>
       </li>
     {% endif %}
   </ul>

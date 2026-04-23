@@ -170,6 +170,8 @@ const setUpDprPaths = (res: Response) => {
     recentlyViewedListPath: '/dpr/my-reports/recently-viewed',
     reportsCatalogue: '/dpr/report-catalogue',
     userReportsList: '/dpr/my-reports',
+    requestReportPath: '/dpr/request-report',
+    viewReportPath: '/dpr/view-report',
     dprHomepage: '/dpr',
   }
 }

@@ -50,6 +50,8 @@ export const setupNestedRoute = (): RequestHandler => {
       locals.reportsCatalogue = setNestedPath(original.reportsCatalogue, base)
       locals.userReportsList = setNestedPath(original.userReportsList, base)
       locals.dprHomepage = setNestedPath(original.dprHomepage, base)
+      locals.requestReportPath = setNestedPath(original.requestReportPath, base)
+      locals.viewReportPath = setNestedPath(original.viewReportPath, base)
     }
     return next()
   }

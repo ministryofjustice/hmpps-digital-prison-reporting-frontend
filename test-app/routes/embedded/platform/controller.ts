@@ -18,7 +18,7 @@ export default class PlatformController {
     const catalogue = await CatalogueUtils.initCatalogue(args)
     const userReportsLists = await UserReportsListUtils.initUserReports({ ...args, maxRows: 3 })
 
-    const myReportsData = initMyReports(req, res, this.services)
+    const myReportsData = await initMyReports(req, res, this.services)
 
     console.log(JSON.stringify(myReportsData, null, 2))
 

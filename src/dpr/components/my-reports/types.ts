@@ -2,6 +2,8 @@
    Shared value types
    ========================================================================== */
 
+import { LoadType, ReportType } from 'src/dpr/types/UserReports'
+
 export type NameValuePair = {
   name: string
   value: string
@@ -61,6 +63,9 @@ export type DprMyReportActions = {
   retry?: LinkAction
   view?: ViewAction
   polling?: LinkAction
+  load?: ViewAction
+  bookmark?: any // TODO
+  request?: ViewAction
 }
 
 /* ==========================================================================
@@ -106,4 +111,14 @@ export type DprMyReport = {
   requested: DprMyReportListConfig
   viewed: DprMyReportListConfig
   bookmarks?: DprMyReportListConfig | undefined
+}
+
+export type MappedBookmarks = {
+  id: string
+  reportId: string
+  name: string
+  reportName: string
+  reportType: ReportType
+  description: string
+  loadType: LoadType
 }

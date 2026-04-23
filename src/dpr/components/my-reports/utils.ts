@@ -11,13 +11,14 @@ import {
   HeadingConfig,
   LinkAction,
   ListType,
+  MappedBookmarks,
   NameValuePair,
   RemoveAction,
   ViewAction,
 } from './types'
-import LocalsHelper from '../../utils/localsHelper'
+import LocalsHelper, { getRouteLocals } from '../../utils/localsHelper'
 import { BookmarkStoreData } from '../../types/Bookmark'
-import { RequestStatus, StoredReportData } from '../../types/UserReports'
+import { LoadType, ReportType, RequestStatus, StoredReportData } from '../../types/UserReports'
 import { apiTimestampToUiDateTime, todayAsUiDateTime } from '../../utils/dateHelper'
 
 /**
@@ -28,11 +29,11 @@ import { apiTimestampToUiDateTime, todayAsUiDateTime } from '../../utils/dateHel
  * @param {Services} services
  * @return {*}  {DprMyReport}
  */
-export const initMyReports = (req: Request, res: Response, services: Services): DprMyReport => {
-  // const { bookmarkingEnabled } = LocalsHelper.getValues(res)
+export const initMyReports = async (req: Request, res: Response, services: Services): Promise<DprMyReport> => {
+  const { bookmarkingEnabled } = LocalsHelper.getValues(res)
 
   return {
-    // ...(bookmarkingEnabled && { bookmarks: initBookmarks(req, res, services) }),
+    ...(bookmarkingEnabled && { bookmarks: await initBookmarks(res, services) }),
     requested: initRequested(req, res),
     viewed: initViewed(req, res),
   }
@@ -46,11 +47,11 @@ export const initMyReports = (req: Request, res: Response, services: Services): 
  * @param {Services} services
  * @return {*}  {DprMyReportListConfig}
  */
-const initBookmarks = (req: Request, res: Response, services: Services): DprMyReportListConfig => {
+const initBookmarks = async (res: Response, services: Services): Promise<DprMyReportListConfig> => {
   return {
     listType: ListType.BOOKMARKS,
     headings: buildHeadings(ListType.BOOKMARKS),
-    items: buildBookmarkListItems(req, res, services),
+    items: await buildBookmarkListItems(res, services),
   }
 }
 
@@ -114,10 +115,14 @@ const buildListItems = (req: Request, res: Response, listType: ListType): DprMyR
   })
 }
 
-// BOOKMARK SPECIFIC
-
-// TODO:
-const buildBookmarkListItems = (req: Request, res: Response, services: Services): DprMyReportItem[] => {
+/**
+ * Builds the bookmark list items
+ *
+ * @param {Response} res
+ * @param {Services} services
+ * @return {*}  {Promise<DprMyReportItem[]>}
+ */
+const buildBookmarkListItems = async (res: Response, services: Services): Promise<DprMyReportItem[]> => {
   const { bookmarks } = LocalsHelper.getValues(res)
 
   // loop it
@@ -125,15 +130,79 @@ const buildBookmarkListItems = (req: Request, res: Response, services: Services)
     return []
   }
 
-  // gather data for loop
+  // gather data for loop.  sdf
+  const mappedBookmarks: MappedBookmarks[] = await mapBookmarks(bookmarks, services, res)
 
-  return bookmarks.map((bookmark) => {
+  return mappedBookmarks.map((bookmark) => {
+    const { name, reportName, reportType, description } = bookmark
     return {
-      title: '',
-      description: '',
-      actions: buildBookmarkActionsCell(bookmark),
+      title: {
+        productName: name,
+        reportName,
+        reportType,
+      },
+      description: description,
+      actions: buildBookmarkActionsCell(bookmark, res),
     }
   })
+}
+
+/**
+ * Map bookmarks to display data
+ *
+ * @param {BookmarkStoreData[]} bookmarks
+ * @param {Services} services
+ * @param {Response} res
+ * @return {*}
+ */
+const mapBookmarks = async (
+  bookmarks: BookmarkStoreData[],
+  services: Services,
+  res: Response,
+): Promise<MappedBookmarks[]> => {
+  const { token, definitionsPath } = LocalsHelper.getValues(res)
+
+  return await Promise.all(
+    bookmarks.map(async (bm) => {
+      const { id, reportId, type, variantId } = bm
+      const sourceId = variantId || id
+
+      let reportName = ''
+      let name = ''
+      let description = ''
+      let loadType: LoadType = LoadType.ASYNC
+
+      if (type && type === ReportType.REPORT) {
+        const definition = await services.reportingService.getDefinition(token, reportId, sourceId, definitionsPath)
+        const summary = await services.reportingService.getDefinitionSummary(token, reportId, definitionsPath)
+        const defSummary = summary.variants.find((v) => v.id === sourceId)
+
+        reportName = definition.variant.name
+        name = definition.name
+        description = definition.variant.description || definition.description || ''
+        loadType = defSummary && defSummary.loadType ? (defSummary.loadType as LoadType) : LoadType.ASYNC
+      } else {
+        const definition = await services.dashboardService.getDefinition(token, reportId, sourceId, definitionsPath)
+        const summary = await services.reportingService.getDefinitionSummary(token, reportId, definitionsPath)
+        const defSummary = summary.dashboards?.find((d) => d.id === sourceId)
+
+        reportName = definition.name
+        name = summary.name || ''
+        description = definition.description || summary.description || ''
+        loadType = defSummary && defSummary.loadType ? (defSummary.loadType as LoadType) : LoadType.ASYNC
+      }
+
+      return {
+        id: sourceId,
+        reportId,
+        name,
+        reportName,
+        reportType: type || ReportType.REPORT,
+        description,
+        loadType,
+      }
+    }),
+  )
 }
 
 /**
@@ -312,9 +381,39 @@ const buildTimestamp = (data: StoredReportData) => {
   return ''
 }
 
-// TODO
-const buildBookmarkActionsCell = (data: any): DprMyReportActions => {
-  return {}
+/**
+ * Builds the bookmark actions cell
+ *
+ * @param {*} data
+ * @param {Response} res
+ * @return {*}  {DprMyReportActions}
+ */
+const buildBookmarkActionsCell = (data: MappedBookmarks, res: Response): DprMyReportActions => {
+  const { loadType, reportType, reportId, id } = data
+  const { requestReportPath, viewReportPath } = getRouteLocals(res)
+
+  let load: ViewAction | undefined
+  let request: ViewAction | undefined
+
+  if (loadType === LoadType.SYNC) {
+    const href = `${viewReportPath}/sync/${reportId}/${id}`
+    load = {
+      href,
+      reportType,
+    }
+  } else {
+    const href = `${requestReportPath}/${reportType}/${reportId}/${id}/filters`
+    request = {
+      href,
+      reportType,
+    }
+  }
+
+  return {
+    ...(load && { load }),
+    ...(request && { request }),
+    bookmark: {},
+  }
 }
 
 /**

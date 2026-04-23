@@ -1,0 +1,384 @@
+import { Request, Response } from 'express'
+import { Services } from '../../types/Services'
+import {
+  DprMyReport,
+  DprMyReportActions,
+  DprMyReportFilters,
+  DprMyReportHeading,
+  DprMyReportItem,
+  DprMyReportListConfig,
+  DprMyReportTitle,
+  HeadingConfig,
+  LinkAction,
+  ListType,
+  NameValuePair,
+  RemoveAction,
+  ViewAction,
+} from './types'
+import LocalsHelper from '../../utils/localsHelper'
+import { BookmarkStoreData } from '../../types/Bookmark'
+import { RequestStatus, StoredReportData } from '../../types/UserReports'
+import { apiTimestampToUiDateTime, todayAsUiDateTime } from '../../utils/dateHelper'
+
+/**
+ * Initialises the "My Reports" component data
+ *
+ * @param {Request} req
+ * @param {Response} res
+ * @param {Services} services
+ * @return {*}  {DprMyReport}
+ */
+export const initMyReports = (req: Request, res: Response, services: Services): DprMyReport => {
+  // const { bookmarkingEnabled } = LocalsHelper.getValues(res)
+
+  return {
+    // ...(bookmarkingEnabled && { bookmarks: initBookmarks(req, res, services) }),
+    requested: initRequested(req, res),
+    viewed: initViewed(req, res),
+  }
+}
+
+/**
+ * Init bookmarks list
+ *
+ * @param {Request} req
+ * @param {Response} res
+ * @param {Services} services
+ * @return {*}  {DprMyReportListConfig}
+ */
+const initBookmarks = (req: Request, res: Response, services: Services): DprMyReportListConfig => {
+  return {
+    listType: ListType.BOOKMARKS,
+    headings: buildHeadings(ListType.BOOKMARKS),
+    items: buildBookmarkListItems(req, res, services),
+  }
+}
+
+/**
+ * Init Requested Reports list
+ *
+ * @param {Request} req
+ * @param {Response} res
+ * @return {*}
+ */
+const initRequested = (req: Request, res: Response) => {
+  return {
+    listType: ListType.REQUESTED,
+    headings: buildHeadings(ListType.REQUESTED),
+    items: buildListItems(req, res, ListType.REQUESTED),
+  }
+}
+
+/**
+ * Init Viewed reports list
+ *
+ * @param {Request} req
+ * @param {Response} res
+ * @return {*}
+ */
+const initViewed = (req: Request, res: Response) => {
+  return {
+    listType: ListType.VIEWED,
+    headings: buildHeadings(ListType.VIEWED),
+    items: buildListItems(req, res, ListType.VIEWED),
+  }
+}
+
+// ----------------------------------------------
+// LIST ITEMS
+// -----------------------------------------------
+
+/**
+ * Builds the requested & views list items
+ *
+ * @param {Request} req
+ * @param {Response} res
+ * @param {ListType} listType
+ * @return {*}  {DprMyReportItem[]}
+ */
+const buildListItems = (req: Request, res: Response, listType: ListType): DprMyReportItem[] => {
+  // get the relevant data from the store
+  const listData = getDataForList(res, listType)
+  // loop it
+  if (!listData) {
+    return []
+  }
+
+  return listData.map((data: StoredReportData) => {
+    return {
+      title: buildTitleCell(data),
+      filters: buildFiltersCell(data),
+      status: data.status as RequestStatus, // TODO: fixed in StoredReportData
+      actions: buildActionsCell(data, res, req, listType),
+    }
+  })
+}
+
+// BOOKMARK SPECIFIC
+
+// TODO:
+const buildBookmarkListItems = (req: Request, res: Response, services: Services): DprMyReportItem[] => {
+  const { bookmarks } = LocalsHelper.getValues(res)
+
+  // loop it
+  if (!bookmarks) {
+    return []
+  }
+
+  // gather data for loop
+
+  return bookmarks.map((bookmark) => {
+    return {
+      title: '',
+      description: '',
+      actions: buildBookmarkActionsCell(bookmark),
+    }
+  })
+}
+
+/**
+ * Builds the titls cell data
+ *
+ * @param {StoredReportData} data
+ * @return {*}  {DprMyReportTitle}
+ */
+const buildTitleCell = (data: StoredReportData): DprMyReportTitle => {
+  return {
+    productName: data.reportName,
+    reportName: data.name,
+    reportType: data.type,
+    timestamp: buildTimestamp(data),
+  }
+}
+
+/**
+ * Builds the filters cell data
+ *
+ * @param {StoredReportData} data
+ * @return {*}  {DprMyReportFilters}
+ */
+const buildFiltersCell = (data: StoredReportData): DprMyReportFilters => {
+  // TODO: investigate the types here
+  const prerequest = (data.query?.summary as NameValuePair[] | undefined) || []
+  const interactive = (data.interactiveQuery as NameValuePair[] | undefined) || []
+
+  return {
+    ...(prerequest && { prerequest }),
+    ...(interactive && { interactive }),
+  }
+}
+
+/**
+ * Builds the action cell data
+ *
+ * @param {StoredReportData} data
+ * @param {Response} res
+ * @return {*}  {DprMyReportActions}
+ */
+const buildActionsCell = (
+  data: StoredReportData,
+  res: Response,
+  req: Request,
+  listType: ListType,
+): DprMyReportActions => {
+  const { status, type, url } = data
+
+  let retry: LinkAction | undefined
+  let refresh: LinkAction | undefined
+  let polling: LinkAction | undefined
+  let view: ViewAction | undefined
+  let remove: RemoveAction | undefined
+
+  // TODO: Asses whether these can be constructed without store?
+  const pollingPageUrl = url?.polling?.fullUrl || ''
+  const requestPageUrl = url?.request?.fullUrl || ''
+  const reportPageUrl = url?.request?.fullUrl || ''
+
+  switch (status) {
+    case RequestStatus.FAILED:
+      retry = { href: pollingPageUrl }
+      remove = buildRemoveAction(data, res, req, listType)
+      break
+    case RequestStatus.EXPIRED:
+      refresh = { href: requestPageUrl }
+      remove = buildRemoveAction(data, res, req, listType)
+      break
+    case RequestStatus.ABORTED:
+      retry = { href: requestPageUrl }
+      remove = buildRemoveAction(data, res, req, listType)
+      break
+    case RequestStatus.READY:
+    case RequestStatus.FINISHED:
+      view = {
+        href: reportPageUrl,
+        reportType: type,
+      }
+      break
+    case RequestStatus.PICKED:
+    case RequestStatus.SUBMITTED:
+    case RequestStatus.STARTED:
+      polling = { href: pollingPageUrl }
+      break
+    default:
+      break
+  }
+
+  return {
+    ...(retry && { retry }),
+    ...(refresh && { refresh }),
+    ...(remove && { remove }),
+    ...(view && { view }),
+    ...(polling && { polling }),
+  }
+}
+
+// TODO
+/**
+ * Builds the remove action
+ *
+ * @param {StoredReportData} data
+ * @param {Response} res
+ * @return {*}
+ */
+const buildRemoveAction = (data: StoredReportData, res: Response, req: Request, listType: ListType): RemoveAction => {
+  const { reportId, id, executionId, tableId } = data
+  const { requestedListPath, recentlyViewedListPath } = LocalsHelper.getRouteLocals(res)
+
+  // build to action endpoint
+  let action = ''
+  if (listType === ListType.REQUESTED) {
+    // ASYNC report - only executionId is needed
+    action = `${requestedListPath}/remove-item/${executionId}`
+  } else {
+    if (tableId && executionId) {
+      // ASYNC report - tableId and executionId needed
+      action = `${recentlyViewedListPath}/remove-item/${executionId}/table-id/${tableId}`
+    } else {
+      // SYNC report - reportId and Id needed
+      action = `${recentlyViewedListPath}/remove-item/report-id/${reportId}/id/${id}`
+    }
+  }
+
+  return {
+    action,
+    csrfToken: res.locals['csrfToken'],
+    returnTo: req.originalUrl,
+  }
+}
+
+const buildTimestamp = (data: StoredReportData) => {
+  const { status, timestamp } = data
+
+  const now = todayAsUiDateTime()
+  switch (status) {
+    case RequestStatus.FAILED: {
+      const { failed } = timestamp
+      const ts = failed ? apiTimestampToUiDateTime(failed) : now
+      return `Failed at ${ts}`
+    }
+    case RequestStatus.ABORTED: {
+      const { aborted } = timestamp
+      const ts = aborted ? apiTimestampToUiDateTime(aborted) : now
+      return `Aborted at ${ts}`
+    }
+    case RequestStatus.FINISHED: {
+      const { completed } = timestamp
+      const ts = completed ? apiTimestampToUiDateTime(completed) : now
+      return `Ready at ${ts}`
+    }
+    case RequestStatus.EXPIRED: {
+      const { expired } = timestamp
+      const ts = expired ? apiTimestampToUiDateTime(expired) : now
+      return `Expired at ${ts}`
+    }
+    case RequestStatus.READY: {
+      const { lastViewed } = timestamp
+      const ts = lastViewed ? apiTimestampToUiDateTime(lastViewed) : now
+      return `Last viewed at ${ts}`
+    }
+    case RequestStatus.SUBMITTED:
+    case RequestStatus.STARTED:
+    case RequestStatus.PICKED: {
+      const { requested } = timestamp
+      const ts = requested ? apiTimestampToUiDateTime(requested) : now
+      return `Requested at ${ts}`
+    }
+    default:
+      const { lastViewed } = timestamp
+      const ts = lastViewed ? apiTimestampToUiDateTime(lastViewed) : now
+      return `Last viewed at ${ts}`
+  }
+
+  return ''
+}
+
+// TODO
+const buildBookmarkActionsCell = (data: any): DprMyReportActions => {
+  return {}
+}
+
+/**
+ * Gets the relevant data to build the list
+ *
+ * @param {Response} res
+ * @param {ListType} listType
+ * @return {*}  {(StoredReportData[] | undefined)}
+ */
+const getDataForList = (res: Response, listType: ListType): StoredReportData[] | undefined => {
+  const { requestedReports, recentlyViewedReports } = LocalsHelper.getValues(res)
+  switch (listType) {
+    case ListType.REQUESTED:
+      return requestedReports
+    case ListType.VIEWED:
+      return recentlyViewedReports
+    default:
+      break
+  }
+}
+
+// ----------------------------------------------
+// HEADINGS
+// -----------------------------------------------
+
+/**
+ * Builds the headings
+ *
+ * @param {ListType} listType
+ * @return {*}  {DprMyReportHeading[]}
+ */
+const buildHeadings = (listType: ListType): DprMyReportHeading[] => {
+  return ALL_HEADINGS.filter((heading) => heading.showIn.includes(listType))
+}
+
+const ALL_HEADINGS: HeadingConfig[] = [
+  {
+    key: 'title',
+    name: 'Product',
+    classes: 'dpr-my-reports__cell--title',
+    showIn: [ListType.BOOKMARKS, ListType.REQUESTED],
+  },
+  {
+    key: 'description',
+    name: 'Description',
+    classes: 'dpr-my-reports__cell--description',
+    showIn: [ListType.BOOKMARKS],
+  },
+  {
+    key: 'filters',
+    name: 'Filters',
+    classes: 'dpr-my-reports__cell--filters',
+    showIn: [ListType.REQUESTED],
+  },
+  {
+    key: 'status',
+    name: 'Status',
+    classes: 'dpr-my-reports__cell--status',
+    showIn: [ListType.REQUESTED],
+  },
+  {
+    key: 'actions',
+    name: 'Actions',
+    classes: 'dpr-my-reports__cell--actions',
+    showIn: [ListType.BOOKMARKS, ListType.REQUESTED],
+  },
+]

@@ -15,19 +15,19 @@
 
     {% if refresh %}
       <li>
-        <a href="refresh.href" class="govuk-link">Refresh</a>
+        <a href="{{ refresh.href }}" class="govuk-link">Refresh</a>
       </li>
     {% endif %}
 
     {% if retry %}
       <li>
-        <a href="retry.href" class="govuk-link">Retry</a>
+        <a href="{{ retry.href }}" class="govuk-link">Retry</a>
       </li>
     {% endif %}
 
     {% if view %}
       <li>
-        <a href="view.href" class="govuk-link">Go to {{ view.reportType }}</a>
+        <a href="{{ view.href }}" class="govuk-link">Go to {{ view.reportType }}</a>
       </li>
     {% endif %}
   </ul>

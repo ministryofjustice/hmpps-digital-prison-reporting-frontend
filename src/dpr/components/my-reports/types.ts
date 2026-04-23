@@ -24,7 +24,7 @@ export type DprMyReportTitle = {
   productName: string
   reportName: string
   reportType: string
-  timestamp: string
+  timestamp?: string
 }
 
 /* ==========================================================================
@@ -43,6 +43,7 @@ export type DprMyReportFilters = {
 export type RemoveAction = {
   action: string
   csrfToken: string
+  returnTo: string
 }
 
 export type LinkAction = {
@@ -59,6 +60,7 @@ export type DprMyReportActions = {
   refresh?: LinkAction
   retry?: LinkAction
   view?: ViewAction
+  polling?: LinkAction
 }
 
 /* ==========================================================================
@@ -78,6 +80,30 @@ export type DprMyReportItem = {
    ========================================================================== */
 
 export type DprMyReportListConfig = {
+  listType: ListType
   headings: DprMyReportHeading[]
   items: DprMyReportItem[]
+}
+
+export enum ListType {
+  REQUESTED = 'requested',
+  BOOKMARKS = 'bookmarks',
+  VIEWED = 'viewed',
+}
+
+// HEADINGS
+
+type HeadingKey = 'title' | 'description' | 'filters' | 'status' | 'actions'
+
+export type HeadingConfig = {
+  key: HeadingKey
+  name: string
+  classes: string
+  showIn: ListType[]
+}
+
+export type DprMyReport = {
+  requested: DprMyReportListConfig
+  viewed: DprMyReportListConfig
+  bookmarks?: DprMyReportListConfig | undefined
 }

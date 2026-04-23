@@ -16,9 +16,9 @@ class RequestedReportService extends ReportStoreService {
     await this.saveState(userId, userConfig)
   }
 
-  async removeReport(id: string, userId: string) {
+  async removeReport(executionId: string, userId: string) {
     const userConfig = await this.getState(userId)
-    const index = this.findIndexByExecutionId(id, userConfig.requestedReports)
+    const index = this.findIndexByExecutionId(executionId, userConfig.requestedReports)
     userConfig.requestedReports.splice(index, 1)
     await this.saveState(userId, userConfig)
   }

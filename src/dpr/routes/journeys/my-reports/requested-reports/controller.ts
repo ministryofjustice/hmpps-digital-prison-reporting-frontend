@@ -11,9 +11,16 @@ class RequestedReportsController {
 
   POST: RequestHandler = async (req, res) => {
     const { dprUser } = LocalsHelper.getValues(res)
-    const { id } = req.params
-    await this.services.requestedReportService.removeReport(id as string, dprUser.id)
-    res.end()
+    const { executionId } = req.params
+    const { returnTo } = req.body
+
+    await this.services.requestedReportService.removeReport(executionId as string, dprUser.id)
+
+    if (returnTo && returnTo.startsWith('/')) {
+      return res.redirect(returnTo)
+    }
+
+    res.redirect('/')
   }
 }
 

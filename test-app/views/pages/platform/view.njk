@@ -9,10 +9,10 @@
   <div class="govuk-width-container">
 
     <h1>Requests</h1>
-    {{ dprMyReportList(dprMyReportListConfig) }}
+    {{ dprMyReportList(myReportsData.requested) }}
 
-    <h1>Bookmarks</h1>
-    {{ dprMyReportList(dprMyBookmarkListConfig) }}
+    {# <h1>Bookmarks</h1>
+    {{ dprMyReportList(dprMyBookmarkListConfig) }} #}
 
 
     {% set rows = [] %}

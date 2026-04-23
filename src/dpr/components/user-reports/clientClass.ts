@@ -130,6 +130,8 @@ class DprUserReportListHelper {
 
   async removeItemFromList(executionId: string) {
     const itemMeta = this.requestData.find((d) => d.executionId === executionId)
+    console.log({ itemMeta })
+
     if (itemMeta && itemMeta.endpoint) {
       let response
       await fetch(itemMeta.endpoint, {

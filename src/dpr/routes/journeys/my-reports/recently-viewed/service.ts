@@ -93,11 +93,23 @@ class RecentlyViewedStoreService extends ReportStoreService {
     }
   }
 
-  async removeReport(id: string, userId: string) {
+  async removeReport(userId: string, reportId: string, id: string, tableId?: string | undefined) {
     const userConfig = await this.getState(userId)
-    const index = this.findIndexByExecutionId(id, userConfig.recentlyViewedReports)
-    userConfig.recentlyViewedReports.splice(index, 1)
-    await this.saveState(userId, userConfig)
+    const { recentlyViewedReports } = userConfig
+
+    let index
+    if (tableId) {
+      // is an ASYNC report so can find it with the table ID
+      index = this.findIndexByTableId(id, recentlyViewedReports)
+    } else {
+      // is a SYNC report - so only accessible via an ID and report ID
+      index = this.findIndexByReportAndVariantId(id, reportId, recentlyViewedReports)
+    }
+
+    if (index && index !== -1) {
+      userConfig.recentlyViewedReports.splice(index, 1)
+      await this.saveState(userId, userConfig)
+    }
   }
 }
 

@@ -2,11 +2,12 @@
 
 {% macro dprMyReportListItemRemoveAction(remove) %}
   {% set action = remove.action %}
-  {% set action = remove.csrfToken %}
+  {% set csrfToken = remove.csrfToken %}
   
   {% set classes = 'dpr-button-link' %}
   
   <form method='post' action='{{ action }}'>
+    <input type="hidden" name="returnTo" value="{{ originalUrl }}">
     <input type="hidden" name="_csrf" value="{{ csrfToken }}">
 
     {{ dprButtonLink({

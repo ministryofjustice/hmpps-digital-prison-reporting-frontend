@@ -6,11 +6,11 @@ import listRoutes from './list/routes'
 
 export function routes({ layoutPath, services }: { layoutPath: string; services: Services }): Router {
   const router = Router({ mergeParams: true })
-
   const controller = new RequestedReportsController(services)
-  router.post('/:id', controller.POST)
 
+  router.post('/remove-item/:executionId', controller.POST)
   router.use(`/list`, listRoutes({ layoutPath, services }))
+
   return router
 }
 

@@ -8,7 +8,12 @@
 {% block content %}
   <div class="govuk-width-container">
 
+    <h1>Requests</h1>
     {{ dprMyReportList(dprMyReportListConfig) }}
+
+    <h1>Bookmarks</h1>
+    {{ dprMyReportList(dprMyBookmarkListConfig) }}
+
 
     {% set rows = [] %}
     {% if (breadCrumbList.length > 0) %}

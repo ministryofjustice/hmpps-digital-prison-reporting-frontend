@@ -18,6 +18,7 @@ export default class PlatformController {
     const userReportsLists = await UserReportsListUtils.initUserReports({ ...args, maxRows: 3 })
 
     const dprMyReportListConfig = {
+      listType: 'requests',
       headings: [
         {
           name: 'Product',
@@ -112,11 +113,82 @@ export default class PlatformController {
       ],
     }
 
+    const dprMyBookmarkListConfig = {
+      listType: 'bookmarks',
+      headings: [
+        {
+          name: 'Product',
+          classes: 'dpr-my-reports__cell--title',
+        },
+        {
+          name: 'Description',
+          classes: 'dpr-my-reports__cell--description',
+        },
+        {
+          name: 'Actions',
+          classes: 'dpr-my-reports__cell--actions',
+        },
+      ],
+      items: [
+        {
+          title: {
+            productName: 'productName',
+            reportName: 'reportName',
+            reportType: 'reportType',
+            timestamp: 'timestamp',
+          },
+          description: 'desription desription desription desription',
+          actions: {
+            remove: {
+              action: 'action',
+              csrfToken: 'csrfToken',
+            },
+            refresh: {
+              href: 'refreshHref',
+            },
+            retry: {
+              href: 'retryHref',
+            },
+            view: {
+              href: 'retryHref',
+              reportType: 'report',
+            },
+          },
+        },
+        {
+          title: {
+            productName: 'productName',
+            reportName: 'reportName',
+            reportType: 'reportType',
+            timestamp: 'timestamp',
+          },
+          description: 'desription desription desription desription',
+          actions: {
+            remove: {
+              action: 'action',
+              csrfToken: 'csrfToken',
+            },
+            refresh: {
+              href: 'refreshHref',
+            },
+            retry: {
+              href: 'retryHref',
+            },
+            view: {
+              href: 'retryHref',
+              reportType: 'report',
+            },
+          },
+        },
+      ],
+    }
+
     res.render('views/pages/platform/view.njk', {
       title: 'Home',
       userReportsLists,
       catalogue,
       dprMyReportListConfig,
+      dprMyBookmarkListConfig,
     })
   }
 }

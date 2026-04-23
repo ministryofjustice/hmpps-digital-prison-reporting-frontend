@@ -4,9 +4,15 @@
 {% macro dprMyReportList(listConfig) %}
   {% set headings = listConfig.headings %}
   {% set items = listConfig.items %}
+  {% set listType = listConfig.listType %}
+
+  {% set classes = 'dpr-my-reports__table--requests' %}
+  {% if listType === 'bookmarks' %}
+    {% set classes = 'dpr-my-reports__table--bookmarks' %}
+  {% endif %}
 
   <div class="dpr-my-reports">
-    <div class="dpr-my-reports__table dpr-my-reports__table--requests">
+    <div class="dpr-my-reports__table {{ classes }}">
       
       {# Header row #}
       {{ dprMyReportListHeadings(headings) }}

@@ -1,5 +1,6 @@
 {% from "govuk/components/details/macro.njk" import govukDetails %}
-{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "../../../../button-link/view.njk" import dprButtonLink %}
+
 
 {% macro dprAsyncFiltersSaveDefaults(reportType, hasDefaults) %}
   <div class="dpr-save-defaults-action">
@@ -13,18 +14,16 @@
       {% set text = 'Update defaults' %}
     {% endif %}
 
-    {{ govukButton({
+    {{ dprButtonLink({
       text: text,
-      classes: classes,
       attributes: {
         formaction: submitAction
       }
     }) }}
 
     {% if hasDefaults %}
-      {{ govukButton({
+      {{ dprButtonLink({
         text: 'Delete defaults',
-        classes: classes,
         attributes: {
           formaction: removeAction
         }

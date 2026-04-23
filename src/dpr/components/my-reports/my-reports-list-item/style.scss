@@ -26,17 +26,17 @@
 /* title | description | actions */
 .dpr-my-reports__table--bookmarks {
   grid-template-columns:
-    2fr /* title */
-    2fr /* description */
+    3fr /* title */
+    6fr /* description */
     auto; /* actions */
 }
 
 /* title | filters | status | actions */
 .dpr-my-reports__table--requests {
   grid-template-columns:
-    2fr /* title */
-    2fr /* filters */
-    1fr /* status */
+    3fr /* title */
+    5fr /* filters */
+    auto /* status */
     auto; /* actions */
 }
 
@@ -87,6 +87,14 @@
   grid-column: 4; /* last column */
   justify-self: end;
   white-space: nowrap;
+}
+
+.dpr-my-reports__table--bookmarks {
+  .dpr-my-reports__cell--actions {
+    grid-column: 3; /* last column */
+    justify-self: end;
+    white-space: nowrap;
+  }
 }
 
 /* --------------------------------------------------------------------------

@@ -1,0 +1,116 @@
+/* ==========================================================================
+   DPR My Reports – Grid-based table layout
+   Supports:
+   - title | description | actions
+   - title | filters | status | actions
+   ========================================================================== */
+
+.dpr-my-reports {
+  width: 100%;
+}
+
+/* --------------------------------------------------------------------------
+   Table container
+   -------------------------------------------------------------------------- */
+
+.dpr-my-reports__table {
+  display: grid;
+  width: 100%;
+  row-gap: govuk-spacing(4);
+}
+
+/* --------------------------------------------------------------------------
+   Grid variants (explicit column state)
+   -------------------------------------------------------------------------- */
+
+/* title | description | actions */
+.dpr-my-reports__table--bookmarks {
+  grid-template-columns:
+    2fr /* title */
+    2fr /* description */
+    auto; /* actions */
+}
+
+/* title | filters | status | actions */
+.dpr-my-reports__table--requests {
+  grid-template-columns:
+    2fr /* title */
+    2fr /* filters */
+    1fr /* status */
+    auto; /* actions */
+}
+
+/* --------------------------------------------------------------------------
+   Rows – transparent to layout
+   -------------------------------------------------------------------------- */
+
+.dpr-my-reports__row {
+  display: contents;
+}
+
+.dpr-my-reports__row-separator {
+  grid-column: 1 / -1;
+  border-bottom: 1px solid #b1b4b6;
+}
+
+/* --------------------------------------------------------------------------
+   Base cell (column)
+   -------------------------------------------------------------------------- */
+
+.dpr-my-reports__cell {
+  min-width: 0; /* required for text truncation in grid */
+  display: flex;
+  align-items: top;
+}
+
+/* --------------------------------------------------------------------------
+   Column placement (semantic mapping)
+   -------------------------------------------------------------------------- */
+
+.dpr-my-reports__cell--title {
+  grid-column: 1;
+}
+
+.dpr-my-reports__cell--description {
+  grid-column: 2;
+}
+
+.dpr-my-reports__cell--filters {
+  grid-column: 2;
+}
+
+.dpr-my-reports__cell--status {
+  grid-column: 3;
+}
+
+.dpr-my-reports__cell--actions {
+  grid-column: 4; /* last column */
+  justify-self: end;
+  white-space: nowrap;
+}
+
+/* --------------------------------------------------------------------------
+   Header cells
+   -------------------------------------------------------------------------- */
+
+.dpr-my-reports__cell--head {
+  font-weight: 600;
+  padding-bottom: 0.25rem;
+}
+
+/* Optional visual separator for header */
+.dpr-my-reports__headings {
+  padding-bottom: 0.5rem;
+}
+
+/* --------------------------------------------------------------------------
+   Body row styling (visual only)
+   -------------------------------------------------------------------------- */
+
+.dpr-my-reports__body .dpr-my-reports__cell {
+  padding: 0.5rem 0;
+}
+
+.dpr-my-reports__body .dpr-my-reports__cell:not(.dpr-my-reports__cell--actions) {
+  padding-right: 1rem;
+}

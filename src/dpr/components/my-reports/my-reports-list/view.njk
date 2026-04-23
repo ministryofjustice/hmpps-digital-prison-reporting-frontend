@@ -1,0 +1,23 @@
+{% from "../my-reports-list-item/view.njk" import dprMyReportListItem %}
+{% from "../my-reports-list-headings/view.njk" import dprMyReportListHeadings %}
+
+{% macro dprMyReportList(listConfig) %}
+  {% set headings = listConfig.headings %}
+  {% set items = listConfig.items %}
+
+  <div class="dpr-my-reports">
+    <div class="dpr-my-reports__table dpr-my-reports__table--requests">
+      
+      {# Header row #}
+      {{ dprMyReportListHeadings(headings) }}
+
+      <div class="dpr-my-reports__row-separator"></div>
+
+      {# Body rows #}
+      {% for item in items %}
+        {{ dprMyReportListItem(item) }}
+      {% endfor %}
+
+    </div>
+  </div>
+{% endmacro %}

@@ -1,0 +1,34 @@
+{% from "./remove-action/view.njk" import dprMyReportListItemRemoveAction %}
+
+{% macro dprMyReportListItemActions(actions) %}
+  {% set remove = actions.remove %}
+  {% set refresh = actions.refresh %}
+  {% set retry = actions.retry %}
+  {% set view = actions.view %}
+
+  <ul class="dpr-my-reports__actions-list">
+    {% if remove %}
+      <li>
+        {{ dprMyReportListItemRemoveAction(remove) }}
+      </li>
+    {% endif %}
+
+    {% if refresh %}
+      <li>
+        <a href="refresh.href" class="govuk-link">Refresh</a>
+      </li>
+    {% endif %}
+
+    {% if retry %}
+      <li>
+        <a href="retry.href" class="govuk-link">Refresh</a>
+      </li>
+    {% endif %}
+
+    {% if view %}
+      <li>
+        <a href="view.href" class="govuk-link">Go to {{ view.reportType }}</a>
+      </li>
+    {% endif %}
+  </ul>
+{% endmacro %}

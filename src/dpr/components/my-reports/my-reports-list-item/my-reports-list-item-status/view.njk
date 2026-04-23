@@ -1,0 +1,7 @@
+{%- from "../../../_async/request-status-tag/view.njk" import dprRequestStatusTag -%}
+
+{% macro dprMyReportListItemStatus(status) %}
+  <div>
+    {{ dprRequestStatusTag(status) }}
+  </div>
+{% endmacro %}

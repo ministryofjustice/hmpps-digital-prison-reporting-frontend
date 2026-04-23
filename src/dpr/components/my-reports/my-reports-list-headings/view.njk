@@ -1,0 +1,12 @@
+{% macro dprMyReportListHeadings(headings) %}
+  <div class="dpr-my-reports__headings dpr-my-reports__row">
+    {% for head in headings %}
+      {% set classes = head.classes %}
+      {% set name = head.name %}
+
+      <div class="dpr-my-reports__cell dpr-my-reports__cell--head {{ classes }}">
+        <h1 class="govuk-heading-s">{{ name }}</h1>
+      </div>
+    {% endfor %}
+  </div>
+{% endmacro %}

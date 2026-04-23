@@ -2,9 +2,13 @@
 {% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
 {% from "components/user-reports/view.njk" import dprUserReports %}
 {% from "components/_catalogue/catalogue/view.njk" import dprCatalogue %}
+{% from "components/my-reports/my-reports-list/view.njk" import dprMyReportList %}
+
 
 {% block content %}
   <div class="govuk-width-container">
+
+    {{ dprMyReportList(dprMyReportListConfig) }}
 
     {% set rows = [] %}
     {% if (breadCrumbList.length > 0) %}

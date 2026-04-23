@@ -9,13 +9,15 @@
 
   <div class="dpr-my-reports__item-title">
     <h3 class='dpr-my-reports__item-title--report-name'>{{ reportName }}</h3>
-    <h4 class='dpr-my-reports__item-title--product-name'>{{ productName }}</h4>
+    <h4 class='dpr-my-reports__item-title--product-name govuk-body'>{{ productName }}</h4>
 
-    {{ govukTag({
-      text: reportType
-    }) }}
+    <div class="dpr-my-reports__item-title--report-type">
+      {{ govukTag({
+        text: reportType
+      }) }}
+    </div>
 
-    <p>{{ timestamp }}</p>
+    <p class='dpr-my-reports__item-title--ts govuk-body-s'>{{ timestamp }}</p>
   </div>
 
 {% endmacro %}

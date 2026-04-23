@@ -2,3 +2,25 @@
 .dpr-my-reports__item-title--product-name {
   margin-top: 0px;
 }
+
+.dpr-my-reports__item-title--report-name {
+  font-size: 19px;
+  margin-bottom: govuk-spacing(1);
+}
+
+.dpr-my-reports__item-title--product-name {
+  font-size: 16px;
+  margin-bottom: govuk-spacing(3);
+}
+
+.dpr-my-reports__item-title--ts {
+  margin-top: auto;
+  margin-bottom: 0px;
+}
+
+.dpr-my-reports__item-title--report-type {
+  margin-bottom: govuk-spacing(4);
+  .govuk-tag {
+    font-size: 16px;
+  }
+}

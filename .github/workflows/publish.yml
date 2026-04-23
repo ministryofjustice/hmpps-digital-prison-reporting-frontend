@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       versionType:
-        description: "The semantic version segment to increment"
+        description: 'The semantic version segment to increment'
         required: true
         default: feature
         type: choice
@@ -26,17 +26,17 @@ jobs:
 
       - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e
         with:
-          node-version: "24.x"
-
-      # Ensure npm 11.5.1 or later is installed, to support OIDC publishing
-      - name: Update npm
-        run: npm install -g npm@latest
+          node-version: '24.x'
 
       - name: SLSA - supply chain attack mitigation
         uses: ministryofjustice/devsecops-actions/sca/slsa@877a6683738d4643f16c2c306e908bb5ef5487c2
 
       - run: npm run setup
       - run: npm run rpack
+
+      # Ensure npm 11.5.1 or later is installed, to support OIDC publishing
+      - name: Update npm
+        run: npm install -g npm@latest
 
       - name: Get version
         id: get-version
@@ -108,7 +108,7 @@ jobs:
 
       - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e
         with:
-          node-version: "24.x"
+          node-version: '24.x'
       - run: npm run setup
       - run: npm run docs
       - name: Upload GitHub Pages artifact

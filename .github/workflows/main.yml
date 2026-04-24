@@ -21,7 +21,7 @@ jobs:
           cache: 'npm'
 
       - name: SLSA - supply chain attack mitigation
-        uses: ministryofjustice/devsecops-actions/sca/slsa@877a6683738d4643f16c2c306e908bb5ef5487c2
+        uses: ministryofjustice/devsecops-actions/sca/slsa@1bbb075a85db86bf878878bd170f21a895896d9d
 
       - run: npm run setup
 
@@ -67,7 +67,7 @@ jobs:
           cache: 'npm'
 
       - name: SLSA - supply chain attack mitigation
-        uses: ministryofjustice/devsecops-actions/sca/slsa@877a6683738d4643f16c2c306e908bb5ef5487c2
+        uses: ministryofjustice/devsecops-actions/sca/slsa@1bbb075a85db86bf878878bd170f21a895896d9d
 
       - run: npm run setup
 
@@ -103,7 +103,7 @@ jobs:
           cache: 'npm'
 
       - name: SLSA - supply chain attack mitigation
-        uses: ministryofjustice/devsecops-actions/sca/slsa@877a6683738d4643f16c2c306e908bb5ef5487c2
+        uses: ministryofjustice/devsecops-actions/sca/slsa@1bbb075a85db86bf878878bd170f21a895896d9d
         with:
           security-patch-package-exclusion: "@ministryofjustice/hmpps-digital-prison-reporting-frontend"
       - run: npm run setup
@@ -232,7 +232,7 @@ jobs:
           cache: 'npm'
 
       - name: SLSA - supply chain attack mitigation
-        uses: ministryofjustice/devsecops-actions/sca/slsa@877a6683738d4643f16c2c306e908bb5ef5487c2
+        uses: ministryofjustice/devsecops-actions/sca/slsa@1bbb075a85db86bf878878bd170f21a895896d9d
 
       # Download dist + node_modules (dpr-package-package)
       - uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131

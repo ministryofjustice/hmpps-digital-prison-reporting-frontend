@@ -41,6 +41,8 @@ import MultiselectInput from './components/_inputs/multi-select/clientClass'
 // User repoorts
 import RequestedReportsList from './components/user-reports/requested/clientClass'
 import RecentlyViewedList from './components/user-reports/viewed/clientClass'
+// New
+import DprMyReports from './components/my-reports/my-reports-list/clientClass'
 
 // Charts
 import BarChartVisualisation from './components/_charts/chart/bar/clientClass'
@@ -87,6 +89,7 @@ function initAll() {
     DprFiltersFormClass,
     DprSelectedAsyncFilters,
     DprAppliedFilters,
+    DprMyReports,
   ]
 
   dayjs.extend(customParse)

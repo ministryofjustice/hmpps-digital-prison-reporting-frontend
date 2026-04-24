@@ -6,6 +6,7 @@
   {% set headings = listConfig.headings %}
   {% set items = listConfig.items %}
   {% set listType = listConfig.listType %}
+  {% set csrfToken = listConfig.csrfToken %}
 
   {% set classes = 'dpr-my-reports__table--requests' %}
   {% if listType == 'bookmarks' %}
@@ -17,7 +18,7 @@
     <p class="dpr-my-reports-totals govuk-body">Showing <strong>{{ items | length }}</strong> of <strong>{{ items | length }}</strong> reports</p>
 
     {# THE ITEMS #}
-    <div class="dpr-my-reports" data-dpr-module="dpr-my-reports" data-list-type='my-reports-{{ listType }}'>
+    <div class="dpr-my-reports" data-dpr-module="dpr-my-reports" data-list-type='my-reports-{{ listType }}' data-csrf-token="{{ csrfToken }}">
       <div class="dpr-my-reports__table {{ classes }}">
         
         {# Header row #}

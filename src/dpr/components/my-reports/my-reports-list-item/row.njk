@@ -10,15 +10,18 @@
 {% set filters = item.filters %} 
 {% set status = item.status %} 
 {% set meta = item.meta %} 
+{% set tableId = meta.tableId %} 
+
 
 <div class="dpr-my-reports__row-separator"></div>
 
 <div class="dpr-my-reports__row" 
-  data-row-id='dpr-my-report-{{ loop.index }}' 
+  data-row-id='dpr-my-report-{{ tableId }}' 
   data-report-id='{{ meta.reportId }}'
   data-id='{{ meta.id }}'
-  data-table-id='{{ meta.tableId }}'
-  data-status='{{ meta.status }}'
+  data-table-id='{{ tableId }}'
+  data-execution-id='{{ meta.executionId }}'
+  data-status='{{ status }}'
   data-list-type='{{ meta.listType }}'
   data-csrf-token='{{ meta.csrfToken }}'
   data-path='{{ meta.path }}'

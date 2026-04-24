@@ -84,7 +84,7 @@ export type DprMyReportItem = {
   filters?: DprMyReportFilters
   status?: string
   actions?: DprMyReportActions
-  meta: DprMyReportMeta
+  meta?: DprMyReportMeta
 }
 
 /* ==========================================================================

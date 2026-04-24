@@ -239,7 +239,7 @@ export const getFieldsByName = (
  */
 export const validateDefinition = (definition: components['schemas']['SingleVariantReportDefinition']) => {
   const { variant } = definition
-  return validateVariant(variant)
+  return validateVariant(variant, definition.id)
 }
 
 /**
@@ -248,11 +248,12 @@ export const validateDefinition = (definition: components['schemas']['SingleVari
  * @param {components['schemas']['VariantDefinition']} variant
  * @return {*}
  */
-export const validateVariant = (variant: components['schemas']['VariantDefinition']) => {
+export const validateVariant = (variant: components['schemas']['VariantDefinition'], defId: string) => {
   const { specification } = variant
 
   if (!specification) {
-    throw new Error('No specification in definition')
+    logger.error(`No specification found for definition ID: ${defId} variant ID: ${variant.id}`)
+    throw new Error(`No specification found for definition ID: ${defId} variant ID: ${variant.id}`)
   }
 
   return { variant, specification }

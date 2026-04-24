@@ -1,6 +1,7 @@
 import type { Request } from 'express'
 import logger from './logger'
-import { AcitveReportSessionData } from '../types/ActiveReportSession'
+import { ActiveReportSessionData } from '../types/ActiveReportSession'
+import { queryObjectToQs } from './queryMappers'
 
 /**
  * Gets the field value for a specific session key
@@ -26,16 +27,15 @@ export function getSessionValue(req: Request, sessionKey: string, field: string)
 interface ActiveJourneyKey {
   id: string
   reportId: string
-  type?: string
-  executionId?: string
-  tableId?: string
+  executionId?: string | undefined
+  tableId?: string | undefined
 }
 
-export function getActiveJourneyValue<F extends keyof AcitveReportSessionData>(
+export function getActiveJourneyValue<F extends keyof ActiveReportSessionData>(
   req: Request,
   keyParts: ActiveJourneyKey, // { reportId, id, tableId?, executionId? }
   field: F,
-): AcitveReportSessionData[F] | undefined {
+): ActiveReportSessionData[F] | undefined {
   const store = req.session?.activeReport
   if (!store) return undefined
 
@@ -65,6 +65,60 @@ export function getActiveJourneyValue<F extends keyof AcitveReportSessionData>(
   const value = store[baseKey]?.[field]
   logger.info('getActiveJourneyValue: base', { field, value })
   return value
+}
+
+/**
+ * Sets a key value on the active report session
+ *
+ * @template F
+ * @param {Request} req
+ * @param {ActiveJourneyKey} keyParts
+ * @param {F} field
+ * @param {ActiveReportSessionData[F]} value
+ */
+function setActiveJourneyValue<F extends keyof ActiveReportSessionData>(
+  req: Request,
+  keyParts: ActiveJourneyKey,
+  field: F,
+  value: ActiveReportSessionData[F],
+): void {
+  if (!req.session) return
+
+  if (!req.session.activeReport) {
+    req.session.activeReport = {}
+  }
+  const store = req.session.activeReport
+
+  const { reportId, id, executionId, tableId } = keyParts
+  const baseKey = buildJourneyKey({ reportId, id })
+  const execKey = executionId ? buildJourneyKey({ reportId, id, executionId }) : undefined
+  const tableKey = tableId ? buildJourneyKey({ reportId, id, tableId }) : undefined
+
+  const targetKey = tableKey ?? execKey ?? baseKey
+
+  if (!store[targetKey]) {
+    store[targetKey] = {}
+  }
+
+  store[targetKey][field] = value
+}
+
+/**
+ * sets the current sort search on the active report session
+ *
+ * @export
+ * @param {Request} req
+ * @param {{ reportId: string; id: string; tableId?: string }} sessionKey
+ * @param {(Record<string, string> | undefined)} sortData
+ */
+export function setActiveJourneySortSearch(
+  req: Request,
+  sessionKey: { reportId: string; id: string; tableId?: string | undefined },
+  sortData: Record<string, string> | undefined,
+) {
+  if (sortData) {
+    setActiveJourneyValue(req, sessionKey, 'requestedSortSearch', queryObjectToQs(sortData))
+  }
 }
 
 /**

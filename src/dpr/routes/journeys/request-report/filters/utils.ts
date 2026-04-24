@@ -17,7 +17,7 @@ import type { SetQueryFromFiltersResult } from '../../../../components/_async/as
 import type { components } from '../../../../types/api'
 import type { Services } from '../../../../types/Services'
 import { getDefinitionByType, getFields } from '../../../../utils/definitionUtils'
-import { getActiveJourneyValue } from '../../../../utils/sessionHelper'
+import { getActiveJourneyValue, setActiveJourneySortSearch } from '../../../../utils/sessionHelper'
 import { formBodyToQueryObject } from '../../../../utils/queryMappers'
 import { joinQueryStrings } from '../../../../utils/urlHelper'
 import { buildQuerySummary } from '../../../../components/_async/request-details/utils'
@@ -183,13 +183,14 @@ const requestProduct = async ({
   queryData?: SetQueryFromFiltersResult | undefined
 }> => {
   const { definitionsPath: dataProductDefinitionsPath, dpdPathFromQuery } = LocalsHelper.getValues(res)
-  const { reportId, id, type } = req.body
+  const { reportId, id, type } = req.body as { reportId: string; id: string; type: ReportType }
 
   const query = formBodyToQueryObject(req.body)
 
   let executionId
   let tableId
   let childVariants: components['schemas']['ChildVariantDefinition'][] = []
+  let sortData: Record<string, string> | undefined
 
   const { definition, fields } = await getDefinitionByType(type, services, token, reportId, id)
 
@@ -201,6 +202,8 @@ const requestProduct = async ({
     executionId = requestReportResponse['executionId']
     tableId = requestReportResponse['tableId']
     childVariants = (<components['schemas']['SingleVariantReportDefinition']>definition).variant.childVariants ?? []
+    sortData = buildSortData(req.body)
+    setActiveJourneySortSearch(req, { reportId, id, tableId }, sortData)
   }
 
   if (type === ReportType.DASHBOARD) {
@@ -214,12 +217,12 @@ const requestProduct = async ({
 
   const querySummary = buildQuerySummary(req.body, fields)
   const filterData = buildFilterData(req.body)
-  const sortData = buildSortData(req.body)
+
   const queryData = {
     querySummary,
     filterData,
-    sortData,
     query,
+    ...(sortData && { sortData }),
   }
 
   const childExecutionData = await requestChildReports(
@@ -414,7 +417,7 @@ export const setDefaultQueryString = (req: Request) => {
   const sessionKey = { id, reportId }
   const defaultFiltersSearch = getActiveJourneyValue(req, sessionKey, 'defaultFiltersSearch')
   const savedRequestDefaultsSearch = getActiveJourneyValue(req, sessionKey, 'savedRequestDefaultsSearch')
-  const defautltSortQueryString = getActiveJourneyValue(req, sessionKey, 'defautltSortQueryString')
+  const defaultSortQueryString = getActiveJourneyValue(req, sessionKey, 'defaultSortQueryString')
 
   // If DPD defaults, use those unless there are saved defaults
   const effectiveQueryString =
@@ -422,8 +425,8 @@ export const setDefaultQueryString = (req: Request) => {
       ? savedRequestDefaultsSearch
       : defaultFiltersSearch
 
-  if (defautltSortQueryString && defautltSortQueryString.length > 0) {
-    return joinQueryStrings(effectiveQueryString, defautltSortQueryString)
+  if (defaultSortQueryString && defaultSortQueryString.length > 0) {
+    return joinQueryStrings(effectiveQueryString, defaultSortQueryString)
   }
 
   return effectiveQueryString

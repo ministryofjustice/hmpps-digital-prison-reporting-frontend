@@ -322,8 +322,8 @@ export default class Report {
     this.reportDetails = {
       reportName,
       name,
-      description: description || reportDescription,
-      classification,
+      description: description || reportDescription || '',
+      classification: classification || '',
       printable: Boolean(printable),
       template,
       specification: this.specification, // TODO: check if needed ???
@@ -381,14 +381,7 @@ export default class Report {
     const bookmarkConfig = setUpBookmark(this.res, this.req, this.services.bookmarkService)
 
     // Setup download
-    const downloadConfig = setUpDownload(
-      this.res,
-      this.req,
-      this.reportDetails,
-      this.columns,
-      this.loadType,
-      this.extractedRequestData,
-    )
+    const downloadConfig = setUpDownload(this.res, this.req)
 
     // Setup other actions
     const actions = ReportActionsUtils.setActions(this.reportDetails, downloadConfig, this.extractedRequestData)

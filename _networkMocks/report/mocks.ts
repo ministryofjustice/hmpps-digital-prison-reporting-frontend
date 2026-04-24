@@ -48,11 +48,44 @@ export const getAsyncListSectionReportResultMock = setupSimpleMock(
   createMockData(10),
 )
 
+const downloadPathPattern = '/reports/[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+/tables/tblId_[a-zA-Z0-9]+/download'
 export const getAsyncReportDownloadMock = {
   priority: 1,
   request: {
     method: 'GET',
-    urlPathPattern: '/reports/[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+/tables/tblId_[a-zA-Z0-9]+/download',
+    urlPathPattern: downloadPathPattern,
+  },
+  response: {
+    status: 200,
+    headers: {
+      'Content-Type': 'text/csv',
+      'Content-Disposition': 'attachment; filename="report.csv"',
+    },
+    body: `col1,col2,col3
+1,abc,def
+2,ghi,jkl
+3,mno,pqr
+`,
+  },
+}
+
+export const getInteractiveReportDownloadMock = {
+  priority: 1,
+  request: {
+    method: 'GET',
+    urlPathPattern: downloadPathPattern,
+    queryParameters: {
+      'filters.field3.start': { equalTo: '2003-02-01' },
+      'filters.field3.end': { equalTo: '2006-05-04' },
+      sortColumn: { equalTo: 'field6' },
+      sortedAsc: { equalTo: 'false' },
+      'filters.field8': {
+        matches: 'value8\\.(2|3)',
+      },
+      columns: {
+        matches: 'field(1|2|3|6)',
+      },
+    },
   },
   response: {
     status: 200,

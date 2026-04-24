@@ -81,7 +81,7 @@ const initRequested = (req: Request, res: Response) => {
  */
 const initViewed = (req: Request, res: Response) => {
   return {
-    title: 'Requested reports',
+    title: 'Recently viewed',
     listType: ListType.VIEWED,
     headings: buildHeadings(ListType.VIEWED),
     items: buildListItems(req, res, ListType.VIEWED),
@@ -114,8 +114,20 @@ const buildListItems = (req: Request, res: Response, listType: ListType): DprMyR
       filters: buildFiltersCell(data),
       status: data.status as RequestStatus, // TODO: fixed in StoredReportData
       actions: buildActionsCell(data, res, req, listType),
+      meta: buildMeta(data, res),
     }
   })
+}
+
+const buildMeta = (data: StoredReportData, res: Response) => {
+  const { userReportsList } = LocalsHelper.getRouteLocals(res)
+  return {
+    id: data.id,
+    reportId: data.reportId,
+    tableId: data.tableId,
+    status: data.status,
+    path: userReportsList,
+  }
 }
 
 /**
@@ -472,7 +484,7 @@ const ALL_HEADINGS: HeadingConfig[] = [
     key: 'title',
     name: 'Product',
     classes: 'dpr-my-reports__cell--title',
-    showIn: [ListType.BOOKMARKS, ListType.REQUESTED],
+    showIn: [ListType.BOOKMARKS, ListType.REQUESTED, ListType.VIEWED],
   },
   {
     key: 'description',
@@ -484,18 +496,18 @@ const ALL_HEADINGS: HeadingConfig[] = [
     key: 'filters',
     name: 'Filters',
     classes: 'dpr-my-reports__cell--filters',
-    showIn: [ListType.REQUESTED],
+    showIn: [ListType.REQUESTED, ListType.VIEWED],
   },
   {
     key: 'status',
     name: 'Status',
     classes: 'dpr-my-reports__cell--status',
-    showIn: [ListType.REQUESTED],
+    showIn: [ListType.REQUESTED, ListType.VIEWED],
   },
   {
     key: 'actions',
     name: 'Actions',
     classes: 'dpr-my-reports__cell--actions',
-    showIn: [ListType.BOOKMARKS, ListType.REQUESTED],
+    showIn: [ListType.BOOKMARKS, ListType.REQUESTED, ListType.VIEWED],
   },
 ]

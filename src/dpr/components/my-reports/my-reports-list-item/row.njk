@@ -1,0 +1,52 @@
+{% from "./my-reports-list-item-title/view.njk" import dprMyReportListItemTitle %}
+{% from "./my-reports-list-item-description/view.njk" import dprMyReportListItemDescription %}
+{% from "./my-reports-list-item-filters/view.njk" import dprMyReportListItemFilters %}
+{% from "./my-reports-list-item-status/view.njk" import dprMyReportListItemStatus %}
+{% from "./my-reports-list-item-actions/view.njk" import dprMyReportListItemActions %}
+
+{% set title = item.title %} 
+{% set description = item.description %} 
+{% set actions = item.actions %} 
+{% set filters = item.filters %} 
+{% set status = item.status %} 
+{% set meta = item.meta %} 
+
+<div class="dpr-my-reports__row-separator"></div>
+
+<div class="dpr-my-reports__row" 
+  data-row-id='dpr-my-report-{{ loop.index }}' 
+  data-report-id='{{ meta.reportId }}'
+  data-id='{{ meta.id }}'
+  data-table-id='{{ meta.tableId }}'
+  data-status='{{ meta.status }}'
+  data-list-type='{{ meta.listType }}'
+  data-csrf-token='{{ meta.csrfToken }}'
+  data-path='{{ meta.path }}'
+  >
+
+  <div class="dpr-my-reports__cell dpr-my-reports__cell--title">
+    {{ dprMyReportListItemTitle(title) }}
+  </div>
+  
+  {% if description %}
+    <div class="dpr-my-reports__cell dpr-my-reports__cell--description">
+      {{ dprMyReportListItemDescription(description) }}
+    </div>
+  {% endif %}
+
+  {% if filters %}
+    <div class="dpr-my-reports__cell dpr-my-reports__cell--filters">
+      {{ dprMyReportListItemFilters(filters) }}
+    </div>
+  {% endif %}
+
+  {% if status %}
+    <div class="dpr-my-reports__cell dpr-my-reports__cell--status">
+      {{ dprMyReportListItemStatus(status) }}
+    </div>
+  {% endif %}
+
+  <div class="dpr-my-reports__cell dpr-my-reports__cell--actions">
+    {{ dprMyReportListItemActions(actions) }}
+  </div>
+</div>

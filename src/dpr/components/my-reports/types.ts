@@ -68,6 +68,12 @@ export type DprMyReportActions = {
   request?: ViewAction
 }
 
+export type DprMyReportMeta = {
+  id: string
+  reportId: string
+  tableId?: string | undefined
+}
+
 /* ==========================================================================
    Item (row)
    ========================================================================== */
@@ -78,6 +84,7 @@ export type DprMyReportItem = {
   filters?: DprMyReportFilters
   status?: string
   actions?: DprMyReportActions
+  meta: DprMyReportMeta
 }
 
 /* ==========================================================================

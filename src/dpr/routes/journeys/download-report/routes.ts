@@ -13,7 +13,7 @@ export function Routes({ layoutPath, services }: { services: Services; layoutPat
   const controller = new DownloadReportController(layoutPath, services)
 
   // Download report
-  router.post('/', controller.POST)
+  router.post(['/:reportId/:id/tableId/:tableId', '/:reportId/:id'], controller.POST)
 
   // Request download form routes
   router.use(

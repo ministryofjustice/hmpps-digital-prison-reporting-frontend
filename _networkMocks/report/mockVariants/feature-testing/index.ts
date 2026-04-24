@@ -13,6 +13,7 @@ import { featureTestingValidation } from './validation'
 import { featureTesting } from './bigReport'
 import { featureTestingOrderFilters } from './orderFilters'
 import { featureTestingLongHeadings } from './longHeadings'
+import { featureTestingInteractiveDownload } from './download'
 
 export const featureTestingVariants = [
   featureTestingEmptyQuery,
@@ -30,4 +31,5 @@ export const featureTestingVariants = [
   featureTesting,
   featureTestingOrderFilters,
   featureTestingLongHeadings,
+  featureTestingInteractiveDownload,
 ]

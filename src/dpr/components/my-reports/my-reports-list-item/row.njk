@@ -8,10 +8,11 @@
 {% set description = item.description %} 
 {% set actions = item.actions %} 
 {% set filters = item.filters %} 
-{% set status = item.status %} 
+{% set status = item.status %}
+
 {% set meta = item.meta %} 
 {% set tableId = meta.tableId %} 
-
+{% set listType = meta.listType %}
 
 <div class="dpr-my-reports__row-separator"></div>
 
@@ -25,10 +26,12 @@
   data-list-type='{{ meta.listType }}'
   data-csrf-token='{{ meta.csrfToken }}'
   data-path='{{ meta.path }}'
+
+  aria-labelledby="row_{{ title.productName | dpr.spacesToDash }}_{{ title.reportName | dpr.spacesToDash }}_{{ tableId }}"
   >
 
   <div class="dpr-my-reports__cell dpr-my-reports__cell--title">
-    {{ dprMyReportListItemTitle(title) }}
+    {{ dprMyReportListItemTitle(title, tableId) }}
   </div>
   
   {% if description %}

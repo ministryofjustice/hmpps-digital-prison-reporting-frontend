@@ -15,21 +15,29 @@
 
   <div>
     <h1 class="govuk-heading-m govuk-!-margin-bottom-0">{{ title }}</h1>
-    <p class="dpr-my-reports-totals govuk-body">Showing <strong>{{ items | length }}</strong> of <strong>{{ items | length }}</strong> reports</p>
 
-    {# THE ITEMS #}
-    <div class="dpr-my-reports" data-dpr-module="dpr-my-reports" data-list-type='my-reports-{{ listType }}' data-csrf-token="{{ csrfToken }}">
-      <div class="dpr-my-reports__table {{ classes }}">
-        
-        {# Header row #}
-        {{ dprMyReportListHeadings(headings) }}
+    {% if items | length %}
+      <p class="dpr-my-reports-totals govuk-body">Showing <strong>{{ items | length }}</strong> of <strong>{{ items | length }}</strong> reports</p>
 
-        {# Body rows #}
-        {% for item in items %}
-          {% include "../my-reports-list-item/row.njk" %}
-        {% endfor %}
+      {# THE ITEMS #}
+      <div class="dpr-my-reports" data-dpr-module="dpr-my-reports" data-list-type='my-reports-{{ listType }}' data-csrf-token="{{ csrfToken }}">
+        <div class="dpr-my-reports__table {{ classes }}">
+          
+          {# Header row #}
+          {{ dprMyReportListHeadings(headings, listType) }}
 
+          {# Body rows #}
+          {% for item in items %}
+            {% include "../my-reports-list-item/row.njk" %}
+          {% endfor %}
+
+        </div>
       </div>
-    </div>
+
+    {% else %}
+
+      <p class='govuk-body'>You have 0 {{ listType }} reports<p>
+
+    {% endif %}
   </div>
 {% endmacro %}

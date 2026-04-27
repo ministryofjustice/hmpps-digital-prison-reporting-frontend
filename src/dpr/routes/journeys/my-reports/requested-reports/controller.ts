@@ -1,9 +1,9 @@
 import { RequestHandler } from 'express'
 import { Services } from '../../../../types/Services'
 import LocalsHelper from '../../../../utils/localsHelper'
-import { buildMyReportListRow } from 'src/dpr/components/my-reports/my-reports-list-item/utils'
-import { ListType } from 'src/dpr/components/my-reports/types'
-import { evaluateAndUpdateReportStatus } from 'src/dpr/utils/ReportStatus/getReportStatus'
+import { buildMyReportListRow } from '../../../../components/my-reports/my-reports-list-item/utils'
+import { ListType } from '../../../../components/my-reports/types'
+import { evaluateAndUpdateReportStatus } from '../../../../utils/ReportStatus/getReportStatus'
 
 class RequestedReportsController {
   services: Services
@@ -55,14 +55,12 @@ class RequestedReportsController {
       const viewModel = buildMyReportListRow(updated, resolution.newStatus, req, res, ListType.REQUESTED)
       return res.render('dpr/components/my-reports/my-reports-list-item/row.njk', { item: viewModel }, (err, html) => {
         if (err) {
-          console.error(err)
           return res.sendStatus(500)
         }
 
-        res.type('text/html').send(html)
+        return res.type('text/html').send(html)
       })
     } catch (error) {
-      console.error(error)
       return res.sendStatus(500)
     }
   }
@@ -85,7 +83,7 @@ class RequestedReportsController {
       return res.redirect(returnTo)
     }
 
-    res.redirect('/')
+    return res.redirect('/')
   }
 }
 

@@ -1,6 +1,6 @@
 {%- from "govuk/components/tag/macro.njk" import govukTag -%}
 
-{% macro dprMyReportListItemTitle(titleConfig) %}
+{% macro dprMyReportListItemTitle(titleConfig, tableId) %}
   
   {% set productName = titleConfig.productName %}
   {% set reportName = titleConfig.reportName %}
@@ -8,8 +8,13 @@
   {% set timestamp = titleConfig.timestamp %}
 
   <div class="dpr-my-reports__item-title">
-    <h3 class='dpr-my-reports__item-title--report-name'>{{ reportName }}</h3>
-    <h4 class='dpr-my-reports__item-title--product-name govuk-body'>{{ productName }}</h4>
+    <h1 
+      id="row_{{ productName | dpr.spacesToDash }}_{{ reportName | dpr.spacesToDash }}_{{ tableId }}"
+      class='dpr-my-reports__item-title--report-name govuk-heading-m'>
+      {{ reportName }}
+    </h1>
+    
+    <h2 class='dpr-my-reports__item-title--product-name govuk-body govuk-heading-s'>{{ productName }}</h2>
 
     <div class="dpr-my-reports__item-title--report-type">
       {{ govukTag({

@@ -26,7 +26,7 @@ export const buildMyReportListRow = (
     filters: buildFiltersCell(data),
     status,
     actions: buildActionsCell(data, res, req, listType),
-    meta: buildMeta(data, res),
+    meta: buildMeta(data, res, listType),
   }
 }
 
@@ -88,10 +88,11 @@ const buildTimestamp = (data: StoredReportData) => {
       const ts = requested ? apiTimestampToUiDateTime(requested) : now
       return `Requested at ${ts}`
     }
-    default:
+    default: {
       const { lastViewed } = timestamp
       const ts = lastViewed ? apiTimestampToUiDateTime(lastViewed) : now
       return `Last viewed at ${ts}`
+    }
   }
 }
 
@@ -188,24 +189,22 @@ const buildRemoveAction = (data: StoredReportData, res: Response, req: Request, 
   const { reportId, id, executionId, tableId } = data
   const { requestedListPath, recentlyViewedListPath } = getRouteLocals(res)
 
-  // build to action endpoint
   let action = ''
+
   if (listType === ListType.REQUESTED) {
     // ASYNC report - only executionId is needed
     action = `${requestedListPath}/remove-item/${executionId}`
+  } else if (tableId && executionId) {
+    // ASYNC report - tableId and executionId needed
+    action = `${recentlyViewedListPath}/remove-item/${executionId}/table-id/${tableId}`
   } else {
-    if (tableId && executionId) {
-      // ASYNC report - tableId and executionId needed
-      action = `${recentlyViewedListPath}/remove-item/${executionId}/table-id/${tableId}`
-    } else {
-      // SYNC report - reportId and Id needed
-      action = `${recentlyViewedListPath}/remove-item/report-id/${reportId}/id/${id}`
-    }
+    // SYNC report - reportId and Id needed
+    action = `${recentlyViewedListPath}/remove-item/report-id/${reportId}/id/${id}`
   }
 
   return {
     action,
-    csrfToken: res.locals['csrfToken'],
+    csrfToken: res.locals.csrfToken,
     returnTo: req.originalUrl,
   }
 }
@@ -217,7 +216,7 @@ const buildRemoveAction = (data: StoredReportData, res: Response, req: Request, 
  * @param {Response} res
  * @return {*}
  */
-const buildMeta = (data: StoredReportData, res: Response) => {
+const buildMeta = (data: StoredReportData, res: Response, listType: ListType) => {
   const { userReportsList } = getRouteLocals(res)
   return {
     id: data.id,
@@ -225,5 +224,6 @@ const buildMeta = (data: StoredReportData, res: Response) => {
     tableId: data.tableId,
     executionId: data.executionId,
     path: userReportsList,
+    listType,
   }
 }

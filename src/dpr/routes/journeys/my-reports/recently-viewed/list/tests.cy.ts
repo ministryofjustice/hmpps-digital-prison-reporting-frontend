@@ -1,4 +1,4 @@
-import { executeReportStubs } from '../../../../../../../cypress-tests/cypressUtils'
+import { executeReportStubs, getMyReportRowCell } from '../../../../../../../cypress-tests/cypressUtils'
 
 context('Recently viewed list', () => {
   const path = '/embedded/platform'
@@ -56,9 +56,10 @@ context('Recently viewed list', () => {
     cy.visit(path)
     cy.findByRole('tab', { name: /Viewed/ }).click()
     cy.findByLabelText(/Viewed/i).within(() => {
-      const rows = cy.findAllByRole('row')
-      rows.should('have.length', 3) // two rows plus header row
-      rows.eq(1).should('contain.text', 'Interactive Report')
+      cy.findByRole('heading', {
+        name: 'Interactive Report',
+        level: 1,
+      }).should('exist')
     })
 
     cy.findByLabelText(/Reports catalogue.*/i).within(() => {
@@ -79,9 +80,10 @@ context('Recently viewed list', () => {
     cy.visit(path)
     cy.findByRole('tab', { name: /Viewed/ }).click()
     cy.findByLabelText(/Viewed \(2\)/i).within(() => {
-      const rows = cy.findAllByRole('row')
-      rows.should('have.length', 3) // two rows plus header row
-      rows.eq(1).should('contain.text', 'Successful Report')
+      cy.findByRole('heading', {
+        name: 'Successful Report',
+        level: 1,
+      }).should('exist')
     })
   })
 
@@ -112,14 +114,10 @@ context('Recently viewed list', () => {
     cy.findByRole('tab', { name: /Viewed/ }).click()
     cy.reload().reload().reload()
     cy.findByLabelText(/Viewed \(/).within(() => {
-      cy.findByRole('row', {
-        name: (_, element) => {
-          return Boolean(element.textContent?.includes('Successful Report'))
-        },
-      }).within(() => {
-        cy.findByRole('link', { name: 'Remove' }).should('be.visible')
-        cy.findByRole('cell', { name: 'EXPIRED' }).should('be.visible')
-        cy.findByRole('link', { name: 'Refresh' }).click()
+      getMyReportRowCell({ name: 'Successful Report', cell: 'status' }).contains('EXPIRED')
+      getMyReportRowCell({ name: 'Successful Report', cell: 'actions' }).within(() => {
+        cy.findByRole('button', { name: 'Remove' }).should('be.visible')
+        cy.findByRole('link', { name: 'Refresh' }).should('be.visible').click()
       })
     })
     const filtersHref = '/embedded/platform/dpr/request-report/report/request-examples/request-example-success/filters'
@@ -128,20 +126,15 @@ context('Recently viewed list', () => {
     cy.visit(path)
     cy.findByRole('tab', { name: /Viewed/ }).click()
     cy.findByLabelText(/Viewed \(/).within(() => {
-      cy.findByRole('row', {
-        name: (_, element) => {
-          return Boolean(element.textContent?.includes('Successful Report'))
-        },
-      }).within(() => {
-        cy.findByRole('link', { name: 'Remove' }).click()
+      getMyReportRowCell({ name: 'Successful Report', cell: 'actions' }).within(() => {
+        cy.findByRole('button', { name: 'Remove' }).should('be.visible').click()
       })
     })
 
     cy.findByLabelText(/Requested/i).within(() => {
-      cy.findByRole('row', {
-        name: (_, element) => {
-          return Boolean(element.textContent?.includes('Successful Report'))
-        },
+      cy.findByRole('heading', {
+        name: 'Successful Report',
+        level: 1,
       }).should('not.exist')
     })
   })

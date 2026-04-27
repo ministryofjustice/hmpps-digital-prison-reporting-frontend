@@ -31,7 +31,7 @@ class RecentlyViewedReportsController {
       return res.redirect(returnTo)
     }
 
-    res.redirect('/')
+    return res.redirect('/')
   }
 }
 

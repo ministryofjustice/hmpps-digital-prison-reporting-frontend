@@ -1,6 +1,12 @@
 import { featureTestingUnprintable } from '@networkMocks/report/mockVariants/feature-testing/unprintable'
 import { featureTestingEmptyQuery } from '@networkMocks/report/mockVariants/feature-testing/emptyQuery'
-import { stubBaseTasks, stubDefinitionsTasks } from '../../../../../../cypress-tests/cypressUtils'
+import {
+  expectMyReportRowCountInTab,
+  getMyReportRow,
+  getMyReportRowCell,
+  stubBaseTasks,
+  stubDefinitionsTasks,
+} from '../../../../../../cypress-tests/cypressUtils'
 
 context('Bookmarks list', () => {
   const paths = ['/', '/embedded/platform', '/embedded/platform/dpr']
@@ -14,18 +20,11 @@ context('Bookmarks list', () => {
           cy.visit(path)
 
           cy.findByRole('tab', { name: /Bookmarks/ }).click()
+
+          expectMyReportRowCountInTab({ tabName: /Bookmarks.*/i, count: 2 })
           cy.findByLabelText(/Bookmarks.*/i).within(() => {
-            cy.findAllByRole('rowgroup')
-              .eq(1)
-              .within(() => {
-                cy.findAllByRole('row').should('have.length', 2)
-                cy.findByRole('link', {
-                  name: (_, element) => (element as HTMLAnchorElement).href.includes(featureTestingUnprintable.id),
-                })
-                cy.findByRole('link', {
-                  name: (_, element) => (element as HTMLAnchorElement).href.includes(featureTestingEmptyQuery.id),
-                })
-              })
+            getMyReportRow({ name: featureTestingUnprintable.name })
+            getMyReportRow({ name: featureTestingEmptyQuery.name })
           })
         })
       })
@@ -51,13 +50,8 @@ context('Bookmarks list', () => {
           describe('report', () => {
             it('should add a bookmark to the bookmarks list', () => {
               cy.findByRole('tab', { name: /Bookmarks/ }).click()
-              cy.findByLabelText(/Bookmarks.*/i).within(() => {
-                cy.findAllByRole('rowgroup')
-                  .eq(1)
-                  .within(() => {
-                    cy.findAllByRole('row').should('have.length', 2)
-                  })
-              })
+
+              expectMyReportRowCountInTab({ tabName: /Bookmarks.*/i, count: 2 })
 
               cy.findByLabelText(/Reports catalogue.*/i).within(() => {
                 cy.findByRole('row', {
@@ -69,14 +63,7 @@ context('Bookmarks list', () => {
                 })
               })
 
-              cy.findByLabelText(/Bookmarks.*/i).within(() => {
-                cy.findAllByRole('rowgroup')
-                  .eq(1)
-                  .within(() => {
-                    cy.findAllByRole('row').should('have.length', 3)
-                    cy.findAllByRole('row').contains('Interactive Report with async filters').should('exist')
-                  })
-              })
+              expectMyReportRowCountInTab({ tabName: /Bookmarks.*/i, count: 3 })
 
               cy.findByLabelText(/Reports catalogue.*/i).within(() => {
                 cy.findByRole('row', {
@@ -91,13 +78,8 @@ context('Bookmarks list', () => {
 
             it('should remove a bookmark to the bookmarks list', () => {
               cy.findByRole('tab', { name: /Bookmarks/ }).click()
-              cy.findByLabelText(/Bookmarks.*/i).within(() => {
-                cy.findAllByRole('rowgroup')
-                  .eq(1)
-                  .within(() => {
-                    cy.findAllByRole('row').should('have.length', 3)
-                  })
-              })
+
+              expectMyReportRowCountInTab({ tabName: /Bookmarks.*/i, count: 3 })
 
               cy.findByLabelText(/Reports catalogue.*/i).within(() => {
                 cy.findByRole('row', {
@@ -109,13 +91,7 @@ context('Bookmarks list', () => {
                 })
               })
 
-              cy.findByLabelText(/Bookmarks.*/i).within(() => {
-                cy.findAllByRole('rowgroup')
-                  .eq(1)
-                  .within(() => {
-                    cy.findAllByRole('row').should('have.length', 2)
-                  })
-              })
+              expectMyReportRowCountInTab({ tabName: /Bookmarks.*/i, count: 2 })
 
               cy.findByLabelText(/Reports catalogue.*/i).within(() => {
                 cy.findByRole('row', {
@@ -132,13 +108,8 @@ context('Bookmarks list', () => {
           describe('dashboard', () => {
             it('should add a bookmark to the bookmarks list', () => {
               cy.findByRole('tab', { name: /Bookmarks/ }).click()
-              cy.findByLabelText(/Bookmarks.*/i).within(() => {
-                cy.findAllByRole('rowgroup')
-                  .eq(1)
-                  .within(() => {
-                    cy.findAllByRole('row').should('have.length', 2)
-                  })
-              })
+
+              expectMyReportRowCountInTab({ tabName: /Bookmarks.*/i, count: 2 })
 
               cy.findByLabelText(/Reports catalogue.*/i).within(() => {
                 cy.findByRole('row', {
@@ -150,13 +121,9 @@ context('Bookmarks list', () => {
                 })
               })
 
+              expectMyReportRowCountInTab({ tabName: /Bookmarks.*/i, count: 2 })
               cy.findByLabelText(/Bookmarks.*/i).within(() => {
-                cy.findAllByRole('rowgroup')
-                  .eq(1)
-                  .within(() => {
-                    cy.findAllByRole('row').should('have.length', 3)
-                    cy.findAllByRole('row').contains('Dashboard used for testing testing').should('exist')
-                  })
+                getMyReportRow({ name: 'Test Dashboard' })
               })
 
               cy.findByLabelText(/Reports catalogue.*/i).within(() => {
@@ -172,12 +139,15 @@ context('Bookmarks list', () => {
 
             it('should remove a bookmark from the bookmarks list', () => {
               cy.findByRole('tab', { name: /Bookmarks/ }).click()
+
+              expectMyReportRowCountInTab({ tabName: /Bookmarks.*/i, count: 3 })
+
               cy.findByLabelText(/Bookmarks.*/i).within(() => {
-                cy.findAllByRole('rowgroup')
-                  .eq(1)
-                  .within(() => {
-                    cy.findAllByRole('row').should('have.length', 3)
-                  })
+                getMyReportRowCell({ name: 'Test Dashboard', cell: 'actions' }).within(() => {
+                  cy.findByRole('button', { name: /Remove bookmark/ })
+                    .should('be.visible')
+                    .click()
+                })
               })
 
               cy.findByLabelText(/Reports catalogue.*/i).within(() => {
@@ -190,13 +160,7 @@ context('Bookmarks list', () => {
                 })
               })
 
-              cy.findByLabelText(/Bookmarks.*/i).within(() => {
-                cy.findAllByRole('rowgroup')
-                  .eq(1)
-                  .within(() => {
-                    cy.findAllByRole('row').should('have.length', 2)
-                  })
-              })
+              expectMyReportRowCountInTab({ tabName: /Bookmarks.*/i, count: 3 })
 
               cy.findByLabelText(/Reports catalogue.*/i).within(() => {
                 cy.findByRole('row', {
@@ -239,13 +203,7 @@ context('Bookmarks list', () => {
               })
             })
 
-            cy.findByLabelText(/Bookmarks.*/i).within(() => {
-              cy.findAllByRole('rowgroup')
-                .eq(1)
-                .within(() => {
-                  cy.findAllByRole('row').should('have.length', 3)
-                })
-            })
+            expectMyReportRowCountInTab({ tabName: /Bookmarks.*/i, count: 3 })
 
             cy.findByLabelText(/Reports catalogue.*/i).within(() => {
               cy.findByRole('row', {
@@ -257,13 +215,7 @@ context('Bookmarks list', () => {
               })
             })
 
-            cy.findByLabelText(/Bookmarks.*/i).within(() => {
-              cy.findAllByRole('rowgroup')
-                .eq(1)
-                .within(() => {
-                  cy.findAllByRole('row').should('have.length', 2)
-                })
-            })
+            expectMyReportRowCountInTab({ tabName: /Bookmarks.*/i, count: 2 })
           })
 
           it('should remove a report bookmark', () => {
@@ -277,13 +229,7 @@ context('Bookmarks list', () => {
               })
             })
 
-            cy.findByLabelText(/Bookmarks.*/i).within(() => {
-              cy.findAllByRole('rowgroup')
-                .eq(1)
-                .within(() => {
-                  cy.findAllByRole('row').should('have.length', 3)
-                })
-            })
+            expectMyReportRowCountInTab({ tabName: /Bookmarks.*/i, count: 3 })
 
             cy.findByLabelText(/Reports catalogue.*/i).within(() => {
               cy.findByRole('row', {
@@ -295,13 +241,7 @@ context('Bookmarks list', () => {
               })
             })
 
-            cy.findByLabelText(/Bookmarks.*/i).within(() => {
-              cy.findAllByRole('rowgroup')
-                .eq(1)
-                .within(() => {
-                  cy.findAllByRole('row').should('have.length', 2)
-                })
-            })
+            expectMyReportRowCountInTab({ tabName: /Bookmarks.*/i, count: 2 })
           })
         })
 
@@ -338,49 +278,28 @@ context('Bookmarks list', () => {
           })
 
           it('should add a bookmark', () => {
-            cy.findByLabelText(/Bookmarks.*/i).within(() => {
-              cy.findAllByRole('rowgroup')
-                .eq(1)
-                .within(() => {
-                  cy.findAllByRole('row').should('have.length', 2)
-                })
-            })
+            expectMyReportRowCountInTab({ tabName: /Bookmarks.*/i, count: 2 })
 
             cy.visit(viewReportUrl)
             cy.findByRole('link', { name: /Add bookmark/ }).click()
             cy.findByRole('link', { name: /Remove bookmark/ }).should('be.visible')
 
             cy.visit(path)
-            cy.findByLabelText(/Bookmarks.*/i).within(() => {
-              cy.findAllByRole('rowgroup')
-                .eq(1)
-                .within(() => {
-                  cy.findAllByRole('row').should('have.length', 3)
-                })
-            })
+
+            expectMyReportRowCountInTab({ tabName: /Bookmarks.*/i, count: 3 })
           })
 
           it('should remove a bookmark', () => {
-            cy.findByLabelText(/Bookmarks.*/i).within(() => {
-              cy.findAllByRole('rowgroup')
-                .eq(1)
-                .within(() => {
-                  cy.findAllByRole('row').should('have.length', 3)
-                })
-            })
+            expectMyReportRowCountInTab({ tabName: /Bookmarks.*/i, count: 3 })
+
             cy.visit(viewReportUrl)
 
             cy.findByRole('link', { name: /Remove bookmark/ }).click()
             cy.findByRole('link', { name: /Add bookmark/ })
 
             cy.visit(path)
-            cy.findByLabelText(/Bookmarks.*/i).within(() => {
-              cy.findAllByRole('rowgroup')
-                .eq(1)
-                .within(() => {
-                  cy.findAllByRole('row').should('have.length', 2)
-                })
-            })
+
+            expectMyReportRowCountInTab({ tabName: /Bookmarks.*/i, count: 2 })
           })
         })
 
@@ -419,36 +338,22 @@ context('Bookmarks list', () => {
               .click()
               .contains('Remove bookmark')
             cy.visit(path)
-            cy.findByLabelText(/Bookmarks.*/i).within(() => {
-              cy.findAllByRole('rowgroup')
-                .eq(1)
-                .within(() => {
-                  cy.findAllByRole('row').should('have.length', 3)
-                })
-            })
+
+            expectMyReportRowCountInTab({ tabName: /Bookmarks.*/i, count: 3 })
           })
 
           it('should remove a bookmark', () => {
             cy.visit(path)
-            cy.findByLabelText(/Bookmarks.*/i).within(() => {
-              cy.findAllByRole('rowgroup')
-                .eq(1)
-                .within(() => {
-                  cy.findAllByRole('row').should('have.length', 3)
-                })
-            })
+
+            expectMyReportRowCountInTab({ tabName: /Bookmarks.*/i, count: 3 })
+
             cy.visit(viewReportUrl)
             cy.findByRole('link', { name: /Remove bookmark/ })
               .click()
               .contains('Add bookmark')
             cy.visit(path)
-            cy.findByLabelText(/Bookmarks.*/i).within(() => {
-              cy.findAllByRole('rowgroup')
-                .eq(1)
-                .within(() => {
-                  cy.findAllByRole('row').should('have.length', 2)
-                })
-            })
+
+            expectMyReportRowCountInTab({ tabName: /Bookmarks.*/i, count: 2 })
           })
         })
 

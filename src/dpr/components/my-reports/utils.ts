@@ -138,7 +138,7 @@ const buildBookmarkListItems = async (res: Response, services: Services): Promis
         reportName,
         reportType,
       },
-      description: description,
+      description,
       actions: buildBookmarkActionsCell(bookmark, res),
     }
   })
@@ -159,7 +159,7 @@ const mapBookmarks = async (
 ): Promise<MappedBookmarks[]> => {
   const { token, definitionsPath } = LocalsHelper.getValues(res)
 
-  return await Promise.all(
+  return Promise.all(
     bookmarks.map(async (bm) => {
       const { id, reportId, type, variantId } = bm
       const sourceId = variantId || id
@@ -261,7 +261,7 @@ const getDataForList = (res: Response, listType: ListType): StoredReportData[] |
         )
       })
     default:
-      break
+      return undefined
   }
 }
 

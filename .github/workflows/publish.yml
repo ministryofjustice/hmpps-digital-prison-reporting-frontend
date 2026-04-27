@@ -41,7 +41,7 @@ jobs:
       - name: Get version
         id: get-version
         run: |
-          CURRENT_VERSION=$(npm view @ministryofjustice/hmpps-digital-prison-reporting-frontend version)
+          CURRENT_VERSION=$(curl -s https://registry.npmjs.org/@ministryofjustice/hmpps-digital-prison-reporting-frontend | jq -r '.["dist-tags"].latest')
           echo "Current version: $CURRENT_VERSION"
           echo "current_version=$CURRENT_VERSION" >> "$GITHUB_OUTPUT"
 

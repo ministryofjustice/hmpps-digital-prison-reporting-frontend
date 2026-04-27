@@ -1,0 +1,12 @@
+{% macro dprMyReportsListTotals(totals) %}
+  {% set shown = totals.shown %}
+  {% set total = totals.total %}
+  {% set showAllHref = totals.href %}
+
+  <p class="dpr-my-reports-totals govuk-body">Showing <strong>{{ shown }}</strong> of <strong>{{ total }}</strong> reports</p>
+
+  {% if showAllHref %}
+    <a href="{{ showAllHref }}" class="govuk-link govuk-link--no-visited-state">Show all</a>
+  {% endif %}
+  
+{% endmacro %}

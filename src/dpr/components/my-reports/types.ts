@@ -96,6 +96,7 @@ export type DprMyReportListConfig = {
   listType: ListType
   headings: DprMyReportHeading[]
   items: DprMyReportItem[]
+  totals: MyReportsListTotals
 }
 
 export enum ListType {
@@ -129,4 +130,15 @@ export type MappedBookmarks = {
   reportType: ReportType
   description: string
   loadType: LoadType
+}
+
+export type MyReportsOptions = {
+  maxRows?: number
+  showHelp?: boolean
+}
+
+export type MyReportsListTotals = {
+  shown: number
+  total: number
+  href?: string | undefined
 }

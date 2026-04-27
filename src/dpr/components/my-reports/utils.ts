@@ -9,6 +9,8 @@ import {
   HeadingConfig,
   ListType,
   MappedBookmarks,
+  MyReportsListTotals,
+  MyReportsOptions,
   ViewAction,
 } from './types'
 import LocalsHelper, { getRouteLocals } from '../../utils/localsHelper'
@@ -24,13 +26,18 @@ import { buildMyReportListRow } from './my-reports-list-item/utils'
  * @param {Services} services
  * @return {*}  {DprMyReport}
  */
-export const initMyReports = async (req: Request, res: Response, services: Services): Promise<DprMyReport> => {
+export const initMyReports = async (
+  req: Request,
+  res: Response,
+  services: Services,
+  options?: MyReportsOptions | undefined,
+): Promise<DprMyReport> => {
   const { bookmarkingEnabled } = LocalsHelper.getValues(res)
 
   return {
     ...(bookmarkingEnabled && { bookmarks: await initBookmarks(res, services) }),
-    requested: initRequested(req, res),
-    viewed: initViewed(req, res),
+    requested: initRequested(req, res, options),
+    viewed: initViewed(req, res, options),
   }
 }
 
@@ -42,12 +49,18 @@ export const initMyReports = async (req: Request, res: Response, services: Servi
  * @param {Services} services
  * @return {*}  {DprMyReportListConfig}
  */
-const initBookmarks = async (res: Response, services: Services): Promise<DprMyReportListConfig> => {
+const initBookmarks = async (
+  res: Response,
+  services: Services,
+  options?: MyReportsOptions | undefined,
+): Promise<DprMyReportListConfig> => {
+  const items = await buildBookmarkListItems(res, services)
   return {
     title: 'Bookmarks',
     listType: ListType.BOOKMARKS,
     headings: buildHeadings(ListType.BOOKMARKS),
     items: await buildBookmarkListItems(res, services),
+    totals: buildTotals(res, items, ListType.BOOKMARKS, options),
   }
 }
 
@@ -58,15 +71,17 @@ const initBookmarks = async (res: Response, services: Services): Promise<DprMyRe
  * @param {Response} res
  * @return {*}
  */
-const initRequested = (req: Request, res: Response) => {
+const initRequested = (req: Request, res: Response, options?: MyReportsOptions | undefined) => {
   const { csrfToken } = LocalsHelper.getValues(res)
+  const items = buildListItems(req, res, ListType.REQUESTED)
 
   return {
     title: 'Requested reports',
     listType: ListType.REQUESTED,
     csrfToken,
     headings: buildHeadings(ListType.REQUESTED),
-    items: buildListItems(req, res, ListType.REQUESTED),
+    items,
+    totals: buildTotals(res, items, ListType.REQUESTED, options),
   }
 }
 
@@ -77,12 +92,15 @@ const initRequested = (req: Request, res: Response) => {
  * @param {Response} res
  * @return {*}
  */
-const initViewed = (req: Request, res: Response) => {
+const initViewed = (req: Request, res: Response, options?: MyReportsOptions | undefined) => {
+  const items = buildListItems(req, res, ListType.VIEWED)
+
   return {
     title: 'Recently viewed',
     listType: ListType.VIEWED,
     headings: buildHeadings(ListType.VIEWED),
-    items: buildListItems(req, res, ListType.VIEWED),
+    items,
+    totals: buildTotals(res, items, ListType.VIEWED, options),
   }
 }
 
@@ -110,6 +128,39 @@ const buildListItems = (req: Request, res: Response, listType: ListType): DprMyR
     const status = data.status as RequestStatus
     return buildMyReportListRow(data, status, req, res, listType)
   })
+}
+const buildTotals = (
+  res: Response,
+  items: DprMyReportItem[],
+  listType: ListType,
+  options?: MyReportsOptions | undefined,
+): MyReportsListTotals => {
+  const total = items.length
+  const shown = options?.maxRows && items.length > options?.maxRows ? options?.maxRows : items.length
+
+  let href
+  if (shown < total) {
+    const { requestedListPath, recentlyViewedListPath, bookmarkListPath } = getRouteLocals(res)
+    switch (listType) {
+      case ListType.BOOKMARKS:
+        href = bookmarkListPath
+        break
+      case ListType.REQUESTED:
+        href = requestedListPath
+        break
+      case ListType.VIEWED:
+        href = recentlyViewedListPath
+        break
+      default:
+        href = requestedListPath
+        break
+    }
+  }
+  return {
+    total: items.length,
+    shown,
+    href,
+  }
 }
 
 /**

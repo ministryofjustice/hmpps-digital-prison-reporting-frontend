@@ -1,10 +1,13 @@
 {% from "../my-reports-list-headings/view.njk" import dprMyReportListHeadings %}
+{% from "../my-reports-list-help/view.njk" import dprMyReportsListHelp %}
+{% from "../my-reports-list-totals/view.njk" import dprMyReportsListTotals %}
 
 {% macro dprMyReportList(listConfig) %}
   {% set title = listConfig.title %}
 
   {% set headings = listConfig.headings %}
   {% set items = listConfig.items %}
+  {% set totals = listConfig.totals %}
   {% set listType = listConfig.listType %}
   {% set csrfToken = listConfig.csrfToken %}
 
@@ -16,8 +19,12 @@
   <div>
     <h1 class="govuk-heading-m govuk-!-margin-bottom-0">{{ title }}</h1>
 
+    {# Help text #}
+    {{ dprMyReportsListHelp(listType) }}
+
     {% if items | length %}
-      <p class="dpr-my-reports-totals govuk-body">Showing <strong>{{ items | length }}</strong> of <strong>{{ items | length }}</strong> reports</p>
+
+      {{ dprMyReportsListTotals(totals) }}
 
       {# THE ITEMS #}
       <div class="dpr-my-reports" data-dpr-module="dpr-my-reports" data-list-type='my-reports-{{ listType }}' data-csrf-token="{{ csrfToken }}">

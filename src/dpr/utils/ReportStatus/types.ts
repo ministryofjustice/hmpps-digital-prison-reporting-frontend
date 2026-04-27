@@ -1,3 +1,7 @@
+import { Response } from 'express'
+import { Services } from 'src/dpr/types/Services'
+import { ReportType, StoredReportData } from 'src/dpr/types/UserReports'
+
 export enum RequestStatus {
   SUBMITTED = 'SUBMITTED',
   STARTED = 'STARTED',
@@ -9,6 +13,15 @@ export enum RequestStatus {
   READY = 'READY',
   ALL = 'ALL',
 }
+
+export const FIFTEEN_MINUTES_MS = 15 * 60 * 1000
+
+export const TERMINAL_STATUSES = new Set<RequestStatus>([
+  RequestStatus.FINISHED,
+  RequestStatus.FAILED,
+  RequestStatus.ABORTED,
+  RequestStatus.EXPIRED,
+])
 
 export type FailureInfo = {
   userMessage: string
@@ -28,3 +41,21 @@ export type StatusResolution =
       newStatus: RequestStatus
       failureInfo?: FailureInfo
     }
+
+export type EvaluateAndUpdateReportStatusOptions = {
+  stored: StoredReportData
+  services: Services
+  token: string
+  res: Response
+}
+
+export type GetReportStatusOptions = {
+  services: Services
+  token: string
+  reportId: string
+  id: string
+  executionId: string
+  definitionsPath: string
+  tableId: string
+  reportType: ReportType
+}

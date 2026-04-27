@@ -28,7 +28,6 @@ class DprMyReports extends DprClientClass {
       this.rows = element.querySelectorAll<HTMLElement>('[data-row-id]')
       if (this.rows && this.rows.length && !this.allTerminal()) {
         // init the polling
-        console.log('startPolling')
         this.startPolling()
       }
     }
@@ -65,15 +64,11 @@ class DprMyReports extends DprClientClass {
     if (this.polling) return
     this.polling = true
 
-    console.log('pollAllReports')
-
     // Convert NodeList to array to use array iterators
     Array.from(this.rows)
       .reduce<Promise<void>>((chain, row) => {
         return chain.then(async () => {
           if (this.isTerminal(row)) return
-
-          console.log({ row })
           await this.pollRow(row)
         })
       }, Promise.resolve())
@@ -95,7 +90,7 @@ class DprMyReports extends DprClientClass {
       const tableId = uiRow.dataset['tableId']
       const path = uiRow.dataset['path']
 
-      if (!rowId || !tableId || !path || !executionId || !tableId || !id) return
+      if (!rowId || !tableId || !path || !executionId || !id) return
 
       const fetchPath = `${path}/requested-reports/row/${reportId}/${id}/${executionId}/${tableId}`
 
@@ -108,36 +103,26 @@ class DprMyReports extends DprClientClass {
         },
       })
 
+      if (res.status === 204) {
+        return // nothing changed
+      }
+
       if (!res.ok) {
         throw new Error(`Polling fetch failed: ${res.status}`)
       }
 
-      // Setup the html to get the new status
+      // Setup the html from the response
       const html = await res.text()
       const template = document.createElement('template')
       template.innerHTML = html.trim()
 
-      console.log({ html })
-      console.log(template.innerHTML)
-
+      // Get the new row from the template
       const newRow = template.content.querySelector<HTMLElement>(`[data-row-id="${rowId}"]`)
-
-      console.log('here 1')
-
       if (!newRow) return
 
-      console.log('here 2')
-
-      console.log({ old: uiRow.dataset['status'], new: newRow.dataset['status'] })
-
-      if (newRow.dataset['status'] !== uiRow.dataset['status']) {
-        console.log('here 3')
-
-        uiRow.replaceWith(newRow)
-        this.rows = this.getElement().querySelectorAll('[data-row-id]')
-
-        console.log('here 4')
-      }
+      // Udpate the old row with the updated new row
+      uiRow.replaceWith(newRow)
+      this.rows = this.getElement().querySelectorAll('[data-row-id]')
     } catch (error) {
       console.error('Polling error', error)
     }

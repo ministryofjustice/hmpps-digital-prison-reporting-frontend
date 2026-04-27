@@ -110,3 +110,12 @@ export function todayAsUiDate() {
 export function todayAsUiDateTime() {
   return dayjs().format(UI_DATE_TIME_FORMAT)
 }
+
+export function toDate(value: unknown): Date | undefined {
+  if (value instanceof Date) return value
+  if (typeof value === 'string' || typeof value === 'number') {
+    const d = new Date(value)
+    return Number.isNaN(d.getTime()) ? undefined : d
+  }
+  return undefined
+}

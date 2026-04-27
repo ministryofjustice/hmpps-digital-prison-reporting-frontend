@@ -3,7 +3,10 @@ import { Services } from '../../../../types/Services'
 import LocalsHelper from '../../../../utils/localsHelper'
 import { buildMyReportListRow } from 'src/dpr/components/my-reports/my-reports-list-item/utils'
 import { ListType } from 'src/dpr/components/my-reports/types'
-import { RequestStatus } from 'src/dpr/types/UserReports'
+import { RequestStatus, StoredReportData } from 'src/dpr/types/UserReports'
+import { decideReportStatus } from './utils'
+import { toDate } from 'src/dpr/utils/dateHelper'
+import { getRequestStatus } from '../utils'
 
 class RequestedReportsController {
   services: Services
@@ -21,58 +24,64 @@ class RequestedReportsController {
    */
   GET: RequestHandler = async (req, res) => {
     try {
-      console.log(`########################################################
-        RequestedReportsController
-        `)
       const { reportId, id, tableId, executionId } = req.params as {
         id: string
         reportId: string
         tableId: string
         executionId: string
       }
-
       const { token, definitionsPath, dprUser } = LocalsHelper.getValues(res)
 
-      // 1. Fetch status
-      const statusResponse = await this.services.reportingService.getAsyncReportStatus(
-        token,
+      // 1. Get the state data
+      const requestedReport = await this.services.requestedReportService.getReportByExecutionId(executionId, dprUser.id)
+      if (!requestedReport) {
+        return res.sendStatus(404)
+      }
+      const oldStatus = requestedReport.status as RequestStatus
+
+      // 2. Fetch external status
+      const statusResponse = await getRequestStatus(
+        this.services,
+        requestedReport.type,
         reportId,
         id,
         executionId,
         definitionsPath,
         tableId,
+        token,
       )
 
-      const { status } = statusResponse
-      console.log({ status })
+      const rawStatus = statusResponse.status
+      const latestExternalStatus = typeof rawStatus === 'string' ? (rawStatus as RequestStatus) : undefined
 
-      if (typeof status !== 'string') {
+      const requestedAt = toDate(requestedReport.timestamp.requested)
+      const decision = decideReportStatus({
+        oldStatus,
+        now: Date.now(),
+        ...(requestedAt && { requestedAt }),
+        ...(latestExternalStatus && { latestExternalStatus }),
+        ...(typeof rawStatus !== 'string' && { latestStatusInvalid: true }),
+      })
+
+      if (decision.action === 'NO_CHANGE') {
         return res.sendStatus(204)
       }
 
-      console.log(executionId, dprUser.id)
+      // 3. Status has changed - update the state and UI
+      await this.services.requestedReportService.updateStatus(executionId, dprUser.id, decision.newStatus)
 
-      // 2. Fetch report
-      const requestedReport = await this.services.requestedReportService.getReportByExecutionId(executionId, dprUser.id)
+      const updatedRecord = (await this.services.requestedReportService.getReportByExecutionId(
+        executionId,
+        dprUser.id,
+      )) as StoredReportData
 
-      console.log({ requestedReport })
+      const viewModel = buildMyReportListRow(updatedRecord, decision.newStatus, req, res, ListType.REQUESTED)
 
-      if (!requestedReport) {
-        return res.sendStatus(404)
-      }
-
-      // 3. Build view model
-      const viewModel = buildMyReportListRow(requestedReport, status as RequestStatus, req, res, ListType.REQUESTED)
-
-      console.log({ viewModel })
-
-      // 4. Render partial
       return res.render('dpr/components/my-reports/my-reports-list-item/row.njk', { item: viewModel }, (err, html) => {
         if (err) {
           console.error(err)
           return res.sendStatus(500)
         }
-
         res.type('text/html').send(html)
       })
     } catch (error) {

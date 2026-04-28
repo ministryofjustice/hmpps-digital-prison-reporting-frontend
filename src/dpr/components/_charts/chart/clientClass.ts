@@ -1,8 +1,8 @@
 // @ts-nocheck
 /* eslint-disable class-methods-use-this */
 import Chart from 'chart.js/auto'
-import ChartDataLabels from 'chartjs-plugin-datalabels'
 import { MatrixController, MatrixElement } from 'chartjs-chart-matrix'
+import ChartDataLabels from 'chartjs-plugin-datalabels'
 
 import { DprClientClass } from '../../../DprClientClass'
 
@@ -99,7 +99,7 @@ class ChartVisualisation extends DprClientClass {
     if (ctx.headlineValuesEl) {
       ctx.headlineValuesEl.style.display = 'none'
     }
-    if (!legend) {
+    if (ctx.legendElement && !legend) {
       ctx.legendElement.style.display = 'none'
     }
   }

@@ -387,3 +387,86 @@ export async function evaluateAndUpdateReportStatus({
     updated,
   }
 }
+
+/**
+ * ------------------------------------------------------------
+ * PREFLIGHT / INITIALISATION
+ * ------------------------------------------------------------
+ */
+
+/**
+ * Checks all FINISHED reports to see if they have expired upstream.
+ * Any report returning a 404 is marked as EXPIRED.
+ *
+ * Intended to run once during component initialisation,
+ * before polling begins.
+ */
+export async function expireFinishedReportsIfNeeded({
+  reports,
+  services,
+  token,
+  res,
+}: ExpireFinishedReportsOptions): Promise<StoredReportData[]> {
+  const { dprUser } = getValues(res)
+
+  const finishedReports = reports.filter((r) => r.status === RequestStatus.FINISHED)
+
+  if (finishedReports.length === 0) {
+    return reports
+  }
+
+  const checks = await Promise.all(
+    finishedReports.map(async (stored) => {
+      const { reportId, id, executionId, tableId, dataProductDefinitionsPath, type } = stored
+
+      if (!executionId || !tableId) {
+        return { stored, expired: false }
+      }
+
+      const signal = await getStatusByType({
+        reportType: type,
+        services,
+        token,
+        reportId,
+        id,
+        executionId,
+        tableId,
+        definitionsPath: dataProductDefinitionsPath ?? '',
+      })
+
+      const expired = signal.kind === 'ERROR' && signal.failure.errorCode === 404
+
+      return { stored, expired }
+    }),
+  )
+
+  const expiredExecutionIds = new Set(checks.filter((c) => c.expired).map((c) => c.stored.executionId))
+
+  if (expiredExecutionIds.size === 0) {
+    return reports
+  }
+
+  // Persist updates
+  await Promise.all(
+    checks
+      .filter((c) => c.expired)
+      .map((c) =>
+        services.requestedReportService.updateStatus(c.stored.executionId!, dprUser.id, RequestStatus.EXPIRED),
+      ),
+  )
+
+  // Hydrate updated state
+  const updatedReports = await Promise.all(
+    reports.map(async (report) => {
+      if (!expiredExecutionIds.has(report.executionId)) {
+        return report
+      }
+
+      const updated = await services.requestedReportService.getReportByExecutionId(report.executionId!, dprUser.id)
+
+      return updated ?? report
+    }),
+  )
+
+  return updatedReports
+}

@@ -59,3 +59,10 @@ export type GetReportStatusOptions = {
   tableId: string
   reportType: ReportType
 }
+
+export type ExpireFinishedReportsOptions = {
+  reports: StoredReportData[]
+  services: Services
+  token: string
+  res: any
+}

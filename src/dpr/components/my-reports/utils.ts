@@ -35,6 +35,7 @@ export const initMyReports = async (
   options?: MyReportsOptions | undefined,
 ): Promise<DprMyReport | undefined> => {
   const { bookmarkingEnabled } = LocalsHelper.getValues(res)
+
   return {
     ...(bookmarkingEnabled && { bookmarks: await initBookmarks(res, services) }),
     requested: initRequested(req, res, options),
@@ -383,6 +384,7 @@ const buildBookmarkRemoveAction = (res: Response, data: MappedBookmarks) => {
  */
 const getDataForList = (res: Response, listType: ListType): StoredReportData[] | undefined => {
   const { requestedReports, recentlyViewedReports } = LocalsHelper.getValues(res)
+
   switch (listType) {
     case ListType.REQUESTED:
       // Only show reports in the list that have not been viewed

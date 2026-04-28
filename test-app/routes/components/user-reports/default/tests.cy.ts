@@ -64,7 +64,7 @@ context('User reports component', () => {
 
     it('should show the link to view all reports', () => {
       cy.findByLabelText(/Requested.*/i).within(() => {
-        cy.findByRole('link', { name: 'Show all' }).should('not.exist')
+        cy.findByRole('link', { name: 'Show all' }).should('exist')
       })
     })
 

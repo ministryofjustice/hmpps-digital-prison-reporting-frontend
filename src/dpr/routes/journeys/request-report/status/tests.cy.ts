@@ -1,4 +1,4 @@
-import { checkA11y, executeReportStubs } from 'cypress-tests/cypressUtils'
+import { checkA11y, executeReportStubs, getMyReportRow, getMyReportRowCell } from 'cypress-tests/cypressUtils'
 import dayjs from 'dayjs'
 import { getRedisState, setRedisState } from 'test-app/routes/integrationTests/appStateUtils'
 
@@ -103,17 +103,19 @@ context('Request status', () => {
         cy.visit(path)
         cy.findByRole('tab', { name: /Requested/ }).click()
         cy.findByLabelText(/Requested \(/).within(() => {
-          cy.findByRole('table').within(() => {
-            cy.findAllByText('ABORTED').should('be.visible')
+          getMyReportRowCell({ name: 'Successful Report', cell: 'status' }).contains('ABORTED')
+          getMyReportRowCell({ name: 'Successful Report', cell: 'title' }).within(() => {
+            const today = new Date().toLocaleString('en-GB', {
+              year: 'numeric',
+              month: '2-digit',
+              day: '2-digit',
+            })
+            const timePattern = '\\d{2}:\\d{2}'
+            cy.findByText(new RegExp(`Aborted at ${today} ${timePattern}`))
           })
         })
-        const today = new Date().toLocaleDateString('en-GB', {
-          year: 'numeric',
-          month: 'numeric',
-          day: 'numeric',
-        })
-        cy.findByText(`Aborted at: ${today}`)
       })
+
       it('should show the expired status page', () => {
         cy.task('stubReportsExpiredStatus')
         cy.findByText(/expired/i).should('be.visible')
@@ -122,17 +124,19 @@ context('Request status', () => {
         cy.visit(path)
         cy.findByRole('tab', { name: /Requested/ }).click()
         cy.findByLabelText(/Requested \(/).within(() => {
-          cy.findByRole('table').within(() => {
-            cy.findByText('EXPIRED').should('be.visible')
+          getMyReportRow({ name: 'Successful Report' }).contains('EXPIRED')
+          getMyReportRowCell({ name: 'Successful Report', cell: 'title' }).within(() => {
+            const today = new Date().toLocaleString('en-GB', {
+              year: 'numeric',
+              month: '2-digit',
+              day: '2-digit',
+            })
+            const timePattern = '\\d{2}:\\d{2}'
+            cy.findByText(new RegExp(`Expired at ${today} ${timePattern}`))
           })
         })
-        const today = new Date().toLocaleDateString('en-GB', {
-          year: 'numeric',
-          month: 'numeric',
-          day: 'numeric',
-        })
-        cy.findByText(`Expired at: ${today}`)
       })
+
       it('should show the failed status page', () => {
         cy.task('stubReportsFailedStatus')
         cy.findByText(/your report has failed to generate/i).should('be.visible')
@@ -148,16 +152,17 @@ context('Request status', () => {
         cy.visit(path)
         cy.findByRole('tab', { name: /Requested/ }).click()
         cy.findByLabelText(/Requested \(/).within(() => {
-          cy.findByRole('table').within(() => {
-            cy.findByText('FAILED').should('be.visible')
+          getMyReportRow({ name: 'Successful Report' }).contains('FAILED')
+          getMyReportRowCell({ name: 'Successful Report', cell: 'title' }).within(() => {
+            const today = new Date().toLocaleDateString('en-GB', {
+              year: 'numeric',
+              month: 'numeric',
+              day: 'numeric',
+            })
+            const timePattern = '\\d{2}:\\d{2}'
+            cy.findByText(new RegExp(`Failed at ${today} ${timePattern}`))
           })
         })
-        const today = new Date().toLocaleDateString('en-GB', {
-          year: 'numeric',
-          month: 'numeric',
-          day: 'numeric',
-        })
-        cy.findByText(`Failed at: ${today}`)
       })
     })
   })

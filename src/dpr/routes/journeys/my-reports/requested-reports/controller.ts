@@ -4,6 +4,7 @@ import LocalsHelper from '../../../../utils/localsHelper'
 import { buildMyReportListRow } from '../../../../components/my-reports/my-reports-list-item/utils'
 import { ListType } from '../../../../components/my-reports/types'
 import { evaluateAndUpdateReportStatus } from '../../../../utils/ReportStatus/getReportStatus'
+import logger from 'src/dpr/utils/logger'
 
 class RequestedReportsController {
   services: Services
@@ -60,7 +61,8 @@ class RequestedReportsController {
 
         return res.type('text/html').send(html)
       })
-    } catch (_error) {
+    } catch (error) {
+      logger.error(error)
       return res.sendStatus(500)
     }
   }

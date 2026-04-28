@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import { Services } from '../../types/Services'
+import { captureException } from '@sentry/node'
 import {
   DprMyReport,
   DprMyReportActions,
@@ -159,16 +160,16 @@ const buildTotals = (
     const { requestedListPath, recentlyViewedListPath, bookmarkListPath } = getRouteLocals(res)
     switch (listType) {
       case ListType.BOOKMARKS:
-        href = bookmarkListPath
+        href = `${bookmarkListPath}/list`
         break
       case ListType.REQUESTED:
-        href = requestedListPath
+        href = `${requestedListPath}/list`
         break
       case ListType.VIEWED:
-        href = recentlyViewedListPath
+        href = `${recentlyViewedListPath}/list`
         break
       default:
-        href = requestedListPath
+        href = `${requestedListPath}/list`
         break
     }
   }
@@ -240,7 +241,8 @@ const mapBookmarks = async (
           description: resolved.description,
           loadType: resolved.loadType,
         }
-      } catch {
+      } catch (error) {
+        captureException(error)
         logger.info(`Unable to get info for bookmark: ${bm.reportId} - ${bm.variantId || bm.id}`)
         return null
       }
@@ -305,6 +307,24 @@ const resolveBookmarkDefinition = async (
  * @return {*}  {DprMyReportActions}
  */
 const buildBookmarkActionsCell = (data: MappedBookmarks, res: Response): DprMyReportActions => {
+  const { load, request } = buildLoadRequestAction(res, data)
+  const bookmark = buildBookmarkRemoveAction(res, data)
+
+  return {
+    ...(load && { load }),
+    ...(request && { request }),
+    bookmark,
+  }
+}
+
+/**
+ * Build the load/request links config
+ *
+ * @param {Response} res
+ * @param {MappedBookmarks} data
+ * @return {*}
+ */
+const buildLoadRequestAction = (res: Response, data: MappedBookmarks) => {
   const { loadType, reportType, reportId, id } = data
   const { requestReportPath, viewReportPath } = getRouteLocals(res)
 
@@ -326,9 +346,31 @@ const buildBookmarkActionsCell = (data: MappedBookmarks, res: Response): DprMyRe
   }
 
   return {
-    ...(load && { load }),
-    ...(request && { request }),
-    bookmark: {},
+    load,
+    request,
+  }
+}
+
+/**
+ * Build the bookmark link config
+ *
+ * @param {Response} res
+ * @param {MappedBookmarks} data
+ * @return {*}
+ */
+const buildBookmarkRemoveAction = (res: Response, data: MappedBookmarks) => {
+  const { reportId, id, reportType } = data
+  const { csrfToken } = LocalsHelper.getValues(res)
+  const { bookmarkActionEndpoint } = LocalsHelper.getRouteLocals(res)
+
+  return {
+    reportId,
+    id,
+    reportType,
+    csrfToken,
+    bookmarkActionEndpoint,
+    linkType: 'remove',
+    linkText: 'Remove bookmark',
   }
 }
 

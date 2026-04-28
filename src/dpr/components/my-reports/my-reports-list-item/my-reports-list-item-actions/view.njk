@@ -1,4 +1,5 @@
 {% from "./remove-action/view.njk" import dprMyReportListItemRemoveAction %}
+{% from "../../../bookmark/view.njk" import dprBookmarkButton %}
 
 {% macro dprMyReportListItemActions(actions) %}
 
@@ -50,6 +51,17 @@
     {% if request %}
       <li>
         <a href="{{ request.href }}" class="govuk-link govuk-link--no-visited-state">Request {{ request.reportType }}</a>
+      </li>
+    {% endif %}
+
+    {% if bookmark %}
+      {% set reportId = bookmark.reportId %}
+      {% set id = bookmark.id %}
+      {% set reportType = bookmark.reportType %}
+      {% set csrfToken = bookmark.csrfToken %}
+      
+      <li>
+        {{ dprBookmarkButton(reportId, id, reportType, csrfToken, bookmark) }}
       </li>
     {% endif %}
   </ul>

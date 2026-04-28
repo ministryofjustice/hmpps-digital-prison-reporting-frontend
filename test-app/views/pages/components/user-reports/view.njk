@@ -1,12 +1,12 @@
 {% extends "views/page.njk" %}
 
-{% from "components/user-reports/view.njk" import dprUserReports %}
+{% from "components/my-reports/view.njk" import dprMyReports %}
 
 {% block content %}
   <span class="govuk-caption-l">Components</span>
   <h1 class="govuk-heading-l">{{ title }}</h1>
 
   <div class="govuk-width-container">
-    {{ dprUserReports(userReports)}}
+    {{ dprMyReports(myReportsData) }}
   </div>
 {% endblock %}

@@ -3,10 +3,12 @@
   {% set total = totals.total %}
   {% set showAllHref = totals.href %}
 
-  <p class="dpr-my-reports-totals govuk-body">Showing <strong>{{ shown }}</strong> of <strong>{{ total }}</strong> reports</p>
-
-  {% if showAllHref %}
-    <a href="{{ showAllHref }}" class="govuk-link govuk-link--no-visited-state">Show all</a>
-  {% endif %}
+  <div class="dpr-my-reports-totals">
+    <p class=" govuk-body">Showing <strong>{{ shown }}</strong> of <strong>{{ total }}</strong> reports
+      {% if showAllHref %}
+        ( <a href="{{ showAllHref }}" class=" govuk-link govuk-link--no-visited-state">show all</a> )
+      {% endif %}
+    </p>
+  </div>
   
 {% endmacro %}

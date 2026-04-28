@@ -146,11 +146,16 @@ const buildTotals = (
   listType: ListType,
   options?: MyReportsOptions | undefined,
 ): MyReportsListTotals => {
+  let maxRows = 2
+  if (options?.maxRows) {
+    maxRows = options.maxRows
+  }
+
   const total = items.length
-  const shown = options?.maxRows && items.length > options?.maxRows ? options?.maxRows : items.length
+  const shown = items.length > maxRows ? maxRows : items.length
 
   let href
-  if (shown < total) {
+  if (maxRows < total) {
     const { requestedListPath, recentlyViewedListPath, bookmarkListPath } = getRouteLocals(res)
     switch (listType) {
       case ListType.BOOKMARKS:

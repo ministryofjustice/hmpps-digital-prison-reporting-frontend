@@ -104,6 +104,10 @@
 .dpr-my-reports__cell--head {
   font-weight: 600;
   padding-bottom: 0.25rem;
+
+  p {
+    margin-bottom: govuk-spacing(0);
+  }
 }
 
 /* Optional visual separator for header */
@@ -121,8 +125,4 @@
 
 .dpr-my-reports__body .dpr-my-reports__cell:not(.dpr-my-reports__cell--actions) {
   padding-right: 1rem;
-}
-
-.dpr-my-reports-totals {
-  text-align: right;
 }

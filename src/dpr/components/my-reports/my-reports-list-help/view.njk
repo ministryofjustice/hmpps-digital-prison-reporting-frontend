@@ -123,8 +123,10 @@
         {% endset -%}
       {% endif %}
 
-      {{ govukDetails({
-        summaryText: 'Help',
-        html: helpHtml
-      }) }} 
+      <div class="dpr-my-reports-help">
+        {{ govukDetails({
+          summaryText: 'Help',
+          html: helpHtml
+        }) }} 
+      </div>
 {% endmacro %}

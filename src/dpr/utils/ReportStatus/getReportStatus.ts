@@ -9,7 +9,7 @@ import {
   FIFTEEN_MINUTES_MS,
 } from './types'
 import ErrorHandler, { DprErrorMessage } from '../ErrorHandler/ErrorHandler'
-import { Services } from 'src/dpr/types/Services'
+import { Services } from '../../types/Services'
 import { StoredReportData, ReportType, RequestedReport } from '../../types/UserReports'
 import { getValues } from '../localsHelper'
 
@@ -49,7 +49,7 @@ async function getStatusByType({
     }
 
     if ('status' in raw) {
-      const status = (raw as { status?: unknown }).status
+      const { status } = raw as { status?: unknown }
 
       if (typeof status === 'string') {
         return {
@@ -117,9 +117,9 @@ async function getStatus({
   const childSignals = stored.childExecutionData
     ? await Promise.all(
         stored.childExecutionData.map((child) => {
-          const { tableId, executionId } = child
+          const { tableId: childTableId, executionId: childExecutionId } = child
 
-          if (!executionId || !tableId) {
+          if (!childExecutionId || !childTableId) {
             throw new Error('Stored child report missing executionId or tableId')
           }
 
@@ -129,9 +129,9 @@ async function getStatus({
             token,
             reportId,
             id,
-            executionId,
+            executionId: childExecutionId,
             definitionsPath,
-            tableId,
+            tableId: childTableId,
           })
         }),
       )

@@ -60,7 +60,7 @@ class RequestedReportsController {
 
         return res.type('text/html').send(html)
       })
-    } catch (error) {
+    } catch (_error) {
       return res.sendStatus(500)
     }
   }

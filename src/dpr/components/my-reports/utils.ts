@@ -17,7 +17,7 @@ import LocalsHelper, { getRouteLocals } from '../../utils/localsHelper'
 import { BookmarkStoreData } from '../../types/Bookmark'
 import { LoadType, ReportType, RequestStatus, StoredReportData } from '../../types/UserReports'
 import { buildMyReportListRow } from './my-reports-list-item/utils'
-import logger from 'src/dpr/utils/logger'
+import logger from '../../utils/logger'
 
 /**
  * Initialises the "My Reports" component data

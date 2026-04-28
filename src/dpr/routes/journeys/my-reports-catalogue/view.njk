@@ -2,11 +2,12 @@
 
 {% from "../../../components/_catalogue/catalogue/view.njk" import dprCatalogue %}
 {% from "../../../components/user-reports/view.njk" import dprUserReports %}
+{% from "../../../components/my-reports/view.njk" import dprMyReports %}
 
 {% block content %}
   <div class="govuk-width-container">
     <h1 class="govuk-heading-l">My Reports</h1>
-    {{ dprUserReports(userReportsLists)}}
+    {{ dprMyReports(myReportsData) }}
     {{ dprCatalogue(catalogue) }}
   </div>
 {% endblock %}

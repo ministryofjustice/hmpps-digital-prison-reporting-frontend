@@ -7,9 +7,6 @@
 
 {% block content %}
   <div class="govuk-width-container">
-
-    {{ dprMyReports(myReportsData) }}
-
     {% set rows = [] %}
     {% if (breadCrumbList.length > 0) %}
       {% set rows = rows.concat(breadCrumbList) %}
@@ -31,6 +28,7 @@
     {% endif %}
 
     <h1 class="govuk-heading-l">{{ title }}</h1>
+    {{ dprMyReports(myReportsData) }}
     {{ dprCatalogue(catalogue) }}
   </div>
 {% endblock %}

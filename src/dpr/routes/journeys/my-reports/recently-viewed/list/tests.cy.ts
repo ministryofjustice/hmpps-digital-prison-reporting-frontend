@@ -58,7 +58,7 @@ context('Recently viewed list', () => {
     cy.findByLabelText(/Viewed/i).within(() => {
       cy.findByRole('heading', {
         name: 'Interactive Report',
-        level: 1,
+        level: 2,
       }).should('exist')
     })
 
@@ -82,7 +82,7 @@ context('Recently viewed list', () => {
     cy.findByLabelText(/Viewed \(2\)/i).within(() => {
       cy.findByRole('heading', {
         name: 'Successful Report',
-        level: 1,
+        level: 2,
       }).should('exist')
     })
   })
@@ -134,7 +134,7 @@ context('Recently viewed list', () => {
     cy.findByLabelText(/Requested/i).within(() => {
       cy.findByRole('heading', {
         name: 'Successful Report',
-        level: 1,
+        level: 2,
       }).should('not.exist')
     })
   })

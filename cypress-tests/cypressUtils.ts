@@ -112,15 +112,15 @@ export const stubBookmarks = () => {
     .then(() => cy.task('stubDefinitionEmptyReport'))
 }
 
-// My Reports helper
-
-export const selectMyReportsTab = () => {}
+// ---------------------------------
+// My Report test helpers
+// ---------------------------------
 
 export const getMyReportRow = ({ name }: { name: string | RegExp }) => {
   return cy
     .findByRole('heading', {
       name,
-      level: 1,
+      level: 2,
     })
     .closest('.dpr-my-reports__cell--title')
     .nextUntil('.dpr-my-reports__cell--title')
@@ -140,6 +140,6 @@ export const getMyReportRowCell = ({ name, cell }: { name: string | RegExp; cell
 
 export const expectMyReportRowCountInTab = ({ tabName, count }: { tabName: string | RegExp; count: number }) => {
   cy.findByLabelText(tabName).within(() => {
-    cy.findAllByRole('heading', { level: 1 }).should('have.length', count)
+    cy.findAllByRole('heading', { level: 2 }).should('have.length', count)
   })
 }

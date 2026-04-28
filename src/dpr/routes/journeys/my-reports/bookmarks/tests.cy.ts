@@ -121,7 +121,7 @@ context('Bookmarks list', () => {
                 })
               })
 
-              expectMyReportRowCountInTab({ tabName: /Bookmarks.*/i, count: 2 })
+              expectMyReportRowCountInTab({ tabName: /Bookmarks.*/i, count: 3 })
               cy.findByLabelText(/Bookmarks.*/i).within(() => {
                 getMyReportRow({ name: 'Test Dashboard' })
               })

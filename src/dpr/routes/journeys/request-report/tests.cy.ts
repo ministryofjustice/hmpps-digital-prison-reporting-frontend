@@ -5,11 +5,7 @@ import {
 } from '../../../../../cypress-tests/cypressUtils'
 
 context('Requesting a report', () => {
-  const paths = [
-    '/',
-    // '/embedded/platform',
-    // '/embedded/platform/dpr'
-  ]
+  const paths = ['/', '/embedded/platform', '/embedded/platform/dpr']
   let basePath = ''
 
   const checkStatuses = () => {

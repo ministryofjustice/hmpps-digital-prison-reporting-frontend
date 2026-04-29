@@ -23,6 +23,9 @@ describe('Request a report', () => {
     cy.findByRole('textbox', { name: 'From' }).type('1/2/2003')
     cy.findByRole('textbox', { name: 'To' }).type('4/5/2007')
     cy.findByRole('combobox', { name: 'Field 4' }).type('Inigo Montoya')
+    cy.findByRole('listbox', { name: 'Autocomplete options' }).within(() => {
+      cy.findByRole('button', { name: /Inigo/ }).click()
+    })
     cy.findByRole('textbox', { name: 'Field 6' }).type('Value 6.1')
     cy.findByRole('textbox', { name: 'Field 7' }).type('05/05/2005')
     // multiselect

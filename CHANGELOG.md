@@ -1,5 +1,13 @@
 Below you can find the changes included in each release.
 
+## 5.10.2
+
+- Bugfix: Dashboard filters missing
+
+## 5.10.1
+
+- Bugfix: Date filters sending UI date format (DD/MM/YYYY) to BE instead of API (YYYY-MM-DD)
+
 ## 5.10.0
 
 - Feature update: Download filtered dataset

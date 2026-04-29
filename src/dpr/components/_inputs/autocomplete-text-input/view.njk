@@ -11,7 +11,7 @@
         <input type="hidden" name="{{ options.name }}" value="{{ options.staticOptionNameValue }}" data-autocomplete-hidden>
 
         {{ govukInput({
-            id: labelInputId,
+            id: options.id,
             label: {
                 text: options.labelText,
                 classes: "govuk-!-font-weight-bold dpr-inline-label"
@@ -19,7 +19,7 @@
             name: labelInputName,
             value: options.value,
             type: "search",
-            errorMessage: validationErrors | dpr.findError(labelInputId),
+            errorMessage: validationErrors | dpr.findError(options.id),
             attributes: {
                 "aria-autocomplete": "list",
                 "aria-expanded": "false",

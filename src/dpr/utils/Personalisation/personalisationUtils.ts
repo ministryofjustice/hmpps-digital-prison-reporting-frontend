@@ -90,8 +90,6 @@ const getDefaultValues = async (
       }
     })
 
-  console.log(JSON.stringify({ bodyFilterValues }, null, 2))
-
   const defaultValuesConfig = Array.from(new Set(bodyFilterValues.map((a) => a.name)))
     .map((name) => {
       return bodyFilterValues.find((a) => a.name === name)

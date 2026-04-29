@@ -139,7 +139,7 @@ class Autocomplete extends DprClientClass {
     const displayValue = button.innerText.trim()
     const actualValue = button.dataset.staticOptionNameValue || ''
 
-    // UI
+    // UI Display Value
     textInput.value = displayValue
 
     // submission value
@@ -147,7 +147,6 @@ class Autocomplete extends DprClientClass {
       hiddenInput.value = actualValue
     }
 
-    // Optional: keep dataset purely for filtering
     textInput.dataset.staticOptionNameValue = actualValue
 
     topLevelElement.querySelectorAll('li').forEach((item) => {

@@ -118,8 +118,6 @@ class ReportingClient {
   ): Promise<Dict<string>> {
     this.logInfo('Request report', { reportId, variantId })
 
-    console.log('requestAsyncReport', JSON.stringify({ query }, null, 2))
-
     return this.restClient
       .get({
         path: `/async/reports/${reportId}/${variantId}`,

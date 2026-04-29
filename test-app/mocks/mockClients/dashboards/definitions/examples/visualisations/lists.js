@@ -809,7 +809,9 @@ const fullDatasetOverTime = {
   id: 'allData',
   type: 'list',
   display: 'All Data in dataset',
-  columns: {},
+  columns: {
+    measures: [],
+  },
   options: { showLatest: false },
 }
 

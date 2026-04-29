@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## 5.10.4
+
+- Bugfix: Fixed console errors when loading bar charts using partial datasets
+
 ## 5.10.2
 
 - Bugfix: Dashboard filters missing

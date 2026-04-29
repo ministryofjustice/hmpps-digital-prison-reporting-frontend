@@ -13,6 +13,8 @@
   {% set filters = data.filters %}
   {% set sections = data.sections %}
 
+  {{ filters | json }}
+
   <div class="dashboard-wrapper">
     
     <nav class="dashboard-sidebar">

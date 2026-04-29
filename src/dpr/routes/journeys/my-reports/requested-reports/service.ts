@@ -202,19 +202,14 @@ class RequestedReportService extends ReportStoreService {
    * @return {*}  {RequestedReport[]}
    * @memberof RequestedReportService
    */
-  removeDuplicateRequestedReports = async (
-    reports: RequestedReport[],
-    services: {
-      requestedReportService: {
-        removeReport: (executionId: string) => Promise<void>
-      }
-    },
-  ): Promise<string[]> => {
+  removeDuplicateRequestedReports = async (userId: string): Promise<string[]> => {
+    const reports = await this.getAllReports(userId)
+
     if (reports.length < 2) {
       return []
     }
 
-    // Newest report is always at the top
+    // Get the newest report
     const latest = reports[0]
     const latestFilters = latest.url?.request?.search?.trim() ?? ''
 
@@ -224,19 +219,17 @@ class RequestedReportService extends ReportStoreService {
       }
 
       const sameReport = report.reportId === latest.reportId && report.id === latest.id
-
       if (!sameReport) {
         return false
       }
 
       const reportFilters = report.url?.request?.search?.trim() ?? ''
-
       return report.executionId === latest.executionId || reportFilters === latestFilters
     })
 
     await Promise.all(
       duplicates.map(({ executionId }) => {
-        return services.requestedReportService.removeReport(executionId || '')
+        return this.removeReport(executionId || '', userId)
       }),
     )
 

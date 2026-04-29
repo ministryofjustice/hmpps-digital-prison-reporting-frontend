@@ -115,8 +115,16 @@ class RecentlyViewedStoreService extends ReportStoreService {
     }
   }
 
-  async removeDuplicates(userId: string, reportId: string, id: string, tableId?: string | undefined) {
-    return
+  async removeSupersededViewedReports(removedExecutionIds: string[], userId: string): Promise<void> {
+    Promise.all(
+      removedExecutionIds.map(async (executionId) => {
+        const report = await this.getReportByExecutionId(executionId, userId)
+        if (report) {
+          const { reportId, id, tableId } = report
+          await this.removeReport(userId, reportId, id, tableId)
+        }
+      }),
+    ).then(() => undefined)
   }
 }
 

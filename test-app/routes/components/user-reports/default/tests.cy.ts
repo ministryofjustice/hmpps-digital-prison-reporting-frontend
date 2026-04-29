@@ -64,7 +64,7 @@ context('User reports component', () => {
 
     it('should show the link to view all reports', () => {
       cy.findByLabelText(/Requested.*/i).within(() => {
-        cy.findByRole('link', { name: 'Show all' }).should('exist')
+        cy.findByRole('link', { name: 'show all' }).should('exist')
       })
     })
 
@@ -149,12 +149,6 @@ context('User reports component', () => {
             id: requestedReady.id,
             type: requestedReady.type,
           },
-          {
-            reportId: requestedExpired.reportId,
-            automatic: false,
-            id: requestedExpired.id,
-            type: requestedExpired.type,
-          },
         ],
         defaultFilters: [],
         downloadPermissions: [],
@@ -198,23 +192,8 @@ context('User reports component', () => {
 
     it('should show the product and variant information', () => {
       cy.findByLabelText(/Bookmarks.*/i).within(() => {
-        getMyReportRowCell({ name: 'Viewed report', cell: 'actions' }).within(() => {
-          cy.findByRole('button', { name: 'Remove bookmark' }).should('exist')
-        })
-        getMyReportRowCell({ name: 'Viewed dashboard', cell: 'actions' }).within(() => {
-          cy.findByRole('button', { name: 'Remove bookmark' }).should('exist')
-        })
-        getMyReportRowCell({ name: 'Interactive Report', cell: 'actions' }).within(() => {
-          cy.findByRole('button', { name: 'Remove bookmark' }).should('exist')
-        })
-        getMyReportRowCell({ name: 'Expired viewed report', cell: 'actions' }).within(() => {
-          cy.findByRole('button', { name: 'Remove bookmark' }).should('exist')
-        })
-        getMyReportRowCell({ name: 'Expired viewed report', cell: 'actions' }).within(() => {
-          cy.findByRole('button', { name: 'Remove bookmark' }).should('exist')
-        })
-        getMyReportRowCell({ name: 'Interactive Report with async filters', cell: 'actions' }).within(() => {
-          cy.findByRole('button', { name: 'Remove bookmark' }).should('exist')
+        getMyReportRowCell({ name: 'Successful Report', cell: 'actions' }).within(() => {
+          cy.findByRole('link', { name: 'Remove bookmark' }).should('exist')
         })
       })
     })

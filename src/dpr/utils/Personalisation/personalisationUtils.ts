@@ -9,7 +9,6 @@ import GranularDateRangeInputUtils from '../../components/_inputs/granular-date-
 import { FilterValue, FilterValueWithOptions } from '../../components/_filters/types'
 import { defaultFilterValue } from './types'
 import { FiltersType } from '../../components/_filters/filtersTypeEnum'
-import { getRequestParam } from '../indexedAccesHelper'
 import { uiDateToApi } from '../dateHelper'
 
 export const saveDefaults = async (type: FiltersType, res: Response, req: Request, services: Services) => {

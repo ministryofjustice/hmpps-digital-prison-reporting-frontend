@@ -62,6 +62,9 @@ class RecentlyViewedStoreService extends ReportStoreService {
   async setToExpired(id: string, userId: string) {
     const userConfig = await this.getState(userId)
     const index = this.findIndexByExecutionId(id, userConfig.recentlyViewedReports)
+    if (index === -1) {
+      return
+    }
     await this.saveExpiredState(userConfig, index, userId)
   }
 
@@ -110,6 +113,10 @@ class RecentlyViewedStoreService extends ReportStoreService {
       userConfig.recentlyViewedReports.splice(index, 1)
       await this.saveState(userId, userConfig)
     }
+  }
+
+  async removeDuplicates(userId: string, reportId: string, id: string, tableId?: string | undefined) {
+    return
   }
 }
 

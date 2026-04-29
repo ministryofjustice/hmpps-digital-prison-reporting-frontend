@@ -12,6 +12,7 @@ import { FeatureFlagService, isBooleanFlagEnabledOrMissing } from '../services/f
 import { FEATURE_FLAGS, getFeatureFlagEvaluationSubject } from '../utils/featureFlagsHelper'
 import setUpNunjucksFilters from '../setUpNunjucksFilters'
 import { errorRequestHandler } from '../routes'
+import { getAllMyBookmarks, getAllMyReports } from '../utils/reportStoreHelper'
 
 const getQueryParamAsString = (query: ParsedQs, name: string) => (query[name] ? query[name].toString() : null)
 const getDefinitionsPath = (query: ParsedQs) => getQueryParamAsString(query, 'dataProductDefinitionsPath')
@@ -131,31 +132,12 @@ const setLocalsFromServices = async (services: Services, res: Response) => {
 const populateRequestedReports = async (services: Services, res: Response) => {
   const { dprUser } = localsHelper.getValues(res)
   if (dprUser.id) {
-    const { definitions, definitionsPath } = res.locals
+    const { requestedReports, recentlyViewedReports } = await getAllMyReports(res, services, dprUser.id)
 
-    const recent = await services.recentlyViewedService.getAllReports(dprUser.id)
-    await services.requestedReportService.cleanList(dprUser.id, recent)
-    const requested = await services.requestedReportService.getAllReports(dprUser.id)
-
-    res.locals['requestedReports'] = !definitionsPath
-      ? requested
-      : requested.filter((report: RequestedReport) => {
-          return DefinitionUtils.getCurrentVariantDefinition(definitions, report.reportId, report.id)
-        })
-
-    res.locals['recentlyViewedReports'] = !definitionsPath
-      ? recent
-      : recent.filter((report: StoredReportData) => {
-          return DefinitionUtils.getCurrentVariantDefinition(definitions, report.reportId, report.id)
-        })
-
+    res.locals['requestedReports'] = requestedReports
+    res.locals['recentlyViewedReports'] = recentlyViewedReports
     if (res.locals['bookmarkingEnabled']) {
-      const bookmarks = await services.bookmarkService.getAllBookmarks(dprUser.id)
-      res.locals['bookmarks'] = !definitionsPath
-        ? bookmarks
-        : bookmarks.filter((bookmark: BookmarkStoreData) => {
-            return DefinitionUtils.getCurrentVariantDefinition(definitions, bookmark.reportId, bookmark.id)
-          })
+      res.locals['bookmarks'] = await getAllMyBookmarks(res, services, dprUser.id)
     }
   }
 }

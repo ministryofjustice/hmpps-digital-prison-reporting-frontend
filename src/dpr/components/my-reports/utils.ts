@@ -19,6 +19,11 @@ import { BookmarkStoreData } from '../../types/Bookmark'
 import { LoadType, ReportType, RequestStatus, StoredReportData } from '../../types/UserReports'
 import { buildMyReportListRow } from './my-reports-list-item/utils'
 import logger from '../../utils/logger'
+import {
+  expireFinishedReports,
+  recordExpiryCheck,
+  shouldRunExpiryCheck,
+} from 'src/dpr/utils/ReportStatus/getReportStatus'
 
 /**
  * Initialises the "My Reports" component data
@@ -38,8 +43,8 @@ export const initMyReports = async (
 
   return {
     ...(bookmarkingEnabled && { bookmarks: await initBookmarks(res, services) }),
-    requested: initRequested(req, res, options),
-    viewed: initViewed(req, res, options),
+    requested: await initRequested(req, res, services, options),
+    viewed: await initViewed(req, res, services, options),
   }
 }
 
@@ -74,9 +79,14 @@ const initBookmarks = async (
  * @param {Response} res
  * @return {*}
  */
-const initRequested = (req: Request, res: Response, options?: MyReportsOptions | undefined) => {
+const initRequested = async (
+  req: Request,
+  res: Response,
+  services: Services,
+  options?: MyReportsOptions | undefined,
+) => {
   const { csrfToken } = LocalsHelper.getValues(res)
-  const items = buildListItems(req, res, ListType.REQUESTED)
+  const items = await buildListItems(req, res, services, ListType.REQUESTED)
 
   return {
     title: 'Requested reports',
@@ -95,8 +105,8 @@ const initRequested = (req: Request, res: Response, options?: MyReportsOptions |
  * @param {Response} res
  * @return {*}
  */
-const initViewed = (req: Request, res: Response, options?: MyReportsOptions | undefined) => {
-  const items = buildListItems(req, res, ListType.VIEWED)
+const initViewed = async (req: Request, res: Response, services: Services, options?: MyReportsOptions | undefined) => {
+  const items = await buildListItems(req, res, services, ListType.VIEWED)
 
   return {
     title: 'Recently viewed',
@@ -119,9 +129,14 @@ const initViewed = (req: Request, res: Response, options?: MyReportsOptions | un
  * @param {ListType} listType
  * @return {*}  {DprMyReportItem[]}
  */
-const buildListItems = (req: Request, res: Response, listType: ListType): DprMyReportItem[] => {
+const buildListItems = async (
+  req: Request,
+  res: Response,
+  services: Services,
+  listType: ListType,
+): Promise<DprMyReportItem[]> => {
   // get the relevant data from the store
-  const listData = getDataForList(res, listType)
+  const listData = await getDataForList(res, listType, services)
   // loop it
   if (!listData) {
     return []
@@ -382,8 +397,30 @@ const buildBookmarkRemoveAction = (res: Response, data: MappedBookmarks) => {
  * @param {ListType} listType
  * @return {*}  {(StoredReportData[] | undefined)}
  */
-const getDataForList = (res: Response, listType: ListType): StoredReportData[] | undefined => {
-  const { requestedReports, recentlyViewedReports } = LocalsHelper.getValues(res)
+const getDataForList = async (
+  res: Response,
+  listType: ListType,
+  services: Services,
+): Promise<StoredReportData[] | undefined> => {
+  let { requestedReports, recentlyViewedReports } = LocalsHelper.getValues(res)
+
+  if (shouldRunExpiryCheck(res.req.session)) {
+    try {
+      const refreshedReports = await expireFinishedReports({
+        requestedReports,
+        recentlyViewedReports,
+        services,
+        res,
+      })
+
+      requestedReports = refreshedReports.requestedReports
+      recentlyViewedReports = refreshedReports.recentlyViewedReports
+
+      recordExpiryCheck(res.req.session)
+    } catch (error) {
+      logger.error(error)
+    }
+  }
 
   switch (listType) {
     case ListType.REQUESTED:

@@ -61,8 +61,8 @@ export type GetReportStatusOptions = {
 }
 
 export type ExpireFinishedReportsOptions = {
-  reports: StoredReportData[]
+  requestedReports: StoredReportData[]
+  recentlyViewedReports: StoredReportData[]
   services: Services
-  token: string
   res: any
 }

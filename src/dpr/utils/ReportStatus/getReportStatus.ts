@@ -7,11 +7,13 @@ import {
   GetReportStatusOptions,
   TERMINAL_STATUSES,
   FIFTEEN_MINUTES_MS,
+  ExpireFinishedReportsOptions,
 } from './types'
 import ErrorHandler, { DprErrorMessage } from '../ErrorHandler/ErrorHandler'
 import { Services } from '../../types/Services'
 import { StoredReportData, ReportType, RequestedReport } from '../../types/UserReports'
 import { getValues } from '../localsHelper'
+import { getAllMyReports } from '../reportStoreHelper'
 
 /**
  * ------------------------------------------------------------
@@ -19,7 +21,7 @@ import { getValues } from '../localsHelper'
  * ------------------------------------------------------------
  */
 
-async function getStatusByType({
+export async function getStatusByType({
   reportType,
   services,
   token,
@@ -401,72 +403,114 @@ export async function evaluateAndUpdateReportStatus({
  * Intended to run once during component initialisation,
  * before polling begins.
  */
-export async function expireFinishedReportsIfNeeded({
+
+type ExpiredReportDetection = {
+  executionId: string
+}
+
+async function detectExpiredFinishedReports({
   reports,
   services,
   token,
-  res,
-}: ExpireFinishedReportsOptions): Promise<StoredReportData[]> {
-  const { dprUser } = getValues(res)
-
-  const finishedReports = reports.filter((r) => r.status === RequestStatus.FINISHED)
-
-  if (finishedReports.length === 0) {
-    return reports
-  }
+}: {
+  reports: StoredReportData[]
+  services: Services
+  token: string
+}): Promise<ExpiredReportDetection[]> {
+  const finished = reports.filter((r) => r.status === RequestStatus.FINISHED)
 
   const checks = await Promise.all(
-    finishedReports.map(async (stored) => {
-      const { reportId, id, executionId, tableId, dataProductDefinitionsPath, type } = stored
-
-      if (!executionId || !tableId) {
-        return { stored, expired: false }
+    finished.map(async (stored) => {
+      if (!stored.executionId || !stored.tableId) {
+        return null
       }
 
       const signal = await getStatusByType({
-        reportType: type,
+        reportType: stored.type,
         services,
         token,
-        reportId,
-        id,
-        executionId,
-        tableId,
-        definitionsPath: dataProductDefinitionsPath ?? '',
+        reportId: stored.reportId,
+        id: stored.id,
+        executionId: stored.executionId,
+        tableId: stored.tableId,
+        definitionsPath: stored.dataProductDefinitionsPath ?? '',
       })
 
-      const expired = signal.kind === 'ERROR' && signal.failure.errorCode === 404
-
-      return { stored, expired }
+      return signal.kind === 'ERROR' && signal.failure.errorCode === 404 ? { executionId: stored.executionId } : null
     }),
   )
 
-  const expiredExecutionIds = new Set(checks.filter((c) => c.expired).map((c) => c.stored.executionId))
+  return checks.filter(Boolean) as ExpiredReportDetection[]
+}
 
-  if (expiredExecutionIds.size === 0) {
-    return reports
+/**
+ * Checks the expired status of reports and updates the state
+ *
+ * @export
+ * @param {ExpireFinishedReportsOptions} {
+ *   reports,
+ *   services,
+ *   token,
+ *   res,
+ * }
+ * @return {*}  {Promise<StoredReportData[]>}
+ */
+export async function expireFinishedReports({
+  requestedReports,
+  recentlyViewedReports,
+  services,
+  res,
+}: ExpireFinishedReportsOptions) {
+  const { dprUser, token } = getValues(res)
+
+  const reports = [...requestedReports, ...recentlyViewedReports]
+
+  const expired = await detectExpiredFinishedReports({
+    reports,
+    services,
+    token,
+  })
+
+  if (expired.length === 0) {
+    return {
+      requestedReports,
+      recentlyViewedReports,
+    }
   }
 
-  // Persist updates
+  // de-duplicate executionIds
+  const uniqueExpired = [...new Map(expired.map((e) => [e.executionId, e])).values()]
+
+  // If any expired then update the state
   await Promise.all(
-    checks
-      .filter((c) => c.expired)
-      .map((c) =>
-        services.requestedReportService.updateStatus(c.stored.executionId!, dprUser.id, RequestStatus.EXPIRED),
-      ),
-  )
-
-  // Hydrate updated state
-  const updatedReports = await Promise.all(
-    reports.map(async (report) => {
-      if (!expiredExecutionIds.has(report.executionId)) {
-        return report
-      }
-
-      const updated = await services.requestedReportService.getReportByExecutionId(report.executionId!, dprUser.id)
-
-      return updated ?? report
+    uniqueExpired.map(({ executionId }) => {
+      Promise.all([
+        services.requestedReportService.setToExpired(executionId, dprUser.id),
+        services.recentlyViewedService.setToExpired(executionId, dprUser.id),
+      ])
     }),
   )
 
-  return updatedReports
+  // get a fresh version of all reports
+  return await getAllMyReports(res, services, dprUser.id)
+}
+
+const EXPIRED_CHECK_INTERVAL_MS = 15 * 60 * 1000 // 15 mins
+
+/**
+ * Checks if the expiry check should run
+ *
+ * @export
+ * @param {*} session
+ * @return {*}  {boolean}
+ */
+export function shouldRunExpiryCheck(session: any): boolean {
+  const lastRun = session.lastExpiredReportsCheckAt
+  if (!lastRun) return true
+
+  return Date.now() - lastRun > EXPIRED_CHECK_INTERVAL_MS
+}
+
+export function recordExpiryCheck(session: any) {
+  session.lastExpiredReportsCheckAt = Date.now()
 }

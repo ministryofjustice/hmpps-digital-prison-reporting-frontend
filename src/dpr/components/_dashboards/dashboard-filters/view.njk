@@ -1,6 +1,6 @@
 {% from "../../_filters/filters-interactive/view.njk" import dprInteractiveFilters %}
 
-{% macro dprDashboardFilters(filterData, validationErrors, appliedFilters, csrfToken) %}
+{% macro dprDashboardFilters(filters, validationErrors, appliedFilters, csrfToken) %}
     {% set templateArgs = {
       prefix: prefix,
       reportType: 'dashboard',
@@ -9,7 +9,7 @@
       appliedFilters: appliedFilters
     }%}
 
-    {% if filterData.filters.length %}
+    {% if filters.length %}
       {{ dprInteractiveFilters(filterData, templateArgs) }}
     {% endif %}
 {% endmacro %}

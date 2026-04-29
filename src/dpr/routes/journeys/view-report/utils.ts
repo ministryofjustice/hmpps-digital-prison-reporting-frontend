@@ -1,5 +1,10 @@
 import { Request, Response } from 'express'
-import { qsToQueryObject, normalizeQueryStringArray, queryObjectToQs } from '../../../utils/queryMappers'
+import {
+  qsToQueryObject,
+  normalizeQueryStringArray,
+  queryObjectToQs,
+  formBodyToQueryObject,
+} from '../../../utils/queryMappers'
 
 import { joinQueryStrings } from '../../../utils/urlHelper'
 import { components } from '../../../types/api'
@@ -74,12 +79,21 @@ const applyInteractiveQuery = async (
   // Get the stored interactive query data
   const sessionkey = loadType === LoadType.ASYNC ? { id, tableId, reportId } : { id, reportId }
   const queryDataFromSession = getActiveJourneyValue(req, sessionkey, 'currentReportSearch')
-  const queryData = queryDataFromSession ? qsToQueryObject(queryDataFromSession, '') : {}
+
+  let queryData: Record<string, string | string[]> = {}
+  let filtersData: Record<string, string | string[]> = {}
+  let columnsData: Record<string, string | string[]> = {}
+
+  if (queryDataFromSession) {
+    queryData = qsToQueryObject(queryDataFromSession, '')
+    filtersData = qsToQueryObject(queryDataFromSession, 'filters.')
+    columnsData = qsToQueryObject(queryDataFromSession, 'columns')
+  }
 
   // Set the query values from the current query
   const preventDefault = queryData?.['preventDefault']
   const pageSize = queryData?.['pageSize']
-  const selectedPage = applyType === 'columns' ? queryData?.['selectedPage'] : 1
+  const selectedPage = applyType === 'columns' ? queryData?.['selectedPage'] : '1'
   const sortColumn = queryData?.['sortColumn']
   const sortedAsc = queryData?.['sortedAsc']
 
@@ -90,13 +104,14 @@ const applyInteractiveQuery = async (
     ...(pageSize && { pageSize }),
     ...(sortColumn && { sortColumn }),
     ...(sortedAsc && { sortedAsc }),
-    ...req.body,
+    ...(filtersData && filtersData),
+    ...(columnsData && columnsData),
   }
 
   formData =
     applyType === 'columns' && fields
       ? applyColumns(req, queryData, formData, fields)
-      : applyFilters(queryData, formData)
+      : applyFilters(req, queryData, formData)
 
   const filtersString = queryObjectToQs(formData)
 
@@ -149,11 +164,20 @@ const applyColumns = (
  * @param {(Record<string, string | string[]>)} formData
  * @return {*}
  */
-const applyFilters = (queryData: Record<string, string | string[]>, formData: Record<string, string | string[]>) => {
+const applyFilters = (
+  req: Request,
+  queryData: Record<string, string | string[]>,
+  formData: Record<string, string | string[]>,
+) => {
   // Ensure current columns stay the same and are normalized
   const columns = normalizeQueryStringArray(queryData?.['columns']) || []
+  const filters = Object.fromEntries(
+    Object.keys(req.body)
+      .filter((key) => key.startsWith('filters.'))
+      .map((key) => [key, req.body[key]]),
+  )
 
-  return { ...formData, columns }
+  return { ...formData, ...filters, columns }
 }
 
 /**

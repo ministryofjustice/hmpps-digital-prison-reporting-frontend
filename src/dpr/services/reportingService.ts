@@ -53,6 +53,8 @@ class ReportingService {
     variantId: string,
     query: Record<string, string | boolean | number>,
   ): Promise<Dict<string>> {
+    console.log('requestAsyncReport', JSON.stringify({ query }, null, 2))
+
     return this.reportingClient.requestAsyncReport(token, reportId, variantId, query)
   }
 
@@ -93,6 +95,8 @@ class ReportingService {
     tableId: string,
     query: Record<string, string | string[]>,
   ): Promise<Array<Record<string, string>>> {
+    console.log('getAsyncReport', JSON.stringify({ query }, null, 2))
+
     return this.reportingClient.getAsyncReport(token, reportId, variantId, tableId, query)
   }
 

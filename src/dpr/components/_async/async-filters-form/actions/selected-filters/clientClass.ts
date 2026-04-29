@@ -333,7 +333,17 @@ export class DprSelectedAsyncFilters extends DprClientClass {
   // ----------------------------------
 
   private getAllFilterControls(): FilterControl[] {
-    return Array.from(document.querySelectorAll<FilterControl>('input[name^="filters."], select[name^="filters."]'))
+    return Array.from(
+      document.querySelectorAll<FilterControl>(
+        'input[name^="filters."], select[name^="filters."], input[name^="label.filters."]',
+      ),
+    ).filter((control) => {
+      if (control instanceof HTMLInputElement && control.type === 'hidden') {
+        return false
+      }
+
+      return true
+    })
   }
 
   private humanise(value: string): string {

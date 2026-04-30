@@ -95,7 +95,7 @@ export const setFilterValuesFromRequest = (
         break
     }
 
-    let value: FilterValueType = filter.value
+    let { value } = filter
 
     if (requestfilterValue !== undefined) {
       value = requestfilterValue

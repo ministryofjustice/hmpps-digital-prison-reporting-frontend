@@ -28,6 +28,22 @@ class Autocomplete extends DprClientClass {
       }
     })
 
+    textInput.addEventListener('input', () => {
+      if (textInput.value !== '') {
+        return
+      }
+
+      const hiddenInput = this.getHiddenInput()
+
+      if (hiddenInput) {
+        hiddenInput.value = ''
+      }
+
+      delete textInput.dataset.staticOptionNameValue
+
+      textInput.dispatchEvent(new Event('change', { bubbles: true }))
+    })
+
     this.getElement()
       .querySelectorAll('.autocomplete-text-input-list-button')
       .forEach((button) => {
@@ -40,7 +56,11 @@ class Autocomplete extends DprClientClass {
   }
 
   initialiseDefaultValue(textInput) {
-    this.setValue(textInput, textInput.value, textInput.dataset.staticOptionNameValue)
+    const hiddenInput = this.getHiddenInput()
+
+    if (hiddenInput?.value) {
+      textInput.dataset.staticOptionNameValue = hiddenInput.value
+    }
   }
 
   getTextInput() {
@@ -120,22 +140,33 @@ class Autocomplete extends DprClientClass {
     event.preventDefault()
 
     const button = event.currentTarget.closest('button')
-    this.setValue(textInput, button.innerText.trim(), button.dataset.staticOptionNameValue)
+    const hiddenInput = this.getHiddenInput()
+
+    const displayValue = button.innerText.trim()
+    const actualValue = button.dataset.staticOptionNameValue || ''
+
+    // UI Display Value
+    textInput.value = displayValue
+
+    // submission value
+    if (hiddenInput) {
+      hiddenInput.value = actualValue
+    }
+
+    textInput.dataset.staticOptionNameValue = actualValue
 
     topLevelElement.querySelectorAll('li').forEach((item) => {
       item.classList.add('autocomplete-text-input-item-hide')
     })
-  }
-
-  setValue(textInput, value, staticOptionNameValue) {
-    // eslint-disable-next-line no-param-reassign
-    textInput.value = value
-    // eslint-disable-next-line no-param-reassign
-    textInput.staticOptionNameValue = staticOptionNameValue
 
     textInput.focus()
-    const changeEvent = new Event('change')
-    textInput.dispatchEvent(changeEvent)
+    textInput.dispatchEvent(new Event('change', { bubbles: true }))
+  }
+
+  setValue(textInput, displayValue) {
+    textInput.value = displayValue
+    textInput.focus()
+    textInput.dispatchEvent(new Event('change', { bubbles: true }))
   }
 
   addItem(template, content, clickEvent) {
@@ -159,6 +190,10 @@ class Autocomplete extends DprClientClass {
       .forEach((e) => e.remove())
     this.getElement().querySelector(this.listParentSelector).append(template)
     return template
+  }
+
+  getHiddenInput() {
+    return this.getElement().querySelector('[data-autocomplete-hidden]')
   }
 }
 

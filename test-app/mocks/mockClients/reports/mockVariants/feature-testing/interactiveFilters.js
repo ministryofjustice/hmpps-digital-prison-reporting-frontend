@@ -88,6 +88,29 @@ const featureTestingInteractive = {
         },
       },
       {
+        name: 'fieldA',
+        display: 'Field A',
+        visible: false,
+        sortable: false,
+        type: 'string',
+        filter: {
+          type: 'autocomplete',
+          dynamicOptions: {
+            minimumLength: 3,
+            returnAsStaticOptions: true,
+          },
+          staticOptions: [
+            { name: 'Fezzick', display: 'Fezzick' },
+            { name: 'Inigo Montoya', display: 'Inigo Montoya' },
+            { name: 'PrHu', display: 'Prince Humperdink' },
+            { name: 'PrButt', display: 'Princess Buttercup' },
+            { name: 'Westley', display: 'Westley' },
+          ],
+          mandatory: false,
+          interactive: true,
+        },
+      },
+      {
         name: 'field5',
         display: 'Field 5',
         sortable: false,

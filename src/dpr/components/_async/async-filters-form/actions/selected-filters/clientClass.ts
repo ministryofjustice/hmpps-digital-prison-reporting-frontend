@@ -73,7 +73,10 @@ export class DprSelectedAsyncFilters extends DprClientClass {
   private groupControlsByField(): Record<string, FilterControl[]> {
     return this.getAllFilterControls().reduce(
       (acc, control) => {
-        const fieldKey = control.name.split('.').slice(0, 2).join('.')
+        const parts = control.name.split('.')
+        // label.filters.fieldX -> filters.fieldX
+        const fieldKey = parts[0] === 'label' ? parts.slice(1, 3).join('.') : parts.slice(0, 2).join('.')
+
         acc[fieldKey] ??= []
         acc[fieldKey].push(control)
         return acc

@@ -163,10 +163,6 @@ const getTotals = (formattedCount: number, maxRows = 20) => {
 }
 
 const createSummaryHtml = (data: FormattedUserReportData) => {
-  console.log(`
-    ---------------------------------------`)
-  console.log(data.interactiveSummary)
-
   const summaryHtml = data.summary
     ?.map((item) => `<li class="govuk-body-s dpr-query-summary"><strong>${item.name}</strong>: ${item.value}</li>`)
     .join('')

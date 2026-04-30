@@ -388,8 +388,6 @@ export const updateLastViewed = async ({
     querySummary: SelectedFiltersUtils.getQuerySummary(filtersQuery, filters),
   }
 
-  console.log(JSON.stringify({ interactiveQueryData }, null, 2))
-
   const recentlyViewedData = new UserStoreItemBuilder(reportData)
     .addExecutionData(executionData)
     .addQuery(queryData)

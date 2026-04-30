@@ -6,7 +6,8 @@ Below you can find the changes included in each release.
 
 ## 5.10.6
 
-- Bugfix: Multiple Autocomplete inputs in one form playing nice with selected filters
+- Bugfix: Dashboard filters missing
+- Bugfix: Multiple Autocomplete inputs in one form add to same selected filter chip
 
 ## 5.10.5
 

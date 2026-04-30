@@ -37,6 +37,7 @@ class Autocomplete extends DprClientClass {
 
       if (hiddenInput) {
         hiddenInput.value = ''
+        hiddenInput.disabled = true
       }
 
       delete textInput.dataset.staticOptionNameValue
@@ -58,8 +59,21 @@ class Autocomplete extends DprClientClass {
   initialiseDefaultValue(textInput) {
     const hiddenInput = this.getHiddenInput()
 
+    // a real stored value exists
     if (hiddenInput?.value) {
+      textInput.value = hiddenInput.value
       textInput.dataset.staticOptionNameValue = hiddenInput.value
+      hiddenInput.disabled = false
+      return
+    }
+
+    // no hidden value - explicitly reset everything
+    textInput.value = ''
+    delete textInput.dataset.staticOptionNameValue
+
+    if (hiddenInput) {
+      hiddenInput.value = ''
+      hiddenInput.disabled = true
     }
   }
 
@@ -151,6 +165,7 @@ class Autocomplete extends DprClientClass {
     // submission value
     if (hiddenInput) {
       hiddenInput.value = actualValue
+      hiddenInput.disabled = false
     }
 
     textInput.dataset.staticOptionNameValue = actualValue

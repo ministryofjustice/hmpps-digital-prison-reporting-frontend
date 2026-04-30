@@ -21,6 +21,7 @@ import MultiSelectUtils from '../_inputs/multi-select/utils'
 import PersonalistionUtils from '../../utils/Personalisation/personalisationUtils'
 import { RenderFiltersReturnValue } from '../_async/async-filters-form/types'
 import SortHelper from '../_async/async-filters-form/sortByTemplate'
+import logger from '../../utils/logger'
 
 /**
  * Given a FilterValue[], will update the values to match the req.query values if present
@@ -295,9 +296,12 @@ export const getRequestFilters = async (
   if (!fields || !fields.length) {
     return undefined
   }
+  logger.info('PERSONALISATION DEBUG: GETTING REQUEST FILTERS')
 
   // 1. Get filters from definition with default values
   let filters = getFiltersFromDefinition(fields, false)
+
+  logger.info('PERSONALISATION DEBUG: filters from definition', JSON.stringify({ filters }, null, 2))
 
   // 2. Get the sort from the definition
   const sortBy = getSortByFromDefinition(fields)
@@ -305,8 +309,12 @@ export const getRequestFilters = async (
   // 3. Update filter values with user context values. eg. establishmnent code
   filters = PersonalistionUtils.setUserContextDefaults(res, filters)
 
+  logger.info('PERSONALISATION DEBUG: FIlters from context', JSON.stringify({ filters }, null, 2))
+
   // 4. Overwrite filter values with query param values
   filters = setFilterValuesFromRequest(filters, req)
+
+  logger.info('PERSONALISATION DEBUG: FIlters from request', JSON.stringify({ filters }, null, 2))
 
   return {
     filters,

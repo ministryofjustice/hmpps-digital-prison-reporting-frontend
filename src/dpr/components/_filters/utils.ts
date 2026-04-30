@@ -21,7 +21,7 @@ import MultiSelectUtils from '../_inputs/multi-select/utils'
 import PersonalistionUtils from '../../utils/Personalisation/personalisationUtils'
 import { RenderFiltersReturnValue } from '../_async/async-filters-form/types'
 import SortHelper from '../_async/async-filters-form/sortByTemplate'
-import logger from 'src/dpr/utils/logger'
+import logger from '../../utils/logger'
 
 /**
  * Given a FilterValue[], will update the values to match the req.query values if present

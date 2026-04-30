@@ -21,6 +21,7 @@ import { getActiveJourneyValue, setActiveJourneySortSearch } from '../../../../u
 import { formBodyToQueryObject } from '../../../../utils/queryMappers'
 import { joinQueryStrings } from '../../../../utils/urlHelper'
 import { buildQuerySummary } from '../../../../components/_async/request-details/utils'
+import logger from '../../../../utils/logger'
 
 // ----------------------------------------------------------------------
 // POST
@@ -285,6 +286,8 @@ export const renderRequest = async ({
     const { reportId, type, id } = req.params as { reportId: string; type: ReportType; id: string }
     const { token, csrfToken, definitionsPath: definitionPath, dprUser } = LocalsHelper.getValues(res)
     const { definition, saveDefaultsEnabled } = res.locals
+
+    logger.info('PERSONALISATION DEBUG: saveDefaultsEnabled', saveDefaultsEnabled)
 
     let name: string = ''
     let reportName: string = ''

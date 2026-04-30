@@ -58,16 +58,11 @@ class Autocomplete extends DprClientClass {
 
   initialiseDefaultValue(textInput) {
     const hiddenInput = this.getHiddenInput()
-
-    // a real stored value exists
     if (hiddenInput?.value) {
-      textInput.value = hiddenInput.value
-      textInput.dataset.staticOptionNameValue = hiddenInput.value
       hiddenInput.disabled = false
       return
     }
 
-    // no hidden value - explicitly reset everything
     textInput.value = ''
     delete textInput.dataset.staticOptionNameValue
 

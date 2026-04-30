@@ -317,6 +317,8 @@ export class DprSelectedAsyncFilters extends DprClientClass {
           }
         }
 
+        this.removeAutocompleteHiddenInput(control.name, params)
+
         control.dispatchEvent(new Event('change', { bubbles: true }))
       })
 
@@ -326,6 +328,22 @@ export class DprSelectedAsyncFilters extends DprClientClass {
     })
 
     return button
+  }
+
+  private removeAutocompleteHiddenInput(name: string, params: URLSearchParams) {
+    if (!name.startsWith('label.')) {
+      return
+    }
+
+    const realFilterName = name.replace(/^label\./, '')
+    const hidden = document.querySelectorAll<HTMLInputElement>(
+      `input[type="hidden"][name="${CSS.escape(realFilterName)}"]`,
+    )
+
+    hidden.forEach((h) => {
+      h.value = ''
+      params.delete(h.name)
+    })
   }
 
   // ----------------------------------

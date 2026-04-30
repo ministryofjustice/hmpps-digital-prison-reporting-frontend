@@ -29,6 +29,10 @@ class Autocomplete extends DprClientClass {
     })
 
     textInput.addEventListener('input', () => {
+      if (textInput.value !== '') {
+        return
+      }
+
       const hiddenInput = this.getHiddenInput()
 
       if (hiddenInput) {
@@ -36,6 +40,8 @@ class Autocomplete extends DprClientClass {
       }
 
       delete textInput.dataset.staticOptionNameValue
+
+      textInput.dispatchEvent(new Event('change', { bubbles: true }))
     })
 
     this.getElement()

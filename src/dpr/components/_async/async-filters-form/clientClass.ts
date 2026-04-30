@@ -86,13 +86,11 @@ export class DprFiltersFormClass extends DprClientClass {
     params: URLSearchParams,
     input: HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement,
   ): void {
-    const { name } = input
-    let { value } = input
+    const name = this.normaliseFilterName(input.name)
+    let value = input.value
 
     if (input instanceof HTMLInputElement && input.dataset['staticOptionNameValue']) {
       value = input.dataset['staticOptionNameValue']
-    } else {
-      value = input.value
     }
 
     const isDateInput = input instanceof HTMLInputElement && input.classList.contains('moj-js-datepicker-input')
@@ -145,6 +143,10 @@ export class DprFiltersFormClass extends DprClientClass {
 
   private getAllInputs(): FormInput[] {
     return Array.from(this.form.querySelectorAll<FormInput>('input, select, textarea')).filter((el) => el.name)
+  }
+
+  private normaliseFilterName(name: string): string {
+    return name.startsWith('label.') ? name.replace(/^label\./, '') : name
   }
 }
 

@@ -9,14 +9,14 @@ import GranularDateRangeInputUtils from '../../components/_inputs/granular-date-
 import { FilterValue, FilterValueWithOptions } from '../../components/_filters/types'
 import { defaultFilterValue } from './types'
 import { FiltersType } from '../../components/_filters/filtersTypeEnum'
-import { getRequestParam } from '../indexedAccesHelper'
 import { uiDateToApi } from '../dateHelper'
 
 export const saveDefaults = async (type: FiltersType, res: Response, req: Request, services: Services) => {
-  const defaultValuesForReport = await getDefaultValues(req, res, services, type)
   const { dprUser } = localsHelper.getValues(res)
-  const id = <string>getRequestParam({ req, param: 'id' })
-  const reportId = <string>getRequestParam({ req, param: 'reportId' })
+  const { reportId, id } = req.params as { reportId: string; id: string }
+
+  const defaultValuesForReport = await getDefaultValues(req, res, services, type)
+
   const { defaultFilterValuesService } = services
   return defaultFilterValuesService
     ? defaultFilterValuesService.save(dprUser.id, reportId, id, defaultValuesForReport)
@@ -51,7 +51,7 @@ const getDefaultValues = async (
 
   const bodyFilterValues = Object.keys(req.body)
     .filter((k) => {
-      return k.includes('filters.') || k.includes('sortColumn') || k.includes('sortedAsc')
+      return k.startsWith('filters.') || k.includes('sortColumn') || k.includes('sortedAsc')
     })
     .map((k) => {
       return { name: k.replace('filters.', ''), value: req.body[k] }

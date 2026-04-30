@@ -19,6 +19,9 @@ describe('Filter validation', () => {
 
   const fillAutocomplete = (name = 'Field 4') => {
     cy.findByRole('combobox', { name }).type('Inigo Montoya')
+    cy.findByRole('listbox', { name: 'Autocomplete options' }).within(() => {
+      cy.findByRole('button', { name: /Inigo/ }).click()
+    })
   }
 
   const fillPatternTextInput = (name = 'Field 5') => {

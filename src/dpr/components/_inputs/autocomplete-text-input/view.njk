@@ -3,16 +3,20 @@
 
 {% macro dprAutocompleteTextInput(options, validationErrors) %}
 
-    {%  set listId = (options.id | replace(".", "")) + "-list" %}
+    {% set listId = (options.id | replace(".", "")) + "-list" %}
+    {% set labelInputId = options.id + '_label' %}
+    {% set labelInputName = 'label.' + options.name %}
 
     <div class="dpr-autocomplete-text-input" data-dpr-module="autocomplete-text-input">
+        <input type="hidden" name="{{ options.name }}" value="{{ options.staticOptionNameValue }}" data-autocomplete-hidden>
+
         {{ govukInput({
             id: options.id,
             label: {
                 text: options.labelText,
                 classes: "govuk-!-font-weight-bold dpr-inline-label"
             },
-            name: options.name,
+            name: labelInputName,
             value: options.value,
             type: "search",
             errorMessage: validationErrors | dpr.findError(options.id),
@@ -51,6 +55,8 @@
                 html: "(Optional)"
             } if not options.mandatory
         }) }}
+
+
         <div id="{{ listId }}" class="autocomplete-text-input-list">
             <ul role="listbox" aria-label="Autocomplete options">
                 {% if (options.dynamicResourceEndpoint) %}
@@ -79,5 +85,6 @@
                 {% endif %}
             </ul>
         </div>
+
     </div>
 {% endmacro %}

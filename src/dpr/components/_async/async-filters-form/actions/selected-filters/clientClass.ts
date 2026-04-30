@@ -317,6 +317,8 @@ export class DprSelectedAsyncFilters extends DprClientClass {
           }
         }
 
+        this.removeAutocompleteHiddenInput(control.name, params)
+
         control.dispatchEvent(new Event('change', { bubbles: true }))
       })
 
@@ -328,12 +330,38 @@ export class DprSelectedAsyncFilters extends DprClientClass {
     return button
   }
 
+  private removeAutocompleteHiddenInput(name: string, params: URLSearchParams) {
+    if (!name.startsWith('label.')) {
+      return
+    }
+
+    const realFilterName = name.replace(/^label\./, '')
+    const hidden = document.querySelectorAll<HTMLInputElement>(
+      `input[type="hidden"][name="${CSS.escape(realFilterName)}"]`,
+    )
+
+    hidden.forEach((h) => {
+      h.value = ''
+      params.delete(h.name)
+    })
+  }
+
   // ----------------------------------
   // Utilities
   // ----------------------------------
 
   private getAllFilterControls(): FilterControl[] {
-    return Array.from(document.querySelectorAll<FilterControl>('input[name^="filters."], select[name^="filters."]'))
+    return Array.from(
+      document.querySelectorAll<FilterControl>(
+        'input[name^="filters."], select[name^="filters."], input[name^="label.filters."]',
+      ),
+    ).filter((control) => {
+      if (control instanceof HTMLInputElement && control.type === 'hidden') {
+        return false
+      }
+
+      return true
+    })
   }
 
   private humanise(value: string): string {

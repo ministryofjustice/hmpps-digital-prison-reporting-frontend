@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## 5.10.5
+
+- Bugfix: Autocomplete sending the display value to query instead of actual value
+
 ## 5.10.4
 
 - Bugfix: Fixed console errors when loading bar charts using partial datasets

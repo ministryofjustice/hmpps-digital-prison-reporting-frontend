@@ -77,9 +77,10 @@ export class DprFiltersFormClass extends DprClientClass {
   }
 
   private updateRadio(params: URLSearchParams, input: HTMLInputElement): void {
-    if (input.checked) {
-      params.set(input.name, input.value)
-    }
+    if (!input.checked) return
+
+    const name = this.normaliseFilterName(input.name)
+    params.set(name, input.value)
   }
 
   private updateSingle(

@@ -45,7 +45,7 @@ export const setFilterValuesFromRequest = (
     const queryKey = `${prefix}${filter.name}`
     const hasQueryParam = queryKey in req.query
 
-    let requestfilterValue: FilterValueType
+    let requestfilterValue: FilterValueType | undefined
     let requestfilterValues: string[] | undefined
     let requestOptionValue: string | undefined
 
@@ -91,15 +91,15 @@ export const setFilterValuesFromRequest = (
       }
 
       default:
-        requestfilterValue = req.query[queryKey] as string
+        requestfilterValue = req.query[queryKey] as string | undefined
         break
     }
 
-    let { value } = filter
+    let value: FilterValueType = null
 
     if (requestfilterValue !== undefined) {
       value = requestfilterValue
-    } else if (preventDefault) {
+    } else if (preventDefault && type === FilterType.autocomplete.toLowerCase()) {
       value = ''
     }
 

@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## 5.10.8
+
+- Bugfix: Autocomplete personalisation & refresh link
+
 ## 5.10.7
 
 - Bugfix: Autocomplete setting incorrect default value

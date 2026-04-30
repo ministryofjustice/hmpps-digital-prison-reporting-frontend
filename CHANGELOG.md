@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## 5.10.6
+
+- Bugfix: Multiple Autocomplete inputs in one form playing nice with selected filters
+
 ## 5.10.5
 
 - Bugfix: Autocomplete sending the display value to query instead of actual value

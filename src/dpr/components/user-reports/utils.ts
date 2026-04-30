@@ -163,6 +163,10 @@ const getTotals = (formattedCount: number, maxRows = 20) => {
 }
 
 const createSummaryHtml = (data: FormattedUserReportData) => {
+  console.log(`
+    ---------------------------------------`)
+  console.log(data.interactiveSummary)
+
   const summaryHtml = data.summary
     ?.map((item) => `<li class="govuk-body-s dpr-query-summary"><strong>${item.name}</strong>: ${item.value}</li>`)
     .join('')
@@ -387,6 +391,8 @@ export const updateLastViewed = async ({
     query: reqQuery,
     querySummary: SelectedFiltersUtils.getQuerySummary(filtersQuery, filters),
   }
+
+  console.log(JSON.stringify({ interactiveQueryData }, null, 2))
 
   const recentlyViewedData = new UserStoreItemBuilder(reportData)
     .addExecutionData(executionData)

@@ -66,6 +66,8 @@ export class FeatureFlagService {
       flagKeys.map((flagKey) => [flagKey, getFeatureFlagFallbackState(flagKey)]),
     ) as Record<TFlag, boolean>
 
+    logger.info('PERSONALISATION DEBUG: evaluateBooleanFlags', JSON.stringify({ flags: results }, null, 2))
+
     if (flagKeys.length === 0) {
       return results
     }

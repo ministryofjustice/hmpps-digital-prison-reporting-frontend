@@ -10,6 +10,7 @@ import { FilterValue, FilterValueWithOptions } from '../../components/_filters/t
 import { defaultFilterValue } from './types'
 import { FiltersType } from '../../components/_filters/filtersTypeEnum'
 import { uiDateToApi } from '../dateHelper'
+import { logger } from '../logger'
 
 export const saveDefaults = async (type: FiltersType, res: Response, req: Request, services: Services) => {
   const { dprUser } = localsHelper.getValues(res)
@@ -106,18 +107,43 @@ export const setUserContextDefaults = (res: Response, filters: FilterValue[]) =>
   const { dprUser } = localsHelper.getValues(res)
   const { activeCaseLoadId } = dprUser
 
+  logger.info('#############################')
+  logger.info('PERSONALISATION DEBUG: SETTING USER CONTEXT DEFAULTS')
+  logger.info({ activeCaseLoadId })
+
   filters.forEach((filter) => {
+    logger.info(
+      'PERSONALISATION DEBUG: Is autocomplete: ',
+      filter.type.toLocaleLowerCase() === FilterType.autocomplete.toLocaleLowerCase(),
+    )
+    logger.info('PERSONALISATION DEBUG: Is establishment: ', filter.text.toLocaleLowerCase().includes('establishment'))
+    logger.info(
+      'PERSONALISATION DEBUG: Has activeCaseLoadId: ',
+      filter.text.toLocaleLowerCase().includes('establishment'),
+    )
+
     if (
       filter.type.toLocaleLowerCase() === FilterType.autocomplete.toLocaleLowerCase() &&
       filter.text.toLocaleLowerCase().includes('establishment') &&
       activeCaseLoadId?.length
     ) {
+      logger.info(`
+PERSONALISATION DEBUG: Autocomplete filter found:`)
+      logger.info('PERSONALISATION DEBUG: ', JSON.stringify({ filter }))
+
       const f = <FilterValueWithOptions>filter
       const option = f.options.find((opt) => opt.value === activeCaseLoadId)
 
       if (option) {
+        logger.info(`
+PERSONALISATION DEBUG: Autocomplete option found:`)
+        logger.info('PERSONALISATION DEBUG: ', JSON.stringify({ option }))
         f.value = option.text
         f.staticOptionNameValue = activeCaseLoadId
+
+        logger.info(`
+  PERSONALISATION DEBUG: Updated filter:`)
+        logger.info('PERSONALISATION DEBUG: ', JSON.stringify({ option }))
       }
     }
   })

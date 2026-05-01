@@ -174,8 +174,18 @@ export const getQuerySummary = (reqQuery: Record<string, unknown>, filters: Filt
         value = <string>getMultiselectValues(<MultiselectFilterValue>f, 'filters').displayValue
       }
 
+      if (f.type.toLowerCase() === FilterType.autocomplete.toLowerCase()) {
+        const code = reqQuery[`${prefix}${f.name}`] as string
+        value = getOptionsValue(
+          {
+            ...f,
+            staticOptionNameValue: code,
+          } as FilterValueWithOptions,
+          prefix,
+        ).displayValue
+      }
+
       if (
-        f.type.toLowerCase() === FilterType.autocomplete.toLowerCase() ||
         f.type.toLowerCase() === FilterType.radio.toLowerCase() ||
         f.type.toLowerCase() === FilterType.select.toLowerCase()
       ) {

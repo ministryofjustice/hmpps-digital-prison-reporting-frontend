@@ -1,0 +1,15 @@
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% macro dprButtonLink(args) %}
+
+  {% set text = args.text %}
+  {% set classes = args.classes %}
+  {% set attributes = args.attributes %}
+  
+    {{ govukButton({
+      text: text,
+      classes: 'dpr-button-link ' + classes,
+      attributes: attributes
+    }) }}
+
+{% endmacro %}

@@ -1,5 +1,11 @@
 Below you can find the changes included in each release.
 
+## 5.10.12
+
+- Standardised button link styling
+- More Debug logs for investigating issue with personalisation
+- Styling fix - padding on date filters
+
 ## 5.10.9, 5.10.10, 5.10.11
 
 - Debug logs for investigating issue with personalisation

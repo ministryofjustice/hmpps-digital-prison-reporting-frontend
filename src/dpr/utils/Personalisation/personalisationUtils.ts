@@ -108,8 +108,8 @@ export const setUserContextDefaults = (res: Response, filters: FilterValue[]) =>
   const { activeCaseLoadId } = dprUser
 
   logger.info('PERSONALISATION DEBUG: SETTING USER CONTEXT DEFAULTS')
-  logger.info(`PERSONALISATION DEBUG: dprUser: ${dprUser}`)
-  logger.info(`PERSONALISATION DEBUG: activeCaseLoadId: ${activeCaseLoadId}`)
+  logger.info(`PERSONALISATION DEBUG: dprUser: ${JSON.stringify(dprUser)}`)
+  logger.info(`PERSONALISATION DEBUG: activeCaseLoadId: ${JSON.stringify(activeCaseLoadId)}`)
 
   filters.forEach((filter, index) => {
     logger.info(
@@ -132,19 +132,19 @@ export const setUserContextDefaults = (res: Response, filters: FilterValue[]) =>
       activeCaseLoadId.length
     ) {
       logger.info(`PERSONALISATION DEBUG: (${index}): Autocomplete filter found:`)
-      logger.info(`PERSONALISATION DEBUG: (${index}): updated filter: ${filter}`)
+      logger.info(`PERSONALISATION DEBUG: (${index}): updated filter: ${JSON.stringify(filter)}`)
 
       const f = <FilterValueWithOptions>filter
       const option = f.options.find((opt) => opt.value === activeCaseLoadId)
 
       if (option) {
         logger.info(`PERSONALISATION DEBUG: (${index}): Autocomplete option found:`)
-        logger.info(`PERSONALISATION DEBUG: (${index}): option: ${option}`)
+        logger.info(`PERSONALISATION DEBUG: (${index}): option: ${JSON.stringify(option)}`)
         f.value = option.text
         f.staticOptionNameValue = option.value
 
         logger.info(`PERSONALISATION DEBUG: (${index}): Updated filter:`)
-        logger.info(`PERSONALISATION DEBUG: (${index}): updated filter: ${f}`)
+        logger.info(`PERSONALISATION DEBUG: (${index}): updated filter: ${JSON.stringify(f)}`)
       }
     }
   })

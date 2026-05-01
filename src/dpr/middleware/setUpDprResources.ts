@@ -126,6 +126,7 @@ const setLocalsFromServices = async (services: Services, res: Response) => {
     // otherwise let the defaultFilterValuesService decide.
     const saveDefaultsEnabledFlag = isBooleanFlagEnabledOrMissing('saveDefaultsEnabled', res.app)
     logger.info('PERSONALISATION DEBUG: MIDDLEWARE saveDefaultsEnabledFlag', saveDefaultsEnabledFlag)
+
     res.locals.saveDefaultsEnabled = saveDefaultsEnabledFlag ? services.defaultFilterValuesService.enabled : false
     logger.info('PERSONALISATION DEBUG: MIDDLEWARE saveDefaultsEnabled', res.locals.saveDefaultsEnabled)
   }

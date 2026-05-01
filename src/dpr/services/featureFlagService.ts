@@ -8,6 +8,7 @@ import {
   type FeatureFlagEvaluationSubject,
   type FeatureFlagKey,
 } from '../utils/featureFlagsHelper'
+import logger from '../utils/logger'
 
 export class FeatureFlagService {
   private readonly clientConfig: ClientOptions | undefined
@@ -111,5 +112,6 @@ const resolveFlag = (app: Application, flagName: string) => {
 
 export const isBooleanFlagEnabledOrMissing = (flagName: string, app: Application): boolean => {
   const flag = resolveFlag(app, flagName)
-  return flag !== false
+  logger.info('PERSONALISATION DEBUG: isBooleanFlagEnabledOrMissing', { flagName, flag })
+  return flag.enabled !== false
 }

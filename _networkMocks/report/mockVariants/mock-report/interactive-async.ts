@@ -44,6 +44,7 @@ export const variant35Interactive: components['schemas']['VariantDefinition'] = 
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         filter: {
           type: 'Select',
           staticOptions: [
@@ -65,6 +66,7 @@ export const variant35Interactive: components['schemas']['VariantDefinition'] = 
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         filter: {
           type: 'daterange',
           defaultValue: '2003-02-01 - 2006-05-04',
@@ -83,6 +85,7 @@ export const variant35Interactive: components['schemas']['VariantDefinition'] = 
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         mandatory: false,
         filter: {
           type: 'autocomplete',
@@ -110,6 +113,7 @@ export const variant35Interactive: components['schemas']['VariantDefinition'] = 
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
       },
       {
         name: 'field6',
@@ -121,6 +125,7 @@ export const variant35Interactive: components['schemas']['VariantDefinition'] = 
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         filter: {
           type: 'text',
           mandatory: false,
@@ -136,6 +141,7 @@ export const variant35Interactive: components['schemas']['VariantDefinition'] = 
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         mandatory: false,
         filter: {
           mandatory: false,
@@ -155,6 +161,7 @@ export const variant35Interactive: components['schemas']['VariantDefinition'] = 
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         mandatory: false,
         filter: {
           mandatory: false,

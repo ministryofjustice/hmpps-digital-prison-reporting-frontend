@@ -43,6 +43,7 @@ export const requestExampleFailStatus: components['schemas']['VariantDefinition'
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         filter: {
           mandatory: false,
           type: 'Select',
@@ -63,6 +64,7 @@ export const requestExampleFailStatus: components['schemas']['VariantDefinition'
         mandatory: false,
         calculated: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         header: false,
         filter: {
           mandatory: false,
@@ -80,6 +82,7 @@ export const requestExampleFailStatus: components['schemas']['VariantDefinition'
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         mandatory: false,
         filter: {
           mandatory: false,
@@ -107,6 +110,7 @@ export const requestExampleFailStatus: components['schemas']['VariantDefinition'
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         filter: {
           mandatory: false,
           type: 'autocomplete',
@@ -126,6 +130,7 @@ export const requestExampleFailStatus: components['schemas']['VariantDefinition'
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
       },
     ],
   },

@@ -44,6 +44,7 @@ export const featureTestingInteractive: components['schemas']['VariantDefinition
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         filter: {
           type: 'Select',
           staticOptions: [
@@ -65,6 +66,7 @@ export const featureTestingInteractive: components['schemas']['VariantDefinition
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         filter: {
           type: 'daterange',
           defaultValue: '2003-02-01 - 2006-05-04',
@@ -83,6 +85,7 @@ export const featureTestingInteractive: components['schemas']['VariantDefinition
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         mandatory: false,
         filter: {
           type: 'autocomplete',
@@ -110,6 +113,7 @@ export const featureTestingInteractive: components['schemas']['VariantDefinition
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
       },
       {
         name: 'field6',
@@ -121,6 +125,7 @@ export const featureTestingInteractive: components['schemas']['VariantDefinition
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         filter: {
           mandatory: false,
           type: 'text',
@@ -137,6 +142,7 @@ export const featureTestingInteractive: components['schemas']['VariantDefinition
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         filter: {
           mandatory: false,
           type: 'date',
@@ -156,6 +162,7 @@ export const featureTestingInteractive: components['schemas']['VariantDefinition
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         filter: {
           mandatory: false,
           type: 'multiselect',

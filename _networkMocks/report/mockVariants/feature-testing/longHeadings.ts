@@ -21,6 +21,7 @@ export const featureTestingLongHeadings: components['schemas']['VariantDefinitio
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
       },
       {
         name: 'field2',
@@ -32,6 +33,7 @@ export const featureTestingLongHeadings: components['schemas']['VariantDefinitio
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
       },
       {
         name: 'field3',
@@ -43,6 +45,7 @@ export const featureTestingLongHeadings: components['schemas']['VariantDefinitio
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
       },
       {
         name: 'field4',
@@ -54,6 +57,7 @@ export const featureTestingLongHeadings: components['schemas']['VariantDefinitio
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
       },
       {
         name: 'field5',
@@ -65,6 +69,7 @@ export const featureTestingLongHeadings: components['schemas']['VariantDefinitio
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
       },
       {
         name: 'field6',
@@ -76,6 +81,7 @@ export const featureTestingLongHeadings: components['schemas']['VariantDefinitio
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
       },
       {
         name: 'field6',
@@ -87,6 +93,7 @@ export const featureTestingLongHeadings: components['schemas']['VariantDefinitio
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
       },
       {
         name: 'field7',
@@ -98,6 +105,7 @@ export const featureTestingLongHeadings: components['schemas']['VariantDefinitio
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
       },
       {
         name: 'field8',
@@ -109,6 +117,7 @@ export const featureTestingLongHeadings: components['schemas']['VariantDefinitio
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
       },
       {
         name: 'field9',
@@ -120,6 +129,7 @@ export const featureTestingLongHeadings: components['schemas']['VariantDefinitio
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
       },
     ],
   },

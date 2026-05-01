@@ -17,6 +17,7 @@ export const featureTestingInteractiveDownload: components['schemas']['VariantDe
         display: 'Field 1',
         sortable: true,
         defaultsort: false,
+        fieldSource: 'specfield',
         type: 'string',
         mandatory: false,
         visible: false,
@@ -63,6 +64,7 @@ export const featureTestingInteractiveDownload: components['schemas']['VariantDe
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         mandatory: false,
         fieldSource: 'specfield',
         filter: {
@@ -121,6 +123,7 @@ export const featureTestingInteractiveDownload: components['schemas']['VariantDe
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         fieldSource: 'paramfield',
       },
       {

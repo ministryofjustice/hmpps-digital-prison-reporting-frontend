@@ -44,6 +44,7 @@ const reportTemplateList: components['schemas']['VariantDefinition'] & { loadTyp
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         filter: {
           type: 'Select',
           staticOptions: [
@@ -64,6 +65,7 @@ const reportTemplateList: components['schemas']['VariantDefinition'] & { loadTyp
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         filter: {
           type: 'daterange',
           min: '2003-02-01',
@@ -80,6 +82,7 @@ const reportTemplateList: components['schemas']['VariantDefinition'] & { loadTyp
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         mandatory: false,
         filter: {
           type: 'autocomplete',
@@ -107,6 +110,7 @@ const reportTemplateList: components['schemas']['VariantDefinition'] & { loadTyp
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         filter: {
           type: 'text',
           pattern: 'Value 6\\.\\d',
@@ -118,6 +122,7 @@ const reportTemplateList: components['schemas']['VariantDefinition'] & { loadTyp
         display: 'First',
         sortable: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         type: 'string',
         mandatory: false,
         visible: false,
@@ -129,6 +134,7 @@ const reportTemplateList: components['schemas']['VariantDefinition'] & { loadTyp
         display: 'Second',
         sortable: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         type: 'string',
         mandatory: false,
         visible: false,

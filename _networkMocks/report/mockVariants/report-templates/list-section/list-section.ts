@@ -43,6 +43,7 @@ const reportTemplateExampleListSection: components['schemas']['VariantDefinition
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         filter: {
           type: 'Select',
           staticOptions: [
@@ -63,6 +64,7 @@ const reportTemplateExampleListSection: components['schemas']['VariantDefinition
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         filter: {
           type: 'daterange',
           min: '2003-02-01',
@@ -79,6 +81,7 @@ const reportTemplateExampleListSection: components['schemas']['VariantDefinition
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         mandatory: false,
         filter: {
           type: 'autocomplete',
@@ -105,6 +108,7 @@ const reportTemplateExampleListSection: components['schemas']['VariantDefinition
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         visible: false,
         filter: {
           type: 'text',
@@ -117,6 +121,7 @@ const reportTemplateExampleListSection: components['schemas']['VariantDefinition
         display: 'First',
         sortable: true,
         defaultsort: false,
+        fieldSource: 'specfield',
         type: 'string',
         mandatory: false,
         visible: false,
@@ -128,6 +133,7 @@ const reportTemplateExampleListSection: components['schemas']['VariantDefinition
         display: 'Second',
         sortable: true,
         defaultsort: false,
+        fieldSource: 'specfield',
         type: 'string',
         mandatory: false,
         visible: false,

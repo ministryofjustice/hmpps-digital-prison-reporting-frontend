@@ -21,6 +21,7 @@ export const requestExampleTimeout: components['schemas']['VariantDefinition'] =
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
       },
       {
         name: 'field2',
@@ -32,6 +33,7 @@ export const requestExampleTimeout: components['schemas']['VariantDefinition'] =
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
       },
       {
         name: 'field3',
@@ -43,6 +45,7 @@ export const requestExampleTimeout: components['schemas']['VariantDefinition'] =
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
       },
       {
         name: 'field4',
@@ -53,6 +56,7 @@ export const requestExampleTimeout: components['schemas']['VariantDefinition'] =
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         mandatory: false,
       },
       {
@@ -65,6 +69,7 @@ export const requestExampleTimeout: components['schemas']['VariantDefinition'] =
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
       },
       {
         name: 'field6',
@@ -76,6 +81,7 @@ export const requestExampleTimeout: components['schemas']['VariantDefinition'] =
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
       },
       {
         name: 'field7',
@@ -87,6 +93,7 @@ export const requestExampleTimeout: components['schemas']['VariantDefinition'] =
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
       },
     ],
   },

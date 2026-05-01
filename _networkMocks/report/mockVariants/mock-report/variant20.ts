@@ -43,6 +43,7 @@ export const variant20: components['schemas']['VariantDefinition'] = {
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         filter: {
           type: 'Select',
           staticOptions: [
@@ -63,6 +64,7 @@ export const variant20: components['schemas']['VariantDefinition'] = {
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         filter: {
           type: 'daterange',
           defaultValue: '2003-02-01 - 2006-05-04',
@@ -80,6 +82,7 @@ export const variant20: components['schemas']['VariantDefinition'] = {
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         mandatory: false,
         filter: {
           type: 'autocomplete',
@@ -106,6 +109,7 @@ export const variant20: components['schemas']['VariantDefinition'] = {
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         filter: {
           type: 'autocomplete',
           dynamicOptions: {
@@ -123,6 +127,7 @@ export const variant20: components['schemas']['VariantDefinition'] = {
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         mandatory: false,
         filter: {
           mandatory: false,
@@ -139,6 +144,7 @@ export const variant20: components['schemas']['VariantDefinition'] = {
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         filter: {
           mandatory: false,
           type: 'date',

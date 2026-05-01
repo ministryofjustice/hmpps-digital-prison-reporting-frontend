@@ -106,7 +106,7 @@ export class FeatureFlagService {
   }
 }
 
-const resolveFlag = (app: Application, flagName: string) => {
+const resolveFlag = (app: Application, flagName: string): boolean | undefined => {
   return app.locals['featureFlags']?.flags?.[flagName]
 }
 

@@ -25,9 +25,7 @@ export interface ExtraLocals {
   // fields on app.locals 👇🏽
   featureFlags: {
     lastUpdated?: number | undefined
-    flags: {
-      [flagName: string]: Flag
-    }
+    flags: Record<string, boolean>
   }
   dprPaths: DprAppLocals
   validatedFilters?: Record<string, unknown>

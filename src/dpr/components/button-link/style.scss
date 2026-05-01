@@ -1,0 +1,45 @@
+.dpr-button-link {
+  background: none;
+  border: 0;
+  padding: 0;
+
+  color: #1d70b8; /* govuk-link colour */
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+  cursor: pointer;
+
+  font: inherit; /* inherit GOV.UK font */
+  margin-bottom: 0px;
+  box-shadow: none;
+
+  margin-bottom: govuk-spacing(1);
+  margin-right: govuk-spacing(2);
+}
+
+/* Hover */
+.dpr-button-link:hover {
+  color: #003078;
+  text-decoration: underline;
+  text-decoration-thickness: 3px;
+  background-color: transparent;
+}
+
+/* Focus (GOV.UK style) */
+.dpr-button-link:focus {
+  outline: 3px solid #fd0;
+  outline-offset: 0;
+  background-color: #fd0;
+  color: #0b0c0c;
+  text-decoration: none;
+}
+
+/* Active */
+.dpr-button-link:active {
+  color: #0b0c0c;
+}
+
+/* Remove Firefox inner focus */
+.dpr-button-link::-moz-focus-inner {
+  border: 0;
+}

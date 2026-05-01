@@ -3,9 +3,6 @@ import { type RequestHandler, Response, Request } from 'express'
 import type { ParsedQs } from 'qs'
 import type { Environment } from 'nunjucks'
 import { Services } from '../types/Services'
-import { RequestedReport, StoredReportData } from '../types/UserReports'
-import DefinitionUtils from '../utils/definitionUtils'
-import { BookmarkStoreData } from '../types/Bookmark'
 import { DprConfig } from '../types/DprConfig'
 import localsHelper from '../utils/localsHelper'
 import { FeatureFlagService, isBooleanFlagEnabledOrMissing } from '../services/featureFlagService'
@@ -13,6 +10,7 @@ import { FEATURE_FLAGS, getFeatureFlagEvaluationSubject } from '../utils/feature
 import setUpNunjucksFilters from '../setUpNunjucksFilters'
 import { errorRequestHandler } from '../routes'
 import { getAllMyBookmarks, getAllMyReports } from '../utils/reportStoreHelper'
+import logger from '../utils/logger'
 
 const getQueryParamAsString = (query: ParsedQs, name: string) => (query[name] ? query[name].toString() : null)
 const getDefinitionsPath = (query: ParsedQs) => getQueryParamAsString(query, 'dataProductDefinitionsPath')
@@ -125,7 +123,10 @@ const setLocalsFromServices = async (services: Services, res: Response) => {
     // If saveDefaultsEnabled is turned off by feature flag, overwrite all other privileges,
     // otherwise let the defaultFilterValuesService decide.
     const saveDefaultsEnabledFlag = isBooleanFlagEnabledOrMissing('saveDefaultsEnabled', res.app)
+    logger.info('PERSONALISATION DEBUG: MIDDLEWARE saveDefaultsEnabledFlag', saveDefaultsEnabledFlag)
+
     res.locals.saveDefaultsEnabled = saveDefaultsEnabledFlag ? services.defaultFilterValuesService.enabled : false
+    logger.info('PERSONALISATION DEBUG: MIDDLEWARE saveDefaultsEnabled', res.locals.saveDefaultsEnabled)
   }
 }
 

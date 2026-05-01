@@ -1,4 +1,3 @@
-import { Flag } from '@flipt-io/flipt-client-js'
 import DprUser from './DprUser'
 import { components } from './api'
 import { RequestedReport, StoredReportData } from './UserReports'
@@ -25,9 +24,7 @@ export interface ExtraLocals {
   // fields on app.locals 👇🏽
   featureFlags: {
     lastUpdated?: number | undefined
-    flags: {
-      [flagName: string]: Flag
-    }
+    flags: Record<string, boolean>
   }
   dprPaths: DprAppLocals
   validatedFilters?: Record<string, unknown>

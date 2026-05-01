@@ -1,5 +1,18 @@
 Below you can find the changes included in each release.
 
+## 5.10.8
+
+- Bugfix: Autocomplete personalisation & refresh link
+
+## 5.10.7
+
+- Bugfix: Autocomplete setting incorrect default value
+
+## 5.10.6
+
+- Bugfix: Dashboard filters missing
+- Bugfix: Multiple Autocomplete inputs in one form add to same selected filter chip
+
 ## 5.10.5
 
 - Bugfix: Autocomplete sending the display value to query instead of actual value

@@ -23,7 +23,6 @@ export const featureTestingInteractiveDownload: components['schemas']['VariantDe
         visible: false,
         calculated: false,
         header: false,
-        fieldSource: 'specfield',
       },
       {
         name: 'field2',
@@ -66,7 +65,6 @@ export const featureTestingInteractiveDownload: components['schemas']['VariantDe
         defaultsort: false,
         fieldSource: 'specfield',
         mandatory: false,
-        fieldSource: 'specfield',
         filter: {
           type: 'autocomplete',
           dynamicOptions: {
@@ -123,7 +121,6 @@ export const featureTestingInteractiveDownload: components['schemas']['VariantDe
         calculated: false,
         header: false,
         defaultsort: false,
-        fieldSource: 'specfield',
         fieldSource: 'paramfield',
       },
       {

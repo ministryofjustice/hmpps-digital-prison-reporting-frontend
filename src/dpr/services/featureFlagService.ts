@@ -113,5 +113,5 @@ const resolveFlag = (app: Application, flagName: string) => {
 export const isBooleanFlagEnabledOrMissing = (flagName: string, app: Application): boolean => {
   const flag = resolveFlag(app, flagName)
   logger.info('PERSONALISATION DEBUG: isBooleanFlagEnabledOrMissing', { flagName, flag })
-  return flag.enabled !== false
+  return flag !== false
 }

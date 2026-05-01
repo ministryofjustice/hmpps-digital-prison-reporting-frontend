@@ -27,7 +27,7 @@ export default function setUpBookmarks(services: Services): RequestHandler {
 
         await BookmarkUtils.preBookmarkReportsByRoleId(
           id,
-          activeCaseLoadId || 'KMI',
+          activeCaseLoadId?.id || 'KMI',
           services,
           automaticBookmarkConfig.caseloads,
         )

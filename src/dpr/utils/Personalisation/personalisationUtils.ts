@@ -120,24 +120,30 @@ export const setUserContextDefaults = (res: Response, filters: FilterValue[]) =>
       `PERSONALISATION DEBUG: (${index}) : Is establishment: `,
       filter.text.toLocaleLowerCase().includes('establishment'),
     )
-    logger.info(`PERSONALISATION DEBUG: (${index}) : Has activeCaseLoadId: `, activeCaseLoadId?.length)
+    logger.info(
+      `PERSONALISATION DEBUG: (${index}) : Has activeCaseLoadId: `,
+      activeCaseLoadId && activeCaseLoadId.id.length,
+    )
 
     if (
       filter.type.toLocaleLowerCase() === FilterType.autocomplete.toLocaleLowerCase() &&
       filter.text.toLocaleLowerCase().includes('establishment') &&
-      activeCaseLoadId?.length
+      activeCaseLoadId &&
+      activeCaseLoadId.id.length
     ) {
+      const { id } = activeCaseLoadId
+
       logger.info(`PERSONALISATION DEBUG: (${index}): Autocomplete filter found:`)
       logger.info(`PERSONALISATION DEBUG: (${index}): updated filter: ${filter}`)
 
       const f = <FilterValueWithOptions>filter
-      const option = f.options.find((opt) => opt.value === activeCaseLoadId)
+      const option = f.options.find((opt) => opt.value === id)
 
       if (option) {
         logger.info(`PERSONALISATION DEBUG: (${index}): Autocomplete option found:`)
         logger.info(`PERSONALISATION DEBUG: (${index}): option: ${option}`)
         f.value = option.text
-        f.staticOptionNameValue = activeCaseLoadId
+        f.staticOptionNameValue = option.value
 
         logger.info(`PERSONALISATION DEBUG: (${index}): Updated filter:`)
         logger.info(`PERSONALISATION DEBUG: (${index}): updated filter: ${f}`)

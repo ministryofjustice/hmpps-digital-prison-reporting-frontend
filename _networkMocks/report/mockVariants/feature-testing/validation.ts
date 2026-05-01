@@ -41,6 +41,7 @@ export const featureTestingValidation: components['schemas']['VariantDefinition'
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         filter: {
           type: 'Select',
           staticOptions: [
@@ -61,6 +62,7 @@ export const featureTestingValidation: components['schemas']['VariantDefinition'
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         filter: {
           type: 'daterange',
           mandatory: true,
@@ -75,6 +77,7 @@ export const featureTestingValidation: components['schemas']['VariantDefinition'
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         mandatory: false,
         filter: {
           type: 'autocomplete',
@@ -101,6 +104,7 @@ export const featureTestingValidation: components['schemas']['VariantDefinition'
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         filter: {
           type: 'text',
           mandatory: true,
@@ -117,6 +121,7 @@ export const featureTestingValidation: components['schemas']['VariantDefinition'
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         filter: {
           type: 'date',
           mandatory: true,
@@ -132,6 +137,7 @@ export const featureTestingValidation: components['schemas']['VariantDefinition'
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         filter: {
           type: 'multiselect',
           staticOptions: [
@@ -175,6 +181,7 @@ export const featureTestingValidation: components['schemas']['VariantDefinition'
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         filter: {
           type: 'Select',
           staticOptions: [
@@ -196,6 +203,7 @@ export const featureTestingValidation: components['schemas']['VariantDefinition'
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         filter: {
           type: 'daterange',
           mandatory: true,
@@ -211,6 +219,7 @@ export const featureTestingValidation: components['schemas']['VariantDefinition'
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         mandatory: false,
         filter: {
           type: 'autocomplete',
@@ -238,6 +247,7 @@ export const featureTestingValidation: components['schemas']['VariantDefinition'
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         filter: {
           type: 'text',
           mandatory: true,
@@ -255,6 +265,7 @@ export const featureTestingValidation: components['schemas']['VariantDefinition'
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         filter: {
           type: 'date',
           mandatory: true,
@@ -271,6 +282,7 @@ export const featureTestingValidation: components['schemas']['VariantDefinition'
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         filter: {
           type: 'multiselect',
           staticOptions: [

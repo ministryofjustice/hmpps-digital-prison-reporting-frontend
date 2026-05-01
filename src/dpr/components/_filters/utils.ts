@@ -21,6 +21,7 @@ import MultiSelectUtils from '../_inputs/multi-select/utils'
 import PersonalistionUtils from '../../utils/Personalisation/personalisationUtils'
 import { RenderFiltersReturnValue } from '../_async/async-filters-form/types'
 import SortHelper from '../_async/async-filters-form/sortByTemplate'
+import logger from '../../utils/logger'
 
 /**
  * Given a FilterValue[], will update the values to match the req.query values if present
@@ -42,39 +43,48 @@ export const setFilterValuesFromRequest = (
   }
 
   return filters.map((filter: FilterValue) => {
-    let requestfilterValue: FilterValueType
+    const queryKey = `${prefix}${filter.name}`
+    const hasQueryParam = queryKey in req.query
+
+    let requestfilterValue: FilterValueType | undefined
     let requestfilterValues: string[] | undefined
     let requestOptionValue: string | undefined
 
     const type = filter.type.toLowerCase()
+
     switch (type) {
       case FilterType.dateRange.toLowerCase():
-        requestfilterValue = DateRangeInputUtils.setValueFromRequest(<DateRangeFilterValue>filter, req, prefix)
+        requestfilterValue = DateRangeInputUtils.setValueFromRequest(filter as DateRangeFilterValue, req, prefix)
         break
 
       case FilterType.granularDateRange.toLowerCase():
         requestfilterValue = GranularDateRangeInputUtils.setValueFromRequest(
-          <GranularDateRangeFilterValue>filter,
+          filter as GranularDateRangeFilterValue,
           req,
           prefix,
         )
         break
 
       case FilterType.date.toLowerCase():
-        requestfilterValue = DateInputUtils.setValueFromRequest(<DateFilterValue>filter, req, prefix)
+        requestfilterValue = DateInputUtils.setValueFromRequest(filter as DateFilterValue, req, prefix)
         break
 
-      case FilterType.multiselect.toLowerCase():
+      case FilterType.multiselect.toLowerCase(): {
         ;({ requestfilterValue, requestfilterValues } = MultiSelectUtils.setValueFromRequest(
-          <MultiselectFilterValue>filter,
+          filter as MultiselectFilterValue,
           req,
           prefix,
         ))
         break
+      }
 
       case FilterType.autocomplete.toLowerCase(): {
+        if (!hasQueryParam && !preventDefault) {
+          return filter
+        }
+
         ;({ requestfilterValue, requestOptionValue } = AutocompleteUtils.setValueFromRequest(
-          <FilterValueWithOptions>filter,
+          filter as FilterValueWithOptions,
           req,
           prefix,
         ))
@@ -82,14 +92,15 @@ export const setFilterValuesFromRequest = (
       }
 
       default:
-        requestfilterValue = <string>req.query[`${prefix}${filter.name}`]
+        requestfilterValue = req.query[queryKey] as string | undefined
         break
     }
 
     let value: FilterValueType = null
-    if (requestfilterValue) {
+
+    if (requestfilterValue !== undefined) {
       value = requestfilterValue
-    } else if (preventDefault) {
+    } else if (preventDefault && type === FilterType.autocomplete.toLowerCase()) {
       value = ''
     }
 
@@ -285,9 +296,12 @@ export const getRequestFilters = async (
   if (!fields || !fields.length) {
     return undefined
   }
+  logger.info('PERSONALISATION DEBUG: GETTING REQUEST FILTERS')
 
   // 1. Get filters from definition with default values
   let filters = getFiltersFromDefinition(fields, false)
+
+  logger.info(`PERSONALISATION DEBUG: filters from definition: ${JSON.stringify(filters)}`)
 
   // 2. Get the sort from the definition
   const sortBy = getSortByFromDefinition(fields)
@@ -295,8 +309,12 @@ export const getRequestFilters = async (
   // 3. Update filter values with user context values. eg. establishmnent code
   filters = PersonalistionUtils.setUserContextDefaults(res, filters)
 
+  logger.info(`PERSONALISATION DEBUG: FIlters from context: ${JSON.stringify(filters)}`)
+
   // 4. Overwrite filter values with query param values
   filters = setFilterValuesFromRequest(filters, req)
+
+  logger.info(`PERSONALISATION DEBUG: FIlters from request: ${JSON.stringify(filters)}`)
 
   return {
     filters,

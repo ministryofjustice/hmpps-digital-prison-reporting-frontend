@@ -21,6 +21,7 @@ export const establishmentAutocomplete: components['schemas']['VariantDefinition
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         filter: {
           type: 'autocomplete',
           dynamicOptions: {

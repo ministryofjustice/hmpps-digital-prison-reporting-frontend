@@ -21,6 +21,7 @@ export const variant25: components['schemas']['VariantDefinition'] = {
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         filter: {
           type: 'granulardaterange',
           defaultValue: '2003-02-01 - 2006-05-04',

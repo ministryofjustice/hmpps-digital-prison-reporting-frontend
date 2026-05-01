@@ -21,6 +21,7 @@ export const variant15: components['schemas']['VariantDefinition'] = {
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         filter: {
           type: 'daterange',
           mandatory: true,

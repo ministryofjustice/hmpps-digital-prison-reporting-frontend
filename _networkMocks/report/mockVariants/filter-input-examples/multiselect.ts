@@ -21,6 +21,7 @@ const multiselectExample: components['schemas']['VariantDefinition'] = {
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         filter: {
           mandatory: false,
           type: 'multiselect',
@@ -78,6 +79,7 @@ const multiselectExample: components['schemas']['VariantDefinition'] = {
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         filter: {
           type: 'Select',
           staticOptions: [
@@ -99,6 +101,7 @@ const multiselectExample: components['schemas']['VariantDefinition'] = {
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         filter: {
           mandatory: false,
           type: 'multiselect',
@@ -134,6 +137,7 @@ const multiselectExample: components['schemas']['VariantDefinition'] = {
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         filter: {
           mandatory: false,
           type: 'multiselect',
@@ -169,6 +173,7 @@ const multiselectExample: components['schemas']['VariantDefinition'] = {
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         filter: {
           mandatory: false,
           type: 'multiselect',

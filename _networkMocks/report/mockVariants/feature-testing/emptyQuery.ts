@@ -20,6 +20,7 @@ export const featureTestingEmptyQuery: components['schemas']['VariantDefinition'
         visible: true,
         calculated: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         header: false,
       },
       {
@@ -31,6 +32,7 @@ export const featureTestingEmptyQuery: components['schemas']['VariantDefinition'
         visible: true,
         calculated: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         header: false,
       },
       {
@@ -42,6 +44,7 @@ export const featureTestingEmptyQuery: components['schemas']['VariantDefinition'
         mandatory: false,
         calculated: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         header: false,
       },
       {
@@ -52,6 +55,7 @@ export const featureTestingEmptyQuery: components['schemas']['VariantDefinition'
         type: 'string',
         calculated: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         header: false,
         mandatory: false,
       },
@@ -64,6 +68,7 @@ export const featureTestingEmptyQuery: components['schemas']['VariantDefinition'
         visible: false,
         calculated: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         header: false,
       },
       {
@@ -75,6 +80,7 @@ export const featureTestingEmptyQuery: components['schemas']['VariantDefinition'
         visible: true,
         calculated: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         header: false,
       },
       {
@@ -86,6 +92,7 @@ export const featureTestingEmptyQuery: components['schemas']['VariantDefinition'
         mandatory: false,
         calculated: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         header: false,
       },
     ],

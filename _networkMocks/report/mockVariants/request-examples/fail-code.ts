@@ -42,6 +42,7 @@ export const requestExampleFailCode: components['schemas']['VariantDefinition'] 
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         filter: {
           mandatory: false,
           type: 'Select',
@@ -62,6 +63,7 @@ export const requestExampleFailCode: components['schemas']['VariantDefinition'] 
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         filter: {
           mandatory: false,
           type: 'daterange',
@@ -79,6 +81,7 @@ export const requestExampleFailCode: components['schemas']['VariantDefinition'] 
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         mandatory: false,
         filter: {
           mandatory: false,
@@ -105,6 +108,7 @@ export const requestExampleFailCode: components['schemas']['VariantDefinition'] 
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         filter: {
           mandatory: false,
           type: 'autocomplete',
@@ -123,6 +127,7 @@ export const requestExampleFailCode: components['schemas']['VariantDefinition'] 
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
       },
     ],
   },

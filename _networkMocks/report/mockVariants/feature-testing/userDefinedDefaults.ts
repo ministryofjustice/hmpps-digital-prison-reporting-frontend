@@ -41,6 +41,7 @@ export const featureTestingUserDefinedDefaults: components['schemas']['VariantDe
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         mandatory: false,
         filter: {
           type: 'autocomplete',
@@ -65,6 +66,7 @@ export const featureTestingUserDefinedDefaults: components['schemas']['VariantDe
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         filter: {
           mandatory: false,
           type: 'text',

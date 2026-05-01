@@ -19,6 +19,7 @@ export const featureTestingOrderFilters: components['schemas']['VariantDefinitio
         mandatory: false,
         visible: true,
         defaultsort: false,
+        fieldSource: 'specfield',
         calculated: false,
         header: false,
         filter: {
@@ -35,6 +36,7 @@ export const featureTestingOrderFilters: components['schemas']['VariantDefinitio
         mandatory: false,
         visible: true,
         defaultsort: false,
+        fieldSource: 'specfield',
         calculated: false,
         header: false,
         filter: {
@@ -51,6 +53,7 @@ export const featureTestingOrderFilters: components['schemas']['VariantDefinitio
         mandatory: false,
         visible: true,
         defaultsort: false,
+        fieldSource: 'specfield',
         calculated: false,
         header: false,
         filter: {
@@ -66,6 +69,7 @@ export const featureTestingOrderFilters: components['schemas']['VariantDefinitio
         mandatory: false,
         visible: true,
         defaultsort: false,
+        fieldSource: 'specfield',
         calculated: false,
         header: false,
         filter: {
@@ -83,6 +87,7 @@ export const featureTestingOrderFilters: components['schemas']['VariantDefinitio
         mandatory: false,
         visible: true,
         defaultsort: false,
+        fieldSource: 'specfield',
         calculated: false,
         header: false,
         filter: {
@@ -100,6 +105,7 @@ export const featureTestingOrderFilters: components['schemas']['VariantDefinitio
         mandatory: false,
         visible: true,
         defaultsort: false,
+        fieldSource: 'specfield',
         calculated: false,
         header: false,
         filter: {

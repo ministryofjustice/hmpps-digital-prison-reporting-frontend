@@ -12,7 +12,7 @@ export default (): RequestHandler => {
 
       const mockManageUsersGetUserResponse = {
         uuid: 'userId',
-        activeCaseLoadId: { id: 'KMI', name: '', function: 'GENERAL' },
+        activeCaseLoadId: 'KMI',
         token: 'token',
         email: 'test@user.com',
         displayName: 'Test User',

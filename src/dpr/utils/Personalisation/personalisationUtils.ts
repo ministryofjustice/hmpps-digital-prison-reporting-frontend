@@ -122,22 +122,20 @@ export const setUserContextDefaults = (res: Response, filters: FilterValue[]) =>
     )
     logger.info(
       `PERSONALISATION DEBUG: (${index}) : Has activeCaseLoadId: `,
-      activeCaseLoadId && activeCaseLoadId.id.length,
+      activeCaseLoadId && activeCaseLoadId.length,
     )
 
     if (
       filter.type.toLocaleLowerCase() === FilterType.autocomplete.toLocaleLowerCase() &&
       filter.text.toLocaleLowerCase().includes('establishment') &&
       activeCaseLoadId &&
-      activeCaseLoadId.id.length
+      activeCaseLoadId.length
     ) {
-      const { id } = activeCaseLoadId
-
       logger.info(`PERSONALISATION DEBUG: (${index}): Autocomplete filter found:`)
       logger.info(`PERSONALISATION DEBUG: (${index}): updated filter: ${filter}`)
 
       const f = <FilterValueWithOptions>filter
-      const option = f.options.find((opt) => opt.value === id)
+      const option = f.options.find((opt) => opt.value === activeCaseLoadId)
 
       if (option) {
         logger.info(`PERSONALISATION DEBUG: (${index}): Autocomplete option found:`)

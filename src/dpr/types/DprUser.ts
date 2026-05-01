@@ -9,19 +9,13 @@ export class DprUser {
   displayName?: string
 
   // e.g. MDI
-  activeCaseLoadId?: ActiveCaseLoadId
+  activeCaseLoadId?: string
 
   // Prison staff id in Nomis
   staffId?: number
 
   // Email address
   emailAddress?: string
-}
-
-type ActiveCaseLoadId = {
-  id: string
-  name: string
-  function: string
 }
 
 export default DprUser

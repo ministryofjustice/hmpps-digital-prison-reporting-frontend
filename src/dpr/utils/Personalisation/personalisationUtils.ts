@@ -107,10 +107,9 @@ export const setUserContextDefaults = (res: Response, filters: FilterValue[]) =>
   const { dprUser } = localsHelper.getValues(res)
   const { activeCaseLoadId } = dprUser
 
-  logger.info('#############################')
   logger.info('PERSONALISATION DEBUG: SETTING USER CONTEXT DEFAULTS')
-  logger.info('PERSONALISATION DEBUG: dprUser', JSON.stringify({ dprUser }, null, 2))
-  logger.info('PERSONALISATION DEBUG: activeCaseLoadId', { activeCaseLoadId })
+  logger.info(`PERSONALISATION DEBUG: dprUser: ${dprUser}`)
+  logger.info(`PERSONALISATION DEBUG: activeCaseLoadId: ${activeCaseLoadId}`)
 
   filters.forEach((filter, index) => {
     logger.info(
@@ -121,30 +120,31 @@ export const setUserContextDefaults = (res: Response, filters: FilterValue[]) =>
       `PERSONALISATION DEBUG: (${index}) : Is establishment: `,
       filter.text.toLocaleLowerCase().includes('establishment'),
     )
-    logger.info(`PERSONALISATION DEBUG: (${index}) : Has activeCaseLoadId: `, activeCaseLoadId?.length)
+    logger.info(
+      `PERSONALISATION DEBUG: (${index}) : Has activeCaseLoadId: `,
+      activeCaseLoadId && activeCaseLoadId.length,
+    )
 
     if (
       filter.type.toLocaleLowerCase() === FilterType.autocomplete.toLocaleLowerCase() &&
       filter.text.toLocaleLowerCase().includes('establishment') &&
-      activeCaseLoadId?.length
+      activeCaseLoadId &&
+      activeCaseLoadId.length
     ) {
-      logger.info(`
-PERSONALISATION DEBUG:  (${index}) :Autocomplete filter found:`)
-      logger.info('PERSONALISATION DEBUG: ', JSON.stringify({ filter }))
+      logger.info(`PERSONALISATION DEBUG: (${index}): Autocomplete filter found:`)
+      logger.info(`PERSONALISATION DEBUG: (${index}): updated filter: ${filter}`)
 
       const f = <FilterValueWithOptions>filter
       const option = f.options.find((opt) => opt.value === activeCaseLoadId)
 
       if (option) {
-        logger.info(`
-PERSONALISATION DEBUG:  (${index}) :Autocomplete option found:`)
-        logger.info('PERSONALISATION DEBUG: ', JSON.stringify({ option }))
+        logger.info(`PERSONALISATION DEBUG: (${index}): Autocomplete option found:`)
+        logger.info(`PERSONALISATION DEBUG: (${index}): option: ${option}`)
         f.value = option.text
-        f.staticOptionNameValue = activeCaseLoadId
+        f.staticOptionNameValue = option.value
 
-        logger.info(`
-  PERSONALISATION DEBUG:  (${index}) :Updated filter:`)
-        logger.info('PERSONALISATION DEBUG: ', JSON.stringify({ filter: f }))
+        logger.info(`PERSONALISATION DEBUG: (${index}): Updated filter:`)
+        logger.info(`PERSONALISATION DEBUG: (${index}): updated filter: ${f}`)
       }
     }
   })

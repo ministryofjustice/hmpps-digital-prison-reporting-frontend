@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## 5.10.9, 5.10.10, 5.10.11
+
+- Debug logs for investigating issue with personalisation
+
 ## 5.10.8
 
 - Bugfix: Autocomplete personalisation & refresh link

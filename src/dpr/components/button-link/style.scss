@@ -12,6 +12,9 @@
   font: inherit; /* inherit GOV.UK font */
   margin-bottom: 0px;
   box-shadow: none;
+
+  margin-bottom: govuk-spacing(1);
+  margin-right: govuk-spacing(2);
 }
 
 /* Hover */

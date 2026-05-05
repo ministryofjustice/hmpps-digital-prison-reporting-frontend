@@ -1,16 +1,14 @@
 {% from "govuk/components/details/macro.njk" import govukDetails %}
 {% from "../../../../button-link/view.njk" import dprButtonLink %}
 
-
 {% macro dprAsyncFiltersSaveDefaults(reportType, hasDefaults) %}
-  <div class="dpr-save-defaults-action">
-    {% set classes = 'dpr-clear-button-styles govuk-link govuk-link--no-visited-state govuk-!-margin-bottom-2 govuk-!-margin-right-2' %}
-    {% set text = 'Save current filter values as defaults' %}
-    {% set submitAction = './' + reportType + '/save-defaults'  %}
-    {% set removeAction = './' + reportType + '/remove-defaults' %}
+  {% set text = 'Save current filter values as defaults' %}
+  {% set submitAction = './' + reportType + '/save-defaults'  %}
+  {% set removeAction = './' + reportType + '/remove-defaults' %}
     
+  <div class="dpr-save-defaults-action">
     {% if hasDefaults %}
-      <p class="govuk-body-xs govuk-!-margin-bottom-2">Your saved default filter values have been applied to this form.</p>
+      <p class="govuk-body-xs govuk-!-margin-bottom-2 govuk-!-margin-top-1">Your saved default filter values have been applied to this form.</p>
       {% set text = 'Update defaults' %}
     {% endif %}
 

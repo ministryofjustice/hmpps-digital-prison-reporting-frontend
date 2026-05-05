@@ -1,10 +1,10 @@
-.dpr-date, .dpr-date-range {
+.dpr-date,
+.dpr-date-range {
   .govuk-form-group {
     margin-bottom: 0;
   }
 
   .daterange-set-to-minmax__container {
-    margin-bottom: govuk-spacing(6);
     margin-top: govuk-spacing(3);
   }
 
@@ -14,10 +14,10 @@
     text-align: left;
     margin-bottom: govuk-spacing(1);
     margin-top: govuk-spacing(0);
-    color: govuk-colour("blue");
+    color: govuk-colour('blue');
 
     &:hover {
-      color: govuk-colour("dark-blue")
+      color: govuk-colour('dark-blue');
     }
   }
 }

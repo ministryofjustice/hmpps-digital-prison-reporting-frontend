@@ -8,7 +8,6 @@ import {
   type FeatureFlagEvaluationSubject,
   type FeatureFlagKey,
 } from '../utils/featureFlagsHelper'
-import logger from '../utils/logger'
 
 export class FeatureFlagService {
   private readonly clientConfig: ClientOptions | undefined
@@ -66,8 +65,6 @@ export class FeatureFlagService {
       flagKeys.map((flagKey) => [flagKey, getFeatureFlagFallbackState(flagKey)]),
     ) as Record<TFlag, boolean>
 
-    logger.info('PERSONALISATION DEBUG: evaluateBooleanFlags', JSON.stringify({ flags: results }, null, 2))
-
     if (flagKeys.length === 0) {
       return results
     }
@@ -114,6 +111,5 @@ const resolveFlag = (app: Application, flagName: string): boolean | undefined =>
 
 export const isBooleanFlagEnabledOrMissing = (flagName: string, app: Application): boolean => {
   const flag = resolveFlag(app, flagName)
-  logger.info('PERSONALISATION DEBUG: isBooleanFlagEnabledOrMissing', { flagName, flag })
   return flag !== false
 }

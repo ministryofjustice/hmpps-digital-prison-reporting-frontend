@@ -8,7 +8,6 @@ import {
   type FeatureFlagEvaluationSubject,
   type FeatureFlagKey,
 } from '../utils/featureFlagsHelper'
-import logger from '../utils/logger'
 
 export class FeatureFlagService {
   private readonly clientConfig: ClientOptions | undefined

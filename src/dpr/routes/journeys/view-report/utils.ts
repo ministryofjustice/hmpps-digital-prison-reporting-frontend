@@ -1,5 +1,10 @@
 import { Request, Response } from 'express'
-import { qsToQueryObject, normalizeQueryStringArray, queryObjectToQs } from '../../../utils/queryMappers'
+import {
+  qsToQueryObject,
+  normalizeQueryStringArray,
+  queryObjectToQs,
+  extractFiltersFromQuery,
+} from '../../../utils/queryMappers'
 
 import { joinQueryStrings } from '../../../utils/urlHelper'
 import { components } from '../../../types/api'
@@ -8,7 +13,11 @@ import LocalsHelper from '../../../utils/localsHelper'
 import ColumnsUtils from '../../../components/_reports/report-heading/report-columns/report-columns-form/utils'
 import { getActiveJourneyValue } from '../../../utils/sessionHelper'
 import { getFields } from '../../../utils/definitionUtils'
-import { LoadType } from '../../../types/UserReports'
+import { LoadType, RequestedReport } from '../../../types/UserReports'
+import { QuerySummaryItem } from 'src/dpr/components/_async/request-details/types'
+import { buildQuerySummary } from 'src/dpr/components/_async/request-details/utils'
+import UserStoreItemBuilder from 'src/dpr/utils/UserStoreItemBuilder'
+import { RequestStatus } from 'src/dpr/utils/ReportStatus/types'
 
 /**
  * Apply interactive query to a REPORT
@@ -315,6 +324,80 @@ const redirectWithDefaults = (res: Response, req: Request) => {
     return true
   }
   return false
+}
+
+/**
+ * Updates the state for a viewed ASYNC report
+ *
+ * @param {Request} req
+ * @param {Services} services
+ * @param {RequestedReport} reportStateData
+ * @param {string} userId
+ * @param {components['schemas']['FieldDefinition'][]} fields
+ */
+export const updateLastViewedAsync = async (
+  req: Request,
+  services: Services,
+  reportStateData: RequestedReport,
+  userId: string,
+  fields: components['schemas']['FieldDefinition'][],
+) => {
+  const { type, reportId, reportName, description, id, name, executionId, tableId, query, url } = reportStateData
+  const reportData = { type, reportId, reportName, description, id, name }
+  const executionData = { executionId, tableId }
+
+  const queryData = query ? { query: query.data, querySummary: query.summary } : { query: {}, querySummary: [] }
+
+  const filtersQuery = extractFiltersFromQuery(req.query)
+  const interactiveQueryData: { query: Record<string, string | string[]>; querySummary: QuerySummaryItem[] } = {
+    query: <Record<string, string>>req.query,
+    querySummary: buildQuerySummary(filtersQuery, fields),
+  }
+
+  const recentlyViewedData = new UserStoreItemBuilder(reportData)
+    .addExecutionData(executionData)
+    .addQuery(queryData)
+    .addInteractiveQuery(interactiveQueryData)
+    .addStatus(RequestStatus.READY)
+    .addTimestamp()
+    .addAsyncUrls(url)
+    .addReportUrls(req)
+    .build()
+
+  if (executionId) await services.requestedReportService.updateLastViewed(executionId, userId)
+  await services.recentlyViewedService.setRecentlyViewed(recentlyViewedData, userId)
+}
+
+/**
+ * Updates the last viewed state for a sync report
+ *
+ * @param {Request} req
+ * @param {Services} services
+ * @param {*} stateData
+ * @param {string} userId
+ * @param {components['schemas']['FieldDefinition'][]} fields
+ */
+export const updateLastViewedSync = async (
+  req: Request,
+  services: Services,
+  stateData: any,
+  userId: string,
+  fields: components['schemas']['FieldDefinition'][],
+) => {
+  const filtersQuery = extractFiltersFromQuery(req.query)
+  const interactiveQueryData: { query: Record<string, string>; querySummary: QuerySummaryItem[] } = {
+    query: <Record<string, string>>req.query,
+    querySummary: buildQuerySummary(filtersQuery, fields),
+  }
+
+  const recentlyViewedData = new UserStoreItemBuilder(stateData)
+    .addInteractiveQuery(interactiveQueryData)
+    .addStatus(RequestStatus.READY)
+    .addTimestamp()
+    .addReportUrls(req)
+    .build()
+
+  await services.recentlyViewedService?.setRecentlyViewed(recentlyViewedData, userId)
 }
 
 export default {

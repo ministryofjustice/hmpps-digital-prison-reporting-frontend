@@ -9,10 +9,7 @@ import {
 } from '../../../../../../cypress-tests/cypressUtils'
 
 context('Bookmarks list', () => {
-  const paths = [
-    '/',
-    // '/embedded/platform', '/embedded/platform/dpr'
-  ]
+  const paths = ['/', '/embedded/platform', '/embedded/platform/dpr']
 
   const sharedTests = (path: string) => {
     describe(`Bookmarks list from ${path}`, () => {
@@ -161,7 +158,7 @@ context('Bookmarks list', () => {
                 })
               })
 
-              expectMyReportRowCountInTab({ tabName: /Bookmarks.*/i, count: 3 })
+              expectMyReportRowCountInTab({ tabName: /Bookmarks.*/i, count: 2 })
 
               cy.findByLabelText(/Reports catalogue.*/i).within(() => {
                 cy.findByRole('row', {

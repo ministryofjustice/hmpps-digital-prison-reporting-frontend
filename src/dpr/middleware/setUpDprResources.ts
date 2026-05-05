@@ -9,6 +9,7 @@ import setUpNunjucksFilters from '../setUpNunjucksFilters'
 import { errorRequestHandler } from '../routes'
 import { getAllMyBookmarks, getAllMyReports } from '../utils/reportStoreHelper'
 import logger from '../utils/logger'
+import { getDefinitionsPath } from '../utils/definitionUtils'
 
 /**
  * Middleware helper to populate all locals configuration
@@ -63,7 +64,9 @@ const setFeatures = async (res: Response, featureFlagService: FeatureFlagService
   const subject = getFeatureFlagEvaluationSubject(res)
   res.app.locals['featureFlags'].flags = await featureFlagService.evaluateBooleanFlags(FEATURE_FLAGS, subject)
 
-  logger.info(`FEATURE FLAGS: ${JSON.stringify(res.locals['downloadingEnabled'])}`)
+  if (res.app.locals['featureFlags']) {
+    logger.info(`FEATURE FLAGS: ${JSON.stringify(res.locals['downloadingEnabled'])}`)
+  }
 }
 
 /**

@@ -1,16 +1,13 @@
 {% extends layoutPath %}
 
-{% from "../../../components/_catalogue/catalogue-list/view.njk" import dprCatalogueList %}
-{% from "../../../components/_catalogue/catalogue-filters/view.njk" import dprCatalogueFilters %}
+{% from "../../../components/my-reports/my-reports-list/view.njk" import dprMyReportList %}
 
 {% set mainClasses = "app-container govuk-body" %}
 
 {% block content %}
   <div class="govuk-width-container">
     <h1 class="govuk-heading-l">{{ title }}</h1>
-    <div id="{{ id }}">
-      {{ dprCatalogueFilters(id, features) }}
-      {{ dprCatalogueList(id, tableData) }}
-    </div>
+    
+    {{ dprMyReportList(list) }}
   </div>
 {% endblock %}

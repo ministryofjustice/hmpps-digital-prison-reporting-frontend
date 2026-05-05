@@ -1,9 +1,6 @@
 import { RequestHandler } from 'express'
 import { Services } from '../../../../../types/Services'
-
-import AsyncRequestListUtils from '../../../../../components/user-reports/requested/utils'
-import UserReportsListUtils from '../../../../../components/user-reports/utils'
-import LocalsHelper from '../../../../../utils/localsHelper'
+import { initMyReports } from '../../../../../components/my-reports/utils'
 
 class RequestedReportsListController {
   layoutPath: string
@@ -15,21 +12,15 @@ class RequestedReportsListController {
     this.services = services
   }
 
-  GET: RequestHandler = async (_req, res) => {
-    const { requestedReports } = LocalsHelper.getValues(res)
-
-    const listParams = await UserReportsListUtils.renderList({
-      reportsData: requestedReports,
-      filterFunction: AsyncRequestListUtils.filterReports,
-      res,
-      type: 'requested',
-    })
+  GET: RequestHandler = async (req, res) => {
+    const myReportsData = await initMyReports(req, res, this.services)
+    const list = myReportsData ? myReportsData.requested : {}
 
     res.render(`dpr/routes/journeys/my-reports/view`, {
       title: 'Requested reports',
       id: 'requested-reports-list',
       layoutPath: this.layoutPath,
-      ...listParams,
+      list,
     })
   }
 }

@@ -100,16 +100,16 @@ class RecentlyViewedStoreService extends ReportStoreService {
     const userConfig = await this.getState(userId)
     const { recentlyViewedReports } = userConfig
 
-    let index
+    let index = -1
     if (tableId) {
       // is an ASYNC report so can find it with the table ID
-      index = this.findIndexByTableId(id, recentlyViewedReports)
+      index = this.findIndexByTableId(tableId, recentlyViewedReports)
     } else {
       // is a SYNC report - so only accessible via an ID and report ID
       index = this.findIndexByReportAndVariantId(id, reportId, recentlyViewedReports)
     }
 
-    if (index && index !== -1) {
+    if (index >= 0) {
       userConfig.recentlyViewedReports.splice(index, 1)
       await this.saveState(userId, userConfig)
     }

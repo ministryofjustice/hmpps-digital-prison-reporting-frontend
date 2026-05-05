@@ -1,9 +1,6 @@
 import { RequestHandler } from 'express'
 import { Services } from '../../../../../types/Services'
-
-import RecentReportslistUtils from '../../../../../components/user-reports/viewed/utils'
-import UserReportsListUtils from '../../../../../components/user-reports/utils'
-import LocalsHelper from '../../../../../utils/localsHelper'
+import { initMyReports } from '../../../../../components/my-reports/utils'
 
 class RecentlyViewedReportsListController {
   layoutPath: string
@@ -15,21 +12,15 @@ class RecentlyViewedReportsListController {
     this.services = services
   }
 
-  GET: RequestHandler = async (_req, res) => {
-    const { recentlyViewedReports } = LocalsHelper.getValues(res)
-
-    const listParams = await UserReportsListUtils.renderList({
-      reportsData: recentlyViewedReports,
-      filterFunction: RecentReportslistUtils.filterReports,
-      res,
-      type: 'viewed',
-    })
+  GET: RequestHandler = async (req, res) => {
+    const myReportsData = await initMyReports(req, res, this.services)
+    const list = myReportsData ? myReportsData.viewed : {}
 
     res.render(`dpr/routes/journeys/my-reports/view`, {
       title: 'Recently viewed reports',
       id: 'recently-viewed-reports-list',
       layoutPath: this.layoutPath,
-      ...listParams,
+      list,
     })
   }
 }

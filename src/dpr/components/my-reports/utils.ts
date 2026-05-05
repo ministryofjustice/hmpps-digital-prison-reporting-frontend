@@ -183,7 +183,7 @@ const buildTotals = (
     }
   }
 
-  const maxRows = options.maxRows
+  const { maxRows } = options
 
   const total = items.length
   const shown = items.length > maxRows ? maxRows : items.length

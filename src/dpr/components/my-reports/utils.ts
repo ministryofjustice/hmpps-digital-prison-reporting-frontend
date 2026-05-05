@@ -92,7 +92,6 @@ const initRequested = async (
   const totalItems = await buildListItems(req, res, services, ListType.REQUESTED)
   const totals = buildTotals(res, totalItems, ListType.REQUESTED, options)
   const items = cutItemsToSize(totalItems, options)
-  console.log({ items })
 
   return {
     title: 'Requested reports',
@@ -177,10 +176,14 @@ const buildTotals = (
   listType: ListType,
   options?: MyReportsOptions | undefined,
 ): MyReportsListTotals => {
-  let maxRows = 2
-  if (options?.maxRows) {
-    maxRows = options.maxRows
+  if (!options?.maxRows) {
+    return {
+      total: items.length,
+      shown: items.length,
+    }
   }
+
+  const maxRows = options.maxRows
 
   const total = items.length
   const shown = items.length > maxRows ? maxRows : items.length

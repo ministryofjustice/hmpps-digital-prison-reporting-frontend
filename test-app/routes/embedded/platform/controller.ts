@@ -15,7 +15,7 @@ export default class PlatformController {
 
     const args = { res, req, services: this.services }
     const catalogue = await CatalogueUtils.initCatalogue(args)
-    const myReportsData = await initMyReports(req, res, this.services)
+    const myReportsData = await initMyReports(req, res, this.services, { maxRows: 10 })
 
     res.render('views/pages/platform/view.njk', {
       title: 'Home',

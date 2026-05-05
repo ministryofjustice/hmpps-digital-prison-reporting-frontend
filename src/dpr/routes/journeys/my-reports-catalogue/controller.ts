@@ -16,7 +16,7 @@ class MyReportsCatalogueController {
   GET: RequestHandler = async (req, res) => {
     const args = { res, req, services: this.services }
     const catalogue = await initCatalogue(args)
-    const myReportsData = await initMyReports(req, res, this.services, { maxRows: 20 })
+    const myReportsData = await initMyReports(req, res, this.services, { maxRows: 10 })
 
     res.render(`dpr/routes/journeys/my-reports-catalogue/view`, {
       layoutPath: this.layoutPath,

@@ -15,6 +15,7 @@ import { Services } from '../types/Services'
 import { Template } from '../types/Templates'
 import { ReportType } from '../types/UserReports'
 import logger from './logger'
+import { getQueryParamAsString } from './queryMappers'
 
 /**
  * Gets the definition and fields by reportType
@@ -412,6 +413,14 @@ export const getDefaultColumnsQueryString = (fields: components['schemas']['Fiel
 
   return buildQueryString(params)
 }
+
+/**
+ * Get the definition path from the query
+ *
+ * @param {Record<string, unknown>} query
+ */
+export const getDefinitionsPath = (query: Record<string, unknown>) =>
+  getQueryParamAsString(query, 'dataProductDefinitionsPath')
 
 export default {
   getCurrentVariantDefinition,

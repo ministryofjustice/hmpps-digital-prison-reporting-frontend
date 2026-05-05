@@ -1,10 +1,8 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { type RequestHandler, Response, Request } from 'express'
-import type { ParsedQs } from 'qs'
 import type { Environment } from 'nunjucks'
 import { Services } from '../types/Services'
 import { RequestedReport, StoredReportData } from '../types/UserReports'
-import DefinitionUtils from '../utils/definitionUtils'
+import DefinitionUtils, { getDefinitionsPath } from '../utils/definitionUtils'
 import { BookmarkStoreData } from '../types/Bookmark'
 import { DprConfig } from '../types/DprConfig'
 import localsHelper from '../utils/localsHelper'
@@ -14,18 +12,16 @@ import setUpNunjucksFilters from '../setUpNunjucksFilters'
 import { errorRequestHandler } from '../routes'
 import logger from '../utils/logger'
 
-const getQueryParamAsString = (query: ParsedQs, name: string) => (query[name] ? query[name].toString() : null)
-const getDefinitionsPath = (query: ParsedQs) => getQueryParamAsString(query, 'dataProductDefinitionsPath')
-
-const deriveDefinitionsPath = (query: ParsedQs): string | null => {
-  const definitionsPath = getDefinitionsPath(query)
-  if (definitionsPath) {
-    return definitionsPath
-  }
-
-  return null
-}
-
+/**
+ * Middleware helper to populate all locals configuration
+ * to enable DPR lib to operate correctly within a service.
+ *
+ * @param {Services} services
+ * @param {string} layoutPath
+ * @param {Environment} env
+ * @param {DprConfig} [config]
+ * @return {*}  {RequestHandler}
+ */
 export const setupResources = (
   services: Services,
   layoutPath: string,
@@ -54,6 +50,12 @@ const setupRequestAwareNunjucks = (env: Environment, res: Response) => {
   env.addGlobal('getLocals', () => ({ locals: { ...res.locals, ...res.app.locals } }))
 }
 
+/**
+ * Sets the feature flags to locals
+ *
+ * @param {Response} res
+ * @param {FeatureFlagService} featureFlagService
+ */
 const setFeatures = async (res: Response, featureFlagService: FeatureFlagService) => {
   if (res.app.locals['featureFlags'] === undefined) {
     res.app.locals['featureFlags'] = {
@@ -62,8 +64,16 @@ const setFeatures = async (res: Response, featureFlagService: FeatureFlagService
   }
   const subject = getFeatureFlagEvaluationSubject(res)
   res.app.locals['featureFlags'].flags = await featureFlagService.evaluateBooleanFlags(FEATURE_FLAGS, subject)
+
+  logger.info(`FEATURE FLAGS: ${JSON.stringify(res.locals['downloadingEnabled'])}`)
 }
 
+/**
+ * Populates the validation errors
+ *
+ * @param {Request} req
+ * @param {Response} res
+ */
 const populateValidationErrors = (req: Request, res: Response) => {
   const errors = req.flash(`DPR_ERRORS`)
   if (errors && errors[0]) {
@@ -71,27 +81,56 @@ const populateValidationErrors = (req: Request, res: Response) => {
   }
 }
 
-const populateDefinitions = async (services: Services, req: Request, res: Response, config?: DprConfig) => {
-  // Get the DPD path from the query
-  const { token, dprUser } = localsHelper.getValues(res)
+/**
+ * Derives the definition path and sets the locals
+ *
+ * @param {Request} req
+ * @param {Response} res
+ * @param {DprConfig} [config]
+ */
+const deriveDefinitionsPath = (req: Request, res: Response, config?: DprConfig) => {
+  // Check definitions path from config
+  const dpdPathFromConfig = config?.dataProductDefinitionsPath
+  res.locals['dpdPathFromConfig'] = !!dpdPathFromConfig
 
-  const dpdPathFromQuery = deriveDefinitionsPath(req.query)
+  // Check definitions path from request
+  const dpdPathFromQuery = getDefinitionsPath(req.query) || null
   const dpdPathFromBody = req.body?.dataProductDefinitionsPath as string | undefined
   const definitionsPathFromQuery = dpdPathFromQuery || dpdPathFromBody
+  res.locals['dpdPathFromQuery'] = !!definitionsPathFromQuery
 
-  if (definitionsPathFromQuery) {
-    res.locals['dpdPathFromQuery'] = true
+  // Set the definitions path to locals
+  // - incoming query overwrites config
+  const activeDefinitionsPath = definitionsPathFromQuery || dpdPathFromConfig
+  if (activeDefinitionsPath) {
+    res.locals['hasDefinitionPath'] = !!activeDefinitionsPath
+    res.locals['definitionsPath'] = activeDefinitionsPath
+
+    // TODO: check if this is needed - its possibly been superceded
+    res.locals['pathSuffix'] = `?dataProductDefinitionsPath=${res.locals['definitionsPath']}`
+
+    logger.info(
+      `DEFINITIONS PATH SET: ${JSON.stringify({
+        definitionsPath: res.locals['definitionsPath'],
+        dpdPathFromBody: res.locals['dpdPathFromBody'],
+        dpdPathFromQuery: res.locals['dpdPathFromQuery'],
+      })}`,
+    )
   }
+}
 
-  // Get the DPD path from the config
-  const dpdPathFromConfig = config?.dataProductDefinitionsPath
-  if (dpdPathFromConfig) {
-    res.locals['dpdPathFromConfig'] = true
-  }
+/**
+ * Popluates the definitions in to locals
+ *
+ * @param {Services} services
+ * @param {Request} req
+ * @param {Response} res
+ * @param {DprConfig} [config]
+ */
+const populateDefinitions = async (services: Services, req: Request, res: Response, config?: DprConfig) => {
+  const { token, dprUser } = localsHelper.getValues(res)
 
-  // query takes presedence over config
-  res.locals['definitionsPath'] = (definitionsPathFromQuery || dpdPathFromConfig) as string // one of these should be populated
-  res.locals['pathSuffix'] = `?dataProductDefinitionsPath=${res.locals['definitionsPath']}`
+  deriveDefinitionsPath(req, res, config)
 
   let selectedProductCollectionId: string | undefined
   if (token) {
@@ -112,8 +151,18 @@ const populateDefinitions = async (services: Services, req: Request, res: Respon
       }
       return defs
     })) ?? []
+
+  if (res.locals['definitions'] && res.locals['definitions'].length) {
+    logger.info(`DEFINITIONS SET: ${res.locals['definitions'].length}`)
+  }
 }
 
+/**
+ * Sets active service config to locals
+ *
+ * @param {Services} services
+ * @param {Response} res
+ */
 const setLocalsFromServices = async (services: Services, res: Response) => {
   const { dprUser } = localsHelper.getValues(res)
   if (dprUser.id) {
@@ -125,13 +174,26 @@ const setLocalsFromServices = async (services: Services, res: Response) => {
     // If saveDefaultsEnabled is turned off by feature flag, overwrite all other privileges,
     // otherwise let the defaultFilterValuesService decide.
     const saveDefaultsEnabledFlag = isBooleanFlagEnabledOrMissing('saveDefaultsEnabled', res.app)
-    logger.info('PERSONALISATION DEBUG: MIDDLEWARE saveDefaultsEnabledFlag', saveDefaultsEnabledFlag)
+    res.locals['saveDefaultsEnabled'] = saveDefaultsEnabledFlag ? services.defaultFilterValuesService.enabled : false
 
-    res.locals.saveDefaultsEnabled = saveDefaultsEnabledFlag ? services.defaultFilterValuesService.enabled : false
-    logger.info('PERSONALISATION DEBUG: MIDDLEWARE saveDefaultsEnabled', res.locals.saveDefaultsEnabled)
+    logger.info(
+      `ENABLED SERVICES: ${JSON.stringify({
+        downloadingEnabled: res.locals['downloadingEnabled'],
+        bookmarkingEnabled: res.locals['bookmarkingEnabled'],
+        collectionsEnabled: res.locals['collectionsEnabled'],
+        requestMissingEnabled: res.locals['requestMissingEnabled'],
+        saveDefaultsEnabled: res.locals['saveDefaultsEnabled'],
+      })}`,
+    )
   }
 }
 
+/**
+ * Populates the requested reports to locals
+ *
+ * @param {Services} services
+ * @param {Response} res
+ */
 const populateRequestedReports = async (services: Services, res: Response) => {
   const { dprUser } = localsHelper.getValues(res)
   if (dprUser.id) {
@@ -164,6 +226,11 @@ const populateRequestedReports = async (services: Services, res: Response) => {
   }
 }
 
+/**
+ * Initialises the DPR paths to locals
+ *
+ * @param {Response} res
+ */
 const setUpDprPaths = (res: Response) => {
   res.app.locals.dprPaths ??= {
     bookmarkActionEndpoint: '/dpr/my-reports/bookmarks',

@@ -66,8 +66,6 @@ export class FeatureFlagService {
       flagKeys.map((flagKey) => [flagKey, getFeatureFlagFallbackState(flagKey)]),
     ) as Record<TFlag, boolean>
 
-    logger.info(`PERSONALISATION DEBUG: evaluateBooleanFlags: ${JSON.stringify(results)}`)
-
     if (flagKeys.length === 0) {
       return results
     }
@@ -114,6 +112,5 @@ const resolveFlag = (app: Application, flagName: string): boolean | undefined =>
 
 export const isBooleanFlagEnabledOrMissing = (flagName: string, app: Application): boolean => {
   const flag = resolveFlag(app, flagName)
-  logger.info(`PERSONALISATION DEBUG: isBooleanFlagEnabledOrMissing: ${flagName} : ${JSON.stringify(flag)}`)
   return flag !== false
 }

@@ -287,8 +287,6 @@ export const renderRequest = async ({
     const { token, csrfToken, definitionsPath: definitionPath, dprUser } = LocalsHelper.getValues(res)
     const { definition, saveDefaultsEnabled } = res.locals
 
-    logger.info('PERSONALISATION DEBUG: saveDefaultsEnabled', saveDefaultsEnabled)
-
     let name: string = ''
     let reportName: string = ''
     let description: string = ''

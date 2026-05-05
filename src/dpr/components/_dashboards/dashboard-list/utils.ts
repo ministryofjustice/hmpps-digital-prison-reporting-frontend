@@ -97,8 +97,8 @@ export const createTableRows = (
     return []
   }
 
+  // Set the list data using the measure
   if (measures && measures.length) {
-    // Set the list data using the measure
     return data.map((dataRow) => {
       const row: MoJTableRow[] = Array(measures.length)
 
@@ -112,19 +112,19 @@ export const createTableRows = (
 
       return row
     })
-  } else {
-    // Return the data unfiltered by measures
-    return data.map((dataRow) => {
-      const row: MoJTableRow[] = Array(Object.keys(data[0]).length)
-
-      Object.keys(dataRow).forEach((key, index) => {
-        const text = dataRow[key].raw
-        row.splice(index, 1, { text } as MoJTableRow)
-      })
-
-      return row
-    })
   }
+
+  // Return the data unfiltered by measures
+  return data.map((dataRow) => {
+    const row: MoJTableRow[] = Array(Object.keys(data[0]).length)
+
+    Object.keys(dataRow).forEach((key, index) => {
+      const text = dataRow[key].raw
+      row.splice(index, 1, { text } as MoJTableRow)
+    })
+
+    return row
+  })
 }
 
 const creatListFromRows = (

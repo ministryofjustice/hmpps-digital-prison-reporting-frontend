@@ -92,6 +92,7 @@ const initRequested = async (
   const totalItems = await buildListItems(req, res, services, ListType.REQUESTED)
   const totals = buildTotals(res, totalItems, ListType.REQUESTED, options)
   const items = cutItemsToSize(totalItems, options)
+  console.log({ items })
 
   return {
     title: 'Requested reports',

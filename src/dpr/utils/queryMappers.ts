@@ -158,6 +158,9 @@ export const extractFiltersFromBody = (body: Record<string, unknown>): Record<st
   return result
 }
 
+export const getQueryParamAsString = (query: Record<string, unknown>, name: string) =>
+  query[name] ? query[name].toString() : null
+
 // ------------------------------------------
 // UI to API adapters
 // ------------------------------------------

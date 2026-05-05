@@ -64,8 +64,18 @@ export type DprMyReportActions = {
   view?: ViewAction
   polling?: LinkAction
   load?: ViewAction
-  bookmark?: any // TODO
+  bookmark?: DprMyReportActionBookmark
   request?: ViewAction
+}
+
+export type DprMyReportActionBookmark = {
+  reportId: string
+  id: string
+  reportType: ReportType
+  csrfToken: string
+  bookmarkActionEndpoint?: string | undefined
+  linkType: string
+  linkText: string
 }
 
 export type DprMyReportMeta = {

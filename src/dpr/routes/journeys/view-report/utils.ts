@@ -14,10 +14,10 @@ import ColumnsUtils from '../../../components/_reports/report-heading/report-col
 import { getActiveJourneyValue } from '../../../utils/sessionHelper'
 import { getFields } from '../../../utils/definitionUtils'
 import { LoadType, RequestedReport } from '../../../types/UserReports'
-import { QuerySummaryItem } from 'src/dpr/components/_async/request-details/types'
-import { buildQuerySummary } from 'src/dpr/components/_async/request-details/utils'
-import UserStoreItemBuilder from 'src/dpr/utils/UserStoreItemBuilder'
-import { RequestStatus } from 'src/dpr/utils/ReportStatus/types'
+import { QuerySummaryItem } from '../../../components/_async/request-details/types'
+import { buildQuerySummary } from '../../../components/_async/request-details/utils'
+import UserStoreItemBuilder from '../../../utils/UserStoreItemBuilder'
+import { RequestStatus } from '../../../utils/ReportStatus/types'
 
 /**
  * Apply interactive query to a REPORT

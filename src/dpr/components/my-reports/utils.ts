@@ -3,6 +3,7 @@ import { Services } from '../../types/Services'
 import { captureException } from '@sentry/node'
 import {
   DprMyReport,
+  DprMyReportActionBookmark,
   DprMyReportActions,
   DprMyReportHeading,
   DprMyReportItem,
@@ -61,14 +62,16 @@ const initBookmarks = async (
   services: Services,
   options?: MyReportsOptions | undefined,
 ): Promise<DprMyReportListConfig> => {
-  const items = await buildBookmarkListItems(res, services)
+  const totalItems = await buildBookmarkListItems(res, services)
+  const totals = buildTotals(res, totalItems, ListType.BOOKMARKS, options)
+  const items = cutItemsToSize(totalItems, options)
 
   return {
     title: 'Bookmarks',
     listType: ListType.BOOKMARKS,
     headings: buildHeadings(ListType.BOOKMARKS),
     items,
-    totals: buildTotals(res, items, ListType.BOOKMARKS, options),
+    totals,
   }
 }
 
@@ -86,7 +89,9 @@ const initRequested = async (
   options?: MyReportsOptions | undefined,
 ) => {
   const { csrfToken } = LocalsHelper.getValues(res)
-  const items = await buildListItems(req, res, services, ListType.REQUESTED)
+  const totalItems = await buildListItems(req, res, services, ListType.REQUESTED)
+  const totals = buildTotals(res, totalItems, ListType.REQUESTED, options)
+  const items = cutItemsToSize(totalItems, options)
 
   return {
     title: 'Requested reports',
@@ -94,7 +99,7 @@ const initRequested = async (
     csrfToken,
     headings: buildHeadings(ListType.REQUESTED),
     items,
-    totals: buildTotals(res, items, ListType.REQUESTED, options),
+    totals,
   }
 }
 
@@ -106,14 +111,18 @@ const initRequested = async (
  * @return {*}
  */
 const initViewed = async (req: Request, res: Response, services: Services, options?: MyReportsOptions | undefined) => {
-  const items = await buildListItems(req, res, services, ListType.VIEWED)
+  const { csrfToken } = LocalsHelper.getValues(res)
+  const totalItems = await buildListItems(req, res, services, ListType.VIEWED)
+  const totals = buildTotals(res, totalItems, ListType.VIEWED, options)
+  const items = cutItemsToSize(totalItems, options)
 
   return {
     title: 'Recently viewed',
     listType: ListType.VIEWED,
+    csrfToken,
     headings: buildHeadings(ListType.VIEWED),
     items,
-    totals: buildTotals(res, items, ListType.VIEWED, options),
+    totals,
   }
 }
 
@@ -146,6 +155,10 @@ const buildListItems = async (
     const status = data.status as RequestStatus
     return buildMyReportListRow(data, status, req, res, listType)
   })
+}
+
+const cutItemsToSize = (items: DprMyReportItem[], options?: MyReportsOptions | undefined) => {
+  return options?.maxRows ? items.slice(0, options.maxRows) : items
 }
 
 /**
@@ -374,7 +387,7 @@ const buildLoadRequestAction = (res: Response, data: MappedBookmarks) => {
  * @param {MappedBookmarks} data
  * @return {*}
  */
-const buildBookmarkRemoveAction = (res: Response, data: MappedBookmarks) => {
+const buildBookmarkRemoveAction = (res: Response, data: MappedBookmarks): DprMyReportActionBookmark => {
   const { reportId, id, reportType } = data
   const { csrfToken } = LocalsHelper.getValues(res)
   const { bookmarkActionEndpoint } = LocalsHelper.getRouteLocals(res)

@@ -114,7 +114,6 @@ function buildDateRangeChip(field: FieldDefinition, baseKey: string, query: Quer
     },
   }
 }
-;``
 
 /**
  * Granular date range
@@ -158,7 +157,7 @@ function buildGranularDateRangeChip(
 function buildMultiSelectChip(field: FieldDefinition, key: string, query: QueryParams): AppliedFilterChip | null {
   const raw = query[key]
 
-  const values: string[] = Array.isArray(raw) ? raw : typeof raw === 'string' ? [raw] : []
+  const values: string[] = Array.isArray(raw) ? raw : (typeof raw === 'string' && [raw]) || []
 
   if (!values.length) return null
 
@@ -179,7 +178,7 @@ function buildMultiSelectChip(field: FieldDefinition, key: string, query: QueryP
 function buildDateChip(field: FieldDefinition, key: string, query: QueryParams): AppliedFilterChip | null {
   const raw = query[key]
 
-  const value = Array.isArray(raw) ? raw[0] : typeof raw === 'string' ? raw : undefined
+  const value: string | undefined = Array.isArray(raw) ? raw[0] : (typeof raw === 'string' && raw) || undefined
 
   if (!value) return null
 
@@ -201,7 +200,7 @@ function buildDateChip(field: FieldDefinition, key: string, query: QueryParams):
 function buildSingleValueChip(field: FieldDefinition, key: string, query: QueryParams): AppliedFilterChip | null {
   const raw = query[key]
 
-  const value = Array.isArray(raw) ? raw[0] : typeof raw === 'string' ? raw : undefined
+  const value: string | undefined = Array.isArray(raw) ? raw[0] : (typeof raw === 'string' && raw) || undefined
 
   if (!value) return null
 

@@ -2,10 +2,9 @@ import { RequestHandler } from 'express'
 import { captureException } from '@sentry/node'
 import { Services } from '../../../../types/Services'
 import AsyncPollingUtils from './utils'
-import AsyncRequestListUtils from '../../../../components/user-reports/requested/utils'
 import ErrorHandler from '../../../../utils/ErrorHandler/ErrorHandler'
-import { evaluateAndUpdateReportStatus } from 'src/dpr/utils/ReportStatus/getReportStatus'
-import { getValues } from 'src/dpr/utils/localsHelper'
+import { evaluateAndUpdateReportStatus } from '../../../../utils/ReportStatus/getReportStatus'
+import { getValues } from '../../../../utils/localsHelper'
 
 class RequestStatusController {
   layoutPath: string
@@ -58,10 +57,10 @@ class RequestStatusController {
       })
 
       let status = resolution.type === 'UPDATE' ? resolution.newStatus : currentStatus
-      res.send({ status })
+      return res.send({ status })
     } catch (error) {
       captureException(error)
-      res.send({ status: 'FAILED' })
+      return res.send({ status: 'FAILED' })
     }
   }
 }

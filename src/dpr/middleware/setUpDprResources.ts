@@ -122,6 +122,12 @@ const deriveDefinitionsPath = (req: Request, res: Response, config?: DprConfig) 
 /**
  * Popluates the definitions in to locals
  *
+ * TODO: Optimization task:
+ * - Evalulate how often/regularly this should be called?
+ * - DPDS arent updated that often so its possible we could enable a timebased check of an hour?
+ * - Concider the impact to embedded services + how soon a new DPD will be seen.
+ * - Aim to reduce BE api calls
+ *
  * @param {Services} services
  * @param {Request} req
  * @param {Response} res
@@ -159,6 +165,10 @@ const populateDefinitions = async (services: Services, req: Request, res: Respon
 
 /**
  * Sets active service config to locals
+ *
+ * TODO: Optimization task:
+ * - set to res.app.locals instead of locals as this is set once at bootstrapping
+ * - if set, dont set again
  *
  * @param {Services} services
  * @param {Response} res

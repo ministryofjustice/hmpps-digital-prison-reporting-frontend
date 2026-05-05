@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## 5.10.13
+
+- Removed debug logs
+
 ## 5.10.12
 
 - Standardised button link styling

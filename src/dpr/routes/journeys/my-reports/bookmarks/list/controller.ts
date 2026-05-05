@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express'
 import { Services } from '../../../../../types/Services'
-import { initMyReports } from 'src/dpr/components/my-reports/utils'
+import { initMyReports } from '../../../../../components/my-reports/utils'
 
 class BookmarkListingController {
   layoutPath: string

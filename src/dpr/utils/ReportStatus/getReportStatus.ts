@@ -483,16 +483,16 @@ export async function expireFinishedReports({
 
   // If any expired then update the state
   await Promise.all(
-    uniqueExpired.map(({ executionId }) => {
+    uniqueExpired.map(({ executionId }) =>
       Promise.all([
         services.requestedReportService.setToExpired(executionId, dprUser.id),
         services.recentlyViewedService.setToExpired(executionId, dprUser.id),
-      ])
-    }),
+      ]),
+    ),
   )
 
   // get a fresh version of all reports
-  return await getAllMyReports(res, services, dprUser.id)
+  return getAllMyReports(res, services, dprUser.id)
 }
 
 const EXPIRED_CHECK_INTERVAL_MS = 15 * 60 * 1000 // 15 mins
@@ -504,13 +504,16 @@ const EXPIRED_CHECK_INTERVAL_MS = 15 * 60 * 1000 // 15 mins
  * @param {*} session
  * @return {*}  {boolean}
  */
-export function shouldRunExpiryCheck(session: any): boolean {
+export function shouldRunExpiryCheck(session: { lastExpiredReportsCheckAt?: number }): boolean {
   const lastRun = session.lastExpiredReportsCheckAt
   if (!lastRun) return true
 
   return Date.now() - lastRun > EXPIRED_CHECK_INTERVAL_MS
 }
 
-export function recordExpiryCheck(session: any) {
-  session.lastExpiredReportsCheckAt = Date.now()
+export function recordExpiryCheck(session: { lastExpiredReportsCheckAt?: number }) {
+  return {
+    ...session,
+    lastExpiredReportsCheckAt: Date.now(),
+  }
 }

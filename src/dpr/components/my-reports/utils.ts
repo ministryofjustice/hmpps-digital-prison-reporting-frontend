@@ -24,7 +24,7 @@ import {
   expireFinishedReports,
   recordExpiryCheck,
   shouldRunExpiryCheck,
-} from 'src/dpr/utils/ReportStatus/getReportStatus'
+} from '../../utils/ReportStatus/getReportStatus'
 
 /**
  * Initialises the "My Reports" component data
@@ -500,3 +500,7 @@ const ALL_HEADINGS: HeadingConfig[] = [
     showIn: [ListType.BOOKMARKS, ListType.REQUESTED, ListType.VIEWED],
   },
 ]
+
+export default {
+  initMyReports,
+}

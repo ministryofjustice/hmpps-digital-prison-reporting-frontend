@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express'
 import { Services } from '../../../../types/Services'
 import LocalsHelper from '../../../../utils/localsHelper'
-import { safeRedirect } from 'src/dpr/utils/http/safeRedirect'
+import { safeRedirect } from '../../../../utils/http/safeRedirect'
 
 class RecentlyViewedReportsController {
   services: Services

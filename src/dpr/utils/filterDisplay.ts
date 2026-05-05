@@ -67,7 +67,7 @@ export function formatFilterDisplay(
  * @return {*}  {string}
  */
 function formatFilterValues(field: components['schemas']['FieldDefinition'], rawValues: string[]): string {
-  const filter = field.filter
+  const { filter } = field
   if (!filter || rawValues.length === 0) return ''
 
   switch (filter.type.toLowerCase()) {

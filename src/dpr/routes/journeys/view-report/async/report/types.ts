@@ -1,7 +1,7 @@
 import { components } from '../../../../../types/api'
 import Dict = NodeJS.Dict
 import { AsyncReportUrlItemData } from '../../../../../types/UserReports'
-import { QuerySummaryItem } from 'src/dpr/components/_async/request-details/types'
+import { QuerySummaryItem } from '../../../../../components/_async/request-details/types'
 
 export interface ReportUrls {
   reportUrl: string

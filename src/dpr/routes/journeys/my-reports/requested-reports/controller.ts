@@ -4,8 +4,8 @@ import LocalsHelper from '../../../../utils/localsHelper'
 import { buildMyReportListRow } from '../../../../components/my-reports/my-reports-list-item/utils'
 import { ListType } from '../../../../components/my-reports/types'
 import { evaluateAndUpdateReportStatus } from '../../../../utils/ReportStatus/getReportStatus'
-import logger from 'src/dpr/utils/logger'
-import { safeRedirect } from 'src/dpr/utils/http/safeRedirect'
+import logger from '../../../../utils/logger'
+import { safeRedirect } from '../../../../utils/http/safeRedirect'
 
 class RequestedReportsController {
   services: Services

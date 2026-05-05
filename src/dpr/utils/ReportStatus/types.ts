@@ -64,5 +64,5 @@ export type ExpireFinishedReportsOptions = {
   requestedReports: StoredReportData[]
   recentlyViewedReports: StoredReportData[]
   services: Services
-  res: any
+  res: Response
 }

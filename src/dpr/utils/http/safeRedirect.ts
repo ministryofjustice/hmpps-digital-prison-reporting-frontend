@@ -9,7 +9,9 @@ export const safeRedirect = (req: Request, res: Response, value: unknown, fallba
       if (url.origin === base) {
         return res.redirect(url.pathname + url.search + url.hash)
       }
-    } catch {}
+    } catch {
+      return res.redirect('/')
+    }
   }
 
   return res.redirect(fallback)

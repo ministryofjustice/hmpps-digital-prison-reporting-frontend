@@ -13,7 +13,7 @@ import LocalsHelper from '../../../utils/localsHelper'
 import ColumnsUtils from '../../../components/_reports/report-heading/report-columns/report-columns-form/utils'
 import { getActiveJourneyValue } from '../../../utils/sessionHelper'
 import { getFields } from '../../../utils/definitionUtils'
-import { LoadType, RequestedReport } from '../../../types/UserReports'
+import { LoadType, ReportType, RequestedReport } from '../../../types/UserReports'
 import { QuerySummaryItem } from '../../../components/_async/request-details/types'
 import { buildQuerySummary } from '../../../components/_async/request-details/utils'
 import UserStoreItemBuilder from '../../../utils/UserStoreItemBuilder'
@@ -380,7 +380,14 @@ export const updateLastViewedAsync = async (
 export const updateLastViewedSync = async (
   req: Request,
   services: Services,
-  stateData: any,
+  stateData: {
+    type: ReportType
+    reportId: string
+    id: string
+    reportName: string
+    name: string
+    description: string
+  },
   userId: string,
   fields: components['schemas']['FieldDefinition'][],
 ) => {

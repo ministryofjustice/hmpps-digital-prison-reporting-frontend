@@ -69,8 +69,6 @@ function initAll() {
     ReportTypeFilter,
     BookmarkButton,
     DateInput,
-    RequestedReportsList,
-    RecentlyViewedList,
     DateRange,
     ShowMore,
     BarChartVisualisation,

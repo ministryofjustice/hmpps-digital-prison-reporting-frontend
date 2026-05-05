@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
-import { Services } from '../../types/Services'
 import { captureException } from '@sentry/node'
+import { Services } from '../../types/Services'
 import {
   DprMyReport,
   DprMyReportActionBookmark,

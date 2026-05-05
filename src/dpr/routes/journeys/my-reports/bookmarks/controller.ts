@@ -19,7 +19,6 @@ class BookmarkController {
     if (type === 'add') {
       await this.services.bookmarkService.addBookmark(dprUser.id, reportId, id, reportType)
     } else {
-      console.log('BOOKMARK CONTROLLER - REMOVE', dprUser.id, id, reportId)
       await this.services.bookmarkService.removeBookmark(dprUser.id, id, reportId)
     }
     res.end()

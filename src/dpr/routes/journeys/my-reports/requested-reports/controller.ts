@@ -5,6 +5,7 @@ import { buildMyReportListRow } from '../../../../components/my-reports/my-repor
 import { ListType } from '../../../../components/my-reports/types'
 import { evaluateAndUpdateReportStatus } from '../../../../utils/ReportStatus/getReportStatus'
 import logger from 'src/dpr/utils/logger'
+import { safeRedirect } from 'src/dpr/utils/http/safeRedirect'
 
 class RequestedReportsController {
   services: Services
@@ -81,11 +82,7 @@ class RequestedReportsController {
 
     await this.services.requestedReportService.removeReport(executionId as string, dprUser.id)
 
-    if (returnTo && returnTo.startsWith('/')) {
-      return res.redirect(returnTo)
-    }
-
-    return res.redirect('/')
+    return safeRedirect(req, res, returnTo)
   }
 }
 

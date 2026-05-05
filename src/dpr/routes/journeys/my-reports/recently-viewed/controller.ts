@@ -1,6 +1,7 @@
 import { RequestHandler } from 'express'
 import { Services } from '../../../../types/Services'
 import LocalsHelper from '../../../../utils/localsHelper'
+import { safeRedirect } from 'src/dpr/utils/http/safeRedirect'
 
 class RecentlyViewedReportsController {
   services: Services
@@ -27,11 +28,7 @@ class RecentlyViewedReportsController {
       await this.services.requestedReportService.removeReport(executionId, dprUser.id)
     }
 
-    if (returnTo && returnTo.startsWith('/')) {
-      return res.redirect(returnTo)
-    }
-
-    return res.redirect('/')
+    return safeRedirect(req, res, returnTo)
   }
 }
 

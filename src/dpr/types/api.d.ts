@@ -4,6 +4,23 @@
  */
 
 export interface paths {
+  '/reports/tableExpiryState': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    /** @description Checks the list of table IDs provided for existence in Redshift and returns a list of the table IDs along with their expiration state. */
+    post: operations['getResultTableExpiryState']
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
   '/missingRequest/{reportId}/{variantId}': {
     parameters: {
       query?: never
@@ -449,6 +466,13 @@ export interface components {
       developerMessage?: string | null
       moreInfo?: string | null
     }
+    ResultTableExpiryStateRequest: {
+      tableIds: string[]
+    }
+    ResultTableExpiryState: {
+      tableId: string
+      expired: boolean
+    }
     MissingReportSubmission: {
       userId: string
       reportId: string
@@ -713,6 +737,8 @@ export interface components {
       displayValue?: boolean | null
       axis?: string | null
       optional?: boolean | null
+      /** @enum {string|null} */
+      type?: 'boolean' | 'date' | 'double' | 'HTML' | 'long' | 'string' | 'time' | null
     }
     DashboardVisualisationColumnsDefinition: {
       keys?: components['schemas']['DashboardVisualisationColumnDefinition'][] | null
@@ -763,6 +789,66 @@ export interface components {
 }
 export type $defs = Record<string, never>
 export interface operations {
+  getResultTableExpiryState: {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['ResultTableExpiryStateRequest']
+      }
+    }
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ResultTableExpiryState'][]
+        }
+      }
+      /** @description Bad Request */
+      400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description Gone */
+      410: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description Too Many Requests */
+      429: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+    }
+  }
   requestMissing: {
     parameters: {
       query?: never
@@ -828,15 +914,6 @@ export interface operations {
           'application/json': components['schemas']['ErrorResponse']
         }
       }
-      /** @description Internal Server Error */
-      500: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponse']
-        }
-      }
     }
   }
   definitions: {
@@ -886,15 +963,6 @@ export interface operations {
       }
       /** @description Too Many Requests */
       429: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponse']
-        }
-      }
-      /** @description Internal Server Error */
-      500: {
         headers: {
           [name: string]: unknown
         }
@@ -970,15 +1038,6 @@ export interface operations {
       }
       /** @description Too Many Requests */
       429: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponse']
-        }
-      }
-      /** @description Internal Server Error */
-      500: {
         headers: {
           [name: string]: unknown
         }
@@ -1081,15 +1140,6 @@ export interface operations {
           'application/json': components['schemas']['ErrorResponse']
         }
       }
-      /** @description Internal Server Error */
-      500: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponse']
-        }
-      }
     }
   }
   getSummaryQueryExecutionResult: {
@@ -1162,15 +1212,6 @@ export interface operations {
       }
       /** @description Too Many Requests */
       429: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponse']
-        }
-      }
-      /** @description Internal Server Error */
-      500: {
         headers: {
           [name: string]: unknown
         }
@@ -1256,15 +1297,6 @@ export interface operations {
           'application/json': components['schemas']['ErrorResponse']
         }
       }
-      /** @description Internal Server Error */
-      500: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponse']
-        }
-      }
     }
   }
   getInteractiveExternalTableRowCount: {
@@ -1314,15 +1346,6 @@ export interface operations {
       }
       /** @description Too Many Requests */
       429: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponse']
-        }
-      }
-      /** @description Internal Server Error */
-      500: {
         headers: {
           [name: string]: unknown
         }
@@ -1413,15 +1436,6 @@ export interface operations {
           'application/json': components['schemas']['ErrorResponse']
         }
       }
-      /** @description Internal Server Error */
-      500: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponse']
-        }
-      }
     }
   }
   downloadCsv_1: {
@@ -1499,15 +1513,6 @@ export interface operations {
           'application/json': components['schemas']['ErrorResponse']
         }
       }
-      /** @description Internal Server Error */
-      500: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponse']
-        }
-      }
     }
   }
   configuredApiCount: {
@@ -1572,15 +1577,6 @@ export interface operations {
       }
       /** @description Too Many Requests */
       429: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponse']
-        }
-      }
-      /** @description Internal Server Error */
-      500: {
         headers: {
           [name: string]: unknown
         }
@@ -1667,15 +1663,6 @@ export interface operations {
       }
       /** @description Too Many Requests */
       429: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponse']
-        }
-      }
-      /** @description Internal Server Error */
-      500: {
         headers: {
           [name: string]: unknown
         }
@@ -1776,15 +1763,6 @@ export interface operations {
           'application/json': components['schemas']['ErrorResponse']
         }
       }
-      /** @description Internal Server Error */
-      500: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponse']
-        }
-      }
     }
   }
   getDashboardExecutionStatus: {
@@ -1857,15 +1835,6 @@ export interface operations {
           'application/json': components['schemas']['ErrorResponse']
         }
       }
-      /** @description Internal Server Error */
-      500: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponse']
-        }
-      }
     }
   }
   getExternalTableRowCount: {
@@ -1908,15 +1877,6 @@ export interface operations {
       }
       /** @description Too Many Requests */
       429: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponse']
-        }
-      }
-      /** @description Internal Server Error */
-      500: {
         headers: {
           [name: string]: unknown
         }
@@ -1991,15 +1951,6 @@ export interface operations {
           'application/json': components['schemas']['ErrorResponse']
         }
       }
-      /** @description Internal Server Error */
-      500: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponse']
-        }
-      }
     }
   }
   getCollections_1: {
@@ -2055,15 +2006,6 @@ export interface operations {
       }
       /** @description Too Many Requests */
       429: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponse']
-        }
-      }
-      /** @description Internal Server Error */
-      500: {
         headers: {
           [name: string]: unknown
         }
@@ -2139,15 +2081,6 @@ export interface operations {
           'application/json': components['schemas']['ErrorResponse']
         }
       }
-      /** @description Internal Server Error */
-      500: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponse']
-        }
-      }
     }
   }
   definitionSummary: {
@@ -2210,15 +2143,6 @@ export interface operations {
       }
       /** @description Too Many Requests */
       429: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponse']
-        }
-      }
-      /** @description Internal Server Error */
-      500: {
         headers: {
           [name: string]: unknown
         }
@@ -2314,15 +2238,6 @@ export interface operations {
           'application/json': components['schemas']['ErrorResponse']
         }
       }
-      /** @description Internal Server Error */
-      500: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponse']
-        }
-      }
     }
   }
   dashboardDefinition: {
@@ -2411,15 +2326,6 @@ export interface operations {
           'application/json': components['schemas']['ErrorResponse']
         }
       }
-      /** @description Internal Server Error */
-      500: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponse']
-        }
-      }
     }
   }
   asyncConfiguredApiExecuteQuery: {
@@ -2487,15 +2393,6 @@ export interface operations {
       }
       /** @description Too Many Requests */
       429: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponse']
-        }
-      }
-      /** @description Internal Server Error */
-      500: {
         headers: {
           [name: string]: unknown
         }
@@ -2585,15 +2482,6 @@ export interface operations {
           'application/json': components['schemas']['ErrorResponse']
         }
       }
-      /** @description Internal Server Error */
-      500: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponse']
-        }
-      }
       /** @description default response */
       default: {
         headers: {
@@ -2672,15 +2560,6 @@ export interface operations {
           'application/json': components['schemas']['ErrorResponse']
         }
       }
-      /** @description Internal Server Error */
-      500: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponse']
-        }
-      }
     }
   }
   cancelDashboardQueryExecution: {
@@ -2741,15 +2620,6 @@ export interface operations {
       }
       /** @description Too Many Requests */
       429: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponse']
-        }
-      }
-      /** @description Internal Server Error */
-      500: {
         headers: {
           [name: string]: unknown
         }

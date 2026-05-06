@@ -56,7 +56,16 @@ class RequestStatusController {
         token,
       })
 
-      const status = resolution.type === 'UPDATE' ? resolution.newStatus : currentStatus
+      let status = currentStatus
+      let errorMessage
+      if (resolution.type === 'UPDATE') {
+        status = resolution.newStatus
+        errorMessage = resolution.failureInfo
+      }
+      console.log(`
+    #######################`)
+      console.log({ errorMessage })
+
       return res.send({ status })
     } catch (error) {
       captureException(error)

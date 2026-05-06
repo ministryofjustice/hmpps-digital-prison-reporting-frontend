@@ -51,20 +51,37 @@ export async function getStatusByType({
     }
 
     if ('status' in raw) {
-      const { status } = raw as { status?: unknown }
-
-      if (typeof status === 'string') {
-        return {
-          kind: 'STATUS',
-          status: status as RequestStatus,
+      if ('status' in raw) {
+        const data = raw as {
+          status?: unknown
+          error?: unknown
+          errorCategory?: unknown
+          stateChangeReason?: unknown
         }
-      }
 
-      if (typeof status === 'number') {
-        const formatted = new ErrorHandler({ data: raw }).formatError()
-        return {
-          kind: 'ERROR',
-          failure: toFailureInfo(formatted),
+        if (data.status === RequestStatus.FAILED) {
+          const formatted = failedPayloadToDprError(data)
+          console.log(JSON.stringify({ formatted }, null, 2))
+
+          return {
+            kind: 'ERROR',
+            failure: toFailureInfo(formatted),
+          }
+        }
+
+        if (typeof data.status === 'string') {
+          return {
+            kind: 'STATUS',
+            status: data.status as RequestStatus,
+          }
+        }
+
+        if (typeof data.status === 'number') {
+          const formatted = new ErrorHandler({ data: raw }).formatError()
+          return {
+            kind: 'ERROR',
+            failure: toFailureInfo(formatted),
+          }
         }
       }
     }
@@ -145,6 +162,13 @@ async function getStatus({
   }
 }
 
+/**
+ * Converts a normalized internal error (`DprErrorMessage`) into a `FailureInfo`
+ * object that is safe and consistent to store and return to clients.
+ *
+ * @param {DprErrorMessage} error
+ * @return {*}  {FailureInfo}
+ */
 function toFailureInfo(error: DprErrorMessage): FailureInfo {
   const normalize = (msg?: string | string[]): string =>
     Array.isArray(msg) ? msg.join('. ') : msg || 'An unexpected error occurred'
@@ -158,6 +182,26 @@ function toFailureInfo(error: DprErrorMessage): FailureInfo {
     ...(typeof error.status === 'number' && {
       errorCode: error.status,
     }),
+  }
+}
+
+/**
+ * Adapts a successful (200 OK) response that represents a semantic
+ * failure (`status: FAILED`) into the standard `DprErrorMessage` shape.
+ *
+ * @param {*} raw
+ * @return {*}  {DprErrorMessage}
+ */
+function failedPayloadToDprError(raw: {
+  status: 'FAILED'
+  error: string
+  errorCategory?: number
+  stateChangeReason?: string
+}): DprErrorMessage {
+  return {
+    userMessage: 'An unexpected error occurred',
+    developerMessage: raw.error,
+    moreInfo: raw.stateChangeReason,
   }
 }
 
@@ -239,6 +283,8 @@ function resolveReportStatus({
    * The API failed.
    */
   if (parentSignal.kind === 'ERROR' || childSignals.some((signal) => signal.kind === 'ERROR')) {
+    console.log('resolveReportStatus resolveReportStatus resolveReportStatus', { parentSignal })
+
     const failure =
       parentSignal.kind === 'ERROR' ? parentSignal.failure : childSignals.find((s) => s.kind === 'ERROR')!.failure
 
@@ -246,18 +292,6 @@ function resolveReportStatus({
       type: 'UPDATE',
       newStatus: RequestStatus.FAILED,
       failureInfo: failure,
-    }
-  }
-
-  /**
-   * ------------------------------------------------------------
-   * STRING "FAILED" STATUS FROM API
-   * ------------------------------------------------------------
-   */
-  if (parentSignal.kind === 'STATUS' && parentSignal.status === RequestStatus.FAILED) {
-    return {
-      type: 'UPDATE',
-      newStatus: RequestStatus.FAILED,
     }
   }
 

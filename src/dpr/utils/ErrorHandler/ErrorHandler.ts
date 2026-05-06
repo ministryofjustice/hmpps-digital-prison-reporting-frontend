@@ -7,7 +7,7 @@ export interface DprErrorMessage {
   userMessage?: string | string[] | undefined
   developerMessage?: string | string[] | undefined
   stack?: string
-  moreInfo?: string
+  moreInfo?: string | undefined
   status?: string | number
 }
 

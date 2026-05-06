@@ -190,6 +190,65 @@ context('Dashboard visualisation: List', () => {
     })
   })
 
+  describe('complete data with links', () => {
+    let completeDashboardWithLinksUrl = ''
+
+    before(() => {
+      cy.task('resetStubs')
+      executeDashboardStubs()
+      cy.task('stubTestDashboardWithLink')
+      cy.task('stubListDashboardCompleteData')
+      cy.task('stubDashboardResultCompleteData')
+      cy.visit(path)
+
+      requestReportByNameAndDescription({
+        name: 'List - with links',
+        description: 'This dashboard represents example list visualisations using a complete dataset',
+      })
+
+      cy.findByRole('heading', { level: 1, name: /List - with links/ }).should('be.visible')
+      checkA11y()
+
+      cy.url().then((url) => {
+        completeDashboardWithLinksUrl = url
+      })
+    })
+
+    beforeEach(() => {
+      cy.visit(completeDashboardWithLinksUrl)
+    })
+
+    it('should show a list with clickable links in it', () => {
+      cy.findAllByLabelText(/Links in list/).within(() => {
+        cy.findAllByRole('heading', { level: 3 }).should('have.length', 1)
+
+        cy.findByLabelText(/List with links in it/).within(() => {
+          cy.findAllByRole('paragraph').first().contains('Example list with a link it in')
+
+          cy.findByRole('table').within(() => {
+            cy.findAllByRole('row').each((row, index) => {
+              switch (index) {
+                case 0:
+                  cy.wrap(row).within(() => {
+                    cy.findAllByRole('columnheader').should('have.length', 1)
+                    cy.findAllByRole('columnheader').eq(0).contains('HTML link')
+                  })
+                  break
+
+                case 1:
+                  cy.wrap(row).within(() => {
+                    cy.findAllByRole('cell').should('have.length', 1)
+                    cy.findByRole('cell').eq(0).find('a').should('have.text', 'Some link').and('have.attr', 'href', '#')
+                  })
+                  break
+              }
+            })
+          })
+        })
+      })
+    })
+  })
+
   describe('complete data historic', () => {
     let completeHistoricDashboardUrl = ''
 

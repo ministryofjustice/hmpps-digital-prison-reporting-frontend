@@ -226,29 +226,23 @@ context('Dashboard visualisation: List', () => {
           cy.findAllByRole('paragraph').first().contains('Example list with a link it in')
 
           cy.findByRole('table').within(() => {
-            cy.findAllByRole('row')
-              // .should('have.length', 4)
-              .each((row, index) => {
-                switch (index) {
-                  case 0:
-                    cy.wrap(row).within(() => {
-                      cy.findAllByRole('columnheader').should('have.length', 1)
-                      cy.findAllByRole('columnheader').eq(0).contains('HTML link')
-                    })
-                    break
+            cy.findAllByRole('row').each((row, index) => {
+              switch (index) {
+                case 0:
+                  cy.wrap(row).within(() => {
+                    cy.findAllByRole('columnheader').should('have.length', 1)
+                    cy.findAllByRole('columnheader').eq(0).contains('HTML link')
+                  })
+                  break
 
-                  case 1:
-                    cy.wrap(row).within(() => {
-                      cy.findAllByRole('cell').should('have.length', 1)
-                      cy.findByRole('cell')
-                        .eq(0)
-                        .find('a')
-                        .should('have.text', 'Some link')
-                        .and('have.attr', 'href', '#')
-                    })
-                    break
-                }
-              })
+                case 1:
+                  cy.wrap(row).within(() => {
+                    cy.findAllByRole('cell').should('have.length', 1)
+                    cy.findByRole('cell').eq(0).find('a').should('have.text', 'Some link').and('have.attr', 'href', '#')
+                  })
+                  break
+              }
+            })
           })
         })
       })

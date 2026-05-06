@@ -18,10 +18,14 @@ import {
   linePartialDatasetMock,
   mixedCompleteDatasetMock,
   mixedPartialDatasetMock,
-  mixedPartialDatasetHistoricMock
+  mixedPartialDatasetHistoricMock,
 } from '@networkMocks/dashboard/definitions/visualisations/mocks'
 
-import { syncDashboardMock, featureFlagDashboardMock } from '@networkMocks/dashboard/definitions/feature-testing/mocks'
+import {
+  syncDashboardMock,
+  featureFlagDashboardMock,
+  dashboardWithLinksMock,
+} from '@networkMocks/dashboard/definitions/feature-testing/mocks'
 
 // DATA
 import {
@@ -42,7 +46,8 @@ import {
 import { dashboardFailureStubs } from './failures'
 import {
   dashboardResultEmptyDataSyncMock,
-  dashboardResultMissingFirstRowDataSyncMock, dashboardResultUndefinedMock,
+  dashboardResultMissingFirstRowDataSyncMock,
+  dashboardResultUndefinedMock,
 } from '@networkMocks/dashboard/data/empty-data/mocks'
 
 // DEFINITIONS
@@ -75,7 +80,6 @@ const lineDefinitionStubs = {
   stubLinePartialData: () => stubFor(linePartialDatasetMock),
 }
 
-
 const scorecardDefinitionStubs = {
   stubDefinitionScorecardDashboard: () => stubFor(scorecardsCompleteDatasetMock),
   stubDefinitionScorecardBucketDashboard: () => stubFor(scorecardsBucketCompleteDatasetMock),
@@ -90,6 +94,7 @@ const mixedChartsDefinitionStubs = {
 
 const definitionStubs = {
   stubTestDashboard8: () => stubFor(featureFlagDashboardMock),
+  stubTestDashboardWithLink: () => stubFor(dashboardWithLinksMock),
   stubDefinitionSyncDashboard: () => stubFor(syncDashboardMock),
   ...scorecardDefinitionStubs,
   ...listDefinitionStubs,
@@ -97,7 +102,7 @@ const definitionStubs = {
   ...DoughnutDefinitionStubs,
   ...lineTimeseriesDefinitionStubs,
   ...lineDefinitionStubs,
-  ...mixedChartsDefinitionStubs
+  ...mixedChartsDefinitionStubs,
 }
 
 // REQUEST

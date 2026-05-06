@@ -21,6 +21,7 @@ export const featureTestingSelectedFilters: components['schemas']['VariantDefini
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         filter: {
           type: 'granulardaterange',
           defaultValue: 'last-90-days',
@@ -59,6 +60,7 @@ export const featureTestingSelectedFilters: components['schemas']['VariantDefini
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         filter: {
           type: 'Radio',
           staticOptions: [
@@ -79,6 +81,7 @@ export const featureTestingSelectedFilters: components['schemas']['VariantDefini
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         filter: {
           type: 'Select',
           staticOptions: [
@@ -99,6 +102,7 @@ export const featureTestingSelectedFilters: components['schemas']['VariantDefini
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         filter: {
           type: 'Select',
           staticOptions: [
@@ -119,6 +123,7 @@ export const featureTestingSelectedFilters: components['schemas']['VariantDefini
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         filter: {
           type: 'daterange',
           // defaultValue: '2003-02-01 - 2006-05-04',
@@ -136,6 +141,7 @@ export const featureTestingSelectedFilters: components['schemas']['VariantDefini
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         mandatory: false,
         filter: {
           type: 'autocomplete',
@@ -162,6 +168,7 @@ export const featureTestingSelectedFilters: components['schemas']['VariantDefini
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         filter: {
           type: 'autocomplete',
           dynamicOptions: {
@@ -180,6 +187,7 @@ export const featureTestingSelectedFilters: components['schemas']['VariantDefini
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         filter: {
           mandatory: false,
           type: 'text',
@@ -196,6 +204,7 @@ export const featureTestingSelectedFilters: components['schemas']['VariantDefini
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         filter: {
           mandatory: false,
           type: 'text',
@@ -211,6 +220,7 @@ export const featureTestingSelectedFilters: components['schemas']['VariantDefini
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         filter: {
           mandatory: false,
           type: 'date',
@@ -229,6 +239,7 @@ export const featureTestingSelectedFilters: components['schemas']['VariantDefini
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         filter: {
           mandatory: false,
           type: 'multiselect',

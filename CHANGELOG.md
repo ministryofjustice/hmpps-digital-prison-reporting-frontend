@@ -1,5 +1,23 @@
 Below you can find the changes included in each release.
 
+## 5.10.13
+
+- Removed debug logs
+
+## 5.10.12
+
+- Standardised button link styling
+- More Debug logs for investigating issue with personalisation
+- Styling fix - padding on date filters
+
+## 5.10.9, 5.10.10, 5.10.11
+
+- Debug logs for investigating issue with personalisation
+
+## 5.10.8
+
+- Bugfix: Autocomplete personalisation & refresh link
+
 ## 5.10.7
 
 - Bugfix: Autocomplete setting incorrect default value

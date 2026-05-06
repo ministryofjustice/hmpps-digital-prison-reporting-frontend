@@ -22,6 +22,7 @@ export const featureTesting: components['schemas']['VariantDefinition'] = {
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         filter: {
           mandatory: false,
           type: 'text',
@@ -37,6 +38,7 @@ export const featureTesting: components['schemas']['VariantDefinition'] = {
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         filter: {
           mandatory: false,
           type: 'text',
@@ -52,6 +54,7 @@ export const featureTesting: components['schemas']['VariantDefinition'] = {
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         filter: {
           mandatory: false,
           type: 'text',
@@ -67,6 +70,7 @@ export const featureTesting: components['schemas']['VariantDefinition'] = {
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         filter: {
           mandatory: false,
           type: 'text',
@@ -82,6 +86,7 @@ export const featureTesting: components['schemas']['VariantDefinition'] = {
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         filter: {
           mandatory: false,
           type: 'text',
@@ -97,6 +102,7 @@ export const featureTesting: components['schemas']['VariantDefinition'] = {
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         filter: {
           mandatory: false,
           type: 'text',
@@ -112,6 +118,7 @@ export const featureTesting: components['schemas']['VariantDefinition'] = {
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         filter: {
           mandatory: false,
           type: 'text',
@@ -127,6 +134,7 @@ export const featureTesting: components['schemas']['VariantDefinition'] = {
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         filter: {
           mandatory: false,
           type: 'text',
@@ -142,6 +150,7 @@ export const featureTesting: components['schemas']['VariantDefinition'] = {
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         filter: {
           mandatory: false,
           type: 'text',
@@ -157,6 +166,7 @@ export const featureTesting: components['schemas']['VariantDefinition'] = {
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         filter: {
           mandatory: false,
           type: 'text',
@@ -172,6 +182,7 @@ export const featureTesting: components['schemas']['VariantDefinition'] = {
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         filter: {
           mandatory: false,
           type: 'text',
@@ -187,6 +198,7 @@ export const featureTesting: components['schemas']['VariantDefinition'] = {
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         filter: {
           mandatory: false,
           type: 'text',
@@ -202,6 +214,7 @@ export const featureTesting: components['schemas']['VariantDefinition'] = {
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         filter: {
           mandatory: false,
           type: 'text',
@@ -217,6 +230,7 @@ export const featureTesting: components['schemas']['VariantDefinition'] = {
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         filter: {
           mandatory: false,
           type: 'text',
@@ -232,6 +246,7 @@ export const featureTesting: components['schemas']['VariantDefinition'] = {
         calculated: false,
         header: false,
         defaultsort: false,
+        fieldSource: 'specfield',
         filter: {
           mandatory: false,
           type: 'text',

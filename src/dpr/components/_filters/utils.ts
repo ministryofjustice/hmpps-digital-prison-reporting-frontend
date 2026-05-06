@@ -18,7 +18,7 @@ import DateInputUtils from '../_inputs/date-input/utils'
 import GranularDateRangeInputUtils from '../_inputs/granular-date-range/utils'
 import AutocompleteUtils from '../_inputs/autocomplete-text-input/utils'
 import MultiSelectUtils from '../_inputs/multi-select/utils'
-import PersonalistionUtils from '../../utils/Personalisation/personalisationUtils'
+import { setUserContextDefaults } from '../../utils/Personalisation/personalisationUtils'
 import { RenderFiltersReturnValue } from '../_async/async-filters-form/types'
 import SortHelper from '../_async/async-filters-form/sortByTemplate'
 
@@ -42,39 +42,48 @@ export const setFilterValuesFromRequest = (
   }
 
   return filters.map((filter: FilterValue) => {
-    let requestfilterValue: FilterValueType
+    const queryKey = `${prefix}${filter.name}`
+    const hasQueryParam = queryKey in req.query
+
+    let requestfilterValue: FilterValueType | undefined
     let requestfilterValues: string[] | undefined
     let requestOptionValue: string | undefined
 
     const type = filter.type.toLowerCase()
+
     switch (type) {
       case FilterType.dateRange.toLowerCase():
-        requestfilterValue = DateRangeInputUtils.setValueFromRequest(<DateRangeFilterValue>filter, req, prefix)
+        requestfilterValue = DateRangeInputUtils.setValueFromRequest(filter as DateRangeFilterValue, req, prefix)
         break
 
       case FilterType.granularDateRange.toLowerCase():
         requestfilterValue = GranularDateRangeInputUtils.setValueFromRequest(
-          <GranularDateRangeFilterValue>filter,
+          filter as GranularDateRangeFilterValue,
           req,
           prefix,
         )
         break
 
       case FilterType.date.toLowerCase():
-        requestfilterValue = DateInputUtils.setValueFromRequest(<DateFilterValue>filter, req, prefix)
+        requestfilterValue = DateInputUtils.setValueFromRequest(filter as DateFilterValue, req, prefix)
         break
 
-      case FilterType.multiselect.toLowerCase():
+      case FilterType.multiselect.toLowerCase(): {
         ;({ requestfilterValue, requestfilterValues } = MultiSelectUtils.setValueFromRequest(
-          <MultiselectFilterValue>filter,
+          filter as MultiselectFilterValue,
           req,
           prefix,
         ))
         break
+      }
 
       case FilterType.autocomplete.toLowerCase(): {
+        if (!hasQueryParam && !preventDefault) {
+          return filter
+        }
+
         ;({ requestfilterValue, requestOptionValue } = AutocompleteUtils.setValueFromRequest(
-          <FilterValueWithOptions>filter,
+          filter as FilterValueWithOptions,
           req,
           prefix,
         ))
@@ -82,14 +91,15 @@ export const setFilterValuesFromRequest = (
       }
 
       default:
-        requestfilterValue = <string>req.query[`${prefix}${filter.name}`]
+        requestfilterValue = req.query[queryKey] as string | undefined
         break
     }
 
     let value: FilterValueType = null
-    if (requestfilterValue) {
+
+    if (requestfilterValue !== undefined) {
       value = requestfilterValue
-    } else if (preventDefault) {
+    } else if (preventDefault && type === FilterType.autocomplete.toLowerCase()) {
       value = ''
     }
 
@@ -293,7 +303,7 @@ export const getRequestFilters = async (
   const sortBy = getSortByFromDefinition(fields)
 
   // 3. Update filter values with user context values. eg. establishmnent code
-  filters = PersonalistionUtils.setUserContextDefaults(res, filters)
+  filters = setUserContextDefaults(res, filters)
 
   // 4. Overwrite filter values with query param values
   filters = setFilterValuesFromRequest(filters, req)

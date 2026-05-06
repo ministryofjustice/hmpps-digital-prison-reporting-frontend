@@ -17,12 +17,12 @@ export const featureTestingInteractiveDownload: components['schemas']['VariantDe
         display: 'Field 1',
         sortable: true,
         defaultsort: false,
+        fieldSource: 'specfield',
         type: 'string',
         mandatory: false,
         visible: false,
         calculated: false,
         header: false,
-        fieldSource: 'specfield',
       },
       {
         name: 'field2',
@@ -63,8 +63,8 @@ export const featureTestingInteractiveDownload: components['schemas']['VariantDe
         calculated: false,
         header: false,
         defaultsort: false,
-        mandatory: false,
         fieldSource: 'specfield',
+        mandatory: false,
         filter: {
           type: 'autocomplete',
           dynamicOptions: {

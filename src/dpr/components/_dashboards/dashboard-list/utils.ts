@@ -93,14 +93,34 @@ export const createTableRows = (
   data: DashboardDataResponse[],
   measures?: components['schemas']['DashboardVisualisationColumnDefinition'][],
 ): MoJTableRow[][] => {
-  if (!data || data.length === 0 || !data[0]) return []
+  if (!data || data.length === 0 || !data[0]) {
+    return []
+  }
 
+  // Set the list data using the measure
+  if (measures && measures.length) {
+    return data.map((dataRow) => {
+      const row: MoJTableRow[] = Array(measures.length)
+
+      Object.keys(dataRow).forEach((key) => {
+        const headIndex = measures.findIndex((m) => m.id === key)
+        const measure = measures[headIndex]
+        const cellContent = dataRow[key].raw
+        const cell = measure.type && measure.type === 'HTML' ? { html: cellContent } : { text: cellContent }
+        row.splice(headIndex, 1, cell as MoJTableRow)
+      })
+
+      return row
+    })
+  }
+
+  // Return the data unfiltered by measures
   return data.map((dataRow) => {
-    const row: MoJTableRow[] = measures?.length ? Array(measures.length) : Array(Object.keys(data[0]).length)
+    const row: MoJTableRow[] = Array(Object.keys(data[0]).length)
+
     Object.keys(dataRow).forEach((key, index) => {
-      const headIndex = measures?.length ? measures.findIndex((m) => m.id === key) : index
       const text = dataRow[key].raw
-      row.splice(headIndex, 1, { text } as MoJTableRow)
+      row.splice(index, 1, { text } as MoJTableRow)
     })
 
     return row

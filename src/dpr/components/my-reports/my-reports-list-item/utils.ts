@@ -14,6 +14,16 @@ import {
 import { apiTimestampToUiDateTime, todayAsUiDateTime } from '../../../utils/dateHelper'
 import { getRouteLocals } from '../../../utils/localsHelper'
 
+/**
+ * Builds the row
+ *
+ * @param {StoredReportData} data
+ * @param {RequestStatus} status
+ * @param {Request} req
+ * @param {Response} res
+ * @param {ListType} listType
+ * @return {*}
+ */
 export const buildMyReportListRow = (
   data: StoredReportData,
   status: RequestStatus,
@@ -103,9 +113,8 @@ const buildTimestamp = (data: StoredReportData) => {
  * @return {*}  {DprMyReportFilters}
  */
 const buildFiltersCell = (data: StoredReportData): DprMyReportFilters => {
-  // TODO: investigate the types here
   const prerequest = (data.query?.summary as NameValuePair[] | undefined) || []
-  const interactive = (data.interactiveQuery as NameValuePair[] | undefined) || []
+  const interactive = (data.interactiveQuery?.summary as NameValuePair[] | undefined) || []
 
   return {
     ...(prerequest && { prerequest }),

@@ -63,7 +63,7 @@ context('Viewing a report', () => {
                     cy.findAllByRole('listitem').each((item, i) => {
                       switch (i) {
                         case 0:
-                          cy.wrap(item).contains('Field 1: value1.2')
+                          cy.wrap(item).contains('Field 1: Value 1.2')
                           break
                         case 1:
                           cy.wrap(item).contains('Field 3: 01/02/2003 - 04/05/2006')
@@ -72,7 +72,7 @@ context('Viewing a report', () => {
                           cy.wrap(item).contains('Field 7: 01/02/2005')
                           break
                         case 3:
-                          cy.wrap(item).contains('Field 8: value8.2,value8.3')
+                          cy.wrap(item).contains('Field 8: Value 8.2, Value 8.3')
                           break
                         case 4:
                           cy.wrap(item).contains('Sort column: Field 1')

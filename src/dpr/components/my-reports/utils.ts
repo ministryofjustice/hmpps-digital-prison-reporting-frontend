@@ -144,9 +144,7 @@ const buildListItems = async (
   services: Services,
   listType: ListType,
 ): Promise<DprMyReportItem[]> => {
-  // get the relevant data from the store
   const listData = await getDataForList(res, listType, services)
-  // loop it
   if (!listData) {
     return []
   }

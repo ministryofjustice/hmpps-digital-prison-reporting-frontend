@@ -21,7 +21,7 @@ import { getAllMyReports } from '../reportStoreHelper'
  * ------------------------------------------------------------
  */
 
-export async function getStatusByType({
+async function getStatusByType({
   reportType,
   services,
   token,
@@ -53,10 +53,10 @@ export async function getStatusByType({
     if ('status' in raw) {
       if ('status' in raw) {
         const data = raw as {
-          status?: unknown
-          error?: unknown
-          errorCategory?: unknown
-          stateChangeReason?: unknown
+          status: string
+          error: string
+          errorCategory?: number
+          stateChangeReason?: string
         }
 
         if (data.status === RequestStatus.FAILED) {
@@ -193,7 +193,7 @@ function toFailureInfo(error: DprErrorMessage): FailureInfo {
  * @return {*}  {DprErrorMessage}
  */
 function failedPayloadToDprError(raw: {
-  status: 'FAILED'
+  status: string
   error: string
   errorCategory?: number
   stateChangeReason?: string
@@ -430,18 +430,6 @@ export async function evaluateAndUpdateReportStatus({
  * ------------------------------------------------------------
  */
 
-/**
- * Checks all FINISHED reports to see if they have expired upstream.
- * Any report returning a 404 is marked as EXPIRED.
- *
- * Intended to run once during component initialisation,
- * before polling begins.
- */
-
-type ExpiredReportDetection = {
-  executionId: string
-}
-
 async function detectExpiredFinishedReports({
   reports,
   services,
@@ -450,31 +438,27 @@ async function detectExpiredFinishedReports({
   reports: StoredReportData[]
   services: Services
   token: string
-}): Promise<ExpiredReportDetection[]> {
-  const finished = reports.filter((r) => r.status === RequestStatus.FINISHED)
-
-  const checks = await Promise.all(
-    finished.map(async (stored) => {
-      if (!stored.executionId || !stored.tableId) {
-        return null
-      }
-
-      const signal = await getStatusByType({
-        reportType: stored.type,
-        services,
-        token,
-        reportId: stored.reportId,
-        id: stored.id,
-        executionId: stored.executionId,
-        tableId: stored.tableId,
-        definitionsPath: stored.dataProductDefinitionsPath ?? '',
-      })
-
-      return signal.kind === 'ERROR' && signal.failure.errorCode === 404 ? { executionId: stored.executionId } : null
-    }),
+}): Promise<
+  {
+    executionId: string
+  }[]
+> {
+  const finishedWithTables = reports.filter(
+    (r) => r.status === RequestStatus.FINISHED && Boolean(r.executionId) && Boolean(r.tableId),
   )
 
-  return checks.filter(Boolean) as ExpiredReportDetection[]
+  if (finishedWithTables.length === 0) {
+    return []
+  }
+
+  // de‑duplicate tableIds for batch lookup
+  const tableIds = [...new Set(finishedWithTables.map((r) => r.tableId!))]
+
+  const expiryStates = await services.reportingService.getTableExpiryState(token, tableIds)
+
+  const expiredTableIds = new Set(expiryStates.filter((s) => s.expired).map((s) => s.tableId))
+
+  return finishedWithTables.filter((r) => expiredTableIds.has(r.tableId!)).map((r) => ({ executionId: r.executionId! }))
 }
 
 /**

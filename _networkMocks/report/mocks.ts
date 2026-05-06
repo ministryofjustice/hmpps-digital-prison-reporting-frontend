@@ -166,10 +166,18 @@ export const reportsReadyStatusMock = setupSimpleMock(
 export const reportsFailedStatusMock = setupSimpleMock(
   `/reports/[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+/statements/[a-zA-Z0-9_]+/status`,
   {
-    error: {
-      developerMessage: 'a developer message goes here',
-    },
+    error: 'a developer message goes here',
     status: RequestStatus.FAILED,
+  },
+)
+
+export const reportsApiFailedStatusMock = setupSimpleMock(
+  `/reports/[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+/statements/[a-zA-Z0-9_]+/status`,
+  {
+    status: 500,
+    userMessage: 'a user message goes here',
+    developerMessage: 'a developer message goes here',
+    moreInfo: 'a more info message goes here',
   },
 )
 

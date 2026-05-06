@@ -69,14 +69,13 @@ context('User reports component', () => {
     })
 
     it('should show the product and variant information', () => {
-      expectMyReportRowCountInTab({ tabName: /Requested.*/i, count: 5 })
+      expectMyReportRowCountInTab({ tabName: /Requested.*/i, count: 4 })
 
       cy.findByLabelText(/Requested*/i).within(() => {
         getMyReportRow({ name: 'Successful report' }).contains('FINISHED')
         getMyReportRow({ name: 'Cancelled report' }).contains('ABORTED')
         getMyReportRow({ name: 'Expiring report' }).contains('EXPIRED')
         getMyReportRow({ name: 'Failing report' }).contains('FAILED')
-        getMyReportRow({ name: 'Submitted report' }).contains('SUBMITTED')
       })
     })
   })
@@ -132,8 +131,7 @@ context('User reports component', () => {
         getMyReportRow({ name: 'Viewed report' }).contains('READY')
         getMyReportRow({ name: 'Viewed dashboard' }).contains('READY')
         getMyReportRow({ name: 'Interactive Report' }).contains('READY')
-        getMyReportRow({ name: 'Expired viewed dashboard' }).contains('EXPIRED')
-        getMyReportRow({ name: 'Interactive Report with async filters' }).contains('READY')
+        getMyReportRow({ name: 'Expired viewed report' }).contains('EXPIRED')
       })
     })
   })

@@ -139,7 +139,10 @@ class ReportingService {
     return this.reportingClient.getAsyncInteractiveCount(token, tableId, reportId, id, filters)
   }
 
-  async getTableExpiryState(token: string, tableIds: string[]): Promise<{ tableId: string; expired: boolean }[]> {
+  async getTableExpiryState(
+    token: string,
+    tableIds: string[],
+  ): Promise<components['schemas']['ResultTableExpiryState'][]> {
     return this.reportingClient.getTableExpiryState(token, tableIds)
   }
 }

@@ -62,9 +62,6 @@ class RequestStatusController {
         status = resolution.newStatus
         errorMessage = resolution.failureInfo
       }
-      console.log(`
-    #######################`)
-      console.log({ errorMessage })
 
       return res.send({ status })
     } catch (error) {

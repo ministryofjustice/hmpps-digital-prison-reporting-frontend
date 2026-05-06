@@ -61,8 +61,6 @@ async function getStatusByType({
 
         if (data.status === RequestStatus.FAILED) {
           const formatted = failedPayloadToDprError(data)
-          console.log(JSON.stringify({ formatted }, null, 2))
-
           return {
             kind: 'ERROR',
             failure: toFailureInfo(formatted),
@@ -283,8 +281,6 @@ function resolveReportStatus({
    * The API failed.
    */
   if (parentSignal.kind === 'ERROR' || childSignals.some((signal) => signal.kind === 'ERROR')) {
-    console.log('resolveReportStatus resolveReportStatus resolveReportStatus', { parentSignal })
-
     const failure =
       parentSignal.kind === 'ERROR' ? parentSignal.failure : childSignals.find((s) => s.kind === 'ERROR')!.failure
 

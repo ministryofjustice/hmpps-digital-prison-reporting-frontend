@@ -283,7 +283,7 @@ class ReportingClient {
    * @return {*}
    * @memberof ReportingClient
    */
-  getTableExpiryState(token: string, tableIds: string[]): Promise<{ tableId: string; expired: boolean }[]> {
+  getTableExpiryState(token: string, tableIds: string[]): Promise<components['schemas']['ResultTableExpiryState'][]> {
     return this.restClient
       .post(
         {
@@ -292,7 +292,7 @@ class ReportingClient {
         },
         token,
       )
-      .then((response) => <{ tableId: string; expired: boolean }[]>response)
+      .then((response) => <components['schemas']['ResultTableExpiryState'][]>response)
   }
 
   logInfo(title: string, args?: Dict<string>) {

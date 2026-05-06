@@ -3,9 +3,13 @@ export type QuerySummaryItem = {
   value: string | string[]
 }
 
-export type FieldSummaryState = {
+export type FilterDisplayState = {
+  values: string[]
+
   start?: string
   end?: string
   relativeDuration?: string
-  values: string[]
+
+  quickFilter?: string
+  granularity?: string
 }

@@ -17,16 +17,20 @@ class ReportStoreService {
     await this.reportStore.setUserConfig(userId, userConfig)
   }
 
-  findIndexByExecutionId(id: string, array: UserReportData[]) {
-    return array.findIndex((report) => report.executionId === id)
+  findIndexByExecutionId(executionId: string, array: UserReportData[]) {
+    return array.findIndex((report) => report.executionId === executionId)
   }
 
-  findIndexByTableId(id: string, array: UserReportData[]) {
-    return array.findIndex((report) => report.tableId === id)
+  findIndexByTableId(tableId: string, array: UserReportData[]) {
+    return array.findIndex((report) => report.tableId === tableId)
   }
 
   findIndexByReportId(id: string, array: UserReportData[]) {
     return array.findIndex((report) => report.id === id)
+  }
+
+  findIndexByReportAndVariantId(id: string, reportId: string, array: UserReportData[]) {
+    return array.findIndex((report) => report.id === id && report.reportId === reportId)
   }
 }
 

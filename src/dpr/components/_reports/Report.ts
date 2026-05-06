@@ -51,6 +51,8 @@ export default class Report {
 
   specification: components['schemas']['Specification']
 
+  fields: components['schemas']['FieldDefinition'][]
+
   reportData!: Record<string, string>[]
 
   childData: ChildData[] = []
@@ -118,6 +120,7 @@ export default class Report {
       throw new Error('No specification in definition')
     }
     this.specification = specification
+    this.fields = this.specification.fields
   }
 
   build = async () => {
@@ -155,6 +158,7 @@ export default class Report {
         ...(this.extractedRequestData && this.extractedRequestData),
         totals: this.totals,
         dataTable: this.dataTable,
+        fields: this.fields,
       },
     }
   }

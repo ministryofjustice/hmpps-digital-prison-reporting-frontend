@@ -62,6 +62,9 @@ class RecentlyViewedStoreService extends ReportStoreService {
   async setToExpired(id: string, userId: string) {
     const userConfig = await this.getState(userId)
     const index = this.findIndexByExecutionId(id, userConfig.recentlyViewedReports)
+    if (index === -1) {
+      return
+    }
     await this.saveExpiredState(userConfig, index, userId)
   }
 
@@ -93,11 +96,35 @@ class RecentlyViewedStoreService extends ReportStoreService {
     }
   }
 
-  async removeReport(id: string, userId: string) {
+  async removeReport(userId: string, reportId: string, id: string, tableId?: string | undefined) {
     const userConfig = await this.getState(userId)
-    const index = this.findIndexByExecutionId(id, userConfig.recentlyViewedReports)
-    userConfig.recentlyViewedReports.splice(index, 1)
-    await this.saveState(userId, userConfig)
+    const { recentlyViewedReports } = userConfig
+
+    let index = -1
+    if (tableId) {
+      // is an ASYNC report so can find it with the table ID
+      index = this.findIndexByTableId(tableId, recentlyViewedReports)
+    } else {
+      // is a SYNC report - so only accessible via an ID and report ID
+      index = this.findIndexByReportAndVariantId(id, reportId, recentlyViewedReports)
+    }
+
+    if (index >= 0) {
+      userConfig.recentlyViewedReports.splice(index, 1)
+      await this.saveState(userId, userConfig)
+    }
+  }
+
+  async removeSupersededViewedReports(removedExecutionIds: string[], userId: string): Promise<void> {
+    Promise.all(
+      removedExecutionIds.map(async (executionId) => {
+        const report = await this.getReportByExecutionId(executionId, userId)
+        if (report) {
+          const { reportId, id, tableId } = report
+          await this.removeReport(userId, reportId, id, tableId)
+        }
+      }),
+    ).then(() => undefined)
   }
 }
 

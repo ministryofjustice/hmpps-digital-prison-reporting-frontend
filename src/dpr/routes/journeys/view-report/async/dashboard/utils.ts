@@ -11,7 +11,6 @@ import { ReportType } from '../../../../../types/UserReports'
 import type { components } from '../../../../../types/api'
 
 import DefinitionUtils, { getDashboardFields } from '../../../../../utils/definitionUtils'
-import UserReportsUtils from '../../../../../components/user-reports/utils'
 import FilterUtils from '../../../../../components/_filters/utils'
 import ReportActionsUtils from '../../../../../components/_reports/report-heading/report-actions/utils'
 import ReportQuery from '../../../../../types/ReportQuery'
@@ -24,6 +23,7 @@ import DashboardSchema from './validate'
 import { setUpBookmark } from '../../../../../components/bookmark/utils'
 import { buildAppliedFilters } from '../../../../../components/_filters/filters-applied/utils'
 import { extractFiltersFromQuery } from '../../../../../utils/queryMappers'
+import { updateLastViewedAsync } from '../../utils'
 
 const setDashboardActions = (
   dashboardDefinition: components['schemas']['DashboardDefinition'],
@@ -110,7 +110,7 @@ const getDefinitionData = async ({
 
   // Create the query
   const query = new ReportQuery({
-    fields: dashboardDefinition.filterFields || [],
+    fields,
     queryParams: extractFiltersFromQuery(req.query) as ParsedQs,
     definitionsPath: <string>dataProductDefinitionsPath,
     reportType: ReportType.DASHBOARD,
@@ -122,6 +122,7 @@ const getDefinitionData = async ({
     dashboardDefinition,
     reportDefinition,
     appliedFilters,
+    fields,
   }
 }
 
@@ -131,20 +132,14 @@ const updateStore = async (
   userId: string,
   sections: DashboardSection[],
   req: Request,
-  filters: FilterValue[],
+  fields: components['schemas']['FieldDefinition'][],
 ): Promise<RequestedReport | undefined> => {
   const { requestedReportService } = services
   const dashboardRequestData = await requestedReportService.getReportByTableId(tableId, userId)
 
   // Add to recently viewed
   if (sections && sections.length && dashboardRequestData) {
-    UserReportsUtils.updateLastViewed({
-      services,
-      reportStateData: dashboardRequestData,
-      userId,
-      req,
-      filters,
-    })
+    await updateLastViewedAsync(req, services, dashboardRequestData, userId, fields)
   }
 
   return dashboardRequestData
@@ -171,7 +166,7 @@ export const renderAsyncDashboard = async ({ req, res, services }: AsyncReportUt
   const queryData = requestData?.query?.data
 
   // Get the definition Data
-  const { query, filters, reportDefinition, dashboardDefinition, appliedFilters } = await getDefinitionData({
+  const { query, filters, reportDefinition, dashboardDefinition, appliedFilters, fields } = await getDefinitionData({
     req,
     res,
     services,
@@ -206,7 +201,7 @@ export const renderAsyncDashboard = async ({ req, res, services }: AsyncReportUt
 
   // Update the store
   if (requestedReportService) {
-    requestData = await updateStore(services, tableId, dprUser.id, sections, req, filters)
+    requestData = await updateStore(services, tableId, dprUser.id, sections, req, fields)
   }
 
   return {

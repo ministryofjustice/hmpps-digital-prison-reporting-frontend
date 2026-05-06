@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express'
-import BookmarklistUtils from '../../../../../components/user-reports/bookmarks/utils'
 import { Services } from '../../../../../types/Services'
+import { initMyReports } from '../../../../../components/my-reports/utils'
 
 class BookmarkListingController {
   layoutPath: string
@@ -12,12 +12,14 @@ class BookmarkListingController {
     this.services = services
   }
 
-  GET: RequestHandler = async (_req, res, _next) => {
+  GET: RequestHandler = async (req, res, _next) => {
+    const myReportsData = await initMyReports(req, res, this.services)
+    const list = myReportsData && myReportsData.bookmarks ? myReportsData.bookmarks : {}
+
     res.render(`dpr/routes/journeys/my-reports/view`, {
       title: 'Bookmarks',
       layoutPath: this.layoutPath,
-      id: 'dpr-bookmarks-list',
-      ...(await BookmarklistUtils.renderBookmarkList({ services: this.services, res })),
+      list,
     })
   }
 }

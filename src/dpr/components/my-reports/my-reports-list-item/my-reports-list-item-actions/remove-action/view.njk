@@ -1,0 +1,19 @@
+{% from "../../../../button-link/view.njk" import dprButtonLink %}
+
+{% macro dprMyReportListItemRemoveAction(remove) %}
+  {% set action = remove.action %}
+  {% set csrfToken = remove.csrfToken %}
+  {% set returnTo = remove.returnTo %}
+  
+  {% set classes = 'dpr-button-link' %}
+  
+  <form method='post' action='{{ action }}'>
+    <input type="hidden" name="returnTo" value="{{ returnTo }}">
+    <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+    
+    {{ dprButtonLink({
+      text: 'Remove',
+      classes: classes
+    }) }}
+  </form>
+{% endmacro %}

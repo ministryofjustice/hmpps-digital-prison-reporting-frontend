@@ -38,9 +38,8 @@ import Autocomplete from './components/_inputs/autocomplete-text-input/clientCla
 import { GranularDateRange } from './components/_inputs/granular-date-range/clientClass'
 import MultiselectInput from './components/_inputs/multi-select/clientClass'
 
-// User repoorts
-import RequestedReportsList from './components/user-reports/requested/clientClass'
-import RecentlyViewedList from './components/user-reports/viewed/clientClass'
+// My Reports
+import DprMyReports from './components/my-reports/my-reports-list/clientClass'
 
 // Charts
 import BarChartVisualisation from './components/_charts/chart/bar/clientClass'
@@ -70,8 +69,6 @@ function initAll() {
     ReportTypeFilter,
     BookmarkButton,
     DateInput,
-    RequestedReportsList,
-    RecentlyViewedList,
     DateRange,
     ShowMore,
     BarChartVisualisation,
@@ -87,6 +84,7 @@ function initAll() {
     DprFiltersFormClass,
     DprSelectedAsyncFilters,
     DprAppliedFilters,
+    DprMyReports,
   ]
 
   dayjs.extend(customParse)

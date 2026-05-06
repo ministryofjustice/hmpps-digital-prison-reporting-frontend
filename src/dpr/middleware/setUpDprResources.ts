@@ -1,16 +1,15 @@
 import { type RequestHandler, Response, Request } from 'express'
 import type { Environment } from 'nunjucks'
 import { Services } from '../types/Services'
-import { RequestedReport, StoredReportData } from '../types/UserReports'
-import DefinitionUtils, { getDefinitionsPath } from '../utils/definitionUtils'
-import { BookmarkStoreData } from '../types/Bookmark'
 import { DprConfig } from '../types/DprConfig'
 import localsHelper from '../utils/localsHelper'
 import { FeatureFlagService, isBooleanFlagEnabledOrMissing } from '../services/featureFlagService'
 import { FEATURE_FLAGS, getFeatureFlagEvaluationSubject } from '../utils/featureFlagsHelper'
 import setUpNunjucksFilters from '../setUpNunjucksFilters'
 import { errorRequestHandler } from '../routes'
+import { getAllMyBookmarks, getAllMyReports } from '../utils/reportStoreHelper'
 import logger from '../utils/logger'
+import { getDefinitionsPath } from '../utils/definitionUtils'
 
 /**
  * Middleware helper to populate all locals configuration
@@ -65,7 +64,9 @@ const setFeatures = async (res: Response, featureFlagService: FeatureFlagService
   const subject = getFeatureFlagEvaluationSubject(res)
   res.app.locals['featureFlags'].flags = await featureFlagService.evaluateBooleanFlags(FEATURE_FLAGS, subject)
 
-  logger.info(`FEATURE FLAGS: ${JSON.stringify(res.locals['downloadingEnabled'])}`)
+  if (res.app.locals['featureFlags']) {
+    logger.info(`FEATURE FLAGS: ${JSON.stringify(res.locals['downloadingEnabled'])}`)
+  }
 }
 
 /**
@@ -207,31 +208,12 @@ const setLocalsFromServices = async (services: Services, res: Response) => {
 const populateRequestedReports = async (services: Services, res: Response) => {
   const { dprUser } = localsHelper.getValues(res)
   if (dprUser.id) {
-    const { definitions, definitionsPath } = res.locals
+    const { requestedReports, recentlyViewedReports } = await getAllMyReports(res, services, dprUser.id)
 
-    const recent = await services.recentlyViewedService.getAllReports(dprUser.id)
-    await services.requestedReportService.cleanList(dprUser.id, recent)
-    const requested = await services.requestedReportService.getAllReports(dprUser.id)
-
-    res.locals['requestedReports'] = !definitionsPath
-      ? requested
-      : requested.filter((report: RequestedReport) => {
-          return DefinitionUtils.getCurrentVariantDefinition(definitions, report.reportId, report.id)
-        })
-
-    res.locals['recentlyViewedReports'] = !definitionsPath
-      ? recent
-      : recent.filter((report: StoredReportData) => {
-          return DefinitionUtils.getCurrentVariantDefinition(definitions, report.reportId, report.id)
-        })
-
+    res.locals['requestedReports'] = requestedReports
+    res.locals['recentlyViewedReports'] = recentlyViewedReports
     if (res.locals['bookmarkingEnabled']) {
-      const bookmarks = await services.bookmarkService.getAllBookmarks(dprUser.id)
-      res.locals['bookmarks'] = !definitionsPath
-        ? bookmarks
-        : bookmarks.filter((bookmark: BookmarkStoreData) => {
-            return DefinitionUtils.getCurrentVariantDefinition(definitions, bookmark.reportId, bookmark.id)
-          })
+      res.locals['bookmarks'] = await getAllMyBookmarks(res, services, dprUser.id)
     }
   }
 }
@@ -246,11 +228,13 @@ const setUpDprPaths = (res: Response) => {
     bookmarkActionEndpoint: '/dpr/my-reports/bookmarks',
     downloadActionEndpoint: '/dpr/download-report/',
     productCollectionEndpoint: '/dpr/product-collection/selected',
-    bookmarkListPath: '/dpr/my-reports/bookmarks/list',
-    requestedListPath: '/dpr/my-reports/requested-reports/list',
-    recentlyViewedListPath: '/dpr/my-reports/recently-viewed/list',
+    bookmarkListPath: '/dpr/my-reports/bookmarks',
+    requestedListPath: '/dpr/my-reports/requested-reports',
+    recentlyViewedListPath: '/dpr/my-reports/recently-viewed',
     reportsCatalogue: '/dpr/report-catalogue',
     userReportsList: '/dpr/my-reports',
+    requestReportPath: '/dpr/request-report',
+    viewReportPath: '/dpr/view-report',
     dprHomepage: '/dpr',
   }
 }

@@ -3,7 +3,7 @@ import Report from '../../../../../components/_reports/Report'
 import LocalsHelper from '../../../../../utils/localsHelper'
 import { AsyncReportUtilsParams } from '../../../../../types/AsyncReportUtils'
 import { components } from '../../../../../types/api'
-import UserReportsUtils from '../../../../../components/user-reports/utils'
+import { updateLastViewedAsync } from '../../utils'
 
 export const renderReport = async ({ req, res, services }: AsyncReportUtilsParams) => {
   const { token, dprUser, definitionsPath } = LocalsHelper.getValues(res)
@@ -24,13 +24,7 @@ export const renderReport = async ({ req, res, services }: AsyncReportUtilsParam
 
   // Save the data to redis
   if (requestData && Object.keys(requestData).length) {
-    UserReportsUtils.updateLastViewed({
-      req,
-      services,
-      reportStateData: requestData,
-      userId: dprUser.id,
-      filters: reportConfig.renderData.filterData,
-    })
+    await updateLastViewedAsync(req, services, requestData, dprUser.id, reportConfig.renderData.fields || [])
   }
 
   return reportConfig

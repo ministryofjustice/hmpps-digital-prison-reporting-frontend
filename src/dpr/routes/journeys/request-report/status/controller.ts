@@ -2,8 +2,9 @@ import { RequestHandler } from 'express'
 import { captureException } from '@sentry/node'
 import { Services } from '../../../../types/Services'
 import AsyncPollingUtils from './utils'
-import AsyncRequestListUtils from '../../../../components/user-reports/requested/utils'
 import ErrorHandler from '../../../../utils/ErrorHandler/ErrorHandler'
+import { evaluateAndUpdateReportStatus } from '../../../../utils/ReportStatus/getReportStatus'
+import { getValues } from '../../../../utils/localsHelper'
 
 class RequestStatusController {
   layoutPath: string
@@ -40,11 +41,35 @@ class RequestStatusController {
   // Poll request status
   POST: RequestHandler = async (req, res, _next) => {
     try {
-      const response = await AsyncRequestListUtils.getRequestStatus({ req, res, services: this.services })
-      res.send({ status: response.status })
+      const { token, dprUser } = getValues(res)
+      const { executionId, currentStatus } = req.body
+
+      const requestedReport = await this.services.requestedReportService.getReportByExecutionId(executionId, dprUser.id)
+      if (!requestedReport) {
+        return res.sendStatus(404)
+      }
+
+      const { resolution } = await evaluateAndUpdateReportStatus({
+        stored: requestedReport,
+        services: this.services,
+        res,
+        token,
+      })
+
+      let status = currentStatus
+      let errorMessage
+      if (resolution.type === 'UPDATE') {
+        status = resolution.newStatus
+        errorMessage = resolution.failureInfo
+      }
+      console.log(`
+    #######################`)
+      console.log({ errorMessage })
+
+      return res.send({ status })
     } catch (error) {
       captureException(error)
-      res.send({ status: 'FAILED' })
+      return res.send({ status: 'FAILED' })
     }
   }
 }

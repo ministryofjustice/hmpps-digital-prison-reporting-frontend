@@ -5,7 +5,6 @@ import { Request, Response, NextFunction } from 'express'
 import { buildFilterData, buildSortData } from '../../../../components/_async/async-filters-form/utils'
 import LocalsHelper from '../../../../utils/localsHelper'
 import { getRequestFilters } from '../../../../components/_filters/utils'
-import { removeDuplicates } from '../../../../utils/reportStoreHelper'
 import UserStoreItemBuilder from '../../../../utils/UserStoreItemBuilder'
 
 // Types
@@ -82,11 +81,8 @@ export const updateStore = async ({
   executionData: ExecutionData
   childExecutionData: Array<ChildReportExecutionData>
 }): Promise<void> => {
-  const { search, id, type } = req.body
+  const { type } = req.body
   const { dprUser, definitionsPath, dpdPathFromQuery } = LocalsHelper.getValues(res)
-
-  await removeDuplicates({ storeService: services.requestedReportService, userId: dprUser.id, id, search })
-  await removeDuplicates({ storeService: services.recentlyViewedService, userId: dprUser.id, id, search })
 
   const requestFormData: RequestFormData = req.body
   const reportData = {
@@ -131,7 +127,18 @@ export const updateStore = async ({
       break
   }
 
-  if (requestedReportData) await services.requestedReportService.addReport(dprUser.id, requestedReportData)
+  if (!requestedReportData) {
+    return
+  }
+
+  await services.requestedReportService.addReport(dprUser.id, requestedReportData)
+  const removedExecutionIds = await services.requestedReportService.removeDuplicateRequestedReports(dprUser.id)
+
+  if (!removedExecutionIds.length) {
+    return
+  }
+
+  await services.recentlyViewedService.removeSupersededViewedReports(removedExecutionIds, dprUser.id)
 }
 
 const requestChildReports = async (

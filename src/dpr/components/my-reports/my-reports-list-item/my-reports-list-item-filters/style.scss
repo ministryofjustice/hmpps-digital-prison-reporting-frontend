@@ -1,0 +1,28 @@
+ul.dpr-my-reports__item-filters-list {
+  list-style-type: none;
+  padding: 0;
+  margin-top: 0px;
+}
+
+li.dpr-my-reports__item-filters-list-item {
+  float: left;
+  margin-bottom: 0;
+  padding: govuk-spacing(1);
+  padding-left: 8px;
+  padding-right: 8px;
+  margin-bottom: govuk-spacing(1);
+  margin-right: govuk-spacing(1);
+  font-size: 16px;
+}
+
+li.dpr-my-reports__item-filters-list-item--pre {
+  background-color: govuk-colour('light-grey');
+}
+
+li.dpr-my-reports__item-filters-list-item--int {
+  background-color: lighten(govuk-colour('light-blue'), 36%);
+}
+
+li:last-child {
+  margin-bottom: govuk-spacing(0);
+}

@@ -1,12 +1,7 @@
 import type { Request, Response } from 'express'
-import Dict = NodeJS.Dict
-
 import type { Services } from '../../../../../types/Services'
-import { ReportType, RequestStatus } from '../../../../../types/UserReports'
-import { FilterValue } from '../../../../../components/_filters/types'
-import SelectedFiltersUtils from '../../../../../components/_filters/filters-selected/utils'
+import { ReportType } from '../../../../../types/UserReports'
 import LocalsHelper from '../../../../../utils/localsHelper'
-import UserStoreItemBuilder from '../../../../../utils/UserStoreItemBuilder'
 import { DashboardDataResponse } from '../../../../../types/Metrics'
 import AsyncDashboardUtils from '../../async/dashboard/utils'
 import { DashboardSection } from '../../../../../components/_dashboards/dashboard-visualisation/types'
@@ -14,51 +9,7 @@ import { components } from '../../../../../types/api'
 import ReportActionsUtils from '../../../../../components/_reports/report-heading/report-actions/utils'
 import { setUpBookmark } from '../../../../../components/bookmark/utils'
 import { createDashboardSections } from '../../../../../components/_dashboards/dashboard-section/utils'
-
-const setAsRecentlyViewed = async ({
-  req,
-  services,
-  reportName,
-  name,
-  description,
-  reportId,
-  id,
-  userId,
-  filters,
-}: {
-  req: Request
-  services: Services
-  reportName: string
-  name: string
-  description: string
-  reportId: string
-  id: string
-  userId: string
-  filters: FilterValue[]
-}) => {
-  const stateData = {
-    type: ReportType.DASHBOARD,
-    reportId,
-    id,
-    reportName,
-    description,
-    name,
-  }
-
-  const interactiveQueryData: { query: Dict<string>; querySummary: Array<Dict<string>> } = {
-    query: <Dict<string>>req.query,
-    querySummary: SelectedFiltersUtils.getQuerySummary(<Dict<string>>req.query, filters),
-  }
-
-  const recentlyViewedData = new UserStoreItemBuilder(stateData)
-    .addInteractiveQuery(interactiveQueryData)
-    .addStatus(RequestStatus.READY)
-    .addTimestamp()
-    .addReportUrls(req)
-    .build()
-
-  await services.recentlyViewedService.setRecentlyViewed(recentlyViewedData, userId)
-}
+import { updateLastViewedSync } from '../../utils'
 
 export const renderSyncDashboard = async ({
   req,
@@ -73,7 +24,7 @@ export const renderSyncDashboard = async ({
   const { reportId, id } = <{ id: string; reportId: string }>req.params
   const fullUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`
 
-  const { query, filters, reportDefinition, dashboardDefinition, appliedFilters } =
+  const { query, filters, reportDefinition, dashboardDefinition, appliedFilters, fields } =
     await AsyncDashboardUtils.getDefinitionData({
       req,
       res,
@@ -99,17 +50,16 @@ export const renderSyncDashboard = async ({
 
   const bookmarkConfig = setUpBookmark(res, req, services.bookmarkService)
 
-  await setAsRecentlyViewed({
-    req,
-    services,
-    reportName: reportDefinition.name,
-    name: dashboardDefinition.name,
-    description: dashboardDefinition.description || reportDefinition.description || '',
+  const stateData = {
+    type: ReportType.DASHBOARD,
     reportId,
     id,
-    userId: dprUser.id,
-    filters,
-  })
+    reportName: reportDefinition.name,
+    name: reportDefinition.name,
+    description: dashboardDefinition.description || reportDefinition.description || '',
+  }
+
+  await updateLastViewedSync(req, services, stateData, dprUser.id, fields)
 
   return {
     dashboardData: {

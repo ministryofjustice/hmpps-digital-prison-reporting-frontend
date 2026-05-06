@@ -2,7 +2,7 @@
 layout: layouts/example.njk
 title: User Reports List (example)
 ---
-{%- from "dpr/components/user-reports/view.njk" import dprUserReports -%}
+{# {%- from "dpr/components/user-reports/view.njk" import dprUserReports -%} #}
 
 {% set requestedReports = {
   head: {
@@ -236,8 +236,8 @@ title: User Reports List (example)
 } 
 %}
 
-{{ dprUserReports({
+{# {{ dprUserReports({
   requestedReports: requestedReports,
   viewedReports: viewedReports,
   bookmarks: bookmarks
-})}}
+})}} #}

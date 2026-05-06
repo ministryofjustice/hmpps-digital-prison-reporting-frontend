@@ -1,24 +1,56 @@
 import { components } from '../../../types/api'
-import { FieldSummaryState, QuerySummaryItem } from './types'
+import { FilterDisplayState, QuerySummaryItem } from './types'
 import { getField, getFieldDisplayName } from '../../../utils/definitionUtils'
-import { FilterType } from '../../_filters/filter-input/enum'
-import AutocompleteUtils from '../../_inputs/autocomplete-text-input/utils'
+import { formatFilterDisplay } from '../../../utils/filterDisplay'
 
 /**
- * Collects filter-related summary state from the request body,
- * grouped by fieldId.
+ * Builds the query summary
  *
+ * @param {Record<string, unknown>} body
+ * @param {components['schemas']['FieldDefinition'][]} fields
+ * @return {*}  {QuerySummaryItem[]}
  */
-const collectFieldSummaryState = (body: Record<string, unknown>): Map<string, FieldSummaryState> => {
-  const fieldSummaryMap = new Map<string, FieldSummaryState>()
+export const buildQuerySummary = (
+  body: Record<string, unknown>,
+  fields: components['schemas']['FieldDefinition'][],
+): QuerySummaryItem[] => {
+  const filterStateByField = collectFilterState(body)
+
+  const filterSummaries = Array.from(filterStateByField.entries())
+    .map(([fieldId, state]) => {
+      const field = getField(fields, fieldId)
+      if (!field) return null
+
+      const value = formatFilterDisplay(field, state)
+      if (!value) return null
+
+      return {
+        name: getFieldDisplayName(fields, fieldId) ?? fieldId,
+        value,
+      }
+    })
+    .filter(Boolean) as QuerySummaryItem[]
+
+  const sortSummaries = buildSortSummaries(body, fields)
+
+  return [...filterSummaries, ...sortSummaries]
+}
+
+/**
+ * Builds the filter state into predictable format
+ *
+ * @param {Record<string, unknown>} body
+ * @return {*}  {Map<string, FilterDisplayState>}
+ */
+const collectFilterState = (body: Record<string, unknown>): Map<string, FilterDisplayState> => {
+  const map = new Map<string, FilterDisplayState>()
 
   Object.entries(body).forEach(([key, value]) => {
-    if (value == null || value === '') return
+    if (value == null || value === '' || value === 'no-filter') return
     if (!key.startsWith('filters.')) return
-    if (value === 'no-filter') return
 
     const [, fieldId, suffix] = key.split('.')
-    const state = fieldSummaryMap.get(fieldId) ?? { values: [] }
+    const state = map.get(fieldId) ?? { values: [] }
 
     switch (suffix) {
       case 'start':
@@ -30,66 +62,28 @@ const collectFieldSummaryState = (body: Record<string, unknown>): Map<string, Fi
       case 'relative-duration':
         state.relativeDuration = String(value)
         break
+      case 'quick-filter':
+        state.quickFilter = String(value)
+        break
+      case 'granularity':
+        state.granularity = String(value)
+        break
       default:
         state.values.push(String(value))
     }
 
-    fieldSummaryMap.set(fieldId, state)
+    map.set(fieldId, state)
   })
 
-  return fieldSummaryMap
+  return map
 }
 
 /**
- * Builds UI-ready summary rows from grouped filter state.
+ * Builds the sort summary
  *
- */
-const buildGroupedFilterSummaries = (
-  fieldSummaryMap: Map<string, FieldSummaryState>,
-  fields: components['schemas']['FieldDefinition'][],
-): QuerySummaryItem[] => {
-  const summary: QuerySummaryItem[] = []
-
-  Array.from(fieldSummaryMap.entries()).forEach(([fieldId, state]) => {
-    const field = getField(fields, fieldId)
-    const displayName = getFieldDisplayName(fields, fieldId) ?? fieldId
-    const parts: string[] = []
-
-    // Date range
-    if (state.start && state.end) {
-      parts.push(`${state.start} - ${state.end}`)
-    }
-
-    // Relative duration (human-readable)
-    if (state.relativeDuration) {
-      parts.push(state.relativeDuration.charAt(0).toUpperCase() + state.relativeDuration.slice(1).replaceAll('-', ' '))
-    }
-
-    // Other filter values
-    if (state.values.length > 0) {
-      const displayValues =
-        field?.filter?.type === FilterType.autocomplete.toLowerCase()
-          ? state.values.map((v) => AutocompleteUtils.getDisplayValue(field.filter!, v))
-          : state.values
-
-      parts.push(...displayValues)
-    }
-
-    summary.push({
-      name: displayName,
-      value: parts.join(' / '),
-    })
-  })
-
-  return summary
-}
-
-/**
- * Builds summary rows related to sorting.
- *
- * Supports:
- * - single or multiple sort columns
- * - global sort direction
+ * @param {Record<string, unknown>} body
+ * @param {components['schemas']['FieldDefinition'][]} fields
+ * @return {*}  {QuerySummaryItem[]}
  */
 const buildSortSummaries = (
   body: Record<string, unknown>,
@@ -118,21 +112,4 @@ const buildSortSummaries = (
   })
 
   return summary
-}
-
-/**
- * Master orchestrator.
- *
- * Builds the full query summary displayed to the user
- * by composing smaller, focused helpers.
- */
-export const buildQuerySummary = (
-  body: Record<string, unknown>,
-  fields: components['schemas']['FieldDefinition'][],
-): QuerySummaryItem[] => {
-  const fieldSummaryMap = collectFieldSummaryState(body)
-  const filterSummaries = buildGroupedFilterSummaries(fieldSummaryMap, fields)
-  const sortSummaries = buildSortSummaries(body, fields)
-
-  return [...filterSummaries, ...sortSummaries]
 }

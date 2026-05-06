@@ -1,11 +1,11 @@
 {% extends "views/page.njk" %}
 {% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
-{% from "components/user-reports/view.njk" import dprUserReports %}
 {% from "components/_catalogue/catalogue/view.njk" import dprCatalogue %}
+{% from "components/my-reports/view.njk" import dprMyReports %}
+
 
 {% block content %}
   <div class="govuk-width-container">
-
     {% set rows = [] %}
     {% if (breadCrumbList.length > 0) %}
       {% set rows = rows.concat(breadCrumbList) %}
@@ -27,7 +27,7 @@
     {% endif %}
 
     <h1 class="govuk-heading-l">{{ title }}</h1>
-    {{ dprUserReports(userReportsLists)}}
+    {{ dprMyReports(myReportsData) }}
     {{ dprCatalogue(catalogue) }}
   </div>
 {% endblock %}

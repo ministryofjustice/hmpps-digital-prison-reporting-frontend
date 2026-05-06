@@ -35,9 +35,13 @@ Below you can find the changes included in each release.
 
 - Bugfix: Fixed console errors when loading bar charts using partial datasets
 
-## 5.10.2
+## 5.10.3
 
 - Bugfix: Dashboard filters missing
+
+## 5.10.2
+
+- Updated vulnerable deps
 
 ## 5.10.1
 

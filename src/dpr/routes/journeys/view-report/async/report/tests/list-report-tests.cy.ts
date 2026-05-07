@@ -1,4 +1,3 @@
-import { stubFor } from '@networkMocks/generateNetworkMock'
 import { requestReport, executeReportStubs } from '../../../../../../../../cypress-tests/cypressUtils'
 
 context('Viewing a report', () => {
@@ -429,14 +428,6 @@ context('Viewing a report', () => {
           `/embedded/platform/dpr/view-report/async/report/request-examples/request-example-success/${tableId}/report?selectedPage=3`,
         )
         cy.findByRole('link', { current: 'page' }).contains('3')
-      })
-    })
-
-    describe('Expired', () => {
-      beforeEach(() => {})
-
-      it('should set the report to expired and handle correctly', () => {
-        // stubFor()
       })
     })
   })

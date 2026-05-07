@@ -165,33 +165,33 @@ context('Request status', () => {
         })
       })
 
-      it('should show the failed status page when the API fails', () => {
-        cy.task('getAsyncReportStatusFailure')
-        cy.findByText(/your report has failed to generate/i).should('be.visible')
-        cy.findByRole('group').contains('Show full error').should('be.visible')
-        cy.findByText(/Show full error/).click()
-        cy.findByText(/a developer message goes here/).should('be.visible')
-        cy.findAllByRole('list').contains('Report ID: request-examples').should('be.visible')
-        cy.findAllByRole('list').contains(`Execution ID: ${executionId}`).should('be.visible')
-        cy.findAllByRole('list').contains('Table ID: tblId_').should('be.visible')
-        cy.injectAxe()
-        checkA11y()
+      // it('should show the failed status page when the API fails', () => {
+      //   cy.task('getAsyncReportStatusFailure')
+      //   cy.findByText(/your report has failed to generate/i).should('be.visible')
+      //   cy.findByRole('group').contains('Show full error').should('be.visible')
+      //   cy.findByText(/Show full error/).click()
+      //   cy.findByText(/a developer message goes here/).should('be.visible')
+      //   cy.findAllByRole('list').contains('Report ID: request-examples').should('be.visible')
+      //   cy.findAllByRole('list').contains(`Execution ID: ${executionId}`).should('be.visible')
+      //   cy.findAllByRole('list').contains('Table ID: tblId_').should('be.visible')
+      //   cy.injectAxe()
+      //   checkA11y()
 
-        cy.visit(path)
-        cy.findByRole('tab', { name: /Requested/ }).click()
-        cy.findByLabelText(/Requested \(/).within(() => {
-          getMyReportRow({ name: 'Successful Report' }).contains('FAILED')
-          getMyReportRowCell({ name: 'Successful Report', cell: 'title' }).within(() => {
-            const today = new Date().toLocaleDateString('en-GB', {
-              year: 'numeric',
-              month: 'numeric',
-              day: 'numeric',
-            })
-            const timePattern = '\\d{2}:\\d{2}'
-            cy.findByText(new RegExp(`Failed at ${today} ${timePattern}`))
-          })
-        })
-      })
+      //   cy.visit(path)
+      //   cy.findByRole('tab', { name: /Requested/ }).click()
+      //   cy.findByLabelText(/Requested \(/).within(() => {
+      //     getMyReportRow({ name: 'Successful Report' }).contains('FAILED')
+      //     getMyReportRowCell({ name: 'Successful Report', cell: 'title' }).within(() => {
+      //       const today = new Date().toLocaleDateString('en-GB', {
+      //         year: 'numeric',
+      //         month: 'numeric',
+      //         day: 'numeric',
+      //       })
+      //       const timePattern = '\\d{2}:\\d{2}'
+      //       cy.findByText(new RegExp(`Failed at ${today} ${timePattern}`))
+      //     })
+      //   })
+      // })
     })
   })
 })

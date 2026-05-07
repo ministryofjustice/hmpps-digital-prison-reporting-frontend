@@ -31,7 +31,7 @@ class ViewAsyncDashboardController {
 
       // If report is expired redirect the the polling page to show expired status
       if (dashboardData.expired) {
-        await updateStateToExpiredAndRedirect(req, res, this.services)
+        return await updateStateToExpiredAndRedirect(req, res, this.services)
       }
 
       res.render(`dpr/routes/journeys/view-report/dashboard`, {

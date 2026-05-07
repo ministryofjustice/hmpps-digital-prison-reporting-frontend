@@ -46,7 +46,7 @@ class ViewAyncReportController {
 
       // If report is expired redirect the the polling page to show expired status
       if (reportData.expired) {
-        await updateStateToExpiredAndRedirect(req, res, this.services)
+        return await updateStateToExpiredAndRedirect(req, res, this.services)
       }
 
       // Render the report

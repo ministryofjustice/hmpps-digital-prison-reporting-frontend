@@ -70,7 +70,15 @@ class RecentlyViewedStoreService extends ReportStoreService {
 
   async asyncSetToExpiredByTableId(id: string, userId: string) {
     const userConfig = await this.getState(userId)
+    console.log(JSON.stringify(userConfig, null, 2))
+    console.log({ id })
     const index = this.findIndexByTableId(id, userConfig.recentlyViewedReports)
+    console.log({ index })
+
+    if (index === -1) {
+      return ''
+    }
+
     await this.saveExpiredState(userConfig, index, userId)
 
     const updatedItem = userConfig.recentlyViewedReports[index]

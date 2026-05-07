@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## 5.11.1
+
+- Summary-section template: don't show totals in secton heading
+
 ## 5.11.0
 
 - Dashboards: Enable links in dashboard lists

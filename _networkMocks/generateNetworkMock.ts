@@ -10,6 +10,11 @@ export const defaultMockRequest = {
     headers: { 'Content-Type': 'application/json;charset=UTF-8' },
     fixedDelayMilliseconds: 0,
   },
+  failureJsonBody: {
+    userMessage: 'a user message goes here',
+    developerMessage: 'a developer message goes here',
+    moreInfo: 'a more info message goes here',
+  },
 } as const
 
 type CompleteMockRequest = {

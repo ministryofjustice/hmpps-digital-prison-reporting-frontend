@@ -509,7 +509,7 @@ export async function expireFinishedReports({
   return getAllMyReports(res, services, dprUser.id)
 }
 
-const EXPIRED_CHECK_INTERVAL_MS = 15 * 60 * 1000 // 15 mins
+const EXPIRED_CHECK_INTERVAL_MS = 30 * 60 * 1000 // 30 mins
 
 /**
  * Checks if the expiry check should run

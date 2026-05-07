@@ -24,6 +24,7 @@ import { setUpBookmark } from '../../../../../components/bookmark/utils'
 import { buildAppliedFilters } from '../../../../../components/_filters/filters-applied/utils'
 import { extractFiltersFromQuery } from '../../../../../utils/queryMappers'
 import { updateLastViewedAsync } from '../../utils'
+import ErrorHandler from 'src/dpr/utils/ErrorHandler/ErrorHandler'
 
 const setDashboardActions = (
   dashboardDefinition: components['schemas']['DashboardDefinition'],
@@ -173,18 +174,9 @@ export const renderAsyncDashboard = async ({ req, res, services }: AsyncReportUt
     queryData,
   })
 
-  // Get the results data
-  const dashboardData: DashboardDataResponse[][] = await services.dashboardService.getAsyncDashboard(
-    token,
-    id,
-    reportId,
-    tableId,
-    query,
-  )
+  // Get the dashboard data and check if expired
+  const { dashboardData, expired } = await getDashboardData(token, reportId, id, tableId, query, services)
 
-  const flattenedData: DashboardDataResponse[] = Array.isArray(dashboardData)
-    ? dashboardData.flat().filter(Boolean)
-    : []
   const partialDate = getPartialDate(filters)
 
   const bookmarkConfig = setUpBookmark(res, req, bookmarkService)
@@ -193,7 +185,7 @@ export const renderAsyncDashboard = async ({ req, res, services }: AsyncReportUt
   const dashboardFeatureFlags = res.app.locals['featureFlags'].flags
   const sections: DashboardSection[] = createDashboardSections(
     dashboardDefinition,
-    flattenedData,
+    dashboardData,
     query,
     dashboardFeatureFlags,
     partialDate,
@@ -220,6 +212,50 @@ export const renderAsyncDashboard = async ({ req, res, services }: AsyncReportUt
       bookmarkConfig,
       appliedFilters,
     },
+    expired,
+  }
+}
+
+/**
+ * Gets the data for a dashboard
+ *
+ * @param {string} token
+ * @param {string} reportId
+ * @param {string} id
+ * @param {string} tableId
+ * @param {(Record<string, string | string[]>)} query
+ * @param {Services} services
+ * @return {*}
+ */
+const getDashboardData = async (
+  token: string,
+  reportId: string,
+  id: string,
+  tableId: string,
+  query: Record<string, string | string[]>,
+  services: Services,
+) => {
+  let dashboardData: DashboardDataResponse[] = []
+  let expired = false
+  try {
+    const dashboardResultData: DashboardDataResponse[][] = await services.dashboardService.getAsyncDashboard(
+      token,
+      id,
+      reportId,
+      tableId,
+      query,
+    )
+    dashboardData = Array.isArray(dashboardResultData) ? dashboardResultData.flat().filter(Boolean) : []
+  } catch (error) {
+    const dprError = new ErrorHandler(error).formatError()
+    if (dprError.status === 404) {
+      expired = true
+    }
+  }
+
+  return {
+    dashboardData,
+    expired,
   }
 }
 

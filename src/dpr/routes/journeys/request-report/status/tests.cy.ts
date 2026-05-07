@@ -166,7 +166,7 @@ context('Request status', () => {
       })
 
       it('should show the failed status page when the API fails', () => {
-        cy.task('stubReportsApiFailedStatus')
+        cy.task('getAsyncReportStatusFailure')
         cy.findByText(/your report has failed to generate/i).should('be.visible')
         cy.findByRole('group').contains('Show full error').should('be.visible')
         cy.findByText(/Show full error/).click()

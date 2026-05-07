@@ -171,16 +171,6 @@ export const reportsFailedStatusMock = setupSimpleMock(
   },
 )
 
-export const reportsApiFailedStatusMock = setupSimpleMock(
-  `/reports/[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+/statements/[a-zA-Z0-9_]+/status`,
-  {
-    status: 500,
-    userMessage: 'a user message goes here',
-    developerMessage: 'a developer message goes here',
-    moreInfo: 'a more info message goes here',
-  },
-)
-
 const asyncReportStatusMocks = [reportsFinishedStatusMock, reportsReadyStatusMock, reportsFinishedStatusMock]
 
 export const cancelAsyncRequestMock = generateNetworkMock({

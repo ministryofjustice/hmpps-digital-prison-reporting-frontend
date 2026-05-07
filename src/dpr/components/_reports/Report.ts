@@ -35,6 +35,7 @@ import LocalsHelper from '../../utils/localsHelper'
 import { AppliedFilterChip, buildAppliedFilters } from '../_filters/filters-applied/utils'
 import { apiTimestampToUiDateTime } from '../../utils/dateHelper'
 import { FiltersType } from '../_filters/filtersTypeEnum'
+import ErrorHandler from 'src/dpr/utils/ErrorHandler/ErrorHandler'
 
 export default class Report {
   id: string
@@ -96,6 +97,8 @@ export default class Report {
 
   extractedRequestData!: ExtractedRequestData | undefined
 
+  expired: boolean = false
+
   constructor(
     readonly services: Services,
     readonly res: Response,
@@ -128,16 +131,24 @@ export default class Report {
     const reportMeta = this.buildReportMeta()
     this.buildReportDetails()
 
+    // Get the data
+    this.buildReportQuery()
+    await this.getData()
+
+    if (this.expired) {
+      return {
+        expired: this.expired,
+      }
+    }
+
+    // count
+    await this.getCount()
+
     // Columns and filters
     this.buildColumns()
     await this.buildFilters()
     await this.buildSavedDefaultsConfig()
     this.buildAppliedFilters()
-
-    // Data retrieval
-    this.buildReportQuery()
-    await this.getData()
-    await this.getCount()
 
     // Template & page furniture
     this.buildTable()
@@ -168,11 +179,18 @@ export default class Report {
    *
    */
   getData = async () => {
-    if (this.loadType === LoadType.ASYNC) {
-      await this.getSummariesData()
-      await this.setChildData()
+    try {
+      await this.getReportData()
+      if (this.loadType === LoadType.ASYNC) {
+        await this.getSummariesData()
+        await this.setChildData()
+      }
+    } catch (error) {
+      const dprError = new ErrorHandler(error).formatError()
+      if (dprError.status === 404) {
+        this.expired = true
+      }
     }
-    await this.getReportData()
   }
 
   /**

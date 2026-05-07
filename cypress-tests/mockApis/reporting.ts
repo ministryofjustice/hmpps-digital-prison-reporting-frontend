@@ -19,7 +19,6 @@ import {
   reportsAbortedStatusMock,
   reportsExpiredStatusMock,
   reportsFailedStatusMock,
-  reportsApiFailedStatusMock,
   reportsFinishedStatusMock,
   reportsPickedStatusMock,
   reportsReadyStatusMock,
@@ -127,7 +126,6 @@ export const stubs = {
   stubReportsAbortedStatus: () => stubFor(reportsAbortedStatusMock),
   stubReportsExpiredStatus: () => stubFor(reportsExpiredStatusMock),
   stubReportsFailedStatus: () => stubFor(reportsFailedStatusMock),
-  stubReportsApiFailedStatus: () => stubFor(reportsApiFailedStatusMock),
   stubReportsReadyStatus: () => stubFor(reportsReadyStatusMock),
   stubViewAsyncReportingResults: () =>
     stubFor(

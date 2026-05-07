@@ -19,10 +19,10 @@ export const reportingApiFailures = {
   getAsyncReportStatusFailure: setupSimpleFailedMock(
     `/reports/${reportIdRegex}/${reportIdRegex}/statements/exId_[0-9]+/status`,
   ),
-  // getAsyncReportStatusFailure404: setupSimpleFailedMock(
-  //   `/reports/[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+/statements/[a-zA-Z0-9_]+/status`,
-  //   404,
-  // ),
+  getAsyncReportStatusFailure404: setupSimpleFailedMock(
+    `/reports/[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+/statements/[a-zA-Z0-9_]+/status`,
+    404,
+  ),
   cancelAsyncRequestFailure: generateNetworkMock({
     ...defaultMockRequest,
     request: {
@@ -36,14 +36,14 @@ export const reportingApiFailures = {
       jsonBody: {},
     },
   }),
-  // getAsyncReportFailure404: setupSimpleFailedMock(
-  //   `/reports/${reportIdRegex}/${reportIdRegex}/tables/${reportIdRegex}/result`,
-  //   404,
-  //   {
-  //     userMessage: 'The stored report or dashboard was not found.',
-  //     developerMessage: 'PreparedStatementCallback; uncategorized SQLException for SQL XYZ Entity Not Found',
-  //   },
-  // ),
+  getAsyncReportFailure404: setupSimpleFailedMock(
+    `/reports/${reportIdRegex}/${reportIdRegex}/tables/${reportIdRegex}/result`,
+    404,
+    {
+      userMessage: 'The stored report or dashboard was not found.',
+      developerMessage: 'PreparedStatementCallback; uncategorized SQLException for SQL XYZ Entity Not Found',
+    },
+  ),
   getAsyncReportFailure: setupSimpleFailedMock(
     `/reports/${reportIdRegex}/${reportIdRegex}/tables/${reportIdRegex}/result`,
   ),

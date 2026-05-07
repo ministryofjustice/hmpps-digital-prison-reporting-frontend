@@ -21,10 +21,11 @@ export const renderReport = async ({ req, res, services }: AsyncReportUtilsParam
 
   // Create the report config
   const reportConfig = await new Report(services, res, req, definition, LoadType.ASYNC, requestData).build()
+  const { renderData } = reportConfig
 
-  // Save the data to redis
-  if (requestData && Object.keys(requestData).length) {
-    await updateLastViewedAsync(req, services, requestData, dprUser.id, reportConfig.renderData.fields || [])
+  if (renderData && requestData && Object.keys(requestData).length) {
+    // Save the data to redis
+    await updateLastViewedAsync(req, services, requestData, dprUser.id, renderData.fields || [])
   }
 
   return reportConfig

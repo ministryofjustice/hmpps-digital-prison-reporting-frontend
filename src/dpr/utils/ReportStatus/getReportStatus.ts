@@ -21,6 +21,21 @@ import { getAllMyReports } from '../reportStoreHelper'
  * ------------------------------------------------------------
  */
 
+/**
+ * Get the status by report type
+ *
+ * @param {GetReportStatusOptions} {
+ *   reportType,
+ *   services,
+ *   token,
+ *   reportId,
+ *   id,
+ *   executionId,
+ *   definitionsPath,
+ *   tableId,
+ * }
+ * @return {*}  {Promise<UpstreamSignal>}
+ */
 async function getStatusByType({
   reportType,
   services,
@@ -44,47 +59,29 @@ async function getStatusByType({
             tableId,
           )
 
-    const raw: unknown = response
+    const data = response as {
+      status?: string
+      error: string
+      errorCategory?: number
+      stateChangeReason?: string
+    }
 
-    if (!raw || typeof raw !== 'object') {
+    if (!data.status) {
       return { kind: 'EMPTY' }
     }
 
-    if ('status' in raw) {
-      if ('status' in raw) {
-        const data = raw as {
-          status: string
-          error: string
-          errorCategory?: number
-          stateChangeReason?: string
-        }
-
-        if (data.status === RequestStatus.FAILED) {
-          const formatted = failedPayloadToDprError(data)
-          return {
-            kind: 'ERROR',
-            failure: toFailureInfo(formatted),
-          }
-        }
-
-        if (typeof data.status === 'string') {
-          return {
-            kind: 'STATUS',
-            status: data.status as RequestStatus,
-          }
-        }
-
-        if (typeof data.status === 'number') {
-          const formatted = new ErrorHandler({ data: raw }).formatError()
-          return {
-            kind: 'ERROR',
-            failure: toFailureInfo(formatted),
-          }
-        }
+    if (data.status === RequestStatus.FAILED) {
+      const formatted = failedPayloadToDprError(data)
+      return {
+        kind: 'ERROR',
+        failure: toFailureInfo(formatted),
       }
     }
 
-    return { kind: 'EMPTY' }
+    return {
+      kind: 'STATUS',
+      status: data.status as RequestStatus,
+    }
   } catch (error) {
     const formatted = new ErrorHandler(error).formatError()
 
@@ -101,6 +98,23 @@ async function getStatusByType({
  * ------------------------------------------------------------
  */
 
+/**
+ * Gets the status for a reports and its child reports
+ *
+ * @param {{
+ *   stored: StoredReportData
+ *   services: Services
+ *   token: string
+ * }} {
+ *   stored,
+ *   services,
+ *   token,
+ * }
+ * @return {*}  {Promise<{
+ *   parentSignal: UpstreamSignal
+ *   childSignals: UpstreamSignal[]
+ * }>}
+ */
 async function getStatus({
   stored,
   services,
@@ -191,15 +205,17 @@ function toFailureInfo(error: DprErrorMessage): FailureInfo {
  * @return {*}  {DprErrorMessage}
  */
 function failedPayloadToDprError(raw: {
-  status: string
+  status?: string
   error: string
   errorCategory?: number
   stateChangeReason?: string
 }): DprErrorMessage {
+  const { error, stateChangeReason } = raw
+
   return {
     userMessage: 'An unexpected error occurred',
-    developerMessage: raw.error,
-    moreInfo: raw.stateChangeReason,
+    developerMessage: error,
+    ...(stateChangeReason && { moreInfo: stateChangeReason }),
   }
 }
 

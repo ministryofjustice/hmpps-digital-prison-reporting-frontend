@@ -539,12 +539,12 @@ const EXPIRED_CHECK_INTERVAL_MS = 30 * 60 * 1000 // 30 mins
  */
 export function shouldRunExpiryCheck(session: { lastExpiredReportsCheckAt?: number }): boolean {
   const lastRun = session.lastExpiredReportsCheckAt
-  console.log({ lastRun })
   if (!lastRun) return true
 
   return Date.now() - lastRun > EXPIRED_CHECK_INTERVAL_MS
 }
 
 export function recordExpiryCheck(session: { lastExpiredReportsCheckAt?: number }) {
+  // eslint-disable-next-line no-param-reassign
   session.lastExpiredReportsCheckAt = Date.now()
 }

@@ -51,7 +51,7 @@ export const initMyReports = async (
 }
 
 const checkExpiredAndGetReports = async (res: Response, services: Services) => {
-  let { requestedReports, recentlyViewedReports } = LocalsHelper.getValues(res)
+  const { requestedReports, recentlyViewedReports } = LocalsHelper.getValues(res)
 
   if (shouldRunExpiryCheck(res.req.session)) {
     try {
@@ -431,7 +431,7 @@ const buildBookmarkRemoveAction = (res: Response, data: MappedBookmarks): DprMyR
  * @return {*}  {(StoredReportData[] | undefined)}
  */
 const getDataForList = async (res: Response, listType: ListType): Promise<StoredReportData[] | undefined> => {
-  let { requestedReports, recentlyViewedReports } = LocalsHelper.getValues(res)
+  const { requestedReports, recentlyViewedReports } = LocalsHelper.getValues(res)
 
   switch (listType) {
     case ListType.REQUESTED:

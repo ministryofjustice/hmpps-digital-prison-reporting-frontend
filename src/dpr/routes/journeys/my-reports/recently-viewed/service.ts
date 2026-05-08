@@ -83,20 +83,24 @@ class RecentlyViewedStoreService extends ReportStoreService {
   }
 
   async saveExpiredState(userConfig: ReportStoreConfig, index: number, userId: string) {
-    let report: RecentlyViewedReport = userConfig.recentlyViewedReports[index]
-    if (report) {
-      report = {
-        ...report,
-        status: RequestStatus.EXPIRED,
-        timestamp: {
-          ...report.timestamp,
-          expired: new Date(),
-        },
-      }
+    const report: RecentlyViewedReport = userConfig.recentlyViewedReports[index]
+    if (!report) return
 
-      userConfig.recentlyViewedReports[index] = report
-      await this.saveState(userId, userConfig)
+    const updatedReport: RecentlyViewedReport = {
+      ...report,
+      status: RequestStatus.EXPIRED,
+      timestamp: {
+        ...report.timestamp,
+        expired: new Date(),
+      },
     }
+
+    const updatedUserConfig: ReportStoreConfig = {
+      ...userConfig,
+      recentlyViewedReports: userConfig.recentlyViewedReports.map((r, i) => (i === index ? updatedReport : r)),
+    }
+
+    await this.saveState(userId, updatedUserConfig)
   }
 
   async removeReport(userId: string, reportId: string, id: string, tableId?: string | undefined) {

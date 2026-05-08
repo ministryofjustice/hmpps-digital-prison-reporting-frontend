@@ -4,13 +4,13 @@ import {
   requestedFailed,
   requestedReady,
 } from '@networkMocks/report/mockVariants/mockRequestedUserListData'
-import { setRedisState } from '../../../../../test-app/routes/integrationTests/appStateUtils'
 import {
   expiredDashboard,
   viewedDashboard,
   viewedReady,
 } from '@networkMocks/report/mockVariants/mockViewedUserListData'
 import { getMyReportRow, stubBaseTasks, stubDefinitionsTasks } from 'cypress-tests/cypressUtils'
+import { setRedisState } from '../../../../../test-app/routes/integrationTests/appStateUtils'
 
 describe('My Reports', () => {
   const paths = [
@@ -34,12 +34,11 @@ describe('My Reports', () => {
           recentlyViewedReports: [viewedReady, viewedDashboard, expiredDashboard],
           requestedReports: [requestedReady, requestedAborted, requestedExpired, requestedFailed],
         })
+
         cy.visit(path)
       })
 
       it('Should do an expiry check on each row that is in a terminal state', () => {
-        cy.clearCookies()
-
         cy.findByRole('tab', { name: /Requested/ }).click()
         getMyReportRow({ name: 'Successful report' }).contains('EXPIRED')
 

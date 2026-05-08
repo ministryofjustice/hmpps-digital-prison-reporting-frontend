@@ -334,17 +334,16 @@ const redirectWithDefaults = (res: Response, req: Request) => {
  * @param {Services} services
  */
 export const updateStateToExpiredAndRedirect = async (req: Request, res: Response, services: Services) => {
-  const { tableId, executionId } = req.params as { tableId: string; executionId: string }
+  const { tableId } = req.params as { tableId: string }
   const { dprUser } = LocalsHelper.getValues(res)
 
   // set the report to expired
-  await services.recentlyViewedService.asyncSetToExpiredByTableId(tableId, dprUser.id)
+  await services.recentlyViewedService.setToExpiredByTableId(tableId, dprUser.id)
+  await services.requestedReportService.setToExpiredByTableId(tableId, dprUser.id)
 
   // get the updated report state
-  const updatedReportState = await services.recentlyViewedService.getReportByExecutionId(executionId, dprUser.id)
-  console.log(JSON.stringify(updatedReportState, null, 2))
+  const updatedReportState = await services.recentlyViewedService.getReportByTableId(tableId, dprUser.id)
   const pollingUrl = updatedReportState?.url?.polling?.fullUrl
-  console.log({ pollingUrl })
 
   // redirect to polling page, or safe fallback
   res.redirect(pollingUrl ?? '/')

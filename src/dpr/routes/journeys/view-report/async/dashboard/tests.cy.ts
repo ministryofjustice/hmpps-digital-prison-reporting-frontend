@@ -144,4 +144,42 @@ context('Viewing a report', () => {
       checkA11y()
     })
   })
+
+  describe('Expired', () => {
+    let viewDashboardUrl: string
+
+    before(() => {
+      cy.visit(path)
+      cy.findByLabelText(/Reports catalogue.*/i).within(() => {
+        cy.findByRole('row', {
+          name: (_, element) => {
+            return (
+              Boolean(element.textContent?.includes('Test Dashboard')) &&
+              Boolean(element.textContent?.includes('Dashboard used for testing testing'))
+            )
+          },
+        }).within(() => {
+          cy.findByRole('link', { name: 'Request dashboard' }).click()
+        })
+      })
+      cy.findByRole('button', { name: /Request/ }).click()
+      cy.findByRole('heading', { level: 1, name: /Test Dashboard/ }).should('be.visible')
+      cy.url().then((url) => {
+        viewDashboardUrl = url
+      })
+    })
+
+    it('should show the expired page when the dashboard has expired', () => {
+      cy.task('getAsyncDashboardFailure404')
+      cy.visit(viewDashboardUrl)
+
+      // Shows the expired page
+      cy.findByText(/expired/i).should('be.visible')
+      cy.findByText(/Your report is no longer available and needs to be refreshed/i).should('be.visible')
+
+      // Refresh link goes to the request page
+      cy.findByRole('button', { name: 'Refresh report' }).click()
+      cy.findByRole('button', { name: /Request dashboard/i }).should('be.visible')
+    })
+  })
 })

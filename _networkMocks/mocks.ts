@@ -44,6 +44,14 @@ export const reportingApiFailures = {
       developerMessage: 'PreparedStatementCallback; uncategorized SQLException for SQL XYZ Entity Not Found',
     },
   ),
+  getAsyncDashboardFailure404: setupSimpleFailedMock(
+    `/reports/${reportIdRegex}/dashboards/${reportIdRegex}/tables/${reportIdRegex}/result`,
+    404,
+    {
+      userMessage: 'The stored report or dashboard was not found.',
+      developerMessage: 'PreparedStatementCallback; uncategorized SQLException for SQL XYZ Entity Not Found',
+    },
+  ),
   getAsyncReportFailure: setupSimpleFailedMock(
     `/reports/${reportIdRegex}/${reportIdRegex}/tables/${reportIdRegex}/result`,
   ),

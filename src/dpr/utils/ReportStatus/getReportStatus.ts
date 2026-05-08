@@ -86,12 +86,7 @@ async function getStatusByType({
 
     return { kind: 'EMPTY' }
   } catch (error) {
-    // Transport / thrown error
     const formatted = new ErrorHandler(error).formatError()
-    console.log(`
-            #####################################`)
-
-    console.log(JSON.stringify({ formatted }, null, 2))
 
     return {
       kind: 'ERROR',

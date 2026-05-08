@@ -29,6 +29,8 @@ class RecentlyViewedStoreService extends ReportStoreService {
 
   async getReportByExecutionId(id: string, userId: string) {
     const userConfig = await this.getState(userId)
+    console.log({ id })
+
     return userConfig.recentlyViewedReports.find((report) => report.executionId === id)
   }
 
@@ -68,23 +70,15 @@ class RecentlyViewedStoreService extends ReportStoreService {
     await this.saveExpiredState(userConfig, index, userId)
   }
 
-  async asyncSetToExpiredByTableId(id: string, userId: string) {
+  async setToExpiredByTableId(id: string, userId: string) {
     const userConfig = await this.getState(userId)
-    console.log(JSON.stringify(userConfig, null, 2))
-    console.log({ id })
-    const index = this.findIndexByTableId(id, userConfig.recentlyViewedReports)
-    console.log({ index })
 
+    const index = this.findIndexByTableId(id, userConfig.recentlyViewedReports)
     if (index === -1) {
       return ''
     }
 
     await this.saveExpiredState(userConfig, index, userId)
-
-    const updatedItem = userConfig.recentlyViewedReports[index]
-    const { url } = updatedItem
-
-    return url?.request?.fullUrl || ''
   }
 
   async saveExpiredState(userConfig: ReportStoreConfig, index: number, userId: string) {

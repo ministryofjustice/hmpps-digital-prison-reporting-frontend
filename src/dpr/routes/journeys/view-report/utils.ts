@@ -78,8 +78,6 @@ const applyInteractiveQuery = async (
   loadType: LoadType,
   fields?: components['schemas']['FieldDefinition'][],
 ) => {
-  console.log('applyInteractiveQuery')
-
   const { tableId, id, reportId } = <{ id: string; reportId: string; tableId: string }>req.params
 
   // Get the stored interactive query data
@@ -121,8 +119,6 @@ const applyInteractiveQuery = async (
 
   const filtersString = queryObjectToQs(formData)
 
-  console.log({ filtersString })
-
   // Redirect back to report
   res.redirect(`${req.baseUrl}?${filtersString}`)
 }
@@ -161,8 +157,6 @@ const applyColumns = (
       .filter((key) => key.includes('filters.'))
       .reduce((acc, key) => ({ ...acc, [key]: queryData[key] }), {})
   }
-
-  console.log({ columns })
 
   return { ...formData, columns, ...filters }
 }
@@ -291,7 +285,6 @@ const createDefaultQueryString = (req: Request): string | undefined => {
    * applying default columns and optional filters.
    */
   const hasIncomingQueryParams = Object.keys(req.query).length > 0
-  console.log({ hasIncomingQueryParams })
   if (hasIncomingQueryParams || !defaultColumnsSearch) {
     return undefined
   }

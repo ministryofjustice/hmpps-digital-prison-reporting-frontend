@@ -45,10 +45,10 @@ class ViewAyncReportController {
       })
 
       // If report is expired redirect the the polling page to show expired status
-      // if (reportData.expired) {
-      //   await updateStateToExpiredAndRedirect(req, res, this.services)
-      //   return
-      // }
+      if (reportData.expired) {
+        await updateStateToExpiredAndRedirect(req, res, this.services)
+        return
+      }
 
       // Render the report
       res.render(`dpr/routes/journeys/view-report/report`, {

@@ -76,6 +76,28 @@ export const pollingEndpoint = generateNetworkMock({
   },
 })
 
+export const expiredEndpoint = generateNetworkMock({
+  ...defaultMockRequest,
+  request: {
+    ...defaultMockRequest.request,
+    method: 'POST',
+    urlPathPattern: `/reports/tableExpiryState`,
+  },
+  response: {
+    ...defaultMockRequest.response,
+    jsonBody: [
+      {
+        tableId: 'tblId_1729766362362',
+        expired: true,
+      },
+      {
+        tableId: 'tblId_1729765628165',
+        expired: true,
+      },
+    ],
+  },
+})
+
 export const generateIndividualDefinitionSummaries = summaries.map((summary) =>
   generateNetworkMock({
     ...defaultMockRequest,

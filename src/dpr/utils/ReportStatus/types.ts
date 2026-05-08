@@ -1,6 +1,6 @@
 import { Response } from 'express'
 import { Services } from 'src/dpr/types/Services'
-import { ReportType, StoredReportData } from 'src/dpr/types/UserReports'
+import { ReportType, RequestedReport, StoredReportData } from 'src/dpr/types/UserReports'
 
 export enum RequestStatus {
   SUBMITTED = 'SUBMITTED',
@@ -61,7 +61,7 @@ export type GetReportStatusOptions = {
 }
 
 export type ExpireFinishedReportsOptions = {
-  requestedReports: StoredReportData[]
+  requestedReports: RequestedReport[]
   recentlyViewedReports: StoredReportData[]
   services: Services
   res: Response

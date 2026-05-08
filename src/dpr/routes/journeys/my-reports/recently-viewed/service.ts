@@ -67,6 +67,7 @@ class RecentlyViewedStoreService extends ReportStoreService {
     if (index === -1) {
       return
     }
+
     await this.saveExpiredState(userConfig, index, userId)
   }
 
@@ -92,7 +93,7 @@ class RecentlyViewedStoreService extends ReportStoreService {
           expired: new Date(),
         },
       }
-      // eslint-disable-next-line no-param-reassign
+
       userConfig.recentlyViewedReports[index] = report
       await this.saveState(userId, userConfig)
     }

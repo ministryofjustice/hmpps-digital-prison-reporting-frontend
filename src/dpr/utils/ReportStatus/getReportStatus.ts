@@ -456,7 +456,10 @@ async function detectExpiredFinishedReports({
   }[]
 > {
   const finishedWithTables = reports.filter(
-    (r) => r.status === RequestStatus.FINISHED && Boolean(r.executionId) && Boolean(r.tableId),
+    (r) =>
+      (r.status === RequestStatus.FINISHED || r.status === RequestStatus.READY) &&
+      Boolean(r.executionId) &&
+      Boolean(r.tableId),
   )
 
   if (finishedWithTables.length === 0) {
@@ -490,7 +493,10 @@ export async function expireFinishedReports({
   recentlyViewedReports,
   services,
   res,
-}: ExpireFinishedReportsOptions) {
+}: ExpireFinishedReportsOptions): Promise<{
+  requestedReports: RequestedReport[]
+  recentlyViewedReports: StoredReportData[]
+}> {
   const { dprUser, token } = getValues(res)
 
   const reports = [...requestedReports, ...recentlyViewedReports]
@@ -512,14 +518,11 @@ export async function expireFinishedReports({
   const uniqueExpired = [...new Map(expired.map((e) => [e.executionId, e])).values()]
 
   // If any expired then update the state
-  await Promise.all(
-    uniqueExpired.map(({ executionId }) =>
-      Promise.all([
-        services.requestedReportService.setToExpired(executionId, dprUser.id),
-        services.recentlyViewedService.setToExpired(executionId, dprUser.id),
-      ]),
-    ),
-  )
+  await uniqueExpired.reduce(async (prev, { executionId }) => {
+    await prev
+    await services.requestedReportService.setToExpired(executionId, dprUser.id)
+    await services.recentlyViewedService.setToExpired(executionId, dprUser.id)
+  }, Promise.resolve())
 
   // get a fresh version of all reports
   return getAllMyReports(res, services, dprUser.id)
@@ -536,14 +539,12 @@ const EXPIRED_CHECK_INTERVAL_MS = 30 * 60 * 1000 // 30 mins
  */
 export function shouldRunExpiryCheck(session: { lastExpiredReportsCheckAt?: number }): boolean {
   const lastRun = session.lastExpiredReportsCheckAt
+  console.log({ lastRun })
   if (!lastRun) return true
 
   return Date.now() - lastRun > EXPIRED_CHECK_INTERVAL_MS
 }
 
 export function recordExpiryCheck(session: { lastExpiredReportsCheckAt?: number }) {
-  return {
-    ...session,
-    lastExpiredReportsCheckAt: Date.now(),
-  }
+  session.lastExpiredReportsCheckAt = Date.now()
 }

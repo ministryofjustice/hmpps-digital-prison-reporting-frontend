@@ -41,11 +41,39 @@ export const initMyReports = async (
   options?: MyReportsOptions | undefined,
 ): Promise<DprMyReport | undefined> => {
   const { bookmarkingEnabled } = LocalsHelper.getValues(res)
+  await checkExpiredAndGetReports(res, services)
 
   return {
     ...(bookmarkingEnabled && { bookmarks: await initBookmarks(res, services) }),
-    requested: await initRequested(req, res, services, options),
-    viewed: await initViewed(req, res, services, options),
+    requested: await initRequested(req, res, options),
+    viewed: await initViewed(req, res, options),
+  }
+}
+
+const checkExpiredAndGetReports = async (res: Response, services: Services) => {
+  let { requestedReports, recentlyViewedReports } = LocalsHelper.getValues(res)
+
+  if (shouldRunExpiryCheck(res.req.session)) {
+    try {
+      const refreshedReports = await expireFinishedReports({
+        requestedReports,
+        recentlyViewedReports,
+        services,
+        res,
+      })
+
+      res.locals['requestedReports'] = refreshedReports.requestedReports
+      res.locals['recentlyViewedReports'] = refreshedReports.recentlyViewedReports
+
+      recordExpiryCheck(res.req.session)
+    } catch (error) {
+      logger.error(error)
+    }
+  }
+
+  return {
+    requestedReports,
+    recentlyViewedReports,
   }
 }
 
@@ -82,14 +110,9 @@ const initBookmarks = async (
  * @param {Response} res
  * @return {*}
  */
-const initRequested = async (
-  req: Request,
-  res: Response,
-  services: Services,
-  options?: MyReportsOptions | undefined,
-) => {
+const initRequested = async (req: Request, res: Response, options?: MyReportsOptions | undefined) => {
   const { csrfToken } = LocalsHelper.getValues(res)
-  const totalItems = await buildListItems(req, res, services, ListType.REQUESTED)
+  const totalItems = await buildListItems(req, res, ListType.REQUESTED)
   const totals = buildTotals(res, totalItems, ListType.REQUESTED, options)
   const items = cutItemsToSize(totalItems, options)
 
@@ -110,9 +133,9 @@ const initRequested = async (
  * @param {Response} res
  * @return {*}
  */
-const initViewed = async (req: Request, res: Response, services: Services, options?: MyReportsOptions | undefined) => {
+const initViewed = async (req: Request, res: Response, options?: MyReportsOptions | undefined) => {
   const { csrfToken } = LocalsHelper.getValues(res)
-  const totalItems = await buildListItems(req, res, services, ListType.VIEWED)
+  const totalItems = await buildListItems(req, res, ListType.VIEWED)
   const totals = buildTotals(res, totalItems, ListType.VIEWED, options)
   const items = cutItemsToSize(totalItems, options)
 
@@ -138,13 +161,8 @@ const initViewed = async (req: Request, res: Response, services: Services, optio
  * @param {ListType} listType
  * @return {*}  {DprMyReportItem[]}
  */
-const buildListItems = async (
-  req: Request,
-  res: Response,
-  services: Services,
-  listType: ListType,
-): Promise<DprMyReportItem[]> => {
-  const listData = await getDataForList(res, listType, services)
+const buildListItems = async (req: Request, res: Response, listType: ListType): Promise<DprMyReportItem[]> => {
+  const listData = await getDataForList(res, listType)
   if (!listData) {
     return []
   }
@@ -412,30 +430,8 @@ const buildBookmarkRemoveAction = (res: Response, data: MappedBookmarks): DprMyR
  * @param {ListType} listType
  * @return {*}  {(StoredReportData[] | undefined)}
  */
-const getDataForList = async (
-  res: Response,
-  listType: ListType,
-  services: Services,
-): Promise<StoredReportData[] | undefined> => {
+const getDataForList = async (res: Response, listType: ListType): Promise<StoredReportData[] | undefined> => {
   let { requestedReports, recentlyViewedReports } = LocalsHelper.getValues(res)
-
-  if (shouldRunExpiryCheck(res.req.session)) {
-    try {
-      const refreshedReports = await expireFinishedReports({
-        requestedReports,
-        recentlyViewedReports,
-        services,
-        res,
-      })
-
-      requestedReports = refreshedReports.requestedReports
-      recentlyViewedReports = refreshedReports.recentlyViewedReports
-
-      recordExpiryCheck(res.req.session)
-    } catch (error) {
-      logger.error(error)
-    }
-  }
 
   switch (listType) {
     case ListType.REQUESTED:

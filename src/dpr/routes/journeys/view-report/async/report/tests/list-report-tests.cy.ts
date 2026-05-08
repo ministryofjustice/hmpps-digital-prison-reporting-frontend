@@ -442,7 +442,7 @@ context('Viewing a report', () => {
 
         // Refresh link goes to the request page
         cy.findByRole('button', { name: 'Refresh report' }).click()
-        cy.findByText(/Request report/i).should('be.visible')
+        cy.findByRole('button', { name: /Request report/i }).should('be.visible')
       })
     })
   })

@@ -131,24 +131,22 @@ export default class Report {
     const reportMeta = this.buildReportMeta()
     this.buildReportDetails()
 
+    // Columns and filters
+    this.buildColumns()
+    await this.buildFilters()
+    await this.buildSavedDefaultsConfig()
+    this.buildAppliedFilters()
+
     // Get the data
     this.buildReportQuery()
     await this.getData()
+    await this.getCount()
 
     if (this.expired) {
       return {
         expired: this.expired,
       }
     }
-
-    // count
-    await this.getCount()
-
-    // Columns and filters
-    this.buildColumns()
-    await this.buildFilters()
-    await this.buildSavedDefaultsConfig()
-    this.buildAppliedFilters()
 
     // Template & page furniture
     this.buildTable()

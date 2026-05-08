@@ -250,6 +250,8 @@ const getDashboardData = async (
     const dprError = new ErrorHandler(error).formatError()
     if (dprError.status === 404) {
       expired = true
+    } else {
+      throw error
     }
   }
 

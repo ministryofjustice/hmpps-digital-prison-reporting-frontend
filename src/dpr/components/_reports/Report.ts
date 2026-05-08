@@ -185,9 +185,10 @@ export default class Report {
       }
     } catch (error) {
       const dprError = new ErrorHandler(error).formatError()
-
       if (dprError.status === 404) {
         this.expired = true
+      } else {
+        throw error
       }
     }
   }

@@ -32,10 +32,10 @@ const publishPkg = {
       require: './cjs/dpr/components/_catalogue/catalogue/utils.js',
       import: './dpr/components/_catalogue/catalogue/utils.js',
     },
-    './userReportsListUtils': {
-      types: './dpr/components/user-reports/utils.d.ts',
-      require: './cjs/dpr/components/user-reports/utils.js',
-      import: './dpr/components/user-reports/utils.js',
+    './myReportsListUtils': {
+      types: './dpr/components/my-reports/utils.d.ts',
+      require: './cjs/dpr/components/my-reports/utils.js',
+      import: './dpr/components/my-reports/utils.js',
     },
     './initDprReportingClients': {
       types: './dpr/data/dprReportingClient.d.ts',

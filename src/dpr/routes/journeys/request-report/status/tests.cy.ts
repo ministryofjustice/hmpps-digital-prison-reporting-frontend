@@ -141,7 +141,6 @@ context('Request status', () => {
         cy.task('stubReportsFailedStatus')
         cy.findByText(/your report has failed to generate/i).should('be.visible')
         cy.findByRole('group').contains('Show full error').should('be.visible')
-        cy.findByText(/Show full error/).click()
         cy.findByText(/a developer message goes here/).should('be.visible')
         cy.findAllByRole('list').contains('Report ID: request-examples').should('be.visible')
         cy.findAllByRole('list').contains(`Execution ID: ${executionId}`).should('be.visible')

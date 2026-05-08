@@ -57,10 +57,8 @@ class RequestStatusController {
       })
 
       let status = currentStatus
-      let errorMessage
       if (resolution.type === 'UPDATE') {
         status = resolution.newStatus
-        errorMessage = resolution.failureInfo
       }
 
       return res.send({ status })

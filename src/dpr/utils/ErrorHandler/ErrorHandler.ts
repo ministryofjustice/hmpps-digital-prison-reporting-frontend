@@ -29,10 +29,6 @@ class ErrorHandler {
   private handleError(): DprErrorMessage {
     const err = this.error
 
-    console.log(`
-      ########## DprErrorMessage`)
-    console.log(JSON.stringify({ err }, null, 2))
-
     // 1. Zod
     if (err instanceof ZodError) {
       const issues = err.issues.map((i) => i.message).join('. ')
@@ -88,11 +84,16 @@ class ErrorHandler {
         userMessage: err.message,
       }
     }
-    // 4. Plain JS Error
-    if (typeof err === 'object' && err !== null && 'message' in err) {
+
+    if (
+      typeof err === 'object' &&
+      err !== null &&
+      'message' in err &&
+      typeof (err as { message: unknown }).message === 'string'
+    ) {
       return {
         status: 500,
-        userMessage: String((err as any).message),
+        userMessage: (err as { message: string }).message,
       }
     }
 
@@ -104,13 +105,13 @@ class ErrorHandler {
   }
 
   private isSuperAgentError(error: unknown): error is ResponseError {
+    if (typeof error !== 'object' || error === null) return false
+
+    const e = error as Record<string, unknown>
+
     return (
-      typeof error === 'object' &&
-      error !== null &&
-      typeof (error as any).message === 'string' &&
-      (typeof (error as any).status === 'number' ||
-        typeof (error as any).text !== 'undefined' ||
-        typeof (error as any).response === 'object')
+      typeof e['message'] === 'string' &&
+      (typeof e['status'] === 'number' || typeof e['text'] !== 'undefined' || typeof e['response'] === 'object')
     )
   }
 

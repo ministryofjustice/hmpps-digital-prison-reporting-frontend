@@ -35,7 +35,7 @@ import LocalsHelper from '../../utils/localsHelper'
 import { AppliedFilterChip, buildAppliedFilters } from '../_filters/filters-applied/utils'
 import { apiTimestampToUiDateTime } from '../../utils/dateHelper'
 import { FiltersType } from '../_filters/filtersTypeEnum'
-import ErrorHandler from 'src/dpr/utils/ErrorHandler/ErrorHandler'
+import ErrorHandler from '../../utils/ErrorHandler/ErrorHandler'
 
 export default class Report {
   id: string
@@ -135,7 +135,6 @@ export default class Report {
     this.buildReportQuery()
     await this.getData()
 
-    console.log('------>', this.expired)
     if (this.expired) {
       return {
         expired: this.expired,
@@ -180,7 +179,6 @@ export default class Report {
    *
    */
   getData = async () => {
-    console.log('getData getData, getData. getData')
     try {
       await this.getReportData()
       if (this.loadType === LoadType.ASYNC) {
@@ -188,9 +186,7 @@ export default class Report {
         await this.setChildData()
       }
     } catch (error) {
-      console.log(error)
       const dprError = new ErrorHandler(error).formatError()
-      console.log({ dprError })
 
       if (dprError.status === 404) {
         this.expired = true

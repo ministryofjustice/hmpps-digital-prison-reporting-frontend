@@ -1,10 +1,4 @@
-import {
-  requestReport,
-  executeReportStubs,
-  stubBaseTasks,
-  stubDefinitionsTasks,
-  requestReportByNameAndDescription,
-} from '../../../../../../../../cypress-tests/cypressUtils'
+import { requestReport, executeReportStubs } from '../../../../../../../../cypress-tests/cypressUtils'
 
 context('Viewing a report', () => {
   const path = '/'

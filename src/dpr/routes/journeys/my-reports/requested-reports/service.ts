@@ -4,7 +4,7 @@ import { RequestedReport, RequestStatus, StoredReportData } from '../../../../ty
 import ReportStoreService from '../../../../services/reportStoreService'
 import { getDpdPathSuffix } from '../../../../utils/urlHelper'
 import logger from '../../../../utils/logger'
-import { ReportStoreConfig } from 'src/dpr/types/ReportStore'
+import { ReportStoreConfig } from '../../../../types/ReportStore'
 
 class RequestedReportService extends ReportStoreService {
   constructor(userDataStore: UserDataStore) {
@@ -85,11 +85,11 @@ class RequestedReportService extends ReportStoreService {
     const userConfig = await this.getState(userId)
 
     const index = this.findIndexByTableId(id, userConfig.recentlyViewedReports)
-    if (index === -1) {
-      return ''
+    if (index !== -1) {
+      await this.saveExpiredState(userConfig, index, userId)
+    } else {
+      logger.info(`Unable to expire requested report - ${id} not found in state`)
     }
-
-    await this.saveExpiredState(userConfig, index, userId)
   }
 
   async saveExpiredState(userConfig: ReportStoreConfig, index: number, userId: string) {

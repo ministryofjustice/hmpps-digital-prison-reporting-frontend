@@ -24,7 +24,7 @@ import { setUpBookmark } from '../../../../../components/bookmark/utils'
 import { buildAppliedFilters } from '../../../../../components/_filters/filters-applied/utils'
 import { extractFiltersFromQuery } from '../../../../../utils/queryMappers'
 import { updateLastViewedAsync } from '../../utils'
-import ErrorHandler from 'src/dpr/utils/ErrorHandler/ErrorHandler'
+import ErrorHandler from '../../../../../utils/ErrorHandler/ErrorHandler'
 
 const setDashboardActions = (
   dashboardDefinition: components['schemas']['DashboardDefinition'],

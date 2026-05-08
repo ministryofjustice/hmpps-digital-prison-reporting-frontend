@@ -1,7 +1,6 @@
 import { RequestHandler } from 'express'
 import ErrorHandler from '../../../../../utils/ErrorHandler/ErrorHandler'
 import { Services } from '../../../../../types/Services'
-import LocalsHelper from '../../../../../utils/localsHelper'
 import DashboardUtils from './utils'
 import ViewReportUtils, { updateStateToExpiredAndRedirect } from '../../utils'
 import { LoadType } from '../../../../../types/UserReports'
@@ -31,7 +30,8 @@ class ViewAsyncDashboardController {
 
       // If report is expired redirect the the polling page to show expired status
       if (dashboardData.expired) {
-        return await updateStateToExpiredAndRedirect(req, res, this.services)
+        await updateStateToExpiredAndRedirect(req, res, this.services)
+        return
       }
 
       res.render(`dpr/routes/journeys/view-report/dashboard`, {

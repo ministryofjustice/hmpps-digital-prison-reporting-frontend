@@ -2,6 +2,7 @@ import ReportStoreService from '../../../../services/reportStoreService'
 import UserDataStore from '../../../../data/reportDataStore'
 import { RequestStatus, RequestedReport, RecentlyViewedReport, StoredReportData } from '../../../../types/UserReports'
 import { ReportStoreConfig } from '../../../../types/ReportStore'
+import logger from '../../../../utils/logger'
 
 class RecentlyViewedStoreService extends ReportStoreService {
   constructor(userDataStore: UserDataStore) {
@@ -29,7 +30,6 @@ class RecentlyViewedStoreService extends ReportStoreService {
 
   async getReportByExecutionId(id: string, userId: string) {
     const userConfig = await this.getState(userId)
-    console.log({ id })
 
     return userConfig.recentlyViewedReports.find((report) => report.executionId === id)
   }
@@ -74,11 +74,11 @@ class RecentlyViewedStoreService extends ReportStoreService {
     const userConfig = await this.getState(userId)
 
     const index = this.findIndexByTableId(id, userConfig.recentlyViewedReports)
-    if (index === -1) {
-      return ''
+    if (index !== -1) {
+      await this.saveExpiredState(userConfig, index, userId)
+    } else {
+      logger.info(`Unable to expire viewed report - ${id} not found in state`)
     }
-
-    await this.saveExpiredState(userConfig, index, userId)
   }
 
   async saveExpiredState(userConfig: ReportStoreConfig, index: number, userId: string) {

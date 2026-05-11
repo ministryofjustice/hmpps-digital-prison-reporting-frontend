@@ -25,7 +25,7 @@ class HeatmapChart {
 
   private data: MatrixChartData[] = []
 
-  private dayDateFormat = 'DD/MM/YYYY'
+  private dayDateFormat = 'YYYY-MM-DD'
 
   private valueKey = ''
 

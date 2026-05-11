@@ -105,8 +105,11 @@ export const createTableRows = (
       Object.keys(dataRow).forEach((key) => {
         const headIndex = measures.findIndex((m) => m.id === key)
         const measure = measures[headIndex]
+
+        // TODO: get the ID and check for ts and format date with apiDateToUi
         const cellContent = dataRow[key].raw
         const cell = measure.type && measure.type === 'HTML' ? { html: cellContent } : { text: cellContent }
+
         row.splice(headIndex, 1, cell as MoJTableRow)
       })
 

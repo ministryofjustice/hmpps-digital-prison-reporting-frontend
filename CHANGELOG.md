@@ -1,5 +1,17 @@
 Below you can find the changes included in each release.
 
+## 5.11.2
+
+- Error summaries: details are open to view by default
+
+## 5.11.1
+
+- Summary-section template: don't show totals in section heading
+
+## 5.11.0
+
+- Dashboards: Enable links in dashboard lists
+
 ## 5.10.13
 
 - Removed debug logs

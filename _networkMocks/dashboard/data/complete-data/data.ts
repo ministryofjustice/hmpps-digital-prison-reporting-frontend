@@ -31,6 +31,9 @@ export const completeDataSet = [
       metric_three_is_missing: {
         raw: 447,
       },
+      html_link: {
+        raw: '<a href="#">Some link</a>',
+      },
     },
     {
       ts: { raw: 'Aug 24' },
@@ -55,6 +58,9 @@ export const completeDataSet = [
       metric_three_is_missing: {
         raw: 694,
       },
+      html_link: {
+        raw: '<a href="#">Some link</a>',
+      },
     },
     {
       ts: { raw: 'Aug 24' },
@@ -78,6 +84,9 @@ export const completeDataSet = [
       },
       metric_three_is_missing: {
         raw: 404,
+      },
+      html_link: {
+        raw: '<a href="#">Some link</a>',
       },
     },
   ],
@@ -105,6 +114,9 @@ export const completeDataSet = [
       metric_three_is_missing: {
         raw: 430,
       },
+      html_link: {
+        raw: '<a href="#">Some link</a>',
+      },
     },
     {
       ts: { raw: 'Sep 24' },
@@ -129,6 +141,9 @@ export const completeDataSet = [
       metric_three_is_missing: {
         raw: 430,
       },
+      html_link: {
+        raw: '<a href="#">Some link</a>',
+      },
     },
     {
       ts: { raw: 'Sep 24' },
@@ -152,6 +167,9 @@ export const completeDataSet = [
       },
       metric_three_is_missing: {
         raw: 573,
+      },
+      html_link: {
+        raw: '<a href="#">Some link</a>',
       },
     },
   ],
@@ -179,6 +197,9 @@ export const completeDataSet = [
       metric_three_is_missing: {
         raw: 767,
       },
+      html_link: {
+        raw: '<a href="#">Some link</a>',
+      },
     },
     {
       ts: { raw: 'Oct 24' },
@@ -203,6 +224,9 @@ export const completeDataSet = [
       metric_three_is_missing: {
         raw: 726,
       },
+      html_link: {
+        raw: '<a href="#">Some link</a>',
+      },
     },
     {
       ts: { raw: 'Oct 24' },
@@ -226,6 +250,9 @@ export const completeDataSet = [
       },
       metric_three_is_missing: {
         raw: 467,
+      },
+      html_link: {
+        raw: '<a href="#">Some link</a>',
       },
     },
   ],
@@ -253,6 +280,9 @@ export const completeDataSet = [
       metric_three_is_missing: {
         raw: 431,
       },
+      html_link: {
+        raw: '<a href="#">Some link</a>',
+      },
     },
     {
       ts: { raw: 'Nov 24' },
@@ -277,6 +307,9 @@ export const completeDataSet = [
       metric_three_is_missing: {
         raw: 434,
       },
+      html_link: {
+        raw: '<a href="#">Some link</a>',
+      },
     },
     {
       ts: { raw: 'Nov 24' },
@@ -300,6 +333,9 @@ export const completeDataSet = [
       },
       metric_three_is_missing: {
         raw: 422,
+      },
+      html_link: {
+        raw: '<a href="#">Some link</a>',
       },
     },
   ],
@@ -327,6 +363,9 @@ export const completeDataSet = [
       metric_three_is_missing: {
         raw: 423,
       },
+      html_link: {
+        raw: '<a href="#">Some link</a>',
+      },
     },
     {
       ts: { raw: 'Dec 24' },
@@ -351,6 +390,9 @@ export const completeDataSet = [
       metric_three_is_missing: {
         raw: 692,
       },
+      html_link: {
+        raw: '<a href="#">Some link</a>',
+      },
     },
     {
       ts: { raw: 'Dec 24' },
@@ -374,6 +416,9 @@ export const completeDataSet = [
       },
       metric_three_is_missing: {
         raw: 718,
+      },
+      html_link: {
+        raw: '<a href="#">Some link</a>',
       },
     },
   ],
@@ -401,6 +446,9 @@ export const completeDataSet = [
       metric_three_is_missing: {
         raw: 799,
       },
+      html_link: {
+        raw: '<a href="#">Some link</a>',
+      },
     },
     {
       ts: { raw: 'Jan 25' },
@@ -425,6 +473,9 @@ export const completeDataSet = [
       metric_three_is_missing: {
         raw: 457,
       },
+      html_link: {
+        raw: '<a href="#">Some link</a>',
+      },
     },
     {
       ts: { raw: 'Jan 25' },
@@ -448,6 +499,9 @@ export const completeDataSet = [
       },
       metric_three_is_missing: {
         raw: 720,
+      },
+      html_link: {
+        raw: '<a href="#">Some link</a>',
       },
     },
   ],

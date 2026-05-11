@@ -99,6 +99,7 @@ export const featureTestingSorting: components['schemas']['VariantDefinition'] =
         defaultsort: true,
         calculated: false,
         header: false,
+        fieldSource: 'specfield',
       },
       {
         name: 'field6',

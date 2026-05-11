@@ -1,4 +1,4 @@
-{% macro dprReportSectionHeading(section, loopIndex, sectionsCount) %}
+{% macro dprReportSectionHeading(section, loopIndex, template, sectionsCount) %}
   {% set sectionTitle = section.title %}
   {% set sectionCount = section.count %}
   {% set sectionLabelId = "section-title-" + loopIndex %}

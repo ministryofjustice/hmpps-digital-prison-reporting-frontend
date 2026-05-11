@@ -21,6 +21,7 @@ export const requestExampleExpiredBookmark: components['schemas']['VariantDefini
         visible: true,
         calculated: false,
         header: false,
+        fieldSource: 'specfield',
         filter: {
           mandatory: false,
           type: 'Radio',

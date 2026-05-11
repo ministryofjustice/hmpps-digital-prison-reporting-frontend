@@ -159,6 +159,7 @@ const reportTemplateExampleListSectionWithSummaries: components['schemas']['Vari
         defaultsort: true,
         calculated: false,
         header: false,
+        fieldSource: 'specfield',
         filter: {
           type: 'Radio',
           staticOptions: [

@@ -21,6 +21,7 @@ export const featureTestingUnprintable: components['schemas']['VariantDefinition
         visible: true,
         calculated: false,
         header: false,
+        fieldSource: 'specfield',
         filter: {
           mandatory: false,
           type: 'Radio',

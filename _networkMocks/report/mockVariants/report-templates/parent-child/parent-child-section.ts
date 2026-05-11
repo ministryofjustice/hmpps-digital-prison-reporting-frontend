@@ -47,6 +47,7 @@ const reportTemplateExampleParentChild: components['schemas']['VariantDefinition
         visible: true,
         calculated: false,
         header: false,
+        fieldSource: 'specfield',
       },
       {
         name: 'section2',

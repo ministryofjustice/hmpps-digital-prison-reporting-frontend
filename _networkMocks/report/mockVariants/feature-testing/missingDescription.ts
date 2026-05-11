@@ -100,6 +100,7 @@ export const featureTestingMissingDescription: components['schemas']['VariantDef
         sortDirection: 'asc',
         calculated: false,
         header: false,
+        fieldSource: 'specfield',
       },
       {
         name: 'field6',

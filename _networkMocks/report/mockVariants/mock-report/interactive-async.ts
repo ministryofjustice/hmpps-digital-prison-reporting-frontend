@@ -22,6 +22,7 @@ export const variant35Interactive: components['schemas']['VariantDefinition'] = 
         visible: true,
         calculated: false,
         header: false,
+        fieldSource: 'specfield',
         filter: {
           type: 'Radio',
           staticOptions: [

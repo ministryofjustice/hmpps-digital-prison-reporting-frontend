@@ -21,6 +21,7 @@ export const requestExampleSuccess: components['schemas']['VariantDefinition'] =
         visible: true,
         calculated: false,
         header: false,
+        fieldSource: 'specfield',
         filter: {
           type: 'Radio',
           staticOptions: [

@@ -4,6 +4,7 @@ import { RequestedReport, RequestStatus, StoredReportData } from '../../../../ty
 import ReportStoreService from '../../../../services/reportStoreService'
 import { getDpdPathSuffix } from '../../../../utils/urlHelper'
 import logger from '../../../../utils/logger'
+import { ReportStoreConfig } from '../../../../types/ReportStore'
 
 class RequestedReportService extends ReportStoreService {
   constructor(userDataStore: UserDataStore) {
@@ -16,9 +17,9 @@ class RequestedReportService extends ReportStoreService {
     await this.saveState(userId, userConfig)
   }
 
-  async removeReport(id: string, userId: string) {
+  async removeReport(executionId: string, userId: string) {
     const userConfig = await this.getState(userId)
-    const index = this.findIndexByExecutionId(id, userConfig.requestedReports)
+    const index = this.findIndexByExecutionId(executionId, userConfig.requestedReports)
     userConfig.requestedReports.splice(index, 1)
     await this.saveState(userId, userConfig)
   }
@@ -48,6 +49,9 @@ class RequestedReportService extends ReportStoreService {
   async updateLastViewed(id: string, userId: string) {
     const userConfig = await this.getState(userId)
     const index = this.findIndexByExecutionId(id, userConfig.requestedReports)
+    if (index === -1) {
+      return
+    }
     const report: RequestedReport = userConfig.requestedReports[index]
     report.timestamp.lastViewed = new Date()
     userConfig.requestedReports[index] = report
@@ -57,6 +61,9 @@ class RequestedReportService extends ReportStoreService {
   async updateStatus(id: string, userId: string, status: RequestStatus, errorMessage?: string) {
     const userConfig = await this.getState(userId)
     const index = this.findIndexByExecutionId(id, userConfig.requestedReports)
+    if (index === -1) {
+      return
+    }
     let report: RequestedReport = userConfig.requestedReports[index]
     if (report) report = this.updateDataByStatus(report, status, errorMessage)
     userConfig.requestedReports[index] = report
@@ -65,20 +72,43 @@ class RequestedReportService extends ReportStoreService {
 
   async setToExpired(id: string, userId: string) {
     const userConfig = await this.getState(userId)
+
     const index = this.findIndexByExecutionId(id, userConfig.requestedReports)
-    let report: RequestedReport = userConfig.requestedReports[index]
-    if (report) {
-      report = {
-        ...report,
-        status: RequestStatus.EXPIRED,
-        timestamp: {
-          ...report.timestamp,
-          expired: new Date(),
-        },
-      }
-      userConfig.requestedReports[index] = report
-      await this.saveState(userId, userConfig)
+    if (index === -1) {
+      return
     }
+
+    await this.saveExpiredState(userConfig, index, userId)
+  }
+
+  async setToExpiredByTableId(id: string, userId: string) {
+    const userConfig = await this.getState(userId)
+
+    const index = this.findIndexByTableId(id, userConfig.recentlyViewedReports)
+    if (index !== -1) {
+      await this.saveExpiredState(userConfig, index, userId)
+    } else {
+      logger.info(`Unable to expire requested report - ${id} not found in state`)
+    }
+  }
+
+  async saveExpiredState(userConfig: ReportStoreConfig, index: number, userId: string) {
+    const report: RequestedReport = userConfig.requestedReports[index]
+    if (!report || report.status === RequestStatus.EXPIRED) {
+      return
+    }
+
+    const updated = {
+      ...report,
+      status: RequestStatus.EXPIRED,
+      timestamp: {
+        ...report.timestamp,
+        expired: new Date(),
+      },
+    }
+
+    userConfig.requestedReports[index] = updated
+    await this.saveState(userId, userConfig)
   }
 
   /**
@@ -179,6 +209,47 @@ class RequestedReportService extends ReportStoreService {
     }
 
     return report
+  }
+
+  /**
+   * Remove duplicate report from state
+   *
+   * @param {RequestedReport[]} reports
+   * @return {*}  {RequestedReport[]}
+   * @memberof RequestedReportService
+   */
+  removeDuplicateRequestedReports = async (userId: string): Promise<string[]> => {
+    const reports = await this.getAllReports(userId)
+
+    if (reports.length < 2) {
+      return []
+    }
+
+    // Get the newest report
+    const latest = reports[0]
+    const latestFilters = latest.url?.request?.search?.trim() ?? ''
+
+    const duplicates = reports.slice(1).filter((report) => {
+      if (!report.executionId) {
+        return false
+      }
+
+      const sameReport = report.reportId === latest.reportId && report.id === latest.id
+      if (!sameReport) {
+        return false
+      }
+
+      const reportFilters = report.url?.request?.search?.trim() ?? ''
+      return report.executionId === latest.executionId || reportFilters === latestFilters
+    })
+
+    await Promise.all(
+      duplicates.map(({ executionId }) => {
+        return this.removeReport(executionId || '', userId)
+      }),
+    )
+
+    return duplicates.map(({ executionId }) => executionId || '')
   }
 }
 

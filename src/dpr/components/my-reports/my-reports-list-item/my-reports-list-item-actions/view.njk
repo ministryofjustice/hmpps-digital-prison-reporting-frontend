@@ -1,0 +1,68 @@
+{% from "./remove-action/view.njk" import dprMyReportListItemRemoveAction %}
+{% from "../../../bookmark/view.njk" import dprBookmarkButton %}
+
+{% macro dprMyReportListItemActions(actions) %}
+
+  {% set remove = actions.remove %}
+  {% set refresh = actions.refresh %}
+  {% set retry = actions.retry %}
+  {% set request = actions.request %}
+  {% set bookmark = actions.bookmark %}
+  {% set view = actions.view %}
+  {% set polling = actions.polling %}
+
+  <ul class="dpr-my-reports__actions-list">
+    {% if remove %}
+      <li>
+        {{ dprMyReportListItemRemoveAction(remove) }}
+      </li>
+    {% endif %}
+
+    {% if refresh %}
+      <li>
+        <a href="{{ refresh.href }}" class="govuk-link govuk-link--no-visited-state">Refresh</a>
+      </li>
+    {% endif %}
+
+    {% if retry %}
+      <li>
+        <a href="{{ retry.href }}" class="govuk-link govuk-link--no-visited-state">Retry</a>
+      </li>
+    {% endif %}
+
+    {% if view %}
+      <li>
+        <a href="{{ view.href }}" class="govuk-link govuk-link--no-visited-state">Go to {{ view.reportType }}</a>
+      </li>
+    {% endif %}
+
+    {% if polling %}
+      <li>
+        <a href="{{ polling.href }}" class="govuk-link govuk-link--no-visited-state">Go to status</a>
+      </li>
+    {% endif %}
+
+    {% if load %}
+      <li>
+        <a href="{{ load.href }}" class="govuk-link govuk-link--no-visited-state">Load {{ load.reportType }}</a>
+      </li>
+    {% endif %}
+    
+    {% if request %}
+      <li>
+        <a href="{{ request.href }}" class="govuk-link govuk-link--no-visited-state">Request {{ request.reportType }}</a>
+      </li>
+    {% endif %}
+
+    {% if bookmark %}
+      {% set reportId = bookmark.reportId %}
+      {% set id = bookmark.id %}
+      {% set reportType = bookmark.reportType %}
+      {% set csrfToken = bookmark.csrfToken %}
+      
+      <li>
+        {{ dprBookmarkButton(reportId, id, reportType, csrfToken, bookmark) }}
+      </li>
+    {% endif %}
+  </ul>
+{% endmacro %}

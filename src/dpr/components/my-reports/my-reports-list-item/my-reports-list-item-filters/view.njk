@@ -1,0 +1,22 @@
+{% macro dprMyReportListItemFilters(filters) %}
+  
+  {% set prerequest = filters.prerequest %}
+  {% set interactive = filters.interactive %}
+
+  <div class="dpr-my-reports__item-filters">
+    <ul class="dpr-my-reports__item-filters-list">  
+  
+      {% for pre in prerequest %}
+        <li class="dpr-my-reports__item-filters-list-item dpr-my-reports__item-filters-list-item--pre">
+          <strong>{{ pre.name }}</strong>: {{ pre.value }} 
+        </li>
+      {% endfor %}
+
+      {% for int in interactive %}
+        <li class="dpr-my-reports__item-filters-list-item dpr-my-reports__item-filters-list-item--int">
+          <strong>{{ int.name }}</strong>: {{ int.value }} 
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endmacro %}

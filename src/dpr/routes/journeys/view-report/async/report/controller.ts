@@ -1,8 +1,7 @@
 import { RequestHandler } from 'express'
 import { Services } from '../../../../../types/Services'
-import LocalsHelper from '../../../../../utils/localsHelper'
 import { renderReport } from './utils'
-import ViewReportUtils from '../../utils'
+import ViewReportUtils, { updateStateToExpiredAndRedirect } from '../../utils'
 import ErrorHandler from '../../../../../utils/ErrorHandler/ErrorHandler'
 import { LoadType } from '../../../../../types/UserReports'
 
@@ -28,12 +27,6 @@ class ViewAyncReportController {
    * @return {*}
    */
   GET: RequestHandler = async (req, res, next) => {
-    const { type, tableId } = req.params as {
-      id: string
-      reportId: string
-      type: string
-      tableId: string
-    }
     try {
       // Redirect the same path to attach query string
       if (ViewReportUtils.redirectWithDefaults(res, req)) {
@@ -44,37 +37,31 @@ class ViewAyncReportController {
       const validationErrors = res.locals['validationErrors'] || []
 
       // get the report config
-      const renderData = await renderReport({
+      const reportData = await renderReport({
         req,
         res,
         services: this.services,
         next,
       })
 
+      // If report is expired redirect the the polling page to show expired status
+      if (reportData.expired) {
+        await updateStateToExpiredAndRedirect(req, res, this.services)
+        return
+      }
+
       // Render the report
       res.render(`dpr/routes/journeys/view-report/report`, {
         layoutPath: this.layoutPath,
-        ...renderData,
+        ...reportData,
         validationErrors,
       })
     } catch (error) {
       const dprError = new ErrorHandler(error).formatError()
 
-      let refreshLink
-      const { recentlyViewedService } = this.services
-
-      if (dprError.status === 'EXPIRED' && recentlyViewedService) {
-        const { dprUser } = LocalsHelper.getValues(res)
-        refreshLink = await recentlyViewedService.asyncSetToExpiredByTableId(tableId, dprUser.id)
-      }
-
       req.body ??= {}
-      req.body.title = `Failed to retrieve ${type}`
+      req.body.title = `Failed to retrieve report`
       req.body.error = dprError
-
-      if (refreshLink) {
-        req.body.refreshLink = refreshLink
-      }
 
       next(error)
     }

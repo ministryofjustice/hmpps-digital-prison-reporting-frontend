@@ -2,6 +2,7 @@ import {
   checkSelectedFilterValues,
   requestReport,
   executeReportStubs,
+  getMyReportRowCell,
 } from '../../../../../../../../cypress-tests/cypressUtils'
 
 context('Interactive report', () => {
@@ -263,21 +264,15 @@ context('Interactive report', () => {
 
     const checkSelectedFiltersInUserReports = ({
       name,
-      product,
       length,
       selectedFilters,
     }: {
       name: string
-      product: string
       length: number
       selectedFilters: { key: string; value: string }[]
     }) => {
       cy.findByLabelText(/Viewed \(/).within(() => {
-        cy.findByRole('row', {
-          name: (_, element) => {
-            return Boolean(element.textContent?.includes(name)) && Boolean(element.textContent?.includes(product))
-          },
-        }).within(() => {
+        getMyReportRowCell({ name, cell: 'filters' }).within(() => {
           cy.findAllByRole('listitem')
             .should('have.length', length)
             .each((li, index) => {
@@ -366,7 +361,6 @@ context('Interactive report', () => {
       cy.findByRole('tab', { name: /Viewed/ }).click()
       checkSelectedFiltersInUserReports({
         name: 'Interactive Report',
-        product: 'Interactive Report',
         length: 7,
         selectedFilters: [
           { key: 'Sort Column', value: 'Field 1' },
@@ -417,7 +411,6 @@ context('Interactive report', () => {
       cy.findByRole('tab', { name: /Viewed/ }).click()
       checkSelectedFiltersInUserReports({
         name: 'Interactive Report',
-        product: 'Interactive Report',
         length: 7,
         selectedFilters: [
           { key: 'Sort Column', value: 'Field 1' },
@@ -443,7 +436,6 @@ context('Interactive report', () => {
       cy.findByRole('tab', { name: /Viewed/ }).click()
       checkSelectedFiltersInUserReports({
         name: 'Interactive Report',
-        product: 'Interactive Report',
         length: 7,
         selectedFilters: [
           { key: 'Sort Column', value: 'Field 1' },
@@ -517,7 +509,6 @@ context('Interactive report', () => {
       cy.findByRole('tab', { name: /Viewed/ }).click()
       checkSelectedFiltersInUserReports({
         name: 'Interactive Report',
-        product: 'Interactive Report',
         length: 7,
         selectedFilters: [
           { key: 'Sort Column', value: 'Field 1' },
@@ -558,7 +549,6 @@ context('Interactive report', () => {
       cy.findByRole('tab', { name: /Viewed/ }).click()
       checkSelectedFiltersInUserReports({
         name: 'Interactive Report',
-        product: 'Interactive Report',
         length: 6,
         selectedFilters: [
           { key: 'Sort Column', value: 'Field 1' },

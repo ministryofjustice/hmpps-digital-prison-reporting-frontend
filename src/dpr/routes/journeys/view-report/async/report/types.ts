@@ -1,6 +1,7 @@
 import { components } from '../../../../../types/api'
 import Dict = NodeJS.Dict
 import { AsyncReportUrlItemData } from '../../../../../types/UserReports'
+import { QuerySummaryItem } from '../../../../../components/_async/request-details/types'
 
 export interface ReportUrls {
   reportUrl: string
@@ -23,7 +24,7 @@ export interface ExtractedDefinitionData {
 export interface ExtractedRequestData {
   executionId?: string | undefined
   requestedTimestamp?: string | undefined
-  querySummary: Dict<string>[]
+  querySummary: QuerySummaryItem[]
   queryData?: Dict<string | string[]> | undefined
   requestUrl?: AsyncReportUrlItemData | undefined
   defaultQuery?: string | undefined

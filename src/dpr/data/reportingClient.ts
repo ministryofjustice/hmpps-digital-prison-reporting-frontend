@@ -275,6 +275,26 @@ class ReportingClient {
       .then((response) => (<Count>response).count)
   }
 
+  /**
+   * Gets the expiry state for tables
+   *
+   * @param {string} token
+   * @param {string[]} tableIds
+   * @return {*}
+   * @memberof ReportingClient
+   */
+  getTableExpiryState(token: string, tableIds: string[]): Promise<components['schemas']['ResultTableExpiryState'][]> {
+    return this.restClient
+      .post(
+        {
+          path: `/reports/tableExpiryState`,
+          data: { tableIds },
+        },
+        token,
+      )
+      .then((response) => <components['schemas']['ResultTableExpiryState'][]>response)
+  }
+
   logInfo(title: string, args?: Dict<string>) {
     logger.info(`Reporting Client: ${title}:`)
     if (args && Object.keys(args).length) logger.info(JSON.stringify(args, null, 2))

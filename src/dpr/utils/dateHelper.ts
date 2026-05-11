@@ -98,3 +98,24 @@ export function formatDateOrUnset(value?: string): string {
   const parsed = dayjs(value, [...UI_INPUT_FORMATS, API_FORMAT], true)
   return parsed.isValid() ? parsed.format(UI_OUTPUT_FORMAT) : 'unset'
 }
+
+export function todayAsApiDate() {
+  return dayjs().format(API_FORMAT)
+}
+
+export function todayAsUiDate() {
+  return dayjs().format(UI_OUTPUT_FORMAT)
+}
+
+export function todayAsUiDateTime() {
+  return dayjs().format(UI_DATE_TIME_FORMAT)
+}
+
+export function toDate(value: unknown): Date | undefined {
+  if (value instanceof Date) return value
+  if (typeof value === 'string' || typeof value === 'number') {
+    const d = new Date(value)
+    return Number.isNaN(d.getTime()) ? undefined : d
+  }
+  return undefined
+}

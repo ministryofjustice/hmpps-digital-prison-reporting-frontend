@@ -2,6 +2,7 @@ import Dict = NodeJS.Dict
 import { SummaryTemplate, Template } from './Templates'
 import { ChildReportExecutionData } from './ExecutionData'
 import { components } from './api'
+import { QuerySummaryItem } from '../components/_async/request-details/types'
 
 export interface StoredReportData {
   reportId: string
@@ -55,7 +56,7 @@ export interface AsyncReportUrlItemData {
 
 export interface AsyncReportQueryData {
   data: Dict<string | string[]>
-  summary: Array<Dict<string>>
+  summary: QuerySummaryItem[]
 }
 
 export interface ParamsConfig {

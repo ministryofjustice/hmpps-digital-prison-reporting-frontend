@@ -138,6 +138,13 @@ class ReportingService {
   ): Promise<number> {
     return this.reportingClient.getAsyncInteractiveCount(token, tableId, reportId, id, filters)
   }
+
+  async getTableExpiryState(
+    token: string,
+    tableIds: string[],
+  ): Promise<components['schemas']['ResultTableExpiryState'][]> {
+    return this.reportingClient.getTableExpiryState(token, tableIds)
+  }
 }
 
 export { ReportingService }

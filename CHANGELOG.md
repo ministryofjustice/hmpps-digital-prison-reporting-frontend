@@ -1,5 +1,41 @@
 Below you can find the changes included in each release.
 
+## 6.0.0
+
+### New My Reports component
+
+- Replaces `UserReports` component
+- Enables dynamic reloading of component - no full page reload when report status updates
+- Improved polling and expiry checks of reports
+
+<strong>NOTE:</strong> To those who are explicitly using the user reports component and have embedded this component directly into their html, you will need to update your integration of this component to the new component if you wish to update and use this version. [See here](https://ministryofjustice.github.io/hmpps-digital-prison-reporting-frontend/components/reports-list/) for integration instructions
+
+### Updated process for expired reports
+
+#### Checking for expired reports
+
+New batch expired check endpoint integration
+
+- The API is hit on initialisation of the My Reports component at which point a timestamp in ms is stored in a session
+- The ts is checked every time the component is initialised (on page load)
+- If enough time has passed since the last check the the API is hit again.
+- Duration is currently set at 30 mins
+- Only reports in a FINISHED state are sent to the API.
+
+### Bug fixing and optimisation
+
+- Improved error handling
+- Refactored and updated report status resolution
+- Removed code duplication around query summaries
+
+#### Loading an expired report
+
+If a report has expired and it is loaded the results endpoint is expected to return a 404
+
+- the report state is updated to EXPIRED status
+- the user is redirected to the status page
+- the user can select refresh report which goes to the request page
+
 ## 5.11.2
 
 - Error summaries: details are open to view by default
@@ -47,9 +83,13 @@ Below you can find the changes included in each release.
 
 - Bugfix: Fixed console errors when loading bar charts using partial datasets
 
-## 5.10.2
+## 5.10.3
 
 - Bugfix: Dashboard filters missing
+
+## 5.10.2
+
+- Updated vulnerable deps
 
 ## 5.10.1
 

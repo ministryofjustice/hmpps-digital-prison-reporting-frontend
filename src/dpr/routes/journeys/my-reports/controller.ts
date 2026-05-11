@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express'
 import { Services } from '../../../types/Services'
-import { initUserReports } from '../../../components/user-reports/utils'
+import { initMyReports } from '../../../components/my-reports/utils'
 
 class UserReportsController {
   layoutPath: string
@@ -12,12 +12,12 @@ class UserReportsController {
     this.services = services
   }
 
-  GET: RequestHandler = async (_req, res) => {
-    const userReportsLists = await initUserReports({ services: this.services, res, maxRows: 20 })
+  GET: RequestHandler = async (req, res) => {
+    const myReportsData = await initMyReports(req, res, this.services, { maxRows: 20 })
 
     res.render(`dpr/routes/journeys/my-reports/user-reports-view`, {
       layoutPath: this.layoutPath,
-      userReportsLists,
+      myReportsData,
     })
   }
 }

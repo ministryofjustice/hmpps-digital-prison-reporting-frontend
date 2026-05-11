@@ -1,5 +1,5 @@
 import type { Response, Request } from 'express'
-import { StoredReportData } from '../types/UserReports'
+import { RequestedReport, StoredReportData } from '../types/UserReports'
 import { BookmarkStoreData } from '../types/Bookmark'
 
 export const getValues = (res: Response) => {
@@ -32,7 +32,7 @@ const setFeatures = (res: Response) => {
 }
 
 const setUserReports = (res: Response) => {
-  const requestedReports: StoredReportData[] = res.locals['requestedReports'] || []
+  const requestedReports: RequestedReport[] = res.locals['requestedReports'] || []
   const recentlyViewedReports: StoredReportData[] = res.locals['recentlyViewedReports'] || []
   const bookmarks: BookmarkStoreData[] = res.locals['bookmarks'] || []
 
@@ -94,6 +94,8 @@ export interface DprAppLocals {
   reportsCatalogue: string
   userReportsList: string
   dprHomepage: string
+  requestReportPath: string
+  viewReportPath: string
   /** internal: stores the unmodified raw paths */
   original?: Omit<DprAppLocals, 'original' | 'nestedBaseUrl'>
 }

@@ -15,6 +15,7 @@ export interface BookmarkedReportData {
 export interface BookmarkStoreData {
   reportId: string
   id: string
+  variantId?: string
   type?: ReportType
   automatic?: boolean | undefined
 }

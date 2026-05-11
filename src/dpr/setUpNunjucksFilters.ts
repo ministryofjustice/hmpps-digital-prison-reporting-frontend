@@ -8,6 +8,7 @@ export const setUpNunjucksFilters = (env: nunjucks.Environment) => {
   env.addFilter('capitaliseSentence', capitaliseSentence)
   // Namespace our own filters
   env.addFilter('dpr.findError', findError)
+  env.addFilter('dpr.spacesToDash', spacesToDash)
   nunjucksDate.setDefaultFormat('DD/MM/YYYY')
   nunjucksDate.install(env, 'dprDate')
 }
@@ -33,6 +34,10 @@ const addRequiredAttributeToAll = (items: Array<FilterOption>) => {
       required: true,
     },
   }))
+}
+
+const spacesToDash = (text: string) => {
+  return text.replace(/ /g, '-')
 }
 
 export default setUpNunjucksFilters

@@ -16,6 +16,13 @@ export const reportingApiFailures = {
   getSingleDefinitionFailure: setupSimpleFailedMock(`/definitions/${reportIdRegex}`),
   getSingleDefinitionVariantFailure: setupSimpleFailedMock(`/definitions/${reportIdRegex}/${reportIdRegex}`),
   requestAsyncReportFailure: setupSimpleFailedMock(`/async/reports/${reportIdRegex}/${reportIdRegex}`),
+  getAsyncReportStatusFailure: setupSimpleFailedMock(
+    `/reports/${reportIdRegex}/${reportIdRegex}/statements/exId_[0-9]+/status`,
+  ),
+  getAsyncReportStatusFailure404: setupSimpleFailedMock(
+    `/reports/[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+/statements/[a-zA-Z0-9_]+/status`,
+    404,
+  ),
   cancelAsyncRequestFailure: generateNetworkMock({
     ...defaultMockRequest,
     request: {
@@ -29,14 +36,27 @@ export const reportingApiFailures = {
       jsonBody: {},
     },
   }),
+  getAsyncReportFailure404: setupSimpleFailedMock(
+    `/reports/${reportIdRegex}/${reportIdRegex}/tables/${reportIdRegex}/result`,
+    404,
+    {
+      userMessage: 'The stored report or dashboard was not found.',
+      developerMessage: 'PreparedStatementCallback; uncategorized SQLException for SQL XYZ Entity Not Found',
+    },
+  ),
+  getAsyncDashboardFailure404: setupSimpleFailedMock(
+    `/reports/${reportIdRegex}/dashboards/${reportIdRegex}/tables/${reportIdRegex}/result`,
+    404,
+    {
+      userMessage: 'The stored report or dashboard was not found.',
+      developerMessage: 'PreparedStatementCallback; uncategorized SQLException for SQL XYZ Entity Not Found',
+    },
+  ),
   getAsyncReportFailure: setupSimpleFailedMock(
     `/reports/${reportIdRegex}/${reportIdRegex}/tables/${reportIdRegex}/result`,
   ),
   getAsyncSummaryReportFailure: setupSimpleFailedMock(
     `/reports/${reportIdRegex}/${reportIdRegex}/tables/${reportIdRegex}/result/summary/${reportIdRegex}`,
-  ),
-  getAsyncReportStatusFailure: setupSimpleFailedMock(
-    `/reports/${reportIdRegex}/${reportIdRegex}/statements/exId_[0-9]+/status`,
   ),
   getAsyncCountFailure: setupSimpleFailedMock(`/report/tables/tblId_[0-9]+/count`),
 } as const
@@ -53,6 +73,28 @@ export const pollingEndpoint = generateNetworkMock({
     jsonBody: {
       isExpired: false,
     },
+  },
+})
+
+export const expiredEndpoint = generateNetworkMock({
+  ...defaultMockRequest,
+  request: {
+    ...defaultMockRequest.request,
+    method: 'POST',
+    urlPathPattern: `/reports/tableExpiryState`,
+  },
+  response: {
+    ...defaultMockRequest.response,
+    jsonBody: [
+      {
+        tableId: 'tblId_1729766362362',
+        expired: true,
+      },
+      {
+        tableId: 'tblId_1729765628165',
+        expired: true,
+      },
+    ],
   },
 })
 

@@ -48,6 +48,12 @@ export const setupSimpleFailedMock = (
   jsonBody: object = {},
   priority = 0,
 ): CompleteMockRequest => {
+  const failureJsonBody = {
+    userMessage: 'a user message goes here',
+    developerMessage: 'a developer message goes here',
+    moreInfo: 'a more info message goes here',
+  }
+
   return {
     priority,
     request: {
@@ -56,7 +62,7 @@ export const setupSimpleFailedMock = (
     },
     response: {
       ...defaultMockRequest.response,
-      jsonBody,
+      jsonBody: jsonBody && Object.keys(jsonBody).length > 0 ? jsonBody : failureJsonBody,
       status,
     },
   }

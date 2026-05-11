@@ -1,6 +1,7 @@
 import { RequestHandler } from 'express'
 import { Services } from '../../../../types/Services'
 import LocalsHelper from '../../../../utils/localsHelper'
+import { safeRedirect } from '../../../../utils/http/safeRedirect'
 
 class RecentlyViewedReportsController {
   services: Services
@@ -11,10 +12,23 @@ class RecentlyViewedReportsController {
 
   POST: RequestHandler = async (req, res) => {
     const { dprUser } = LocalsHelper.getValues(res)
-    const { id } = req.params
-    await this.services.recentlyViewedService.removeReport(id as string, dprUser.id)
-    await this.services.requestedReportService.removeReport(id as string, dprUser.id)
-    res.end()
+    const { id, reportId, tableId, executionId } = req.params as {
+      id: string
+      reportId: string
+      tableId: string | undefined
+      executionId: string | undefined
+    }
+    const { returnTo } = req.body
+
+    // Remove the report from recenly viewed list
+    await this.services.recentlyViewedService.removeReport(dprUser.id, reportId, id, tableId)
+
+    // And clean up the request data, if there is any
+    if (executionId) {
+      await this.services.requestedReportService.removeReport(executionId, dprUser.id)
+    }
+
+    return safeRedirect(req, res, returnTo)
   }
 }
 

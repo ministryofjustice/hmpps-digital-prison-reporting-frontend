@@ -35,6 +35,7 @@ import LocalsHelper from '../../utils/localsHelper'
 import { AppliedFilterChip, buildAppliedFilters } from '../_filters/filters-applied/utils'
 import { apiTimestampToUiDateTime } from '../../utils/dateHelper'
 import { FiltersType } from '../_filters/filtersTypeEnum'
+import ErrorHandler from '../../utils/ErrorHandler/ErrorHandler'
 
 export default class Report {
   id: string
@@ -50,6 +51,8 @@ export default class Report {
   variant: components['schemas']['VariantDefinition']
 
   specification: components['schemas']['Specification']
+
+  fields: components['schemas']['FieldDefinition'][]
 
   reportData!: Record<string, string>[]
 
@@ -94,6 +97,8 @@ export default class Report {
 
   extractedRequestData!: ExtractedRequestData | undefined
 
+  expired: boolean = false
+
   constructor(
     readonly services: Services,
     readonly res: Response,
@@ -118,6 +123,7 @@ export default class Report {
       throw new Error('No specification in definition')
     }
     this.specification = specification
+    this.fields = this.specification.fields
   }
 
   build = async () => {
@@ -131,10 +137,16 @@ export default class Report {
     await this.buildSavedDefaultsConfig()
     this.buildAppliedFilters()
 
-    // Data retrieval
+    // Get the data
     this.buildReportQuery()
     await this.getData()
     await this.getCount()
+
+    if (this.expired) {
+      return {
+        expired: this.expired,
+      }
+    }
 
     // Template & page furniture
     this.buildTable()
@@ -155,6 +167,7 @@ export default class Report {
         ...(this.extractedRequestData && this.extractedRequestData),
         totals: this.totals,
         dataTable: this.dataTable,
+        fields: this.fields,
       },
     }
   }
@@ -164,11 +177,20 @@ export default class Report {
    *
    */
   getData = async () => {
-    if (this.loadType === LoadType.ASYNC) {
-      await this.getSummariesData()
-      await this.setChildData()
+    try {
+      await this.getReportData()
+      if (this.loadType === LoadType.ASYNC) {
+        await this.getSummariesData()
+        await this.setChildData()
+      }
+    } catch (error) {
+      const dprError = new ErrorHandler(error).formatError()
+      if (dprError.status === 404) {
+        this.expired = true
+      } else {
+        throw error
+      }
     }
-    await this.getReportData()
   }
 
   /**

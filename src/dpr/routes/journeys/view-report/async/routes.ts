@@ -8,15 +8,10 @@ import viewDashboardRoutes from './dashboard/routes'
 
 // middleware
 import reportAuthoriser from '../../../../middleware/reportAuthoriser'
-import AsyncController from './controller'
 
 export function routes({ layoutPath, services }: { layoutPath: string; services: Services }): Router {
   const router = Router({ mergeParams: true })
 
-  const controller = new AsyncController(layoutPath, services)
-
-  // Expired check
-  router.post(['/report', '/dashboard'], controller.POST)
   router.use('/report', reportAuthoriser(services, layoutPath), viewReportRoutes({ layoutPath, services }))
   router.use('/dashboard', reportAuthoriser(services, layoutPath), viewDashboardRoutes({ layoutPath, services }))
   return router

@@ -12,6 +12,7 @@ import {
 import Dict = NodeJS.Dict
 import { ChildReportExecutionData, ExecutionData } from '../types/ExecutionData'
 import { components } from '../types/api'
+import { QuerySummaryItem } from '../components/_async/request-details/types'
 
 interface ReportData {
   type: ReportType
@@ -174,7 +175,7 @@ class UserStoreItemBuilder {
     return this
   }
 
-  addQuery = (queryData?: { query: Dict<string | string[]>; querySummary: Array<Dict<string>> }) => {
+  addQuery = (queryData?: { query: Dict<string | string[]>; querySummary: QuerySummaryItem[] }) => {
     this.userStoreItem = {
       ...this.userStoreItem,
       ...(queryData && {
@@ -187,7 +188,7 @@ class UserStoreItemBuilder {
     return this
   }
 
-  addInteractiveQuery = (queryData?: { query: Dict<string | string[]>; querySummary: Array<Dict<string>> }) => {
+  addInteractiveQuery = (queryData?: { query: Dict<string | string[]>; querySummary: QuerySummaryItem[] }) => {
     if (queryData) {
       this.userStoreItem = {
         ...this.userStoreItem,

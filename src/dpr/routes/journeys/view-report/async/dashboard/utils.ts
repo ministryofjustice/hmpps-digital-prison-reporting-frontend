@@ -11,7 +11,6 @@ import { ReportType } from '../../../../../types/UserReports'
 import type { components } from '../../../../../types/api'
 
 import DefinitionUtils, { getDashboardFields } from '../../../../../utils/definitionUtils'
-import UserReportsUtils from '../../../../../components/user-reports/utils'
 import FilterUtils from '../../../../../components/_filters/utils'
 import ReportActionsUtils from '../../../../../components/_reports/report-heading/report-actions/utils'
 import ReportQuery from '../../../../../types/ReportQuery'
@@ -24,6 +23,8 @@ import DashboardSchema from './validate'
 import { setUpBookmark } from '../../../../../components/bookmark/utils'
 import { buildAppliedFilters } from '../../../../../components/_filters/filters-applied/utils'
 import { extractFiltersFromQuery } from '../../../../../utils/queryMappers'
+import { updateLastViewedAsync } from '../../utils'
+import ErrorHandler from '../../../../../utils/ErrorHandler/ErrorHandler'
 
 const setDashboardActions = (
   dashboardDefinition: components['schemas']['DashboardDefinition'],
@@ -110,7 +111,7 @@ const getDefinitionData = async ({
 
   // Create the query
   const query = new ReportQuery({
-    fields: dashboardDefinition.filterFields || [],
+    fields,
     queryParams: extractFiltersFromQuery(req.query) as ParsedQs,
     definitionsPath: <string>dataProductDefinitionsPath,
     reportType: ReportType.DASHBOARD,
@@ -122,6 +123,7 @@ const getDefinitionData = async ({
     dashboardDefinition,
     reportDefinition,
     appliedFilters,
+    fields,
   }
 }
 
@@ -131,20 +133,14 @@ const updateStore = async (
   userId: string,
   sections: DashboardSection[],
   req: Request,
-  filters: FilterValue[],
+  fields: components['schemas']['FieldDefinition'][],
 ): Promise<RequestedReport | undefined> => {
   const { requestedReportService } = services
   const dashboardRequestData = await requestedReportService.getReportByTableId(tableId, userId)
 
   // Add to recently viewed
   if (sections && sections.length && dashboardRequestData) {
-    UserReportsUtils.updateLastViewed({
-      services,
-      reportStateData: dashboardRequestData,
-      userId,
-      req,
-      filters,
-    })
+    await updateLastViewedAsync(req, services, dashboardRequestData, userId, fields)
   }
 
   return dashboardRequestData
@@ -171,25 +167,16 @@ export const renderAsyncDashboard = async ({ req, res, services }: AsyncReportUt
   const queryData = requestData?.query?.data
 
   // Get the definition Data
-  const { query, filters, reportDefinition, dashboardDefinition, appliedFilters } = await getDefinitionData({
+  const { query, filters, reportDefinition, dashboardDefinition, appliedFilters, fields } = await getDefinitionData({
     req,
     res,
     services,
     queryData,
   })
 
-  // Get the results data
-  const dashboardData: DashboardDataResponse[][] = await services.dashboardService.getAsyncDashboard(
-    token,
-    id,
-    reportId,
-    tableId,
-    query,
-  )
+  // Get the dashboard data and check if expired
+  const { dashboardData, expired } = await getDashboardData(token, reportId, id, tableId, query, services)
 
-  const flattenedData: DashboardDataResponse[] = Array.isArray(dashboardData)
-    ? dashboardData.flat().filter(Boolean)
-    : []
   const partialDate = getPartialDate(filters)
 
   const bookmarkConfig = setUpBookmark(res, req, bookmarkService)
@@ -198,7 +185,7 @@ export const renderAsyncDashboard = async ({ req, res, services }: AsyncReportUt
   const dashboardFeatureFlags = res.app.locals['featureFlags'].flags
   const sections: DashboardSection[] = createDashboardSections(
     dashboardDefinition,
-    flattenedData,
+    dashboardData,
     query,
     dashboardFeatureFlags,
     partialDate,
@@ -206,7 +193,7 @@ export const renderAsyncDashboard = async ({ req, res, services }: AsyncReportUt
 
   // Update the store
   if (requestedReportService) {
-    requestData = await updateStore(services, tableId, dprUser.id, sections, req, filters)
+    requestData = await updateStore(services, tableId, dprUser.id, sections, req, fields)
   }
 
   return {
@@ -225,6 +212,52 @@ export const renderAsyncDashboard = async ({ req, res, services }: AsyncReportUt
       bookmarkConfig,
       appliedFilters,
     },
+    expired,
+  }
+}
+
+/**
+ * Gets the data for a dashboard
+ *
+ * @param {string} token
+ * @param {string} reportId
+ * @param {string} id
+ * @param {string} tableId
+ * @param {(Record<string, string | string[]>)} query
+ * @param {Services} services
+ * @return {*}
+ */
+const getDashboardData = async (
+  token: string,
+  reportId: string,
+  id: string,
+  tableId: string,
+  query: Record<string, string | string[]>,
+  services: Services,
+) => {
+  let dashboardData: DashboardDataResponse[] = []
+  let expired = false
+  try {
+    const dashboardResultData: DashboardDataResponse[][] = await services.dashboardService.getAsyncDashboard(
+      token,
+      id,
+      reportId,
+      tableId,
+      query,
+    )
+    dashboardData = Array.isArray(dashboardResultData) ? dashboardResultData.flat().filter(Boolean) : []
+  } catch (error) {
+    const dprError = new ErrorHandler(error).formatError()
+    if (dprError.status === 404) {
+      expired = true
+    } else {
+      throw error
+    }
+  }
+
+  return {
+    dashboardData,
+    expired,
   }
 }
 

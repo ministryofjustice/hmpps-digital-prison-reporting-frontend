@@ -1,116 +1,136 @@
 import { ZodError } from 'zod'
-import { components } from '../../types/api'
+import type { ResponseError } from 'superagent'
 import logger from '../logger'
 import { AggregatedValidationError } from './AggregatedValidationError'
 
 export interface DprErrorMessage {
-  userMessage?: string | string[] | undefined
-  developerMessage?: string | string[] | undefined
+  userMessage?: string | string[]
+  developerMessage?: string | string[]
   stack?: string
   moreInfo?: string
-  status?: string | number
+  status?: number | string
 }
 
-interface DprErrorData {
-  data: components['schemas']['ErrorResponse']
+interface ErrorPayload {
+  userMessage?: string
+  developerMessage?: string
+  moreInfo?: string
 }
 
 class ErrorHandler {
-  error: Error | components['schemas']['ErrorResponse'] | string | undefined | unknown | DprErrorData
-
-  developerMessage?: string | undefined
-
-  userMessage?: string | string[] | undefined
-
-  moreInfo?: string | undefined
-
-  stack?: string | undefined
-
-  status?: number | string | undefined
-
-  constructor(error: Error | components['schemas']['ErrorResponse'] | string | undefined | unknown) {
-    this.error = error
+  constructor(private readonly error: unknown) {
     logger.error(`Error: ${JSON.stringify(error)}`)
   }
 
-  formatError = (): DprErrorMessage => {
+  formatError(): DprErrorMessage {
     return this.handleError()
   }
 
-  private handleError = (): DprErrorMessage => {
-    // Zod error
-    if (this.error instanceof ZodError) {
-      const issues = this.error.issues
-        .map((issue) => {
-          return issue.message
-        })
-        .join('. ')
-      this.userMessage = `Schema validation error: ${issues}`
-      this.status = 500
+  private handleError(): DprErrorMessage {
+    const err = this.error
+
+    // 1. Zod
+    if (err instanceof ZodError) {
+      const issues = err.issues.map((i) => i.message).join('. ')
+      return {
+        status: 500,
+        userMessage: `Schema validation error: ${issues}`,
+      }
     }
 
-    // AggregatedValidationError
-    else if (this.error instanceof AggregatedValidationError) {
-      this.userMessage = [
-        this.error.message,
-        ...this.error.details.map((detail) => {
-          const issues = detail.issues
-            .map((issue) => {
-              return issue.message
-            })
-            .join('. ')
-          let message = ''
-          if (detail.type) message = `Type: '${detail.type}'. `
-          if (detail.id) message += `ID: '${detail.id}'. `
-          return `${message}Issues: ${issues}`
-        }),
-      ]
-
-      this.status = 500
+    // 2. AggregatedValidationError
+    if (err instanceof AggregatedValidationError) {
+      return {
+        status: 500,
+        userMessage: [
+          err.message,
+          ...err.details.map((detail) => {
+            const issues = detail.issues.map((i) => i.message).join('. ')
+            let prefix = ''
+            if (detail.type) prefix += `Type: '${detail.type}'. `
+            if (detail.id) prefix += `ID: '${detail.id}'. `
+            return `${prefix}Issues: ${issues}`
+          }),
+        ],
+      }
     }
 
-    // status: FAILED
-    else if (typeof this.error === 'string') {
-      this.developerMessage = this.error
+    // 3. SuperAgent / WireMock
+    if (this.isSuperAgentError(err)) {
+      const status = typeof err.status === 'number' ? err.status : 500
+
+      // 1. Prefer response.body if present
+      let payload: unknown = err.response?.body
+
+      // 2. Otherwise try to parse text as JSON
+      if (payload === undefined) {
+        payload = this.tryParseJson(err.text)
+      }
+
+      // 3. If we now have a structured error payload
+      if (this.isErrorPayload(payload)) {
+        const { userMessage, developerMessage, moreInfo } = payload
+        return {
+          status,
+          ...(userMessage !== undefined && { userMessage }),
+          ...(developerMessage !== undefined && { developerMessage }),
+          ...(moreInfo !== undefined && { moreInfo }),
+        }
+      }
+
+      // 4. Transport-level fallback
+      return {
+        status,
+        userMessage: err.message,
+      }
     }
 
-    // Error response
-    else if ((<DprErrorData>this.error).data) {
-      const error = (<DprErrorData>this.error).data
-      this.developerMessage = error.developerMessage
-      this.userMessage = error.userMessage
-      this.moreInfo = error.moreInfo
-      this.status = error.status
+    if (
+      typeof err === 'object' &&
+      err !== null &&
+      'message' in err &&
+      typeof (err as { message: unknown }).message === 'string'
+    ) {
+      return {
+        status: 500,
+        userMessage: (err as { message: string }).message,
+      }
     }
 
-    // client side error
-    else if (Object.prototype.hasOwnProperty.call(this.error, 'message')) {
-      const error = <Error>this.error
-      this.userMessage = error.message
-      this.stack = error.stack
-      this.status = 500
+    // 5. Unknown
+    return {
+      status: 500,
+      developerMessage: 'Unknown error',
     }
+  }
 
-    // Server response error
-    else if (Object.prototype.hasOwnProperty.call(this.error, 'developerMessage')) {
-      const error = <components['schemas']['ErrorResponse']>this.error
-      this.developerMessage = error.developerMessage
-      this.userMessage = error.userMessage
-      this.moreInfo = error.moreInfo
-      this.status = error.status
+  private isSuperAgentError(error: unknown): error is ResponseError {
+    if (typeof error !== 'object' || error === null) return false
+
+    const e = error as Record<string, unknown>
+
+    return (
+      typeof e['message'] === 'string' &&
+      (typeof e['status'] === 'number' || typeof e['text'] !== 'undefined' || typeof e['response'] === 'object')
+    )
+  }
+
+  private isErrorPayload(value: unknown): value is ErrorPayload {
+    return (
+      typeof value === 'object' &&
+      value !== null &&
+      ('userMessage' in value || 'developerMessage' in value || 'moreInfo' in value)
+    )
+  }
+
+  private tryParseJson(value: unknown): unknown | undefined {
+    if (typeof value !== 'string') return undefined
+
+    try {
+      return JSON.parse(value)
+    } catch {
+      return undefined
     }
-
-    const formattedError = {
-      ...(this.developerMessage && { developerMessage: this.developerMessage }),
-      ...(this.userMessage && { userMessage: this.userMessage }),
-      ...(this.moreInfo && { moreInfo: this.moreInfo }),
-      ...(this.stack && { stack: this.stack }),
-      ...(this.status && { status: this.status }),
-    }
-
-    logger.error(JSON.stringify(formattedError, null, 2))
-
-    return formattedError
   }
 }
 

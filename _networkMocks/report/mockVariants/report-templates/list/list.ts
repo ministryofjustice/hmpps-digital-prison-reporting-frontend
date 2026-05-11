@@ -24,6 +24,7 @@ const reportTemplateList: components['schemas']['VariantDefinition'] & { loadTyp
         visible: true,
         calculated: false,
         header: false,
+        fieldSource: 'specfield',
         filter: {
           type: 'Radio',
           staticOptions: [

@@ -21,6 +21,7 @@ export const featureTestingUserDefinedDefaults: components['schemas']['VariantDe
         visible: true,
         calculated: false,
         header: false,
+        fieldSource: 'specfield',
         filter: {
           type: 'Radio',
           staticOptions: [

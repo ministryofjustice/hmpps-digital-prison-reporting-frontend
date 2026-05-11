@@ -21,6 +21,7 @@ export const requestExampleRequestError: components['schemas']['VariantDefinitio
         visible: true,
         calculated: false,
         header: false,
+        fieldSource: 'specfield',
         filter: {
           type: 'Radio',
           mandatory: false,

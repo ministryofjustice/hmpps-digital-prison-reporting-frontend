@@ -13,10 +13,7 @@ import { getMyReportRow, stubBaseTasks, stubDefinitionsTasks } from 'cypress-tes
 import { setRedisState } from '../../../../../test-app/routes/integrationTests/appStateUtils'
 
 describe('My Reports', () => {
-  const paths = [
-    '/',
-    // '/dpr', '/embedded/platform', '/embedded/platform/dpr'
-  ]
+  const paths = ['/', '/dpr', '/embedded/platform', '/embedded/platform/dpr']
 
   const sharedTests = (path: string) => {
     describe(`My reports - ${path}`, () => {

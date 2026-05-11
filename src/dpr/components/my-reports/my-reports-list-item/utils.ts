@@ -143,7 +143,6 @@ const buildActionsCell = (
   let view: ViewAction | undefined
   let remove: RemoveAction | undefined
 
-  // TODO: Asses whether these can be constructed without store?
   const pollingPageUrl = url?.polling?.fullUrl || ''
   const requestPageUrl = url?.request?.fullUrl || ''
   const reportPageUrl = url?.report?.fullUrl || ''
@@ -153,14 +152,17 @@ const buildActionsCell = (
       retry = { href: pollingPageUrl }
       remove = buildRemoveAction(data, res, req, listType)
       break
+
     case RequestStatus.EXPIRED:
       refresh = { href: requestPageUrl }
       remove = buildRemoveAction(data, res, req, listType)
       break
+
     case RequestStatus.ABORTED:
       retry = { href: requestPageUrl }
       remove = buildRemoveAction(data, res, req, listType)
       break
+
     case RequestStatus.READY:
     case RequestStatus.FINISHED:
       view = {
@@ -169,6 +171,7 @@ const buildActionsCell = (
       }
       remove = buildRemoveAction(data, res, req, listType)
       break
+
     case RequestStatus.PICKED:
     case RequestStatus.SUBMITTED:
     case RequestStatus.STARTED:

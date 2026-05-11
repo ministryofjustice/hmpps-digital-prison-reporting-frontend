@@ -8,7 +8,7 @@ Below you can find the changes included in each release.
 - Enables dynamic reloading of component - no full page reload when report status updates
 - Improved polling and expiry checks of reports
 
-<strong>NOTE:</strong> To those who are explicitly using the user reports component and have embedded this component directly into their html, you will need to update your integration of this component to the new component if you wish to update and use this version. See here for integration instructions
+<strong>NOTE:</strong> To those who are explicitly using the user reports component and have embedded this component directly into their html, you will need to update your integration of this component to the new component if you wish to update and use this version. [See here](https://ministryofjustice.github.io/hmpps-digital-prison-reporting-frontend/components/reports-list/) for integration instructions
 
 ### Updated process for expired reports
 

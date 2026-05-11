@@ -107,6 +107,7 @@ const reportTemplateListWithSummaries: components['schemas']['VariantDefinition'
         visible: true,
         calculated: false,
         header: false,
+        fieldSource: 'specfield',
         filter: {
           type: 'Radio',
           staticOptions: [
@@ -127,6 +128,7 @@ const reportTemplateListWithSummaries: components['schemas']['VariantDefinition'
         visible: true,
         calculated: false,
         header: false,
+        fieldSource: 'specfield',
         filter: {
           type: 'Select',
           staticOptions: [
@@ -146,6 +148,7 @@ const reportTemplateListWithSummaries: components['schemas']['VariantDefinition'
         visible: true,
         calculated: false,
         header: false,
+        fieldSource: 'specfield',
         defaultsort: true,
         filter: {
           type: 'daterange',
@@ -162,6 +165,7 @@ const reportTemplateListWithSummaries: components['schemas']['VariantDefinition'
         visible: true,
         calculated: false,
         header: false,
+        fieldSource: 'specfield',
         defaultsort: true,
         mandatory: false,
         filter: {
@@ -188,6 +192,7 @@ const reportTemplateListWithSummaries: components['schemas']['VariantDefinition'
         mandatory: false,
         calculated: false,
         header: false,
+        fieldSource: 'specfield',
         visible: true,
         defaultsort: true,
         filter: {

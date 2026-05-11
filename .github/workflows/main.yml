@@ -21,7 +21,7 @@ jobs:
           cache: 'npm'
 
       - name: SLSA - supply chain attack mitigation
-        uses: ministryofjustice/devsecops-actions/sca/slsa@8c77d3a65a46d1d4b5416eafae5b84371ecd797d
+        uses: ministryofjustice/devsecops-actions/sca/slsa@7dc13c20e2bf541b8a77fa1320a04983b18846f6
 
       - run: npm run setup
 
@@ -67,7 +67,7 @@ jobs:
           cache: 'npm'
 
       - name: SLSA - supply chain attack mitigation
-        uses: ministryofjustice/devsecops-actions/sca/slsa@8c77d3a65a46d1d4b5416eafae5b84371ecd797d
+        uses: ministryofjustice/devsecops-actions/sca/slsa@7dc13c20e2bf541b8a77fa1320a04983b18846f6
 
       - run: npm run setup
 
@@ -103,7 +103,7 @@ jobs:
           cache: 'npm'
 
       - name: SLSA - supply chain attack mitigation
-        uses: ministryofjustice/devsecops-actions/sca/slsa@8c77d3a65a46d1d4b5416eafae5b84371ecd797d
+        uses: ministryofjustice/devsecops-actions/sca/slsa@7dc13c20e2bf541b8a77fa1320a04983b18846f6
         with:
           security-patch-package-exclusion: "@ministryofjustice/hmpps-digital-prison-reporting-frontend"
       - run: npm run setup
@@ -139,8 +139,12 @@ jobs:
         run: java -jar wiremock.jar --port 9091 --global-response-templating &
         working-directory: ${{ github.workspace }}/../app
 
-      - name: Run mi-ui
+      - name: Run mi-ui (prisons)
         run: npm run start-feature > mi-ui.log 2>&1 &
+        working-directory: ${{ github.workspace }}/../app
+
+      - name: Run mi-ui (probation
+        run: npm run start-feature:probation > mi-ui.log 2>&1 &
         working-directory: ${{ github.workspace }}/../app
 
       - name: Wait for mi-ui to start
@@ -232,7 +236,7 @@ jobs:
           cache: 'npm'
 
       - name: SLSA - supply chain attack mitigation
-        uses: ministryofjustice/devsecops-actions/sca/slsa@8c77d3a65a46d1d4b5416eafae5b84371ecd797d
+        uses: ministryofjustice/devsecops-actions/sca/slsa@7dc13c20e2bf541b8a77fa1320a04983b18846f6
 
       # Download dist + node_modules (dpr-package-package)
       - uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131

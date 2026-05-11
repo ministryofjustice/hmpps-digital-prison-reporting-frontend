@@ -1,6 +1,7 @@
 {% from "../my-reports-list-headings/view.njk" import dprMyReportListHeadings %}
 {% from "../my-reports-list-help/view.njk" import dprMyReportsListHelp %}
 {% from "../my-reports-list-totals/view.njk" import dprMyReportsListTotals %}
+{% from "../my-reports-empty/view.njk" import dprMyReportsEmpty %}
 
 {% macro dprMyReportList(listConfig) %}
   {% set title = listConfig.title %}
@@ -43,8 +44,8 @@
 
     {% else %}
 
-      <p class='govuk-body'>You have 0 {{ listType }} reports<p>
-
+      {{dprMyReportsEmpty(listType)}}
+      
     {% endif %}
   </div>
 {% endmacro %}

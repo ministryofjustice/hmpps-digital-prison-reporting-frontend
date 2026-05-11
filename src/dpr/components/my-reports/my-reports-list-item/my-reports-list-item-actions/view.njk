@@ -12,11 +12,6 @@
   {% set polling = actions.polling %}
 
   <ul class="dpr-my-reports__actions-list">
-    {% if remove %}
-      <li>
-        {{ dprMyReportListItemRemoveAction(remove) }}
-      </li>
-    {% endif %}
 
     {% if refresh %}
       <li>
@@ -39,6 +34,12 @@
     {% if polling %}
       <li>
         <a href="{{ polling.href }}" class="govuk-link govuk-link--no-visited-state">Go to status</a>
+      </li>
+    {% endif %}
+    
+    {% if remove %}
+      <li>
+        {{ dprMyReportListItemRemoveAction(remove) }}
       </li>
     {% endif %}
 

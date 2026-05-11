@@ -94,7 +94,7 @@ jobs:
         run: sed -i -e 's/9999.9999.9999/${{ steps.bump-version.outputs.next-version }}/' dist/package.json
 
       - name: Publish
-        run: npm publish ./dist --access public
+        run: npm publish ./dist --provenance --access public
 
   publish-pages:
     runs-on: ubuntu-latest

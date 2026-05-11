@@ -139,8 +139,12 @@ jobs:
         run: java -jar wiremock.jar --port 9091 --global-response-templating &
         working-directory: ${{ github.workspace }}/../app
 
-      - name: Run mi-ui
+      - name: Run mi-ui (prisons)
         run: npm run start-feature > mi-ui.log 2>&1 &
+        working-directory: ${{ github.workspace }}/../app
+
+      - name: Run mi-ui (probation
+        run: npm run start-feature:probation > mi-ui.log 2>&1 &
         working-directory: ${{ github.workspace }}/../app
 
       - name: Wait for mi-ui to start

@@ -79,10 +79,11 @@ class RequestedReportsController {
     const { dprUser } = LocalsHelper.getValues(res)
     const { executionId } = req.params
     const { returnTo } = req.body
+    const returnToWithTab = `${returnTo}#requested-reports-tab`
 
     await this.services.requestedReportService.removeReport(executionId as string, dprUser.id)
 
-    return safeRedirect(req, res, returnTo)
+    return safeRedirect(req, res, returnToWithTab)
   }
 }
 

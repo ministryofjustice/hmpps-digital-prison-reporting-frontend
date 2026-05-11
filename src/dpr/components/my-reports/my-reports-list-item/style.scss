@@ -35,7 +35,7 @@
 .dpr-my-reports__table--requests {
   grid-template-columns:
     3fr /* title */
-    5fr /* filters */
+    6fr /* filters */
     auto /* status */
     auto; /* actions */
 }
@@ -132,4 +132,8 @@
     margin-bottom: 30px !important;
     font-size: 36px;
   }
+}
+
+.dpr-my-reports__empty-state {
+  margin-top: govuk-spacing(5);
 }

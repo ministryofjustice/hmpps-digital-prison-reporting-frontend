@@ -71,26 +71,31 @@ const buildTimestamp = (data: StoredReportData) => {
       const ts = failed ? apiTimestampToUiDateTime(failed) : now
       return `Failed at ${ts}`
     }
+
     case RequestStatus.ABORTED: {
       const { aborted } = timestamp
       const ts = aborted ? apiTimestampToUiDateTime(aborted) : now
       return `Aborted at ${ts}`
     }
+
     case RequestStatus.FINISHED: {
       const { completed } = timestamp
       const ts = completed ? apiTimestampToUiDateTime(completed) : now
       return `Ready at ${ts}`
     }
+
     case RequestStatus.EXPIRED: {
       const { expired } = timestamp
       const ts = expired ? apiTimestampToUiDateTime(expired) : now
       return `Expired at ${ts}`
     }
+
     case RequestStatus.READY: {
       const { lastViewed } = timestamp
       const ts = lastViewed ? apiTimestampToUiDateTime(lastViewed) : now
       return `Last viewed at ${ts}`
     }
+
     case RequestStatus.SUBMITTED:
     case RequestStatus.STARTED:
     case RequestStatus.PICKED: {
@@ -98,6 +103,7 @@ const buildTimestamp = (data: StoredReportData) => {
       const ts = requested ? apiTimestampToUiDateTime(requested) : now
       return `Requested at ${ts}`
     }
+
     default: {
       const { lastViewed } = timestamp
       const ts = lastViewed ? apiTimestampToUiDateTime(lastViewed) : now

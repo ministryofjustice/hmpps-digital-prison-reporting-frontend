@@ -1,5 +1,14 @@
 Below you can find the changes included in each release.
 
+## 6.0.1
+
+### My reports component updates:
+
+- My reports empty state
+- Updates actions order so remove is after main actions
+- Fixed styling issues
+- Fixed redirect URL after remove to return to the correct/current tab
+
 ## 6.0.0
 
 ### New My Reports component

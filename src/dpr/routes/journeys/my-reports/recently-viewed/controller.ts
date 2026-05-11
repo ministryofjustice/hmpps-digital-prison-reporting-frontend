@@ -19,6 +19,7 @@ class RecentlyViewedReportsController {
       executionId: string | undefined
     }
     const { returnTo } = req.body
+    const returnToWithTab = `${returnTo}#recently-viewed-tab`
 
     // Remove the report from recenly viewed list
     await this.services.recentlyViewedService.removeReport(dprUser.id, reportId, id, tableId)
@@ -28,7 +29,7 @@ class RecentlyViewedReportsController {
       await this.services.requestedReportService.removeReport(executionId, dprUser.id)
     }
 
-    return safeRedirect(req, res, returnTo)
+    return safeRedirect(req, res, returnToWithTab)
   }
 }
 

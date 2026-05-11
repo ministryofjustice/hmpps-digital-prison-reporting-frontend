@@ -36,6 +36,7 @@ export const establishmentIdFilter: FilterField = {
   mandatory: false,
   visible: true,
   calculated: false,
+  fieldSource: 'specfield',
 }
 
 export const wingFilterCompass: FilterField = {
@@ -73,6 +74,7 @@ export const wingFilterCompass: FilterField = {
   mandatory: false,
   visible: true,
   calculated: false,
+  fieldSource: 'specfield',
 }
 
 export const wingFilter: FilterField = {
@@ -110,6 +112,7 @@ export const wingFilter: FilterField = {
   mandatory: false,
   visible: true,
   calculated: false,
+  fieldSource: 'specfield',
 }
 
 export const granularDateRangeFilter: FilterField = {
@@ -122,6 +125,7 @@ export const granularDateRangeFilter: FilterField = {
   visible: true,
   type: 'date',
   mandatory: false,
+  fieldSource: 'specfield',
   filter: {
     type: 'granulardaterange',
     defaultQuickFilterValue: 'last-three-months',

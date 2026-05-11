@@ -39,6 +39,7 @@ export const featureTestingSelectedFilters: components['schemas']['VariantDefini
         visible: true,
         calculated: false,
         header: false,
+        fieldSource: 'specfield',
         filter: {
           type: 'Radio',
           staticOptions: [

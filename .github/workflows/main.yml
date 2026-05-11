@@ -78,123 +78,123 @@ jobs:
 
       - run: npm run test
 
-  # test_with_app:
-  #   runs-on: ubuntu-latest
-  #   permissions:
-  #     contents: read
+  test_with_app:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
 
-  #   services:
-  #     redis:
-  #       image: redis
-  #       ports:
-  #         - 6379:6379
-  #       options: >-
-  #         --health-cmd "redis-cli ping"
-  #         --health-interval 10s
-  #         --health-timeout 5s
-  #         --health-retries 5
+    services:
+      redis:
+        image: redis
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
-  #   steps:
-  #     - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
-  #     - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e
-  #       with:
-  #         node-version: '22.x'
-  #         cache: 'npm'
+      - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e
+        with:
+          node-version: '22.x'
+          cache: 'npm'
 
-  #     - name: SLSA - supply chain attack mitigation
-  #       uses: ministryofjustice/devsecops-actions/sca/slsa@7dc13c20e2bf541b8a77fa1320a04983b18846f6
-  #       with:
-  #         security-patch-package-exclusion: "@ministryofjustice/hmpps-digital-prison-reporting-frontend"
-  #     - run: npm run setup
+      - name: SLSA - supply chain attack mitigation
+        uses: ministryofjustice/devsecops-actions/sca/slsa@7dc13c20e2bf541b8a77fa1320a04983b18846f6
+        with:
+          security-patch-package-exclusion: '@ministryofjustice/hmpps-digital-prison-reporting-frontend'
+      - run: npm run setup
 
-  #     - name: Clone mi-ui
-  #       run: |
-  #         git clone https://github.com/ministryofjustice/hmpps-digital-prison-reporting-mi-ui.git ../app
+      - name: Clone mi-ui
+        run: |
+          git clone https://github.com/ministryofjustice/hmpps-digital-prison-reporting-mi-ui.git ../app
 
-  #     - name: mi-ui setup using this branch
-  #       run: npm run setup
-  #       working-directory: ${{ github.workspace }}/../app
+      - name: mi-ui setup using this branch
+        run: npm run setup
+        working-directory: ${{ github.workspace }}/../app
 
-  #     - name: Build lib and copy output into node_modules of mi-ui
-  #       working-directory: ${{ github.workspace }}
-  #       run: |
-  #         npm run rpack
-  #         rm -rf ../app/node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend/*
-  #         cp -R dist/* ../app/node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend/
+      - name: Build lib and copy output into node_modules of mi-ui
+        working-directory: ${{ github.workspace }}
+        run: |
+          npm run rpack
+          rm -rf ../app/node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend/*
+          cp -R dist/* ../app/node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend/
 
-  #     - name: Build mi-ui
-  #       run: npm run build
-  #       working-directory: ${{ github.workspace }}/../app
+      - name: Build mi-ui
+        run: npm run build
+        working-directory: ${{ github.workspace }}/../app
 
-  #     - name: mi-ui unit tests
-  #       run: npm run test:ci
-  #       working-directory: ${{ github.workspace }}/../app
+      - name: mi-ui unit tests
+        run: npm run test:ci
+        working-directory: ${{ github.workspace }}/../app
 
-  #     - name: Get wiremock
-  #       run: curl -o wiremock.jar https://repo1.maven.org/maven2/com/github/tomakehurst/wiremock-standalone/2.27.1/wiremock-standalone-2.27.1.jar
-  #       working-directory: ${{ github.workspace }}/../app
+      - name: Get wiremock
+        run: curl -o wiremock.jar https://repo1.maven.org/maven2/com/github/tomakehurst/wiremock-standalone/2.27.1/wiremock-standalone-2.27.1.jar
+        working-directory: ${{ github.workspace }}/../app
 
-  #     - name: Run wiremock
-  #       run: java -jar wiremock.jar --port 9091 --global-response-templating &
-  #       working-directory: ${{ github.workspace }}/../app
+      - name: Run wiremock
+        run: java -jar wiremock.jar --port 9091 --global-response-templating &
+        working-directory: ${{ github.workspace }}/../app
 
-  #     - name: Run mi-ui (prisons)
-  #       run: npm run start-feature > mi-ui.log 2>&1 &
-  #       working-directory: ${{ github.workspace }}/../app
+      - name: Run mi-ui (prisons)
+        run: npm run start-feature > mi-ui.log 2>&1 &
+        working-directory: ${{ github.workspace }}/../app
 
-  #     - name: Run mi-ui (probation
-  #       run: npm run start-feature:probation > mi-ui.log 2>&1 &
-  #       working-directory: ${{ github.workspace }}/../app
+      - name: Run mi-ui (probation
+        run: npm run start-feature:probation > mi-ui.log 2>&1 &
+        working-directory: ${{ github.workspace }}/../app
 
-  #     - name: Wait for mi-ui to start
-  #       run: sleep 5
-  #       working-directory: ${{ github.workspace }}/../app
+      - name: Wait for mi-ui to start
+        run: sleep 5
+        working-directory: ${{ github.workspace }}/../app
 
-  #     - name: mi-ui integration tests (Cypress)
-  #       run: npm run int-test
-  #       working-directory: ${{ github.workspace }}/../app
+      - name: mi-ui integration tests (Cypress)
+        run: npm run int-test
+        working-directory: ${{ github.workspace }}/../app
 
-  #     # ---------------------------------------------
-  #     # COLLECT & UPLOAD ARTIFACTS (SAFE PATHS)
-  #     # ---------------------------------------------
-  #     - name: Collect logs & Cypress artifacts
-  #       if: success() || failure()
-  #       run: |
-  #         mkdir -p artifacts/mi-ui
-  #         mkdir -p artifacts/cypress/videos
-  #         mkdir -p artifacts/cypress/screenshots
+      # ---------------------------------------------
+      # COLLECT & UPLOAD ARTIFACTS (SAFE PATHS)
+      # ---------------------------------------------
+      - name: Collect logs & Cypress artifacts
+        if: success() || failure()
+        run: |
+          mkdir -p artifacts/mi-ui
+          mkdir -p artifacts/cypress/videos
+          mkdir -p artifacts/cypress/screenshots
 
-  #         # Copy mi-ui app log
-  #         cp ../app/mi-ui.log artifacts/mi-ui/ 2>/dev/null || true
+          # Copy mi-ui app log
+          cp ../app/mi-ui.log artifacts/mi-ui/ 2>/dev/null || true
 
-  #         # Copy WireMock log
-  #         cp ../app/wiremock.log artifacts/mi-ui/ 2>/dev/null || true
+          # Copy WireMock log
+          cp ../app/wiremock.log artifacts/mi-ui/ 2>/dev/null || true
 
-  #         # Copy Cypress videos & screenshots
-  #         cp -R ../app/cypress-tests/integration-tests/videos/* artifacts/cypress/videos/ 2>/dev/null || true
-  #         cp -R ../app/cypress-tests/integration-tests/screenshots/* artifacts/cypress/screenshots/ 2>/dev/null || true
+          # Copy Cypress videos & screenshots
+          cp -R ../app/cypress-tests/integration-tests/videos/* artifacts/cypress/videos/ 2>/dev/null || true
+          cp -R ../app/cypress-tests/integration-tests/screenshots/* artifacts/cypress/screenshots/ 2>/dev/null || true
 
-  #     - name: Upload mi-ui logs
-  #       if: success() || failure()
-  #       uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
-  #       with:
-  #         name: mi-ui-logs
-  #         path: artifacts/mi-ui
+      - name: Upload mi-ui logs
+        if: success() || failure()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: mi-ui-logs
+          path: artifacts/mi-ui
 
-  #     - name: Upload Cypress videos
-  #       if: success() || failure()
-  #       uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
-  #       with:
-  #         name: mi-ui-cypress-videos
-  #         path: artifacts/cypress/videos
+      - name: Upload Cypress videos
+        if: success() || failure()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: mi-ui-cypress-videos
+          path: artifacts/cypress/videos
 
-  #     - name: Upload Cypress screenshots
-  #       if: success() || failure()
-  #       uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
-  #       with:
-  #         name: mi-ui-cypress-screenshots
-  #         path: artifacts/cypress/screenshots
+      - name: Upload Cypress screenshots
+        if: success() || failure()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: mi-ui-cypress-screenshots
+          path: artifacts/cypress/screenshots
 
   integration_test:
     runs-on: ubuntu-latest

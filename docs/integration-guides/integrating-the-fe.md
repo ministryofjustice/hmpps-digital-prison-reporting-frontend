@@ -115,7 +115,7 @@ See [Catalogue](/components/catalogue) component for usage and examples.
 
 <hr class='dpr-docs-hr'>
 
-# User reports list Component
+# My Reports Component
 
 This component is used to visualise and enable users to keep track of all requests, bookmarks and recently viewed reports so you can quickly navigate around the embedded DPR platform.
 
@@ -143,21 +143,16 @@ Initialise the component with the required data using the component utility help
 
 ```js
 // server/routes/index.ts
-
-import { initUserReports } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/userReportsListUtils'
-
+import { initMyReports } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/myReportsListUtils'
 
 export function routes(services: Services): Router {
-
   ...
-
   router.get('/path/to/requested/reports/list/', (req, res) => {
-
-    const userReportsLists = await initUserReports({ res, req, services })
+    const myReportsData = await initMyReports({ res, req, services })
 
     res.render('requested-reports.njk', {
       title: 'DPR test site',
-      userReportsLists
+      myReportsData
     })
   })
 }
@@ -168,9 +163,9 @@ export default routes
 ### Add the component to your HTML
 
 ```js
-{ from "@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/components/user-reports/view.njk" import dprUserReports }
+{ from "@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/components/my-reports/view.njk" import dprMyReports }
 
-{ dprUserReports(userReportsLists) }
+{ dprMyReports(myReportsData) }
 ```
 
 See [Reports List](/components/reports-list) component for usage and examples.

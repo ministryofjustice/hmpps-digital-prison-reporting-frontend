@@ -1,5 +1,5 @@
 import { RequestHandler } from 'express'
-import UserReportsListUtils from '../../../../../src/dpr/components/user-reports/utils'
+import { initMyReports } from '../../../../../src/dpr/components/my-reports/utils'
 import { Services } from '../../../../../src/dpr/types/Services'
 
 export default class UserReportsController {
@@ -9,13 +9,13 @@ export default class UserReportsController {
     this.services = services
   }
 
-  GET: RequestHandler = async (_req, res) => {
+  GET: RequestHandler = async (req, res) => {
     res.locals['bookmarkingEnabled'] = false
-    const userReports = await UserReportsListUtils.initUserReports({ services: this.services, res, maxRows: 20 })
+    const myReportsData = await initMyReports(req, res, this.services, { maxRows: 20 })
 
     res.render('views/pages/components/user-reports/view.njk', {
       title: 'User reports list',
-      userReports,
+      myReportsData,
     })
   }
 }

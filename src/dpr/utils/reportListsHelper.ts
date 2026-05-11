@@ -79,7 +79,7 @@ export const createListActions = (
   }
 
   if (bookmarkHtml) {
-    requestAction = `${requestAction}${bookmarkHtml}`
+    requestAction = `${requestAction}</br>${bookmarkHtml}`
   }
 
   return requestAction

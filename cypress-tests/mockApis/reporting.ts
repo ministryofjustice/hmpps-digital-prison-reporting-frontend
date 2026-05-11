@@ -30,7 +30,12 @@ import {
   getAsyncSummaryReport,
   getInteractiveReportDownloadMock,
 } from '@networkMocks/report/mocks'
-import { generateIndividualDefinitionSummaries, getDefinitionSummaries, pollingEndpoint } from '@networkMocks/mocks'
+import {
+  generateIndividualDefinitionSummaries,
+  getDefinitionSummaries,
+  pollingEndpoint,
+  expiredEndpoint,
+} from '@networkMocks/mocks'
 import { generateNetworkMock, stubFor } from '@networkMocks/generateNetworkMock'
 import { missingReportSubmitFailMock, missingReportSubmitSuccessMock } from '@networkMocks/report/missingReport/mocks'
 import { featureTestingUnprintable } from '@networkMocks/report/mockVariants/feature-testing/unprintable'
@@ -106,6 +111,7 @@ export const stubs = {
   stubAsyncSummaryReport: () => stubFor(getAsyncSummaryReport),
   stubDefinitions: () => stubFor(getDefinitionSummaries),
   stubPollingReportEndpoint: () => stubFor(pollingEndpoint),
+  stubExpiredEndpoint: () => stubFor(expiredEndpoint),
   stubCancelAsyncRequest: () => stubFor(cancelAsyncRequestMock),
   stubDefinitionRequestExamplesSuccess: () =>
     stubFor(setupSimpleReportDefinitionResponseMock(`request-examples`, requestExampleSuccess)),

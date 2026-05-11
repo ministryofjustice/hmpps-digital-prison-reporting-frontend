@@ -111,3 +111,35 @@ export const stubBookmarks = () => {
     .then(() => cy.task('stubDefinitionUnprintable'))
     .then(() => cy.task('stubDefinitionEmptyReport'))
 }
+
+// ---------------------------------
+// My Report test helpers
+// ---------------------------------
+
+export const getMyReportRow = ({ name }: { name: string | RegExp }) => {
+  return cy
+    .findByRole('heading', {
+      name,
+      level: 2,
+    })
+    .closest('.dpr-my-reports__cell--title')
+    .nextUntil('.dpr-my-reports__cell--title')
+    .then(($cells) => {
+      const $row = $cells.addBack()
+      return cy.wrap($row)
+    })
+}
+
+export const getMyReportRowCell = ({ name, cell }: { name: string | RegExp; cell: string }) => {
+  return getMyReportRow({ name }).then(($cells) => {
+    const $cell = $cells.filter(`.dpr-my-reports__cell--${cell}`)
+    expect($cell.length, 'exactly one actions cell per report row').to.eq(1)
+    return cy.wrap($cell)
+  })
+}
+
+export const expectMyReportRowCountInTab = ({ tabName, count }: { tabName: string | RegExp; count: number }) => {
+  cy.findByLabelText(tabName).within(() => {
+    cy.findAllByRole('heading', { level: 2 }).should('have.length', count)
+  })
+}

@@ -44,7 +44,7 @@ class BookmarkService extends ReportStoreService {
 
     const userConfig = await this.getState(userId)
     const index = userConfig.bookmarks.findIndex((bookmark) => {
-      const bmVarId = bookmark.id
+      const bmVarId = bookmark.id || bookmark.variantId
       return bmVarId === id && bookmark.reportId === reportId
     })
     if (index >= 0) {

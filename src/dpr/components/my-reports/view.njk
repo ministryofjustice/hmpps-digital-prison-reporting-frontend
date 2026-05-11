@@ -1,0 +1,51 @@
+{% from "govuk/components/tabs/macro.njk" import govukTabs %}
+{% from "./my-reports-list/view.njk" import dprMyReportList %}
+
+{% macro dprMyReports(myReportsConfig) %}
+
+  {% set items = [] %}
+  {% set requested = myReportsConfig.requested %}
+  {% set bookmarks = myReportsConfig.bookmarks %}
+  {% set viewed = myReportsConfig.viewed %}
+
+  {% if bookmarks %}
+    {% set bookmarksHtml %}
+      {{ dprMyReportList(bookmarks) }}
+    {% endset %}
+
+    {% set items = (items.push({
+      label: "Bookmarks (" + bookmarks.items.length + ")",
+      id: "my-bookmarks-tab",
+      panel: { html: bookmarksHtml }
+    }), items) -%}
+  {% endif %}
+
+  {% if requested %}
+    {% set requestedHtml %}
+      {{ dprMyReportList(requested) }}
+    {% endset -%}
+
+    {% set items = (items.push({
+      label: "Requested (" + requested.items.length + ")",
+      id: "requested-reports-tab",
+      panel: { html: requestedHtml }
+    }), items) %}
+  {% endif %}
+
+  {% if viewed %}
+    {% set viewedHtml %}
+      {{ dprMyReportList(viewed) }}
+    {% endset -%}
+
+    {% set items = (items.push({
+      label: "Viewed (" + viewed.items.length + ")",
+      id: "recently-viewed-tab",
+      panel: { html: viewedHtml }
+    }), items) %}
+  {% endif %}
+
+  <div id="dpr-user-reports-list-component">
+    {{ govukTabs({ items: items}) }}
+  </div>
+
+{% endmacro %}

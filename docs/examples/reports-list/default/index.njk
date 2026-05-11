@@ -2,242 +2,433 @@
 layout: layouts/example.njk
 title: User Reports List (example)
 ---
-{%- from "dpr/components/user-reports/view.njk" import dprUserReports -%}
+{%- from "dpr/components/my-reports/view.njk" import dprMyReports -%}
 
-{% set requestedReports = {
-  head: {
-    href: "./async-reports/requested"
-  },
-  tableData: {
-    rows: [
-      [
-        {
-          html: "<div>\n <p class='govuk-body-s govuk-!-margin-bottom-1'>Report name</p>\n <p class='govuk-body govuk-!-margin-bottom-2'><strong>Variant name 1</strong></p>\n <strong class='govuk-tag dpr-request-status-tag dpr-request-status-tag--small govuk-!-margin-bottom-4''>Report</strong>\n <p class='govuk-body-xs govuk-!-margin-bottom-0 govuk-!-margin-top-2 '>Ready at: 24/10/2024</p>\n</div>"
-        },
-        {
-          html: "<ul class='dpr-card-group__item__filters-list govuk-!-margin-top-0 govuk-!-margin-bottom-0'><li class='govuk-body-s'><strong>Field 1:</strong> value1.3</li><li class='govuk-body-s'><strong>Field 2:</strong> value2.3</li><li class='govuk-body-s'><strong>Sort Column:</strong> Field 1</li><li class='govuk-body-s'><strong>Sort Direction:</strong> Ascending</li></ul>"
-        },
-        {
-          html: "<strong class='govuk-tag dpr-request-status-tag govuk-tag--green'>FINISHED</strong>",
-          classes: "dpr-req-cell dpr-req-cell__status"
-        },
-        {
-          html: "<a class='govuk-link govuk-link--no-visited-state' href='#'>Go to report</a>",
-          classes: "dpr-req-cell dpr-req-cell__status"
-        }
-      ],
-      [
-        {
-          html: "<div>\n <p class='govuk-body-s govuk-!-margin-bottom-1'>Report name</p>\n <p class='govuk-body govuk-!-margin-bottom-2'><strong>Variant name 2</strong></p>\n <strong class='govuk-tag dpr-request-status-tag dpr-request-status-tag--small govuk-!-margin-bottom-4''>Report</strong>\n <p class='govuk-body-xs govuk-!-margin-bottom-0 govuk-!-margin-top-2 '>Expired at: 24/10/2024</p>\n</div>"
-        },
-        {
-          html: "<ul class='dpr-card-group__item__filters-list govuk-!-margin-top-0 govuk-!-margin-bottom-0'><li class='govuk-body-s'><strong>Field 1:</strong> value1.3</li><li class='govuk-body-s'><strong>Field 2:</strong> value2.1</li><li class='govuk-body-s'><strong>Sort Column:</strong> Field 1</li><li class='govuk-body-s'><strong>Sort Direction:</strong> Ascending</li></ul>"
-        },
-        {
-          html: "<strong class='govuk-tag dpr-request-status-tag govuk-tag--grey'>EXPIRED</strong>",
-          classes: "dpr-req-cell dpr-req-cell__status"
-        },
-        {
-          html: "<div class='dpr-icon-wrapper__item-actions'>\n <a class='dpr-user-list-action govuk-link--no-visited-state govuk-!-margin-bottom-1' href=''>Refresh</a>\n <a class='dpr-user-list-action govuk-link--no-visited-state dpr-remove-requested-report-button' href='#' data-execution-id='exId_1729765871851'>Remove</a>\n </div>",
-          classes: "dpr-req-cell dpr-req-cell__status"
-        }
-      ],
-      [
-        {
-          html: "<div>\n <p class='govuk-body-s govuk-!-margin-bottom-1'>Report name</p>\n <p class='govuk-body govuk-!-margin-bottom-2'><strong>Variant name 2</strong></p>\n <strong class='govuk-tag dpr-request-status-tag dpr-request-status-tag--small govuk-!-margin-bottom-4''>Report</strong>\n <p class='govuk-body-xs govuk-!-margin-bottom-0 govuk-!-margin-top-2 '>Failed at: 24/10/2024</p>\n</div>"
-        },
-        {
-          html: "<ul class='dpr-card-group__item__filters-list govuk-!-margin-top-0 govuk-!-margin-bottom-0'><li class='govuk-body-s'><strong>Field 4:</strong> Inigo Montoya</li><li class='govuk-body-s'><strong>Sort Column:</strong> Field 1</li><li class='govuk-body-s'><strong>Sort Direction:</strong> Ascending</li></ul>"
-        },
-        {
-          html: "<strong class='govuk-tag dpr-request-status-tag govuk-tag--red'>FAILED</strong>",
-          classes: "dpr-req-cell dpr-req-cell__status"
-        },
-        {
-          html: "<div class='dpr-icon-wrapper__item-actions'>\n <a class='dpr-user-list-action govuk-link--no-visited-state govuk-!-margin-bottom-1' href='#'>Retry</a>\n <a class='dpr-user-list-action govuk-link--no-visited-state dpr-remove-requested-report-button' href='#' data-execution-id='exId_1729765694790'>Remove</a>\n </div>",
-          classes: "dpr-req-cell dpr-req-cell__status"
-        }
-      ]
-    ],
-    head: [
+{% set myReportsData = {
+  "bookmarks": {
+    "title": "Bookmarks",
+    "listType": "bookmarks",
+    "headings": [
       {
-        text: "Product",
-        classes: "dpr-req-product-head"
+        "key": "title",
+        "name": "Product",
+        "classes": "dpr-my-reports__cell--title",
+        "showIn": [
+          "bookmarks",
+          "requested",
+          "viewed"
+        ]
       },
       {
-        text: "Filters",
-        classes: "dpr-req-filters-head"
+        "key": "description",
+        "name": "Description",
+        "classes": "dpr-my-reports__cell--description",
+        "showIn": [
+          "bookmarks"
+        ]
       },
       {
-        text: "Status",
-        classes: "dpr-req-status-head"
-      },
-      {
-        text: "Actions",
-        classes: "dpr-req-actions-head"
+        "key": "actions",
+        "name": "Actions",
+        "classes": "dpr-my-reports__cell--actions",
+        "showIn": [
+          "bookmarks",
+          "requested",
+          "viewed"
+        ]
       }
-    ]
-  },
-  total: {
-    amount: 3,
-    shown: 3,
-    max: 20
-  },
-  meta: [
-    {
-      reportId: "test-report-3",
-      id: "variantId-1",
-      executionId: "exId_1729765628165",
-      tableId: "tblId_1729765628165",
-      status: "FINISHED",
-      type: "report",
-      dataProductDefinitionsPath: ""
-    },
-    {
-      reportId: "test-report-3",
-      id: "variantId-4",
-      executionId: "exId_1729765871851",
-      tableId: "tblId_1729765871851",
-      status: "EXPIRED",
-      type: "report",
-      dataProductDefinitionsPath: ""
-    },
-    {
-      reportId: "test-report-3",
-      id: "variantId-2",
-      executionId: "exId_1729765694790",
-      tableId: "tblId_1729765694790",
-      status: "FAILED",
-      type: "report",
-      dataProductDefinitionsPath: ""
+    ],
+    "items": [
+      {
+        "title": {
+          "productName": "Product Name",
+          "reportName": "Bookmark 1",
+          "reportType": "report"
+        },
+        "description": "Example report bookmark",
+        "actions": {
+          "request": {
+            "href": "/dpr/request-report/report/request-examples/request-example-success/filters",
+            "reportType": "report"
+          },
+          "bookmark": {
+            "reportId": "bm1",
+            "id": "bm1.1",
+            "reportType": "report",
+            "csrfToken": "csrfToken",
+            "bookmarkActionEndpoint": "/dpr/my-reports/bookmarks",
+            "linkType": "remove",
+            "linkText": "Remove bookmark"
+          }
+        }
+      },
+      {
+        "title": {
+          "productName": "Product Name",
+          "reportName": "Bookmark 2",
+          "reportType": "dashboard"
+        },
+        "description": "Example dashboard bookmark",
+        "actions": {
+          "request": {
+            "href": "/dpr/request-report/dashboard/mock-dashboards/test-dashboard-8/filters",
+            "reportType": "dashboard"
+          },
+          "bookmark": {
+            "reportId": "bm2",
+            "id": "bm2.1",
+            "reportType": "dashboard",
+            "csrfToken": "csrfToken",
+            "bookmarkActionEndpoint": "/dpr/my-reports/bookmarks",
+            "linkType": "remove",
+            "linkText": "Remove bookmark"
+          }
+        }
+      }
+    ],
+    "totals": {
+      "total": 2,
+      "shown": 2
     }
-  ],
-  csrfToken: "csrfToken",
-  maxRows: 20
-}
-%}
-
-{% set viewedReports = {
-  head: {
-    href: "./async-reports/viewed"
   },
-  tableData: {
-    rows: [
-      [
-        {
-          html: "<div>\n <p class='govuk-body-s govuk-!-margin-bottom-1'>Report Name</p>\n <p class='govuk-body govuk-!-margin-bottom-2'><strong>Viewed report</strong></p>\n <strong class='govuk-tag dpr-request-status-tag dpr-request-status-tag--small govuk-!-margin-bottom-4'>Report</strong>\n <p class='govuk-body-xs govuk-!-margin-bottom-0 govuk-!-margin-top-2'>Expired at: 23/04/2025</p>\n</div>"
-        },
-        {
-          html: "<ul class='dpr-card-group__item__filters-list govuk-!-margin-top-0 govuk-!-margin-bottom-0'><li class='govuk-body-s'><strong>Field 1:</strong> value1.1</li><li class='govuk-body-s'><strong>Sort Column:</strong> Field 1</li><li class='govuk-body-s'><strong>Sort Direction:</strong> Ascending</li></ul>"
-        },
-        {
-          html: "<strong class='govuk-tag dpr-request-status-tag govuk-tag--grey'>EXPIRED</strong>",
-          classes: "dpr-req-cell dpr-req-cell__status"
-        },
-        {
-          html: "<div class='dpr-icon-wrapper__item-actions'>\n <a class='dpr-user-list-action govuk-link--no-visited-state govuk-!-margin-bottom-1' href=''>Refresh</a>\n <a class='dpr-user-list-action govuk-link--no-visited-state dpr-remove-viewed-report-button' href='#' data-execution-id='exId_1729766362362'>Remove</a>\n </div>",
-          classes: "dpr-req-cell dpr-req-cell__status"
-        }
-      ]
-    ],
-    head: [
+  "requested": {
+    "title": "Requested reports",
+    "listType": "requested",
+    "csrfToken": "csrfToken",
+    "headings": [
       {
-        text: "Product",
-        classes: "dpr-req-product-head"
+        "key": "title",
+        "name": "Product",
+        "classes": "dpr-my-reports__cell--title",
+        "showIn": [
+          "bookmarks",
+          "requested",
+          "viewed"
+        ]
       },
       {
-        text: "Filters",
-        classes: "dpr-req-filters-head"
+        "key": "filters",
+        "name": "Filters",
+        "classes": "dpr-my-reports__cell--filters",
+        "showIn": [
+          "requested",
+          "viewed"
+        ]
       },
       {
-        text: "Status",
-        classes: "dpr-req-status-head"
+        "key": "status",
+        "name": "Status",
+        "classes": "dpr-my-reports__cell--status",
+        "showIn": [
+          "requested",
+          "viewed"
+        ]
       },
       {
-        text: "Actions",
-        classes: "dpr-req-actions-head"
+        "key": "actions",
+        "name": "Actions",
+        "classes": "dpr-my-reports__cell--actions",
+        "showIn": [
+          "bookmarks",
+          "requested",
+          "viewed"
+        ]
       }
-    ]
-  },
-  total: {
-    amount: 1,
-    shown: 1,
-    max: 20
-  },
-  meta: [
-    {
-      reportId: "test-report-3",
-      id: "variantId-1",
-      executionId: "exId_1729766362362",
-      tableId: "tblId_1729766362362",
-      status: "EXPIRED",
-      type: "report"
+    ],
+    "items": [
+      {
+        "title": {
+          "productName": "Requested report",
+          "reportName": "Requested report 1",
+          "reportType": "report",
+          "timestamp": "Expired at 24/10/2024 11:31"
+        },
+        "filters": {
+          "prerequest": [
+            {
+              "name": "Field 1",
+              "value": "value1.3"
+            },
+            {
+              "name": "Field 2",
+              "value": "value2.1"
+            },
+            {
+              "name": "Field 3 start",
+              "value": "01/02/2003"
+            },
+            {
+              "name": "Sort Column",
+              "value": "Field 1"
+            },
+            {
+              "name": "Sort Direction",
+              "value": "Ascending"
+            }
+          ],
+          "interactive": []
+        },
+        "status": "EXPIRED",
+        "actions": {
+          "refresh": {
+            "href": "http://localhost:3010/embedded/platform/async/report/rr1/rr1.1/request?filters.field1=value1.3&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&sortColumn=field1&sortedAsc=true&filters.field2=value2.1"
+          },
+          "remove": {
+            "action": "/dpr/my-reports/requested-reports/remove-item/exId_238947923",
+            "csrfToken": "csrfToken",
+            "returnTo": "/"
+          }
+        },
+        "meta": {
+          "id": "rr1",
+          "reportId": "rr1.1",
+          "tableId": "tblId_1729765871851",
+          "executionId": "exId_238947923",
+          "path": "/dpr/my-reports",
+          "listType": "requested"
+        }
+      },
+      {
+        "title": {
+          "productName": "Requested report",
+          "reportName": "Requested report 1",
+          "reportType": "report",
+          "timestamp": "Failed at 24/10/2024 11:28"
+        },
+        "filters": {
+          "prerequest": [
+            {
+              "name": "Field 1",
+              "value": "value1.3"
+            },
+            {
+              "name": "Field 2",
+              "value": "value2.2"
+            },
+            {
+              "name": "Field 3 start",
+              "value": "01/02/2003"
+            },
+            {
+              "name": "Field 3 end",
+              "value": "04/05/2006"
+            },
+            {
+              "name": "Field 4",
+              "value": "Inigo Montoya"
+            },
+            {
+              "name": "Sort Column",
+              "value": "Field 1"
+            },
+            {
+              "name": "Sort Direction",
+              "value": "Ascending"
+            }
+          ],
+          "interactive": []
+        },
+        "status": "FAILED",
+        "actions": {
+          "retry": {
+            "href": "http://localhost:3010/embedded/platform/async/report/rr2/rr2.1/request/exId_238947923"
+          },
+          "remove": {
+            "action": "/dpr/my-reports/requested-reports/remove-item/exId_238947924",
+            "csrfToken": "csrfToken",
+            "returnTo": "/"
+          }
+        },
+        "meta": {
+          "id": "rr2.1",
+          "reportId": "rr2",
+          "tableId": "tblId_1729765694790",
+          "executionId": "exId_238947924",
+          "path": "/dpr/my-reports",
+          "listType": "requested"
+        }
+      },
+      {
+        "title": {
+          "productName": "Requested report",
+          "reportName": "Requested report 3",
+          "reportType": "report",
+          "timestamp": "Aborted at 24/10/2024 11:33"
+        },
+        "filters": {
+          "prerequest": [
+            {
+              "name": "Field 1",
+              "value": "value1.1"
+            },
+            {
+              "name": "Field 2",
+              "value": "value2.3"
+            },
+            {
+              "name": "Field 3 start",
+              "value": "01/02/2003"
+            },
+            {
+              "name": "Field 3 end",
+              "value": "04/05/2006"
+            },
+            {
+              "name": "Field 6",
+              "value": "Value 6.1"
+            },
+            {
+              "name": "Field 7",
+              "value": "04/05/2007"
+            },
+            {
+              "name": "Sort Column",
+              "value": "Field 1"
+            },
+            {
+              "name": "Sort Direction",
+              "value": "Ascending"
+            }
+          ],
+          "interactive": []
+        },
+        "status": "ABORTED",
+        "actions": {
+          "retry": {
+            "href": "http://localhost:3010/embedded/platform/async/report/rr3/rr3.1/request?filters.field1=value1.1&filters.field2=value2.3&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2007-05-04&sortColumn=field1&sortedAsc=true&filters.field6=Value+6.1"
+          },
+          "remove": {
+            "action": "/dpr/my-reports/requested-reports/remove-item/exId_238947925",
+            "csrfToken": "csrfToken",
+            "returnTo": "/"
+          }
+        },
+        "meta": {
+          "id": "rr3.1",
+          "reportId": "rr3",
+          "tableId": "tblId_1729766013077",
+          "executionId": "exId_238947925",
+          "path": "/dpr/my-reports",
+          "listType": "requested"
+        }
+      }
+    ],
+    "totals": {
+      "total": 3,
+      "shown": 3
     }
-  ],
-  csrfToken: "csrfToken",
-  maxRows: 20
-}
-%}
-
-{% set bookmarks = {
-  head: {
-    href: "./async-reports/bookmarks"
   },
-  tableData: {
-    rows: [
-      [
-        {
-          html: "<div>\n <p class='govuk-body-s govuk-!-margin-bottom-1'>Report name</p>\n <p class='govuk-body govuk-!-margin-bottom-2'><strong>Bookmarked variant</strong></p>\n <strong class='govuk-tag dpr-request-status-tag dpr-request-status-tag--small govuk-!-margin-bottom-4''>Report</strong>\n <p class='govuk-body-xs govuk-!-margin-bottom-0 govuk-!-margin-top-2 dpr-display-none'>undefined</p>\n</div>"
-        },
-        {
-          html: "<div class='dpr-show-more' data-content='Bookmarked variant 1 description' data-dpr-module='show-more' data-length='200'>\n <div class='dpr-show-more-content'>Bookmarked variant description</div><a class='dpr-show-hide-button govuk-link--no-visited-state' href='#'>show more</a>\n </div>",
-          classes: "dpr-req-cell"
-        },
-        {
-          html: "<a class='dpr-user-list-action govuk-link--no-visited-state govuk-!-margin-bottom-1' href='/async/report/test-report-3/variantId-1/request'>Request report</a><a href='#'' class='govuk-link govuk-link--no-visited-state dpr-bookmark-link dpr-user-list-action' id='dashboard-visualisations-chart-examples-data-quality-reports-list' data-dpr-module='bookmark-button' data-id='chart-examples-data-quality' data-report-id='dashboard-visualisations' data-report-type='dashboard' data-base-url='/embedded/platform' data-csrf-token='csrfToken' data-link-type='add' style='opacity: 1;'>Add bookmark</a>",
-          classes: "dpr-req-cell dpr-req-cell__status"
-        }
-      ],
-      [
-        {
-          html: "<div>\n <p class='govuk-body-s govuk-!-margin-bottom-1'>Report name</p>\n <p class='govuk-body govuk-!-margin-bottom-2'><strong>Bookmarked dashboard</strong></p>\n <strong class='govuk-tag govuk-tag--purple dpr-request-status-tag dpr-request-status-tag--small govuk-!-margin-bottom-4''>Dashboard</strong>\n <p class='govuk-body-xs govuk-!-margin-bottom-0 govuk-!-margin-top-2 dpr-display-none'>undefined</p>\n</div>"
-        },
-        {
-          html: "<div class='dpr-show-more' data-content='Bookmarked dashboard 1 description' data-dpr-module='show-more' data-length='200'>\n <div class='dpr-show-more-content'>Bookmarked dashboard 1 description</div><a class='dpr-show-hide-button govuk-link--no-visited-state' href='#'>show more</a>\n </div>",
-          classes: "dpr-req-cell"
-        },
-        {
-          html: "<a class='dpr-user-list-action govuk-link--no-visited-state govuk-!-margin-bottom-1' href='/async/dashboard/test-report-1/test-dashboard-8/request'>Request dashboard</a><a href='#'' class='govuk-link govuk-link--no-visited-state dpr-bookmark-link dpr-user-list-action' id='dashboard-visualisations-chart-examples-data-quality-reports-list' data-dpr-module='bookmark-button' data-id='chart-examples-data-quality' data-report-id='dashboard-visualisations' data-report-type='dashboard' data-base-url='/embedded/platform' data-csrf-token='csrfToken' data-link-type='add' style='opacity: 1;'>Add bookmark</a>",
-          classes: "dpr-req-cell dpr-req-cell__status"
-        }
-      ]
-    ],
-    head: [
+  "viewed": {
+    "title": "Recently viewed",
+    "listType": "viewed",
+    "csrfToken": "csrfToken",
+    "headings": [
       {
-        text: "Product",
-        classes: "dpr-req-product-head"
+        "key": "title",
+        "name": "Product",
+        "classes": "dpr-my-reports__cell--title",
+        "showIn": [
+          "bookmarks",
+          "requested",
+          "viewed"
+        ]
       },
       {
-        text: "Description",
-        classes: "dpr-bm-description-head"
+        "key": "filters",
+        "name": "Filters",
+        "classes": "dpr-my-reports__cell--filters",
+        "showIn": [
+          "requested",
+          "viewed"
+        ]
       },
       {
-        text: "Actions",
-        classes: "dpr-bm-actions-head"
+        "key": "status",
+        "name": "Status",
+        "classes": "dpr-my-reports__cell--status",
+        "showIn": [
+          "requested",
+          "viewed"
+        ]
+      },
+      {
+        "key": "actions",
+        "name": "Actions",
+        "classes": "dpr-my-reports__cell--actions",
+        "showIn": [
+          "bookmarks",
+          "requested",
+          "viewed"
+        ]
       }
-    ]
-  },
-  total: {
-    amount: 2,
-    shown: 2,
-    max: 20
-  },
-  csrfToken: "csrfToken"
-} 
-%}
+    ],
+    "items": [
+      {
+        "title": {
+          "productName": "Viewed report",
+          "reportName": "Viewed report 1",
+          "reportType": "report",
+          "timestamp": "Expired at 24/10/2024 11:41"
+        },
+        "filters": {
+          "prerequest": [
+            {
+              "name": "Field 2",
+              "value": "value2.3"
+            },
+            {
+              "name": "Field 3 start",
+              "value": "05/09/2003"
+            },
+            {
+              "name": "Field 3 end",
+              "value": "01/05/2007"
+            },
+            {
+              "name": "Field 4",
+              "value": "Inigo Montoya"
+            },
+            {
+              "name": "Field 7",
+              "value": "04/05/2007"
+            },
+            {
+              "name": "Sort Column",
+              "value": "Field 1"
+            },
+            {
+              "name": "Sort Direction",
+              "value": "Ascending"
+            }
+          ],
+          "interactive": []
+        },
+        "status": "EXPIRED",
+        "actions": {
+          "refresh": {
+            "href": "http://localhost:3010/embedded/platform/async/report/vr1/vr1.1/request?filters.field2=value2.3&filters.field3.start=2003-09-05&filters.field3.end=2007-05-01&filters.field7=2007-05-04&sortColumn=field1&sortedAsc=true&filters.field4=Inigo+Montoya"
+          },
+          "remove": {
+            "action": "/dpr/my-reports/recently-viewed/remove-item/exId_1729766362362/table-id/tblId_1729766465228",
+            "csrfToken": "csrfToken",
+            "returnTo": "/"
+          }
+        },
+        "meta": {
+          "id": "vr1.1",
+          "reportId": "vr1",
+          "tableId": "tblId_1729766465228",
+          "executionId": "exId_1729766362362",
+          "path": "/dpr/my-reports",
+          "listType": "viewed"
+        }
+      }
+    ],
+    "totals": {
+      "total": 1,
+      "shown": 1
+    }
+  }
+} %}
 
-{{ dprUserReports({
-  requestedReports: requestedReports,
-  viewedReports: viewedReports,
-  bookmarks: bookmarks
-})}}
+{{ dprMyReports(myReportsData)}}

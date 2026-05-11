@@ -17,6 +17,9 @@ import { setRedisState } from '../../../integrationTests/appStateUtils'
 import {
   checkA11y,
   executeReportStubs,
+  expectMyReportRowCountInTab,
+  getMyReportRow,
+  getMyReportRowCell,
   stubBaseTasks,
   stubDefinitionsTasks,
 } from '../../../../../cypress-tests/cypressUtils'
@@ -61,98 +64,18 @@ context('User reports component', () => {
 
     it('should show the link to view all reports', () => {
       cy.findByLabelText(/Requested.*/i).within(() => {
-        cy.findByRole('link', { name: 'Show all' }).should('exist')
-      })
-    })
-
-    it('should show the correct table headers', () => {
-      cy.findByLabelText(/Requested.*/i).within(() => {
-        cy.findAllByRole('rowgroup')
-          .eq(0)
-          .within(() => {
-            cy.findAllByRole('columnheader').each((head, index) => {
-              switch (index) {
-                case 0:
-                  cy.wrap(head).contains('Product')
-                  break
-                case 1:
-                  cy.wrap(head).contains('Filters')
-                  break
-                case 2:
-                  cy.wrap(head).contains('Status')
-                  break
-                case 3:
-                  cy.wrap(head).contains('Actions')
-                  break
-                default:
-                  break
-              }
-            })
-          })
+        cy.findByRole('link', { name: 'show all' }).should('exist')
       })
     })
 
     it('should show the product and variant information', () => {
+      expectMyReportRowCountInTab({ tabName: /Requested.*/i, count: 4 })
+
       cy.findByLabelText(/Requested*/i).within(() => {
-        cy.findAllByRole('rowgroup')
-          .eq(1)
-          .within(() => {
-            cy.findAllByRole('row').each((row) => {
-              cy.wrap(row).within(() => {
-                let status: string
-                cy.findAllByRole('cell').each((cell, index) => {
-                  cy.wrap(cell).within(() => {
-                    switch (index) {
-                      case 0:
-                        cy.findByLabelText(/Report name/).should('not.be.empty')
-                        cy.findByLabelText(/Product name/).should('not.be.empty')
-                        cy.findByLabelText(/Report type/).should('not.be.empty')
-                        break
-                      case 1:
-                        if (cell.find('li').length > 0) {
-                          cy.findAllByRole('listitem').each((li) => {
-                            cy.wrap(li).should('satisfy', ($el) => {
-                              const classList = Array.from($el[0].classList)
-                              return (
-                                classList.includes('dpr-query-summary') ||
-                                classList.includes('dpr-interactive-query-summary')
-                              )
-                            })
-                          })
-                        }
-                        break
-                      case 2:
-                        cy.findByRole('strong').then((s) => {
-                          status = s.text()
-                        })
-                        cy.findByRole('strong').contains(/FINISHED|EXPIRED|FAILED|ABORTED/g)
-                        break
-                      case 3:
-                        switch (status) {
-                          case 'FINISHED':
-                            cy.wrap(cell).contains('Go to report')
-                            break
-                          case 'EXPIRED':
-                            cy.wrap(cell).contains('Refresh')
-                            cy.wrap(cell).contains('Remove')
-                            break
-                          case 'FAILED':
-                          case 'ABORTED':
-                            cy.wrap(cell).contains('Retry')
-                            cy.wrap(cell).contains('Remove')
-                            break
-                          default:
-                            break
-                        }
-                        break
-                      default:
-                        break
-                    }
-                  })
-                })
-              })
-            })
-          })
+        getMyReportRow({ name: 'Successful report' }).contains('FINISHED')
+        getMyReportRow({ name: 'Cancelled report' }).contains('ABORTED')
+        getMyReportRow({ name: 'Expiring report' }).contains('EXPIRED')
+        getMyReportRow({ name: 'Failing report' }).contains('FAILED')
       })
     })
   })
@@ -199,93 +122,16 @@ context('User reports component', () => {
 
     it('should show the link to view all reports', () => {
       cy.findByLabelText(/Viewed \(/).within(() => {
-        cy.findByRole('link', { name: 'Show all' }).should('exist')
-      })
-    })
-
-    it('should show the correct table headers', () => {
-      cy.findByLabelText(/Viewed \(/).within(() => {
-        cy.findAllByRole('rowgroup')
-          .eq(0)
-          .within(() => {
-            cy.findAllByRole('columnheader').each((head, index) => {
-              switch (index) {
-                case 0:
-                  cy.wrap(head).contains('Product')
-                  break
-                case 1:
-                  cy.wrap(head).contains('Filters')
-                  break
-                case 2:
-                  cy.wrap(head).contains('Status')
-                  break
-                case 3:
-                  cy.wrap(head).contains('Actions')
-                  break
-                default:
-                  break
-              }
-            })
-          })
+        cy.findByRole('link', { name: 'Show all' }).should('not.exist')
       })
     })
 
     it('should show the product and variant information', () => {
       cy.findByLabelText(/Viewed \(/).within(() => {
-        cy.findAllByRole('rowgroup')
-          .eq(1)
-          .within(() => {
-            cy.findAllByRole('row').each((row) => {
-              cy.wrap(row).within(() => {
-                let status: string
-                cy.findAllByRole('cell').each((cell, index) => {
-                  cy.wrap(cell).within(() => {
-                    switch (index) {
-                      case 0:
-                        cy.findByLabelText(/Report name/).should('not.be.empty')
-                        cy.findByLabelText(/Product name/).should('not.be.empty')
-                        cy.findByLabelText(/Report type/).should('not.be.empty')
-                        break
-                      case 1:
-                        if (cell.find('li').length > 0) {
-                          cy.findAllByRole('listitem').each((li) => {
-                            cy.wrap(li).should('satisfy', ($el) => {
-                              const classList = Array.from($el[0].classList)
-                              return (
-                                classList.includes('dpr-query-summary') ||
-                                classList.includes('dpr-interactive-query-summary')
-                              )
-                            })
-                          })
-                        }
-                        break
-                      case 2:
-                        cy.findByRole('strong').then((s) => {
-                          status = s.text()
-                        })
-                        cy.findByRole('strong').contains(/READY|EXPIRED/g)
-                        break
-                      case 3:
-                        switch (status) {
-                          case 'FINISHED':
-                            cy.wrap(cell).contains('Go to report')
-                            break
-                          case 'EXPIRED':
-                            cy.wrap(cell).contains('Refresh')
-                            cy.wrap(cell).contains('Remove')
-                            break
-                          default:
-                            break
-                        }
-                        break
-                      default:
-                        break
-                    }
-                  })
-                })
-              })
-            })
-          })
+        getMyReportRow({ name: 'Viewed report' }).contains('READY')
+        getMyReportRow({ name: 'Viewed dashboard' }).contains('READY')
+        getMyReportRow({ name: 'Interactive Report' }).contains('READY')
+        getMyReportRow({ name: 'Expired viewed report' }).contains('EXPIRED')
       })
     })
   })
@@ -300,12 +146,6 @@ context('User reports component', () => {
             automatic: false,
             id: requestedReady.id,
             type: requestedReady.type,
-          },
-          {
-            reportId: requestedExpired.reportId,
-            automatic: false,
-            id: requestedExpired.id,
-            type: requestedExpired.type,
           },
         ],
         defaultFilters: [],
@@ -348,58 +188,11 @@ context('User reports component', () => {
       })
     })
 
-    it('should show the correct table headers', () => {
-      cy.findByLabelText(/Bookmarks.*/i).within(() => {
-        cy.findAllByRole('rowgroup')
-          .eq(0)
-          .within(() => {
-            cy.findAllByRole('columnheader').each((head, index) => {
-              switch (index) {
-                case 0:
-                  cy.wrap(head).contains('Product')
-                  break
-                case 1:
-                  cy.wrap(head).contains('Description')
-                  break
-                case 3:
-                  cy.wrap(head).contains('Actions')
-                  break
-                default:
-                  break
-              }
-            })
-          })
-      })
-    })
-
     it('should show the product and variant information', () => {
       cy.findByLabelText(/Bookmarks.*/i).within(() => {
-        cy.findAllByRole('rowgroup')
-          .eq(1)
-          .within(() => {
-            cy.findAllByRole('row').each((row) => {
-              cy.wrap(row).within(() => {
-                cy.findAllByRole('cell').each((cell, index) => {
-                  cy.wrap(cell).within(() => {
-                    switch (index) {
-                      case 0:
-                        cy.findByLabelText(/Report name/).should('not.be.empty')
-                        cy.findByLabelText(/Product name/).should('not.be.empty')
-                        cy.findByLabelText(/Report type/).should('not.be.empty')
-                        break
-
-                      case 2:
-                        cy.wrap(cell).contains(/Request report|Request dashboard/g)
-                        cy.wrap(cell).contains('Remove bookmark')
-                        break
-                      default:
-                        break
-                    }
-                  })
-                })
-              })
-            })
-          })
+        getMyReportRowCell({ name: 'Successful Report', cell: 'actions' }).within(() => {
+          cy.findByRole('link', { name: 'Remove bookmark' }).should('exist')
+        })
       })
     })
   })

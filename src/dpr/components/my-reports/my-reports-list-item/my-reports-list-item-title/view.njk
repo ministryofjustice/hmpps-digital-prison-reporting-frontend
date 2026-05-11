@@ -1,0 +1,28 @@
+{%- from "govuk/components/tag/macro.njk" import govukTag -%}
+
+{% macro dprMyReportListItemTitle(titleConfig, tableId) %}
+  
+  {% set productName = titleConfig.productName %}
+  {% set reportName = titleConfig.reportName %}
+  {% set reportType = titleConfig.reportType %}
+  {% set timestamp = titleConfig.timestamp %}
+
+  <div class="dpr-my-reports__item-title">
+    <h2 
+      id="row_{{ productName | dpr.spacesToDash }}_{{ reportName | dpr.spacesToDash }}_{{ tableId }}"
+      class='dpr-my-reports__item-title--report-name govuk-heading-m'>
+      {{ reportName }}
+    </h2>
+    
+    <h3 class='dpr-my-reports__item-title--product-name govuk-body govuk-heading-s'>{{ productName }}</h3>
+
+    <div class="dpr-my-reports__item-title--report-type">
+      {{ govukTag({
+        text: reportType
+      }) }}
+    </div>
+
+    <p class='dpr-my-reports__item-title--ts govuk-body-s'>{{ timestamp }}</p>
+  </div>
+
+{% endmacro %}

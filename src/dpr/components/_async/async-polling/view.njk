@@ -122,5 +122,19 @@
       <p class="{{ descriptionClasses }}">{{ reportUrl }}</p>
 
     {% endif %}
+
+    {% if status === 'EXPIRED' %}
+      <p class="{{ descriptionClasses }}">Your report is no longer available and needs to be refreshed</p>
+
+      {{ dprRequestDetails(data)}}
+
+      {{ govukButton({
+        id: "retry-async-request",
+        text: "Refresh report",  
+        classes: "govuk-button govuk-!-margin-top-5",
+        href: requestUrl
+      }) }}
+    {% endif %}
+
   </div>
 {% endmacro %}

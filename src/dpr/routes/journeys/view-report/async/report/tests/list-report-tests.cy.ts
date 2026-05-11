@@ -63,7 +63,7 @@ context('Viewing a report', () => {
                     cy.findAllByRole('listitem').each((item, i) => {
                       switch (i) {
                         case 0:
-                          cy.wrap(item).contains('Field 1: value1.2')
+                          cy.wrap(item).contains('Field 1: Value 1.2')
                           break
                         case 1:
                           cy.wrap(item).contains('Field 3: 01/02/2003 - 04/05/2006')
@@ -72,7 +72,7 @@ context('Viewing a report', () => {
                           cy.wrap(item).contains('Field 7: 01/02/2005')
                           break
                         case 3:
-                          cy.wrap(item).contains('Field 8: value8.2,value8.3')
+                          cy.wrap(item).contains('Field 8: Value 8.2, Value 8.3')
                           break
                         case 4:
                           cy.wrap(item).contains('Sort column: Field 1')
@@ -428,6 +428,21 @@ context('Viewing a report', () => {
           `/embedded/platform/dpr/view-report/async/report/request-examples/request-example-success/${tableId}/report?selectedPage=3`,
         )
         cy.findByRole('link', { current: 'page' }).contains('3')
+      })
+    })
+
+    describe('Expired', () => {
+      it('should show the expired page when the report has expired', () => {
+        cy.task('getAsyncReportFailure404')
+        cy.visit(viewReportUrl)
+
+        // Shows the expired page
+        cy.findByText(/expired/i).should('be.visible')
+        cy.findByText(/Your report is no longer available and needs to be refreshed/i).should('be.visible')
+
+        // Refresh link goes to the request page
+        cy.findByRole('button', { name: 'Refresh report' }).click()
+        cy.findByRole('button', { name: /Request report/i }).should('be.visible')
       })
     })
   })

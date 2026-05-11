@@ -1,9 +1,8 @@
 import { RequestHandler } from 'express'
 import ErrorHandler from '../../../../../utils/ErrorHandler/ErrorHandler'
 import { Services } from '../../../../../types/Services'
-import LocalsHelper from '../../../../../utils/localsHelper'
 import DashboardUtils from './utils'
-import ViewReportUtils from '../../utils'
+import ViewReportUtils, { updateStateToExpiredAndRedirect } from '../../utils'
 import { LoadType } from '../../../../../types/UserReports'
 
 class ViewAsyncDashboardController {
@@ -17,7 +16,6 @@ class ViewAsyncDashboardController {
   }
 
   GET: RequestHandler = async (req, res, next) => {
-    const { type, tableId } = <{ tableId: string; type: string }>req.params
     try {
       // Redirect the same path to attach query string
       if (ViewReportUtils.redirectWithDefaults(res, req)) {
@@ -28,26 +26,26 @@ class ViewAsyncDashboardController {
       const validationErrors = res.locals['validationErrors'] || []
 
       // Get dashboard render data
-      const renderData = await DashboardUtils.renderAsyncDashboard({ req, res, services: this.services, next })
+      const dashboardData = await DashboardUtils.renderAsyncDashboard({ req, res, services: this.services, next })
+
+      // If report is expired redirect the the polling page to show expired status
+      if (dashboardData.expired) {
+        await updateStateToExpiredAndRedirect(req, res, this.services)
+        return
+      }
 
       res.render(`dpr/routes/journeys/view-report/dashboard`, {
         layoutPath: this.layoutPath,
-        ...renderData,
+        ...dashboardData,
         validationErrors,
       })
     } catch (error) {
       const dprError = new ErrorHandler(error).formatError()
-      let refreshLink
-      if (dprError.status === 'EXPIRED') {
-        const { dprUser } = LocalsHelper.getValues(res)
-        refreshLink = await this.services.recentlyViewedService.asyncSetToExpiredByTableId(tableId, dprUser.id)
-      }
+
       req.body ??= {}
-      req.body.title = `Failed to retrieve ${type}`
+      req.body.title = `Failed to retrieve dashboard`
       req.body.error = dprError
-      if (refreshLink) {
-        req.body.refreshLink = refreshLink
-      }
+
       next(error)
     }
   }

@@ -2,134 +2,236 @@
 layout: layouts/example.njk
 title: User Reports List (example)
 ---
-{%- from "dpr/components/user-reports/view.njk" import dprUserReports -%}
+{%- from "dpr/components/my-reports/view.njk" import dprMyReports -%}
 
-{% set requestedReports = {
-  head: {
-    href: "./async-reports/requested"
-  },
-  tableData: {
-    rows: [
-      [
-        {
-          html: "<div>\n <p class='govuk-body-s govuk-!-margin-bottom-1'>Report name</p>\n <p class='govuk-body govuk-!-margin-bottom-2'><strong>Variant name 1</strong></p>\n <strong class='govuk-tag dpr-request-status-tag dpr-request-status-tag--small govuk-!-margin-bottom-4''>Report</strong>\n <p class='govuk-body-xs govuk-!-margin-bottom-0 govuk-!-margin-top-2 '>Ready at: 24/10/2024</p>\n</div>"
-        },
-        {
-          html: "<div class='dpr-show-more' data-content='this is the description for variant 1' data-dpr-module='show-more' data-length='175'>\n <div class='dpr-show-more-content'>this is the description for variant 1</div><a class='dpr-show-hide-button govuk-link--no-visited-state' href='#'>show more</a>\n </div>"
-        },
-        {
-          html: "<ul class='dpr-card-group__item__filters-list govuk-!-margin-top-0 govuk-!-margin-bottom-0'><li class='govuk-body-s'>Field 1: value1.3</li><li class='govuk-body-s'>Field 2: value2.3</li><li class='govuk-body-s'>Sort Column: Field 1</li><li class='govuk-body-s'>Sort Direction: Ascending</li></ul>"
-        },
-        {
-          html: "<strong class='govuk-tag dpr-request-status-tag govuk-tag--green'>FINISHED</strong>",
-          classes: "dpr-req-cell dpr-req-cell__status"
-        },
-        {
-          html: "<a class='govuk-link govuk-link--no-visited-state' href='#'>Go to report</a>",
-          classes: "dpr-req-cell dpr-req-cell__status"
-        }
-      ],
-      [
-        {
-          html: "<div>\n <p class='govuk-body-s govuk-!-margin-bottom-1'>Report name</p>\n <p class='govuk-body govuk-!-margin-bottom-2'><strong>Variant name 2</strong></p>\n <strong class='govuk-tag dpr-request-status-tag dpr-request-status-tag--small govuk-!-margin-bottom-4''>Report</strong>\n <p class='govuk-body-xs govuk-!-margin-bottom-0 govuk-!-margin-top-2 '>Expired at: 24/10/2024</p>\n</div>"
-        },
-        {
-          html: "<div class='dpr-show-more' data-content='this is the description for variant 2' data-dpr-module='show-more' data-length='175'>\n <div class='dpr-show-more-content'>this is the description for variant 2</div><a class='dpr-show-hide-button govuk-link--no-visited-state' href='#'>show more</a>\n </div>"
-        },
-        {
-          html: "<ul class='dpr-card-group__item__filters-list govuk-!-margin-top-0 govuk-!-margin-bottom-0'><li class='govuk-body-s'>Field 1: value1.3</li><li class='govuk-body-s'>Field 2: value2.1</li><li class='govuk-body-s'>Sort Column: Field 1</li><li class='govuk-body-s'>Sort Direction: Ascending</li></ul>"
-        },
-        {
-          html: "<strong class='govuk-tag dpr-request-status-tag govuk-tag--grey'>EXPIRED</strong>",
-          classes: "dpr-req-cell dpr-req-cell__status"
-        },
-        {
-          html: "<div class='dpr-icon-wrapper__item-actions'>\n <a class='dpr-user-list-action govuk-link--no-visited-state govuk-!-margin-bottom-1' href=''>Refresh</a>\n <a class='dpr-user-list-action govuk-link--no-visited-state dpr-remove-requested-report-button' href='#' data-execution-id='exId_1729765871851'>Remove</a>\n </div>",
-          classes: "dpr-req-cell dpr-req-cell__status"
-        }
-      ],
-      [
-        {
-          html: "<div>\n <p class='govuk-body-s govuk-!-margin-bottom-1'>Report name</p>\n <p class='govuk-body govuk-!-margin-bottom-2'><strong>Variant name 2</strong></p>\n <strong class='govuk-tag dpr-request-status-tag dpr-request-status-tag--small govuk-!-margin-bottom-4''>Report</strong>\n <p class='govuk-body-xs govuk-!-margin-bottom-0 govuk-!-margin-top-2 '>Failed at: 24/10/2024</p>\n</div>"
-        },
-        {
-          html: "<div class='dpr-show-more' data-content='this is the description for variant 3' data-dpr-module='show-more' data-length='175'>\n <div class='dpr-show-more-content'>this is the description for variant 3</div><a class='dpr-show-hide-button govuk-link--no-visited-state' href='#'>show more</a>\n </div>"
-        },
-        {
-          html: "<ul class='dpr-card-group__item__filters-list govuk-!-margin-top-0 govuk-!-margin-bottom-0'><li class='govuk-body-s'>Field 4: Inigo Montoya</li><li class='govuk-body-s'>Sort Column: Field 1</li><li class='govuk-body-s'>Sort Direction: Ascending</li></ul>"
-        },
-        {
-          html: "<strong class='govuk-tag dpr-request-status-tag govuk-tag--red'>FAILED</strong>",
-          classes: "dpr-req-cell dpr-req-cell__status"
-        },
-        {
-          html: "<div class='dpr-icon-wrapper__item-actions'>\n <a class='dpr-user-list-action govuk-link--no-visited-state govuk-!-margin-bottom-1' href='#'>Retry</a>\n <a class='dpr-user-list-action govuk-link--no-visited-state dpr-remove-requested-report-button' href='#' data-execution-id='exId_1729765694790'>Remove</a>\n </div>",
-          classes: "dpr-req-cell dpr-req-cell__status"
-        }
-      ]
-    ],
-    head: [
+{% set myReportsData = {
+  "requested": {
+    "title": "Requested reports",
+    "listType": "requested",
+    "csrfToken": "csrfToken",
+    "headings": [
       {
-        text: "Product",
-        classes: "dpr-req-product-head"
+        "key": "title",
+        "name": "Product",
+        "classes": "dpr-my-reports__cell--title",
+        "showIn": [
+          "bookmarks",
+          "requested",
+          "viewed"
+        ]
       },
       {
-        text: "Description",
-        classes: "dpr-req-description-head"
+        "key": "filters",
+        "name": "Filters",
+        "classes": "dpr-my-reports__cell--filters",
+        "showIn": [
+          "requested",
+          "viewed"
+        ]
       },
       {
-        text: "Filters",
-        classes: "dpr-req-filters-head"
+        "key": "status",
+        "name": "Status",
+        "classes": "dpr-my-reports__cell--status",
+        "showIn": [
+          "requested",
+          "viewed"
+        ]
       },
       {
-        text: "Status",
-        classes: "dpr-req-status-head"
-      },
-      {
-        text: "Actions",
-        classes: "dpr-req-actions-head"
+        "key": "actions",
+        "name": "Actions",
+        "classes": "dpr-my-reports__cell--actions",
+        "showIn": [
+          "bookmarks",
+          "requested",
+          "viewed"
+        ]
       }
-    ]
-  },
-  total: {
-    amount: 3,
-    shown: 3,
-    max: 20
-  },
-  meta: [
-    {
-      reportId: "test-report-3",
-      id: "variantId-1",
-      executionId: "exId_1729765628165",
-      tableId: "tblId_1729765628165",
-      status: "FINISHED",
-      type: "report",
-      dataProductDefinitionsPath: ""
-    },
-    {
-      reportId: "test-report-3",
-      id: "variantId-4",
-      executionId: "exId_1729765871851",
-      tableId: "tblId_1729765871851",
-      status: "EXPIRED",
-      type: "report",
-      dataProductDefinitionsPath: ""
-    },
-    {
-      reportId: "test-report-3",
-      id: "variantId-2",
-      executionId: "exId_1729765694790",
-      tableId: "tblId_1729765694790",
-      status: "FAILED",
-      type: "report",
-      dataProductDefinitionsPath: ""
+    ],
+    "items": [
+      {
+        "title": {
+          "productName": "Requested report",
+          "reportName": "Requested report 1",
+          "reportType": "report",
+          "timestamp": "Expired at 24/10/2024 11:31"
+        },
+        "filters": {
+          "prerequest": [
+            {
+              "name": "Field 1",
+              "value": "value1.3"
+            },
+            {
+              "name": "Field 2",
+              "value": "value2.1"
+            },
+            {
+              "name": "Field 3 start",
+              "value": "01/02/2003"
+            },
+            {
+              "name": "Sort Column",
+              "value": "Field 1"
+            },
+            {
+              "name": "Sort Direction",
+              "value": "Ascending"
+            }
+          ],
+          "interactive": []
+        },
+        "status": "EXPIRED",
+        "actions": {
+          "refresh": {
+            "href": "http://localhost:3010/embedded/platform/async/report/rr1/rr1.1/request?filters.field1=value1.3&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&sortColumn=field1&sortedAsc=true&filters.field2=value2.1"
+          },
+          "remove": {
+            "action": "/dpr/my-reports/requested-reports/remove-item/exId_238947923",
+            "csrfToken": "csrfToken",
+            "returnTo": "/"
+          }
+        },
+        "meta": {
+          "id": "rr1",
+          "reportId": "rr1.1",
+          "tableId": "tblId_1729765871851",
+          "executionId": "exId_238947923",
+          "path": "/dpr/my-reports",
+          "listType": "requested"
+        }
+      },
+      {
+        "title": {
+          "productName": "Requested report",
+          "reportName": "Requested report 1",
+          "reportType": "report",
+          "timestamp": "Failed at 24/10/2024 11:28"
+        },
+        "filters": {
+          "prerequest": [
+            {
+              "name": "Field 1",
+              "value": "value1.3"
+            },
+            {
+              "name": "Field 2",
+              "value": "value2.2"
+            },
+            {
+              "name": "Field 3 start",
+              "value": "01/02/2003"
+            },
+            {
+              "name": "Field 3 end",
+              "value": "04/05/2006"
+            },
+            {
+              "name": "Field 4",
+              "value": "Inigo Montoya"
+            },
+            {
+              "name": "Sort Column",
+              "value": "Field 1"
+            },
+            {
+              "name": "Sort Direction",
+              "value": "Ascending"
+            }
+          ],
+          "interactive": []
+        },
+        "status": "FAILED",
+        "actions": {
+          "retry": {
+            "href": "http://localhost:3010/embedded/platform/async/report/rr2/rr2.1/request/exId_238947923"
+          },
+          "remove": {
+            "action": "/dpr/my-reports/requested-reports/remove-item/exId_238947924",
+            "csrfToken": "csrfToken",
+            "returnTo": "/"
+          }
+        },
+        "meta": {
+          "id": "rr2.1",
+          "reportId": "rr2",
+          "tableId": "tblId_1729765694790",
+          "executionId": "exId_238947924",
+          "path": "/dpr/my-reports",
+          "listType": "requested"
+        }
+      },
+      {
+        "title": {
+          "productName": "Requested report",
+          "reportName": "Requested report 3",
+          "reportType": "report",
+          "timestamp": "Aborted at 24/10/2024 11:33"
+        },
+        "filters": {
+          "prerequest": [
+            {
+              "name": "Field 1",
+              "value": "value1.1"
+            },
+            {
+              "name": "Field 2",
+              "value": "value2.3"
+            },
+            {
+              "name": "Field 3 start",
+              "value": "01/02/2003"
+            },
+            {
+              "name": "Field 3 end",
+              "value": "04/05/2006"
+            },
+            {
+              "name": "Field 6",
+              "value": "Value 6.1"
+            },
+            {
+              "name": "Field 7",
+              "value": "04/05/2007"
+            },
+            {
+              "name": "Sort Column",
+              "value": "Field 1"
+            },
+            {
+              "name": "Sort Direction",
+              "value": "Ascending"
+            }
+          ],
+          "interactive": []
+        },
+        "status": "ABORTED",
+        "actions": {
+          "retry": {
+            "href": "http://localhost:3010/embedded/platform/async/report/rr3/rr3.1/request?filters.field1=value1.1&filters.field2=value2.3&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2007-05-04&sortColumn=field1&sortedAsc=true&filters.field6=Value+6.1"
+          },
+          "remove": {
+            "action": "/dpr/my-reports/requested-reports/remove-item/exId_238947925",
+            "csrfToken": "csrfToken",
+            "returnTo": "/"
+          }
+        },
+        "meta": {
+          "id": "rr3.1",
+          "reportId": "rr3",
+          "tableId": "tblId_1729766013077",
+          "executionId": "exId_238947925",
+          "path": "/dpr/my-reports",
+          "listType": "requested"
+        }
+      }
+    ],
+    "totals": {
+      "total": 3,
+      "shown": 3
     }
-  ],
-  csrfToken: "csrfToken",
-  maxRows: 20
-}
-%}
+  }
+} %}
 
-{{ dprUserReports({
-  requestedReports: requestedReports
-})}}
+{{ dprMyReports(myReportsData)}}

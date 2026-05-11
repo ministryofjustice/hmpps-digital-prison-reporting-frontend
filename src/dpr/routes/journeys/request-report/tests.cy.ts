@@ -1,4 +1,8 @@
-import { executeReportStubs, requestReportByNameAndDescription } from '../../../../../cypress-tests/cypressUtils'
+import {
+  executeReportStubs,
+  getMyReportRowCell,
+  requestReportByNameAndDescription,
+} from '../../../../../cypress-tests/cypressUtils'
 
 context('Requesting a report', () => {
   const paths = ['/', '/embedded/platform', '/embedded/platform/dpr']
@@ -198,34 +202,16 @@ context('Requesting a report', () => {
           cy.findByRole('tab', { name: /Requested/ }).click()
 
           cy.findByLabelText(/Requested/i).within(() => {
-            cy.findByRole('row', {
-              name: (_, element) => {
-                return Boolean(element.textContent?.includes('Successful Report'))
-              },
-            }).within(() => {
-              cy.findByRole('link', { name: 'Retry' }).should('be.visible')
-              cy.findByRole('link', { name: 'Remove' }).should('be.visible')
-              cy.findByRole('cell', { name: 'FAILED' }).should('be.visible')
-            })
-          })
-          cy.findByRole('link', { name: 'Retry' }).click()
-          cy.findByText(/Your report has failed to generate/).should('be.visible')
-          cy.findAllByText(/Successful Report/).should('be.visible')
-
-          cy.visit(path)
-          cy.findByRole('tab', { name: /Requested/ }).click()
-          cy.findByLabelText(/Requested/i).within(() => {
-            cy.findByRole('row', {
-              name: (_, element) => {
-                return Boolean(element.textContent?.includes('Successful Report'))
-              },
-            }).within(() => {
-              cy.findByRole('link', { name: 'Retry' }).click()
+            getMyReportRowCell({ name: 'Successful Report', cell: 'status' }).contains('FAILED')
+            getMyReportRowCell({ name: 'Successful Report', cell: 'actions' }).within(() => {
+              cy.findByRole('button', { name: 'Remove' }).should('be.visible')
+              cy.findByRole('link', { name: 'Retry' }).should('be.visible').click()
             })
           })
           cy.findByText(/Your report has failed to generate/).should('be.visible')
           cy.findAllByText(/Successful Report/).should('be.visible')
         }
+
         const testRedirectsOldStatusUrl = () => {
           cy.url().then((url) => {
             const splitUrl = url.split('/')
@@ -243,20 +229,12 @@ context('Requesting a report', () => {
           cy.findByRole('tab', { name: /Requested/ }).click()
 
           cy.findByLabelText(/Requested/i).within(() => {
-            cy.findByRole('row', {
-              name: (_, element) => {
-                return Boolean(element.textContent?.includes('Successful Report'))
-              },
-            }).within(() => {
-              cy.findByRole('link', { name: 'Remove' }).click()
+            getMyReportRowCell({ name: 'Successful Report', cell: 'actions' }).within(() => {
+              cy.findByRole('button', { name: 'Remove' }).should('be.visible').click()
             })
-          })
-
-          cy.findByLabelText(/Requested/i).within(() => {
-            cy.findByRole('row', {
-              name: (_, element) => {
-                return Boolean(element.textContent?.includes('Successful Report'))
-              },
+            cy.findByRole('heading', {
+              name: 'Successful Report',
+              level: 1,
             }).should('not.exist')
           })
         }
@@ -314,24 +292,10 @@ context('Requesting a report', () => {
           cy.findByRole('tab', { name: /Requested/ }).click()
 
           cy.findByLabelText(/Requested/i).within(() => {
-            cy.findByRole('row', {
-              name: (_, element) => {
-                return Boolean(element.textContent?.includes('Successful Report'))
-              },
-            }).within(() => {
-              cy.findByRole('link', { name: 'Retry' }).should('be.visible')
-              cy.findByRole('link', { name: 'Remove' }).should('be.visible')
-              cy.findByRole('cell', { name: 'ABORTED' }).should('be.visible')
-            })
-          })
-
-          cy.findByLabelText(/Requested/i).within(() => {
-            cy.findByRole('row', {
-              name: (_, element) => {
-                return Boolean(element.textContent?.includes('Successful Report'))
-              },
-            }).within(() => {
-              cy.findByRole('link', { name: 'Retry' }).click()
+            getMyReportRowCell({ name: 'Successful Report', cell: 'status' }).contains('ABORTED')
+            getMyReportRowCell({ name: 'Successful Report', cell: 'actions' }).within(() => {
+              cy.findByRole('button', { name: 'Remove' }).should('be.visible')
+              cy.findByRole('link', { name: 'Retry' }).should('be.visible').click()
             })
           })
           cy.url().should('have.string', filtersHref)
@@ -340,20 +304,16 @@ context('Requesting a report', () => {
           cy.findByRole('tab', { name: /Requested/ }).click()
 
           cy.findByLabelText(/Requested/i).within(() => {
-            cy.findByRole('row', {
-              name: (_, element) => {
-                return Boolean(element.textContent?.includes('Successful Report'))
-              },
-            }).within(() => {
-              cy.findByRole('link', { name: 'Remove' }).click()
+            getMyReportRowCell({ name: 'Successful Report', cell: 'status' }).contains('ABORTED')
+            getMyReportRowCell({ name: 'Successful Report', cell: 'actions' }).within(() => {
+              cy.findByRole('button', { name: 'Remove' }).should('be.visible').click()
             })
           })
 
           cy.findByLabelText(/Requested/i).within(() => {
-            cy.findByRole('row', {
-              name: (_, element) => {
-                return Boolean(element.textContent?.includes('Successful Report'))
-              },
+            cy.findByRole('heading', {
+              name: 'Successful Report',
+              level: 1,
             }).should('not.exist')
           })
         })

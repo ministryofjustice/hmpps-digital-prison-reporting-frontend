@@ -1,5 +1,5 @@
 import { summaries } from '@networkMocks/definitionSummaries'
-import { stubBaseTasks } from 'cypress-tests/cypressUtils'
+import { executeReportStubs } from 'cypress-tests/cypressUtils'
 
 context('Catalogue collections', () => {
   const paths = ['/', '/embedded/platform', '/embedded/platform/dpr']
@@ -8,7 +8,7 @@ context('Catalogue collections', () => {
     describe(`Catalogue collections from ${path}`, () => {
       describe('Check catalogue collections work properly', () => {
         it('should allow the user to choose from any collection', () => {
-          stubBaseTasks()
+          executeReportStubs()
           cy.task('stubDefinitions')
           cy.task('stubGetProductCollections')
           cy.task('getProductCollection1')

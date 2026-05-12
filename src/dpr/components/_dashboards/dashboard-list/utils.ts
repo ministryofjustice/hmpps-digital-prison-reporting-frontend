@@ -1,5 +1,4 @@
 /* eslint-disable no-param-reassign */
-import { apiDateToUi } from 'src/dpr/utils/dateHelper'
 import { components } from '../../../types/api'
 import { DashboardDataResponse } from '../../../types/Metrics'
 import DatasetHelper from '../../../utils/Dashboards/VisualisationDatasetHelper'
@@ -119,7 +118,7 @@ export const createTableRows = (
         }
         const measure = measures[headIndex]
 
-        let raw = dataRow[key]?.raw
+        const raw = dataRow[key]?.raw
         if (raw == null) {
           return
         }

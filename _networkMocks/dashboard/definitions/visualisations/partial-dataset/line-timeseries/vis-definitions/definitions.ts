@@ -40,6 +40,7 @@ export const dietTotalsByEstablishmentOverTime: components['schemas']['Dashboard
       {
         id: 'ts',
         display: 'Date',
+        type: 'date',
       },
       {
         id: 'count',
@@ -100,6 +101,7 @@ export const dietTotalsDietThreeOvertime: components['schemas']['DashboardVisual
       {
         id: 'ts',
         display: 'Date',
+        type: 'date',
       },
       {
         id: 'count',
@@ -133,6 +135,7 @@ export const dietTotalsDietOneOvertimeByEstLine: components['schemas']['Dashboar
       {
         id: 'ts',
         display: 'Date',
+        type: 'date',
       },
       {
         id: 'count',

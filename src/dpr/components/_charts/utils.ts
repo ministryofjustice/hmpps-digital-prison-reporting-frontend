@@ -281,7 +281,9 @@ const createTimeseriesTable = (
   }
 
   const head = mapTableHead(headerColumns)
-  const rows = DashboardListUtils.createTableRows(flatTimeseriesData)
+  const rows = DashboardListUtils.createTableRows(flatTimeseriesData, measures)
+
+  console.log(JSON.stringify(rows, null, 2))
 
   return {
     head,

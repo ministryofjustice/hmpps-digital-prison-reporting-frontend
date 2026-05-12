@@ -100,17 +100,29 @@ export const createTableRows = (
   // Set the list data using the measure
   if (measures && measures.length) {
     return data.map((dataRow) => {
-      const row: MoJTableRow[] = Array(measures.length)
+      const row: MoJTableRow[] = Array.from({ length: measures.length }, () => ({ text: '' }))
 
       Object.keys(dataRow).forEach((key) => {
         const headIndex = measures.findIndex((m) => m.id === key)
+        if (headIndex === -1) {
+          return
+        }
+
         const measure = measures[headIndex]
+        let cellContent = dataRow[key]?.raw
+        if (typeof cellContent !== 'string') {
+          return
+        }
 
-        // TODO: get the ID and check for ts and format date with apiDateToUi
-        const cellContent = dataRow[key].raw
-        const cell = measure.type && measure.type === 'HTML' ? { html: cellContent } : { text: cellContent }
+        const { type } = measure
+        if (type === 'date') {
+          // do the conversion to UI format
+          cellContent = '' // do the conversion to UI format
+        }
 
-        row.splice(headIndex, 1, cell as MoJTableRow)
+        const cell: MoJTableRow = measure.type === 'HTML' ? { html: cellContent } : { text: cellContent }
+
+        row[headIndex] = cell
       })
 
       return row

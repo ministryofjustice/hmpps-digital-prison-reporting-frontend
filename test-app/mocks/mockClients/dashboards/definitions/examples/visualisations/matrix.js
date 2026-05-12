@@ -15,6 +15,7 @@ const automaticBucketing = {
       {
         id: 'ts',
         display: 'Date',
+        type: 'date',
       },
       {
         id: 'count',
@@ -49,6 +50,7 @@ const automaticBucketingCustomBaseColour = {
       {
         id: 'ts',
         display: 'Date',
+        type: 'date',
       },
       {
         id: 'count',
@@ -83,6 +85,7 @@ const automaticBucketingRag = {
       {
         id: 'ts',
         display: 'Date',
+        type: 'date',
       },
       {
         id: 'count',
@@ -121,6 +124,7 @@ const automaticBucketingCustomColours = {
       {
         id: 'ts',
         display: 'Date',
+        type: 'date',
       },
       {
         id: 'count',
@@ -170,6 +174,7 @@ const customBucketsWithSizing = {
       {
         id: 'ts',
         display: 'Date',
+        type: 'date',
       },
       {
         id: 'count',
@@ -210,6 +215,7 @@ const customBucketsWithSizingOpen = {
       {
         id: 'ts',
         display: 'Date',
+        type: 'date',
       },
       {
         id: 'count',
@@ -262,6 +268,7 @@ const customBucketsWithSizingAndColour = {
       {
         id: 'ts',
         display: 'Date',
+        type: 'date',
       },
       {
         id: 'count',
@@ -294,6 +301,7 @@ const findsTotalsOvertimeValidationError = {
       {
         id: 'ts',
         display: 'Date',
+        type: 'date',
       },
     ],
     expectNulls: true,

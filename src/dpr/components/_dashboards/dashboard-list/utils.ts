@@ -1,13 +1,14 @@
 /* eslint-disable no-param-reassign */
+import { apiDateToUi } from 'src/dpr/utils/dateHelper'
+import { components } from '../../../types/api'
 import { DashboardDataResponse } from '../../../types/Metrics'
+import DatasetHelper from '../../../utils/Dashboards/VisualisationDatasetHelper'
 import {
   ListDashboardVisualisationOptions,
   MoJTable,
   MoJTableHead,
   MoJTableRow,
 } from '../dashboard-visualisation/types'
-import DatasetHelper from '../../../utils/Dashboards/VisualisationDatasetHelper'
-import { components } from '../../../types/api'
 import ListVisSchemas from './validate'
 
 export const createList = (
@@ -117,7 +118,7 @@ export const createTableRows = (
         const { type } = measure
         if (type === 'date') {
           // do the conversion to UI format
-          cellContent = '' // do the conversion to UI format
+          cellContent = apiDateToUi(cellContent) || cellContent
         }
 
         const cell: MoJTableRow = measure.type === 'HTML' ? { html: cellContent } : { text: cellContent }

@@ -74,7 +74,7 @@ See [Custom buckets](/dashboards/visualisations/custom-buckets#custom-buckets) f
   column: {
     key: [{ id: 'ts' }],
     measure: [
-      { id: 'ts', display: 'Date' },
+      { id: 'ts', type: 'date' , display: 'Date' },
       { id: 'id-of-count-column', display: 'Count column title' },
     ],
   }
@@ -94,6 +94,7 @@ See [Custom buckets](/dashboards/visualisations/custom-buckets##custom-buckets) 
 # Data assumptions
 
 - The dataset includes a column with an ID of `ts` that contains timestamp data
+- Ensure that your measure includes a `type` of `date`.
 - The `ts` date format must be `YYYY-MM-DD`
 
 <hr class='dpr-docs-hr'/>

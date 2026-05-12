@@ -15,6 +15,7 @@ const automaticBucketing = {
       {
         id: 'ts',
         display: 'Date',
+        type: 'date',
       },
       {
         id: 'count',

@@ -116,7 +116,6 @@ export const createTableRows = (
 
         const { type } = measure
         if (type === 'date') {
-          // do the conversion to UI format
           cellContent = '' // do the conversion to UI format
         }
 

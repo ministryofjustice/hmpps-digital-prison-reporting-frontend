@@ -10,6 +10,7 @@ import {
   MoJTableRow,
 } from '../dashboard-visualisation/types'
 import ListVisSchemas from './validate'
+import { apiDateToUi } from '../../../utils/dateHelper'
 
 export const createList = (
   listDefinition: components['schemas']['DashboardVisualisationDefinition'],
@@ -90,6 +91,14 @@ const createListFromColumns = (
   }
 }
 
+/**
+ * Creates the table rows for a dashboard list visualisation
+ * - If no measures are passed in it will present the full data
+ *
+ * @param {DashboardDataResponse[]} data
+ * @param {components['schemas']['DashboardVisualisationColumnDefinition'][]} [measures]
+ * @return {*}  {MoJTableRow[][]}
+ */
 export const createTableRows = (
   data: DashboardDataResponse[],
   measures?: components['schemas']['DashboardVisualisationColumnDefinition'][],
@@ -108,16 +117,16 @@ export const createTableRows = (
         if (headIndex === -1) {
           return
         }
-
         const measure = measures[headIndex]
-        let cellContent = dataRow[key]?.raw
-        if (typeof cellContent !== 'string') {
+
+        let raw = dataRow[key]?.raw
+        if (raw == null) {
           return
         }
+        let cellContent = String(raw)
 
         const { type } = measure
         if (type === 'date') {
-          // do the conversion to UI format
           cellContent = apiDateToUi(cellContent) || cellContent
         }
 

@@ -255,38 +255,46 @@ const createSnapshotTable = (
   }
 }
 
+/**
+ * Creates the a table representation for a timeseries chart
+ * - ensures the Date column is always at index 0 when there are multiple rows
+ *
+ * @param {components['schemas']['DashboardVisualisationDefinition']} chartDefinition
+ * @param {DashboardDataResponse[]} timeseriesData
+ * @return {*}  {MoJTable}
+ */
 const createTimeseriesTable = (
   chartDefinition: components['schemas']['DashboardVisualisationDefinition'],
   timeseriesData: DashboardDataResponse[],
 ): MoJTable => {
   const { columns } = chartDefinition
-  const { keys, measures } = columns
+  const { keys, measures = [] } = columns
 
+  const safeKeys = keys ?? []
   let flatTimeseriesData = timeseriesData.flat()
-  let headerColumns = [...measures]
+
+  let tableColumns: components['schemas']['DashboardVisualisationColumnDefinition'][]
 
   if (timeseriesData.length > 1) {
-    // Add keys as columns as well as measures, and put TS first:
-    // Get TS column an remove it from headings
-    const timestampIndex = headerColumns.findIndex((m) => m.id === 'ts')
-    const timestampCol = headerColumns[timestampIndex]
-    headerColumns.splice(timestampIndex, 1)
-    // Remove duplicate TS from keys if present and add keys to headings
-    const keysWithoutTs = keys ? keys.filter((k) => k.id !== 'ts') : []
-    headerColumns = [...keysWithoutTs, ...headerColumns]
-    // Add TS column to the start
-    headerColumns.unshift(timestampCol)
+    const dateMeasures = measures.filter((m) => m.type === 'date')
+
+    if (dateMeasures.length !== 1) {
+      throw new Error('Multi-timeseries tables require exactly one date measure')
+    }
+
+    const [dateColumn] = dateMeasures
+    const valueColumns = measures.filter((m) => m.type !== 'date')
+
+    tableColumns = [dateColumn, ...safeKeys, ...valueColumns]
   } else {
     flatTimeseriesData = DatasetHelper.filterRowsByDisplayColumns(chartDefinition, flatTimeseriesData)
+    tableColumns = measures
   }
 
-  const head = mapTableHead(headerColumns)
-  const rows = DashboardListUtils.createTableRows(flatTimeseriesData, measures)
+  const head = mapTableHead(tableColumns)
+  const rows = DashboardListUtils.createTableRows(flatTimeseriesData, tableColumns)
 
-  return {
-    head,
-    rows,
-  } as MoJTable
+  return { head, rows }
 }
 
 export default {

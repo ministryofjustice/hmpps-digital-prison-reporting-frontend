@@ -606,7 +606,16 @@ export interface components {
     }
     FilterDefinition: {
       /** @enum {string} */
-      type: 'Radio' | 'Select' | 'multiselect' | 'daterange' | 'autocomplete' | 'text' | 'date' | 'granulardaterange' | 'autocompleteMulti'
+      type:
+        | 'Radio'
+        | 'Select'
+        | 'multiselect'
+        | 'daterange'
+        | 'autocomplete'
+        | 'text'
+        | 'date'
+        | 'granulardaterange'
+        | 'autocompletemulti'
       mandatory: boolean
       pattern?: string | null
       staticOptions?: components['schemas']['FilterOption'][] | null

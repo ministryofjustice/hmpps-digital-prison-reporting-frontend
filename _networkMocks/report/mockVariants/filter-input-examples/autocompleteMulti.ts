@@ -24,7 +24,7 @@ const autoCompleteMultiExample: components['schemas']['VariantDefinition'] = {
         fieldSource: 'specfield',
         filter: {
           mandatory: false,
-          type: 'autocompleteMulti',
+          type: 'autocompletemulti',
           staticOptions: [
             { name: 'value1', display: 'Value 1' },
             { name: 'value2', display: 'Value 2' },

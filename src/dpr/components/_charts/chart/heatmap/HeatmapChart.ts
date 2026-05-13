@@ -1,18 +1,18 @@
 /* eslint-disable prefer-destructuring */
 import dayjs from 'dayjs'
-import { Granularity } from '../../../_inputs/granular-date-range/types'
+import { components } from '../../../../types/api'
 import { DashboardDataResponse } from '../../../../types/Metrics'
+import DatasetHelper from '../../../../utils/Dashboards/VisualisationDatasetHelper'
 import {
-  DashboardVisualisationType,
   DashboardVisualisationData,
   DashboardVisualisationDataSet,
+  DashboardVisualisationType,
 } from '../../../_dashboards/dashboard-visualisation/types'
-import { MatrixChartData, MatrixTimeseriesDefinitionType } from './types'
-import DatasetHelper from '../../../../utils/Dashboards/VisualisationDatasetHelper'
+import { Granularity } from '../../../_inputs/granular-date-range/types'
 import Buckets from '../buckets/Buckets'
-import { components } from '../../../../types/api'
-import MatrixSchema from './validate'
 import ChartConfig from '../chart-config'
+import { MatrixChartData, MatrixTimeseriesDefinitionType } from './types'
+import MatrixSchema from './validate'
 
 class HeatmapChart {
   private definition!: MatrixTimeseriesDefinitionType

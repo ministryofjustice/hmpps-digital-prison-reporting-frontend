@@ -1,6 +1,6 @@
 import { components } from 'src/dpr/types/api'
 
-export const autoCompleteMultiExample: components['schemas']['VariantDefinition'] = {
+const autoCompleteMultiExample: components['schemas']['VariantDefinition'] = {
   id: 'autocompletemultiExample',
   name: 'Establishment autocomplete multi',
   description: 'Autocomplete Multiselect example',
@@ -12,11 +12,11 @@ export const autoCompleteMultiExample: components['schemas']['VariantDefinition'
     template: 'list',
     fields: [
       {
-        name: 'establishment',
-        display: 'Establishment Multi',
+        name: 'field1',
+        display: 'Mutliselect',
         sortable: false,
         visible: true,
-        type: 'date',
+        type: 'string',
         mandatory: false,
         calculated: false,
         header: false,
@@ -51,3 +51,4 @@ export const autoCompleteMultiExample: components['schemas']['VariantDefinition'
   },
 }
 
+export default autoCompleteMultiExample

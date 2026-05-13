@@ -12,8 +12,8 @@
     {% set classes = classes + " dpr-multi-select-scroll" %}
   {% endif %}
 
-  <div class="multiselect-container govuk-!-margin-bottom-6" data-dpr-module="autocomplete-multiselect-input" data-filter-id="{{ name }}">
-
+  <div class="multiselect-container govuk-!-margin-bottom-6" data-filter-id="{{ name }}">
+    dprAutocompleteMulti
     {{ govukCheckboxes({
       id: name,
       name: name,

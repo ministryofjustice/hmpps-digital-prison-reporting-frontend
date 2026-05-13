@@ -5,8 +5,10 @@
 
 {% macro dprPollingInProgressState(data) %}
 
+  {% set meta = data.meta %}
+  {% set type = meta.type %}
+  {% set requestDetails = data.requestDetails %}
   {% set csrfToken = data.csrfToken %}
-  {% set csrfToken = data.type %}
 
   {% set description = "We are generating your " + type %}
   {% set insetTextHtml = "<p>Your " + type + " will be generated shortly.</p> <p>You may navigate away from this page at anytime. Please visit the homepage to monitor your report status.</p>" %}
@@ -14,7 +16,7 @@
   <div class="dpr-poling-state__in-progress">
     <p class="{{ descriptionClasses }}">{{ description }}</p>
 
-    {{ dprRequestDetails(data)}}
+    {{ dprRequestDetails(requestDetails)}}
     
     {{ govukInsetText({html: insetTextHtml}) }}
 

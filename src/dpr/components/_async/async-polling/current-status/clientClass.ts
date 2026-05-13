@@ -16,7 +16,7 @@ class DprSingleReport extends DprStatusPolling {
     const container = element.querySelector<HTMLElement>('[data-report-id]')
     if (!container) return
 
-    this.container = container
+    this.container = element
 
     if (!this.isTerminal()) {
       this.startPolling(

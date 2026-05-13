@@ -5,6 +5,10 @@ import AsyncPollingUtils from './utils'
 import ErrorHandler from '../../../../utils/ErrorHandler/ErrorHandler'
 import { evaluateAndUpdateReportStatus } from '../../../../utils/ReportStatus/getReportStatus'
 import { getValues } from '../../../../utils/localsHelper'
+import { createReportPollingHandler } from 'src/dpr/controllers/reportPolling/createReportPollingHandler'
+import { StoredReportData } from 'src/dpr/types/UserReports'
+import { UpdatedResolution } from 'src/dpr/utils/ReportStatus/types'
+import { buildCurrentStatusView } from 'src/dpr/components/_async/async-polling/current-status/utils'
 
 class RequestStatusController {
   layoutPath: string
@@ -17,7 +21,17 @@ class RequestStatusController {
     this.layoutPath = layoutPath
     this.services = services
 
-    // this.getCurrentStatus =
+    this.getCurrentStatus = createReportPollingHandler<StoredReportData, UpdatedResolution>(
+      this.services,
+      (updated, resolution, _req, res) => {
+        const viewModel = buildCurrentStatusView(updated, resolution.newStatus, res)
+
+        return {
+          template: 'dpr/components/_async/async-polling/current-status/view.njk',
+          data: { data: viewModel },
+        }
+      },
+    )
   }
 
   // Render status page

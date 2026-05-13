@@ -5,7 +5,10 @@
 
 {% macro dprPollingFailedState(data) %}
 
-  {% set status = data.status %}
+  {% set meta = data.meta %}
+  {% set type = meta.type %}
+  {% set requestDetails = data.requestDetails %}
+
   {% set buttonText = data.buttonText %}
   {% set errorMessage = data.errorMessage %}
   {% set descriptionText = data.descriptionText %}
@@ -18,10 +21,10 @@
     {% endif %}
 
     {% if descriptionText %}
-      <p class="govuk-!-margin-top-4 govuk-!-margin-bottom-6">Your request has been cancelled</p>
+      <p class="govuk-!-margin-top-4 govuk-!-margin-bottom-6">{{ descriptionText }}</p>
     {% endif %}
 
-    {{ dprRequestDetails(data)}}
+    {{ dprRequestDetails(requestDetails)}}
 
     {{ govukButton({
       text: buttonText,  

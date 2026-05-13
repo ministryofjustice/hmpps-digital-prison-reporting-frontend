@@ -156,9 +156,6 @@ export const getFiltersFromDefinition = (
         disabled: false,
       }
 
-      console.log(JSON.stringify(f, null, 2))
-      console.log(FilterType.autocompleteMulti.toLocaleLowerCase())
-
       switch (type) {
         case FilterType.autocomplete.toLowerCase():
           filterData = {
@@ -193,7 +190,6 @@ export const getFiltersFromDefinition = (
 
         case FilterType.autocompleteMulti.toLocaleLowerCase():
         case FilterType.multiselect.toLowerCase(): {
-          console.log('HERHERHHERHHERHHERHHERHHERH')
           filterData = {
             ...filterData,
             options,
@@ -220,8 +216,6 @@ export const getFiltersFromDefinition = (
 
       return filterData
     })
-
-  console.log(JSON.stringify(filters, null, 2))
 
   const orderedFilters = orderFilters(filters)
   return orderedFilters

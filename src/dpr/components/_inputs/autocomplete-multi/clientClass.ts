@@ -42,7 +42,6 @@ class AutoCompleteMulti extends DprClientClass {
 
     this.searchInput.addEventListener('keyup', (_event) => {
       this.searchInputValue = input.value
-      console.log(this.searchInputValue)
       this.updateCheckboxes()
     })
   }

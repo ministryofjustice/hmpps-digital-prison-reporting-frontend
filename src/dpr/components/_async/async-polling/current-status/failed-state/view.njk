@@ -1,0 +1,33 @@
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% from "../../../../error-summary/view.njk" import dprErrorSummary %}
+{% from "../../../request-details/view.njk" import dprRequestDetails %}
+
+{% macro dprPollingFailedState(data) %}
+
+  {% set status = data.status %}
+  {% set buttonText = data.buttonText %}
+  {% set errorMessage = data.errorMessage %}
+  {% set descriptionText = data.descriptionText %}
+  {% set buttonHref = data.buttonHref %}
+
+  <div class="dpr-poling-state__failed">
+
+    {% if errorMessage %}
+      {{ dprErrorSummary(errorMessage, meta) }}
+    {% endif %}
+
+    {% if descriptionText %}
+      <p class="govuk-!-margin-top-4 govuk-!-margin-bottom-6">Your request has been cancelled</p>
+    {% endif %}
+
+    {{ dprRequestDetails(data)}}
+
+    {{ govukButton({
+      text: buttonText,  
+      classes: "govuk-button govuk-!-margin-top-5",
+      href: buttonHref
+    }) }}
+  
+  </div>
+{% endmacro %}

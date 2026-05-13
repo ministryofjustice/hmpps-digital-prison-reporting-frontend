@@ -11,9 +11,13 @@ class RequestStatusController {
 
   services: Services
 
+  public getCurrentStatus!: RequestHandler
+
   constructor(layoutPath: string, services: Services) {
     this.layoutPath = layoutPath
     this.services = services
+
+    // this.getCurrentStatus =
   }
 
   // Render status page

@@ -1,0 +1,21 @@
+{% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% from "../../../request-details/view.njk" import dprRequestDetails %}
+
+{% macro dprPollingFinishedState(data) %}
+
+  {% set reportUrl = data.reportUrl %}
+  {% set type = data.type %}
+
+  <div class="dpr-poling-state__finished">
+    <p class="govuk-!-margin-top-4 govuk-!-margin-bottom-6">Your {{ type }} has been generated</p>
+
+    {{ dprRequestDetails(data)}}
+
+    <p class="govuk-!-margin-top-4 govuk-!-margin-bottom-6">Please wait, you are being redirected...</p>
+    <p class="govuk-!-margin-top-4 govuk-!-margin-bottom-6">If you are not redirected within 10 seconds, please copy and paste this url into your browser and press enter:</p>
+    <p class="govuk-!-margin-top-4 govuk-!-margin-bottom-6">{{ reportUrl }}</p>
+  
+  </div>
+{% endmacro %}

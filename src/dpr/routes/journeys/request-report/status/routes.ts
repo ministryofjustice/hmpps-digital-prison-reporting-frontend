@@ -8,6 +8,7 @@ export function routes({ layoutPath, services }: { layoutPath: string; services:
   const controller = new RequestStatusController(layoutPath, services)
 
   router.get(`/`, controller.GET)
+  // router.get('/current-status/:reportId/:id/:executionId/:tableId', controller.getCurrentStatus)
   router.post(`/`, controller.POST)
 
   return router

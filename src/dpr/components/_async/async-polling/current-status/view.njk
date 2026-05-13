@@ -1,0 +1,38 @@
+{% from "../../request-status-tag/view.njk" import dprRequestStatusTag %}
+{% from "./in-progress-state/view.njk" import dprPollingInProgressState %}
+
+{% set status = data.status %}
+{% set reportId = data.reportId %}
+{% set id = data.id %}
+{% set type = data.type %}
+{% set reportUrl = data.reportUrl %}
+{% set executionId = data.executionId %}
+{% set tableId = data.tableId %}
+{% set csrfToken = data.csrfToken %}
+{% set descriptionClasses = 'govuk-!-margin-top-4 govuk-!-margin-bottom-6'%}
+
+{% set meta = { 
+  reportId: reportId, 
+  id: id,
+  executionId: executionId, 
+  tableId: tableId,
+  type: type,
+}%}
+
+<div id="dpr-current-status__content" data-request-data='{{ meta | dump | safe }}' data-dpr-module="async-polling-content">
+
+  <p>Status: {{ dprRequestStatusTag(status) }}</p>
+
+  {% if status === 'STARTED' or status === 'SUBMITTED' or status === 'PICKED' %}
+    {{ dprPollingInProgressState(data) }}
+  {% endif %}
+
+  {% if status === 'FAILED' or status === 'ABORTED' or status === 'EXPIRED' %}
+    {{ dprPollingFailedState(data) }}
+  {% endif %}
+
+  {% if status === 'FINISHED' %}
+    {{ dprPollingFinishedState(data) }}
+  {% endif %}
+
+</div>

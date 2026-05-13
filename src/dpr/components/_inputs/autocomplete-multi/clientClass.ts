@@ -1,10 +1,13 @@
 import { DprClientClass } from '../../../DprClientClass'
 
 class AutoCompleteMulti extends DprClientClass {
-  fullListLink!: HTMLElement | null
-  hideListLink!: HTMLElement | null
-  filtersContainer!: HTMLElement | null
   filterId!: string | null
+
+  searchInput!: HTMLInputElement | null
+
+  searchInputValue!: string
+
+  multiselectOptions!: HTMLInputElement[]
 
   static override getModuleName() {
     return 'autocomplete-multiselect-input'
@@ -13,82 +16,53 @@ class AutoCompleteMulti extends DprClientClass {
   override initialise() {
     this.element = this.getElement()
     this.filterId = this.element.getAttribute('data-filter-id')
-    this.filtersContainer = document.getElementById(`dpr_filter-wrapper_${this.filterId}`)
-    this.fullListLink = this.element.querySelector('.dpr-multiselect-action__view-all')
-    this.hideListLink = this.element.querySelector('.dpr-multiselect-action__hide-all')
 
-    this.initActions()
+    // Search input
+    this.searchInput = document.getElementById(`search.${this.filterId}`) as HTMLInputElement | null
+    this.multiselectOptions = Array.from(this.element.querySelectorAll<HTMLInputElement>('.govuk-checkboxes__input'))
+
+    if (!this.searchInput || !this.multiselectOptions) return
+
+    this.initialiseCheckboxes()
+    this.initSearchInputAction()
   }
 
-  initActions() {
-    this.initFullWidthAction()
-    this.initHideListAction()
-  }
-
-  /**
-   * Initialise full list link
-   * Listeners for both click and keydown to meet accessibilty requirements
-   *
-   * @memberof AutoCompleteMulti
-   */
-  initFullWidthAction() {
-    this.fullListLink?.addEventListener('click', (e: MouseEvent) => {
-      this.addFullWidthClasses(e)
+  initialiseCheckboxes() {
+    this.multiselectOptions.forEach((input) => {
+      const wrapper = input.closest('.govuk-checkboxes__item')
+      if (!wrapper) return
+      wrapper.classList.add('dpr-form--hidden')
     })
-    this.fullListLink?.addEventListener('keydown', (e: KeyboardEvent) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        this.addFullWidthClasses(e)
+  }
+
+  initSearchInputAction() {
+    if (!this.searchInput) return
+
+    const input = this.searchInput
+
+    this.searchInput.addEventListener('keyup', (_event) => {
+      this.searchInputValue = input.value
+      console.log(this.searchInputValue)
+      this.updateCheckboxes()
+    })
+  }
+
+  updateCheckboxes() {
+    const query = this.searchInputValue.toLowerCase().trim()
+
+    this.multiselectOptions.forEach((input) => {
+      const labelText = input.labels?.[0]?.innerText.toLowerCase() ?? ''
+      const matches = labelText.includes(query)
+
+      const wrapper = input.closest('.govuk-checkboxes__item')
+      if (!wrapper) return
+
+      if (matches || query === '') {
+        wrapper.classList.remove('dpr-form--hidden')
+      } else {
+        wrapper.classList.add('dpr-form--hidden')
       }
     })
-  }
-
-  /**
-   * Initialise hide list link
-   * Listeners for both click and keydown to meet accessibilty requirements
-   *
-   * @memberof AutoCompleteMulti
-   */
-  initHideListAction() {
-    this.hideListLink?.addEventListener('click', (e: MouseEvent) => {
-      this.removeFullWidthClasses(e)
-    })
-    this.hideListLink?.addEventListener('keydown', (e: KeyboardEvent) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        this.removeFullWidthClasses(e)
-      }
-    })
-  }
-
-  /**
-   * Adds classes to relevant element to show all select items
-   *
-   * @param {Event} e
-   * @memberof AutoCompleteMulti
-   */
-  addFullWidthClasses(e: Event) {
-    e.preventDefault()
-    this.element.classList.add('multiselect-container__full-width')
-    this.filtersContainer?.classList.add('dpr-filter-item__span-3')
-
-    // Update button visability
-    this.fullListLink?.classList.add('dpr-multiselect-action--hide')
-    this.hideListLink?.classList.remove('dpr-multiselect-action--hide')
-  }
-
-  /**
-   * Removes classes to relevant element to hide all select items
-   *
-   * @param {Event} e
-   * @memberof AutoCompleteMulti
-   */
-  removeFullWidthClasses(e: Event) {
-    e.preventDefault()
-    this.element.classList.remove('multiselect-container__full-width')
-    this.filtersContainer?.classList.remove('dpr-filter-item__span-3')
-
-    // Update button visability
-    this.fullListLink?.classList.remove('dpr-multiselect-action--hide')
-    this.hideListLink?.classList.add('dpr-multiselect-action--hide')
   }
 }
 

@@ -26,7 +26,6 @@
   {% set labelText = text | capitaliseSentence %}
 
   <div id="dpr_filter-wrapper_{{ id }}" class="dpr-filter-item">
-    {{ filterType }}
     {%- if filterType === 'select' %}
 
       {{ govukSelect({
@@ -138,9 +137,10 @@
           html: "(Optional)"
         } if not mandatory
       }) }}
-     {% elif filterType === 'autocompletemulti' %}
-      into here
-      {{ govukCheckboxes(filter, validationErrors, parameterPrefix, mandatory)}}
+
+    {% elif filterType === 'autocompletemulti' %}
+      
+      {{ dprAutocompleteMulti(filter, validationErrors, parameterPrefix, mandatory)}}
      
     {% endif %}
   </div>

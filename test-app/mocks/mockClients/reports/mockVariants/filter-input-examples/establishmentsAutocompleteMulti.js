@@ -17,7 +17,7 @@ const variant25 = {
         type: 'string',
         mandatory: false,
         filter: {
-          type: 'autocompleteMulti',
+          type: 'autocompletemulti',
           dynamicOptions: {
             minimumLength: 3,
             returnAsStaticOptions: true,

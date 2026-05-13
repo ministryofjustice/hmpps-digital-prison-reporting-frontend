@@ -68,16 +68,8 @@ export const setFilterValuesFromRequest = (
         requestfilterValue = DateInputUtils.setValueFromRequest(filter as DateFilterValue, req, prefix)
         break
 
+      case FilterType.autocompleteMulti.toLowerCase():
       case FilterType.multiselect.toLowerCase(): {
-        ;({ requestfilterValue, requestfilterValues } = MultiSelectUtils.setValueFromRequest(
-          filter as MultiselectFilterValue,
-          req,
-          prefix,
-        ))
-        break
-      }
-
-      case FilterType.autocompleteMulti.toLowerCase(): {
         ;({ requestfilterValue, requestfilterValues } = MultiSelectUtils.setValueFromRequest(
           filter as MultiselectFilterValue,
           req,
@@ -153,9 +145,9 @@ export const getFiltersFromDefinition = (
         type: type as FilterType,
         value: defaultValue || null,
         mandatory: mandatory || false,
-        minimumLength: dynamicOptions?.minimumLength,
-        pattern,
-        index,
+        minimumLength: dynamicOptions?.minimumLength || undefined,
+        pattern: pattern || undefined,
+        index: index || undefined,
       }
 
       const noFilterOption = {
@@ -163,6 +155,9 @@ export const getFiltersFromDefinition = (
         text: 'None',
         disabled: false,
       }
+
+      console.log(JSON.stringify(f, null, 2))
+      console.log(FilterType.autocompleteMulti.toLocaleLowerCase())
 
       switch (type) {
         case FilterType.autocomplete.toLowerCase():
@@ -196,14 +191,16 @@ export const getFiltersFromDefinition = (
           break
         }
 
-        case FilterType.multiselect.toLowerCase():
+        case FilterType.autocompleteMulti.toLocaleLowerCase():
+        case FilterType.multiselect.toLowerCase(): {
+          console.log('HERHERHHERHHERHHERHHERHHERH')
           filterData = {
             ...filterData,
             options,
             values: defaultValue ? defaultValue.split(',') : [],
           }
           break
-
+        }
         case FilterType.dateRange.toLowerCase():
           filterData = DateRangeInputUtils.getFilterFromDefinition(filter, filterData)
           break
@@ -217,20 +214,14 @@ export const getFiltersFromDefinition = (
           break
         }
 
-        case FilterType.autocompleteMulti.toLowerCase():
-          filterData = {
-            ...filterData,
-            options,
-            values: defaultValue ? defaultValue.split(',') : [],
-          }
-          break
-
         default:
           break
       }
 
       return filterData
     })
+
+  console.log(JSON.stringify(filters, null, 2))
 
   const orderedFilters = orderFilters(filters)
   return orderedFilters

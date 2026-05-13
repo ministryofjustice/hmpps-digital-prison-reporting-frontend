@@ -82,6 +82,9 @@ function formatFilterValues(field: components['schemas']['FieldDefinition'], raw
     case FilterType.date.toLowerCase():
       return apiDateToUi(rawValues[0]) ?? rawValues[0]
 
+    case FilterType.autocompleteMulti.toLowerCase():
+      return resolveStaticOption(filter, rawValues[0])
+
     default:
       return rawValues[0]
   }

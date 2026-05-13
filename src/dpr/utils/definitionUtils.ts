@@ -376,6 +376,12 @@ const appendFilterDefaults = (params: URLSearchParams, field: FieldWithFilter) =
       break
     }
 
+    case FilterType.autocompleteMulti.toLowerCase(): {
+      if (!defaultValue) break
+      appendMultiSelectValues(params, name, defaultValue)
+      break
+    }
+
     case FilterType.dateRange.toLowerCase(): {
       const resolved = resolveDateRangeDefaults(filter)
       if (!resolved) break

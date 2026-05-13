@@ -77,6 +77,15 @@ export const setFilterValuesFromRequest = (
         break
       }
 
+      case FilterType.autocompleteMulti.toLowerCase(): {
+        ;({ requestfilterValue, requestfilterValues } = MultiSelectUtils.setValueFromRequest(
+          filter as MultiselectFilterValue,
+          req,
+          prefix,
+        ))
+        break
+      }
+
       case FilterType.autocomplete.toLowerCase(): {
         if (!hasQueryParam && !preventDefault) {
           return filter
@@ -207,6 +216,14 @@ export const getFiltersFromDefinition = (
           filterData = GranularDateRangeInputUtils.getFilterFromDefinition(filter, filterData)
           break
         }
+
+        case FilterType.autocompleteMulti.toLowerCase():
+          filterData = {
+            ...filterData,
+            options,
+            values: defaultValue ? defaultValue.split(',') : [],
+          }
+          break
 
         default:
           break

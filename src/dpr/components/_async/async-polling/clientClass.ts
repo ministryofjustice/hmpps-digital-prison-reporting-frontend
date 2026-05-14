@@ -45,12 +45,18 @@ class DprReportStatus extends DprStatusPolling {
     try {
       const fetchPath = `${this.path}/current-status`
 
+      // get the updated current status fragment
       const fragment = await DprHtmlClient.fetchFragment(fetchPath, this.csrfToken)
       if (!fragment) return
 
+      // Get the redirect to the report, if present it means the status is finished
+      this.redirectToReport(fragment)
+
+      // Set the new container
       const newContainer = fragment.querySelector<HTMLElement>('#dpr-current-status__content')
       if (!newContainer) return
 
+      // Replace the old container
       this.container.replaceWith(newContainer)
       this.container = newContainer
     } catch (error) {
@@ -65,6 +71,17 @@ class DprReportStatus extends DprStatusPolling {
    */
   private isTerminal(): boolean {
     return this.isTerminalElement(this.container)
+  }
+
+  private redirectToReport(fragment: DocumentFragment) {
+    const redirectEl = fragment.querySelector('[data-redirect]')
+    if (redirectEl) {
+      const url = redirectEl.getAttribute('data-redirect')
+      if (url) {
+        window.location.replace(url)
+        return
+      }
+    }
   }
 }
 

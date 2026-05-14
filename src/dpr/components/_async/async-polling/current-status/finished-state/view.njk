@@ -8,6 +8,7 @@
   {% set statusDetails = data.statusDetails %}
   {% set descriptionText = statusDetails.descriptionText %}
   {% set altText = statusDetails.altText %}  
+  {% set buttonHref = statusDetails.buttonHref %}  
   {% set requestDetails = data.requestDetails %}
 
   <div class="dpr-poling-state__finished">
@@ -18,6 +19,7 @@
     {% for text in altText %}
       <p class="govuk-body govuk-!-margin-top-4 govuk-!-margin-bottom-6">{{ text }}</p>
     {% endfor %}
-  
+
+    <div data-redirect="{{ buttonHref }}"></div>
   </div>
 {% endmacro %}

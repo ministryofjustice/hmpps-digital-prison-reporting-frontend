@@ -5,22 +5,19 @@
 
 {% macro dprPollingFinishedState(data) %}
 
-  {% set meta = data.meta %}
-  {% set type = meta.type %}
-  
+  {% set statusDetails = data.statusDetails %}
+  {% set descriptionText = statusDetails.descriptionText %}
+  {% set altText = statusDetails.altText %}  
   {% set requestDetails = data.requestDetails %}
-  
-  {% set paths = data.paths %}
-  {% set reportUrl = paths.reportUrl %}
 
   <div class="dpr-poling-state__finished">
-    <p class="govuk-!-margin-top-4 govuk-!-margin-bottom-6">Your {{ type }} has been generated</p>
+    <p class="govuk-!-margin-top-4 govuk-!-margin-bottom-6">{{ descriptionText }}</p>
 
     {{ dprRequestDetails(requestDetails)}}
 
-    <p class="govuk-!-margin-top-4 govuk-!-margin-bottom-6">Please wait, you are being redirected...</p>
-    <p class="govuk-!-margin-top-4 govuk-!-margin-bottom-6">If you are not redirected within 10 seconds, please copy and paste this url into your browser and press enter:</p>
-    <p class="govuk-!-margin-top-4 govuk-!-margin-bottom-6">{{ reportUrl }}</p>
+    {% for text in altText %}
+      <p class="govuk-body govuk-!-margin-top-4 govuk-!-margin-bottom-6">{{ text }}</p>
+    {% endfor %}
   
   </div>
 {% endmacro %}

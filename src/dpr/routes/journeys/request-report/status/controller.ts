@@ -1,12 +1,10 @@
 import { RequestHandler } from 'express'
 import { captureException } from '@sentry/node'
 import { Services } from '../../../../types/Services'
-import AsyncPollingUtils from './utils'
+import { initPollingView } from './utils'
 import ErrorHandler from '../../../../utils/ErrorHandler/ErrorHandler'
-import { evaluateAndUpdateReportStatus } from '../../../../utils/ReportStatus/getReportStatus'
-import { getValues } from '../../../../utils/localsHelper'
 import { createReportPollingHandler } from 'src/dpr/controllers/reportPolling/createReportPollingHandler'
-import { StoredReportData } from 'src/dpr/types/UserReports'
+import { RequestedReport } from 'src/dpr/types/UserReports'
 import { UpdatedResolution } from 'src/dpr/utils/ReportStatus/types'
 import { buildCurrentStatusView } from 'src/dpr/components/_async/async-polling/current-status/utils'
 
@@ -21,7 +19,8 @@ class RequestStatusController {
     this.layoutPath = layoutPath
     this.services = services
 
-    this.getCurrentStatus = createReportPollingHandler<StoredReportData, UpdatedResolution>(
+    // Polling current status - render partial
+    this.getCurrentStatus = createReportPollingHandler<RequestedReport, UpdatedResolution>(
       this.services,
       (updated, resolution, _req, res) => {
         const viewModel = buildCurrentStatusView(updated, resolution.newStatus, res)
@@ -37,7 +36,7 @@ class RequestStatusController {
   // Render status page
   GET: RequestHandler = async (req, res, next) => {
     try {
-      const pollingRenderData = await AsyncPollingUtils.renderPolling({
+      const pollingRenderData = await initPollingView({
         req,
         res,
         services: this.services,
@@ -48,41 +47,14 @@ class RequestStatusController {
         ...pollingRenderData,
       })
     } catch (error) {
+      captureException(error)
+
       req.body ??= {}
       req.body.title = 'Failed to retrieve report status'
       req.body.errorDescription = 'We were unable to retrieve the report status:'
       req.body.error = new ErrorHandler(error).formatError()
+
       next(error)
-    }
-  }
-
-  // Poll request status
-  POST: RequestHandler = async (req, res, _next) => {
-    try {
-      const { token, dprUser } = getValues(res)
-      const { executionId, currentStatus } = req.body
-
-      const requestedReport = await this.services.requestedReportService.getReportByExecutionId(executionId, dprUser.id)
-      if (!requestedReport) {
-        return res.sendStatus(404)
-      }
-
-      const { resolution } = await evaluateAndUpdateReportStatus({
-        stored: requestedReport,
-        services: this.services,
-        res,
-        token,
-      })
-
-      let status = currentStatus
-      if (resolution.type === 'UPDATE') {
-        status = resolution.newStatus
-      }
-
-      return res.send({ status })
-    } catch (error) {
-      captureException(error)
-      return res.send({ status: 'FAILED' })
     }
   }
 }

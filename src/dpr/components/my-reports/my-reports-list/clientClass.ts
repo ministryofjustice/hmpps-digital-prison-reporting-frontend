@@ -1,6 +1,6 @@
 import { ListType } from '../types'
 import PollingClientClass from '../../../DprStatusPolling'
-import HtmlClient from '../../../DprHtmlClient'
+import DprHtmlClient from '../../../DprHtmlClient'
 
 class DprMyReports extends PollingClientClass {
   private rows!: NodeListOf<HTMLElement>
@@ -11,12 +11,13 @@ class DprMyReports extends PollingClientClass {
 
   override initialise() {
     const element = this.getElement()
-    this.csrfToken = HtmlClient.getCsrfToken(element)
 
     // Only poll on requested list
     if (element.dataset['listType'] !== `my-reports-${ListType.REQUESTED}`) {
       return
     }
+
+    this.csrfToken = DprHtmlClient.getCsrfToken(element)
 
     this.rows = element.querySelectorAll<HTMLElement>('[data-row-id]')
 

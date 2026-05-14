@@ -5,14 +5,16 @@
 
 {% macro dprPollingFailedState(data) %}
 
-  {% set meta = data.meta %}
+  {% set meta = data.metaDetails %}
   {% set type = meta.type %}
+
   {% set requestDetails = data.requestDetails %}
 
-  {% set buttonText = data.buttonText %}
-  {% set errorMessage = data.errorMessage %}
-  {% set descriptionText = data.descriptionText %}
-  {% set buttonHref = data.buttonHref %}
+  {% set statusDetails = data.statusDetails %}
+  {% set buttonText = statusDetails.buttonText %}
+  {% set errorMessage = statusDetails.errorMessage %}
+  {% set descriptionText = statusDetails.descriptionText %}
+  {% set buttonHref = statusDetails.buttonHref %}
 
   <div class="dpr-poling-state__failed">
 

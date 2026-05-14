@@ -1,18 +1,15 @@
 {% from "../../request-status-tag/view.njk" import dprRequestStatusTag %}
 {% from "./in-progress-state/view.njk" import dprPollingInProgressState %}
+{% from "./failed-state/view.njk" import dprPollingFailedState %}
+{% from "./finished-state/view.njk" import dprPollingFinishedState %}
 
-{% set meta = data.meta %}
-{% set paths = data.paths %}
-{% set status = data.status %}
+{% set meta = data.metaDetails %}
+{% set statusDetails = data.statusDetails %}
+{% set status = statusDetails.status %}
 
-<div id="dpr-current-status__content" 
-  data-report-id='{{ meta.reportId }}'
-  data-id='{{ meta.id }}'
-  data-table-id='{{ meta.tableId }}'
-  data-execution-id='{{ meta.executionId }}'
-  data-path='{{ paths.basePath }}'>
-
-  <p>Status: {{ dprRequestStatusTag(data.status) }}</p>
+<div id="dpr-current-status__content" data-status='{{ status }}'>
+  
+  <p>Status: {{ dprRequestStatusTag(status) }}</p>
 
   {% if status === 'STARTED' or status === 'SUBMITTED' or status === 'PICKED' %}
     {{ dprPollingInProgressState(data) }}

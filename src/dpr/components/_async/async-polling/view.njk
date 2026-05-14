@@ -1,140 +1,19 @@
-{% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
-{% from "govuk/components/button/macro.njk" import govukButton %}
-{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
-{% from "govuk/components/details/macro.njk" import govukDetails %}
+{% macro dprCurrentStatus(data) %}
 
-{% from "../request-status-tag/view.njk" import dprRequestStatusTag %}
-{% from "../request-details/view.njk" import dprRequestDetails %}
-{% from "../../error-summary/view.njk" import dprErrorSummary %}
-
-{% macro dprAsyncPolling(data) %}
-  {% set status = data.status %}
-  {% set querySummary = data.querySummary %}
-  {% set reportId = data.reportId %}
-  {% set id = data.id %}
-  {% set type = data.type %}
-  {% set dashboardId = data.dashboardId %}
-  {% set reportUrl = data.reportUrl %}
-  {% set requestUrl = data.requestUrl %}
-  {% set errorMessage = data.errorMessage %}
-  {% set executionId = data.executionId %}
-  {% set tableId = data.tableId %}
+  {% set meta = data.metaDetails %}
+  {% set path = data.path %}
   {% set csrfToken = data.csrfToken %}
-  {% set requestedAt = data.requestedAt %}
-  {% set definitionPath = data.definitionPath %}
-  {% set pollingUrl = data.pollingUrl %}
-  {% set descriptionClasses = 'govuk-!-margin-top-4 govuk-!-margin-bottom-6' %}
 
-  {% set meta = { 
-    reportId: reportId, 
-    id: id,
-    executionId: executionId, 
-    tableId: tableId,
-    type: type,
-    status: status,
-    requestedAt: requestedAt,
-    dataProductDefinitionsPath: definitionPath,
-    pollingUrl: pollingUrl
-  }%}
-  
-  <div id="async-request-polling-status" 
-    data-current-status='{{ status }}'
-    data-request-data='{{ meta | dump | safe }}'
+  <div id="dpr-current-status__content" 
+    data-dpr-module="dpr-current-status-polling"
+    data-report-id='{{ meta.reportId }}'
+    data-id='{{ meta.id }}'
+    data-table-id='{{ meta.tableId }}'
+    data-execution-id='{{ meta.executionId }}'
     data-csrf-token="{{ csrfToken }}"
-    data-report-url="{{ reportUrl }}"
-    data-dpr-module="async-polling-content">
+    data-path='{{ path }}'>
 
-    {% set filtersHtml %}
-    {% if querySummary %}
-      <ul>
-        {% for query in querySummary %}
-          <li class="govuk-body govuk-!-margin-bottom-1">{{ query.name }}: {{ query.value }}</li>
-        {% endfor %}
-      </ul>
-    {% endif %}
-    {% endset %}
-
-    <p>Status: {{ dprRequestStatusTag(status) }}</p>
-
-    {% if status === 'STARTED' or status === 'SUBMITTED' or status === 'PICKED' %}
-
-      <p class="{{ descriptionClasses }}">We are generating your {{ type }}.</p>
-
-      {{ dprRequestDetails(data)}}
-
-      {{ govukInsetText({
-        html: "<p>Your " + type + " will be generated shortly.</p> <p>You may navigate away from this page at anytime. Please visit the homepage to monitor your report status.</p>"
-      }) }}
-
-      <form method="post" action="./cancel">
-        <input type="hidden" name="_csrf" value="{{ csrfToken }}">
-        {{ govukButton({
-          id: "cancel-async-request",
-          text: "Cancel request",  
-          classes: "govuk-button--secondary govuk-!-margin-bottom-0",
-          attributes: {
-            'data-csrf-token': csrfToken
-          }
-        }) }}
-      </form>
-
-    {% endif %}
-
-    {% if status === 'FAILED' %}
-
-      {{ dprErrorSummary(errorMessage, meta) }}
-
-      {{ dprRequestDetails(data)}}
-
-      {{ govukButton({
-        id: "retry-async-request",
-        text: "Retry",  
-        classes: "govuk-button govuk-!-margin-top-5",
-        href: requestUrl
-      }) }}
-
-    {% endif %}
-
-    {% if status === 'ABORTED' %}
-
-      <p class="{{ descriptionClasses }}">Your request has been cancelled</p>
-
-      {{ dprRequestDetails(data)}}
-
-      {{ govukButton({
-        id: "retry-async-request",
-        text: "Return to request page",  
-        classes: "govuk-button govuk-!-margin-top-5",
-        href: requestUrl
-      }) }}
-
-    {% endif %}
-
-    {% if status === 'FINISHED' %}
-
-      <p class="{{ descriptionClasses }}">Your {{ type }} has been generated</p>
-
-      {{ dprRequestDetails(data)}}
-
-      <p class="{{ descriptionClasses }}">Please wait, you are being redirected...</p>
-
-      <p class="{{ descriptionClasses }}">If you are not redirected within 10 seconds, please copy and paste this url into your browser and press enter:</p>
-      <p class="{{ descriptionClasses }}">{{ reportUrl }}</p>
-
-    {% endif %}
-
-    {% if status === 'EXPIRED' %}
-      <p class="{{ descriptionClasses }}">Your report is no longer available and needs to be refreshed</p>
-
-      {{ dprRequestDetails(data)}}
-
-      {{ govukButton({
-        id: "retry-async-request",
-        text: "Refresh report",  
-        classes: "govuk-button govuk-!-margin-top-5",
-        href: requestUrl
-      }) }}
-    {% endif %}
-
+    {% include "./current-status/view.njk" %}
+    
   </div>
 {% endmacro %}

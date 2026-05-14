@@ -1,15 +1,12 @@
 Below you can find the changes included in each release.
 
-## 6.0.4
+## 6.0.3
 
 - Bugfix: string.replace causing template error when name/variantName is undefined
 
-## 6.0.3
-
-- Bugfix: Fix to tableId is sent with query to dashboard status endpoint
-
 ## 6.0.2
 
+- Bugfix: Fix to tableId is sent with query to dashboard status endpoint
 - Use API date format when generating heatmaps
 
 ## 6.0.1

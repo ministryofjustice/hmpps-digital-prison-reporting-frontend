@@ -1,8 +1,8 @@
 Below you can find the changes included in each release.
 
-## 6.0.1
+## 6.0.3
 
-- Bugfix: Fix to tableId is sent with query to dashboard status endpoint 
+- Bugfix: Fix to tableId is sent with query to dashboard status endpoint
 
 ## 6.0.2
 

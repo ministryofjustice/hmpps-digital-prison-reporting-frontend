@@ -1,14 +1,15 @@
 /* eslint-disable no-param-reassign */
+import { components } from '../../../types/api'
 import { DashboardDataResponse } from '../../../types/Metrics'
+import DatasetHelper from '../../../utils/Dashboards/VisualisationDatasetHelper'
 import {
   ListDashboardVisualisationOptions,
   MoJTable,
   MoJTableHead,
   MoJTableRow,
 } from '../dashboard-visualisation/types'
-import DatasetHelper from '../../../utils/Dashboards/VisualisationDatasetHelper'
-import { components } from '../../../types/api'
 import ListVisSchemas from './validate'
+import { apiDateToUi } from '../../../utils/dateHelper'
 
 export const createList = (
   listDefinition: components['schemas']['DashboardVisualisationDefinition'],
@@ -89,6 +90,14 @@ const createListFromColumns = (
   }
 }
 
+/**
+ * Creates the table rows for a dashboard list visualisation
+ * - If no measures are passed in it will present the full data
+ *
+ * @param {DashboardDataResponse[]} data
+ * @param {components['schemas']['DashboardVisualisationColumnDefinition'][]} [measures]
+ * @return {*}  {MoJTableRow[][]}
+ */
 export const createTableRows = (
   data: DashboardDataResponse[],
   measures?: components['schemas']['DashboardVisualisationColumnDefinition'][],
@@ -100,14 +109,29 @@ export const createTableRows = (
   // Set the list data using the measure
   if (measures && measures.length) {
     return data.map((dataRow) => {
-      const row: MoJTableRow[] = Array(measures.length)
+      const row: MoJTableRow[] = Array.from({ length: measures.length }, () => ({ text: '' }))
 
       Object.keys(dataRow).forEach((key) => {
         const headIndex = measures.findIndex((m) => m.id === key)
+        if (headIndex === -1) {
+          return
+        }
         const measure = measures[headIndex]
-        const cellContent = dataRow[key].raw
-        const cell = measure.type && measure.type === 'HTML' ? { html: cellContent } : { text: cellContent }
-        row.splice(headIndex, 1, cell as MoJTableRow)
+
+        const raw = dataRow[key]?.raw
+        if (raw == null) {
+          return
+        }
+        let cellContent = String(raw)
+
+        const { type } = measure
+        if (type === 'date') {
+          cellContent = apiDateToUi(cellContent) || cellContent
+        }
+
+        const cell: MoJTableRow = measure.type === 'HTML' ? { html: cellContent } : { text: cellContent }
+
+        row[headIndex] = cell
       })
 
       return row

@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## 6.0.2
+
+- Use API date format when generating heatmaps
+
 ## 6.0.1
 
 ### My reports component updates:

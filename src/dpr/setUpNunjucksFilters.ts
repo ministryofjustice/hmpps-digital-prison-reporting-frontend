@@ -37,7 +37,7 @@ const addRequiredAttributeToAll = (items: Array<FilterOption>) => {
 }
 
 const spacesToDash = (text: string) => {
-  return text.replace(/ /g, '-')
+  return text?.replace(/ /g, '-') ?? ''
 }
 
 export default setUpNunjucksFilters

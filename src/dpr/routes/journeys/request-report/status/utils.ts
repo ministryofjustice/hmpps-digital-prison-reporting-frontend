@@ -11,7 +11,7 @@ export const initPollingView = async ({ req, res, services }: AsyncReportUtilsPa
   }
 
   const requestReportData = await services.requestedReportService.getReportByExecutionId(executionId, dprUser.id)
-  if (!requestReportData) return
+  if (!requestReportData) return {}
 
   const title = `${type.charAt(0).toUpperCase() + type.substring(1).toLowerCase()} request status`
   const data = buildCurrentStatusView(requestReportData, requestReportData.status || RequestStatus.SUBMITTED, res)

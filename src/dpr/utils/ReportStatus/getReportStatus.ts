@@ -49,7 +49,7 @@ async function getStatusByType({
   try {
     const response =
       reportType === ReportType.DASHBOARD
-        ? await services.dashboardService.getAsyncStatus(token, reportId, id, executionId, definitionsPath, tableId)
+        ? await services.dashboardService.getAsyncStatus(token, reportId, id, executionId, tableId, definitionsPath)
         : await services.reportingService.getAsyncReportStatus(
             token,
             reportId,

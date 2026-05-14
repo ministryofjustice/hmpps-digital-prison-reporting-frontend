@@ -15,6 +15,7 @@ import { StoredReportData, ReportType, RequestedReport } from '../../types/UserR
 import { getValues } from '../localsHelper'
 import { getAllMyReports } from '../reportStoreHelper'
 import { components } from '../../types/api'
+import logger from '../logger'
 
 /**
  * ------------------------------------------------------------
@@ -480,6 +481,7 @@ async function detectExpiredFinishedReports({
     },
     Promise.resolve([]),
   )
+  logger.info(`EXPIRED STATES: ${JSON.stringify(expiryStates)}`)
 
   const expiredTableIds = new Set(expiryStates.filter((s) => s.expired).map((s) => s.tableId))
 
@@ -529,6 +531,7 @@ export async function expireFinishedReports({
 
   // de-duplicate executionIds
   const uniqueExpired = [...new Map(expired.map((e) => [e.executionId, e])).values()]
+  logger.info(`EXPIRED STATES: ${JSON.stringify({ uniqueExpired })}`)
 
   // If any expired then update the state
   await uniqueExpired.reduce(async (prev, { executionId }) => {

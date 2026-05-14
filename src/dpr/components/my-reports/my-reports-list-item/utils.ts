@@ -48,8 +48,8 @@ export const buildMyReportListRow = (
  */
 const buildTitleCell = (data: StoredReportData): DprMyReportTitle => {
   return {
-    productName: data.reportName,
-    reportName: data.name,
+    productName: data.reportName ?? 'unknown-product',
+    reportName: data.name ?? data.variantName ?? 'unknown-report',
     reportType: data.type,
     timestamp: buildTimestamp(data),
   }

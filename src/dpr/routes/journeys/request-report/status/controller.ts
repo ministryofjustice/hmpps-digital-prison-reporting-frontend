@@ -3,10 +3,10 @@ import { captureException } from '@sentry/node'
 import { Services } from '../../../../types/Services'
 import { initPollingView } from './utils'
 import ErrorHandler from '../../../../utils/ErrorHandler/ErrorHandler'
-import { createReportPollingHandler } from 'src/dpr/controllers/reportPolling/createReportPollingHandler'
-import { RequestedReport } from 'src/dpr/types/UserReports'
-import { UpdatedResolution } from 'src/dpr/utils/ReportStatus/types'
-import { buildCurrentStatusView } from 'src/dpr/components/_async/async-polling/current-status/utils'
+import { createReportPollingHandler } from '../../../../controllers/reportPolling/createReportPollingHandler'
+import { RequestedReport } from '../../../../types/UserReports'
+import { UpdatedResolution } from '../../../../utils/ReportStatus/types'
+import { buildCurrentStatusView } from '../../../../components/_async/async-polling/current-status/utils'
 
 class RequestStatusController {
   layoutPath: string

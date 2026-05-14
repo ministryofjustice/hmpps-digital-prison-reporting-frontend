@@ -5,8 +5,8 @@ import { buildMyReportListRow } from '../../../../components/my-reports/my-repor
 import { ListType } from '../../../../components/my-reports/types'
 import { safeRedirect } from '../../../../utils/http/safeRedirect'
 import { createReportPollingHandler } from '../../../../controllers/reportPolling/createReportPollingHandler'
-import { StoredReportData } from 'src/dpr/types/UserReports'
-import { UpdatedResolution } from 'src/dpr/utils/ReportStatus/types'
+import { StoredReportData } from '../../../../types/UserReports'
+import { UpdatedResolution } from '../../../../utils/ReportStatus/types'
 
 class RequestedReportsController {
   services: Services

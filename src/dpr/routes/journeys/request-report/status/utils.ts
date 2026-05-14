@@ -1,7 +1,7 @@
-import { RequestStatus } from 'src/dpr/types/UserReports'
+import { RequestStatus } from '../../../../types/UserReports'
 import { AsyncReportUtilsParams } from '../../../../types/AsyncReportUtils'
 import LocalsHelper from '../../../../utils/localsHelper'
-import { buildCurrentStatusView } from 'src/dpr/components/_async/async-polling/current-status/utils'
+import { buildCurrentStatusView } from '../../../../components/_async/async-polling/current-status/utils'
 
 export const initPollingView = async ({ req, res, services }: AsyncReportUtilsParams) => {
   const { dprUser } = LocalsHelper.getValues(res)

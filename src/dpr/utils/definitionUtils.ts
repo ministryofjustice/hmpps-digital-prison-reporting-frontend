@@ -370,6 +370,7 @@ const appendFilterDefaults = (params: URLSearchParams, field: FieldWithFilter) =
       break
     }
 
+    case FilterType.autocompleteMulti.toLowerCase():
     case FilterType.multiselect.toLowerCase(): {
       if (!defaultValue) break
       appendMultiSelectValues(params, name, defaultValue)

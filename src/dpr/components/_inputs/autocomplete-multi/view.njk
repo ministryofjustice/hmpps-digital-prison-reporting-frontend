@@ -1,0 +1,48 @@
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+
+{% macro dprAutocompleteMulti(filter, validationErrors, parameterPrefix = "filters.", mandatory = false) %}
+
+  {% set name = parameterPrefix + filter.name %}
+  {% set text = filter.text %}
+  {% set labelText = text | capitaliseSentence %}
+  {% set options = filter.options %}
+  {% set values = filter.values %}
+
+  {% set searchInputName = 'search.' + name %}
+
+  <div class="multiselect-container govuk-!-margin-bottom-6" data-filter-id="{{ name }}" data-dpr-module="autocomplete-multiselect-input">
+      {# Input name #}
+      <legend class="govuk-fieldset__legend govuk-label govuk-!-font-weight-bold">
+        {{ labelText }}
+      </legend>
+
+      {# Input for filtering multiselect values #}
+      {{ govukInput({
+        label: {
+          text: "Filter options"
+        },
+        id: searchInputName,
+        name: searchInputName
+      }) }}
+
+      {# Multiselect options #}
+      {{ govukCheckboxes({
+        id: name,
+        name: name,
+        classes: "govuk-checkboxes--small dpr-multi-select" ,
+        formGroup: {
+          classes: "govuk-!-margin-bottom-2"
+        },
+        errorMessage: validationErrors | dpr.findError(name),
+        attributes: {
+          required: true,
+          'display-name': labelText
+        } if mandatory else {
+          'display-name': labelText
+        },
+        items: options,
+        values: values
+      }) }}
+  </div>
+{% endmacro %}

@@ -1,26 +1,27 @@
 import dayjs from 'dayjs'
 import weekOfYear from 'dayjs/plugin/weekOfYear'
+import { apiDateToUi } from 'src/dpr/utils/dateHelper'
+import { components } from '../../types/api'
 import { ChartDetails, ChartMetaData } from '../../types/Charts'
 import { DashboardDataResponse } from '../../types/Metrics'
 import DatasetHelper from '../../utils/Dashboards/VisualisationDatasetHelper'
+import { mapUnitToSymbol } from '../../utils/Dashboards/VisualisationUnitHelper'
 import DashboardListUtils from '../_dashboards/dashboard-list/utils'
-import { Granularity } from '../_inputs/granular-date-range/types'
-import HeatmapChart from './chart/heatmap/HeatmapChart'
-import BarChart from './chart/bar/BarChart'
-import { components } from '../../types/api'
 import {
   DashboardVisualisationData,
   DashboardVisualisationType,
   DashboardVisualisatonCardData,
   MoJTable,
 } from '../_dashboards/dashboard-visualisation/types'
-import DoughnutChart from './chart/doughnut/DoughnutChart'
-import LineChart from './chart/line/LineChart'
-import LineTimeseriesChart from './chart/line-timeseries/LineTimeseriesChart'
-import BarTimeseriesChart from './chart/bar-timeseries/BarTimeseriesChart'
-import { PartialDate } from '../_filters/types'
-import { mapUnitToSymbol } from '../../utils/Dashboards/VisualisationUnitHelper'
 import { UnitType } from '../_dashboards/dashboard-visualisation/Validate'
+import { PartialDate } from '../_filters/types'
+import { Granularity } from '../_inputs/granular-date-range/types'
+import BarTimeseriesChart from './chart/bar-timeseries/BarTimeseriesChart'
+import BarChart from './chart/bar/BarChart'
+import DoughnutChart from './chart/doughnut/DoughnutChart'
+import HeatmapChart from './chart/heatmap/HeatmapChart'
+import LineTimeseriesChart from './chart/line-timeseries/LineTimeseriesChart'
+import LineChart from './chart/line/LineChart'
 
 dayjs.extend(weekOfYear)
 
@@ -156,11 +157,12 @@ const getChartDetails = (
 ): ChartDetails => {
   const meta: ChartMetaData[] = []
   const headlines: ChartMetaData[] = createHeadlines(chartDefinition, data, timeseries)
+  const rawDate = `${data[0]['ts'].raw}`
 
-  if (data[0]?.['ts']?.raw) {
+  if (rawDate) {
     meta.push({
       label: 'Values for:',
-      value: data[0]?.['ts'].raw,
+      value: apiDateToUi(rawDate) || rawDate,
     })
   }
 
@@ -183,14 +185,19 @@ const createHeadlines = (
 
   let headlineColumn: components['schemas']['DashboardVisualisationColumnDefinition'] | undefined
   let value: number | undefined
-  let label: string
+  let label: string = ''
 
   if (timeseries) {
-    headlineColumn = measures.find((col) => col.id !== 'ts')
+    headlineColumn = measures.find((col) => col.type !== 'date')
     if (headlineColumn) {
       const { id } = headlineColumn
       const { raw } = data[0][id]
-      label = `${data[0]['ts'].raw}`
+      const rawDate = `${data[0]['ts'].raw}`
+
+      if (rawDate) {
+        label = apiDateToUi(rawDate) || rawDate
+      }
+
       value = raw ? Number(raw) : undefined
 
       if (value) {
@@ -255,38 +262,46 @@ const createSnapshotTable = (
   }
 }
 
+/**
+ * Creates the a table representation for a timeseries chart
+ * - ensures the Date column is always at index 0 when there are multiple rows
+ *
+ * @param {components['schemas']['DashboardVisualisationDefinition']} chartDefinition
+ * @param {DashboardDataResponse[]} timeseriesData
+ * @return {*}  {MoJTable}
+ */
 const createTimeseriesTable = (
   chartDefinition: components['schemas']['DashboardVisualisationDefinition'],
   timeseriesData: DashboardDataResponse[],
 ): MoJTable => {
   const { columns } = chartDefinition
-  const { keys, measures } = columns
+  const { keys, measures = [] } = columns
 
+  const safeKeys = keys ?? []
   let flatTimeseriesData = timeseriesData.flat()
-  let headerColumns = [...measures]
+
+  let tableColumns: components['schemas']['DashboardVisualisationColumnDefinition'][]
 
   if (timeseriesData.length > 1) {
-    // Add keys as columns as well as measures, and put TS first:
-    // Get TS column an remove it from headings
-    const timestampIndex = headerColumns.findIndex((m) => m.id === 'ts')
-    const timestampCol = headerColumns[timestampIndex]
-    headerColumns.splice(timestampIndex, 1)
-    // Remove duplicate TS from keys if present and add keys to headings
-    const keysWithoutTs = keys ? keys.filter((k) => k.id !== 'ts') : []
-    headerColumns = [...keysWithoutTs, ...headerColumns]
-    // Add TS column to the start
-    headerColumns.unshift(timestampCol)
+    const dateMeasures = measures.filter((m) => m.type === 'date')
+
+    if (dateMeasures.length !== 1) {
+      throw new Error('Multi-timeseries tables require exactly one date measure')
+    }
+
+    const [dateColumn] = dateMeasures
+    const valueColumns = measures.filter((m) => m.type !== 'date')
+
+    tableColumns = [dateColumn, ...safeKeys, ...valueColumns]
   } else {
     flatTimeseriesData = DatasetHelper.filterRowsByDisplayColumns(chartDefinition, flatTimeseriesData)
+    tableColumns = measures
   }
 
-  const head = mapTableHead(headerColumns)
-  const rows = DashboardListUtils.createTableRows(flatTimeseriesData)
+  const head = mapTableHead(tableColumns)
+  const rows = DashboardListUtils.createTableRows(flatTimeseriesData, tableColumns)
 
-  return {
-    head,
-    rows,
-  } as MoJTable
+  return { head, rows }
 }
 
 export default {

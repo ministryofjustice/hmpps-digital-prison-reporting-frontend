@@ -17,6 +17,7 @@ export const mockMetricOneLineChartTimeseries: components['schemas']['DashboardV
       {
         id: 'ts',
         display: 'Date',
+        type: 'date',
       },
       {
         id: 'metric_one_is_missing',
@@ -49,6 +50,7 @@ export const mockMetricTwoLineChartTimeseries: components['schemas']['DashboardV
       {
         id: 'ts',
         display: 'Date',
+        type: 'date',
       },
       {
         id: 'metric_two_is_missing',
@@ -81,6 +83,7 @@ export const mockMetricThreeLineChartTimeseries: components['schemas']['Dashboar
       {
         id: 'ts',
         display: 'Date',
+        type: 'date',
       },
       {
         id: 'metric_three_is_missing',
@@ -113,6 +116,7 @@ export const mockMetricOneLineChartTimeseriesAllEst: components['schemas']['Dash
       {
         id: 'ts',
         display: 'Date',
+        type: 'date',
       },
       {
         id: 'metric_one_is_missing',
@@ -139,6 +143,7 @@ export const mockMetricTwoLineChartTimeseriesAllEst: components['schemas']['Dash
       {
         id: 'ts',
         display: 'Date',
+        type: 'date',
       },
       {
         id: 'metric_two_is_missing',
@@ -165,6 +170,7 @@ export const mockMetricThreeLineChartTimeseriesAllEst: components['schemas']['Da
       {
         id: 'ts',
         display: 'Date',
+        type: 'date',
       },
       {
         id: 'metric_three_is_missing',

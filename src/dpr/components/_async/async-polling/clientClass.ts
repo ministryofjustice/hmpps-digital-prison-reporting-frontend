@@ -50,7 +50,11 @@ class DprReportStatus extends DprStatusPolling {
       if (!fragment) return
 
       // Get the redirect to the report, if present it means the status is finished
-      this.redirectToReport(fragment)
+      if (this.redirectToReport(fragment)) {
+        return
+      }
+
+      console.log('sdfsdfsdfsdfsdfsdfsdf')
 
       // Set the new container
       const newContainer = fragment.querySelector<HTMLElement>('#dpr-current-status__content')
@@ -73,15 +77,16 @@ class DprReportStatus extends DprStatusPolling {
     return this.isTerminalElement(this.container)
   }
 
-  private redirectToReport(fragment: DocumentFragment) {
+  private redirectToReport(fragment: DocumentFragment): boolean {
     const redirectEl = fragment.querySelector('[data-redirect]')
-    if (redirectEl) {
-      const url = redirectEl.getAttribute('data-redirect')
-      if (url) {
-        window.location.replace(url)
-        return
-      }
-    }
+    if (!redirectEl) return false
+
+    const url = redirectEl.getAttribute('data-redirect')
+    if (!url) return false
+
+    window.location.replace(url)
+
+    return true
   }
 }
 

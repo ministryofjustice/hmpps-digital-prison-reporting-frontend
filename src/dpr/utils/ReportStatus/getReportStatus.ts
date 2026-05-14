@@ -14,6 +14,7 @@ import { Services } from '../../types/Services'
 import { StoredReportData, ReportType, RequestedReport } from '../../types/UserReports'
 import { getValues } from '../localsHelper'
 import { getAllMyReports } from '../reportStoreHelper'
+import { components } from '../../types/api'
 
 /**
  * ------------------------------------------------------------
@@ -470,11 +471,15 @@ async function detectExpiredFinishedReports({
   const tableIds = [...new Set(finishedWithTables.map((r) => r.tableId!))]
 
   const batches = chunkArray(tableIds, 50)
-  const expiryStates = await batches.reduce<Promise<any[]>>(async (accPromise, batch) => {
-    const acc = await accPromise
-    const result = await services.reportingService.getTableExpiryState(token, batch)
-    return [...acc, ...result]
-  }, Promise.resolve([]))
+
+  const expiryStates = await batches.reduce<Promise<components['schemas']['ResultTableExpiryState'][]>>(
+    async (accPromise, batch) => {
+      const acc = await accPromise
+      const result = await services.reportingService.getTableExpiryState(token, batch)
+      return [...acc, ...result]
+    },
+    Promise.resolve([]),
+  )
 
   const expiredTableIds = new Set(expiryStates.filter((s) => s.expired).map((s) => s.tableId))
 

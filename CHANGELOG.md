@@ -1,5 +1,17 @@
 Below you can find the changes included in each release.
 
+## 6.1.2
+
+- Bugfix: Count error response bypassing expired response
+
+## 6.1.1
+
+- Bugfix: Error handler not recognising status correctly for some responses
+
+## 6.1.0
+
+- Batching table IDs into size‑limited chunks to make paginated API calls to expire check endpoint and aggregating the results.
+
 ## 6.0.3
 
 - Bugfix: string.replace causing template error when name/variantName is undefined

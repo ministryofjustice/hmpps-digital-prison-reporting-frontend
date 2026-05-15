@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## 6.1.2
+
+- Bugfix: Count error response bypassing expired response
+
 ## 6.1.1
 
 - Bugfix: Error handler not recognising status correctly for some responses

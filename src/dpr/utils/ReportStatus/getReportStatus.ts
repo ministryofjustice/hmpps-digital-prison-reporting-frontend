@@ -544,7 +544,7 @@ export async function expireFinishedReports({
   return getAllMyReports(res, services, dprUser.id)
 }
 
-const EXPIRED_CHECK_INTERVAL_MS = 30 * 60 * 1000 // 30 mins
+const EXPIRED_CHECK_INTERVAL_MS = 1 * 60 * 1000 // temp reduced to two mins to make testing quicker
 
 /**
  * Checks if the expiry check should run
@@ -555,8 +555,10 @@ const EXPIRED_CHECK_INTERVAL_MS = 30 * 60 * 1000 // 30 mins
  */
 export function shouldRunExpiryCheck(session: { lastExpiredReportsCheckAt?: number }): boolean {
   const lastRun = session.lastExpiredReportsCheckAt
-  if (!lastRun) return true
 
+  console.log({ lastRun })
+  if (!lastRun) return true
+  console.log('set last run')
   return Date.now() - lastRun > EXPIRED_CHECK_INTERVAL_MS
 }
 

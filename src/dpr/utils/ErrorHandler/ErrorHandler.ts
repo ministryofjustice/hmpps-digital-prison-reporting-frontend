@@ -60,10 +60,10 @@ class ErrorHandler {
     if (this.isSuperAgentError(err)) {
       const transportStatus = typeof err.status === 'number' ? err.status : (err.response?.status ?? 500)
 
-      // 1. Prefer response.body
+      // 1. Prefer response.body if present
       let payload: unknown = err.response?.body
 
-      // 2. Fallback: parse text
+      // 2. Otherwise try to parse text as JSON
       if (payload === undefined) {
         payload = this.tryParseJson(err.text)
       }

@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## 6.1.0
+
+- Batching table IDs into size‑limited chunks to make paginated API calls to expire check endpoint and aggregating the results.
+
 ## 6.0.3
 
 - Bugfix: string.replace causing template error when name/variantName is undefined

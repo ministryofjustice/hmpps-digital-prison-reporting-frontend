@@ -121,7 +121,7 @@ class RestClient {
     token: string,
   ): Promise<Response> {
     logger.info(`${this.name} ${method.toUpperCase()}: ${path}`)
-    logger.info(`info about request: ${method} | ${path} | ${JSON.stringify(data)} | ${query}`)
+    logger.info(`info about request: ${method} | ${path} | ${JSON.stringify(data)} | ${JSON.stringify(query)}`)
     try {
       const result = await superagent[method](`${this.apiUrl()}${path}`)
         .query(query)

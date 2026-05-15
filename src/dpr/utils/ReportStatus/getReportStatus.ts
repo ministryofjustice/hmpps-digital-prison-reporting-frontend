@@ -14,6 +14,8 @@ import { Services } from '../../types/Services'
 import { StoredReportData, ReportType, RequestedReport } from '../../types/UserReports'
 import { getValues } from '../localsHelper'
 import { getAllMyReports } from '../reportStoreHelper'
+import { components } from '../../types/api'
+import logger from '../logger'
 
 /**
  * ------------------------------------------------------------
@@ -469,12 +471,25 @@ async function detectExpiredFinishedReports({
   // de‑duplicate tableIds for batch lookup
   const tableIds = [...new Set(finishedWithTables.map((r) => r.tableId!))]
 
-  const expiryStates = await services.reportingService.getTableExpiryState(token, tableIds)
+  const batches = chunkArray(tableIds, 50)
+
+  const expiryStates = await batches.reduce<Promise<components['schemas']['ResultTableExpiryState'][]>>(
+    async (accPromise, batch) => {
+      const acc = await accPromise
+      const result = await services.reportingService.getTableExpiryState(token, batch)
+      return [...acc, ...result]
+    },
+    Promise.resolve([]),
+  )
+  logger.info(`EXPIRED STATES: ${JSON.stringify(expiryStates)}`)
 
   const expiredTableIds = new Set(expiryStates.filter((s) => s.expired).map((s) => s.tableId))
 
   return finishedWithTables.filter((r) => expiredTableIds.has(r.tableId!)).map((r) => ({ executionId: r.executionId! }))
 }
+
+const chunkArray = <T>(arr: T[], size: number): T[][] =>
+  Array.from({ length: Math.ceil(arr.length / size) }, (_, i) => arr.slice(i * size, i * size + size))
 
 /**
  * Checks the expired status of reports and updates the state
@@ -516,6 +531,7 @@ export async function expireFinishedReports({
 
   // de-duplicate executionIds
   const uniqueExpired = [...new Map(expired.map((e) => [e.executionId, e])).values()]
+  logger.info(`EXPIRED STATES: ${JSON.stringify({ uniqueExpired })}`)
 
   // If any expired then update the state
   await uniqueExpired.reduce(async (prev, { executionId }) => {

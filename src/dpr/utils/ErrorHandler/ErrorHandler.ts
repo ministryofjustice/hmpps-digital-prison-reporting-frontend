@@ -15,6 +15,7 @@ interface ErrorPayload {
   userMessage?: string
   developerMessage?: string
   moreInfo?: string
+  status?: number
 }
 
 class ErrorHandler {
@@ -55,9 +56,9 @@ class ErrorHandler {
       }
     }
 
-    // 3. SuperAgent / WireMock
+    // 3. SuperAgent / HTTP errors
     if (this.isSuperAgentError(err)) {
-      const status = typeof err.status === 'number' ? err.status : 500
+      const transportStatus = typeof err.status === 'number' ? err.status : (err.response?.status ?? 500)
 
       // 1. Prefer response.body if present
       let payload: unknown = err.response?.body
@@ -67,11 +68,14 @@ class ErrorHandler {
         payload = this.tryParseJson(err.text)
       }
 
-      // 3. If we now have a structured error payload
-      if (this.isErrorPayload(payload)) {
-        const { userMessage, developerMessage, moreInfo } = payload
+      // 3. Extract actual payload (handles nested `data`)
+      const extracted = this.extractPayload(payload)
+
+      if (extracted) {
+        const { userMessage, developerMessage, moreInfo, status } = extracted
+
         return {
-          status,
+          status: status ?? transportStatus,
           ...(userMessage !== undefined && { userMessage }),
           ...(developerMessage !== undefined && { developerMessage }),
           ...(moreInfo !== undefined && { moreInfo }),
@@ -80,11 +84,12 @@ class ErrorHandler {
 
       // 4. Transport-level fallback
       return {
-        status,
+        status: transportStatus,
         userMessage: err.message,
       }
     }
 
+    // 4. Generic JS error
     if (
       typeof err === 'object' &&
       err !== null &&
@@ -104,6 +109,25 @@ class ErrorHandler {
     }
   }
 
+  /**
+   * Extracts error payload from:
+   * - direct payload
+   * - nested payload.data
+   */
+  private extractPayload(payload: unknown): ErrorPayload | undefined {
+    if (this.isErrorPayload(payload)) return payload
+
+    if (typeof payload === 'object' && payload !== null && 'data' in payload) {
+      const maybeData = (payload as { data?: unknown }).data
+
+      if (this.isErrorPayload(maybeData)) {
+        return maybeData
+      }
+    }
+
+    return undefined
+  }
+
   private isSuperAgentError(error: unknown): error is ResponseError {
     if (typeof error !== 'object' || error === null) return false
 
@@ -119,7 +143,7 @@ class ErrorHandler {
     return (
       typeof value === 'object' &&
       value !== null &&
-      ('userMessage' in value || 'developerMessage' in value || 'moreInfo' in value)
+      ('userMessage' in value || 'developerMessage' in value || 'moreInfo' in value || 'status' in value)
     )
   }
 

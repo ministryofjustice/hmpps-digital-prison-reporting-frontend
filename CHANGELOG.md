@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## 6.1.1
+
+- Bugfix: Error handler not recognising status correctly for some responses
+
 ## 6.1.0
 
 - Batching table IDs into size‑limited chunks to make paginated API calls to expire check endpoint and aggregating the results.

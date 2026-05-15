@@ -53,9 +53,6 @@ export const initMyReports = async (
 const checkExpiredAndGetReports = async (res: Response, services: Services) => {
   const { requestedReports, recentlyViewedReports } = LocalsHelper.getValues(res)
 
-  console.log(`
-    #######################`)
-  console.log(`checkExpiredAndGetReports`)
   if (shouldRunExpiryCheck(res.req.session)) {
     try {
       const refreshedReports = await expireFinishedReports({

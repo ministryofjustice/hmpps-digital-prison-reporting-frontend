@@ -117,13 +117,12 @@ class ErrorHandler {
   private extractPayload(payload: unknown): ErrorPayload | undefined {
     if (this.isErrorPayload(payload)) return payload
 
-    if (
-      typeof payload === 'object' &&
-      payload !== null &&
-      'data' in payload &&
-      this.isErrorPayload((payload as any).data)
-    ) {
-      return (payload as any).data
+    if (typeof payload === 'object' && payload !== null && 'data' in payload) {
+      const maybeData = (payload as { data?: unknown }).data
+
+      if (this.isErrorPayload(maybeData)) {
+        return maybeData
+      }
     }
 
     return undefined

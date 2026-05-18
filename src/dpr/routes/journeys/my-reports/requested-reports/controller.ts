@@ -42,10 +42,20 @@ class RequestedReportsController {
     const { dprUser } = LocalsHelper.getValues(res)
     const { executionId } = req.params
     const { returnTo } = req.body
-    const returnToWithTab = `${returnTo}#requested-reports-tab`
 
     await this.services.requestedReportService.removeReport(executionId as string, dprUser.id)
 
+    const isAjax = req.get('X-Requested-With') === 'XMLHttpRequest'
+
+    if (isAjax) {
+      return res.status(200).json({
+        success: true,
+        executionId,
+      })
+    }
+
+    // fallback for non-JS
+    const returnToWithTab = `${returnTo}#requested-reports-tab`
     return safeRedirect(req, res, returnToWithTab)
   }
 }

@@ -7,8 +7,7 @@ import { createReportPollingHandler } from '../../../../controllers/reportPollin
 import { StoredReportData } from '../../../../types/UserReports'
 import { UpdatedResolution } from '../../../../utils/ReportStatus/types'
 import { initRequested } from '../../../../components/my-reports/utils'
-import logger from '../../../../utils/logger'
-import { captureDprError } from 'src/dpr/utils/captureError'
+import { captureDprError } from '../../../../utils/captureError'
 
 class RequestedReportsController {
   services: Services

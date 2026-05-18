@@ -2,9 +2,7 @@ import { RequestHandler } from 'express'
 import { Services } from '../../../../types/Services'
 import LocalsHelper from '../../../../utils/localsHelper'
 import { initViewed } from '../../../../components/my-reports/utils'
-import logger from '../../../../utils/logger'
-import { captureException } from '@sentry/node'
-import { captureDprError } from 'src/dpr/utils/captureError'
+import { captureDprError } from '../../../../utils/captureError'
 
 class RecentlyViewedReportsController {
   services: Services

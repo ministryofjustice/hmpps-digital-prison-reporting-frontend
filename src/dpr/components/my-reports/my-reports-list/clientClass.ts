@@ -7,6 +7,8 @@ class DprMyReports extends PollingClientClass {
 
   private listType!: string
 
+  private maxRows!: string | undefined
+
   private removing = false
 
   static override getModuleName() {
@@ -16,7 +18,9 @@ class DprMyReports extends PollingClientClass {
   override initialise() {
     const element = this.getElement()
 
-    this.listType = this.getElement().dataset['listType'] ?? `my-reports-${ListType.REQUESTED}`
+    this.maxRows = element.dataset['maxRows']
+
+    this.listType = element.dataset['listType'] ?? `my-reports-${ListType.REQUESTED}`
 
     this.initRemoveAction()
 
@@ -123,14 +127,17 @@ class DprMyReports extends PollingClientClass {
     if (this.removing) return
     this.removing = true
 
+    const body = this.maxRows !== undefined ? { maxRows: this.maxRows } : {}
+
     try {
       // Fetch the updated list
       const res = await fetch(form.action, {
         method: 'POST',
         headers: {
           'X-Requested-With': 'XMLHttpRequest',
+          'Content-Type': 'application/json',
         },
-        body: new FormData(form),
+        body: JSON.stringify(body),
       })
 
       if (!res.ok) {
@@ -152,7 +159,7 @@ class DprMyReports extends PollingClientClass {
 
       // Extract the total
       const totalEl = newRoot.querySelector('[data-total-total]')
-      const total = totalEl?.textContent?.trim()
+      const total = totalEl?.textContent?.trim() ?? '0'
 
       // Replace DOM
       currentRoot.replaceWith(newRoot)

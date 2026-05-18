@@ -33,7 +33,11 @@ class RecentlyViewedReportsController {
 
     try {
       // get the data for the requested list
-      const viewModel = await initViewed(req, res)
+      const maxRows = req.body?.maxRows !== undefined ? Number(req.body.maxRows) : undefined
+      const viewModel = await initViewed(req, res, {
+        ...(maxRows && { maxRows }),
+      })
+
       return res.render('dpr/components/my-reports/my-reports-list/view.njk', { viewModel }, (err, html) => {
         if (err) return res.sendStatus(500)
         return res.type('text/html').send(html)

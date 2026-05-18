@@ -50,7 +50,11 @@ class RequestedReportsController {
 
     try {
       // get the data for the requested list
-      const viewModel = await initRequested(req, res)
+      const maxRows = req.body?.maxRows !== undefined ? Number(req.body.maxRows) : undefined
+      const viewModel = await initRequested(req, res, {
+        ...(maxRows && { maxRows }),
+      })
+
       return res.render('dpr/components/my-reports/my-reports-list/view.njk', { viewModel }, (err, html) => {
         if (err) return res.sendStatus(500)
         return res.type('text/html').send(html)

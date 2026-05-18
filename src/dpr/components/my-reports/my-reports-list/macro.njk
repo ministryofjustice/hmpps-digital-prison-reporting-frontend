@@ -11,6 +11,7 @@
   {% set totals = listConfig.totals %}
   {% set listType = listConfig.listType %}
   {% set csrfToken = listConfig.csrfToken %}
+  {% set maxRows = totals.maxRows %}
 
   {% set classes = 'dpr-my-reports__table--requests' %}
   {% set hasItems = items | length > 0 %}
@@ -35,6 +36,9 @@
       data-dpr-module="dpr-my-reports"
       data-list-type="my-reports-{{ listType }}"
       data-csrf-token="{{ csrfToken }}"
+      {% if maxRows %}
+        data-max-rows="{{ maxRows }}"
+      {% endif %}
     >
 
       {# LIST CONTAINER #}

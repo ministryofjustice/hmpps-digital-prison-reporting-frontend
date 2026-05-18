@@ -226,6 +226,7 @@ const buildTotals = (
     total: items.length,
     shown,
     href,
+    maxRows,
   }
 }
 

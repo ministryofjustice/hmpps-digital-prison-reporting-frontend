@@ -32,6 +32,7 @@ class DprMyReports extends PollingClientClass {
     this.csrfToken = DprHtmlClient.getCsrfToken(element)
 
     this.rows = element.querySelectorAll<HTMLElement>('[data-row-id]')
+
     if (this.rows.length && !this.allTerminal()) {
       this.startPolling(
         () => this.pollAllReports(),

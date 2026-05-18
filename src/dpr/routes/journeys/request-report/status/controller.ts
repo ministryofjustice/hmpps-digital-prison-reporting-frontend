@@ -6,7 +6,10 @@ import { createReportPollingHandler } from '../../../../controllers/reportPollin
 import { RequestedReport } from '../../../../types/UserReports'
 import { UpdatedResolution } from '../../../../utils/ReportStatus/types'
 import { buildCurrentStatusView } from '../../../../components/_async/async-polling/current-status/utils'
+<<<<<<< HEAD
 import { captureDprError } from '../../../../utils/captureError'
+=======
+>>>>>>> main
 
 class RequestStatusController {
   layoutPath: string

@@ -12,7 +12,9 @@
   {% set visualisationLabelId = "visualisation-title-" + loopIndex %}
 
   <div class="dashboard-visualisation-container" id="{{ id }}-dash-section-visualisation" tabindex="0" aria-labelledby={{ visualisationLabelId }}>
-    <h3 id='{{ visualisationLabelId }}' class="govuk-heading-m">{{ title }}</h3>
+    {% if title %}
+      <h3 id='{{ visualisationLabelId }}' class="govuk-heading-m">{{ title }}</h3>
+    {% endif %}
 
     {% if description %}
       <p class="govuk-body">{{ description }}</p>

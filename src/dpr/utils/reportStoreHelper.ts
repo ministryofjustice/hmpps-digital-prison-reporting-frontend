@@ -58,3 +58,20 @@ export const getAllMyBookmarks = async (res: Response, services: Services, dprUs
 
   return bookmarks
 }
+
+/**
+ * Gets the report title data from report state
+ * - old versions of the schema store use variantName
+ *
+ * @param {StoredReportData} data
+ * @return {*}
+ */
+export const getReportTitleData = (data: StoredReportData) => {
+  const productName = data.reportName ?? 'unknown-product'
+  const reportName = data.name ?? data.variantName ?? 'unknown-report'
+
+  return {
+    productName,
+    reportName,
+  }
+}

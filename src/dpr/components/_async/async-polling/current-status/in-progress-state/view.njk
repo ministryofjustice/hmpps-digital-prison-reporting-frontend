@@ -1,0 +1,40 @@
+{% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% from "../../../request-details/view.njk" import dprRequestDetails %}
+
+{% macro dprPollingInProgressState(data) %}
+
+  {% set requestDetails = data.requestDetails %}
+  {% set statusDetails = data.statusDetails %}
+  {% set descriptionText = statusDetails.descriptionText %}
+  {% set altText = statusDetails.altText %}
+  {% set csrfToken = data.csrfToken %}
+  
+  {% set insetTextHtml %}
+    {% for text in altText %}
+      <p class="govuk-body">{{ text }}</p>
+    {% endfor %}
+  {% endset %}
+
+  <div class="dpr-poling-state__in-progress">
+    <p class="govuk-!-margin-top-4 govuk-!-margin-bottom-6">{{ descriptionText }}</p>
+
+    {{ dprRequestDetails(requestDetails)}}
+
+    {{ govukInsetText({ html: insetTextHtml }) }}
+
+    <form method="post" action="./cancel">
+      <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+
+      {{ govukButton({
+        id: "cancel-async-request",
+        text: "Cancel request",  
+        classes: "govuk-button--secondary govuk-!-margin-bottom-0",
+        attributes: {
+          'data-csrf-token': csrfToken
+        }
+      }) }}
+    </form>
+  </div>
+{% endmacro %}

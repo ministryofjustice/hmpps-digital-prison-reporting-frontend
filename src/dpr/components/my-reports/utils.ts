@@ -1,5 +1,4 @@
 import { Request, Response } from 'express'
-import { captureException } from '@sentry/node'
 import { Services } from '../../types/Services'
 import {
   DprMyReport,
@@ -25,6 +24,7 @@ import {
   recordExpiryCheck,
   shouldRunExpiryCheck,
 } from '../../utils/ReportStatus/getReportStatus'
+import { captureDprError } from '../../utils/captureError'
 
 /**
  * Initialises the "My Reports" component data
@@ -292,8 +292,8 @@ const mapBookmarks = async (
           loadType: resolved.loadType,
         }
       } catch (error) {
-        captureException(error)
-        logger.info(`Unable to get info for bookmark: ${bm.reportId} - ${bm.variantId || bm.id}`)
+        captureDprError(error, `Unable to get info for bookmark: ${bm.reportId} - ${bm.variantId || bm.id}`)
+
         return null
       }
     }),

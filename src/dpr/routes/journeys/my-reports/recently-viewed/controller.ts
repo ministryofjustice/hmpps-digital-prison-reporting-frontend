@@ -2,6 +2,9 @@ import { RequestHandler } from 'express'
 import { Services } from '../../../../types/Services'
 import LocalsHelper from '../../../../utils/localsHelper'
 import { initViewed } from '../../../../components/my-reports/utils'
+import logger from '../../../../utils/logger'
+import { captureException } from '@sentry/node'
+import { captureDprError } from 'src/dpr/utils/captureError'
 
 class RecentlyViewedReportsController {
   services: Services
@@ -43,7 +46,8 @@ class RecentlyViewedReportsController {
         return res.type('text/html').send(html)
       })
     } catch (error) {
-      console.error('Failed to refresh list after removal', error)
+      captureDprError(error, 'Failed to refresh list after removal')
+
       return res.sendStatus(500)
     }
   }

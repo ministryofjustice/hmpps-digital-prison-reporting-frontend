@@ -1,10 +1,10 @@
 import { RequestHandler } from 'express'
-import { captureException } from '@sentry/node'
 import LocalsHelper from '../../../../utils/localsHelper'
 import { components } from '../../../../types/api'
 import { Services } from '../../../../types/Services'
 import MissingReportService from '../../../../services/missingReport/missingReportService'
 import { ReportingService } from '../../../../services'
+import { captureDprError } from '../../../../utils/captureError'
 
 class MissingReportFormController {
   layoutPath: string
@@ -70,13 +70,13 @@ class MissingReportFormController {
             res.redirect(redirect)
           },
           (err) => {
-            captureException(err)
+            captureDprError(err)
             next(err)
           },
         )
       }
     } catch (error) {
-      captureException(error)
+      captureDprError(error)
       next(error)
     }
   }

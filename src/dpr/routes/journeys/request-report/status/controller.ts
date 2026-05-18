@@ -1,5 +1,4 @@
 import { RequestHandler } from 'express'
-import { captureException } from '@sentry/node'
 import { Services } from '../../../../types/Services'
 import { initPollingView } from './utils'
 import ErrorHandler from '../../../../utils/ErrorHandler/ErrorHandler'
@@ -7,6 +6,7 @@ import { createReportPollingHandler } from '../../../../controllers/reportPollin
 import { RequestedReport } from '../../../../types/UserReports'
 import { UpdatedResolution } from '../../../../utils/ReportStatus/types'
 import { buildCurrentStatusView } from '../../../../components/_async/async-polling/current-status/utils'
+import { captureDprError } from '../../../../utils/captureError'
 
 class RequestStatusController {
   layoutPath: string
@@ -47,10 +47,11 @@ class RequestStatusController {
         ...pollingRenderData,
       })
     } catch (error) {
-      captureException(error)
+      const message = 'Failed to retrieve report status'
+      captureDprError(error, message)
 
       req.body ??= {}
-      req.body.title = 'Failed to retrieve report status'
+      req.body.title = message
       req.body.errorDescription = 'We were unable to retrieve the report status:'
       req.body.error = new ErrorHandler(error).formatError()
 

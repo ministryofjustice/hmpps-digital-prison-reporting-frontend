@@ -7,6 +7,8 @@ import { createReportPollingHandler } from '../../../../controllers/reportPollin
 import { StoredReportData } from '../../../../types/UserReports'
 import { UpdatedResolution } from '../../../../utils/ReportStatus/types'
 import { initRequested } from '../../../../components/my-reports/utils'
+import logger from '../../../../utils/logger'
+import { captureDprError } from 'src/dpr/utils/captureError'
 
 class RequestedReportsController {
   services: Services
@@ -60,7 +62,8 @@ class RequestedReportsController {
         return res.type('text/html').send(html)
       })
     } catch (error) {
-      console.error('Failed to refresh list after removal', error)
+      captureDprError(error, 'Failed to refresh list after removal')
+
       return res.sendStatus(500)
     }
   }

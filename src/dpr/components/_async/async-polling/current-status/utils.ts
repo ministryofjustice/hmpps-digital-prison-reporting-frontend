@@ -62,12 +62,14 @@ const setStatusDetails = (status: string, data: RequestedReport) => {
       buttonText = 'Return to request page'
       buttonHref = requestUrl
       break
+
     case RequestStatus.FAILED:
       buttonText = 'Retry'
       descriptionText = 'Your report is no longer available and needs to be refreshed'
       buttonHref = requestUrl
       errorMessage = setErrorMessage(data)
       break
+
     case RequestStatus.EXPIRED:
       descriptionText = 'Your report is no longer available and needs to be refreshed'
       buttonText = 'Refresh report'

@@ -20,6 +20,7 @@ import { getActiveJourneyValue, setActiveJourneySortSearch } from '../../../../u
 import { formBodyToQueryObject } from '../../../../utils/queryMappers'
 import { joinQueryStrings } from '../../../../utils/urlHelper'
 import { buildQuerySummary } from '../../../../components/_async/request-details/utils'
+import ReportQuery from 'src/dpr/types/ReportQuery'
 
 // ----------------------------------------------------------------------
 // POST
@@ -192,14 +193,18 @@ const requestProduct = async ({
   const { definitionsPath: dataProductDefinitionsPath, dpdPathFromQuery } = LocalsHelper.getValues(res)
   const { reportId, id, type } = req.body as { reportId: string; id: string; type: ReportType }
 
-  const query = formBodyToQueryObject(req.body)
-
   let executionId
   let tableId
   let childVariants: components['schemas']['ChildVariantDefinition'][] = []
   let sortData: Record<string, string> | undefined
 
   const { definition, fields } = await getDefinitionByType(type, services, token, reportId, id)
+  const query = new ReportQuery({
+    fields,
+    queryParams: formBodyToQueryObject(req.body),
+    definitionsPath: <string>dataProductDefinitionsPath,
+    reportType: type,
+  }).toRecordWithFilterPrefix(true)
 
   if (type === ReportType.REPORT) {
     const requestReportResponse = await services.reportingService.requestAsyncReport(token, reportId, id, {

@@ -3,7 +3,7 @@
  * and handling common concerns like CSRF tokens and response parsing.
  */
 
-class HtmlClient {
+class DprHtmlClient {
   /**
    * Fetches an HTML fragment from the server and parses it into a DocumentFragment.
    * Returns null if the response indicates no content change (204).
@@ -12,7 +12,7 @@ class HtmlClient {
    * @param {string} url
    * @param {string} [csrfToken]
    * @return {*}  {(Promise<DocumentFragment | null>)}
-   * @memberof HtmlClient
+   * @memberof DprHtmlClient
    */
   static async fetchFragment(url: string, csrfToken?: string): Promise<DocumentFragment | null> {
     const res = await fetch(url, {
@@ -44,7 +44,7 @@ class HtmlClient {
    * @static
    * @param {HTMLElement} element
    * @return {*}  {string}
-   * @memberof HtmlClient
+   * @memberof DprHtmlClient
    */
   static getCsrfToken(element: HTMLElement): string {
     const token = element.dataset['csrfToken']
@@ -57,4 +57,4 @@ class HtmlClient {
   }
 }
 
-export default HtmlClient
+export default DprHtmlClient

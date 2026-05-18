@@ -18,8 +18,6 @@ class DprMyReports extends PollingClientClass {
 
     this.listType = this.getElement().dataset['listType'] ?? `my-reports-${ListType.REQUESTED}`
 
-    console.log(this.listType)
-
     this.initRemoveAction()
 
     // Only poll on requested list

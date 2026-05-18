@@ -7,6 +7,8 @@ class DprMyReports extends PollingClientClass {
 
   private listType!: string
 
+  private removing = false
+
   static override getModuleName() {
     return 'dpr-my-reports'
   }
@@ -120,6 +122,9 @@ class DprMyReports extends PollingClientClass {
    * @memberof DprMyReports
    */
   private async handleRemove(form: HTMLFormElement) {
+    if (this.removing) return
+    this.removing = true
+
     try {
       // Fetch the updated list
       const res = await fetch(form.action, {
@@ -163,6 +168,8 @@ class DprMyReports extends PollingClientClass {
       if (total) this.updateTabCount(total)
     } catch (err) {
       console.error('Remove error', err)
+    } finally {
+      this.removing = false
     }
   }
 

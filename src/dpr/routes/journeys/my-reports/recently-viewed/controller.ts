@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express'
 import { Services } from '../../../../types/Services'
 import LocalsHelper from '../../../../utils/localsHelper'
-import { safeRedirect } from '../../../../utils/http/safeRedirect'
+import { initViewed } from '../../../../components/my-reports/utils'
 
 class RecentlyViewedReportsController {
   services: Services
@@ -18,8 +18,6 @@ class RecentlyViewedReportsController {
       tableId: string | undefined
       executionId: string | undefined
     }
-    const { returnTo } = req.body
-    const returnToWithTab = `${returnTo}#recently-viewed-tab`
 
     // Remove the report from recenly viewed list
     await this.services.recentlyViewedService.removeReport(dprUser.id, reportId, id, tableId)
@@ -29,7 +27,21 @@ class RecentlyViewedReportsController {
       await this.services.requestedReportService.removeReport(executionId, dprUser.id)
     }
 
-    return safeRedirect(req, res, returnToWithTab)
+    // Update the locals
+    res.locals['recentlyViewedReports'] = await this.services.recentlyViewedService.getAllReports(dprUser.id)
+    res.locals['requestedReports'] = await this.services.requestedReportService.getAllReports(dprUser.id)
+
+    try {
+      // get the data for the requested list
+      const viewModel = await initViewed(req, res)
+      return res.render('dpr/components/my-reports/my-reports-list/view.njk', { viewModel }, (err, html) => {
+        if (err) return res.sendStatus(500)
+        return res.type('text/html').send(html)
+      })
+    } catch (error) {
+      console.error('Failed to refresh list after removal', error)
+      return res.sendStatus(500)
+    }
   }
 }
 

@@ -110,7 +110,7 @@ const initBookmarks = async (
  * @param {Response} res
  * @return {*}
  */
-const initRequested = async (req: Request, res: Response, options?: MyReportsOptions | undefined) => {
+export const initRequested = async (req: Request, res: Response, options?: MyReportsOptions | undefined) => {
   const { csrfToken } = LocalsHelper.getValues(res)
   const totalItems = await buildListItems(req, res, ListType.REQUESTED)
   const totals = buildTotals(res, totalItems, ListType.REQUESTED, options)
@@ -133,7 +133,7 @@ const initRequested = async (req: Request, res: Response, options?: MyReportsOpt
  * @param {Response} res
  * @return {*}
  */
-const initViewed = async (req: Request, res: Response, options?: MyReportsOptions | undefined) => {
+export const initViewed = async (req: Request, res: Response, options?: MyReportsOptions | undefined) => {
   const { csrfToken } = LocalsHelper.getValues(res)
   const totalItems = await buildListItems(req, res, ListType.VIEWED)
   const totals = buildTotals(res, totalItems, ListType.VIEWED, options)

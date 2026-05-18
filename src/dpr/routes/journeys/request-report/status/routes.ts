@@ -7,8 +7,11 @@ export function routes({ layoutPath, services }: { layoutPath: string; services:
   const router = Router({ mergeParams: true })
   const controller = new RequestStatusController(layoutPath, services)
 
+  // Status page
   router.get(`/`, controller.GET)
-  router.post(`/`, controller.POST)
+
+  // Dynamic loading route
+  router.get('/current-status', controller.getCurrentStatus)
 
   return router
 }

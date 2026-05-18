@@ -18,6 +18,8 @@ export function Routes({ layoutPath, services }: { services: Services; layoutPat
   const controller = new RequestReportController(layoutPath, services)
 
   router.post(`/:type/:reportId/:id/:executionId/cancel`, controller.CANCEL)
+
+  // Pre-request filters page
   router.use(
     `/:type/:reportId/:id/filters`,
     reportAuthoriser(services, layoutPath),
@@ -25,6 +27,8 @@ export function Routes({ layoutPath, services }: { services: Services; layoutPat
     requestReportRoutes({ layoutPath, services }),
     controller.errorHandler,
   )
+
+  // Polling current status page
   router.use(
     `/:type/:reportId/:id/:executionId/status`,
     reportAuthoriser(services, layoutPath),

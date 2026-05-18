@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 
-import { RequestStatus, StoredReportData } from 'src/dpr/types/UserReports'
+import { RequestStatus, StoredReportData } from '../../../types/UserReports'
 import {
   DprMyReportActions,
   DprMyReportFilters,
@@ -13,6 +13,7 @@ import {
 } from '../types'
 import { apiTimestampToUiDateTime, todayAsUiDateTime } from '../../../utils/dateHelper'
 import { getRouteLocals } from '../../../utils/localsHelper'
+import { getReportTitleData } from '../../../utils/reportStoreHelper'
 
 /**
  * Builds the row
@@ -48,8 +49,7 @@ export const buildMyReportListRow = (
  */
 const buildTitleCell = (data: StoredReportData): DprMyReportTitle => {
   return {
-    productName: data.reportName ?? 'unknown-product',
-    reportName: data.name ?? data.variantName ?? 'unknown-report',
+    ...getReportTitleData(data),
     reportType: data.type,
     timestamp: buildTimestamp(data),
   }

@@ -42,6 +42,11 @@ export type StatusResolution =
       failureInfo?: FailureInfo
     }
 
+export type UpdatedResolution = {
+  type: 'UPDATED' | 'COMPLETED' | 'FAILED'
+  newStatus: RequestStatus
+}
+
 export type EvaluateAndUpdateReportStatusOptions = {
   stored: StoredReportData
   services: Services

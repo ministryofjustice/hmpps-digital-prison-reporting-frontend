@@ -94,6 +94,17 @@ class ReportQuery implements FilteredListRequest {
     }
   }
 
+  /**
+   * Set the filers from the query params
+   * - trims the start/end dates to min/max
+   * - removes no-filter options
+   *
+   * @private
+   * @param {ParsedQs} queryParams
+   * @param {string} [min]
+   * @param {string} [max]
+   * @memberof ReportQuery
+   */
   private setAndTrimFiltersFromQuery(queryParams: ParsedQs, min?: string, max?: string) {
     Object.keys(queryParams)
       .filter((key) => key.startsWith(this.filtersPrefix))

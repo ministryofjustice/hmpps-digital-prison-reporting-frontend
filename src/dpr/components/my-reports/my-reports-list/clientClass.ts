@@ -62,7 +62,7 @@ class DprMyReports extends PollingClientClass {
 
       const fetchPath = `${path}/requested-reports/row/${reportId}/${id}/${executionId}/${tableId}`
 
-      const fragment = await HtmlClient.fetchFragment(fetchPath, this.csrfToken)
+      const fragment = await DprHtmlClient.fetchFragment(fetchPath, this.csrfToken)
       if (!fragment) return
 
       const newRow = fragment.querySelector<HTMLElement>(`[data-row-id="${rowId}"]`)

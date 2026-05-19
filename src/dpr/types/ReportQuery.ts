@@ -276,9 +276,9 @@ class ReportQuery implements FilteredListRequest {
           : (queryParams['columns'] as string[])
 
       return ColumnUtils.ensureMandatoryColumns(fields, columns)
-    } else {
-      return fields.filter((f) => f.visible).map((f) => f.name)
     }
+
+    return fields.filter((f) => f.visible).map((f) => f.name)
   }
 
   /**

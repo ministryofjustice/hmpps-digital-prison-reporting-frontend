@@ -240,6 +240,8 @@ const buildTotals = (
 const buildBookmarkListItems = async (res: Response, services: Services): Promise<DprMyReportItem[]> => {
   const { bookmarks } = LocalsHelper.getValues(res)
 
+  console.log({ bookmarks })
+
   // loop it
   if (!bookmarks) {
     return []

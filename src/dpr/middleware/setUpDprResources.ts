@@ -319,7 +319,7 @@ const populateRequestedReports = async (services: Services, res: Response) => {
 
     res.locals['requestedReports'] = requestedReports
     res.locals['recentlyViewedReports'] = recentlyViewedReports
-    if (res.locals['bookmarkingEnabled']) {
+    if (res.app.locals['bookmarkingEnabled']) {
       res.locals['bookmarks'] = await getAllMyBookmarks(res, services, dprUser.id)
     }
   }

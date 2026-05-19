@@ -3,10 +3,11 @@ import { Services } from '../../../../types/Services'
 import LocalsHelper from '../../../../utils/localsHelper'
 import { buildMyReportListRow } from '../../../../components/my-reports/my-reports-list-item/utils'
 import { ListType } from '../../../../components/my-reports/types'
-import { safeRedirect } from '../../../../utils/http/safeRedirect'
 import { createReportPollingHandler } from '../../../../controllers/reportPolling/createReportPollingHandler'
 import { StoredReportData } from '../../../../types/UserReports'
 import { UpdatedResolution } from '../../../../utils/ReportStatus/types'
+import { initRequested } from '../../../../components/my-reports/utils'
+import { captureDprError } from '../../../../utils/captureError'
 
 class RequestedReportsController {
   services: Services
@@ -41,12 +42,29 @@ class RequestedReportsController {
   POST: RequestHandler = async (req, res) => {
     const { dprUser } = LocalsHelper.getValues(res)
     const { executionId } = req.params
-    const { returnTo } = req.body
-    const returnToWithTab = `${returnTo}#requested-reports-tab`
 
+    // Remove the report
     await this.services.requestedReportService.removeReport(executionId as string, dprUser.id)
 
-    return safeRedirect(req, res, returnToWithTab)
+    // Update the locals
+    res.locals['requestedReports'] = await this.services.requestedReportService.getAllReports(dprUser.id)
+
+    try {
+      // get the data for the requested list
+      const maxRows = req.body?.maxRows !== undefined ? Number(req.body.maxRows) : undefined
+      const viewModel = await initRequested(req, res, {
+        ...(maxRows && { maxRows }),
+      })
+
+      return res.render('dpr/components/my-reports/my-reports-list/view.njk', { viewModel }, (err, html) => {
+        if (err) return res.sendStatus(500)
+        return res.type('text/html').send(html)
+      })
+    } catch (error) {
+      captureDprError(error, 'Failed to refresh list after removal')
+
+      return res.sendStatus(500)
+    }
   }
 }
 

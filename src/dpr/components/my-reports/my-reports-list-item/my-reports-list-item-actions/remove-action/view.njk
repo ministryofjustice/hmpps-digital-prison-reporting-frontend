@@ -6,14 +6,18 @@
   {% set returnTo = remove.returnTo %}
   
   {% set classes = 'dpr-button-link' %}
-  
-  <form method='post' action='{{ action }}'>
+  <form
+    method="post"
+    action="{{ action }}"
+    data-remove-report-form
+  >
     <input type="hidden" name="returnTo" value="{{ returnTo }}">
     <input type="hidden" name="_csrf" value="{{ csrfToken }}">
-    
+
     {{ dprButtonLink({
       text: 'Remove',
       classes: classes
     }) }}
   </form>
+
 {% endmacro %}

@@ -6,8 +6,6 @@ import { clearFilterValue } from '../utils/urlHelper'
 import ColumnUtils from '../components/_reports/report-heading/report-columns/report-columns-form/utils'
 import { Template } from './Templates'
 import { ReportType } from './UserReports'
-import { FilterType } from '../components/_filters/filter-input/enum'
-import { getField, getFilter } from '../utils/definitionUtils'
 import logger from '../utils/logger'
 
 export const DEFAULT_FILTERS_PREFIX = 'filters.'
@@ -91,7 +89,7 @@ class ReportQuery implements FilteredListRequest {
         const p = queryParams[key]
         let value = p ? p.toString() : ''
 
-        const field = getField(fields, filterName)
+        const field = fields.find((field) => field.name === filterName)
 
         if (field?.filter) {
           const { type, staticOptions } = field.filter

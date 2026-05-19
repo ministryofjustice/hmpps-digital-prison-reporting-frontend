@@ -20,7 +20,7 @@ import { getActiveJourneyValue, setActiveJourneySortSearch } from '../../../../u
 import { formBodyToQueryObject } from '../../../../utils/queryMappers'
 import { joinQueryStrings } from '../../../../utils/urlHelper'
 import { buildQuerySummary } from '../../../../components/_async/request-details/utils'
-import ReportQuery from 'src/dpr/types/ReportQuery'
+import ReportQuery from '../../../../types/ReportQuery'
 
 // ----------------------------------------------------------------------
 // POST

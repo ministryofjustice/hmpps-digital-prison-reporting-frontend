@@ -53,8 +53,6 @@ class ReportingService {
     variantId: string,
     query: Record<string, string | boolean | number>,
   ): Promise<Dict<string>> {
-    console.log(JSON.stringify({ query }, null, 2))
-
     return this.reportingClient.requestAsyncReport(token, reportId, variantId, query)
   }
 

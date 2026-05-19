@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## 6.1.3
+
+- Improve type checking of report actions
+
 ## 6.1.2
 
 - Bugfix: Count error response bypassing expired response

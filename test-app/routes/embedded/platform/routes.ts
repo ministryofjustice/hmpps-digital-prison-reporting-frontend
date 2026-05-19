@@ -48,6 +48,11 @@ export default function routes(services: Services): Router {
 
   router.post('/resetSession', (req: Request, res: Response) => {
     req.session.activeReport = {}
+    delete req.session.currentCollectionId
+    delete req.session.currentCollection
+    delete req.session.lastDefinitionsCheck
+    delete req.session.allDefinitions
+
     res.sendStatus(200)
   })
 

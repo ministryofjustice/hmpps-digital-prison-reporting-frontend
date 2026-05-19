@@ -62,11 +62,18 @@ const setFeatureFlags = async (res: Response, featureFlagService: FeatureFlagSer
       flags: {},
     }
   }
-  const subject = getFeatureFlagEvaluationSubject(res)
-  res.app.locals['featureFlags'].flags = await featureFlagService.evaluateBooleanFlags(FEATURE_FLAGS, subject)
 
-  if (res.app.locals['featureFlags']) {
-    logger.info(`FEATURE FLAGS: ${JSON.stringify(res.locals['downloadingEnabled'])}`)
+  const subject = getFeatureFlagEvaluationSubject(res)
+
+  const currentFlags = res.app.locals['featureFlags'].flags
+  const newFlags = await featureFlagService.evaluateBooleanFlags(FEATURE_FLAGS, subject)
+
+  const hasChanged = JSON.stringify(currentFlags) !== JSON.stringify(newFlags)
+
+  if (hasChanged) {
+    res.app.locals['featureFlags'].flags = newFlags
+
+    logger.info(`FEATURE FLAGS UPDATED: ${JSON.stringify(newFlags)}`)
   }
 }
 
@@ -130,15 +137,15 @@ const deriveDefinitionsPath = (req: Request, res: Response, config?: DprConfig) 
  * @param {Response} res
  * @param {DprConfig} [config]
  */
-const populateDefinitions = (services: Services, req: Request, res: Response, config?: DprConfig) => {
+const populateDefinitions = async (services: Services, req: Request, res: Response, config?: DprConfig) => {
   // 1. set the definitions path
   deriveDefinitionsPath(req, res, config)
 
   // 2. set the definitions
-  setDefinitions(services, req, res, config)
+  await setDefinitions(services, req, res, config)
 
   // 3. set the collections
-  setProductCollection(services, req, res)
+  await setProductCollection(services, req, res)
 }
 
 /**
@@ -166,18 +173,25 @@ const setProductCollection = async (services: Services, req: Request, res: Respo
   res.locals['definitions'] = allDefs ?? []
 
   try {
-    if (updateCollection && selectedProductCollectionId) {
-      const collection = await services.productCollectionService.getProductCollection(
-        token,
-        selectedProductCollectionId,
-      )
+    if (updateCollection) {
+      if (selectedProductCollectionId && allDefs) {
+        const collection = await services.productCollectionService.getProductCollection(
+          token,
+          selectedProductCollectionId,
+        )
 
-      if (collection && allDefs) {
-        const productIds = collection.products.map((p) => p.productId)
-        res.locals['definitions'] = allDefs.filter((def) => productIds.includes(def.id))
+        if (collection) {
+          req.session['currentCollection'] = collection
 
-        logger.info(`COLLECTION SET: ${res.locals['definitions'].length}`)
+          const productIds = collection.products.map((p) => p.productId)
+          res.locals['definitions'] = allDefs.filter((def) => productIds.includes(def.id))
+
+          logger.info(`COLLECTION SET: ${res.locals['definitions'].length}`)
+          return
+        }
       }
+
+      res.locals['definitions'] = allDefs ?? []
     }
   } catch (error) {
     logger.error(error)
@@ -215,6 +229,8 @@ const DEFINITIONS_CHECK_INTERVAL_MS = 60 * 60 * 1000 // 60 mins
 
 export function shouldRunDefinitionsCheck(session: { lastDefinitionsCheck?: number }, config?: DprConfig): boolean {
   const lastRun = session.lastDefinitionsCheck
+
+  console.log({ lastRun })
   if (!lastRun) return true
 
   const interval = config?.checkDefinitionsInterval ? config?.checkDefinitionsInterval : DEFINITIONS_CHECK_INTERVAL_MS

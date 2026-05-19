@@ -20,6 +20,8 @@ declare module 'express-session' {
     // The ID of the currently selected collection
     currentCollectionId?: string | undefined
 
+    currentCollection?: string | undefined
+
     // Time in ms of the last definitions check
     lastDefinitionsCheck: number
 

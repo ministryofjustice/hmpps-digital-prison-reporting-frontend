@@ -1,13 +1,12 @@
-// @ts-nocheck
 import { DprClientClass } from '../../DprClientClass'
 
 class CardGroup extends DprClientClass {
-  static getModuleName() {
+  static override getModuleName() {
     return 'card-group'
   }
 
-  initialise() {
-    const cards = this.getElement().querySelectorAll('[data-click-navigate-to]')
+  override initialise() {
+    const cards = this.getElement().querySelectorAll<HTMLElement>('[data-click-navigate-to]')
     const wrapperClass = 'card-loading'
 
     cards.forEach((card) => {
@@ -19,7 +18,12 @@ class CardGroup extends DprClientClass {
             c.classList.add(disabledClass)
           }
         })
-        window.location.href = card.dataset.clickNavigateTo
+
+        const url = card.dataset['clickNavigateTo']
+
+        if (url) {
+          window.location.href = url
+        }
       })
     })
   }

@@ -89,7 +89,7 @@ class ReportQuery implements FilteredListRequest {
         const p = queryParams[key]
         let value = p ? p.toString() : ''
 
-        const field = fields.find((field) => field.name === filterName)
+        const field = fields.find((f) => f.name === filterName)
 
         if (field?.filter) {
           const { type, staticOptions } = field.filter

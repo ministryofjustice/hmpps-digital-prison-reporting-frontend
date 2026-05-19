@@ -55,6 +55,7 @@ context('Requesting a report', () => {
             expect(location.search).to.contain(`sortColumn=field1&sortedAsc=true`)
           })
 
+          cy.task('stubReportsSubmittedStatus')
           cy.findByRole('button', { name: 'Request report' }).click()
           cy.url().should(
             'match',
@@ -274,11 +275,13 @@ context('Requesting a report', () => {
             'have.string',
             `${basePath}/dpr/request-report/report/request-examples/request-example-success/filters`,
           )
+          cy.task('stubReportsSubmittedStatus')
           cy.findByRole('button', { name: 'Request report' }).click()
           cy.url().should(
             'match',
             /.*(?:\/embedded\/platform(?:\/dpr)?)?\/request-report\/report\/request-examples\/request-example-success\/(.*)\/status/i,
           )
+          cy.task('stubReportsSubmittedStatus')
           cy.findByRole('button', { name: /Cancel/ }).click()
           cy.task('stubReportsAbortedStatus')
           cy.findByRole('strong').contains('ABORTED')

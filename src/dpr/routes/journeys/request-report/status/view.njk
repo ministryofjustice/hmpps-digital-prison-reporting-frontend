@@ -1,9 +1,10 @@
 {% extends layoutPath %}
-{% from "../../../../components/_async/async-polling/view.njk" import dprAsyncPolling %}
+{% from "../../../../components/_async/async-polling/view.njk" import dprCurrentStatus %}
 
 {% set mainClasses = "app-container govuk-body" %}
 
 {% block content %}
   <h1>{{ title }}</h1>
-  {{ dprAsyncPolling(pollingRenderData) }}
+
+  {{ dprCurrentStatus(data) }}
 {% endblock %}

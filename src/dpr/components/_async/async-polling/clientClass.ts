@@ -54,8 +54,6 @@ class DprReportStatus extends DprStatusPolling {
         return
       }
 
-      console.log('sdfsdfsdfsdfsdfsdfsdf')
-
       // Set the new container
       const newContainer = fragment.querySelector<HTMLElement>('#dpr-current-status__content')
       if (!newContainer) return

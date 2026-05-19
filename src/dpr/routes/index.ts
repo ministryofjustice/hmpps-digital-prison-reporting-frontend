@@ -1,11 +1,11 @@
 import { ErrorRequestHandler, NextFunction, Request, Response, Router } from 'express'
-import { captureException } from '@sentry/node'
 import { HTTPError } from 'superagent'
 import type { Services } from '../types/Services'
 import logger from '../utils/logger'
 import JourneyRoutes from './journeys/routes'
 // middleware
 import setUpNestedRoute from '../middleware/setUpNestedRoute'
+import { captureDprError } from '../utils/captureError'
 
 export const errorRequestHandler =
   (layoutPath: string): ErrorRequestHandler =>
@@ -16,7 +16,7 @@ export const errorRequestHandler =
         message: 'Sorry, there is a problem with authenticating your request',
       })
     }
-    captureException(error)
+    captureDprError(error)
     if (error.status >= 400) {
       return res.render('dpr/routes/serviceProblem.njk', {
         layoutPath,

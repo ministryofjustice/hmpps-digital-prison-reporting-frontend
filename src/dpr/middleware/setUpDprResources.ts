@@ -29,15 +29,16 @@ export const setupResources = (
 ): RequestHandler => {
   return async (req, res, next) => {
     populateValidationErrors(req, res)
+
     try {
-      await setFeatures(res, services.featureFlagService)
+      await setFeatureFlags(res, services.featureFlagService)
       await populateDefinitions(services, req, res, config)
       await setLocalsFromServices(services, res)
       await populateRequestedReports(services, res)
       setUpDprPaths(res)
-
       setupRequestAwareNunjucks(env, res)
       setUpNunjucksFilters(env)
+
       return next()
     } catch (error) {
       return errorRequestHandler(layoutPath)(error, req, res, next)
@@ -55,7 +56,7 @@ const setupRequestAwareNunjucks = (env: Environment, res: Response) => {
  * @param {Response} res
  * @param {FeatureFlagService} featureFlagService
  */
-const setFeatures = async (res: Response, featureFlagService: FeatureFlagService) => {
+const setFeatureFlags = async (res: Response, featureFlagService: FeatureFlagService) => {
   if (res.app.locals['featureFlags'] === undefined) {
     res.app.locals['featureFlags'] = {
       flags: {},
@@ -92,22 +93,23 @@ const populateValidationErrors = (req: Request, res: Response) => {
 const deriveDefinitionsPath = (req: Request, res: Response, config?: DprConfig) => {
   // Check definitions path from config
   const dpdPathFromConfig = config?.dataProductDefinitionsPath
+
   res.locals['dpdPathFromConfig'] = !!dpdPathFromConfig
 
   // Check definitions path from request
   const dpdPathFromQuery = getDefinitionsPath(req.query) || null
   const dpdPathFromBody = req.body?.dataProductDefinitionsPath as string | undefined
   const definitionsPathFromQuery = dpdPathFromQuery || dpdPathFromBody
+
   res.locals['dpdPathFromQuery'] = !!definitionsPathFromQuery
 
   // Set the definitions path to locals
   // - incoming query overwrites config
   const activeDefinitionsPath = definitionsPathFromQuery || dpdPathFromConfig
+
   if (activeDefinitionsPath) {
     res.locals['hasDefinitionPath'] = !!activeDefinitionsPath
     res.locals['definitionsPath'] = activeDefinitionsPath
-
-    // TODO: check if this is needed - its possibly been superceded
     res.locals['pathSuffix'] = `?dataProductDefinitionsPath=${res.locals['definitionsPath']}`
 
     logger.info(
@@ -121,55 +123,112 @@ const deriveDefinitionsPath = (req: Request, res: Response, config?: DprConfig) 
 }
 
 /**
- * Popluates the definitions in to locals
- *
- * TODO: Optimization task:
- * - Evalulate how often/regularly this should be called?
- * - DPDS arent updated that often so its possible we could enable a timebased check of an hour?
- * - Concider the impact to embedded services + how soon a new DPD will be seen.
- * - Aim to reduce BE api calls
+ * Populates the definitions and sets the local collection
  *
  * @param {Services} services
  * @param {Request} req
  * @param {Response} res
  * @param {DprConfig} [config]
  */
-const populateDefinitions = async (services: Services, req: Request, res: Response, config?: DprConfig) => {
-  const { token, dprUser } = localsHelper.getValues(res)
-
+const populateDefinitions = (services: Services, req: Request, res: Response, config?: DprConfig) => {
+  // 1. set the definitions path
   deriveDefinitionsPath(req, res, config)
 
-  let selectedProductCollectionId: string | undefined
-  if (token) {
-    selectedProductCollectionId = await services.productCollectionStoreService.getSelectedProductCollectionId(
-      dprUser.id,
-    )
-  }
+  // 2. set the definitions
+  setDefinitions(services, req, res, config)
 
-  res.locals['definitions'] =
-    (await Promise.all([
-      services.reportingService.getDefinitions(token, res.locals['definitionsPath']),
-      selectedProductCollectionId &&
-        services.productCollectionService.getProductCollection(token, selectedProductCollectionId),
-    ]).then(([defs, selectedProductCollection]) => {
-      if (selectedProductCollection && selectedProductCollection) {
-        const productIds = selectedProductCollection.products.map((product) => product.productId)
-        return defs.filter((def) => productIds.includes(def.id))
+  // 3. set the collections
+  setProductCollection(services, req, res)
+}
+
+/**
+ * Set the current collection in the UI
+ *
+ * - only updates and makes API call if collection ID has changed
+ *
+ * @param {Services} services
+ * @param {Request} req
+ * @param {Response} res
+ */
+const setProductCollection = async (services: Services, req: Request, res: Response) => {
+  const { token, dprUser } = localsHelper.getValues(res)
+
+  const selectedProductCollectionId = await services.productCollectionStoreService.getSelectedProductCollectionId(
+    dprUser.id,
+  )
+
+  const currentId = req.session['currentCollectionId']
+  const updateCollection = currentId !== selectedProductCollectionId
+
+  req.session['currentCollectionId'] = selectedProductCollectionId
+
+  const allDefs = req.session['allDefinitions']
+  res.locals['definitions'] = allDefs ?? []
+
+  try {
+    if (updateCollection && selectedProductCollectionId) {
+      const collection = await services.productCollectionService.getProductCollection(
+        token,
+        selectedProductCollectionId,
+      )
+
+      if (collection && allDefs) {
+        const productIds = collection.products.map((p) => p.productId)
+        res.locals['definitions'] = allDefs.filter((def) => productIds.includes(def.id))
+
+        logger.info(`COLLECTION SET: ${res.locals['definitions'].length}`)
       }
-      return defs
-    })) ?? []
-
-  if (res.locals['definitions'] && res.locals['definitions'].length) {
-    logger.info(`DEFINITIONS SET: ${res.locals['definitions'].length}`)
+    }
+  } catch (error) {
+    logger.error(error)
   }
 }
 
 /**
- * Sets active service config to locals
+ * Set the full catalogue of definitions to app.locals
  *
- * TODO: Optimization task:
- * - set to res.app.locals instead of locals as this is set once at bootstrapping
- * - if set, dont set again
+ * @param {Services} services
+ * @param {Request} req
+ * @param {Response} res
+ * @param {DprConfig} [config]
+ */
+const setDefinitions = async (services: Services, req: Request, res: Response, config?: DprConfig) => {
+  const { token } = localsHelper.getValues(res)
+
+  if (shouldRunDefinitionsCheck(req.session, config)) {
+    try {
+      const defs = await services.reportingService.getDefinitions(token, res.locals['definitionsPath'])
+      if (!defs) return
+
+      req.session['allDefinitions'] = defs
+
+      logger.info(`DEFINITIONS SET: ${req.session['allDefinitions'].length}`)
+
+      recordDefinitionsCheck(req.session)
+    } catch (error) {
+      logger.error(error)
+    }
+  }
+}
+
+const DEFINITIONS_CHECK_INTERVAL_MS = 60 * 60 * 1000 // 60 mins
+
+export function shouldRunDefinitionsCheck(session: { lastDefinitionsCheck?: number }, config?: DprConfig): boolean {
+  const lastRun = session.lastDefinitionsCheck
+  if (!lastRun) return true
+
+  const interval = config?.checkDefinitionsInterval ? config?.checkDefinitionsInterval : DEFINITIONS_CHECK_INTERVAL_MS
+
+  return Date.now() - lastRun > interval
+}
+
+export function recordDefinitionsCheck(session: { lastDefinitionsCheck?: number }) {
+  // eslint-disable-next-line no-param-reassign
+  session.lastDefinitionsCheck = Date.now()
+}
+
+/**
+ * Sets active service config to app.locals
  *
  * @param {Services} services
  * @param {Response} res
@@ -177,25 +236,45 @@ const populateDefinitions = async (services: Services, req: Request, res: Respon
 const setLocalsFromServices = async (services: Services, res: Response) => {
   const { dprUser } = localsHelper.getValues(res)
   if (dprUser.id) {
-    res.locals['downloadingEnabled'] = services.downloadPermissionService.enabled
-    res.locals['bookmarkingEnabled'] = services.bookmarkService.enabled
-    res.locals['collectionsEnabled'] = services.productCollectionService.enabled
-    res.locals['requestMissingEnabled'] = services.missingReportService.enabled
+    // Downloading
+    if (!res.app.locals['downloadingEnabled']) {
+      res.app.locals['downloadingEnabled'] = services.downloadPermissionService.enabled
 
-    // If saveDefaultsEnabled is turned off by feature flag, overwrite all other privileges,
-    // otherwise let the defaultFilterValuesService decide.
-    const saveDefaultsEnabledFlag = isBooleanFlagEnabledOrMissing('saveDefaultsEnabled', res.app)
-    res.locals['saveDefaultsEnabled'] = saveDefaultsEnabledFlag ? services.defaultFilterValuesService.enabled : false
+      logger.info(`Init service: downloadPermissionService: ${res.app.locals['downloadingEnabled']}`)
+    }
 
-    logger.info(
-      `ENABLED SERVICES: ${JSON.stringify({
-        downloadingEnabled: res.locals['downloadingEnabled'],
-        bookmarkingEnabled: res.locals['bookmarkingEnabled'],
-        collectionsEnabled: res.locals['collectionsEnabled'],
-        requestMissingEnabled: res.locals['requestMissingEnabled'],
-        saveDefaultsEnabled: res.locals['saveDefaultsEnabled'],
-      })}`,
-    )
+    // Bookmarking
+    if (!res.app.locals['bookmarkingEnabled']) {
+      res.app.locals['bookmarkingEnabled'] = services.bookmarkService.enabled
+
+      logger.info(`Init service: bookmarkService: ${res.app.locals['bookmarkingEnabled']}`)
+    }
+
+    // Collections
+    if (!res.app.locals['collectionsEnabled']) {
+      res.app.locals['collectionsEnabled'] = services.productCollectionService.enabled
+
+      logger.info(`Init service: productCollectionService: ${res.app.locals['collectionsEnabled']}`)
+    }
+
+    // Missing reports
+    if (!res.app.locals['requestMissingEnabled']) {
+      res.app.locals['requestMissingEnabled'] = services.missingReportService.enabled
+
+      logger.info(`Init service: missingReportService: ${res.app.locals['requestMissingEnabled']}`)
+    }
+
+    // Save defaults
+    const enabled = isBooleanFlagEnabledOrMissing('saveDefaultsEnabled', res.app)
+      ? services.defaultFilterValuesService.enabled
+      : false
+
+    const current = res.app.locals['saveDefaultsEnabled']
+    if (current !== enabled) {
+      res.app.locals['saveDefaultsEnabled'] = enabled
+
+      logger.info(`Init service: defaultFilterValuesService: ${res.app.locals['saveDefaultsEnabled']}`)
+    }
   }
 }
 

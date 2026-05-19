@@ -290,8 +290,14 @@ export const renderRequest = async ({
 }): Promise<RequestDataResult | boolean> => {
   try {
     const { reportId, type, id } = req.params as { reportId: string; type: ReportType; id: string }
-    const { token, csrfToken, definitionsPath: definitionPath, dprUser } = LocalsHelper.getValues(res)
-    const { definition, saveDefaultsEnabled } = res.locals
+    const {
+      token,
+      csrfToken,
+      definitionsPath: definitionPath,
+      dprUser,
+      saveDefaultsEnabled,
+    } = LocalsHelper.getValues(res)
+    const { definition } = res.locals
 
     let name: string = ''
     let reportName: string = ''

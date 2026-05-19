@@ -216,7 +216,7 @@ const setDefinitions = async (services: Services, req: Request, res: Response, c
 
       req.session['allDefinitions'] = defs
 
-      logger.info(`DEFINITIONS SET: ${req.session['allDefinitions'].length}`)
+      logger.info(`Definitions set: ${req.session['allDefinitions'].length}`)
 
       recordDefinitionsCheck(req.session)
     } catch (error) {
@@ -227,10 +227,16 @@ const setDefinitions = async (services: Services, req: Request, res: Response, c
 
 const DEFINITIONS_CHECK_INTERVAL_MS = 60 * 60 * 1000 // 60 mins
 
+/**
+ * Checks if the get definition endpoint should be run
+ *
+ * @export
+ * @param {{ lastDefinitionsCheck?: number }} session
+ * @param {DprConfig} [config]
+ * @return {*}  {boolean}
+ */
 export function shouldRunDefinitionsCheck(session: { lastDefinitionsCheck?: number }, config?: DprConfig): boolean {
   const lastRun = session.lastDefinitionsCheck
-
-  console.log({ lastRun })
   if (!lastRun) return true
 
   const interval = config?.checkDefinitionsInterval ? config?.checkDefinitionsInterval : DEFINITIONS_CHECK_INTERVAL_MS
@@ -238,6 +244,12 @@ export function shouldRunDefinitionsCheck(session: { lastDefinitionsCheck?: numb
   return Date.now() - lastRun > interval
 }
 
+/**
+ * Records the last run into the session
+ *
+ * @export
+ * @param {{ lastDefinitionsCheck?: number }} session
+ */
 export function recordDefinitionsCheck(session: { lastDefinitionsCheck?: number }) {
   // eslint-disable-next-line no-param-reassign
   session.lastDefinitionsCheck = Date.now()

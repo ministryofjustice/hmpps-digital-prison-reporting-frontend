@@ -1,0 +1,68 @@
+{% from "../my-reports-list-headings/view.njk" import dprMyReportListHeadings %}
+{% from "../my-reports-list-help/view.njk" import dprMyReportsListHelp %}
+{% from "../my-reports-list-totals/view.njk" import dprMyReportsListTotals %}
+{% from "../my-reports-empty/view.njk" import dprMyReportsEmpty %}
+
+{% macro dprMyReportList(listConfig) %}
+  {% set title = listConfig.title %}
+
+  {% set headings = listConfig.headings %}
+  {% set items = listConfig.items %}
+  {% set totals = listConfig.totals %}
+  {% set listType = listConfig.listType %}
+  {% set csrfToken = listConfig.csrfToken %}
+  {% set maxRows = totals.maxRows %}
+
+  {% set classes = 'dpr-my-reports__table--requests' %}
+  {% set hasItems = items | length > 0 %}
+  
+  {% if listType == 'bookmarks' %}
+    {% set classes = 'dpr-my-reports__table--bookmarks' %}
+  {% endif %}
+
+
+  <h1 class="govuk-heading-m govuk-!-margin-bottom-2">{{ title }}</h1>
+
+  {{ dprMyReportsListHelp(listType) }}
+
+  <div data-list-root>
+    
+    {% if hasItems %}
+      {{ dprMyReportsListTotals(totals) }}
+    {% endif %}
+
+    <div
+      class="dpr-my-reports"
+      data-dpr-module="dpr-my-reports"
+      data-list-type="my-reports-{{ listType }}"
+      data-csrf-token="{{ csrfToken }}"
+      {% if maxRows %}
+        data-max-rows="{{ maxRows }}"
+      {% endif %}
+    >
+
+      {# LIST CONTAINER #}
+      <div
+        class="dpr-my-reports__table {{ classes }} {% if not hasItems %}dpr-hidden{% endif %}"
+        data-list
+      >
+        {{ dprMyReportListHeadings(headings, listType) }}
+
+        {% for item in items %}
+          {% include "../my-reports-list-item/row.njk" %}
+        {% endfor %}
+
+      </div>
+
+      {# EMPTY STATE #}
+      <div
+        data-empty-state
+        class="{% if hasItems %}dpr-hidden{% endif %}"
+      >
+        {{ dprMyReportsEmpty(listType) }}
+      </div>
+      
+    </div>
+
+  </div>
+{% endmacro %}

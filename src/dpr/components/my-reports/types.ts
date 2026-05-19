@@ -151,4 +151,5 @@ export type MyReportsListTotals = {
   shown: number
   total: number
   href?: string | undefined
+  maxRows?: number | undefined
 }

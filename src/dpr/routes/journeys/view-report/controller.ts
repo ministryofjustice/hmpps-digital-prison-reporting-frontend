@@ -1,8 +1,7 @@
 import { ErrorRequestHandler } from 'express'
-import { captureException } from '@sentry/node'
 import ErrorHandler from '../../../utils/ErrorHandler/ErrorHandler'
 import { Services } from '../../../types/Services'
-import logger from '../../../utils/logger'
+import { captureDprError } from '../../../utils/captureError'
 
 class ViewReportController {
   layoutPath: string
@@ -15,11 +14,9 @@ class ViewReportController {
   }
 
   errorHandler: ErrorRequestHandler = async (error, req, res, _next) => {
-    logger.error(`Error: ${JSON.stringify(req.body)}`)
+    captureDprError(error, `Error: ${JSON.stringify(req.body)}`)
+
     const formattedErr = new ErrorHandler(error || {}).formatError()
-
-    captureException(error)
-
     res.render(`dpr/routes/journeys/view-report/error`, {
       layoutPath: this.layoutPath,
       ...(req.body && { ...req.body }),

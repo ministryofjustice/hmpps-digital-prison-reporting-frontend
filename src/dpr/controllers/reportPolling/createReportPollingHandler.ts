@@ -1,8 +1,7 @@
-import { captureException } from '@sentry/node'
 import { RequestHandler, Request, Response } from 'express'
 import { Services } from 'src/dpr/types/Services'
+import { captureDprError } from 'src/dpr/utils/captureError'
 import { getValues } from 'src/dpr/utils/localsHelper'
-import logger from 'src/dpr/utils/logger'
 import { evaluateAndUpdateReportStatus } from 'src/dpr/utils/ReportStatus/getReportStatus'
 
 type RenderFn<T, R> = (
@@ -47,8 +46,8 @@ export const createReportPollingHandler =
         return res.type('text/html').send(html)
       })
     } catch (error) {
-      captureException(error)
-      logger.error(error)
+      captureDprError(error)
+
       return res.sendStatus(500)
     }
   }

@@ -7,6 +7,8 @@ import ColumnUtils from '../components/_reports/report-heading/report-columns/re
 import { Template } from './Templates'
 import { ReportType } from './UserReports'
 import { FilterType } from '../components/_filters/filter-input/enum'
+import { getField, getFilter } from '../utils/definitionUtils'
+import logger from '../utils/logger'
 
 export const DEFAULT_FILTERS_PREFIX = 'filters.'
 
@@ -60,38 +62,13 @@ class ReportQuery implements FilteredListRequest {
 
     this.filtersPrefix = filtersPrefix
 
-    if (queryParams['columns']) {
-      const columns =
-        typeof queryParams['columns'] === 'string'
-          ? queryParams['columns'].split(',')
-          : (queryParams['columns'] as string[])
-
-      this.columns = ColumnUtils.ensureMandatoryColumns(fields, columns)
-    } else {
-      this.columns = fields.filter((f) => f.visible).map((f) => f.name)
-    }
-
-    const dateField: components['schemas']['FieldDefinition'] | undefined = fields.find((f) => {
-      return (
-        (f.type === 'date' && f.filter && f.filter.type === 'daterange') ||
-        (f.type === 'date' && f.filter && f.filter.type === 'date') ||
-        (f.type === 'date' && f.filter && f.filter.type === 'granulardaterange')
-      )
-    })
-
-    let min: string | undefined
-    let max: string | undefined
-    if (dateField && dateField.filter) {
-      min = dateField.filter.min || undefined
-      max = dateField.filter.max || undefined
-    }
+    this.columns = this.setColumns(queryParams, fields)
 
     this.filters = {}
-    this.setAndTrimFiltersFromQuery(queryParams, min, max)
 
-    if (dateField && dateField.filter) {
-      this.setDefaultBoundsOnUnsetDatefields(dateField, dateField.filter, queryParams, min, max)
-    }
+    this.setAndTrimFiltersFromQuery(queryParams, fields)
+
+    this.handleUnsetDateTypeDefaultsAndBounds(fields)
   }
 
   /**
@@ -105,36 +82,151 @@ class ReportQuery implements FilteredListRequest {
    * @param {string} [max]
    * @memberof ReportQuery
    */
-  private setAndTrimFiltersFromQuery(queryParams: ParsedQs, min?: string, max?: string) {
+  private setAndTrimFiltersFromQuery(queryParams: ParsedQs, fields: components['schemas']['FieldDefinition'][]) {
     Object.keys(queryParams)
       .filter((key) => key.startsWith(this.filtersPrefix))
       .filter((key) => queryParams[key])
       .forEach((key) => {
-        const filter = key.replace(this.filtersPrefix, '')
+        const filterName = key.replace(this.filtersPrefix, '')
         const p = queryParams[key]
         let value = p ? p.toString() : ''
 
-        // set start to min if less than lower range
-        if (filter.includes('.start') && min) {
-          if (new Date(value) < new Date(min)) value = min
+        const field = getField(fields, filterName)
+
+        if (field?.filter) {
+          const { type, staticOptions } = field.filter
+
+          if (type.toLowerCase() === 'radio' || type.toLowerCase() === 'Select' || type === 'multiselect') {
+            const validated = this.validateSelectFilterValue(p, type, staticOptions)
+            if (!validated) return // skip invalid values
+
+            value = validated
+          }
         }
 
-        // Set end to max if higher of upper range
-        if (filter.includes('.end') && max) {
-          if (new Date(value) > new Date(max)) value = max
+        // Handle Date types
+        if (field?.type === 'date' && field.filter) {
+          const { min, max, type } = field.filter
+
+          if (type === 'daterange' || type === 'granulardaterange') {
+            if (min && filterName.endsWith('.start')) {
+              if (new Date(value) < new Date(min)) value = min
+            }
+
+            if (max && filterName.endsWith('.end')) {
+              if (new Date(value) > new Date(max)) value = max
+            }
+          }
+
+          if (type === 'date') {
+            if (min && new Date(value) < new Date(min)) {
+              value = min
+            }
+
+            if (max && new Date(value) > new Date(max)) {
+              value = max
+            }
+          }
         }
 
-        // filter out no-filter values
+        // Handle no filter values (select, radio)
         if (value !== 'no-filter') {
-          this.filters[filter] = value
+          this.filters[filterName] = value
         }
       })
   }
 
   /**
+   * Validates that all staticOption values are correct
+   *
+   * - checks/validates value against the staticOptions in the filter definition
+   * - if not present then it is dropped from the query,
+   * - and logged
+   *
+   * @private
+   * @param {unknown} rawValue
+   * @param {string} type
+   * @param {components['schemas']['FilterDefinition']['staticOptions']} [staticOptions]
+   * @param {string} [fieldName]
+   * @return {*}  {(string | undefined)}
+   * @memberof ReportQuery
+   */
+  private validateSelectFilterValue(
+    rawValue: unknown,
+    type: string,
+    staticOptions?: components['schemas']['FilterDefinition']['staticOptions'],
+    fieldName?: string,
+  ): string | undefined {
+    if (!staticOptions || !rawValue) return undefined
+
+    const validValues = staticOptions.map((o) => o.name.toLowerCase())
+
+    // Normalize input - array of strings
+    const values = Array.isArray(rawValue)
+      ? rawValue.map((v) => v.toString().toLowerCase())
+      : rawValue
+          .toString()
+          .split(',')
+          .map((v) => v.trim().toLowerCase())
+
+    if (type === 'multiselect') {
+      const invalidValues = values.filter((v) => !validValues.includes(v))
+      const filtered = [...new Set(values.filter((v) => validValues.includes(v)))]
+
+      if (invalidValues.length > 0) {
+        logger.warn(`Invalid filter values removed for multiselect: ${fieldName}: [${invalidValues.join(', ')}]`)
+      }
+
+      if (filtered.length === 0) return undefined
+
+      return filtered.join(',')
+    }
+
+    // radio / select (single value)
+    const value = values[0]
+
+    if (!validValues.includes(value)) {
+      logger.warn(`Invalid filter value: ${fieldName}: ${value}`)
+      return undefined
+    }
+
+    return value
+  }
+
+  /**
+   * Handles the setting of default values for date type filters
+   * when no user input value has been applied
+   *
+   * - if min/max bounds in definition we ensure the date in within bounds
+   * before being sent to the API
+   *
+   * @private
+   * @param {components['schemas']['FieldDefinition'][]} fields
+   * @memberof ReportQuery
+   */
+  private handleUnsetDateTypeDefaultsAndBounds(fields: components['schemas']['FieldDefinition'][]) {
+    const dateFields: components['schemas']['FieldDefinition'][] | undefined = fields.filter((f) => {
+      return (
+        (f.type === 'date' && f.filter && f.filter.type === 'daterange') ||
+        (f.type === 'date' && f.filter && f.filter.type === 'date') ||
+        (f.type === 'date' && f.filter && f.filter.type === 'granulardaterange')
+      )
+    })
+
+    dateFields.forEach((df) => {
+      if (df.filter) {
+        const min = df.filter.min ?? undefined
+        const max = df.filter.max ?? undefined
+
+        this.setDefaultBoundsOnUnsetDatefields(df, df.filter, min, max)
+      }
+    })
+  }
+
+  /**
    * Set the default value for date filters where min/max is provided
    *
-   * - If min / max exist and the user hasn’t already provided date bounds in the query params,
+   * - If min / max exist and the user hasn’t already provided date bounds in the request,
    * - the code injects them as defaults so the filtering stays within those bounds.
    *
    * @private
@@ -143,39 +235,51 @@ class ReportQuery implements FilteredListRequest {
   private setDefaultBoundsOnUnsetDatefields(
     dateField: components['schemas']['FieldDefinition'],
     dateFieldFilter: components['schemas']['FilterDefinition'],
-    queryParams: ParsedQs,
     min?: string,
     max?: string,
   ) {
-    if (dateFieldFilter.type === 'daterange') {
-      // Set the start value to min if min is set, but no start value set
-      if (
-        min &&
-        Object.keys(queryParams).some((key) => key.includes(this.filtersPrefix)) &&
-        Object.keys(queryParams).every((key) => !key.includes('.start'))
-      ) {
-        this.filters[`${dateField.name}.start`] = min
+    const existingKeys = Object.keys(this.filters)
+
+    const baseKey = dateField.name
+    const startKey = `${baseKey}.start`
+    const endKey = `${baseKey}.end`
+
+    if (dateFieldFilter.type === 'daterange' || dateFieldFilter.type === 'granulardaterange') {
+      const hasStart = existingKeys.some((key) => key === startKey)
+      const hasEnd = existingKeys.some((key) => key === endKey)
+
+      if (min && !hasStart) {
+        this.filters[startKey] = min
       }
 
-      // Set the end value to max if max is set, but no end value set
-      if (
-        max &&
-        Object.keys(queryParams).some((key) => key.includes(this.filtersPrefix)) &&
-        Object.keys(queryParams).every((key) => !key.includes('.end'))
-      ) {
-        this.filters[`${dateField.name}.end`] = max
+      if (max && !hasEnd) {
+        this.filters[endKey] = max
       }
     }
 
     if (dateFieldFilter.type === 'date') {
-      // Set the start value to min if min is set, but no start value set
-      if (
-        min &&
-        Object.keys(queryParams).some((key) => key.includes(this.filtersPrefix)) &&
-        Object.keys(queryParams).every((key) => !key.includes(dateField.name))
-      ) {
-        this.filters[`${dateField.name}.start`] = min
+      // Any value for this field counts (base or dotted)
+      const hasAnyValueForField = existingKeys.some((key) => key === baseKey || key.startsWith(`${baseKey}.`))
+
+      if (!hasAnyValueForField) {
+        const value = min ?? max
+        if (value) {
+          this.filters[baseKey] = value
+        }
       }
+    }
+  }
+
+  private setColumns(queryParams: ParsedQs, fields: components['schemas']['FieldDefinition'][]) {
+    if (queryParams['columns']) {
+      const columns =
+        typeof queryParams['columns'] === 'string'
+          ? queryParams['columns'].split(',')
+          : (queryParams['columns'] as string[])
+
+      return ColumnUtils.ensureMandatoryColumns(fields, columns)
+    } else {
+      return fields.filter((f) => f.visible).map((f) => f.name)
     }
   }
 

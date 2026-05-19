@@ -27,6 +27,8 @@ export const buildFilterValidator = (field: FieldDefinition): z.ZodTypeAny => {
     case 'Radio':
     case 'Select':
     case 'autocomplete':
+      return buildSelectField(field)
+
     case 'text':
     default:
       return buildTextField(field)
@@ -63,7 +65,13 @@ const buildMultiSelectField = (field: FieldDefinition) => {
   const { filter, display } = field
   if (!filter) throw new Error('Missing filter')
 
+  const validValues = (filter.staticOptions ?? []).map((o) => o.name)
+
   let arraySchema = z.array(z.string())
+
+  arraySchema = arraySchema.refine((values) => values.every((v) => validValues.includes(v)), {
+    message: `${display} contains invalid selections`,
+  })
 
   if (filter.mandatory) {
     arraySchema = arraySchema.min(1, `${display} Please select at least one`)
@@ -72,8 +80,33 @@ const buildMultiSelectField = (field: FieldDefinition) => {
   return z.preprocess((value) => {
     if (value == null) return []
     if (Array.isArray(value)) return value
-    return [value]
+    return value
+      .toString()
+      .split(',')
+      .map((v: string) => v.trim())
   }, arraySchema)
+}
+
+/**
+ * SELECT FIELDS
+ */
+const buildSelectField = (field: FieldDefinition) => {
+  const { filter, display } = field
+  if (!filter) throw new Error('Missing filter')
+
+  const validValues = (filter.staticOptions ?? []).map((o) => o.name)
+
+  let schema = z.string().trim()
+
+  schema = schema.refine((value) => value === 'no-filter' || value === '' || validValues.includes(value), {
+    message: `${display} has an invalid selection`,
+  })
+
+  if (filter.mandatory) {
+    schema = schema.refine((value) => value !== '' && value !== 'no-filter', `${display} is required`)
+  }
+
+  return z.preprocess((v) => v ?? '', schema)
 }
 
 /**

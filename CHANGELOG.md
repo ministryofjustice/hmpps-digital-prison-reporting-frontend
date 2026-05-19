@@ -1,5 +1,11 @@
 Below you can find the changes included in each release.
 
+## 6.2.0
+
+- Dynamic loading: Remove button on my reports does not trigger a page reload
+- Dynamic loading: Status update on polling paga does not trigger a page reload
+- Validation: Ensure static option values are correct before request
+
 ## 6.1.3
 
 - Improve type checking of report actions

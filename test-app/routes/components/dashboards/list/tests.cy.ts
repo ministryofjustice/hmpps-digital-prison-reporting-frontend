@@ -400,6 +400,7 @@ context('Dashboard visualisation: List', () => {
         description: 'This dashboard represents example list visualisations using a partial dataset',
       })
 
+      cy.findByRole('heading', { level: 1, name: /List - Partial dataset/ }).should('be.visible')
       checkA11y()
 
       cy.url().then((url) => {

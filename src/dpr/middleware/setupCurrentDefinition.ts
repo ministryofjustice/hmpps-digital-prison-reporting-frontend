@@ -6,8 +6,8 @@ import { ReportType, RequestedReport } from '../types/UserReports'
 import { getDefinitionByType } from '../utils/definitionUtils'
 
 export const setupCurrentDefinition = (services: Services): RequestHandler => {
-  return async (req, res) => {
-    const { token, dprUser } = LocalsHelper.getValues(res)
+  return async (req, res, next) => {
+    const { token, dprUser, definitionsPath } = LocalsHelper.getValues(res)
     const { reportId, id, type, tableId } = req.params as {
       reportId: string
       id: string
@@ -17,12 +17,10 @@ export const setupCurrentDefinition = (services: Services): RequestHandler => {
 
     if (!token || !dprUser) return
 
-    const dataProductDefinitionsPath = res.locals['definitionsPath']
-
     const definitionSummary = await services.reportingService.getDefinitionSummary(
       token,
       reportId as string,
-      dataProductDefinitionsPath,
+      definitionsPath,
     )
 
     res.locals['reportDefinitionSummary'] = definitionSummary
@@ -42,13 +40,15 @@ export const setupCurrentDefinition = (services: Services): RequestHandler => {
       token,
       reportId,
       id,
-      dataProductDefinitionsPath,
+      definitionsPath,
       queryData,
     )
 
     res.locals['fields'] = fields ?? []
 
     res.locals['definition'] = definition
+
+    next()
   }
 }
 

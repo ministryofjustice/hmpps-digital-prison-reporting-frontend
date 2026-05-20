@@ -93,7 +93,7 @@ const buildDataConfiguration = async (req: Request, res: Response, services: Ser
   const { definitionsPath, dprUser } = LocalsHelper.getValues(res)
   const { token } = dprUser
 
-  let fields =
+  const fields =
     res.locals['fields'] ??
     (await getDefinitionByType(reportType, services, token, reportId, id, definitionsPath)).fields ??
     []

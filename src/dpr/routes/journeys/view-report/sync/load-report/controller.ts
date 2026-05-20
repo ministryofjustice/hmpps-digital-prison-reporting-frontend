@@ -16,9 +16,8 @@ class LoadReportController {
 
   GET: RequestHandler = async (req, res, next) => {
     try {
-      const { token } = LocalsHelper.getValues(res)
+      const { token, definitionsPath } = LocalsHelper.getValues(res)
       const { reportId, id, type } = <{ id: string; type: string; reportId: string }>req.params
-      const definitionsPath = res.locals['definitionsPath']
 
       const definitionSummary =
         res.locals['reportDefinitionSummary'] ??

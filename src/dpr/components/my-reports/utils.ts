@@ -245,7 +245,7 @@ const buildBookmarkListItems = async (res: Response, services: Services): Promis
     return []
   }
 
-  // gather data for loop.  sdf
+  // gather data for loop.
   const mappedBookmarks: MappedBookmarks[] = await mapBookmarks(bookmarks, services, res)
 
   return mappedBookmarks.map((bookmark) => {

@@ -31,12 +31,22 @@ export const setupResources = (
     populateValidationErrors(req, res)
 
     try {
+      // 1. Initialise our feature flags to app.locals
       await setFeatureFlags(res, services.featureFlagService)
+
+      // 2. Initialise definitions, collections and definitions path
       await populateDefinitions(services, req, res, config)
-      await setLocalsFromServices(services, res)
+
+      // 3. Initialise enabled service flags to app.locals
+      await initialiseServices(services, res)
+
+      // 4. Populate user reports state with up to date list
       await populateRequestedReports(services, res)
+
       setUpDprPaths(res)
+
       setupRequestAwareNunjucks(env, res)
+
       setUpNunjucksFilters(env)
 
       return next()
@@ -172,29 +182,25 @@ const setProductCollection = async (services: Services, req: Request, res: Respo
   const allDefs = req.session['allDefinitions']
   res.locals['definitions'] = allDefs ?? []
 
-  try {
-    if (updateCollection) {
-      if (selectedProductCollectionId && allDefs) {
-        const collection = await services.productCollectionService.getProductCollection(
-          token,
-          selectedProductCollectionId,
-        )
+  if (updateCollection) {
+    if (selectedProductCollectionId && allDefs) {
+      const collection = await services.productCollectionService.getProductCollection(
+        token,
+        selectedProductCollectionId,
+      )
 
-        if (collection) {
-          req.session['currentCollection'] = collection
+      if (collection) {
+        req.session['currentCollection'] = collection
 
-          const productIds = collection.products.map((p) => p.productId)
-          res.locals['definitions'] = allDefs.filter((def) => productIds.includes(def.id))
+        const productIds = collection.products.map((p) => p.productId)
+        res.locals['definitions'] = allDefs.filter((def) => productIds.includes(def.id))
 
-          logger.info(`COLLECTION SET: ${res.locals['definitions'].length}`)
-          return
-        }
+        logger.info(`COLLECTION SET: ${res.locals['definitions'].length}`)
+        return
       }
-
-      res.locals['definitions'] = allDefs ?? []
     }
-  } catch (error) {
-    logger.error(error)
+
+    res.locals['definitions'] = allDefs ?? []
   }
 }
 
@@ -210,18 +216,14 @@ const setDefinitions = async (services: Services, req: Request, res: Response, c
   const { token } = localsHelper.getValues(res)
 
   if (shouldRunDefinitionsCheck(req.session, config)) {
-    try {
-      const defs = await services.reportingService.getDefinitions(token, res.locals['definitionsPath'])
-      if (!defs) return
+    const defs = await services.reportingService.getDefinitions(token, res.locals['definitionsPath'])
+    if (!defs) return
 
-      req.session['allDefinitions'] = defs
+    req.session['allDefinitions'] = defs
 
-      logger.info(`Definitions set: ${req.session['allDefinitions'].length}`)
+    logger.info(`Definitions set: ${req.session['allDefinitions'].length}`)
 
-      recordDefinitionsCheck(req.session)
-    } catch (error) {
-      logger.error(error)
-    }
+    recordDefinitionsCheck(req.session)
   }
 }
 
@@ -261,7 +263,7 @@ export function recordDefinitionsCheck(session: { lastDefinitionsCheck?: number 
  * @param {Services} services
  * @param {Response} res
  */
-const setLocalsFromServices = async (services: Services, res: Response) => {
+const initialiseServices = async (services: Services, res: Response) => {
   const { dprUser } = localsHelper.getValues(res)
   if (dprUser.id) {
     // Downloading

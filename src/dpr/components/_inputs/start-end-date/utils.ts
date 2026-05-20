@@ -65,7 +65,7 @@ export const getStartAndEndValueFromDefinition = (filter: components['schemas'][
   }
 
   if (startValue || endValue) {
-    value = setDateRangeValuesWithinMinMax(filter, startValue, endValue)
+    value = setDateRangeValuesWithinMinMax(filter, startValue || undefined, endValue || undefined)
   }
 
   return value

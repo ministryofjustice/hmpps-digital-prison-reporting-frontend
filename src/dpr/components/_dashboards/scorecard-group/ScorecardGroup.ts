@@ -83,7 +83,7 @@ class ScorecardGroupVisualisation {
     this.groupKey = DatasetHelper.getGroupKey(
       this.dataset.latest,
       <Array<components['schemas']['DashboardVisualisationColumnDefinition']>>this.keys || [],
-    )
+    ) as ScorecardGroupDefinitionMeasure | undefined
     this.groupKeyId = this.groupKey?.id
     this.groupKeyDisplay = this.groupKey?.display
 

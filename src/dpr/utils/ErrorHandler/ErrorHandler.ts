@@ -64,8 +64,8 @@ class ErrorHandler {
       let payload: unknown = err.response?.body
 
       // 2. Otherwise try to parse text as JSON
-      if (payload === undefined) {
-        payload = this.tryParseJson(err.text)
+      if (payload === undefined && 'text' in err) {
+        payload = this.tryParseJson((err as { text: string }).text)
       }
 
       // 3. Extract actual payload (handles nested `data`)

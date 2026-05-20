@@ -40,7 +40,7 @@ const buildReport = (
   summariesData: AsyncSummary[],
   reportQuery: ReportQuery,
 ): ReportTemplateData => {
-  return new ReportBuilder(definition.variant)
+  return new ReportBuilder(definition.variant, definition.id)
     .withData(reportData)
     .withSummaries(summariesData)
     .withColumns(columns.value)
@@ -55,7 +55,7 @@ const buildParentChildReport = (
   childData: ChildData[],
   reportQuery: ReportQuery,
 ): ReportTemplateData => {
-  return new ParentChildDataBuilder(definition.variant)
+  return new ParentChildDataBuilder(definition.variant, definition.id)
     .withData(reportData)
     .withColumns(columns.value)
     .withChildColumns([])

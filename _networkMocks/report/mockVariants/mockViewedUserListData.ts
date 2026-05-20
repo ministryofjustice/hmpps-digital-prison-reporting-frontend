@@ -148,22 +148,22 @@ export const viewedInteractive: StoredReportData = {
     },
     summary: [
       {
-        id: 'field1',
+        // id: 'field1',
         name: 'Field 1',
         value: 'Value 1.2',
       },
       {
-        id: 'field3',
+        // id: 'field3',
         name: 'Field 3',
         value: '01/02/2003 - 04/05/2006',
       },
       {
-        id: 'field7',
+        // id: 'field7',
         name: 'Field 7',
         value: '2005-02-01',
       },
       {
-        id: 'field8',
+        // id: 'field8',
         name: 'Field 8',
         value: 'Value 8.2, Value 8.3',
       },
@@ -305,12 +305,12 @@ export const viewedInteractiveAsync: StoredReportData = {
     },
     summary: [
       {
-        id: 'field3',
+        // id: 'field3',
         name: 'Field 3',
         value: '01/02/2003 - 04/05/2006',
       },
       {
-        id: 'field8',
+        // id: 'field8',
         name: 'Field 8',
         value: 'Value 8.2, Value 8.3',
       },

@@ -6,7 +6,6 @@ private refreshButton?: HTMLElement | null
 private printButton?: HTMLElement | null
 private shareButton?: HTMLElement | null
 private copyButton?: HTMLElement | null
-private downloadButton?: HTMLElement | null
 
   static override getModuleName() {
     return 'report-actions'
@@ -16,7 +15,6 @@ private downloadButton?: HTMLElement | null
     this.refreshButton = document.getElementById('dpr-button-refresh')
     this.printButton = document.getElementById('dpr-button-printable')
     this.shareButton = document.getElementById('dpr-button-sharable')
-    this.downloadButton = document.getElementById('dpr-button-downloadable')
     this.copyButton = document.getElementById('dpr-button-copy')
 
     this.initRefreshEvent()

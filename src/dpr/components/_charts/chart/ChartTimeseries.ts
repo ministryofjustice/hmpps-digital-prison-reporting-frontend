@@ -69,7 +69,7 @@ class TimeseriesChart {
     this.groupKey = DatasetHelper.getGroupKey(
       this.responseData,
       <Array<components['schemas']['DashboardVisualisationColumnDefinition']>>this.keys,
-    )
+    ) as LineTimeseriesDefinitionMeasure | BarTimeseriesDefinitionMeasure | undefined
     this.timeBlockData = DatasetHelper.groupRowsByTimestamp(this.responseData)
     this.labels = this.getLabels()
     this.datasetCount = this.timeBlockData[0]?.length

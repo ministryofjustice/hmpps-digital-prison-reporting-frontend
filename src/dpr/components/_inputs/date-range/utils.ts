@@ -138,7 +138,7 @@ export const getRelativeValues = (): RelativeOption[] => {
 
 export const getFilterFromDefinition = (filter: components['schemas']['FilterDefinition'], filterData: FilterValue) => {
   const value = StartEndDateUtils.getStartAndEndValueFromDefinition(filter)
-  const relativeOptions = getRelativeDateOptions(filter.min, filter.max)
+  const relativeOptions = getRelativeDateOptions(filter.min || undefined, filter.max || undefined)
 
   return {
     ...filterData,

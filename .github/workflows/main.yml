@@ -131,6 +131,10 @@ jobs:
         run: npm run test:ci
         working-directory: ${{ github.workspace }}/../app
 
+      - name: Check typescript build
+        run: npm run typecheck
+        working-directory: ${{ github.workspace }}/../app
+
       - name: Get wiremock
         run: curl -o wiremock.jar https://repo1.maven.org/maven2/com/github/tomakehurst/wiremock-standalone/2.27.1/wiremock-standalone-2.27.1.jar
         working-directory: ${{ github.workspace }}/../app

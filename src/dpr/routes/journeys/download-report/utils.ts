@@ -201,8 +201,11 @@ const setColumnsForDownload = (
   // Ensure sections heading are always included in download, if present
   const sections = specification?.sections || []
 
+  // Normalize columns - single column will be a `string`, we need an array
+  const queryColumns = ([] as string[]).concat(query['columns'] ?? [])
+
   // master columns list
-  const requestedColumns = [...new Set([...query['columns'], ...sections])]
+  const requestedColumns = [...new Set([...queryColumns, ...sections])]
 
   // Ensure only valid columns are part of download query
   const validColumns = requestedColumns.filter((fieldName) => {

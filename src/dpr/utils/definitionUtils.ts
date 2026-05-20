@@ -16,6 +16,7 @@ import { Template } from '../types/Templates'
 import { ReportType } from '../types/UserReports'
 import logger from './logger'
 import { getQueryParamAsString } from './queryMappers'
+import Dict = NodeJS.Dict
 
 /**
  * Gets the definition and fields by reportType
@@ -34,6 +35,7 @@ export const getDefinitionByType = async (
   reportId: string,
   id: string,
   definitionsPath?: string,
+  queryData?: Dict<string | string[]>,
 ): Promise<{
   definition: components['schemas']['SingleVariantReportDefinition'] | components['schemas']['DashboardDefinition']
   fields: components['schemas']['FieldDefinition'][]
@@ -42,10 +44,10 @@ export const getDefinitionByType = async (
   let fields: components['schemas']['FieldDefinition'][]
 
   if (reportType === ReportType.REPORT) {
-    definition = await services.reportingService.getDefinition(token, reportId, id, definitionsPath)
+    definition = await services.reportingService.getDefinition(token, reportId, id, definitionsPath, queryData)
     fields = getFields(definition)
   } else {
-    definition = await services.dashboardService.getDefinition(token, reportId, id, definitionsPath)
+    definition = await services.dashboardService.getDefinition(token, reportId, id, definitionsPath, queryData)
     fields = getDashboardFields(definition)
   }
 

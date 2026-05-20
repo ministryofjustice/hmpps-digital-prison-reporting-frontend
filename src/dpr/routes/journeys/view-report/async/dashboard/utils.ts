@@ -73,18 +73,13 @@ const getDefinitionData = async ({
   services: Services
   queryData?: Dict<string | string[]> | undefined
 }) => {
-  const { token } = LocalsHelper.getValues(res)
+  const { token, definitionsPath } = LocalsHelper.getValues(res)
   const { reportId, id, tableId } = <{ id: string; reportId: string; tableId: string }>req.params
-  const dataProductDefinitionsPath = <string>req.query['dataProductDefinitionsPath']
 
   // Dashboard Definition,
-  const dashboardDefinition = await services.dashboardService.getDefinition(
-    token,
-    reportId,
-    id,
-    dataProductDefinitionsPath,
-    queryData,
-  )
+  const dashboardDefinition =
+    (res.locals['definition'] as components['schemas']['DashboardDefinition']) ??
+    (await services.dashboardService.getDefinition(token, reportId, id, definitionsPath, queryData))
 
   // Validate definition
   DashboardSchema.DashboardSchema.parse(dashboardDefinition)
@@ -92,12 +87,9 @@ const getDefinitionData = async ({
   await validateDashboardVisualisations(dashboardDefinition)
 
   // Report summary data
-  const reportDefinition = await DefinitionUtils.getReportSummary(
-    reportId,
-    services.reportingService,
-    token,
-    <string>dataProductDefinitionsPath,
-  )
+  const reportDefinition =
+    res.locals['reportDefinitionSummary'] ??
+    (await DefinitionUtils.getReportSummary(reportId, services.reportingService, token, definitionsPath))
 
   // Get the filters
   const fields = getDashboardFields(dashboardDefinition)
@@ -113,7 +105,7 @@ const getDefinitionData = async ({
   const query = new ReportQuery({
     fields,
     queryParams: extractFiltersFromQuery(req.query) as ParsedQs,
-    definitionsPath: <string>dataProductDefinitionsPath,
+    definitionsPath,
     reportType: ReportType.DASHBOARD,
   }).toRecordWithFilterPrefix(true)
 

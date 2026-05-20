@@ -14,20 +14,38 @@ export default function routes(services: Services): Router {
   router.use('/', dprRoutes({ services, layoutPath: 'views/page.njk' }))
   router.get('/', controller.GET)
 
+  // --------- FEATURES ---------- //
+
+  router.post('/toggleBookmarking', async (_req: Request, res: Response) => {
+    services.bookmarkService.enabled = !services.bookmarkService.enabled
+    res.app.locals['bookmarkingEnabled'] = services.bookmarkService.enabled
+    res.sendStatus(200)
+  })
+
+  router.post('/resetFeatureFlags', async (_req: Request, res: Response) => {
+    await services.featureFlagService.refresh()
+    res.sendStatus(200)
+  })
+
+  router.post('/resetDefinitionsCheck', async (req: Request, res: Response) => {
+    delete req.session.lastDefinitionsCheck
+    res.sendStatus(200)
+  })
+
+  // --------- REDIS ---------- //
+
   router.post('/setRedisState', async (req: Request, res: Response) => {
     const { userId, data } = req.body
     await services.bookmarkService.saveState(userId, data as ReportStoreConfig)
     res.sendStatus(200)
   })
-  router.post('/toggleBookmarking', async (_req: Request, res: Response) => {
-    services.bookmarkService.enabled = !services.bookmarkService.enabled
-    res.sendStatus(200)
-  })
+
   router.get('/getRedisState/:userId', async (req: Request, res: Response) => {
     const { userId } = req.params
     const state = await services.bookmarkService.getState(<string>userId)
     res.status(200).send(state)
   })
+
   router.post('/updateRedisState', async (req: Request, res: Response) => {
     const { userId, userStoreKey, userStoreValue } = req.body
     const currentState = await services.bookmarkService.getState(userId)
@@ -37,10 +55,8 @@ export default function routes(services: Services): Router {
     } as ReportStoreConfig)
     res.sendStatus(200)
   })
-  router.post('/resetFeatureFlags', async (_req: Request, res: Response) => {
-    await services.featureFlagService.refresh()
-    res.sendStatus(200)
-  })
+
+  // --------- REQ.SESSION ---------- //
 
   router.get('/resetSession', (_req: Request, res: Response) => {
     res.render('views/pages/platform/resetSession.njk', {})
@@ -48,6 +64,11 @@ export default function routes(services: Services): Router {
 
   router.post('/resetSession', (req: Request, res: Response) => {
     req.session.activeReport = {}
+    delete req.session.currentCollectionId
+    delete req.session.currentCollection
+    delete req.session.lastDefinitionsCheck
+    delete req.session.allDefinitions
+
     res.sendStatus(200)
   })
 

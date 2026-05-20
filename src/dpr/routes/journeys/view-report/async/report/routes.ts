@@ -2,7 +2,6 @@ import { Router } from 'express'
 import ViewAsyncReportController from './controller'
 import ViewReportController from '../controller'
 import { Services } from '../../../../../types/Services'
-import { loadReportDefinition } from '../../../../../middleware/loadReportDefinition'
 import { validateFilters } from '../../../../../validation/validateFilters'
 
 export function routes({ layoutPath, services }: { layoutPath: string; services: Services }): Router {
@@ -15,12 +14,7 @@ export function routes({ layoutPath, services }: { layoutPath: string; services:
   // ----------------------------
   // FILTERS
   // ----------------------------
-  router.post(
-    '/apply-filters',
-    loadReportDefinition(services),
-    validateFilters({ interactive: true }),
-    asyncReportController.applyFilters,
-  )
+  router.post('/apply-filters', validateFilters({ interactive: true }), asyncReportController.applyFilters)
   router.post('/reset-filters', asyncReportController.resetFilters)
 
   // ---------------------------

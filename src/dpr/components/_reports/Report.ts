@@ -438,7 +438,7 @@ export default class Report {
         this.id,
         FiltersType.INTERACTIVE,
       ),
-      saveDefaultsEnabled: this.res.locals['saveDefaultsEnabled'],
+      saveDefaultsEnabled: this.res.app.locals['saveDefaultsEnabled'],
     }
   }
 

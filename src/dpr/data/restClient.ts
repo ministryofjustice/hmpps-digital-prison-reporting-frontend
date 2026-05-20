@@ -164,9 +164,9 @@ class RestClient {
   }: GetRequest): Promise<ResultWithHeaders<T>> {
     const loggerData = {
       path: `${this.config.url}${path}`,
-      query,
+      ...(Object.keys(query).length && { query }),
     }
-    logger.info(`${this.name}: ${JSON.stringify(loggerData, null, 2)}`)
+    logger.info(`${this.name}: ${JSON.stringify(loggerData)}`)
     try {
       const result = await superagent
         .get(`${this.apiUrl()}${path}`)
@@ -204,7 +204,7 @@ class RestClient {
       path: `${this.config.url}${path}`,
       query,
     }
-    logger.info(`${this.name}: ${JSON.stringify(loggerData, null, 2)}`)
+    logger.info(`${this.name}: ${JSON.stringify(loggerData)}`)
     try {
       const result = await superagent
         .delete(`${this.apiUrl()}${path}`)

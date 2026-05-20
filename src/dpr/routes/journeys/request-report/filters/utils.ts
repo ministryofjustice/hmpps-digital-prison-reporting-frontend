@@ -295,8 +295,14 @@ export const renderRequest = async ({
 }): Promise<RequestDataResult | boolean> => {
   try {
     const { reportId, type, id } = req.params as { reportId: string; type: ReportType; id: string }
-    const { token, csrfToken, definitionsPath: definitionPath, dprUser } = LocalsHelper.getValues(res)
-    const { definition, saveDefaultsEnabled } = res.locals
+    const {
+      token,
+      csrfToken,
+      definitionsPath: definitionPath,
+      dprUser,
+      saveDefaultsEnabled,
+    } = LocalsHelper.getValues(res)
+    const { definition } = res.locals
 
     let name: string = ''
     let reportName: string = ''
@@ -316,9 +322,12 @@ export const renderRequest = async ({
     }
 
     if (type === ReportType.DASHBOARD) {
-      const definitionApiArgs = { token, reportId: reportId as string, definitionPath, services }
       const dashboardData = await renderDashboardRequestData({
-        ...definitionApiArgs,
+        req,
+        token,
+        reportId: reportId as string,
+        definitionPath,
+        services,
         definition: definition as components['schemas']['DashboardDefinition'],
       })
 
@@ -359,19 +368,23 @@ export const renderRequest = async ({
 }
 
 const renderDashboardRequestData = async ({
+  req,
   token,
   reportId,
   definitionPath,
   services,
   definition,
 }: {
+  req: Request
   token: string
   reportId: string
   definitionPath: string
   services: Services
   definition: components['schemas']['DashboardDefinition']
 }) => {
-  const productDefinitions = await services.reportingService.getDefinitions(token, definitionPath)
+  const productDefinitions =
+    req.session['allDefinitions'] ?? (await services.reportingService.getDefinitions(token, definitionPath))
+
   const productDefinition = productDefinitions.find(
     (def: components['schemas']['ReportDefinitionSummary']) => def.id === reportId,
   )

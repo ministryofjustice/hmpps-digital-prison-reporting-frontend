@@ -92,7 +92,12 @@ const buildDataConfiguration = async (req: Request, res: Response, services: Ser
   const reportType = <ReportType>asString(p['type'])
   const { definitionsPath, dprUser } = LocalsHelper.getValues(res)
   const { token } = dprUser
-  const { fields } = await getDefinitionByType(reportType, services, token, reportId, id, definitionsPath)
+
+  let fields =
+    res.locals['fields'] ??
+    (await getDefinitionByType(reportType, services, token, reportId, id, definitionsPath)).fields ??
+    []
+
   const definitionDefaults = await setUpDefaultsFromDefinition(fields)
 
   // -------------- Fetch Dynamic Values -------------------

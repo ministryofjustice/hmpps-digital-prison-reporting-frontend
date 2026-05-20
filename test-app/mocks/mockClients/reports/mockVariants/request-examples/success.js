@@ -150,7 +150,7 @@ const requestExampleSuccess = {
           defaultValue: '2005-02-01',
           min: '2003-02-01',
           max: '2007-05-04',
-          mandatory: false,
+          mandatory: true,
         },
       },
       {

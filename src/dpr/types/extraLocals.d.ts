@@ -9,6 +9,8 @@ export interface ExtraLocals {
   csrfToken: string
   definitions: components['schemas']['ReportDefinitionSummary'][]
   definition?: components['schemas']['SingleVariantReportDefinition'] | components['schemas']['DashboardDefinition']
+  reportDefinitionSummary?: components['schemas']['ReportDefinitionSummary']
+  fields?: components['schemas']['FieldDefinition'][]
   saveDefaultsEnabled: boolean
   dpdPathFromQuery: boolean
   dpdPathFromConfig: boolean

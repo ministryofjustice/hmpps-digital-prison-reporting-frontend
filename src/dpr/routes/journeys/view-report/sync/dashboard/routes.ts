@@ -2,7 +2,6 @@
 import { Router } from 'express'
 import ViewSyncDashboardController from './controller'
 import { Services } from '../../../../../types/Services'
-import { loadReportDefinition } from '../../../../../middleware/loadReportDefinition'
 import { validateFilters } from '../../../../../validation/validateFilters'
 import { LoadType } from '../../../../../types/UserReports'
 
@@ -16,7 +15,6 @@ export function routes({ layoutPath, services }: { layoutPath: string; services:
 
   router.post(
     '/apply-filters',
-    loadReportDefinition(services),
     validateFilters({ interactive: true, loadType: LoadType.SYNC }),
     controller.applyFilters,
   )

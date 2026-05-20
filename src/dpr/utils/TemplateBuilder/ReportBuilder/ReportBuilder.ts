@@ -13,8 +13,8 @@ export class ReportBuilder extends TemplateBuilder {
 
   sectionBuilder!: SectionedDataHelper
 
-  constructor(variant: components['schemas']['VariantDefinition']) {
-    super(variant)
+  constructor(variant: components['schemas']['VariantDefinition'], defId: string) {
+    super(variant, defId)
   }
 
   buildMainTable(section: SectionData) {

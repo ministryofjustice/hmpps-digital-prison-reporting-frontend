@@ -204,7 +204,7 @@ const requestProduct = async ({
     queryParams: formBodyToQueryObject(req.body),
     definitionsPath: <string>dataProductDefinitionsPath,
     reportType: type,
-  }).toRecordWithFilterPrefix(true)
+  }).toRecordWithFilterPrefix(true) as Record<string, string>
 
   if (type === ReportType.REPORT) {
     const requestReportResponse = await services.reportingService.requestAsyncReport(token, reportId, id, {

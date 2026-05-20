@@ -27,8 +27,8 @@ export class TemplateBuilder {
 
   summaries!: AsyncSummary[]
 
-  constructor(variant: components['schemas']['VariantDefinition']) {
-    const { specification } = validateVariant(variant)
+  constructor(variant: components['schemas']['VariantDefinition'], defId: string) {
+    const { specification } = validateVariant(variant, defId)
     const { template, fields, sections } = specification
 
     this.variant = variant

@@ -15,7 +15,7 @@ export const setupCurrentDefinition = (services: Services): RequestHandler => {
       tableId?: string
     }
 
-    if (!token || !dprUser) return
+    if (!token || !dprUser) return next()
 
     const definitionSummary = await services.reportingService.getDefinitionSummary(
       token,
@@ -48,7 +48,7 @@ export const setupCurrentDefinition = (services: Services): RequestHandler => {
 
     res.locals['definition'] = definition
 
-    next()
+    return next()
   }
 }
 

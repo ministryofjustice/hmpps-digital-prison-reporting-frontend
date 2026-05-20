@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## 6.2.1
+
+- Bugfix: Normalize columns for download in query to always be an array
+
 ## 6.2.0
 
 - Dynamic loading: Remove button on my reports does not trigger a page reload

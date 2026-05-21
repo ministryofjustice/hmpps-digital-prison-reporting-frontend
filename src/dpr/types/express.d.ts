@@ -13,5 +13,6 @@ declare module 'express-session' {
   interface SessionData {
     activeReport?: Record<string, Partial<ActiveReportSessionData>>
     lastExpiredReportsCheckAt: number
+    reportsCleanupRun: boolean
   }
 }

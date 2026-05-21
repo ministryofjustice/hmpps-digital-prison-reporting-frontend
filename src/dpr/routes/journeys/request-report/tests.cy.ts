@@ -16,6 +16,7 @@ context('Requesting a report', () => {
     cy.task('stubReportsStartedStatus')
     cy.findByRole('strong').contains('STARTED')
     cy.task('stubReportsFinishedStatus')
+    cy.findByRole('strong').contains('FINISHED')
   }
 
   const tests = (path: string) => {

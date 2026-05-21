@@ -137,8 +137,10 @@ class DprMyReports extends PollingClientClass {
         headers: {
           'X-Requested-With': 'XMLHttpRequest',
           'Content-Type': 'application/json',
+          'CSRF-Token': this.csrfToken,
         },
         body: JSON.stringify(body),
+        credentials: 'same-origin',
       })
 
       if (!res.ok) {

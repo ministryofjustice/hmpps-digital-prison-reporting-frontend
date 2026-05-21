@@ -2,6 +2,10 @@ Below you can find the changes included in each release.
 
 ## 6.2.2
 
+- Bugfix: Filter out relative-duration query from requests
+
+## 6.2.2
+
 - Bugfix: Remove button post missing csrf.
 - Bugfix: Polling page not rendering finished state
 - Style fix: Interactive reset & save using correct font

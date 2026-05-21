@@ -12,6 +12,8 @@
   {% set searchInputName = 'search.' + name %}
 
   <div class="multiselect-container govuk-!-margin-bottom-6" data-filter-id="{{ name }}" data-dpr-module="autocomplete-multiselect-input">
+    <input type="hidden" name="{{ options.name }}" value="{{ options.staticOptionNameValue }}" data-autocomplete-hidden>
+
       {# Input name #}
       <legend class="govuk-fieldset__legend govuk-label govuk-!-font-weight-bold">
         {{ labelText }}

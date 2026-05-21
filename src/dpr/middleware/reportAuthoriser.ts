@@ -14,7 +14,7 @@ export const reportAuthoriser = (services: Services, layoutPath: string): Reques
       (await services.reportingService.getDefinitionSummary(token, reportId as string, definitionsPath))
     const userIsAuthorisedToViewReport = definitionSummary.authorised ?? false
 
-    if (userIsAuthorisedToViewReport || !token) {
+    if (!userIsAuthorisedToViewReport || !token) {
       res.render(`dpr/routes/journeys/view-report/unauthorised`, {
         layoutPath,
         ...req.body,

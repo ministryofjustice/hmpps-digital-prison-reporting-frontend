@@ -111,7 +111,7 @@ class ReportQuery implements FilteredListRequest {
           value = validated
         }
 
-        // Date handling
+        // Handle Date types
         if (field.type === 'date') {
           const { min, max } = field.filter
 
@@ -136,6 +136,7 @@ class ReportQuery implements FilteredListRequest {
           }
         }
 
+        // Handle no filter values (select, radio)
         if (value !== 'no-filter') {
           this.filters[filterName] = value
         }

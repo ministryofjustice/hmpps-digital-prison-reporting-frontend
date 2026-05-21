@@ -227,8 +227,6 @@ const setDefinitions = async (services: Services, req: Request, res: Response, c
   }
 }
 
-const DEFINITIONS_CHECK_INTERVAL_MS = 60 * 60 * 1000 // 60 mins
-
 /**
  * Checks if the get definition endpoint should be run
  *
@@ -238,11 +236,26 @@ const DEFINITIONS_CHECK_INTERVAL_MS = 60 * 60 * 1000 // 60 mins
  * @return {*}  {boolean}
  */
 export function shouldRunDefinitionsCheck(session: { lastDefinitionsCheck?: number }, config?: DprConfig): boolean {
+  const interval = config?.checkDefinitionsInterval
+
+  // No config -> always run
+  if (interval === undefined) {
+    return true
+  }
+
+  // Explicit override -> always run
+  if (interval === 0) {
+    return true
+  }
+
   const lastRun = session.lastDefinitionsCheck
-  if (!lastRun) return true
 
-  const interval = config?.checkDefinitionsInterval ? config?.checkDefinitionsInterval : DEFINITIONS_CHECK_INTERVAL_MS
+  // Never run before -> run now
+  if (!lastRun) {
+    return true
+  }
 
+  // Check interval
   return Date.now() - lastRun > interval
 }
 

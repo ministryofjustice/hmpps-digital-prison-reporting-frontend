@@ -71,15 +71,33 @@ definitions/prisons/dps/${yourServiceName}
 Add your DPD path to the `config.ts` file:
 
 ```js
-export const apis = {
-  ...
-}
-...
 export const dpr = {
   dataProductDefinitionsPath: 'definitions/prisons/dps/yourServiceName'
 }
+
 export default {
-  apis,
+  ...config
+  dpr,
+}
+```
+
+### DPD retrieval interval
+
+Data products are polled for updates:
+
+- everytime a user logs in
+- every hour thereafter
+
+This interval can be overwritten by providing a time in ms in the `config`:
+
+```js
+export const dpr = {
+  ...
+  checkDefinitionsInterval: 5000 // 5 seconds
+}
+
+export default {
+  ...config
   dpr,
 }
 ```

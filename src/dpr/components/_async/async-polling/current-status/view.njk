@@ -1,0 +1,26 @@
+{% from "../../request-status-tag/view.njk" import dprRequestStatusTag %}
+{% from "./in-progress-state/view.njk" import dprPollingInProgressState %}
+{% from "./failed-state/view.njk" import dprPollingFailedState %}
+{% from "./finished-state/view.njk" import dprPollingFinishedState %}
+
+{% set meta = data.metaDetails %}
+{% set statusDetails = data.statusDetails %}
+{% set status = statusDetails.status %}
+
+<div id="dpr-current-status__content" data-status='{{ status }}'>
+  
+  <p>Status: {{ dprRequestStatusTag(status) }}</p>
+
+  {% if status === 'STARTED' or status === 'SUBMITTED' or status === 'PICKED' %}
+    {{ dprPollingInProgressState(data) }}
+  {% endif %}
+
+  {% if status === 'FAILED' or status === 'ABORTED' or status === 'EXPIRED' %}
+    {{ dprPollingFailedState(data) }}
+  {% endif %}
+
+  {% if status === 'FINISHED' %}
+    {{ dprPollingFinishedState(data) }}
+  {% endif %}
+
+</div>

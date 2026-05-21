@@ -1,6 +1,5 @@
 /* eslint-disable no-param-reassign */
 import { Router } from 'express'
-import { captureException } from '@sentry/node'
 import { storeActiveReportSessionData } from '../../../middleware/setUpActiveReport'
 import { Services } from '../../../types/Services'
 import RequestReportController from './controller'
@@ -11,6 +10,7 @@ import requestStatusRoutes from './status/routes'
 
 // middleware
 import reportAuthoriser from '../../../middleware/reportAuthoriser'
+import { captureDprError } from '../../../utils/captureError'
 
 export function Routes({ layoutPath, services }: { services: Services; layoutPath: string }): Router {
   const router = Router({ mergeParams: true })
@@ -18,6 +18,8 @@ export function Routes({ layoutPath, services }: { services: Services; layoutPat
   const controller = new RequestReportController(layoutPath, services)
 
   router.post(`/:type/:reportId/:id/:executionId/cancel`, controller.CANCEL)
+
+  // Pre-request filters page
   router.use(
     `/:type/:reportId/:id/filters`,
     reportAuthoriser(services, layoutPath),
@@ -25,6 +27,8 @@ export function Routes({ layoutPath, services }: { services: Services; layoutPat
     requestReportRoutes({ layoutPath, services }),
     controller.errorHandler,
   )
+
+  // Polling current status page
   router.use(
     `/:type/:reportId/:id/:executionId/status`,
     reportAuthoriser(services, layoutPath),
@@ -38,7 +42,8 @@ export function Routes({ layoutPath, services }: { services: Services; layoutPat
     const params = JSON.parse(req.flash('ERROR_PARAMS')?.[0] || '')
     const error = req.flash('ERROR')
 
-    captureException(error)
+    captureDprError(error)
+
     res.render(`dpr/routes/journeys/view-report/error`, {
       layoutPath,
       ...(body && { ...body }),

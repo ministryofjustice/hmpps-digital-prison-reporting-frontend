@@ -1,16 +1,20 @@
-// @ts-nocheck
 import { DprClientClass } from '../../../../DprClientClass'
 
-class IconButtonList extends DprClientClass {
-  static getModuleName() {
+class ReportActions extends DprClientClass {
+
+private refreshButton?: HTMLElement | null
+private printButton?: HTMLElement | null
+private shareButton?: HTMLElement | null
+private copyButton?: HTMLElement | null
+
+  static override getModuleName() {
     return 'report-actions'
   }
 
-  initialise() {
+  override initialise() {
     this.refreshButton = document.getElementById('dpr-button-refresh')
     this.printButton = document.getElementById('dpr-button-printable')
     this.shareButton = document.getElementById('dpr-button-sharable')
-    this.downloadButton = document.getElementById('dpr-button-downloadable')
     this.copyButton = document.getElementById('dpr-button-copy')
 
     this.initRefreshEvent()
@@ -41,48 +45,56 @@ class IconButtonList extends DprClientClass {
   initShareButtonEvent() {
     if (this.shareButton) {
       const href = this.shareButton.getAttribute('data-href')
-      this.shareButton.addEventListener('click', () => {
-        window.location = href
-      })
+      if (href) {
+        this.shareButton.addEventListener('click', () => {
+          window.location.href = href
+        })
 
-      this.shareButton.addEventListener('keyup', (e) => {
-        if (e.key === 'Enter') {
-          window.location = href
-        }
-      })
+        this.shareButton.addEventListener('keyup', (e) => {
+          if (e.key === 'Enter') {
+            window.location.href = href
+          }
+        })
+      }
     }
   }
 
   initCopyButtonEvent() {
     if (this.copyButton) {
       const href = this.copyButton.getAttribute('data-href')
-      this.copyButton.addEventListener('click', () => {
+      if (href) {
+        this.copyButton.addEventListener('click', () => {
         navigator.clipboard.writeText(href)
       })
 
-      this.copyButton.addEventListener('keyup', (e) => {
-        if (e.key === 'Enter') {
-          navigator.clipboard.writeText(href)
-        }
-      })
+        this.copyButton.addEventListener('keyup', (e) => {
+          if (e.key === 'Enter') {
+            navigator.clipboard.writeText(href)
+          }
+        })
+      }
+
     }
   }
 
   initRefreshEvent() {
     if (this.refreshButton) {
       const href = this.refreshButton.getAttribute('data-href')
-      this.refreshButton.addEventListener('click', () => {
-        window.location = href
-      })
 
-      this.refreshButton.addEventListener('keyup', (e) => {
-        if (e.key === 'Enter') {
-          window.location = href
-        }
-      })
+      if (href) {
+        this.refreshButton.addEventListener('click', () => {
+          window.location.href = href
+        })
+
+        this.refreshButton.addEventListener('keyup', (e) => {
+          if (e.key === 'Enter') {
+            window.location.href = href
+          }
+        })
+      }
     }
   }
 }
 
-export { IconButtonList }
-export default IconButtonList
+export { ReportActions }
+export default ReportActions

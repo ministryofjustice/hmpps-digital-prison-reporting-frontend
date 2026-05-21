@@ -3,69 +3,33 @@ import { Services } from '../../../../types/Services'
 import LocalsHelper from '../../../../utils/localsHelper'
 import { buildMyReportListRow } from '../../../../components/my-reports/my-reports-list-item/utils'
 import { ListType } from '../../../../components/my-reports/types'
-import { evaluateAndUpdateReportStatus } from '../../../../utils/ReportStatus/getReportStatus'
-import logger from '../../../../utils/logger'
-import { safeRedirect } from '../../../../utils/http/safeRedirect'
+import { createReportPollingHandler } from '../../../../controllers/reportPolling/createReportPollingHandler'
+import { StoredReportData } from '../../../../types/UserReports'
+import { UpdatedResolution } from '../../../../utils/ReportStatus/types'
+import { initRequested } from '../../../../components/my-reports/utils'
+import { captureDprError } from '../../../../utils/captureError'
 
 class RequestedReportsController {
   services: Services
 
+  public GET: RequestHandler
+
   constructor(services: Services) {
     this.services = services
-  }
 
-  /**
-   * Gets an individual My Reports row and renders it as a string
-   *
-   * @param {*} req
-   * @param {*} res
-   * @return {*}
-   */
-  GET: RequestHandler = async (req, res) => {
-    try {
-      const { executionId } = req.params as {
-        executionId: string
-      }
-
-      const { token, dprUser } = LocalsHelper.getValues(res)
-
-      // 1. Fetch the stored report
-      const requestedReport = await this.services.requestedReportService.getReportByExecutionId(executionId, dprUser.id)
-
-      if (!requestedReport) {
-        return res.sendStatus(404)
-      }
-
-      // 2. Evaluate + update status using the shared utility
-      const { resolution, updated } = await evaluateAndUpdateReportStatus({
-        stored: requestedReport,
-        services: this.services,
-        token,
-        res,
-      })
-
-      // 3. No change – keep polling
-      if (resolution.type === 'NO_CHANGE') {
-        return res.sendStatus(204)
-      }
-
-      if (!updated) {
-        return res.sendStatus(204)
-      }
-
-      // 4. Status changed – re-render the row
-      const viewModel = buildMyReportListRow(updated, resolution.newStatus, req, res, ListType.REQUESTED)
-      return res.render('dpr/components/my-reports/my-reports-list-item/row.njk', { item: viewModel }, (err, html) => {
-        if (err) {
-          return res.sendStatus(500)
+    /**
+     * Gets an individual My Reports row and renders it as a string
+     */
+    this.GET = createReportPollingHandler<StoredReportData, UpdatedResolution>(
+      this.services,
+      (updated, resolution, req, res) => {
+        const viewModel = buildMyReportListRow(updated, resolution.newStatus, req, res, ListType.REQUESTED)
+        return {
+          template: 'dpr/components/my-reports/my-reports-list-item/row.njk',
+          data: { item: viewModel },
         }
-
-        return res.type('text/html').send(html)
-      })
-    } catch (error) {
-      logger.error(error)
-      return res.sendStatus(500)
-    }
+      },
+    )
   }
 
   /**
@@ -78,12 +42,29 @@ class RequestedReportsController {
   POST: RequestHandler = async (req, res) => {
     const { dprUser } = LocalsHelper.getValues(res)
     const { executionId } = req.params
-    const { returnTo } = req.body
-    const returnToWithTab = `${returnTo}#requested-reports-tab`
 
+    // Remove the report
     await this.services.requestedReportService.removeReport(executionId as string, dprUser.id)
 
-    return safeRedirect(req, res, returnToWithTab)
+    // Update the locals
+    res.locals['requestedReports'] = await this.services.requestedReportService.getAllReports(dprUser.id)
+
+    try {
+      // get the data for the requested list
+      const maxRows = req.body?.maxRows !== undefined ? Number(req.body.maxRows) : undefined
+      const viewModel = await initRequested(req, res, {
+        ...(maxRows && { maxRows }),
+      })
+
+      return res.render('dpr/components/my-reports/my-reports-list/view.njk', { viewModel }, (err, html) => {
+        if (err) return res.sendStatus(500)
+        return res.type('text/html').send(html)
+      })
+    } catch (error) {
+      captureDprError(error, 'Failed to refresh list after removal')
+
+      return res.sendStatus(500)
+    }
   }
 }
 

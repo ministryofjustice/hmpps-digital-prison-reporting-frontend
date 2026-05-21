@@ -25,12 +25,12 @@ export interface BaseFilterValue {
   type: FilterType
   value: FilterValueType
   mandatory?: boolean | undefined
-  index?: number | undefined
+  index?: number | undefined | null
 }
 
 export interface TextFilterValue extends BaseFilterValue {
-  minimumLength?: number | undefined
-  pattern?: string | undefined
+  minimumLength?: number | undefined | null
+  pattern?: string | undefined | null
 }
 
 export interface FilterValueWithOptions extends BaseFilterValue {

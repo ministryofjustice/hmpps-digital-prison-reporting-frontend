@@ -15,6 +15,7 @@ context('Dashboard visualisation: Scorecards', () => {
   let scorecardsPathViewUrl = ''
 
   before(() => {
+    cy.task('resetStubs')
     executeDashboardStubs()
     cy.task('stubFeatureFlags')
     resetFeatureFlags()
@@ -27,7 +28,10 @@ context('Dashboard visualisation: Scorecards', () => {
   describe('scorecard', () => {
     before(() => {
       cy.visit(scorecardPath)
+      cy.task('stubMockDashboardsStatusStarted')
       cy.findByRole('button', { name: /Request/ }).click()
+      cy.task('stubMockDashboardsStatusFinished')
+      cy.findByRole('heading', { level: 1, name: /Scorecard/ }).should('be.visible')
       cy.url().then((url) => {
         scorecardPathViewUrl = url
       })
@@ -64,7 +68,10 @@ context('Dashboard visualisation: Scorecards', () => {
   describe('scorecard buckets', () => {
     before(() => {
       cy.visit(scorecardBucketPath)
+      cy.task('stubMockDashboardsStatusStarted')
       cy.findByRole('button', { name: /Request/ }).click()
+      cy.task('stubMockDashboardsStatusFinished')
+      cy.findByRole('heading', { level: 1, name: /Scorecard/ }).should('be.visible')
       cy.url().then((url) => {
         scorecardBucketPathViewUrl = url
       })
@@ -167,7 +174,10 @@ context('Dashboard visualisation: Scorecards', () => {
   describe('scorecard-group', () => {
     before(() => {
       cy.visit(scorecardsPath)
+      cy.task('stubMockDashboardsStatusStarted')
       cy.findByRole('button', { name: /Request/ }).click()
+      cy.task('stubMockDashboardsStatusFinished')
+      cy.findByRole('heading', { level: 1, name: /Scorecard/ }).should('be.visible')
       cy.url().then((url) => {
         scorecardsPathViewUrl = url
       })

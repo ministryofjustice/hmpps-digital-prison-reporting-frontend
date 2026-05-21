@@ -1,8 +1,8 @@
 import { ErrorRequestHandler, RequestHandler } from 'express'
-import { captureException } from '@sentry/node'
 import { Services } from '../../../types/Services'
 import ErrorHandler from '../../../utils/ErrorHandler/ErrorHandler'
 import { cancelRequest } from './utils'
+import { captureDprError } from '../../../utils/captureError'
 
 class RequestReportController {
   layoutPath: string
@@ -15,7 +15,8 @@ class RequestReportController {
   }
 
   errorHandler: ErrorRequestHandler = async (error, req, res, _next) => {
-    captureException(error)
+    captureDprError(error)
+
     res.render(`dpr/routes/journeys/view-report/error`, {
       layoutPath: this.layoutPath,
       ...(req.body && { ...req.body }),

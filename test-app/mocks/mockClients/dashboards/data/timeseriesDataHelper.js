@@ -74,13 +74,13 @@ const mapGranularityValue = (granularity) => {
 const setFormat = (granularity) => {
   switch (granularity) {
     case 'day':
-      return 'DD/MM/YYYY'
+      return 'YYYY-MM-DD'
     case 'month':
       return 'MMM YY'
     case 'year':
       return 'YYYY'
     default:
-      return 'DD/MM/YYYY'
+      return 'YYYY-MM-DD'
   }
 }
 

@@ -26,7 +26,7 @@ import DprSelectedAsyncFilters from './components/_async/async-filters-form/acti
 import DprAppliedFilters from './components/_filters/filters-applied/clientClass'
 
 // Async
-import AsyncPolling from './components/_async/async-polling/clientClass'
+import DprReportStatus from './components/_async/async-polling/clientClass.ts'
 
 // Sync
 import SyncLoading from './DprSyncLoading'
@@ -64,7 +64,7 @@ function initAll() {
     CardGroup,
     Pagination,
     DataTable,
-    AsyncPolling,
+    DprReportStatus,
     Search,
     UnauthorisedReportsFilter,
     ReportTypeFilter,

@@ -1,74 +1,91 @@
-import DprPollingHelper from '../../../DprPollingClass'
-import { DprClientClass } from '../../../DprClientClass'
-import type { meta } from '../../../types/UserReports'
+import DprStatusPolling from '../../../DprStatusPolling'
+import DprHtmlClient from '../../../DprHtmlClient'
 
-class DprAsyncPolling extends DprClientClass {
-  private statusSection!: HTMLElement | null
+class DprReportStatus extends DprStatusPolling {
+  private container!: HTMLElement
 
-  private requestData!: string | null
+  private path!: string
 
-  private currentStatus!: string | null
-
-  private csrfToken!: string | null
-
-  private reportUrl!: string | null
-
-  private pollingInterval?: ReturnType<typeof setInterval>
-
-  pollingHelper!: DprPollingHelper
-
-  static override getModuleName(): string {
-    return 'async-polling-content'
+  static override getModuleName() {
+    return 'dpr-current-status-polling'
   }
 
-  override initialise(): void {
-    this.pollingHelper = new DprPollingHelper()
-    this.statusSection = document.getElementById('async-request-polling-status')
+  override initialise() {
+    const element = this.getElement()
+    const { tableId, path } = this.element.dataset
 
-    if (!this.statusSection) {
-      console.error('Missing required DOM element: #async-request-polling-status')
-      return
+    if (!tableId || !path) {
+      throw new Error(`Missing data required for polling: ${JSON.stringify({ tableId, path })}`)
     }
 
-    this.requestData = this.statusSection.getAttribute('data-request-data')
-    this.currentStatus = this.statusSection.getAttribute('data-current-status')
-    this.csrfToken = this.statusSection.getAttribute('data-csrf-token')
-    this.reportUrl = this.statusSection.getAttribute('data-report-url')
+    this.path = path
 
-    this.initPollingInterval()
-  }
+    this.csrfToken = DprHtmlClient.getCsrfToken(element)
 
-  private async initPollingInterval(): Promise<void> {
-    if (!this.currentStatus) return
+    const container = element.querySelector<HTMLElement>('#dpr-current-status__content')
+    if (!container) return
 
-    if (this.pollingHelper.POLLING_STATUSES.includes(this.currentStatus)) {
-      this.pollingInterval = setInterval(async () => {
-        await this.pollStatus()
-      }, this.pollingHelper.POLLING_FREQUENCY)
-    } else if (this.currentStatus === 'FINISHED' && this.reportUrl) {
-      window.location.href = this.reportUrl
+    this.container = element
+
+    if (!this.isTerminal()) {
+      this.startPolling(
+        () => this.pollReport(),
+        () => this.isTerminal(),
+      )
     }
   }
 
-  private async pollStatus(): Promise<void> {
-    if (!this.requestData || !this.csrfToken) return
+  /**
+   * Poll the single report
+   */
+  private async pollReport() {
+    if (this.polling) return
+    this.polling = true
 
     try {
-      const meta = JSON.parse(this.requestData) as meta
-      const response = await this.pollingHelper.getRequestStatus(meta, this.csrfToken)
+      const fetchPath = `${this.path}/current-status`
 
-      // Reload if a status change occurs
-      if (response?.status && response.status !== this.currentStatus) {
-        if (this.pollingInterval) {
-          clearInterval(this.pollingInterval)
-        }
-        window.location.reload()
+      // get the updated current status fragment
+      const fragment = await DprHtmlClient.fetchFragment(fetchPath, this.csrfToken)
+      if (!fragment) return
+
+      // Get the redirect to the report, if present it means the status is finished
+      if (this.redirectToReport(fragment)) {
+        return
       }
-    } catch (err) {
-      console.error('Error polling async request:', err)
+
+      // Set the new container
+      const newContainer = fragment.querySelector<HTMLElement>('#dpr-current-status__content')
+      if (!newContainer) return
+
+      // Replace the old container
+      this.container.replaceWith(newContainer)
+      this.container = newContainer
+    } catch (error) {
+      console.error('Polling error', error)
+    } finally {
+      this.polling = false
     }
+  }
+
+  /**
+   * Check if report is in a terminal state
+   */
+  private isTerminal(): boolean {
+    return this.isTerminalElement(this.container)
+  }
+
+  private redirectToReport(fragment: DocumentFragment): boolean {
+    const redirectEl = fragment.querySelector('[data-redirect]')
+    if (!redirectEl) return false
+
+    const url = redirectEl.getAttribute('data-redirect')
+    if (!url) return false
+
+    window.location.replace(url)
+
+    return true
   }
 }
 
-export { DprAsyncPolling }
-export default DprAsyncPolling
+export default DprReportStatus

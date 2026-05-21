@@ -1,7 +1,6 @@
 // TODO: integration tests with this mocked data also
 const mockRequested = require('./mockRequestedUserListData')
 const mockViewed = require('./mockViewedUserListData')
-const mockRequestedDashboards = require('./mockRequestedDashboardData')
 
 export const startData = {
   requestedReports: [

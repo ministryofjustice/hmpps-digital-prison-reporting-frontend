@@ -140,8 +140,6 @@ export default class Report {
     // Get the data
     this.buildReportQuery()
     await this.getData()
-    await this.getCount()
-
     if (this.expired) {
       return {
         expired: this.expired,
@@ -183,6 +181,7 @@ export default class Report {
         await this.getSummariesData()
         await this.setChildData()
       }
+      await this.getCount()
     } catch (error) {
       const dprError = new ErrorHandler(error).formatError()
       if (dprError.status === 404) {

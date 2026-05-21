@@ -27,19 +27,21 @@ class ReportingClient {
   }
 
   getList(resourceName: string, token: string, listRequest: ReportQuery): Promise<Array<Dict<string>>> {
-    return this.getListWithWarnings(resourceName, token, listRequest).then((response) => response.data)
+    return this.getListWithWarnings(resourceName, token, listRequest).then(
+      (response) => response.data as Array<Dict<string>>,
+    )
   }
 
   getListWithWarnings(resourceName: string, token: string, listRequest: ReportQuery): Promise<ListWithWarnings> {
     logger.info(`Reporting client: Get list. { resourceName: ${resourceName} }`)
 
     return this.restClient
-      .getWithHeaders<Array<Dict<string>>>({
+      .getWithHeaders<Array<Record<string, string>>>({
         path: `/${resourceName}`,
         query: listRequest.toRecordWithFilterPrefix(true),
         token,
       })
-      .then((response: ResultWithHeaders<Array<Dict<string>>>) => ({
+      .then((response: ResultWithHeaders<Array<Record<string, string>>>) => ({
         data: response.data,
         warnings: {
           noDataAvailable: response.headers['x-no-data-warning'],

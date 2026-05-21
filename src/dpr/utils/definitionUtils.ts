@@ -69,7 +69,7 @@ export const getDefinitionByType = async (
 export const getFilter = (
   fields: components['schemas']['FieldDefinition'][],
   fieldId: string,
-): components['schemas']['FilterDefinition'] | undefined => {
+): components['schemas']['FilterDefinition'] | null | undefined => {
   return fields.find((f) => f.name === fieldId)?.filter
 }
 

@@ -1,14 +1,16 @@
-// @ts-nocheck
 import { DprClientClass } from '../../../../DprClientClass'
 
 class DownloadMessage extends DprClientClass {
-  static getModuleName() {
+  private downloadMessage!: HTMLElement
+
+  static override getModuleName() {
     return 'download-message'
   }
 
-  initialise() {
+  override initialise() {
     this.downloadMessage = this.getElement()
-    if (window.location.href.indexOf('download-disabled') > -1) {
+
+    if (window.location.href.includes('download-disabled')) {
       this.downloadMessage.classList.remove('dpr-download-message--hidden')
     }
   }

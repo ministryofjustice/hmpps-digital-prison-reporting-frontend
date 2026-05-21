@@ -74,7 +74,7 @@ See [Custom buckets](/dashboards/visualisations/custom-buckets#custom-buckets) f
   column: {
     key: [{ id: 'ts' }],
     measure: [
-      { id: 'ts', display: 'Date' },
+      { id: 'ts', type: 'date' , display: 'Date' },
       { id: 'id-of-count-column', display: 'Count column title' },
     ],
   }
@@ -94,7 +94,8 @@ See [Custom buckets](/dashboards/visualisations/custom-buckets##custom-buckets) 
 # Data assumptions
 
 - The dataset includes a column with an ID of `ts` that contains timestamp data
-- The `ts` date format must be `YYYY/MM/DD`
+- Ensure that your measure includes a `type` of `date`.
+- The `ts` date format must be `YYYY-MM-DD`
 
 <hr class='dpr-docs-hr'/>
 
@@ -115,21 +116,21 @@ For these examples we will use a mocked dataset representing finds totals
 
 | ts         |  est_id  | wing  | cell  | finds       | count |
 |------------|----------| ------|-------|-------------|-------|
-| 2025/02/25 |          |       |       |             | 81    |
-| 2025/02/25 |          |       |       | Drugs       | 17    |
-| 2025/02/25 |          |       |       | Phones      | 22    |
-| 2025/02/25 |          |       |       | Weapons     | 26    |
-| 2025/02/25 |          |       |       | Alcohol     | 16    |
-| 2025/02/24 |          |       |       |             | 69    |
-| 2025/02/24 |          |       |       | Drugs       | 11    |
-| 2025/02/24 |          |       |       | Phones      | 9     |
-| 2025/02/24 |          |       |       | Weapons     | 30    |
-| 2025/02/24 |          |       |       | Alcohol     | 19    |
-| 2025/02/23 |          |       |       |             | 92    |
-| 2025/02/23 |          |       |       | Drugs       | 14    |
-| 2025/02/23 |          |       |       | Phones      | 22    |
-| 2025/02/23 |          |       |       | Weapons     | 49    |
-| 2025/02/23 |          |       |       | Alcohol     | 7     |
+| 2025-02-25 |          |       |       |             | 81    |
+| 2025-02-25 |          |       |       | Drugs       | 17    |
+| 2025-02-25 |          |       |       | Phones      | 22    |
+| 2025-02-25 |          |       |       | Weapons     | 26    |
+| 2025-02-25 |          |       |       | Alcohol     | 16    |
+| 2025-02-24 |          |       |       |             | 69    |
+| 2025-02-24 |          |       |       | Drugs       | 11    |
+| 2025-02-24 |          |       |       | Phones      | 9     |
+| 2025-02-24 |          |       |       | Weapons     | 30    |
+| 2025-02-24 |          |       |       | Alcohol     | 19    |
+| 2025-02-23 |          |       |       |             | 92    |
+| 2025-02-23 |          |       |       | Drugs       | 14    |
+| 2025-02-23 |          |       |       | Phones      | 22    |
+| 2025-02-23 |          |       |       | Weapons     | 49    |
+| 2025-02-23 |          |       |       | Alcohol     | 7     |
 ... more rows ommitted
 
 ```
@@ -180,9 +181,9 @@ This definition will return the following dataset
 ```js
 | ts         |  est_id  | wing  | cell  | finds       | count |
 |------------|----------| ------|-------|-------------|-------|
-| 2025/02/25 |          |       |       |             | 81    |
-| 2025/02/24 |          |       |       |             | 69    |
-| 2025/02/23 |          |       |       |             | 92    |
+| 2025-02-25 |          |       |       |             | 81    |
+| 2025-02-24 |          |       |       |             | 69    |
+| 2025-02-23 |          |       |       |             | 92    |
 ... more rows ommitted
 ```
 
@@ -242,9 +243,9 @@ This definition will return the following dataset
 ```js
 | ts         |  est_id  | wing  | cell  | finds       | count |
 |------------|----------| ------|-------|-------------|-------|
-| 2025/02/25 |          |       |       |             | 81    |
-| 2025/02/24 |          |       |       |             | 69    |
-| 2025/02/23 |          |       |       |             | 92    |
+| 2025-02-25 |          |       |       |             | 81    |
+| 2025-02-24 |          |       |       |             | 69    |
+| 2025-02-23 |          |       |       |             | 92    |
 ... more rows ommitted
 ```
 
@@ -311,9 +312,9 @@ This definition will return the following dataset
 ```js
 | ts         |  est_id  | wing  | cell  | finds       | count |
 |------------|----------| ------|-------|-------------|-------|
-| 2025/02/25 |          |       |       |             | 81    |
-| 2025/02/24 |          |       |       |             | 69    |
-| 2025/02/23 |          |       |       |             | 92    |
+| 2025-02-25 |          |       |       |             | 81    |
+| 2025-02-24 |          |       |       |             | 69    |
+| 2025-02-23 |          |       |       |             | 92    |
 ... more rows ommitted
 ```
 
@@ -377,9 +378,9 @@ This definition will return the following dataset
 ```js
 | ts         |  est_id  | wing  | cell  | finds       | count |
 |------------|----------| ------|-------|-------------|-------|
-| 2025/02/25 |          |       |       |             | 81    |
-| 2025/02/24 |          |       |       |             | 69    |
-| 2025/02/23 |          |       |       |             | 92    |
+| 2025-02-25 |          |       |       |             | 81    |
+| 2025-02-24 |          |       |       |             | 69    |
+| 2025-02-23 |          |       |       |             | 92    |
 ... more rows ommitted
 ```
 
@@ -457,9 +458,9 @@ This definition will return the following dataset
 ```js
 | ts         |  est_id  | wing  | cell  | finds       | count |
 |------------|----------| ------|-------|-------------|-------|
-| 2025/02/25 |          |       |       | Weapons     | 26    |
-| 2025/02/24 |          |       |       | Weapons     | 30    |
-| 2025/02/23 |          |       |       | Weapons     | 49    |
+| 2025-02-25 |          |       |       | Weapons     | 26    |
+| 2025-02-24 |          |       |       | Weapons     | 30    |
+| 2025-02-23 |          |       |       | Weapons     | 49    |
 ... more rows ommitted
 ```
 
@@ -517,9 +518,9 @@ This definition will return the following dataset
 ```js
 | ts         |  est_id  | wing  | cell  | finds       | count |
 |------------|----------| ------|-------|-------------|-------|
-| 2025/02/25 |          |       |       |             | 81    |
-| 2025/02/24 |          |       |       |             | 69    |
-| 2025/02/23 |          |       |       |             | 92    |
+| 2025-02-25 |          |       |       |             | 81    |
+| 2025-02-24 |          |       |       |             | 69    |
+| 2025-02-23 |          |       |       |             | 92    |
 ... more rows ommitted
 ```
 

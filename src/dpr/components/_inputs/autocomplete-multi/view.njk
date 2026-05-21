@@ -21,8 +21,10 @@
 
       {# Input for filtering multiselect values #}
       {{ govukInput({
-        label: {
-          text: "Filter options"
+        hint: {
+          text: "Type 2 or more characters to search options"
+        } if mandatory else {
+          html: "(Optional) <br>Type 2 or more characters to search options"
         },
         id: searchInputName,
         name: searchInputName

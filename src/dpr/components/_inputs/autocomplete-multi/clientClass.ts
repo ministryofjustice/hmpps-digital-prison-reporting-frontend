@@ -31,7 +31,8 @@ class AutoCompleteMulti extends DprClientClass {
     this.multiselectOptions.forEach((input) => {
       const wrapper = input.closest('.govuk-checkboxes__item')
       if (!wrapper) return
-      wrapper.classList.add('dpr-form--hidden')
+
+      wrapper.classList.toggle('dpr-form--hidden', !input.checked)
     })
   }
 
@@ -48,19 +49,28 @@ class AutoCompleteMulti extends DprClientClass {
 
   updateCheckboxes() {
     const query = this.searchInputValue.toLowerCase().trim()
+    const minLength = 2
 
     this.multiselectOptions.forEach((input) => {
-      const labelText = input.labels?.[0]?.innerText.toLowerCase() ?? ''
-      const matches = labelText.includes(query)
-
       const wrapper = input.closest('.govuk-checkboxes__item')
       if (!wrapper) return
 
-      if (matches || query === '') {
+      // Always show selected items
+      if (input.checked) {
         wrapper.classList.remove('dpr-form--hidden')
-      } else {
-        wrapper.classList.add('dpr-form--hidden')
+        return
       }
+
+      // Below threshold - hide unselected
+      if (query.length < minLength) {
+        wrapper.classList.add('dpr-form--hidden')
+        return
+      }
+
+      const labelText = input.labels?.[0]?.innerText.toLowerCase() ?? ''
+      const matches = labelText.includes(query)
+
+      wrapper.classList.toggle('dpr-form--hidden', !matches)
     })
   }
 }

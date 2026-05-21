@@ -15,6 +15,7 @@ export const buildFilterValidator = (field: FieldDefinition): z.ZodTypeAny => {
 
   switch (field.filter.type) {
     case 'multiselect':
+    case 'autocompletemulti':
       return buildMultiSelectField(field)
 
     case 'date':

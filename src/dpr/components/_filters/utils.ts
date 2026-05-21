@@ -139,10 +139,6 @@ export const getFiltersFromDefinition = (
           })
         : []
 
-      if (FilterType.autocompleteMulti.toLocaleLowerCase()) {
-        console.log('DEBUG AUTOCOMPLETEMULTI OPTIONS', JSON.stringify({ staticOptions, options }, null, 2))
-      }
-
       let filterData: FilterValue = {
         text,
         name,
@@ -200,7 +196,6 @@ export const getFiltersFromDefinition = (
             values: defaultValue ? defaultValue.split(',') : [],
           }
 
-          console.log('DEBUG AUTOCOMPLETEMULTI FILTERDATA', JSON.stringify({ filterData }, null, 2))
           break
         }
         case FilterType.dateRange.toLowerCase():
@@ -306,8 +301,6 @@ export const getRequestFilters = async (
 
   // 1. Get filters from definition with default values
   let filters = getFiltersFromDefinition(fields, false)
-
-  console.log('DEBUG AUTOCOMPLETEMULTI FILTERS FROM DEFINITION', JSON.stringify({ filters }, null, 2))
 
   // 2. Get the sort from the definition
   const sortBy = getSortByFromDefinition(fields)

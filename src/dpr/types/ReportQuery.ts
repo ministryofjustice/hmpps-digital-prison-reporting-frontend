@@ -89,22 +89,31 @@ class ReportQuery implements FilteredListRequest {
         const p = queryParams[key]
         let value = p ? p.toString() : ''
 
-        const field = fields.find((f) => f.name === filterName)
+        // Extract base field name
+        const baseFieldName = filterName.split('.')[0]
 
-        if (field?.filter) {
-          const { type, staticOptions } = field.filter
+        const field = fields.find((f) => f.name === baseFieldName)
 
-          if (type.toLowerCase() === 'radio' || type.toLowerCase() === 'Select' || type === 'multiselect') {
-            const validated = this.validateSelectFilterValue(p, type, staticOptions)
-            if (!validated) return // skip invalid values
+        if (!field?.filter) return
 
-            value = validated
-          }
+        const { type, staticOptions } = field.filter
+
+        // Drop relative-duration for daterange types
+        if ((type === 'daterange' || type === 'granulardaterange') && filterName.endsWith('relative-duration')) {
+          return
+        }
+
+        // Select / radio / multiselect validation
+        if (type.toLowerCase() === 'radio' || type.toLowerCase() === 'select' || type === 'multiselect') {
+          const validated = this.validateSelectFilterValue(p, type, staticOptions)
+          if (!validated) return
+
+          value = validated
         }
 
         // Handle Date types
-        if (field?.type === 'date' && field.filter) {
-          const { min, max, type } = field.filter
+        if (field.type === 'date') {
+          const { min, max } = field.filter
 
           if (type === 'daterange' || type === 'granulardaterange') {
             if (min && filterName.endsWith('.start')) {

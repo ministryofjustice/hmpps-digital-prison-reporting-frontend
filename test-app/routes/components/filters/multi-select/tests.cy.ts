@@ -179,7 +179,7 @@ context('Inputs: multiselect', () => {
   })
 
   describe('Show/hide all', () => {
-    const reportDetails = { name: 'Autocompletemulti', description: 'Autocomplete Multiselect example' }
+    const reportDetails = { name: 'Multiselect', description: 'Multiselect example' }
 
     beforeEach(() => {
       cy.task('stubMultiselectDefinitionRequest')

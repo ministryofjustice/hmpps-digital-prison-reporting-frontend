@@ -10,7 +10,7 @@ export default class AutocompleteController {
         mandatory: true,
         options: [
           {
-            value: 'Fezzick',
+            value: 'fezzick',
             text: 'Fezzick',
           },
           {

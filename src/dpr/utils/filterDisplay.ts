@@ -71,6 +71,7 @@ function formatFilterValues(field: components['schemas']['FieldDefinition'], raw
   if (!filter || rawValues.length === 0) return ''
 
   switch (filter.type.toLowerCase()) {
+    case FilterType.autocompleteMulti.toLowerCase():
     case FilterType.multiselect.toLowerCase():
       return formatMultiselect(filter, rawValues)
 

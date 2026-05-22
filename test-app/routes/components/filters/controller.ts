@@ -33,6 +33,11 @@ export default class FiltersController {
           description: 'Multiselect input component.',
           href: '/components/filters/multi-select',
         },
+        {
+          text: 'Autocomplete Multiselect',
+          description: 'Autocomplete Multiselect input component.',
+          href: '/components/filters/auto-multi-select',
+        },
       ],
     })
   }

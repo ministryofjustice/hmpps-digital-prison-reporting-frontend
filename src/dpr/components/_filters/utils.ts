@@ -68,6 +68,7 @@ export const setFilterValuesFromRequest = (
         requestfilterValue = DateInputUtils.setValueFromRequest(filter as DateFilterValue, req, prefix)
         break
 
+      case FilterType.autocompleteMulti.toLowerCase():
       case FilterType.multiselect.toLowerCase(): {
         ;({ requestfilterValue, requestfilterValues } = MultiSelectUtils.setValueFromRequest(
           filter as MultiselectFilterValue,
@@ -144,9 +145,9 @@ export const getFiltersFromDefinition = (
         type: type as FilterType,
         value: defaultValue || null,
         mandatory: mandatory || false,
-        minimumLength: dynamicOptions?.minimumLength,
-        pattern,
-        index,
+        minimumLength: dynamicOptions?.minimumLength || undefined,
+        pattern: pattern || undefined,
+        index: index || undefined,
       }
 
       const noFilterOption = {
@@ -187,14 +188,16 @@ export const getFiltersFromDefinition = (
           break
         }
 
-        case FilterType.multiselect.toLowerCase():
+        case FilterType.autocompleteMulti.toLocaleLowerCase():
+        case FilterType.multiselect.toLowerCase(): {
           filterData = {
             ...filterData,
             options,
             values: defaultValue ? defaultValue.split(',') : [],
           }
-          break
 
+          break
+        }
         case FilterType.dateRange.toLowerCase():
           filterData = DateRangeInputUtils.getFilterFromDefinition(filter, filterData)
           break

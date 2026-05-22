@@ -26,8 +26,11 @@ const setDefinitions = (res: Response) => {
 
 const setFeatures = (res: Response) => {
   return {
-    bookmarkingEnabled: <boolean>res.locals['bookmarkingEnabled'],
-    downloadingEnabled: <boolean>res.locals['downloadingEnabled'],
+    bookmarkingEnabled: <boolean>res.app.locals['bookmarkingEnabled'],
+    downloadingEnabled: <boolean>res.app.locals['downloadingEnabled'],
+    saveDefaultsEnabled: <boolean>res.app.locals['saveDefaultsEnabled'],
+    requestMissingEnabled: <boolean>res.app.locals['requestMissingEnabled'],
+    collectionsEnabled: <boolean>res.app.locals['collectionsEnabled'],
   }
 }
 

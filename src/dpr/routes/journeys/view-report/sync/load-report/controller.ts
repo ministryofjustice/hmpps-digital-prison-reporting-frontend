@@ -16,15 +16,12 @@ class LoadReportController {
 
   GET: RequestHandler = async (req, res, next) => {
     try {
-      const { token } = LocalsHelper.getValues(res)
+      const { token, definitionsPath } = LocalsHelper.getValues(res)
       const { reportId, id, type } = <{ id: string; type: string; reportId: string }>req.params
-      const { dataProductDefinitionsPath } = req.query
 
-      const definitionSummary = await this.services.reportingService.getDefinitionSummary(
-        token,
-        reportId,
-        <string | undefined>dataProductDefinitionsPath,
-      )
+      const definitionSummary =
+        res.locals['reportDefinitionSummary'] ??
+        (await this.services.reportingService.getDefinitionSummary(token, reportId, definitionsPath))
 
       let definition:
         | components['schemas']['SingleVariantReportDefinition']
@@ -34,26 +31,24 @@ class LoadReportController {
       let description
       let name
       if (type === ReportType.REPORT) {
-        definition = await this.services.reportingService.getDefinition(
-          token,
-          reportId,
-          id,
-          <string | undefined>dataProductDefinitionsPath,
-        )
+        definition =
+          (res.locals['definition'] as components['schemas']['SingleVariantReportDefinition']) ??
+          (await this.services.reportingService.getDefinition(token, reportId, id, definitionsPath))
+
         const { variant } = definition
+
         classification = variant.classification
         description = variant.description
         name = variant.name
       } else {
-        definition = await this.services.dashboardService.getDefinition(
-          token,
-          reportId,
-          id,
-          <string | undefined>dataProductDefinitionsPath,
-        )
+        definition =
+          (res.locals['definition'] as components['schemas']['DashboardDefinition']) ??
+          (await this.services.dashboardService.getDefinition(token, reportId, id, definitionsPath))
+
         description = definition.description
         name = definition.name
       }
+
       const { name: reportName, description: reportDescription } = definitionSummary
 
       const renderData = {

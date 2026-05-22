@@ -11,6 +11,7 @@ import requestStatusRoutes from './status/routes'
 // middleware
 import reportAuthoriser from '../../../middleware/reportAuthoriser'
 import { captureDprError } from '../../../utils/captureError'
+import setupCurrentDefinition from '../../../middleware/setupCurrentDefinition'
 
 export function Routes({ layoutPath, services }: { services: Services; layoutPath: string }): Router {
   const router = Router({ mergeParams: true })
@@ -22,6 +23,7 @@ export function Routes({ layoutPath, services }: { services: Services; layoutPat
   // Pre-request filters page
   router.use(
     `/:type/:reportId/:id/filters`,
+    setupCurrentDefinition(services),
     reportAuthoriser(services, layoutPath),
     storeActiveReportSessionData({ services }),
     requestReportRoutes({ layoutPath, services }),
@@ -31,6 +33,7 @@ export function Routes({ layoutPath, services }: { services: Services; layoutPat
   // Polling current status page
   router.use(
     `/:type/:reportId/:id/:executionId/status`,
+    setupCurrentDefinition(services),
     reportAuthoriser(services, layoutPath),
     storeActiveReportSessionData({ services }),
     requestStatusRoutes({ layoutPath, services }),

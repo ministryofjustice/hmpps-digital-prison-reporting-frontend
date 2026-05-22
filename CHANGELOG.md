@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## 6.3.2
+
+- Bugfix: CSRF token not sent correctly in remove action
+
 ## 6.3.1
 
 - Bugfix: CSRF token not sent correctly in remove action

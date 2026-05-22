@@ -18,9 +18,13 @@ class DprMyReports extends PollingClientClass {
   override initialise() {
     const element = this.getElement()
 
+    this.csrfToken = DprHtmlClient.getCsrfToken(element)
+
     this.maxRows = element.dataset['maxRows']
 
     this.listType = element.dataset['listType'] ?? `my-reports-${ListType.REQUESTED}`
+
+    this.rows = element.querySelectorAll<HTMLElement>('[data-row-id]')
 
     this.initRemoveAction()
 
@@ -28,10 +32,6 @@ class DprMyReports extends PollingClientClass {
     if (element.dataset['listType'] !== `my-reports-${ListType.REQUESTED}`) {
       return
     }
-
-    this.csrfToken = DprHtmlClient.getCsrfToken(element)
-
-    this.rows = element.querySelectorAll<HTMLElement>('[data-row-id]')
 
     if (this.rows.length && !this.allTerminal()) {
       this.startPolling(

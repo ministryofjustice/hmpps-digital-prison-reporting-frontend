@@ -1,6 +1,5 @@
 /* eslint-disable no-param-reassign */
 import { Router } from 'express'
-import { storeActiveReportSessionData } from '../../../middleware/setUpActiveReport'
 import { getRouteLocals } from '../../../utils/localsHelper'
 import { LoadType } from '../../../types/UserReports'
 import { Services } from '../../../types/Services'
@@ -10,6 +9,11 @@ import ViewReportController from './controller'
 import viewSyncReportRoutes from './sync/routes'
 import viewAyncReportRoutes from './async/routes'
 import { setNestedPath } from '../../../utils/urlHelper'
+
+// Middleware
+import { storeActiveReportSessionData } from '../../../middleware/setUpActiveReport'
+import setupCurrentDefinition from '../../../middleware/setupCurrentDefinition'
+import reportAuthoriser from '../../../middleware/reportAuthoriser'
 
 export function Routes({ layoutPath, services }: { services: Services; layoutPath: string }): Router {
   const router = Router({ mergeParams: true })
@@ -21,6 +25,8 @@ export function Routes({ layoutPath, services }: { services: Services; layoutPat
   // -------------------
   router.use(
     `/sync/:type/:reportId/:id`,
+    setupCurrentDefinition(services),
+    reportAuthoriser(services, layoutPath),
     storeActiveReportSessionData({ services, loadType: LoadType.SYNC }),
     viewSyncReportRoutes({ layoutPath, services }),
     controller.errorHandler,
@@ -31,6 +37,8 @@ export function Routes({ layoutPath, services }: { services: Services; layoutPat
   // -------------------
   router.use(
     `/async/:type/:reportId/:id/:tableId`,
+    setupCurrentDefinition(services),
+    reportAuthoriser(services, layoutPath),
     storeActiveReportSessionData({ services }),
     viewAyncReportRoutes({ layoutPath, services }),
     controller.errorHandler,

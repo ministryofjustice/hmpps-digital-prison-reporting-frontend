@@ -1,6 +1,11 @@
 export interface DprConfig {
   routePrefix?: string
   dataProductDefinitionsPath?: string
+
+  /** Interval value in ms
+   * - determines how frequently the definitions should be refreshed
+   */
+  checkDefinitionsInterval?: number
 }
 
 export interface ServiceFeatureConfig {
@@ -38,4 +43,9 @@ export interface ServiceFeatureConfig {
    *  - Save defaults service will be disabled
    */
   saveDefaults?: boolean
+
+  /** Interval value in ms
+   * - determines how frequently the definitions should be refreshed
+   */
+  checkDefinitionsInterval?: number
 }

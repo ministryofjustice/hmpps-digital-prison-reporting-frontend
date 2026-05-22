@@ -9,10 +9,8 @@ export interface ExtraLocals {
   csrfToken: string
   definitions: components['schemas']['ReportDefinitionSummary'][]
   definition?: components['schemas']['SingleVariantReportDefinition'] | components['schemas']['DashboardDefinition']
-  bookmarkingEnabled: boolean
-  downloadingEnabled: boolean
-  collectionsEnabled: boolean
-  requestMissingEnabled: boolean
+  reportDefinitionSummary?: components['schemas']['ReportDefinitionSummary']
+  fields?: components['schemas']['FieldDefinition'][]
   saveDefaultsEnabled: boolean
   dpdPathFromQuery: boolean
   dpdPathFromConfig: boolean
@@ -21,11 +19,18 @@ export interface ExtraLocals {
   recentlyViewedReports?: StoredReportData[]
   bookmarks?: BookmarkStoreData[]
   validationErrors?: string
+  validatedFilters?: Record<string, unknown>
+
   // fields on app.locals 👇🏽
   featureFlags: {
     lastUpdated?: number | undefined
     flags: Record<string, boolean>
   }
+
+  bookmarkingEnabled: boolean
+  downloadingEnabled: boolean
+  collectionsEnabled: boolean
+  requestMissingEnabled: boolean
+
   dprPaths: DprAppLocals
-  validatedFilters?: Record<string, unknown>
 }

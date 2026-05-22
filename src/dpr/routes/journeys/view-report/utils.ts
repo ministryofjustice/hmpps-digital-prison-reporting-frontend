@@ -39,7 +39,10 @@ export const applyReportInteractiveQuery = async (
   const { token, definitionsPath } = LocalsHelper.getValues(res)
 
   // Get the definition
-  const definition = await services.reportingService.getDefinition(token, reportId, id, definitionsPath)
+  const definition =
+    (res.locals['definition'] as components['schemas']['SingleVariantReportDefinition']) ??
+    (await services.reportingService.getDefinition(token, reportId, id, definitionsPath))
+
   const fields = getFields(definition) || []
 
   return applyInteractiveQuery(req, res, applyType, loadType, fields)

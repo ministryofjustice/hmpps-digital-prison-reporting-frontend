@@ -10,8 +10,9 @@ export const renderReport = async ({ req, res, services }: AsyncReportUtilsParam
   const { id, reportId } = <{ id: string; reportId: string }>req.params
 
   // Get the definition
-  const definition: components['schemas']['SingleVariantReportDefinition'] =
-    await services.reportingService.getDefinition(token, reportId, id, definitionsPath)
+  const definition =
+    (res.locals['definition'] as components['schemas']['SingleVariantReportDefinition']) ??
+    (await services.reportingService.getDefinition(token, reportId, id, definitionsPath))
 
   // Create the report config
   const reportConfig = await new Report(services, res, req, definition, LoadType.SYNC).build()

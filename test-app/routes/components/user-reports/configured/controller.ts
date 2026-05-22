@@ -10,7 +10,7 @@ export default class UserReportsController {
   }
 
   GET: RequestHandler = async (req, res) => {
-    res.locals['bookmarkingEnabled'] = false
+    res.app.locals['bookmarkingEnabled'] = false
     const myReportsData = await initMyReports(req, res, this.services, { maxRows: 20 })
 
     res.render('views/pages/components/user-reports/view.njk', {

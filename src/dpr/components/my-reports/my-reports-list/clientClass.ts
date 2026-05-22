@@ -24,14 +24,14 @@ class DprMyReports extends PollingClientClass {
 
     this.listType = element.dataset['listType'] ?? `my-reports-${ListType.REQUESTED}`
 
-    this.rows = element.querySelectorAll<HTMLElement>('[data-row-id]')
-
     this.initRemoveAction()
 
     // Only poll on requested list
     if (element.dataset['listType'] !== `my-reports-${ListType.REQUESTED}`) {
       return
     }
+
+    this.rows = element.querySelectorAll<HTMLElement>('[data-row-id]')
 
     if (this.rows.length && !this.allTerminal()) {
       this.startPolling(

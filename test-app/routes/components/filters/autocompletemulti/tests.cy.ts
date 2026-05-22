@@ -3,14 +3,11 @@ import {
   checkSelectedFilterValues,
   executeReportStubs,
   requestReportByNameAndDescription,
-  startReportRequest,
   stubDefinitionsTasks,
 } from '../../../../../cypress-tests/cypressUtils'
 
 context('Filters: Autocomplete', () => {
   const path = '/components/filters/auto-multi-select'
-
-  const getCheckbox = (label: string) => cy.findByRole('checkbox', { name: new RegExp(`^${label}$`, 'i') })
 
   before(() => {
     stubDefinitionsTasks()

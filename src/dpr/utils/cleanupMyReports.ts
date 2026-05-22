@@ -1,5 +1,5 @@
 import { type Response } from 'express'
-import { RequestStatus, StoredReportData } from '../types/UserReports'
+import { RequestedReport, RequestStatus, StoredReportData } from '../types/UserReports'
 import { Services } from '../types/Services'
 import { getAllMyReports } from './reportStoreHelper'
 
@@ -74,7 +74,7 @@ const flashRemovedReports = (res: Response, count: number) => {
 export const cleanupReports = async (
   services: Services,
   userId: string,
-  requestedReports: StoredReportData[],
+  requestedReports: RequestedReport[],
   recentlyViewedReports: StoredReportData[],
   res: Response,
 ) => {

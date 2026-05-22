@@ -10,6 +10,7 @@ import { errorRequestHandler } from '../routes'
 import { getAllMyBookmarks, getAllMyReports } from '../utils/reportStoreHelper'
 import logger from '../utils/logger'
 import { getDefinitionsPath } from '../utils/definitionUtils'
+import { cleanupReports } from '../utils/cleanupMyReports'
 
 /**
  * Middleware helper to populate all locals configuration
@@ -330,7 +331,15 @@ const initialiseServices = async (services: Services, res: Response) => {
 const populateRequestedReports = async (services: Services, res: Response) => {
   const { dprUser } = localsHelper.getValues(res)
   if (dprUser.id) {
-    const { requestedReports, recentlyViewedReports } = await getAllMyReports(res, services, dprUser.id)
+    const myReports = await getAllMyReports(res, services, dprUser.id)
+
+    const { requestedReports, recentlyViewedReports } = await cleanupReports(
+      services,
+      dprUser.id,
+      myReports.requestedReports,
+      myReports.recentlyViewedReports,
+      res,
+    )
 
     res.locals['requestedReports'] = requestedReports
     res.locals['recentlyViewedReports'] = recentlyViewedReports

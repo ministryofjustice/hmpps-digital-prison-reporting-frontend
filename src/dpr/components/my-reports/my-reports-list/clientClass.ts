@@ -128,18 +128,21 @@ class DprMyReports extends PollingClientClass {
     if (this.removing) return
     this.removing = true
 
-    const body = this.maxRows !== undefined ? { maxRows: this.maxRows } : {}
-
     try {
-      // Fetch the updated list
+      const formData = new URLSearchParams()
+
+      if (this.maxRows !== undefined) {
+        formData.append('maxRows', this.maxRows)
+      }
+      formData.append('_csrf', this.csrfToken)
+
       const res = await fetch(form.action, {
         method: 'POST',
         headers: {
           'X-Requested-With': 'XMLHttpRequest',
-          'Content-Type': 'application/json',
-          'CSRF-Token': this.csrfToken,
+          'Content-Type': 'application/x-www-form-urlencoded',
         },
-        body: JSON.stringify(body),
+        body: formData.toString(),
         credentials: 'same-origin',
       })
 

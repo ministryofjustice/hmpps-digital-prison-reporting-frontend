@@ -4,7 +4,6 @@ import RequestReportController from './controller'
 import { Services } from '../../../../types/Services'
 
 // middleware
-import { loadReportDefinition } from '../../../../middleware/loadReportDefinition'
 import { validateFilters } from '../../../../validation/validateFilters'
 
 export function routes({ layoutPath, services }: { layoutPath: string; services: Services }): Router {
@@ -21,8 +20,6 @@ export function routes({ layoutPath, services }: { layoutPath: string; services:
    */
   router.post(
     '/',
-    // get the definition needed to get validation rules
-    loadReportDefinition(services),
     // validate the filters based
     validateFilters({ interactive: false }),
     // if valid continue with post

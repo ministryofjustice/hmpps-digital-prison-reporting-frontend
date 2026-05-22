@@ -16,12 +16,15 @@ export const initCatalogue = async ({ res, services, req }: { res: Response; ser
   if (productCollections && productCollections.length > 0) {
     productCollections.unshift({ value: 'RESET', text: 'Full catalogue' })
   }
-  const selectedProductCollectionId = await services.productCollectionStoreService.getSelectedProductCollectionId(
-    dprUser.id,
-  )
-  const selectedProductCollection =
-    selectedProductCollectionId &&
-    (await services.productCollectionService.getProductCollection(token, selectedProductCollectionId))
+
+  const collectionId = req
+    ? req.session['currentCollectionId']
+    : await services.productCollectionStoreService.getSelectedProductCollectionId(dprUser.id)
+
+  const selectedProductCollection = req
+    ? req.session['currentCollection']
+    : collectionId && (await services.productCollectionService.getProductCollection(token, collectionId))
+
   const { productCollectionEndpoint } = LocalsHelper.getRouteLocals(res)
 
   return {

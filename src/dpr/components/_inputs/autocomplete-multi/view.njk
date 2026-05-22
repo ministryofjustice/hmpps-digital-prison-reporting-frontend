@@ -12,41 +12,47 @@
   {% set searchInputName = 'search.' + name %}
 
   <div class="multiselect-container govuk-!-margin-bottom-6" data-filter-id="{{ name }}" data-dpr-module="autocomplete-multiselect-input">
-    <input type="hidden" name="{{ options.name }}" value="{{ options.staticOptionNameValue }}" data-autocomplete-hidden>
+    <fieldset class="govuk-fieldset">
+      <input type="hidden" name="{{ options.name }}" value="{{ options.staticOptionNameValue }}" data-autocomplete-hidden>
 
-      {# Input name #}
-      <legend class="govuk-fieldset__legend govuk-label govuk-!-font-weight-bold">
-        {{ labelText }}
-      </legend>
+        {# Input name #}
+        <legend class="govuk-fieldset__legend govuk-label govuk-!-font-weight-bold">
+          {{ labelText }}
+        </legend>
 
-      {# Input for filtering multiselect values #}
-      {{ govukInput({
-        hint: {
-          text: "Type 2 or more characters to search options"
-        } if mandatory else {
-          html: "(Optional) <br>Type 2 or more characters to search options"
-        },
-        id: searchInputName,
-        name: searchInputName
-      }) }}
+        {# Input for filtering multiselect values #}
+        {{ govukInput({
+          label: {
+            text: 'search',
+            classes: 'govuk-visually-hidden'
+          },
+          hint: {
+            text: "Type 3 or more characters to search options"
+          } if mandatory else {
+            html: "(Optional) <br>Type 3 or more characters to search options"
+          },
+          id: searchInputName,
+          name: searchInputName
+        }) }}
 
-      {# Multiselect options #}
-      {{ govukCheckboxes({
-        id: name,
-        name: name,
-        classes: "govuk-checkboxes--small dpr-multi-select" ,
-        formGroup: {
-          classes: "govuk-!-margin-bottom-2"
-        },
-        errorMessage: validationErrors | dpr.findError(name),
-        attributes: {
-          required: true,
-          'display-name': labelText
-        } if mandatory else {
-          'display-name': labelText
-        },
-        items: options,
-        values: values
-      }) }}
+        {# Multiselect options #}
+        {{ govukCheckboxes({
+          id: name,
+          name: name,
+          classes: "govuk-checkboxes--small dpr-multi-select" ,
+          formGroup: {
+            classes: "govuk-!-margin-bottom-2"
+          },
+          errorMessage: validationErrors | dpr.findError(name),
+          attributes: {
+            required: true,
+            'display-name': labelText
+          } if mandatory else {
+            'display-name': labelText
+          },
+          items: options,
+          values: values
+        }) }}
+      </fieldset>
   </div>
 {% endmacro %}

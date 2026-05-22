@@ -49,7 +49,7 @@ class AutoCompleteMulti extends DprClientClass {
 
   updateCheckboxes() {
     const query = this.searchInputValue.toLowerCase().trim()
-    const minLength = 2
+    const minLength = 3
 
     this.multiselectOptions.forEach((input) => {
       const wrapper = input.closest('.govuk-checkboxes__item')

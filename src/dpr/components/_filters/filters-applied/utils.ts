@@ -77,6 +77,9 @@ function buildChipForField(field: FieldDefinition, query: QueryParams): AppliedF
     case FilterType.date.toLowerCase():
       return buildDateChip(field, baseKey, query)
 
+    case FilterType.autocompleteMulti.toLowerCase():
+      return buildMultiSelectChip(field, baseKey, query)
+
     default:
       return buildSingleValueChip(field, baseKey, query)
   }

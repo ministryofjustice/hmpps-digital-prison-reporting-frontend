@@ -21,6 +21,7 @@ module.exports = {
       description: 'Example variants used for request testing',
       variants: requestExamples,
       dashboards: dashboardDefinitions.requestExamples,
+      authorised: true,
     },
     {
       id: 'report-template-examples',
@@ -28,6 +29,7 @@ module.exports = {
       description: 'Example variants used for template testing',
       variants: templateExamples,
       dashboards: [],
+      authorised: true,
     },
     {
       id: 'mock-report',
@@ -35,6 +37,7 @@ module.exports = {
       description: 'Example variants',
       variants: mockReports,
       dashboards: [],
+      authorised: true,
     },
     {
       id: 'filter-inputs',
@@ -42,6 +45,7 @@ module.exports = {
       description: 'Example variants used for input testing',
       variants: inputExamples,
       dashboards: [],
+      authorised: true,
     },
     {
       id: 'feature-testing',
@@ -49,6 +53,7 @@ module.exports = {
       description: 'Example variants used for feature testing',
       variants: featureTesting,
       dashboards: [],
+      authorised: true,
     },
     {
       id: 'dashboard-visualisations',
@@ -56,6 +61,7 @@ module.exports = {
       description: 'Example variants used for dashboard visualisation testing',
       variants: [],
       dashboards: dashboardDefinitions.visualisationExamples,
+      authorised: true,
     },
     {
       id: 'dashboard-visualisations',
@@ -63,6 +69,7 @@ module.exports = {
       description: 'Example dashboards using the data quality dataset',
       variants: [],
       dashboards: dashboardDefinitions.dataQuality,
+      authorised: true,
     },
     {
       id: 'mock-dashboards',
@@ -70,6 +77,7 @@ module.exports = {
       description: 'Example variants used for dashboard testing',
       variants: [],
       dashboards: dashboardDefinitions.mockDashboards,
+      authorised: true,
     },
   ],
 

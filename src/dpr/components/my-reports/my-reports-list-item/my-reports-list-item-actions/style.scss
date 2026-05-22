@@ -6,6 +6,10 @@
   text-align: right;
 
   li {
-    margin-bottom: 4px;
+    margin-bottom: govuk-spacing(1);
+  }
+
+  .dpr-button-link {
+    font-size: 16px;
   }
 }

@@ -1,7 +1,7 @@
 import { components } from 'src/dpr/types/api'
 
 const autoCompleteMultiExample: components['schemas']['VariantDefinition'] = {
-  id: 'autocompletemultiMinMaxExampleM',
+  id: 'autocompletemultiMinMaxExample',
   name: 'Establishment autocomplete multi min max',
   description: 'Autocomplete Multiselect with min and max validation example',
   resourceName: 'reports/list',

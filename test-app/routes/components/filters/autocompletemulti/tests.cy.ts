@@ -3,6 +3,7 @@ import {
   checkSelectedFilterValues,
   executeReportStubs,
   requestReportByNameAndDescription,
+  startReportRequest,
   stubDefinitionsTasks,
 } from '../../../../../cypress-tests/cypressUtils'
 
@@ -143,7 +144,7 @@ context('Filters: Autocomplete', () => {
   })
 
   describe('Interactive filter', () => {
-    const reportDetails = { name: 'Multiselect', description: 'Multiselect example' }
+    const reportDetails = { name: 'Establishment autocomplete multi', description: 'Autocomplete Multiselect example' }
 
     beforeEach(() => {
       cy.task('stubAutoMultiselectDefinitionRequest')
@@ -226,31 +227,34 @@ context('Filters: Autocomplete', () => {
   })
 
   describe('Validation', () => {
+    const reportDetails = {
+      name: 'Establishment autocomplete multi min max',
+      description: 'Autocomplete Multiselect with min and max validation example',
+    }
+
+    beforeEach(() => {
+      cy.task('stubAutoMultiselectMinMaxDefinitionRequest')
+      cy.task('stubResultSuccessResult')
+
+      cy.visit('/')
+    })
+
     describe('pre-request', () => {
-      it('show validation errors when the min is set and values are out of bounds', () => {
-        //
-      })
+      it('show validate the input correctly', () => {
+        startReportRequest(reportDetails)
 
-      it('show validation errors when the max is set and values are out of bounds', () => {
-        //
-      })
-
-      it('show pass validation when values are in bounds', () => {
-        //
+        // show validation errors when the min is set and values are out of bounds
+        // show validation errors when the max is set and values are out of bounds
+        //show pass validation when values are in bounds
       })
     })
 
     describe('interactive', () => {
-      it('show validation errors when the min is set and values are out of bounds', () => {
-        //
-      })
-
-      it('show validation errors when the max is set and values are out of bounds', () => {
-        //
-      })
-
-      it('show pass validation when values are in bounds', () => {
-        //
+      it('show validate the input correctly', () => {
+        requestReportByNameAndDescription(reportDetails)
+        // show validation errors when the min is set and values are out of bounds
+        // show validation errors when the max is set and values are out of bounds
+        //show pass validation when values are in bounds
       })
     })
   })

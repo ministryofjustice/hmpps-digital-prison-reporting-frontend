@@ -224,4 +224,34 @@ context('Filters: Autocomplete', () => {
       })
     })
   })
+
+  describe('Validation', () => {
+    describe('pre-request', () => {
+      it('show validation errors when the min is set and values are out of bounds', () => {
+        //
+      })
+
+      it('show validation errors when the max is set and values are out of bounds', () => {
+        //
+      })
+
+      it('show pass validation when values are in bounds', () => {
+        //
+      })
+    })
+
+    describe('interactive', () => {
+      it('show validation errors when the min is set and values are out of bounds', () => {
+        //
+      })
+
+      it('show validation errors when the max is set and values are out of bounds', () => {
+        //
+      })
+
+      it('show pass validation when values are in bounds', () => {
+        //
+      })
+    })
+  })
 })

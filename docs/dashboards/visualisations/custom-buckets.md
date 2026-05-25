@@ -5,9 +5,9 @@ subsection: Visualisation definition
 phase: Beta
 ---
 
-Data scoring and bucketing is used by visualisations to attribute colour and score values to data in order to visualise performance, status, compliance, or quantative data.   
+Data scoring and bucketing is used by visualisations to attribute colour and score values to data in order to visualise performance, status, compliance, or quantative data.
 
-Visualisations that use scoring and bucketing are: 
+Visualisations that use scoring and bucketing are:
 - [Matrix timeseries](/dashboards/visualisations/matrix-timeseries)
 - [Scorecard](/dashboards/visualisations/scorecard-vis)
 - [Scorecard group](/dashboards/visualisations/scorecard-group)
@@ -15,22 +15,22 @@ Visualisations that use scoring and bucketing are:
 # How to use:
 
 - [Custom buckets](#custom-buckets)
-- [Automatic bucketing](#automatic-bucketing) 
-- [Scoring engine](#scoring-engine) 
+- [Automatic bucketing](#automatic-bucketing)
+- [Scoring engine](#scoring-engine)
 
 <hr class='dpr-docs-hr'/>
 
-# Custom buckets 
+# Custom buckets
 
 Custom buckets allow user to define:
 - the bucket count
 - the bucket sizing and boundaries
 - the bucket colours
 
-If custom buckets are defined in the visualisation definition values are binned within the appropriate custom bucket. 
+If custom buckets are defined in the visualisation definition values are binned within the appropriate custom bucket.
 
 - [Definition](#definition)
-- [Examples](#examples) 
+- [Examples](#examples)
 
 ## Definition
 
@@ -192,7 +192,7 @@ option: {
 
 **NOTE**: Only applies to `matrix-timeseries`
 
-If no RAG score is in the dataset, or no custom buckets have been defined: 
+If no RAG score is in the dataset, or no custom buckets have been defined:
 - Buckets are defined by determining the data range and splitting it into 3 equal parts.
 - Each bucket is assigned a specific colour
 - Each value is put into the appropriate bucket
@@ -203,11 +203,10 @@ If no RAG score is in the dataset, or no custom buckets have been defined:
 
 **This is in development and currently not available.**
 
-Scores will be available in datasets through a scoring engine. This is currently in development and currently not available. 
+Scores will be available in datasets through a scoring engine. This is currently in development and currently not available.
 
 If RAG values are present in the data
 - The max RAG value is used to determine the total number of buckets.
 - There is no upper limit to the number of buckets created.
 - Each bucket is assigned and specific colour and an index starting from 0.
-- Each RAG value is assigned to their corresponding bucket. 
-
+- Each RAG value is assigned to their corresponding bucket.

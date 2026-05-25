@@ -1,6 +1,6 @@
-{% from "govuk/components/details/macro.njk" import govukDetails %} 
+{% from "govuk/components/details/macro.njk" import govukDetails %}
 
-{% macro dprCatalogueHowToUse(features) %} 
+{% macro dprCatalogueHowToUse(features) %}
   {% set bookmarkingEnabled = features.bookmarkingEnabled %}
   {% set unauthorisedToggleEnabled = features.unauthorisedToggleEnabled %}
 
@@ -20,7 +20,7 @@
       <h3 class="govuk-heading-s govuk-!-margin-bottom-1">Show unauthorised reports in catalogue</h3>
       <p class="govuk-body">Retricted reports are removed from the catalogue by default. Toggle the "Show unauthorised reports" checkbox to show, or hide these reports from the catalogue</p>
     {% endif %}
-  
+
   {% endset %}
 
   {{ govukDetails({
@@ -29,4 +29,3 @@
   }) }}
 
 {% endmacro %}
-

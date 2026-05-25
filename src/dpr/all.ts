@@ -37,6 +37,7 @@ import DateRange from './components/_inputs/date-range/clientClass'
 import Autocomplete from './components/_inputs/autocomplete-text-input/clientClass'
 import { GranularDateRange } from './components/_inputs/granular-date-range/clientClass'
 import MultiselectInput from './components/_inputs/multi-select/clientClass'
+import AutoCompleteMulti from './components/_inputs/autocomplete-multi/clientClass'
 
 // My Reports
 import DprMyReports from './components/my-reports/my-reports-list/clientClass'
@@ -81,6 +82,7 @@ function initAll() {
     SyncLoading,
     GranularDateRange,
     MultiselectInput,
+    AutoCompleteMulti,
     DprFiltersFormClass,
     DprSelectedAsyncFilters,
     DprAppliedFilters,

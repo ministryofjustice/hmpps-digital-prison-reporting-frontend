@@ -128,19 +128,16 @@ class DprMyReports extends PollingClientClass {
     if (this.removing) return
     this.removing = true
 
-    const body = this.maxRows !== undefined ? { maxRows: this.maxRows } : {}
-
     try {
-      // Fetch the updated list
       const res = await fetch(form.action, {
         method: 'POST',
         headers: {
-          'X-Requested-With': 'XMLHttpRequest',
           'Content-Type': 'application/json',
           'CSRF-Token': this.csrfToken,
         },
-        body: JSON.stringify(body),
-        credentials: 'same-origin',
+        body: JSON.stringify({
+          ...(this.maxRows && { maxRows: this.maxRows }),
+        }),
       })
 
       if (!res.ok) {

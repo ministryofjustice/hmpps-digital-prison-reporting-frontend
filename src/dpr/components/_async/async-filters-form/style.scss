@@ -38,10 +38,6 @@
         border-top: solid 1px govuk-colour('mid-grey');
         border-bottom: solid 1px govuk-colour('mid-grey');
         background-color: white;
-
-        button {
-          margin-bottom: govuk-spacing(1);
-        }
       }
 
       .dpr-async-request-filters__section--actions {
@@ -49,11 +45,6 @@
 
         .govuk-button-group {
           margin-bottom: 0px;
-
-          button,
-          .dpr-reset-columns-button {
-            margin-bottom: 0px;
-          }
         }
       }
 

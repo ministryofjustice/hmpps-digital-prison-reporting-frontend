@@ -2,15 +2,15 @@
   {% set reportType %}{{ type if type else 'report' }}{% endset %}
   {% set linkId = reportId + '-' + id + '-' + reportType %}
 
-  <a href="#" 
+  <a href="#"
     class="govuk-link govuk-link--no-visited-state"
     id="{{ linkId }}"
     data-dpr-module="bookmark-button"
-    data-id="{{ id }}" 
-    data-report-id="{{ reportId }}" 
-    data-report-type="{{ reportType }}" 
-    data-csrf-token="{{ csrfToken }}" 
-    data-endpoint="{{ config.bookmarkActionEndpoint }}"  
+    data-id="{{ id }}"
+    data-report-id="{{ reportId }}"
+    data-report-type="{{ reportType }}"
+    data-csrf-token="{{ csrfToken }}"
+    data-endpoint="{{ config.bookmarkActionEndpoint }}"
     data-link-type="{{ config.linkType }}"
   >
 

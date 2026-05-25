@@ -17,9 +17,9 @@
   {% set values = filter.values %}
   {% set text = filter.text %}
   {% set options = filter.options %}
-  {% set pattern = filter.pattern if filter.pattern else 
+  {% set pattern = filter.pattern if filter.pattern else
     '.+' %}
-  {% set mandatory = filter.mandatory if filter.mandatory else 
+  {% set mandatory = filter.mandatory if filter.mandatory else
     false %}
 
   {% set labelText = text | capitaliseSentence %}

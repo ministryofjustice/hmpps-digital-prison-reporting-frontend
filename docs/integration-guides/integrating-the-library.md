@@ -26,7 +26,7 @@ Alternatively you can add the library to your `package.json` within the `depende
 ```
 Replace the version above with ideally the latest version, or the version that you want.
 
-see the libraries [npm listing](https://www.npmjs.com/package/@ministryofjustice/hmpps-digital-prison-reporting-frontend?activeTab=versions) and [changelog](https://github.com/ministryofjustice/hmpps-digital-prison-reporting-frontend/blob/main/CHANGELOG.md) for the latest version updates. 
+see the libraries [npm listing](https://www.npmjs.com/package/@ministryofjustice/hmpps-digital-prison-reporting-frontend?activeTab=versions) and [changelog](https://github.com/ministryofjustice/hmpps-digital-prison-reporting-frontend/blob/main/CHANGELOG.md) for the latest version updates.
 
 ### Required dependecies
 
@@ -113,7 +113,7 @@ mojFrontend.initAll()
 dprFrontend.initAll()
 ```
 
-Include the bundled javascript file as a `module` within the layout. 
+Include the bundled javascript file as a `module` within the layout.
 
 ```html
 <!-- server/views/patials/layout.njk -->
@@ -134,7 +134,7 @@ const nunjucksEnv = nunjucks.configure([
 
 ## Import Fonts
 
-The DPR library uses Google fonts for some of its components. To allow these to be used without security warnings, you will need to allow the Google URLs in your web security configuration. 
+The DPR library uses Google fonts for some of its components. To allow these to be used without security warnings, you will need to allow the Google URLs in your web security configuration.
 
 If you have already integrated the DPS header and footer, then you can simply update the following two lines in `setUpWebSecurity.ts`:
 

@@ -11,7 +11,7 @@
 
   {% set type = chartData.type %}
   {% set data = chartData.data %}
-  
+
   {# Options #}
   {% set options = chartData.options %}
 
@@ -19,7 +19,7 @@
     {% set chartHtml %}
       {{ dprChart(id, type, data, options) }}
     {% endset -%}
-    
+
     {% set tabContent = {
       label: type | capitalize,
       id: id + "_" + type + "_tab",
@@ -46,7 +46,7 @@
       }
     }), tabItems) %}
   {% endif %}
-  
+
   {% if tabItems.length %}
     {{ govukTabs({ items: tabItems, classes: 'dpr-chart-tabs' }) }}
   {% else %}

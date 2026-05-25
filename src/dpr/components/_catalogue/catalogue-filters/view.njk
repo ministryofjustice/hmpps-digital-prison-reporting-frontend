@@ -10,24 +10,24 @@
     <div class='dpr-catalogue-filters--heading'>
       <div class="dpr-catalogue-filters__search">
         {{ dprCatalogueSearch(id, config) }}
-      </div> 
+      </div>
     </div>
     <div class='dpr-catalogue-filters--content'>
-      
+
       {% set catalogueFiltersHtml %}
       <div class='dpr-catalogue-filters--content-filters'>
 
         <div class="dpr-catalogue-filters__type-filter">
           {{ dprCatalogueFilterByType(id) }}
-        </div> 
+        </div>
 
         <div class="dpr-catalogue-filters__unauth-toggle">
           {{ dprUnauthorisedToggle(id) }}
-        </div> 
-      </div> 
+        </div>
+      </div>
       {% endset %}
 
-      <div class="dpr-interactive-filters-accordion"> 
+      <div class="dpr-interactive-filters-accordion">
         {{ govukDetails({
           summaryText: 'Show more filters',
           html: catalogueFiltersHtml,

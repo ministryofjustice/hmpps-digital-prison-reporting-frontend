@@ -7,7 +7,7 @@ subsection: Inputs
 
 ## Overview
 
-The DPR multiselect component is composite of the [MOJ design system date picker component](https://design-patterns.service.justice.gov.uk/components/date-picker/checkboxes/). 
+The DPR multiselect component is composite of the [MOJ design system date picker component](https://design-patterns.service.justice.gov.uk/components/date-picker/checkboxes/).
 
 ### When to use
 
@@ -17,9 +17,9 @@ Use the daterange component when you need to help users:
 - Select a date range within a min and max range
 - Select a date range within a relative range
 
-### When not to use 
+### When not to use
 
-Do not use this component when you need a single date. 
+Do not use this component when you need a single date.
 
 ## How to use
 

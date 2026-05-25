@@ -9,7 +9,7 @@
       {% set parentLabelId = "parent-id-" + loop.index %}
 
       <div id="dpr-parent-child-data-{{ loop.index }}" class="dpr-parent-child-data" aria-labelledby="{{ parentLabelId }}">
-        <h2 id="{{ parentLabelId }}" class="govuk-visually-hidden">Parent {{ loop.index }}</h2> 
+        <h2 id="{{ parentLabelId }}" class="govuk-visually-hidden">Parent {{ loop.index }}</h2>
         <div class="dpr-parent-child-data__parent">
           {{ dprDataTable(parent, classification, template, parentLabelId, loop.index) }}
         </div>

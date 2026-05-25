@@ -14,7 +14,7 @@ The `list` visualisation type represents data as a simple list visualisation.
 
 # When to use
 
-Use this visualisation type when you need to display data in a list. 
+Use this visualisation type when you need to display data in a list.
 
 <hr class='dpr-docs-hr'/>
 
@@ -37,7 +37,7 @@ See the [Visualisation definition](/dashboards/visualisations/visualisation-defi
 
 See the [Targeting data](/dashboards/visualisations/visualisation-dataset) for and how to target data with the `column`
 
-### Options: 
+### Options:
 
 ```js
 option: {
@@ -129,7 +129,7 @@ This example demonstrates how to use the dataset column headings as a list withi
 - uses the dataset column heading as heading in the first visualisation column
 - uses the `key` values and visualisation column headings
 
-### Definition: 
+### Definition:
 
 ```js
 {
@@ -174,4 +174,3 @@ This example demonstrates how to use the dataset column headings as a list withi
 | Metric 2 title | 231      | 238      | 208      |
 | Random name    | 300      | 280      | 220      |
 ```
-

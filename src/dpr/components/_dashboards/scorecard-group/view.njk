@@ -5,7 +5,7 @@
   {% for group in scorecardGroup %}
     {% set title = group.title %}
     {% set scorecards = group.scorecards %}
-    
+
    {% if title %}
       <h4 id="{{ id }}_scorecard_group_{{ loop.index }}" class="govuk-heading-s"><strong>{{ title }}</strong></h3>
     {% endif %}

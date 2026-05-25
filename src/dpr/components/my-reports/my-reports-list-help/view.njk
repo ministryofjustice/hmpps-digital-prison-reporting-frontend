@@ -91,7 +91,7 @@
         </ul>
       {% endset -%}
 
-      {% if type === 'bookmark' %} 
+      {% if type === 'bookmark' %}
         {% set helpHtml %}
           {{ mainBookmarkHelpHtml | safe }}
           <h3>Table details</h3>
@@ -101,7 +101,7 @@
         {% endset -%}
       {% endif %}
 
-      {% if type === 'requested' %} 
+      {% if type === 'requested' %}
         {% set helpHtml %}
           {{ mainRequestedHelpHtml | safe }}
           <h3>Table details</h3>
@@ -112,7 +112,7 @@
         {% endset -%}
       {% endif %}
 
-      {% if type === 'viewed' %} 
+      {% if type === 'viewed' %}
         {% set helpHtml %}
           {{ mainViewedHelpHtml | safe }}
           <h3>Table details</h3>
@@ -127,6 +127,6 @@
         {{ govukDetails({
           summaryText: 'Help',
           html: helpHtml
-        }) }} 
+        }) }}
       </div>
 {% endmacro %}

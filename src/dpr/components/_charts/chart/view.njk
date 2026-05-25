@@ -3,10 +3,10 @@
   {% set unit = options.unit %}
   {% set height = options.height %}
 
-  <div id="{{ id }}-chart-wrapper" 
-    class="dpr-chart dpr-{{ type }}-chart dpr-chart-height-{{ height }}" 
-    data-dpr-module="{{ type }}-chart" 
-    data-dpr-chart-data="{{ chartData | json }}" 
+  <div id="{{ id }}-chart-wrapper"
+    class="dpr-chart dpr-{{ type }}-chart dpr-chart-height-{{ height }}"
+    data-dpr-module="{{ type }}-chart"
+    data-dpr-chart-data="{{ chartData | json }}"
     data-dpr-chart-type="{{ type }}"
     data-dpr-chart-unit="{{ unit }}"
     data-dpr-chart-timeseries="{{ timeseries }}"

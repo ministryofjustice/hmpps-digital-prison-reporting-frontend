@@ -4,20 +4,20 @@
 {% from "./my-reports-list-item-status/view.njk" import dprMyReportListItemStatus %}
 {% from "./my-reports-list-item-actions/view.njk" import dprMyReportListItemActions %}
 
-{% set title = item.title %} 
-{% set description = item.description %} 
-{% set actions = item.actions %} 
-{% set filters = item.filters %} 
+{% set title = item.title %}
+{% set description = item.description %}
+{% set actions = item.actions %}
+{% set filters = item.filters %}
 {% set status = item.status %}
 
-{% set meta = item.meta %} 
-{% set tableId = meta.tableId %} 
+{% set meta = item.meta %}
+{% set tableId = meta.tableId %}
 {% set listType = meta.listType %}
 
 <div class="dpr-my-reports__row-separator"></div>
 
-<div class="dpr-my-reports__row" 
-  data-row-id='dpr-my-report-{{ tableId }}' 
+<div class="dpr-my-reports__row"
+  data-row-id='dpr-my-report-{{ tableId }}'
   data-report-id='{{ meta.reportId }}'
   data-id='{{ meta.id }}'
   data-table-id='{{ tableId }}'
@@ -33,7 +33,7 @@
   <div class="dpr-my-reports__cell dpr-my-reports__cell--title">
     {{ dprMyReportListItemTitle(title, tableId) }}
   </div>
-  
+
   {% if description %}
     <div class="dpr-my-reports__cell dpr-my-reports__cell--description">
       {{ dprMyReportListItemDescription(description) }}

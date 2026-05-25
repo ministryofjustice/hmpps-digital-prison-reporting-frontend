@@ -17,12 +17,12 @@
 
   {% set defaultMinDate = '1977-05-25' %}
   {% set defaultMaxDate = '9999-01-01'%}
-  
+
   {% if not minDate %}
     {% set toggleMin = false %}
     {% set minDate = defaultMinDate %}
   {% endif %}
-  
+
   {% if not maxDate %}
     {% set toggleMax = false %}
     {% set maxDate = defaultMaxDate %}
@@ -35,14 +35,14 @@
   {% endif %}
 
   {% if value %}
-    {% set value = value | dprDate %} 
+    {% set value = value | dprDate %}
   {% endif %}
 
-  <div class="dpr-date" 
-    data-dpr-module="date-input" 
-    data-required="{{ mandatory }}" 
-    data-display-name="{{ displayName }}"  
-    data-pattern="\d{1,2}\/\d{1,2}\/\d{2,4}" 
+  <div class="dpr-date"
+    data-dpr-module="date-input"
+    data-required="{{ mandatory }}"
+    data-display-name="{{ displayName }}"
+    data-pattern="\d{1,2}\/\d{1,2}\/\d{2,4}"
     data-min="{{ minDate }}"
     data-max="{{ maxDate }}"
     data-pattern-hint="DD/MM/YYYY">
@@ -52,7 +52,7 @@
     </label>
     {% endif %}
 
-    
+
     {{ mojDatePicker({
       id: id,
       name: id,
@@ -72,11 +72,11 @@
         {# Min setting #}
         {% if toggleMin and minDate %}
           <a class="govuk-body-s daterange-set-to-minmax" id="{{ name }}-min-helper"
-            data-set-to-input='{{ id }}' 
-            data-set-min-max-value={{ minDate | dprDate }} 
+            data-set-to-input='{{ id }}'
+            data-set-min-max-value={{ minDate | dprDate }}
             data-set-min-max-trigger='true'
             href="#"
-          > 
+          >
             Set value to minimum date: {{ minDate | dprDate }}
           </a>
         {% endif %}
@@ -84,8 +84,8 @@
         {# Max setting #}
         {% if toggleMax and maxDate %}
           <a class="govuk-body-s daterange-set-to-minmax" id="{{ name }}-max-helper"
-            data-set-to-input='{{ id }}' 
-            data-set-min-max-value={{ maxDate | dprDate }} 
+            data-set-to-input='{{ id }}'
+            data-set-min-max-value={{ maxDate | dprDate }}
             data-set-min-max-trigger='true'
             href="#"
           >

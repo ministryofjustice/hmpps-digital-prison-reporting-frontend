@@ -1,5 +1,13 @@
 Below you can find the changes included in each release.
 
+## 6.3.1
+
+- Bugfix: CSRF token not sent correctly in remove action
+
+## 6.3.0
+
+- New input: `autocompletemulti` - A multiselect with autocomplete/search functionality
+
 ## 6.2.3
 
 - Bugfix: CSRF token not sent correctly in remove action

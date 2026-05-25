@@ -8,6 +8,7 @@
 {% from "../../_inputs/granular-date-range/view.njk" import dprGranularDateRange -%}
 {% from "../../_inputs/date-input/view.njk" import dprDate %}
 {% from "../../_inputs/multi-select/view.njk" import dprMultiSelect %}
+{% from "../../_inputs/autocomplete-multi/view.njk" import dprAutocompleteMulti %}
 
 {% macro dprFilterInput(filter, validationErrors, parameterPrefix) %}
   {% set filterType = filter.type | lower %}
@@ -25,7 +26,6 @@
   {% set labelText = text | capitaliseSentence %}
 
   <div id="dpr_filter-wrapper_{{ id }}" class="dpr-filter-item">
-
     {%- if filterType === 'select' %}
 
       {{ govukSelect({
@@ -137,6 +137,10 @@
           html: "(Optional)"
         } if not mandatory
       }) }}
+
+    {% elif filterType === 'autocompletemulti' %}
+
+      {{ dprAutocompleteMulti(filter, validationErrors, parameterPrefix, mandatory)}}
 
     {% endif %}
   </div>

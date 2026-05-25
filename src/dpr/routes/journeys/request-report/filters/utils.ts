@@ -339,6 +339,7 @@ export const renderRequest = async ({
     }
 
     const filtersData = await getRequestFilters(req, res, fields)
+
     const hasDefaults = await services.defaultFilterValuesService.hasDefaults(dprUser.id, reportId, id)
 
     const reportData: RequestReportData = {

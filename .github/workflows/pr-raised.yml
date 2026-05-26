@@ -24,13 +24,18 @@ jobs:
       - name: SLSA - supply chain attack mitigation
         uses: ministryofjustice/devsecops-actions/sca/slsa@7dc13c20e2bf541b8a77fa1320a04983b18846f6
 
-      - run: npm run setup
+      - run: npm run setup --no-audit
 
-      - name: Add linting fixes
-        run: npm run lint
+      - name: Setup Python
+        uses: actions/setup-python@c8813ba1bc76ebf779b911ad8ffccbf2e449cb48
+        with:
+          python-version: '3.x'
 
-      - name: Check typescript build
-        run: npm run typecheck
+      - name: Install pre-commit
+        run: pip install pre-commit
+
+      - name: Run pre-commit checks
+        run: pre-commit run --all-files
 
       - name: Calculate test coverage
         env:

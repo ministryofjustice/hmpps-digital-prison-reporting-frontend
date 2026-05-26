@@ -36,7 +36,7 @@
         <a href="{{ polling.href }}" class="govuk-link govuk-link--no-visited-state">Go to status</a>
       </li>
     {% endif %}
-    
+
     {% if remove %}
       <li>
         {{ dprMyReportListItemRemoveAction(remove) }}
@@ -48,7 +48,7 @@
         <a href="{{ load.href }}" class="govuk-link govuk-link--no-visited-state">Load {{ load.reportType }}</a>
       </li>
     {% endif %}
-    
+
     {% if request %}
       <li>
         <a href="{{ request.href }}" class="govuk-link govuk-link--no-visited-state">Request {{ request.reportType }}</a>
@@ -60,7 +60,7 @@
       {% set id = bookmark.id %}
       {% set reportType = bookmark.reportType %}
       {% set csrfToken = bookmark.csrfToken %}
-      
+
       <li>
         {{ dprBookmarkButton(reportId, id, reportType, csrfToken, bookmark) }}
       </li>

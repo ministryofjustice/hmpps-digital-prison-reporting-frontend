@@ -18,12 +18,12 @@
   {% set variantName = report.name %}
   {% set csrfToken = csrfToken %}
   {% set time = report.time %}
-  
+
   <div class="dpr-form--request-missing-report" data-dpr-module="dpr-generic-form">
     <form method="post">
 
       <input type="hidden" name="_csrf" value="{{ csrfToken }}">
-      
+
       {# Report details #}
       <input type="hidden" name="reportId" value="{{ reportId }}">
       <input type="hidden" name="reportName" value="{{ reportName }}">
@@ -61,7 +61,7 @@
           'data-submit-feedback': 'true'
         }
       }) }}
-    
+
     </form>
   </div>
 {% endmacro %}

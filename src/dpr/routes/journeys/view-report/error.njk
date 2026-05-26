@@ -19,11 +19,11 @@
     <p>{{ error.userMessage }}</p>
     <a href={{refreshLink}}>Refresh this {{ params.type }}</a>
   {% else %}
-    {{ dprErrorSummary(error, { 
-      reportId: reportId, 
+    {{ dprErrorSummary(error, {
+      reportId: reportId,
       variantId: id,
-      executionId: executionId, 
-      tableId: tableId 
+      executionId: executionId,
+      tableId: tableId
     }) }}
   {% endif %}
 
@@ -38,18 +38,18 @@
   {% endset %}
 
   {% if reportName %}
-    {{ dprRequestDetails({ 
-      reportName:reportName, 
-      variantName:variantName, 
-      description:description, 
-      filtersHtml:filtersHtml   
+    {{ dprRequestDetails({
+      reportName:reportName,
+      variantName:variantName,
+      description:description,
+      filtersHtml:filtersHtml
     })}}
   {% endif %}
 
   {% if retry %}
     {{ govukButton({
       id: "retry-async-request",
-      text: "Retry",  
+      text: "Retry",
       classes: "govuk-button govuk-!-margin-top-5",
       href: href
     }) }}

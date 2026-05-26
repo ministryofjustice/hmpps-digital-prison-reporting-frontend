@@ -299,7 +299,7 @@ export default routes
 
 This will give your application the preset DPR routes to use to run and manage your reports.
 
-Note that all DPR routes are automatically namespaced under `/dpr`.  
+Note that all DPR routes are automatically namespaced under `/dpr`.
 So mounting the DPR router at a nested path like `/my/nested/route` will produce routes such as:
 
 ```js

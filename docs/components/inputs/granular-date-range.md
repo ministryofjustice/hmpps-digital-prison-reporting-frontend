@@ -16,7 +16,7 @@ Use the Granular Date Range component when you need to help users:
 - point one
 - point two
 
-### When not to use 
+### When not to use
 
 Do not use this component...
 

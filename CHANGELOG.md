@@ -1,8 +1,13 @@
 Below you can find the changes included in each release.
 
-## 6.3.2
+## 6.3.3
 
 - Bugfix: CSRF token not sent correctly in remove action
+
+## 6.3.2
+
+- Setup pre-commit hooks (runs locally and on CI environment)
+- Formatted codebase to remove trailing whitespace and extra end of file lines
 
 ## 6.3.1
 

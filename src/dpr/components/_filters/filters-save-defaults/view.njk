@@ -6,7 +6,7 @@
   {% set text = 'Save current filter values as defaults' %}
   {% set submitAction = './' + reportType + '/save-defaults'  %}
   {% set removeAction = './' + reportType + '/remove-defaults' %}
-  
+
   <div class="dpr-save-defaults-action">
     {% if hasDefaults %}
       <p class="govuk-body-xs govuk-!-margin-bottom-2 govuk-!-margin-top-1">Your saved default filter values have been applied to this form.</p>
@@ -20,7 +20,7 @@
         form: formId
       }
     }) }}
-  
+
     {% if hasDefaults %}
     <form method='post' action='{{ removeAction }}' novalidate>
       {{ dprButtonLink({

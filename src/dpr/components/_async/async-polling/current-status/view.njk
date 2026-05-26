@@ -8,7 +8,7 @@
 {% set status = statusDetails.status %}
 
 <div id="dpr-current-status__content" data-status='{{ status }}'>
-  
+
   <p>Status: {{ dprRequestStatusTag(status) }}</p>
 
   {% if status === 'STARTED' or status === 'SUBMITTED' or status === 'PICKED' %}

@@ -15,7 +15,7 @@ Use the Heading component when you need to help users:
 
 - display the report name and report variant name.
 - display the report details, inlcuding description and request parameters
-- include report actions along side the report. 
+- include report actions along side the report.
 
 ## How to use
 

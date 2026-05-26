@@ -6,7 +6,7 @@ subsection: Report components
 
 The data table is a bundle of several components: The [Gov.uk pagination component](https://design-system.service.gov.uk/components/pagination/), a modified version of the [MoJ sortable table](https://design-patterns.service.justice.gov.uk/components/sortable-table/), and a page size picker.
 
-Navigating the paging or changing the page size, appends the updated options to the page URL. 
+Navigating the paging or changing the page size, appends the updated options to the page URL.
 
 {% example "report/data-table", 500 %}
 

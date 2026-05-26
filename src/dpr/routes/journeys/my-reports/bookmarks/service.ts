@@ -116,15 +116,15 @@ class BookmarkService extends ReportStoreService {
     const classes = 'govuk-link govuk-link--no-visited-state dpr-bookmark-link dpr-user-list-action'
     const linkId = `${reportId}-${id}-${ctxId}`
 
-    const bookmarkLinkHtml = `<a href="#" 
+    const bookmarkLinkHtml = `<a href="#"
       class="${classes}"
       id="${linkId}"
       data-dpr-module="bookmark-button"
-      data-id="${id}" 
-      data-report-id="${reportId}" 
-      data-report-type="${reportType}" 
-      data-endpoint="${endpoint}"  
-      data-csrf-token="${csrfToken}" 
+      data-id="${id}"
+      data-report-id="${reportId}"
+      data-report-type="${reportType}"
+      data-endpoint="${endpoint}"
+      data-csrf-token="${csrfToken}"
       data-link-type="${linkType}"
     >${linkText}</a>`
 

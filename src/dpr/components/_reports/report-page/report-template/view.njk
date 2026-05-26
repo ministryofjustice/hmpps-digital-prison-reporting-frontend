@@ -16,7 +16,7 @@
   {% set count = renderData.count %}
 
   {% if not count or count === 0 %}
-    
+
     <div class="dpr-report-template-container dpr-report-template-container--no-data">
       {{ dprReportNoDataMessage(renderData.requestUrl.fullUrl) }}
     </div>
@@ -33,7 +33,7 @@
       <div class="dpr-report-template__page-totals dpr-report-template__page-totals--header">
         {{ dprReportTotals(totals) }}
       </div>
-      
+
       {# sections #}
       <div class='dpr-report-template__sections dpr-report-template__sections--{{ template }}'>
         {{ dprReportSection(dataTable, template, classification) }}
@@ -56,6 +56,6 @@
       </div>
       {% endif %}
     </div>
-  
+
   {% endif %}
 {% endmacro %}

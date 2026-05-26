@@ -15,19 +15,19 @@ The catalogue component is used to:
 - request variants from the list.
 - bookmark variants from the list.
 
-This component supports the DPR platform functionality by providing a unified way of listing and navigating reports 
+This component supports the DPR platform functionality by providing a unified way of listing and navigating reports
 
 ### When to use
 
 Use this component when you have integrated the DPR plaform into your service and want to:
 
-- View a list of your reports 
+- View a list of your reports
 - be able to request those reports.
 - bookmark a report from the list.
 
-### When not to use 
+### When not to use
 
-Do not use this component if you want more control over how your report listing should look. 
+Do not use this component if you want more control over how your report listing should look.
 
 ## How to use
 
@@ -71,8 +71,8 @@ The following features can be disabled using the `features` configuration:
 - Toggle unauthorised.
 - Bookmarking
 
-This example demonstrates how to disable all default catalogue features. 
+This example demonstrates how to disable all default catalogue features.
 
-**NOTE**: Bookmarking must be disabled via javascript using the catalogue utility helper. 
+**NOTE**: Bookmarking must be disabled via javascript using the catalogue utility helper.
 
 {% example "catalogue/features", 650, 'features' %}

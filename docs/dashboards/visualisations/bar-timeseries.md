@@ -10,7 +10,7 @@ phaseText: 'This feature is experimental and may be unstable. You can try it, bu
 
 <img src="" alt="" width="500" style="margin-bottom: 20px"/>
 
-The `bar-timeseries` chart visualisation type represents data as a bar chart showing historic data. 
+The `bar-timeseries` chart visualisation type represents data as a bar chart showing historic data.
 
 - [When to use](#when-to-use)
 - [How it works](#how-it-works)
@@ -59,7 +59,7 @@ See the [Targeting data](/dashboards/visualisations/visualisation-dataset) for a
 
 ```js
 
-| ts         |  est_id  | wing  | cell  | finds       | count | 
+| ts         |  est_id  | wing  | cell  | finds       | count |
 |------------|----------| ------|-------|-------------|-------|
 | 2025/02/25 |          |       |       |             | 81    |
 | 2025/02/25 |          |       |       | Drugs       | 17    |

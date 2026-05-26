@@ -8,24 +8,24 @@ title: Report Filters (example)
   {
     displayName: 'Radio filter',
     displayValue: 'two',
-    reset: { 
-      keys: [ "filters.field1" ] 
+    reset: {
+      keys: [ "filters.field1" ]
     }
   },
   {
     displayName: 'Multiselect',
     displayValue: 'Value 8.2, Value 8.3',
-    reset: { 
-      keys: [ "filters.multiselect" ] 
+    reset: {
+      keys: [ "filters.multiselect" ]
     }
   }
 ] %}
 
-{% set templateArgs = { 
-  reportType: "report", 
-  validationErrors: [], 
-  appliedFilters: appliedFilters, 
-  hasDefaults: false, 
+{% set templateArgs = {
+  reportType: "report",
+  validationErrors: [],
+  appliedFilters: appliedFilters,
+  hasDefaults: false,
   saveDefaultsEnabled: true }
 %}
 

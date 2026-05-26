@@ -35,7 +35,7 @@
   {% set defaultEndValue = value.end %}
 
   <div class="dpr-granular-date-range" id="dpr-granular-date-range_{{fieldName}}"
-    data-dpr-module="granular-date-range-input" 
+    data-dpr-module="granular-date-range-input"
     data-field-name='{{ fieldName }}'
     data-field-display-name='{{ filterName }}'
     data-partial-start='{{ partialStart }}'
@@ -46,7 +46,7 @@
     </legend>
 
     {# GRANULARITY #}
-    <div class="dpr-granular-date-range__inputs_wrapper"> 
+    <div class="dpr-granular-date-range__inputs_wrapper">
       {# QUICK FILTERS #}
       {{ govukSelect({
         id: quickFilterId,

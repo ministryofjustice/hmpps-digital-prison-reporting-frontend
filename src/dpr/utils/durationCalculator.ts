@@ -62,7 +62,7 @@ export const calcDates = (range: RelativeDateRange): CalculatedDateRange | null 
 }
 
 /* -----------------------------------------
-/* ADAPTERS                                   
+/* ADAPTERS
 /* -----------------------------------------
 
 /**

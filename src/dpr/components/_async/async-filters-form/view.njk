@@ -24,7 +24,7 @@
     <form method="POST" data-dpr-module="filters-form" novalidate>
       {# Hidden fields #}
       {{dprAsyncFiltersFormHiddenFields(args)}}
-      
+
       {% if filters.length or sortBy.length > 0 %}
       <div class="dpr-filters-container govuk-!-margin-top-6">
 
@@ -77,5 +77,5 @@
         {{ dprRequestReportButton(type) }}
       </div>
     </form>
-  <div>  
+  <div>
 {% endmacro %}

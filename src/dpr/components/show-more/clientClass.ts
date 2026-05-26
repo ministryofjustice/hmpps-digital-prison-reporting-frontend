@@ -29,7 +29,7 @@ class ShowMore extends DprClientClass {
       if (button) {
         button.style.display = 'none'
       }
-      
+
     }
 
     button?.addEventListener('click', (event) => {
@@ -38,13 +38,13 @@ class ShowMore extends DprClientClass {
         if(textContainer) {
           textContainer.innerHTML = `${textContent}  `
         }
-        
+
         button.innerHTML = 'show less'
       } else if (button.innerHTML === 'show less') {
           if (textContainer) {
             textContainer.innerHTML = `${shortString}... `
           }
-       
+
         button.innerHTML = 'show more'
       }
     })

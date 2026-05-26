@@ -1,6 +1,6 @@
 import { components } from 'src/dpr/types/api'
 
-const autoCompleteMultiExample: components['schemas']['VariantDefinition'] = {
+const autoCompleteMultiMinMaxExample: components['schemas']['VariantDefinition'] = {
   id: 'autocompletemultiMinMaxExample',
   name: 'Establishment autocomplete multi min max',
   description: 'Autocomplete Multiselect with min and max validation example',
@@ -13,7 +13,7 @@ const autoCompleteMultiExample: components['schemas']['VariantDefinition'] = {
     fields: [
       {
         name: 'pre-request-autocompletemulti',
-        display: 'Rre-request autocompletemulti',
+        display: 'Pre-request autocompletemulti',
         sortable: false,
         visible: true,
         type: 'string',
@@ -34,7 +34,6 @@ const autoCompleteMultiExample: components['schemas']['VariantDefinition'] = {
           ],
           minSelected: 2,
           maxSelected: 3,
-          defaultValue: 'value1,value2',
           interactive: false,
         },
       },
@@ -61,7 +60,6 @@ const autoCompleteMultiExample: components['schemas']['VariantDefinition'] = {
           ],
           minSelected: 2,
           maxSelected: 3,
-          defaultValue: 'value1,value2',
           interactive: true,
         },
       },
@@ -69,4 +67,4 @@ const autoCompleteMultiExample: components['schemas']['VariantDefinition'] = {
   },
 }
 
-export default autoCompleteMultiExample
+export default autoCompleteMultiMinMaxExample

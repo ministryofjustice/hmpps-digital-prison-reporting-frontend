@@ -244,17 +244,109 @@ context('Filters: Autocomplete', () => {
         startReportRequest(reportDetails)
 
         // show validation errors when the min is set and values are out of bounds
+        cy.findByRole('textbox', { name: /search/i }).type('Value')
+
+        cy.findByRole('checkbox', { name: 'Value 1' }).check()
+
+        cy.findByRole('button', { name: 'Request report' }).click()
+
+        cy.get('[id="filters.pre-request-autocompletemulti-error"]')
+          .should('be.visible')
+          .and('contain.text', 'Pre-request autocompletemulti Select at least 2')
+
         // show validation errors when the max is set and values are out of bounds
+
+        cy.findByRole('textbox', { name: /search/i }).type('Value')
+
+        cy.findByRole('checkbox', { name: 'Value 2' }).check()
+        cy.findByRole('checkbox', { name: 'Value 3' }).check()
+        cy.findByRole('checkbox', { name: 'Value 4' }).check()
+
+        cy.findByRole('button', { name: 'Request report' }).click()
+
+        cy.get('[id="filters.pre-request-autocompletemulti-error"]')
+          .should('be.visible')
+          .and('contain.text', 'Pre-request autocompletemulti Select no more than 3')
+
         //show pass validation when values are in bounds
+
+        cy.findByRole('textbox', { name: /search/i }).type('Value')
+
+        cy.findByRole('checkbox', { name: 'Value 2' }).check()
+        cy.findByRole('checkbox', { name: 'Value 3' }).uncheck()
+
+        cy.findByRole('button', { name: 'Request report' }).click()
+
+        cy.findByRole('heading', { level: 1, name: /Establishment autocomplete multi/, timeout: 10000 }).should(
+          'be.visible',
+        )
       })
     })
 
     describe('interactive', () => {
       it('show validate the input correctly', () => {
-        requestReportByNameAndDescription(reportDetails)
+        startReportRequest(reportDetails)
+
+        cy.findByRole('textbox', { name: /search/i }).type('Value')
+        cy.findByRole('checkbox', { name: 'Value 1' }).check()
+        cy.findByRole('checkbox', { name: 'Value 2' }).check()
+        cy.findByRole('button', { name: 'Request report' }).click()
+
+        cy.findByRole('heading', { level: 1, name: /Establishment autocomplete multi/, timeout: 10000 }).should(
+          'be.visible',
+        )
+
+        cy.findAllByRole('group')
+          .contains(/Show filters/)
+          .click()
+
         // show validation errors when the min is set and values are out of bounds
+        cy.findByRole('textbox', { name: /search/i }).type('Value')
+
+        cy.findByRole('checkbox', { name: 'Value 1' }).check()
+
+        cy.findByRole('button', { name: 'Apply filters' }).click()
+
+        cy.findAllByRole('group')
+          .contains(/Show filters/)
+          .click()
+
+        cy.get('[id="filters.interactive-autocompletemulti-error"]')
+          .should('be.visible')
+          .and('contain.text', 'Interactive autocompletemulti Select at least 2')
+
         // show validation errors when the max is set and values are out of bounds
+
+        cy.findByRole('textbox', { name: /search/i }).type('Value')
+
+        cy.findByRole('checkbox', { name: 'Value 2' }).check()
+        cy.findByRole('checkbox', { name: 'Value 3' }).check()
+        cy.findByRole('checkbox', { name: 'Value 4' }).check()
+
+        cy.findByRole('button', { name: 'Apply filters' }).click()
+
+        cy.findAllByRole('group')
+          .contains(/Show filters/)
+          .click()
+
+        cy.get('[id="filters.interactive-autocompletemulti-error"]')
+          .should('be.visible')
+          .and('contain.text', 'Interactive autocompletemulti Select no more than 3')
+
         //show pass validation when values are in bounds
+
+        cy.findByRole('textbox', { name: /search/i }).type('Value')
+
+        cy.findByRole('checkbox', { name: 'Value 2' }).check()
+        cy.findByRole('checkbox', { name: 'Value 3' }).uncheck()
+
+        cy.findByRole('button', { name: 'Apply filters' }).click()
+
+        cy.findAllByRole('group')
+          .contains(/Show filters/)
+          .click()
+
+        cy.get('[id="filters.interactive-autocompletemulti-error"]').should('not.exist')
       })
     })
   })

@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## 6.4.0
+
+- `autocompletemulti` validates against `minSelected` and `maxSelected` filter definition fields
+
 ## 6.3.3
 
 - Bugfix: CSRF token not sent correctly in remove action

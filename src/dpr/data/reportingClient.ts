@@ -75,7 +75,7 @@ class ReportingClient {
   ): Promise<Array<components['schemas']['ReportDefinitionSummary']>> {
     this.logInfo('Get definitions')
 
-    const queryParams: operations['definitions_1']['parameters']['query'] = {
+    const queryParams: operations['definitions']['parameters']['query'] = {
       renderMethod: 'HTML',
       ...(definitionsPath && { dataProductDefinitionsPath: definitionsPath }),
     }

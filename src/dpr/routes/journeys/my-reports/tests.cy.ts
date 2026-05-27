@@ -35,22 +35,22 @@ describe('My Reports', () => {
         cy.task('resetRedis')
       })
 
-      // it('Should do an expiry check on each row that is in a terminal state', () => {
-      //   setRedisState({
-      //     bookmarks: [],
-      //     recentlyViewedReports: [viewedReady, viewedDashboard, expiredDashboard],
-      //     requestedReports: [requestedReady, requestedAborted, requestedExpired, requestedFailed],
-      //   })
+      it('Should do an expiry check on each row that is in a terminal state', () => {
+        setRedisState({
+          bookmarks: [],
+          recentlyViewedReports: [viewedReady, viewedDashboard, expiredDashboard],
+          requestedReports: [requestedReady, requestedAborted, requestedExpired, requestedFailed],
+        })
 
-      //   cy.task('stubExpiredEndpoint')
-      //   cy.visit(path)
+        cy.task('stubExpiredEndpoint')
+        cy.visit(path)
 
-      //   cy.findByRole('tab', { name: /Requested/ }).click()
-      //   getMyReportRow({ name: 'Successful report' }).contains('EXPIRED')
+        cy.findByRole('tab', { name: /Requested/ }).click()
+        getMyReportRow({ name: 'Successful report' }).contains('EXPIRED')
 
-      //   cy.findByRole('tab', { name: /Viewed/ }).click()
-      //   getMyReportRow({ name: 'Viewed report' }).contains('EXPIRED')
-      // })
+        cy.findByRole('tab', { name: /Viewed/ }).click()
+        getMyReportRow({ name: 'Viewed report' }).contains('EXPIRED')
+      })
 
       it('should remove stale reports', () => {
         let lastMonth = new Date()

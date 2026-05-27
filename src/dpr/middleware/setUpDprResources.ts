@@ -332,7 +332,6 @@ const populateRequestedReports = async (services: Services, res: Response) => {
   const { dprUser } = localsHelper.getValues(res)
   if (dprUser.id) {
     const myReports = await getAllMyReports(res, services, dprUser.id)
-    console.log(JSON.stringify({ myReports }, null, 2))
 
     const { requestedReports, recentlyViewedReports } = await cleanupReports(
       services,

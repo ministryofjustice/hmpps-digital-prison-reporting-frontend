@@ -16,6 +16,7 @@ const getStaleReports = (reports: StoredReportData[]) => {
 
   return reports.filter((report) => {
     const timestamp = getTerminalTimestamp(report)
+
     if (!timestamp) return false
 
     return now - timestamp > STALE_INTERVAL
@@ -100,12 +101,23 @@ export const cleanupReports = async (
     return { requestedReports, recentlyViewedReports }
   }
 
-  await Promise.all([
-    ...staleRequested.map((report) => services.requestedReportService.removeReport(report.executionId || '', userId)),
-    ...staleRecent.map((report) =>
-      services.recentlyViewedService.removeReport(userId, report.reportId, report.id, report.tableId),
-    ),
-  ])
+  await staleRequested.reduce(
+    (promise, report) =>
+      promise.then(async () => {
+        if (!report.executionId) return
+
+        return services.requestedReportService.removeReport(report.executionId, userId)
+      }),
+    Promise.resolve(),
+  )
+
+  await staleRecent.reduce(
+    (promise, report) =>
+      promise.then(() =>
+        services.recentlyViewedService.removeReport(userId, report.reportId, report.id, report.tableId),
+      ),
+    Promise.resolve(),
+  )
 
   flashRemovedReports(res, totalRemoved)
 

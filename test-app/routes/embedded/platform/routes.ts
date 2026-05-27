@@ -32,6 +32,11 @@ export default function routes(services: Services): Router {
     res.sendStatus(200)
   })
 
+  router.post('/resetReportsCleanupRun', async (req: Request, res: Response) => {
+    delete req.session.reportsCleanupRun
+    res.sendStatus(200)
+  })
+
   // --------- REDIS ---------- //
 
   router.post('/setRedisState', async (req: Request, res: Response) => {

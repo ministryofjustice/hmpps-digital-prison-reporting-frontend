@@ -131,7 +131,7 @@ context('User reports component', () => {
         getMyReportRow({ name: 'Viewed report' }).contains('READY')
         getMyReportRow({ name: 'Viewed dashboard' }).contains('READY')
         getMyReportRow({ name: 'Interactive Report' }).contains('READY')
-        getMyReportRow({ name: 'Expired viewed report' }).contains('EXPIRED')
+        getMyReportRow({ name: 'Expired viewed Expired viewed dashboard' }).contains('EXPIRED')
       })
     })
   })

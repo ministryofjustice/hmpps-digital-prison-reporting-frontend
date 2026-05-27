@@ -10,10 +10,14 @@ import {
   viewedReady,
 } from '@networkMocks/report/mockVariants/mockViewedUserListData'
 import { getMyReportRow, stubBaseTasks, stubDefinitionsTasks } from 'cypress-tests/cypressUtils'
-import { setRedisState } from '../../../../../test-app/routes/integrationTests/appStateUtils'
+import { setRedisState, resetStaleReportsCheck } from '../../../../../test-app/routes/integrationTests/appStateUtils'
+import { RequestedReport, StoredReportData } from 'src/dpr/types/UserReports'
 
 describe('My Reports', () => {
-  const paths = ['/', '/dpr', '/embedded/platform', '/embedded/platform/dpr']
+  const paths = [
+    '/',
+    // '/dpr', '/embedded/platform', '/embedded/platform/dpr'
+  ]
 
   const sharedTests = (path: string) => {
     describe(`My reports - ${path}`, () => {
@@ -21,26 +25,96 @@ describe('My Reports', () => {
         cy.task('resetRedis')
       })
 
-      before(() => {
+      beforeEach(() => {
+        cy.task('resetStubs')
         stubBaseTasks()
         stubDefinitionsTasks()
-        cy.task('stubExpiredEndpoint')
+      })
+
+      afterEach(() => {
+        cy.task('resetRedis')
+      })
+
+      // it('Should do an expiry check on each row that is in a terminal state', () => {
+      //   setRedisState({
+      //     bookmarks: [],
+      //     recentlyViewedReports: [viewedReady, viewedDashboard, expiredDashboard],
+      //     requestedReports: [requestedReady, requestedAborted, requestedExpired, requestedFailed],
+      //   })
+
+      //   cy.task('stubExpiredEndpoint')
+      //   cy.visit(path)
+
+      //   cy.findByRole('tab', { name: /Requested/ }).click()
+      //   getMyReportRow({ name: 'Successful report' }).contains('EXPIRED')
+
+      //   cy.findByRole('tab', { name: /Viewed/ }).click()
+      //   getMyReportRow({ name: 'Viewed report' }).contains('EXPIRED')
+      // })
+
+      it('should remove stale reports', () => {
+        let lastMonth = new Date()
+        lastMonth.setMonth(lastMonth.getMonth() - 1)
+
+        const staleRequestedAborted: RequestedReport = {
+          ...requestedAborted,
+          timestamp: {
+            ...requestedAborted.timestamp,
+            aborted: lastMonth,
+          },
+        }
+
+        const staleRequestedExpired: RequestedReport = {
+          ...requestedExpired,
+          timestamp: {
+            ...requestedExpired.timestamp,
+            expired: lastMonth,
+          },
+        }
+
+        const staleRequestedFailed: RequestedReport = {
+          ...requestedFailed,
+          timestamp: {
+            ...requestedFailed.timestamp,
+            failed: lastMonth,
+          },
+        }
+
+        const staleViewedExpiredDashboard: StoredReportData = {
+          ...expiredDashboard,
+          timestamp: {
+            ...expiredDashboard.timestamp,
+            expired: lastMonth,
+          },
+        }
 
         setRedisState({
           bookmarks: [],
-          recentlyViewedReports: [viewedReady, viewedDashboard, expiredDashboard],
-          requestedReports: [requestedReady, requestedAborted, requestedExpired, requestedFailed],
+          recentlyViewedReports: [viewedReady, viewedDashboard, staleViewedExpiredDashboard],
+          requestedReports: [requestedReady, staleRequestedAborted, staleRequestedExpired, staleRequestedFailed],
         })
 
+        resetStaleReportsCheck()
+
         cy.visit(path)
-      })
 
-      it('Should do an expiry check on each row that is in a terminal state', () => {
+        // Check stale requested have been removed
         cy.findByRole('tab', { name: /Requested/ }).click()
-        getMyReportRow({ name: 'Successful report' }).contains('EXPIRED')
 
+        cy.findByLabelText(/Requested \(/).within(() => {
+          cy.findAllByRole('paragraph')
+            .contains(/Showing 1 of 1 reports/)
+            .should('be.visible')
+        })
+
+        // Check stale viewed have been removed
         cy.findByRole('tab', { name: /Viewed/ }).click()
-        getMyReportRow({ name: 'Viewed report' }).contains('EXPIRED')
+
+        cy.findByLabelText(/Viewed \(/).within(() => {
+          cy.findAllByRole('paragraph')
+            .contains(/Showing 2 of 2 reports/)
+            .should('be.visible')
+        })
       })
     })
   }

@@ -18,12 +18,12 @@
         {% set sectionLabelId = "section-title-" + loop.index %}
       {% endif %}
 
-      <div 
-        id="dpr-{{ template }}-section-{{ loop.index }}" 
-        class="dpr-{{ template }}-section dpr-report-section"  
+      <div
+        id="dpr-{{ template }}-section-{{ loop.index }}"
+        class="dpr-{{ template }}-section dpr-report-section"
         {% if sectionLabelId %} aria-labelledby="{{ sectionLabelId }}" {% endif %}
       >
-      
+
         {% if sectionTitle %}
           {{ dprReportSectionHeading(section, loop.index, template, sectionsCount) }}
         {% endif %}
@@ -45,7 +45,7 @@
         {% endif %}
 
         {# section footer summary tables #}
-        {{ dprReportSummary(summaries, 'section-footer') }} 
+        {{ dprReportSummary(summaries, 'section-footer') }}
 
       </div>
     {% endfor %}

@@ -19,4 +19,3 @@ Example uses:
 ### When not to use
 
 Do not use this component for a small set of options, or where discovery of the available options is important. In these cases a Radio input of similar may be a better option.
-

@@ -5,7 +5,7 @@ title: Filters
 
 This component is an extension of the [MoJ filter component](https://design-patterns.service.justice.gov.uk/components/filter/).
 
-Clicking "Apply filter" appends the selected options to the page URL. Parameters are appended with the provided parameter prefix. 
+Clicking "Apply filter" appends the selected options to the page URL. Parameters are appended with the provided parameter prefix.
 
 {% header 2, "When to use" %}
 

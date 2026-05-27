@@ -16,7 +16,11 @@ export const setValueFromRequest = (
   let valueArr: string[] = []
   let valueString = ''
   if (queryValue?.length) {
-    valueArr = Array.isArray(queryValue) ? queryValue : [queryValue]
+    if (Array.isArray(queryValue)) {
+      valueArr = queryValue
+    } else {
+      valueArr = queryValue.split(',')
+    }
     valueString = valueArr.join(',')
   }
 

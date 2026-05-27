@@ -22,14 +22,17 @@ class DprMyReports extends PollingClientClass {
 
     this.listType = element.dataset['listType'] ?? `my-reports-${ListType.REQUESTED}`
 
-    this.initRemoveAction()
+    // Only set csrf and remove action on requested and viewed list types
+    if (this.listType === `my-reports-${ListType.REQUESTED}` || `my-reports-${ListType.VIEWED}`) {
+      this.csrfToken = DprHtmlClient.getCsrfToken(element)
 
-    // Only poll on requested list
-    if (element.dataset['listType'] !== `my-reports-${ListType.REQUESTED}`) {
-      return
+      this.initRemoveAction()
     }
 
-    this.csrfToken = DprHtmlClient.getCsrfToken(element)
+    // Only poll on requested list
+    if (this.listType !== `my-reports-${ListType.REQUESTED}`) {
+      return
+    }
 
     this.rows = element.querySelectorAll<HTMLElement>('[data-row-id]')
 
@@ -128,19 +131,16 @@ class DprMyReports extends PollingClientClass {
     if (this.removing) return
     this.removing = true
 
-    const body = this.maxRows !== undefined ? { maxRows: this.maxRows } : {}
-
     try {
-      // Fetch the updated list
       const res = await fetch(form.action, {
         method: 'POST',
         headers: {
-          'X-Requested-With': 'XMLHttpRequest',
           'Content-Type': 'application/json',
           'CSRF-Token': this.csrfToken,
         },
-        body: JSON.stringify(body),
-        credentials: 'same-origin',
+        body: JSON.stringify({
+          ...(this.maxRows && { maxRows: this.maxRows }),
+        }),
       })
 
       if (!res.ok) {

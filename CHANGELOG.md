@@ -1,5 +1,30 @@
 Below you can find the changes included in each release.
 
+## 6.4.0
+
+- `autocompletemulti` validates against `minSelected` and `maxSelected` filter definition fields
+
+## 6.3.3
+
+- Bugfix: CSRF token not sent correctly in remove action
+
+## 6.3.2
+
+- Setup pre-commit hooks (runs locally and on CI environment)
+- Formatted codebase to remove trailing whitespace and extra end of file lines
+
+## 6.3.1
+
+- Bugfix: CSRF token not sent correctly in remove action
+
+## 6.3.0
+
+- New input: `autocompletemulti` - A multiselect with autocomplete/search functionality
+
+## 6.2.3
+
+- Bugfix: CSRF token not sent correctly in remove action
+
 ## 6.2.2
 
 - Bugfix: Filter out relative-duration query from requests

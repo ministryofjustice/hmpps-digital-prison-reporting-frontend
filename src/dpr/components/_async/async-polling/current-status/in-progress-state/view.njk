@@ -10,7 +10,7 @@
   {% set descriptionText = statusDetails.descriptionText %}
   {% set altText = statusDetails.altText %}
   {% set csrfToken = data.csrfToken %}
-  
+
   {% set insetTextHtml %}
     {% for text in altText %}
       <p class="govuk-body">{{ text }}</p>
@@ -29,7 +29,7 @@
 
       {{ govukButton({
         id: "cancel-async-request",
-        text: "Cancel request",  
+        text: "Cancel request",
         classes: "govuk-button--secondary govuk-!-margin-bottom-0",
         attributes: {
           'data-csrf-token': csrfToken

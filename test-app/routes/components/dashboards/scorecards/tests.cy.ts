@@ -29,9 +29,12 @@ context('Dashboard visualisation: Scorecards', () => {
     before(() => {
       cy.visit(scorecardPath)
       cy.task('stubMockDashboardsStatusStarted')
-      cy.findByRole('button', { name: /Request/ }).click()
       cy.task('stubMockDashboardsStatusFinished')
+
+      cy.findByRole('button', { name: /Request/ }).click()
+
       cy.findByRole('heading', { level: 1, name: /Scorecard/ }).should('be.visible')
+
       cy.url().then((url) => {
         scorecardPathViewUrl = url
       })

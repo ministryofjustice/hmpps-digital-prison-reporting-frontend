@@ -349,8 +349,8 @@ const populateRequestedReports = async (services: Services, res: Response, req: 
 
     const removedReports = req.flash('DPR_REMOVED_REPORTS')
     if (removedReports && removedReports[0]) {
-      console.log({ removedReports })
-      res.locals['removedReports'] = removedReports[0]
+      const [firstRemovedReport] = removedReports
+      res.locals['removedReports'] = firstRemovedReport
     }
   }
 }

@@ -79,8 +79,6 @@ export const cleanupReports = async (
   recentlyViewedReports: StoredReportData[],
   res: Response,
 ) => {
-  const req = res.req as any
-
   if (res.req.session?.reportsCleanupRun) {
     return {
       requestedReports,

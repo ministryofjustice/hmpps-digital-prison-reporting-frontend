@@ -130,6 +130,7 @@ export type DprMyReport = {
   requested: DprMyReportListConfig
   viewed: DprMyReportListConfig
   bookmarks?: DprMyReportListConfig | undefined
+  removedReports: string | undefined
 }
 
 export type MappedBookmarks = {

@@ -59,7 +59,7 @@ const flashRemovedReports = (res: Response, count: number) => {
   const message =
     count === 1 ? '1 stale report was removed from your list' : `${count} stale reports were removed from your list`
 
-  res.req?.flash('info', message)
+  res.req?.flash('DPR_REMOVED_REPORTS', message)
 }
 
 /**

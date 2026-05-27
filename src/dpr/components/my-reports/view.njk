@@ -1,4 +1,6 @@
 {% from "govuk/components/tabs/macro.njk" import govukTabs %}
+{% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
+
 {% from "./my-reports-list/macro.njk" import dprMyReportList %}
 
 {% macro dprMyReports(myReportsConfig) %}
@@ -7,6 +9,13 @@
   {% set requested = myReportsConfig.requested %}
   {% set bookmarks = myReportsConfig.bookmarks %}
   {% set viewed = myReportsConfig.viewed %}
+  {% set removedReports = myReportsConfig.removedReports %}
+
+  {% if removedReports %}
+    {{ govukInsetText({
+      text: removedReports
+    }) }}
+  {% endif %}
 
   {% if bookmarks %}
     {% set bookmarksHtml %}

@@ -42,7 +42,7 @@ export const setupResources = (
       await initialiseServices(services, res)
 
       // 4. Populate user reports state with up to date list
-      await populateRequestedReports(services, res)
+      await populateRequestedReports(services, res, req)
 
       setUpDprPaths(res)
 
@@ -328,7 +328,7 @@ const initialiseServices = async (services: Services, res: Response) => {
  * @param {Services} services
  * @param {Response} res
  */
-const populateRequestedReports = async (services: Services, res: Response) => {
+const populateRequestedReports = async (services: Services, res: Response, req: Request) => {
   const { dprUser } = localsHelper.getValues(res)
   if (dprUser.id) {
     const myReports = await getAllMyReports(res, services, dprUser.id)
@@ -345,6 +345,12 @@ const populateRequestedReports = async (services: Services, res: Response) => {
     res.locals['recentlyViewedReports'] = recentlyViewedReports
     if (res.app.locals['bookmarkingEnabled']) {
       res.locals['bookmarks'] = await getAllMyBookmarks(res, services, dprUser.id)
+    }
+
+    const removedReports = req.flash('DPR_REMOVED_REPORTS')
+    if (removedReports && removedReports[0]) {
+      console.log({ removedReports })
+      res.locals['removedReports'] = removedReports[0]
     }
   }
 }

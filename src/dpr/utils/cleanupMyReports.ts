@@ -81,15 +81,15 @@ export const cleanupReports = async (
 ) => {
   const req = res.req as any
 
-  if (req.session?.reportsCleanupRun) {
+  if (res.req.session?.reportsCleanupRun) {
     return {
       requestedReports,
       recentlyViewedReports,
     }
   }
 
-  if (req.session) {
-    req.session.reportsCleanupRun = true
+  if (res.req.session) {
+    res.req.session.reportsCleanupRun = true
   }
 
   const staleRequested = getStaleReports(requestedReports)
@@ -104,9 +104,7 @@ export const cleanupReports = async (
   await staleRequested.reduce(
     (promise, report) =>
       promise.then(async () => {
-        if (!report.executionId) return
-
-        return services.requestedReportService.removeReport(report.executionId, userId)
+        return services.requestedReportService.removeReport(report.executionId || '', userId)
       }),
     Promise.resolve(),
   )

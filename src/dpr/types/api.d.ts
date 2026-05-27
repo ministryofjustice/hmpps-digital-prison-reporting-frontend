@@ -38,23 +38,6 @@ export interface paths {
     patch?: never
     trace?: never
   }
-  '/user/caseload/active': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** @description Gets a user's active caseloads */
-    get: operations['definitions']
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
   '/reports/{reportId}/{reportVariantId}': {
     parameters: {
       query?: never
@@ -325,7 +308,7 @@ export interface paths {
       cookie?: never
     }
     /** @description Gets summaries of all report definitions */
-    get: operations['definitions_1']
+    get: operations['definitions']
     put?: never
     post?: never
     delete?: never
@@ -652,6 +635,10 @@ export interface components {
         | null
       /** Format: int32 */
       index?: number | null
+      /** Format: int32 */
+      minSelected?: number | null
+      /** Format: int32 */
+      maxSelected?: number | null
     }
     FilterOption: {
       name: string
@@ -885,62 +872,6 @@ export interface operations {
         }
         content: {
           'application/json': components['schemas']['MissingReportSubmission']
-        }
-      }
-      /** @description Bad Request */
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponse']
-        }
-      }
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponse']
-        }
-      }
-      /** @description Gone */
-      410: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponse']
-        }
-      }
-      /** @description Too Many Requests */
-      429: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponse']
-        }
-      }
-    }
-  }
-  definitions: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description OK */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': string[]
         }
       }
       /** @description Bad Request */
@@ -1385,6 +1316,7 @@ export interface operations {
          */
         dataProductDefinitionsPath?: string
         /**
+         * @deprecated
          * @description External table ID.
          * @example reports._6b3c6dfb_f601_4795_8ee5_2ad65b7fb283
          */
@@ -1784,6 +1716,7 @@ export interface operations {
          */
         dataProductDefinitionsPath?: string
         /**
+         * @deprecated
          * @description External table ID.
          * @example reports._6b3c6dfb_f601_4795_8ee5_2ad65b7fb283
          */
@@ -2024,7 +1957,7 @@ export interface operations {
       }
     }
   }
-  definitions_1: {
+  definitions: {
     parameters: {
       query?: {
         /**

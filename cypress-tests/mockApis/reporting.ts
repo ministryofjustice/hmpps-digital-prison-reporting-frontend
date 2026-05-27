@@ -56,6 +56,7 @@ import reportTemplateExampleParentChildSection from '@networkMocks/report/mockVa
 import reportTemplateExampleSummarySection from '@networkMocks/report/mockVariants/report-templates/summary-section/summary-section'
 import multiselectExample from '@networkMocks/report/mockVariants/filter-input-examples/multiselect'
 import autoMultiselectExample from '@networkMocks/report/mockVariants/filter-input-examples/autocompleteMulti'
+import autoMultiselectMinMaxExample from '@networkMocks/report/mockVariants/filter-input-examples/autoMultiMinMax'
 import { getFlagsMockDisabled, getFlagsMockEmpty, getFlagsMockEnabled } from '@networkMocks/featureFlags/mocks'
 import { listSectionData } from '@networkMocks/report/mockVariants/data/list-section'
 import { featureTestingInteractiveDownload } from '@networkMocks/report/mockVariants/feature-testing/download'
@@ -108,6 +109,14 @@ export const stubs = {
       name: 'Request examples',
       dashboards: [],
       variant: autoMultiselectExample,
+    }),
+
+  stubAutoMultiselectMinMaxDefinitionRequest: () =>
+    createBasicHttpStub('GET', '/definitions/[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+', 200, {
+      id: 'request-examples',
+      name: 'Request examples',
+      dashboards: [],
+      variant: autoMultiselectMinMaxExample,
     }),
   stubParentChildSectionDefinitionRequest: () =>
     createBasicHttpStub('GET', '/definitions/[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+', 200, {

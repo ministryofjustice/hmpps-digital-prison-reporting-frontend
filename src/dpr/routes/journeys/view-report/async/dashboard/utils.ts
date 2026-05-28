@@ -1,30 +1,30 @@
 import { Request, Response } from 'express'
 import type { ParsedQs } from 'qs'
-import { Services } from '../../../../../types/Services'
-import Dict = NodeJS.Dict
 import { DashboardSection } from '../../../../../components/_dashboards/dashboard-visualisation/types'
 import type { AsyncReportUtilsParams } from '../../../../../types/AsyncReportUtils'
+import { Services } from '../../../../../types/Services'
+import Dict = NodeJS.Dict
 
 import type { DashboardDataResponse } from '../../../../../types/Metrics'
 import type { RequestedReport } from '../../../../../types/UserReports'
 import { ReportType } from '../../../../../types/UserReports'
 import type { components } from '../../../../../types/api'
 
-import DefinitionUtils, { getDashboardFields } from '../../../../../utils/definitionUtils'
+import { createDashboardSections } from '../../../../../components/_dashboards/dashboard-section/utils'
+import { validateDashboardVisualisations } from '../../../../../components/_dashboards/dashboard-visualisation/utils'
+import { FilterType } from '../../../../../components/_filters/filter-input/enum'
+import { buildAppliedFilters } from '../../../../../components/_filters/filters-applied/utils'
+import { FilterValue, GranularDateRangeFilterValue, PartialDate } from '../../../../../components/_filters/types'
 import FilterUtils from '../../../../../components/_filters/utils'
 import ReportActionsUtils from '../../../../../components/_reports/report-heading/report-actions/utils'
-import ReportQuery from '../../../../../types/ReportQuery'
-import LocalsHelper from '../../../../../utils/localsHelper'
-import { FilterValue, GranularDateRangeFilterValue, PartialDate } from '../../../../../components/_filters/types'
-import { FilterType } from '../../../../../components/_filters/filter-input/enum'
-import { validateDashboardVisualisations } from '../../../../../components/_dashboards/dashboard-visualisation/utils'
-import { createDashboardSections } from '../../../../../components/_dashboards/dashboard-section/utils'
-import DashboardSchema from './validate'
 import { setUpBookmark } from '../../../../../components/bookmark/utils'
-import { buildAppliedFilters } from '../../../../../components/_filters/filters-applied/utils'
+import ReportQuery from '../../../../../types/ReportQuery'
+import ErrorHandler from '../../../../../utils/ErrorHandler/ErrorHandler'
+import DefinitionUtils, { getDashboardFields } from '../../../../../utils/definitionUtils'
+import LocalsHelper from '../../../../../utils/localsHelper'
 import { extractFiltersFromQuery } from '../../../../../utils/queryMappers'
 import { updateLastViewedAsync } from '../../utils'
-import ErrorHandler from '../../../../../utils/ErrorHandler/ErrorHandler'
+import DashboardSchema from './validate'
 
 const setDashboardActions = (
   dashboardDefinition: components['schemas']['DashboardDefinition'],
@@ -157,6 +157,7 @@ export const renderAsyncDashboard = async ({ req, res, services }: AsyncReportUt
 
   let requestData: RequestedReport | undefined = await requestedReportService.getReportByTableId(tableId, userId)
   const queryData = requestData?.query?.data
+  const querySummary = requestData?.query?.summary
 
   // Get the definition Data
   const { query, filters, reportDefinition, dashboardDefinition, appliedFilters, fields } = await getDefinitionData({
@@ -193,6 +194,7 @@ export const renderAsyncDashboard = async ({ req, res, services }: AsyncReportUt
       token,
       id,
       reportId,
+      querySummary,
       name: dashboardDefinition.name,
       description: dashboardDefinition.description,
       reportName: reportDefinition.name,

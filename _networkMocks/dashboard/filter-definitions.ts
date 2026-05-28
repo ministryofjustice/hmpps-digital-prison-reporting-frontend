@@ -39,6 +39,44 @@ export const establishmentIdFilter: FilterField = {
   fieldSource: 'specfield',
 }
 
+export const establishmentIdFilterInteractiveFalse: FilterField = {
+  header: false,
+  name: 'establishment_id',
+  display: 'Establishment ID',
+  filter: {
+    type: 'Select',
+    mandatory: false,
+    staticOptions: [
+      {
+        name: 'ABC',
+        display: 'ABC',
+      },
+      {
+        name: 'GHI',
+        display: 'GHI',
+      },
+      {
+        name: 'JKL',
+        display: 'JKL',
+      },
+      {
+        name: 'DEF',
+        display: 'DEF',
+      },
+    ],
+    dynamicOptions: {},
+    interactive: false,
+    defaultValue: 'ABC',
+  },
+  sortable: false,
+  defaultsort: false,
+  type: 'string',
+  mandatory: false,
+  visible: true,
+  calculated: false,
+  fieldSource: 'specfield',
+}
+
 export const wingFilterCompass: FilterField = {
   header: false,
   name: 'wing',

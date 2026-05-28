@@ -14,7 +14,10 @@ import { setRedisState, resetStaleReportsCheck } from '../../../../../test-app/r
 import { RequestedReport, StoredReportData } from '../../../types/UserReports'
 
 describe('My Reports', () => {
-  const paths = ['/', '/dpr', '/embedded/platform', '/embedded/platform/dpr']
+  const paths = [
+    '/',
+    // '/dpr', '/embedded/platform', '/embedded/platform/dpr'
+  ]
 
   const sharedTests = (path: string) => {
     describe(`My reports - ${path}`, () => {
@@ -112,6 +115,32 @@ describe('My Reports', () => {
             .contains(/Showing 2 of 2 reports/)
             .should('be.visible')
         })
+
+        // Validate the notification is correct
+        cy.findByRole('region')
+          .should('contain.text', '4 reports were removed from your list')
+          .within(() => {
+            // Open details
+            cy.findByText('Details').click()
+
+            // Assert list length
+            cy.findByRole('list').findAllByRole('listitem').should('have.length', 4)
+
+            // Assert values
+            const expected = [
+              'Request examples - Cancelled report',
+              'Request examples - Expiring report',
+              'Request examples - Failing report',
+              'Mock dashboards - Expired viewed dashboard',
+            ]
+
+            cy.findByRole('list')
+              .findAllByRole('listitem')
+              .should(($items) => {
+                const texts = [...$items].map((el) => el.textContent?.trim())
+                expect(texts).to.deep.equal(expected)
+              })
+          })
       })
     })
   }

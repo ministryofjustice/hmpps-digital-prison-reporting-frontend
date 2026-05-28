@@ -53,13 +53,29 @@ const getTerminalTimestamp = (report: StoredReportData): number | null => {
  * @param {Response} res
  * @param {number} count
  */
-const flashRemovedReports = (res: Response, count: number) => {
+const flashRemovedReports = (
+  res: Response,
+  count: number,
+  staleRequested: StoredReportData[],
+  staleViewed: StoredReportData[],
+) => {
   if (!count) return
 
-  const message =
-    count === 1 ? '1 stale report was removed from your list' : `${count} stale reports were removed from your list`
+  const removedReports = Array.from(
+    new Set(
+      [...staleRequested, ...staleViewed].map((stale) => `${stale.reportName} - ${stale.name || stale.variantName}`),
+    ),
+  )
 
-  res.req?.flash('DPR_REMOVED_REPORTS', message)
+  const message = count === 1 ? '1 report was removed from your list' : `${count} reports were removed from your list`
+
+  res.req?.flash(
+    'DPR_REMOVED_REPORTS',
+    JSON.stringify({
+      message,
+      details: removedReports,
+    }),
+  )
 }
 
 /**
@@ -115,7 +131,7 @@ export const cleanupReports = async (
     Promise.resolve(),
   )
 
-  flashRemovedReports(res, totalRemoved)
+  flashRemovedReports(res, totalRemoved, staleRequested, staleRecent)
 
   const refreshed = await getAllMyReports(res, services, userId)
 

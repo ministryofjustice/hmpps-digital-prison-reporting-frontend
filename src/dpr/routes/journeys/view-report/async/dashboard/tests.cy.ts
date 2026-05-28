@@ -22,7 +22,7 @@ context('Viewing a dashboard', () => {
           name: (_, element) => {
             return (
               Boolean(element.textContent?.includes('Test Dashboard')) &&
-              Boolean(element.textContent?.includes('Dashboard used for testing testing'))
+              Boolean(element.textContent?.includes('Test Dashboard used for testing'))
             )
           },
         }).within(() => {
@@ -52,7 +52,7 @@ context('Viewing a dashboard', () => {
                   break
                 case 2:
                   cy.findAllByRole('cell', { name: 'Description:' }).should('exist')
-                  cy.findAllByRole('cell', { name: 'Dashboard used for testing testing' }).should('exist')
+                  cy.findAllByRole('cell', { name: 'Test Dashboard used for testing' }).should('exist')
                   break
                 case 3:
                   cy.findAllByRole('cell', { name: 'Applied Filters:' }).should('exist')
@@ -90,7 +90,7 @@ context('Viewing a dashboard', () => {
           name: (_, element) => {
             return (
               Boolean(element.textContent?.includes('Test Dashboard')) &&
-              Boolean(element.textContent?.includes('Dashboard used for testing testing'))
+              Boolean(element.textContent?.includes('Test Dashboard used for testing'))
             )
           },
         }).within(() => {
@@ -120,7 +120,7 @@ context('Viewing a dashboard', () => {
           name: (_, element) => {
             return (
               Boolean(element.textContent?.includes('Test Dashboard')) &&
-              Boolean(element.textContent?.includes('Dashboard used for testing testing'))
+              Boolean(element.textContent?.includes('Test Dashboard used for testing'))
             )
           },
         }).within(() => {
@@ -152,7 +152,7 @@ context('Viewing a dashboard', () => {
           name: (_, element) => {
             return (
               Boolean(element.textContent?.includes('Test Dashboard')) &&
-              Boolean(element.textContent?.includes('Dashboard used for testing testing'))
+              Boolean(element.textContent?.includes('Test Dashboard used for testing'))
             )
           },
         }).within(() => {
@@ -175,7 +175,7 @@ context('Viewing a dashboard', () => {
           name: (_, element) => {
             return (
               Boolean(element.textContent?.includes('Test Dashboard')) &&
-              Boolean(element.textContent?.includes('Dashboard used for testing testing'))
+              Boolean(element.textContent?.includes('Test Dashboard used for testing'))
             )
           },
         }).within(() => {
@@ -198,7 +198,7 @@ context('Viewing a dashboard', () => {
           name: (_, element) => {
             return (
               Boolean(element.textContent?.includes('Test Dashboard')) &&
-              Boolean(element.textContent?.includes('Dashboard used for testing testing'))
+              Boolean(element.textContent?.includes('Test Dashboard used for testing'))
             )
           },
         }).within(() => {
@@ -223,7 +223,7 @@ context('Viewing a dashboard', () => {
           name: (_, element) => {
             return (
               Boolean(element.textContent?.includes('Test Dashboard')) &&
-              Boolean(element.textContent?.includes('Dashboard used for testing testing'))
+              Boolean(element.textContent?.includes('Test Dashboard used for testing'))
             )
           },
         }).within(() => {

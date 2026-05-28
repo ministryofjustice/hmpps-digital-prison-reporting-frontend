@@ -271,7 +271,7 @@ context('Try to run the app with failing and broken api endpoints', () => {
       cy.findByLabelText(/Reports catalogue.*/i).within(() => {
         cy.findByRole('row', {
           name: (_, element) => {
-            return Boolean(element.textContent?.includes('Dashboard used for testing testing'))
+            return Boolean(element.textContent?.includes('Test Dashboard used for testing'))
           },
         }).within(() => {
           cy.findByRole('link', { name: 'Request dashboard' }).click()
@@ -292,7 +292,7 @@ context('Try to run the app with failing and broken api endpoints', () => {
       cy.findByLabelText(/Reports catalogue.*/i).within(() => {
         cy.findByRole('row', {
           name: (_, element) => {
-            return Boolean(element.textContent?.includes('Dashboard used for testing testing'))
+            return Boolean(element.textContent?.includes('Test Dashboard used for testing'))
           },
         }).within(() => {
           cy.findByRole('link', { name: 'Request dashboard' }).click()
@@ -314,7 +314,7 @@ context('Try to run the app with failing and broken api endpoints', () => {
       cy.findByLabelText(/Reports catalogue.*/i).within(() => {
         cy.findByRole('row', {
           name: (_, element) => {
-            return Boolean(element.textContent?.includes('Dashboard used for testing testing'))
+            return Boolean(element.textContent?.includes('Test Dashboard used for testing'))
           },
         }).within(() => {
           cy.findByRole('link', { name: 'Request dashboard' }).click()
@@ -338,7 +338,7 @@ context('Try to run the app with failing and broken api endpoints', () => {
       cy.findByLabelText(/Reports catalogue.*/i).within(() => {
         cy.findByRole('row', {
           name: (_, element) => {
-            return Boolean(element.textContent?.includes('Dashboard used for testing testing'))
+            return Boolean(element.textContent?.includes('Test Dashboard used for testing'))
           },
         }).within(() => {
           cy.findByRole('link', { name: 'Request dashboard' }).click()
@@ -364,7 +364,7 @@ context('Try to run the app with failing and broken api endpoints', () => {
       cy.findByLabelText(/Reports catalogue.*/i).within(() => {
         cy.findByRole('row', {
           name: (_, element) => {
-            return Boolean(element.textContent?.includes('Dashboard used for testing testing'))
+            return Boolean(element.textContent?.includes('Test Dashboard used for testing'))
           },
         }).within(() => {
           cy.findByRole('link', { name: 'Request dashboard' }).click()

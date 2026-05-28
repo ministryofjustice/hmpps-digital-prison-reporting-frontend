@@ -8,7 +8,7 @@ import * as BarCharts from '../visualisations/complete-dataset/bar/vis-definitio
 export const definition: components['schemas']['DashboardDefinition'] = {
   id: 'test-dashboard-8',
   name: 'Test Dashboard',
-  description: 'Dashboard used for testing testing',
+  description: 'Test Dashboard used for testing',
   sections: [
     {
       id: 'section-1',

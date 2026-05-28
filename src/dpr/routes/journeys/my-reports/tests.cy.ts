@@ -50,7 +50,7 @@ describe('My Reports', () => {
       })
 
       it('should remove stale reports', () => {
-        let lastMonth = new Date()
+        const lastMonth = new Date()
         lastMonth.setMonth(lastMonth.getMonth() - 1)
 
         const staleRequestedAborted: RequestedReport = {

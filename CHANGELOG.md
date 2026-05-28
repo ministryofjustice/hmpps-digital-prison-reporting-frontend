@@ -1,6 +1,6 @@
 Below you can find the changes included in each release.
 
-## 6.4.0
+## 6.4.1
 
 - Bugfix: Statics options should not be normalized before query
 

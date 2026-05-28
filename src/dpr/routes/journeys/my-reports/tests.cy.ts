@@ -11,7 +11,7 @@ import {
 } from '@networkMocks/report/mockVariants/mockViewedUserListData'
 import { getMyReportRow, stubBaseTasks, stubDefinitionsTasks } from 'cypress-tests/cypressUtils'
 import { setRedisState, resetStaleReportsCheck } from '../../../../../test-app/routes/integrationTests/appStateUtils'
-import { RequestedReport, StoredReportData } from 'src/dpr/types/UserReports'
+import { RequestedReport, StoredReportData } from '../../../types/UserReports'
 
 describe('My Reports', () => {
   const paths = ['/', '/dpr', '/embedded/platform', '/embedded/platform/dpr']

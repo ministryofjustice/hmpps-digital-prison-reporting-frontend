@@ -1,6 +1,6 @@
 import { Response } from 'express'
 import { Services } from 'src/dpr/types/Services'
-import { ReportType, RequestedReport, StoredReportData } from 'src/dpr/types/UserReports'
+import { ReportType, RequestedReport, StoredReportData } from '../../types/UserReports'
 
 export enum RequestStatus {
   SUBMITTED = 'SUBMITTED',

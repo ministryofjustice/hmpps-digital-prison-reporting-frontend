@@ -166,9 +166,10 @@ class ReportQuery implements FilteredListRequest {
   ): string | undefined {
     if (!staticOptions || !rawValue) return undefined
 
-    const validValues = staticOptions.map((o) => o.name.toLowerCase())
+    // Map lowercase -> original casing
+    const valueMap = new Map(staticOptions.map((o) => [o.name.toLowerCase(), o.name]))
 
-    // Normalize input - array of strings
+    // Normalize input to lowercase strings
     const values = Array.isArray(rawValue)
       ? rawValue.map((v) => v.toString().toLowerCase())
       : rawValue
@@ -177,8 +178,9 @@ class ReportQuery implements FilteredListRequest {
           .map((v) => v.trim().toLowerCase())
 
     if (type === 'multiselect') {
-      const invalidValues = values.filter((v) => !validValues.includes(v))
-      const filtered = [...new Set(values.filter((v) => validValues.includes(v)))]
+      const invalidValues = values.filter((v) => !valueMap.has(v))
+
+      const filtered = [...new Set(values.map((v) => valueMap.get(v)).filter((v): v is string => v !== undefined))]
 
       if (invalidValues.length > 0) {
         logger.warn(`Invalid filter values removed for multiselect: ${fieldName}: [${invalidValues.join(', ')}]`)
@@ -189,15 +191,16 @@ class ReportQuery implements FilteredListRequest {
       return filtered.join(',')
     }
 
-    // radio / select (single value)
+    // Single value (radio/select)
     const value = values[0]
+    const mappedValue = valueMap.get(value)
 
-    if (!validValues.includes(value)) {
+    if (!mappedValue) {
       logger.warn(`Invalid filter value: ${fieldName}: ${value}`)
       return undefined
     }
 
-    return value
+    return mappedValue
   }
 
   /**

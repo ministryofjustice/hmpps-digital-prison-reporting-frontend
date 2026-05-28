@@ -1,5 +1,5 @@
-import { featureTestingUnprintable } from '@networkMocks/report/mockVariants/feature-testing/unprintable'
 import { featureTestingEmptyQuery } from '@networkMocks/report/mockVariants/feature-testing/emptyQuery'
+import { featureTestingUnprintable } from '@networkMocks/report/mockVariants/feature-testing/unprintable'
 import {
   expectMyReportRowCountInTab,
   getMyReportRow,
@@ -114,7 +114,7 @@ context('Bookmarks list', () => {
               cy.findByLabelText(/Reports catalogue.*/i).within(() => {
                 cy.findByRole('row', {
                   name: (_, element) => {
-                    return Boolean(element.textContent?.includes('Dashboard used for testing testing'))
+                    return Boolean(element.textContent?.includes('Test Dashboard used for testing'))
                   },
                 }).within(() => {
                   cy.findByRole('link', { name: /Add bookmark/ }).click()
@@ -129,7 +129,7 @@ context('Bookmarks list', () => {
               cy.findByLabelText(/Reports catalogue.*/i).within(() => {
                 cy.findByRole('row', {
                   name: (_, element) => {
-                    return Boolean(element.textContent?.includes('Dashboard used for testing testing'))
+                    return Boolean(element.textContent?.includes('Test Dashboard used for testing'))
                   },
                 }).within(() => {
                   cy.findByRole('link', { name: /Remove bookmark/ }).should('exist')
@@ -151,7 +151,7 @@ context('Bookmarks list', () => {
               cy.findByLabelText(/Reports catalogue.*/i).within(() => {
                 cy.findByRole('row', {
                   name: (_, element) => {
-                    return Boolean(element.textContent?.includes('Dashboard used for testing testing'))
+                    return Boolean(element.textContent?.includes('Test Dashboard used for testing'))
                   },
                 }).within(() => {
                   cy.findByRole('link', { name: /Remove bookmark/ }).click()
@@ -163,7 +163,7 @@ context('Bookmarks list', () => {
               cy.findByLabelText(/Reports catalogue.*/i).within(() => {
                 cy.findByRole('row', {
                   name: (_, element) => {
-                    return Boolean(element.textContent?.includes('Dashboard used for testing testing'))
+                    return Boolean(element.textContent?.includes('Test Dashboard used for testing'))
                   },
                 }).within(() => {
                   cy.findByRole('link', { name: /Add bookmark/ }).should('exist')
@@ -194,7 +194,7 @@ context('Bookmarks list', () => {
             cy.findByLabelText(/Reports catalogue.*/i).within(() => {
               cy.findByRole('row', {
                 name: (_, element) => {
-                  return Boolean(element.textContent?.includes('Dashboard used for testing testing'))
+                  return Boolean(element.textContent?.includes('Test Dashboard used for testing'))
                 },
               }).within(() => {
                 cy.findByRole('link', { name: /Add bookmark/ }).click()
@@ -206,7 +206,7 @@ context('Bookmarks list', () => {
             cy.findByLabelText(/Reports catalogue.*/i).within(() => {
               cy.findByRole('row', {
                 name: (_, element) => {
-                  return Boolean(element.textContent?.includes('Dashboard used for testing testing'))
+                  return Boolean(element.textContent?.includes('Test Dashboard used for testing'))
                 },
               }).within(() => {
                 cy.findByRole('link', { name: /Remove bookmark/ }).click()
@@ -316,7 +316,7 @@ context('Bookmarks list', () => {
         //         name: (_, element) => {
         //           return (
         //             Boolean(element.textContent?.includes('Test Dashboard')) &&
-        //             Boolean(element.textContent?.includes('Dashboard used for testing testing'))
+        //             Boolean(element.textContent?.includes('Test Dashboard used for testing'))
         //           )
         //         },
         //       }).within(() => {

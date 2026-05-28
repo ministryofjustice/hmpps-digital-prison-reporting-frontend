@@ -1,7 +1,6 @@
 {%- from "moj/components/alert/macro.njk" import mojAlert -%}
 {% from "govuk/components/details/macro.njk" import govukDetails %}
 
-
 {% macro dprMyReportsListNotification(removedReports) %}
   {% set message = removedReports.message %}
   {% set details = removedReports.details %}
@@ -16,7 +15,6 @@
       <p class="govuk-body">Reports that are in an EXPIRED, FAILED or ABORTED state are removed automatically after two weeks.</p>
       <p class="govuk-body">The following reports were removed:</p>
       <ul>{{ detailsListHtml | safe }}</ul>
-
     {% endset %}
     
     {% set alertHtml %}

@@ -1,6 +1,6 @@
 import { Response } from 'express'
-import { RequestStatus, RequestedReport } from 'src/dpr/types/UserReports'
 import { getValues } from 'src/dpr/utils/localsHelper'
+import { RequestStatus, RequestedReport } from '../../../../types/UserReports'
 
 /**
  * Public api for building out the congfig for a current status component

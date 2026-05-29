@@ -10,6 +10,7 @@ import { errorRequestHandler } from '../routes'
 import { getAllMyBookmarks, getAllMyReports } from '../utils/reportStoreHelper'
 import logger from '../utils/logger'
 import { getDefinitionsPath } from '../utils/definitionUtils'
+import { cleanupReports } from '../utils/cleanupMyReports'
 
 /**
  * Middleware helper to populate all locals configuration
@@ -41,7 +42,7 @@ export const setupResources = (
       await initialiseServices(services, res)
 
       // 4. Populate user reports state with up to date list
-      await populateRequestedReports(services, res)
+      await populateRequestedReports(services, res, req)
 
       setUpDprPaths(res)
 
@@ -327,15 +328,29 @@ const initialiseServices = async (services: Services, res: Response) => {
  * @param {Services} services
  * @param {Response} res
  */
-const populateRequestedReports = async (services: Services, res: Response) => {
+const populateRequestedReports = async (services: Services, res: Response, req: Request) => {
   const { dprUser } = localsHelper.getValues(res)
   if (dprUser.id) {
-    const { requestedReports, recentlyViewedReports } = await getAllMyReports(res, services, dprUser.id)
+    const myReports = await getAllMyReports(res, services, dprUser.id)
+
+    const { requestedReports, recentlyViewedReports } = await cleanupReports(
+      services,
+      dprUser.id,
+      myReports.requestedReports,
+      myReports.recentlyViewedReports,
+      res,
+    )
 
     res.locals['requestedReports'] = requestedReports
     res.locals['recentlyViewedReports'] = recentlyViewedReports
     if (res.app.locals['bookmarkingEnabled']) {
       res.locals['bookmarks'] = await getAllMyBookmarks(res, services, dprUser.id)
+    }
+
+    const removedReports = req.flash('DPR_REMOVED_REPORTS')
+    if (removedReports && removedReports[0]) {
+      const [firstRemovedReport] = removedReports
+      res.locals['removedReports'] = JSON.parse(firstRemovedReport)
     }
   }
 }

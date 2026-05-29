@@ -4,6 +4,10 @@ Below you can find the changes included in each release.
 
 - Bugfix: Statics options should not be normalized before query
 
+## 6.5.0
+
+- Show applied filters within dashboard details
+
 ## 6.4.1
 
 - Bugfix: Statics options should not be normalized before query

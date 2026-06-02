@@ -2,7 +2,7 @@ Below you can find the changes included in each release.
 
 ## 6.6.0
 
-- Bugfix: Statics options should not be normalized before query
+- My Reports: Run cleanup job to remove old/stale reports from redis if in a failed state and older than 2 weeks.
 
 ## 6.5.0
 

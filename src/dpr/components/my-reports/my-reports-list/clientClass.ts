@@ -22,14 +22,17 @@ class DprMyReports extends PollingClientClass {
 
     this.listType = element.dataset['listType'] ?? `my-reports-${ListType.REQUESTED}`
 
-    this.initRemoveAction()
+    // Only set csrf and remove action on requested and viewed list types
+    if (this.listType === `my-reports-${ListType.REQUESTED}` || `my-reports-${ListType.VIEWED}`) {
+      this.csrfToken = DprHtmlClient.getCsrfToken(element)
 
-    // Only poll on requested list
-    if (element.dataset['listType'] !== `my-reports-${ListType.REQUESTED}`) {
-      return
+      this.initRemoveAction()
     }
 
-    this.csrfToken = DprHtmlClient.getCsrfToken(element)
+    // Only poll on requested list
+    if (this.listType !== `my-reports-${ListType.REQUESTED}`) {
+      return
+    }
 
     this.rows = element.querySelectorAll<HTMLElement>('[data-row-id]')
 

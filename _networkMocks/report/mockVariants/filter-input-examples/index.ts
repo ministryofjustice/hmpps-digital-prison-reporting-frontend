@@ -3,6 +3,7 @@ import { variant15 } from './relativeDateRange'
 import { establishmentAutocomplete } from './autocomplete'
 import multiselectExample from './multiselect'
 import autoCompleteMultiExample from './autocompleteMulti'
+import autoCompleteMultiMinMaxExample from './autoMultiMinMax'
 
 export const filterInputExamplesVariants = [
   variant25,
@@ -10,4 +11,5 @@ export const filterInputExamplesVariants = [
   establishmentAutocomplete,
   multiselectExample,
   autoCompleteMultiExample,
+  autoCompleteMultiMinMaxExample,
 ]

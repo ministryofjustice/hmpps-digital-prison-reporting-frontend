@@ -2,7 +2,7 @@
    Shared value types
    ========================================================================== */
 
-import { LoadType, ReportType } from 'src/dpr/types/UserReports'
+import { LoadType, ReportType } from '../../types/UserReports'
 
 export type NameValuePair = {
   name: string
@@ -130,6 +130,7 @@ export type DprMyReport = {
   requested: DprMyReportListConfig
   viewed: DprMyReportListConfig
   bookmarks?: DprMyReportListConfig | undefined
+  removedReports: string | undefined
 }
 
 export type MappedBookmarks = {

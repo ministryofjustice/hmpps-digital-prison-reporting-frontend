@@ -1,4 +1,4 @@
-import { LoadType, RequestedReport } from 'src/dpr/types/UserReports'
+import { LoadType, RequestedReport } from '../../../../../types/UserReports'
 import Report from '../../../../../components/_reports/Report'
 import LocalsHelper from '../../../../../utils/localsHelper'
 import { AsyncReportUtilsParams } from '../../../../../types/AsyncReportUtils'

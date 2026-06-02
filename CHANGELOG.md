@@ -1,5 +1,25 @@
 Below you can find the changes included in each release.
 
+## 6.6.0
+
+- Bugfix: Statics options should not be normalized before query
+
+## 6.5.0
+
+- Show applied filters within dashboard details
+
+## 6.4.1
+
+- Bugfix: Statics options should not be normalized before query
+
+## 6.4.0
+
+- `autocompletemulti` validates against `minSelected` and `maxSelected` filter definition fields
+
+## 6.3.3
+
+- Bugfix: CSRF token not sent correctly in remove action
+
 ## 6.3.2
 
 - Setup pre-commit hooks (runs locally and on CI environment)

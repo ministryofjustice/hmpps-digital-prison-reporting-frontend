@@ -20,6 +20,8 @@ class RequestedReportService extends ReportStoreService {
   async removeReport(executionId: string, userId: string) {
     const userConfig = await this.getState(userId)
     const index = this.findIndexByExecutionId(executionId, userConfig.requestedReports)
+    if (index === -1) return
+
     userConfig.requestedReports.splice(index, 1)
     await this.saveState(userId, userConfig)
   }

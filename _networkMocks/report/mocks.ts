@@ -6,7 +6,7 @@ import {
 } from '@networkMocks/generateNetworkMock'
 import { createMockData } from '@networkMocks/report/mockVariants/mockAsyncData'
 import { components } from 'src/dpr/types/api'
-import { RequestStatus } from 'src/dpr/types/UserReports'
+import { RequestStatus } from '../../src/dpr/types/UserReports'
 import { requestExampleVariants } from './mockVariants/request-examples'
 import { reportTemplates } from './mockVariants/report-templates'
 import { mockReportVariants } from './mockVariants/mock-report'

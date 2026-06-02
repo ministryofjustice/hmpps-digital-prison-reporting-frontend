@@ -17,6 +17,9 @@ declare module 'express-session' {
     // Time in ms of the last expirey check
     lastExpiredReportsCheckAt: number
 
+    // Flag to indicate that reports cleanup has run - once per session
+    reportsCleanupRun: boolean
+
     // The ID of the currently selected collection
     currentCollectionId?: string | undefined
 

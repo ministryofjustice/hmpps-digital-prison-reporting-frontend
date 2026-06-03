@@ -96,32 +96,25 @@ export const updateStore = async ({
   }
 
   let requestedReportData
+
+  const requestDataBuilder = new UserStoreItemBuilder(reportData, requestFormData)
+    .addExecutionData(executionData)
+    .addFilters(queryData?.filterData)
+    .addDefinitionsPath(definitionsPath, dpdPathFromQuery)
+    .addRequestUrls(req)
+    .addQuery(queryData)
+    .addStatus(RequestStatus.SUBMITTED)
+    .addTimestamp()
+
   switch (type) {
     case ReportType.REPORT:
-      requestedReportData = new UserStoreItemBuilder(reportData, requestFormData)
-        .addExecutionData(executionData)
-        .addChildExecutionData(childExecutionData)
-        .addFilters(queryData?.filterData)
+      requestedReportData = requestDataBuilder
         .addSortData(queryData?.sortData)
-        .addDefinitionsPath(definitionsPath, dpdPathFromQuery)
-        .addRequestUrls(req)
-        .addQuery(queryData)
-        .addStatus(RequestStatus.SUBMITTED)
-        .addTimestamp()
+        .addChildExecutionData(childExecutionData)
         .build()
       break
     case ReportType.DASHBOARD: {
-      requestedReportData = new UserStoreItemBuilder(reportData, requestFormData)
-        .addExecutionData(executionData)
-        .addChildExecutionData(childExecutionData)
-        .addFilters(queryData?.filterData)
-        .addDefinitionsPath(definitionsPath, dpdPathFromQuery)
-        .addRequestUrls(req)
-        .addQuery(queryData)
-        .addStatus(RequestStatus.SUBMITTED)
-        .addTimestamp()
-        .addMetrics(JSON.parse(req.body.sections))
-        .build()
+      requestedReportData = requestDataBuilder.addMetrics(JSON.parse(req.body.sections)).build()
       break
     }
     default:

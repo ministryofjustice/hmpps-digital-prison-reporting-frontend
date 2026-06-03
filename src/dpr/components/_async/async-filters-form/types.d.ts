@@ -32,9 +32,12 @@ export interface RenderFiltersReturnValue {
   sortBy?: FilterValue[]
 }
 
-export interface SetQueryFromFiltersResult {
-  query: Record<string, string>
+export interface SetQueryFromFiltersResult extends QueryData {
   filterData: Record<string, string>
-  querySummary: QuerySummaryItem[]
   sortData?: Record<string, string>
+}
+
+export interface QueryData {
+  query: Record<string, string>
+  querySummary: QuerySummaryItem[]
 }

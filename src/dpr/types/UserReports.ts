@@ -1,5 +1,5 @@
 import Dict = NodeJS.Dict
-import { SummaryTemplate, Template } from './Templates'
+import { SummaryTemplate } from './Templates'
 import { ChildReportExecutionData } from './ExecutionData'
 import { components } from './api'
 import { QuerySummaryItem } from '../components/_async/request-details/types'
@@ -27,10 +27,9 @@ export interface StoredReportData {
 }
 
 export interface RequestedReport extends StoredReportData {
-  template: Template
   errorMessage?: string
-  filters: ParamsConfig
-  sortBy: ParamsConfig
+  filters?: ParamsConfig
+  sortBy?: ParamsConfig
 }
 
 export interface RequestedDashboard extends StoredReportData {

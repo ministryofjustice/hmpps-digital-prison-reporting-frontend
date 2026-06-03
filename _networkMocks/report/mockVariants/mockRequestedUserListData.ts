@@ -1,7 +1,6 @@
 import { ReportType, RequestedReport, RequestStatus } from '../../../src/dpr/types/UserReports'
 
 export const requestedReady: RequestedReport = {
-  template: 'list',
   dataProductDefinitionsPath: '',
   type: ReportType.REPORT,
   reportId: 'request-examples',
@@ -106,7 +105,6 @@ export const requestedReady: RequestedReport = {
 }
 
 export const requestedExpired: RequestedReport = {
-  template: 'list',
   dataProductDefinitionsPath: '',
   type: ReportType.REPORT,
   reportId: 'request-examples',
@@ -198,7 +196,6 @@ export const requestedExpired: RequestedReport = {
 }
 
 export const requestedAborted: RequestedReport = {
-  template: 'list',
   dataProductDefinitionsPath: '',
   type: ReportType.REPORT,
   reportId: 'request-examples',
@@ -297,7 +294,6 @@ export const requestedAborted: RequestedReport = {
 }
 
 export const requestedFailed: RequestedReport = {
-  template: 'list',
   dataProductDefinitionsPath: '',
   type: ReportType.REPORT,
   reportId: 'request-examples',
@@ -390,7 +386,6 @@ export const requestedFailed: RequestedReport = {
 }
 
 export const requestedSubmitted: RequestedReport = {
-  template: 'list',
   dataProductDefinitionsPath: '',
   type: ReportType.REPORT,
   reportId: 'request-examples',

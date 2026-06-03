@@ -145,7 +145,7 @@ export class SectionedDataHelper {
               ? {
                   ...s,
                   count: s.count + section.count,
-                  summaries: this.mergeSummaries(s.summaries, section.summaries),
+                  summaries: [...(s.summaries ?? []), ...(section.summaries ?? [])],
                   data: (s.data ?? []).concat(section.data ?? []),
                 }
               : s,
@@ -157,23 +157,6 @@ export class SectionedDataHelper {
         }, []),
     }
   }
-
-  mergeSummaries = (existing: AsyncSummary[] = [], incoming: AsyncSummary[] = []): AsyncSummary[] =>
-    incoming.reduce<AsyncSummary[]>(
-      (acc, inc) => {
-        const match = acc.find((s) => s.template === inc.template)
-
-        if (match) {
-          return acc.map((s) => (s.template === inc.template ? { ...s, data: [...s.data, ...inc.data] } : s))
-        }
-
-        return acc.concat({
-          ...inc,
-          data: [...inc.data],
-        })
-      },
-      existing.map((s) => ({ ...s, data: [...s.data] })),
-    )
 
   getSortField() {
     const { sortColumn } = this.reportQuery

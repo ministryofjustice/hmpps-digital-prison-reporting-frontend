@@ -5,6 +5,7 @@ import { components } from '../../../types/api'
 import { getFieldsByName, getFieldDisplayName } from '../../definitionUtils'
 import { SectionData, SectionedData, SectionKey } from './types'
 import DateMapper from '../../DateMapper/DateMapper'
+import logger from '../../logger'
 
 export class SectionedDataHelper {
   sections: Array<string> = []
@@ -101,6 +102,8 @@ export class SectionedDataHelper {
       return acc
     }, {})
 
+    logger.info('SUMMARY_SORT_BUG', 'groupBySections', JSON.stringify({ sectionMap }))
+
     this.sectionedDataArray.push({
       sections: Object.values(sectionMap),
     })
@@ -109,6 +112,9 @@ export class SectionedDataHelper {
   createSummarySections() {
     this.summariesData.forEach((summaryData) => {
       const { fields, id, template, data } = summaryData
+
+      logger.info('SUMMARY_SORT_BUG', 'createSummarySections', JSON.stringify({ summaryData }))
+
       this.groupBySections(<Array<Record<string, string>>>data, fields, { id, template })
     })
   }
@@ -139,16 +145,35 @@ export class SectionedDataHelper {
               ? {
                   ...s,
                   count: s.count + section.count,
-                  summaries: (s.summaries ?? []).concat(section.summaries ?? []),
+                  summaries: this.mergeSummaries(s.summaries, section.summaries),
                   data: (s.data ?? []).concat(section.data ?? []),
                 }
               : s,
           )
 
+          logger.info('SUMMARY_SORT_BUG', 'build 1', JSON.stringify({ mergedSections: updated }))
+
           return updated
         }, []),
     }
   }
+
+  mergeSummaries = (existing: AsyncSummary[] = [], incoming: AsyncSummary[] = []): AsyncSummary[] =>
+    incoming.reduce<AsyncSummary[]>(
+      (acc, inc) => {
+        const match = acc.find((s) => s.template === inc.template)
+
+        if (match) {
+          return acc.map((s) => (s.template === inc.template ? { ...s, data: [...s.data, ...inc.data] } : s))
+        }
+
+        return acc.concat({
+          ...inc,
+          data: [...inc.data],
+        })
+      },
+      existing.map((s) => ({ ...s, data: [...s.data] })),
+    )
 
   getSortField() {
     const { sortColumn } = this.reportQuery
@@ -245,10 +270,19 @@ export class SectionedDataHelper {
   build(): SectionedData {
     let sections: SectionedData
     if (this.sections.length) {
+      // Group main data into sections
       this.groupBySections(this.data, this.fields)
+
+      // Create the summary and group into sections
       this.createSummarySections()
+
       sections = this.mergeSections()
+
+      logger.info('SUMMARY_SORT_BUG', 'build 1', JSON.stringify({ mergedSections: sections }))
+
       sections = this.sortSections(sections)
+
+      logger.info('SUMMARY_SORT_BUG', 'build 2', JSON.stringify({ sortedSections: sections }))
     } else {
       const singleSection: SectionData = {
         key: '',
@@ -258,6 +292,8 @@ export class SectionedDataHelper {
         summaries: this.summariesData,
       }
       sections = { sections: [singleSection] }
+
+      logger.info('SUMMARY_SORT_BUG', 'build 3', JSON.stringify({ singleSection }))
     }
 
     return sections

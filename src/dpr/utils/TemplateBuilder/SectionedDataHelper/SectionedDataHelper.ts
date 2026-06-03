@@ -7,6 +7,14 @@ import { SectionData, SectionedData, SectionKey } from './types'
 import DateMapper from '../../DateMapper/DateMapper'
 import logger from '../../logger'
 
+type OrderedRow = Record<string, string> & {
+  index: string
+}
+
+type OrderedSummary = Omit<AsyncSummary, 'data'> & {
+  data: OrderedRow[]
+}
+
 export class SectionedDataHelper {
   sections: Array<string> = []
 
@@ -14,7 +22,7 @@ export class SectionedDataHelper {
 
   fields: components['schemas']['FieldDefinition'][] = []
 
-  summariesData: AsyncSummary[] = []
+  summariesData: OrderedSummary[] = []
 
   sectionedDataArray: SectionedData[] = []
 
@@ -168,6 +176,18 @@ export class SectionedDataHelper {
     return sortedAsc ? 1 : -1
   }
 
+  private enforceSummaryRowOrder(sectionedData: SectionedData): SectionedData {
+    return {
+      sections: sectionedData.sections.map((section) => ({
+        ...section,
+        summaries: (section.summaries ?? []).map((summary) => ({
+          ...summary,
+          data: [...summary.data].sort((a, b) => (Number(a['index']) ?? 0) - (Number(b['index']) ?? 0)),
+        })),
+      })),
+    }
+  }
+
   /**
    * Sorts sections based on keyObj values using an optional nameOrder override.
    * - nameOrder can be partial; unspecified names fall back to default order
@@ -241,7 +261,14 @@ export class SectionedDataHelper {
   }
 
   withSummaries(summaryData: Array<AsyncSummary>) {
-    this.summariesData = summaryData || []
+    this.summariesData = (summaryData || []).map((summary) => ({
+      ...summary,
+      data: summary.data.map((row, index) => ({
+        ...row,
+        index: String(index),
+      })),
+    }))
+
     return this
   }
 
@@ -260,6 +287,8 @@ export class SectionedDataHelper {
       this.createSummarySections()
 
       sections = this.mergeSections()
+
+      sections = this.enforceSummaryRowOrder(sections)
 
       logger.info('SUMMARY_SORT_BUG', 'build 1', JSON.stringify({ mergedSections: sections }))
 

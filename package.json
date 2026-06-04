@@ -156,7 +156,7 @@
   },
   "dependencies": {
     "@flipt-io/flipt-client-js": "0.4.0",
-    "@ministryofjustice/frontend": "^8.0.0",
+    "@ministryofjustice/frontend": "^9.0.0",
     "@sentry/node": "10.44.0",
     "@tsconfig/node24": "24.0.4",
     "agentkeepalive": "^4.5.0",
@@ -172,7 +172,7 @@
     "dayjs": "^1.11.12",
     "express": "^5.2.1",
     "express-session": "^1.18.2",
-    "govuk-frontend": "^5.13.0",
+    "govuk-frontend": "^6.1.0",
     "nocache": "^4.0.0",
     "nunjucks": "^3.2.4",
     "nunjucks-date": "^1.5.0",

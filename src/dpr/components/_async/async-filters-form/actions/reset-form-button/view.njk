@@ -1,6 +1,14 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "../../../../button-link/view.njk" import dprButtonLink %}
 
 {% macro dprFiltersFormReset() %}
-  {% set classes = 'dpr-button-link' %}
-  <button class="{{ classes }}" type="submit" formaction="filters/resetFilters" >Reset filters</button>
+
+  {{ dprButtonLink({
+    text: "Reset filters",
+    attributes: {
+      formaction: "filters/resetFilters",
+      type: "submit"
+    }
+  }) }}
+
 {% endmacro %}

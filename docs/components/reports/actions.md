@@ -36,14 +36,14 @@ Use the Actions component when report users need to:
 {% example "report/actions/disabled", 170, 'disabled' %}
 
 
-## Actions 
+## Actions
 ### Print screen
 
 The print screen action enables the user to print the visible contents of their current screen.
 
-This action will open up the print window in your browser for the user to configure the print conditions. 
+This action will open up the print window in your browser for the user to configure the print conditions.
 
-> **NOTE:** The print screen action will not print the entire report by default as the action will only print the contents visisble on the screen. To print the entire report the user will need to update the "rows per page" input of the report to `All` and then click print. 
+> **NOTE:** The print screen action will not print the entire report by default as the action will only print the contents visisble on the screen. To print the entire report the user will need to update the "rows per page" input of the report to `All` and then click print.
 
 {% example "report/actions/print", 170, 'print' %}
 

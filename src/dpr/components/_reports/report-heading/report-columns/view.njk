@@ -13,7 +13,7 @@
       {{ dprColumnsForm(columns, csrfToken) }}
     {% endset %}
 
-    <div class="dpr-interactive-filters-accordion"> 
+    <div class="dpr-interactive-filters-accordion">
       {% set columnsTitle = "Show columns (" + columns.value.length + " of " + columns.options.length +" shown)"  %}
       <div class="columns-section-button">
         {{ govukDetails({

@@ -36,6 +36,7 @@ import { AppliedFilterChip, buildAppliedFilters } from '../_filters/filters-appl
 import { apiTimestampToUiDateTime } from '../../utils/dateHelper'
 import { FiltersType } from '../_filters/filtersTypeEnum'
 import ErrorHandler from '../../utils/ErrorHandler/ErrorHandler'
+import logger from '../../utils/logger'
 
 export default class Report {
   id: string
@@ -249,6 +250,8 @@ export default class Report {
             }
           }),
         )
+
+    logger.info('SUMMARY_SORT_BUG', JSON.stringify({ apiSummaries: this.summariesData }))
   }
 
   /**
@@ -438,7 +441,7 @@ export default class Report {
         this.id,
         FiltersType.INTERACTIVE,
       ),
-      saveDefaultsEnabled: this.res.locals['saveDefaultsEnabled'],
+      saveDefaultsEnabled: this.res.app.locals['saveDefaultsEnabled'],
     }
   }
 

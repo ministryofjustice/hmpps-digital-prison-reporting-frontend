@@ -1,5 +1,57 @@
 Below you can find the changes included in each release.
 
+## 6.6.1
+
+- Update some dependencies to fix vulnerabilities
+- Remove cypress-xpath as not needed
+
+## 6.6.0
+
+- Bugfix: Statics options should not be normalized before query
+
+## 6.5.0
+
+- Show applied filters within dashboard details
+
+## 6.4.1
+
+- Bugfix: Statics options should not be normalized before query
+
+## 6.4.0
+
+- `autocompletemulti` validates against `minSelected` and `maxSelected` filter definition fields
+
+## 6.3.3
+
+- Bugfix: CSRF token not sent correctly in remove action
+
+## 6.3.2
+
+- Setup pre-commit hooks (runs locally and on CI environment)
+- Formatted codebase to remove trailing whitespace and extra end of file lines
+
+## 6.3.1
+
+- Bugfix: CSRF token not sent correctly in remove action
+
+## 6.3.0
+
+- New input: `autocompletemulti` - A multiselect with autocomplete/search functionality
+
+## 6.2.3
+
+- Bugfix: CSRF token not sent correctly in remove action
+
+## 6.2.2
+
+- Bugfix: Filter out relative-duration query from requests
+
+## 6.2.2
+
+- Bugfix: Remove button post missing csrf.
+- Bugfix: Polling page not rendering finished state
+- Style fix: Interactive reset & save using correct font
+
 ## 6.2.1
 
 - Bugfix: Normalize columns for download in query to always be an array
@@ -320,7 +372,7 @@ There are also now two type-only exports:
 `/extraLocals` - this is an export of all the variables that the library _can_ inject into Express' [res.locals property](https://expressjs.com/en/api.html#res.locals). If you want to make these available to your app, you should do this via [declaration merging](https://www.typescriptlang.org/docs/handbook/declaration-merging.html#merging-namespaces). For example:
 
 ```typescript
-import { ExtraLocals } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/extraLocals'
+import { ExtraLocals } from "@ministryofjustice/hmpps-digital-prison-reporting-frontend/extraLocals";
 declare namespace Express {
   interface Locals extends ExtraLocals {}
 }

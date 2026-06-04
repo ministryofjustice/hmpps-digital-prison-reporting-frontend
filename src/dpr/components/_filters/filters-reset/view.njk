@@ -1,11 +1,14 @@
 {% from "../../button-link/view.njk" import dprButtonLink %}
 
 {% macro dprFiltersFormReset(reportType, csrfToken) %}
-  {% set classes = 'dpr-clear-button-styles govuk-link govuk-link--no-visited-state govuk-!-margin-bottom-1 govuk-!-margin-top-1' %}
+
   <form method='post' action='./{{ reportType }}/reset-filters'>
     <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+
     {{ dprButtonLink({
-      text: 'Reset filters'
+      text: 'Reset filters',
+      classes: classes
     }) }}
+
   </form>
 {% endmacro %}

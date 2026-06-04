@@ -1,4 +1,4 @@
-import { LoadType, RequestedReport } from 'src/dpr/types/UserReports'
+import { LoadType, RequestedReport } from '../../../../../types/UserReports'
 import Report from '../../../../../components/_reports/Report'
 import LocalsHelper from '../../../../../utils/localsHelper'
 import { AsyncReportUtilsParams } from '../../../../../types/AsyncReportUtils'
@@ -16,8 +16,9 @@ export const renderReport = async ({ req, res, services }: AsyncReportUtilsParam
   const queryData = requestData?.query?.data
 
   // Get the definition
-  const definition: components['schemas']['SingleVariantReportDefinition'] =
-    await services.reportingService.getDefinition(token, reportId, id, definitionsPath, queryData)
+  const definition =
+    (res.locals['definition'] as components['schemas']['SingleVariantReportDefinition']) ??
+    (await services.reportingService.getDefinition(token, reportId, id, definitionsPath, queryData))
 
   // Create the report config
   const reportConfig = await new Report(services, res, req, definition, LoadType.ASYNC, requestData).build()

@@ -27,14 +27,14 @@
 
         {{ dprScoreCardGroup(id, data) }}
 
-      {% elif type === 'list' %}        
+      {% elif type === 'list' %}
 
         {{ dprDashboardList(data) }}
 
       {% else %}
 
         {{ dprChartCard(id, data) }}
-      
+
       {% endif %}
     {% endif %}
 

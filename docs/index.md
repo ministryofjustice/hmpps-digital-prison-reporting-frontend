@@ -10,7 +10,7 @@ It uses and extends the following libraries:
 - [GOV.UK Design System](https://design-system.service.gov.uk/)
 - [MoJ Pattern Library](https://design-patterns.service.justice.gov.uk/)
 
-## Using the Component Library 
+## Using the Component Library
 
 For a guide on how to integrate the component library into your project, see the [How to guide](/integration-guides/integrating-the-library)
 

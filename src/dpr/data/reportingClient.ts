@@ -75,7 +75,7 @@ class ReportingClient {
   ): Promise<Array<components['schemas']['ReportDefinitionSummary']>> {
     this.logInfo('Get definitions')
 
-    const queryParams: operations['definitions_1']['parameters']['query'] = {
+    const queryParams: operations['definitions']['parameters']['query'] = {
       renderMethod: 'HTML',
       ...(definitionsPath && { dataProductDefinitionsPath: definitionsPath }),
     }
@@ -298,8 +298,10 @@ class ReportingClient {
   }
 
   logInfo(title: string, args?: Dict<string>) {
-    logger.info(`Reporting Client: ${title}:`)
-    if (args && Object.keys(args).length) logger.info(JSON.stringify(args, null, 2))
+    const query = args && Object.keys(args).length ? JSON.stringify(args) : ''
+    const message = `Reporting Client: ${title}: ${query}`
+
+    logger.info(message)
   }
 }
 

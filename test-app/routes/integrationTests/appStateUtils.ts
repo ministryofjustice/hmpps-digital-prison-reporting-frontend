@@ -20,6 +20,14 @@ export const toggleBookmarking = () => {
   cy.request('POST', `/embedded/platform/toggleBookmarking`, {})
 }
 
+export const resetDefinitionsCheck = () => {
+  cy.request('POST', `/embedded/platform/resetDefinitionsCheck`, {})
+}
+
+export const resetStaleReportsCheck = () => {
+  cy.request('POST', `/embedded/platform/resetReportsCleanupRun`, {})
+}
+
 export const updateRedisState = (
   userStoreKey: keyof ReportStoreConfig,
   userStoreValue: ReportStoreConfig[typeof userStoreKey],

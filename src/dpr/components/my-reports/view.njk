@@ -1,5 +1,9 @@
 {% from "govuk/components/tabs/macro.njk" import govukTabs %}
+{% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
+{%- from "moj/components/alert/macro.njk" import mojAlert -%}
+
 {% from "./my-reports-list/macro.njk" import dprMyReportList %}
+{% from "./my-reports-notification/view.njk" import dprMyReportsListNotification %}
 
 {% macro dprMyReports(myReportsConfig) %}
 
@@ -7,6 +11,11 @@
   {% set requested = myReportsConfig.requested %}
   {% set bookmarks = myReportsConfig.bookmarks %}
   {% set viewed = myReportsConfig.viewed %}
+  {% set removedReports = myReportsConfig.removedReports %}
+
+  {% if removedReports %}
+    {{ dprMyReportsListNotification(removedReports) }}
+  {% endif %}
 
   {% if bookmarks %}
     {% set bookmarksHtml %}

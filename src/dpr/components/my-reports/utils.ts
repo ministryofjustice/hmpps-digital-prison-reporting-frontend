@@ -47,6 +47,7 @@ export const initMyReports = async (
     ...(bookmarkingEnabled && { bookmarks: await initBookmarks(res, services) }),
     requested: await initRequested(req, res, options),
     viewed: await initViewed(req, res, options),
+    removedReports: res.locals['removedReports'],
   }
 }
 
@@ -245,7 +246,7 @@ const buildBookmarkListItems = async (res: Response, services: Services): Promis
     return []
   }
 
-  // gather data for loop.  sdf
+  // gather data for loop.
   const mappedBookmarks: MappedBookmarks[] = await mapBookmarks(bookmarks, services, res)
 
   return mappedBookmarks.map((bookmark) => {

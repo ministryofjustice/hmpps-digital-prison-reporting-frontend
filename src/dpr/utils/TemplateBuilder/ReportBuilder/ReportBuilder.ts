@@ -7,6 +7,7 @@ import { SectionedDataHelper } from '../SectionedDataHelper/SectionedDataHelper'
 import { ReportTemplateData, SectionData } from '../SectionedDataHelper/types'
 import { DataTable } from '../../DataTableBuilder/types'
 import { TemplateBuilder } from '../TemplateBuilder'
+import logger from '../../logger'
 
 export class ReportBuilder extends TemplateBuilder {
   dataTableBuilder!: DataTableBuilder
@@ -48,27 +49,6 @@ export class ReportBuilder extends TemplateBuilder {
     return this.groupSummaryTables(summaryTables)
   }
 
-  buildSummariesTables(section: SectionData) {
-    const { summaries } = section
-    const summaryTables: {
-      template: SummaryTemplate
-      data: DataTable
-    }[] = summaries.map((summaryData) => {
-      const fields = <components['schemas']['FieldDefinition'][]>summaryData.fields
-      const { data, template } = summaryData
-      const summaryTableData = new DataTableBuilder(fields)
-        .withNoHeaderOptions(fields.map((f) => f.name))
-        .buildTable(data)
-
-      return {
-        template,
-        data: summaryTableData,
-      }
-    })
-
-    return this.groupSummaryTables(summaryTables)
-  }
-
   groupSummaryTables(
     summaryTables: {
       template: SummaryTemplate
@@ -93,9 +73,17 @@ export class ReportBuilder extends TemplateBuilder {
       .withReportQuery(this.reportQuery)
       .build()
 
+    logger.info('SUMMARY_SORT_BUG', 'buildSectionedData 1', JSON.stringify({ sectionData }))
+
     return sectionData.sections.map((section: SectionData) => {
       const tableData = this.buildMainTable(section)
+
+      logger.info('SUMMARY_SORT_BUG', 'buildSectionedData 2', JSON.stringify({ sectionSummaries: section.summaries }))
+
       const sectionSummaryTables = this.buildSummaryTables(section.summaries)
+
+      logger.info('SUMMARY_SORT_BUG', 'buildSectionedData 3', JSON.stringify({ sectionSummaryTables }))
+
       return {
         ...section,
         summaries: sectionSummaryTables,

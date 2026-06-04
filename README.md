@@ -2,7 +2,7 @@
 
 A front-end library for components created by the Digital Prison Reporting team.
 
-This README is intended for developers of and contributors to the project. If you are looking to integrate the components into your own project, please see the consumer documentation here: https://ministryofjustice.github.io/hmpps-digital-prison-reporting-frontend/  
+This README is intended for developers of and contributors to the project. If you are looking to integrate the components into your own project, please see the consumer documentation here: https://ministryofjustice.github.io/hmpps-digital-prison-reporting-frontend/
 
 ## Publishing
 
@@ -55,7 +55,7 @@ To run the app in dev mode, use `start:dev:noMockClients` for the test app, and 
 server {
     listen 8081;
     server_name localhost;
-    
+
     # Handle all other hmpps-digital-prison-reporting-frontend requests
     location /hmpps-digital-prison-reporting-frontend/ {
         proxy_pass http://localhost:3000/;
@@ -68,7 +68,7 @@ server {
         proxy_redirect / /hmpps-digital-prison-reporting-frontend/;
         proxy_set_header Accept-Encoding "";
     }
-    
+
     # Handle requests without trailing slash
     location = /hmpps-digital-prison-reporting-frontend {
         return 301 /hmpps-digital-prison-reporting-frontend/;
@@ -79,3 +79,110 @@ server {
 Then run `sudo nginx -t` to ensure there's no errors, then `sudo nginx -s reload` to reload its config.
 
 This forwards all requests from http://localhost:8081 to http://localhost:3000 (where your app will be running). Now run `npm run docs:serve-prod` and then navigate to http://localhost:8081/hmpps-digital-prison-reporting-frontend and it should be working.
+
+## Developer Onboarding (Fresh Clone)
+
+Run the following commands to enable the local pre-commit hooks.
+
+---
+
+### Step 1 — Clone the Repository
+
+```bash
+git clone <repo-url>
+cd hmpps-digital-prison-reporting-frontend
+```
+
+---
+
+### Step 2 — Use the Correct Node Version
+
+Run:
+
+```bash
+nvm use
+```
+
+Verify the versions:
+
+```bash
+node -v
+npm -v
+```
+
+Expected:
+
+- Node `22.x` or `24.x`
+- npm `10.x` or `11.x`
+
+---
+
+### Step 3 — Install Dependencies
+
+Run:
+
+```bash
+npm install
+```
+
+or:
+
+```bash
+npm ci
+```
+
+---
+
+### Step 4 — Register the Git Pre-Commit Hook Locally
+
+Run:
+
+```bash
+npm run prepare
+```
+
+Expected output:
+
+```bash
+Initialising prek hooks on this repo
+prek installed at`.git/hooks/pre-commit` ✅
+```
+
+Hooks are now active locally.
+
+---
+
+### Step 5 — Verify the Setup
+
+Run:
+
+```bash
+prek run --all-files
+```
+
+This validates:
+
+- secret scanning (`gitleaks`)
+- lint checks
+- type checks
+- tests
+- JSON/YAML validation
+
+If all hooks pass, your local setup is complete.
+
+---
+
+## Quick Setup Summary
+
+```bash
+git clone <repo-url>
+cd hmpps-digital-prison-reporting-frontend
+
+nvm use
+
+npm install
+
+npm run prepare
+
+prek run --all-files
+```

@@ -3,12 +3,12 @@ layout: layouts/dashboards.njk
 title: Visualisation dataset
 subsection: Dashboards
 ---
-These docs describe how to create and use a **visualisation dataset**. 
+These docs describe how to create and use a **visualisation dataset**.
 
-A visualisation dataset is: 
+A visualisation dataset is:
 - a subset of the master dataset that is specific to a **single** visualisation.
 - a dataset that contains only the relevant rows and columns to create a visualisation.
-- created by the `column` definition of the visualisation definition. 
+- created by the `column` definition of the visualisation definition.
 
 **contents**
 - [Defining the dataset](#defining-the-dataset)
@@ -56,7 +56,7 @@ Key values are **not used in the visualisation display**
 ```js
 column: {
   key: [
-    { id: 'establishment_id' }, 
+    { id: 'establishment_id' },
     { id: 'establishment_wing' }
   ]
   ...
@@ -77,7 +77,7 @@ The `measure` array is used to:
 The `measure` array works by:
 - specifying the columns that must have **non-null** values
 - filtering out rows whose column value is null
-- displaying the column value in the chosen chart/visualisation type. 
+- displaying the column value in the chosen chart/visualisation type.
 
 ### Schema
 
@@ -95,7 +95,7 @@ The `measure` array works by:
 column: {
   ...
   measure: [
-    { id: 'establishment_id', display: 'Establisment ID' }, 
+    { id: 'establishment_id', display: 'Establisment ID' },
     { id: 'count', display: 'No of ' }
   ]
   ...
@@ -127,14 +127,14 @@ The `filter` array works by:
 ```js
 column: {
   filter: [
-    { id: 'establishment_id', equals: 'ABC' }, 
+    { id: 'establishment_id', equals: 'ABC' },
     { id: 'establishment_wing', equals: 'North' }
   ]
   ...
 }
 ```
-- filters out rows whose values for `establishment_id` column are not 'ABC' 
-- filters out rows whose values for `establishment_wing` column are not 'North' 
+- filters out rows whose values for `establishment_id` column are not 'ABC'
+- filters out rows whose values for `establishment_wing` column are not 'North'
 
 ### Example usage 2 - Null matching
 
@@ -147,19 +147,19 @@ column: {
   ...
 }
 ```
-- filters out rows whose values for `establishment_wing` column are not 'North' 
-- filters out rows whose values for `establishment_wing` column are not `null`, `undefined` or an empty string 
+- filters out rows whose values for `establishment_wing` column are not 'North'
+- filters out rows whose values for `establishment_wing` column are not `null`, `undefined` or an empty string
 
 <hr class='dpr-docs-hr'/>
 
 # expectNull
 
 `expectNull` is used to:
-- filter out rows based on the values of the **unspecified columns** that are not defined in `key`, `measure` or `filter` 
+- filter out rows based on the values of the **unspecified columns** that are not defined in `key`, `measure` or `filter`
 
 `expectNull` works by:
 - checking all the columns that have not been specified in `key`, `measure` or `filter`
-- filtering out columns based on their non-null/null state. 
+- filtering out columns based on their non-null/null state.
 
 See the [Targeting specific rows](#targeting-specific-rows) example for usage, and how this field effects the visualisation dataset
 
@@ -179,10 +179,10 @@ The following examples will demonstrate the targeting of specific rows, using th
 
 ### Example Dataset
 
-For these examples we will use mocked data that represents diet totals as our master dataset. 
+For these examples we will use mocked data that represents diet totals as our master dataset.
 
 ```js
-| ts         |  est_id  | wing  | cell  | diet        | count | 
+| ts         |  est_id  | wing  | cell  | diet        | count |
 |------------|----------| ------|-------|-------------|-------|
 | 2025/02/25 |          |       |       |             | 5000  |
 | 2025/02/25 | ABC      |       |       |             | 1109  |
@@ -206,7 +206,7 @@ For these examples we will use mocked data that represents diet totals as our ma
 
 # Targeting specific rows
 
-This example shows a visualisation definiton of type `list`, where the keys are `est_id` and `wing`, with a measure of `count`: 
+This example shows a visualisation definiton of type `list`, where the keys are `est_id` and `wing`, with a measure of `count`:
 
 ```js
 {
@@ -235,7 +235,7 @@ This example shows a visualisation definiton of type `list`, where the keys are 
 This definition will return the following dataset:
 
 ```js
-| ts         |  est_id  | wing  | cell  | diet        | count | 
+| ts         |  est_id  | wing  | cell  | diet        | count |
 |------------|----------| ------|-------|-------------|-------|
 | 2025/02/25 | ABC      | north |       |             | 140   |
 | 2025/02/25 | ABC      | north | cell1 |             | 30    |
@@ -251,7 +251,7 @@ Note that rows with `cell` values were also returned here also, as the defintion
 
 To filter out the rows with `cell` values, and therefore specifically target the row for wing totals, we can specify `expectNulls` as `true`
 
-This defines that all remaining columns that are **NOT** specified in the definition, **MUST** contain null values to be a valid row. 
+This defines that all remaining columns that are **NOT** specified in the definition, **MUST** contain null values to be a valid row.
 
 e.g.
 ```js
@@ -282,7 +282,7 @@ e.g.
 will return the following dataset:
 
 ```js
-| ts         |  est_id  | wing  | cell  | diet        | count | 
+| ts         |  est_id  | wing  | cell  | diet        | count |
 |------------|----------| ------|-------|-------------|-------|
 | 2025/02/25 | ABC      | north |       |             | 140   |
 ```
@@ -290,7 +290,7 @@ will return the following dataset:
 which will produce the following `list` visualisation.
 
 ```js
-| Total prisoners | 
+| Total prisoners |
 |-----------------|
 | 140             |
 ```
@@ -330,15 +330,15 @@ which will produce the following `list` visualisation.
     filter: [
       {
         id: 'cell'
-        equals: 'cell5'; 
+        equals: 'cell5';
       },
       {
         id: 'cell'
-        equals: 'cell4'; 
+        equals: 'cell4';
       },
       {
         id: 'wing'
-        equals: 'north'; 
+        equals: 'north';
       },
     ]
     expectNull: false
@@ -352,7 +352,7 @@ which will produce the following `list` visualisation.
 ### Visualisation dataset
 
 ```js
-| ts         |  est_id  | wing  | cell  | diet        | count | 
+| ts         |  est_id  | wing  | cell  | diet        | count |
 |------------|----------| ------|-------|-------------|-------|
 | 2025/02/25 | ABC      | north | cell4 |             | 26    |
 | 2025/02/25 | ABC      | north | cell5 |             | 42    |
@@ -361,7 +361,7 @@ which will produce the following `list` visualisation.
 ### Visualisation
 
 ```js
-| Cell  | Total prisoners | 
+| Cell  | Total prisoners |
 |-------|-----------------|
 | cell4 | 26              |
 | cell5 | 42              |
@@ -401,7 +401,7 @@ This example uses filtering instead of expect nulls to create the dataset. The r
 This definition will return the following dataset:
 
 ```js
-| ts         |  est_id  | wing  | cell  | diet        | count | 
+| ts         |  est_id  | wing  | cell  | diet        | count |
 |------------|----------| ------|-------|-------------|-------|
 | 2025/02/25 | ABC      | north |       |             | 140   |
 | 2025/02/25 | ABC      | north | cell1 |             | 30    |
@@ -451,7 +451,7 @@ e.g.
 will return the following dataset:
 
 ```js
-| ts         |  est_id  | wing  | cell  | diet        | count | 
+| ts         |  est_id  | wing  | cell  | diet        | count |
 |------------|----------| ------|-------|-------------|-------|
 | 2025/02/25 | ABC      | north |       |             | 140   |
 ```
@@ -459,7 +459,7 @@ will return the following dataset:
 which will produce the following `list` visualisation.
 
 ```js
-| Total prisoners | 
+| Total prisoners |
 |-----------------|
 | 140             |
 ```
@@ -490,7 +490,7 @@ which will produce the following `list` visualisation.
 ### Visualisation dataset
 
 ```js
-| ts         |  est_id  | wing  | cell  | diet        | count | 
+| ts         |  est_id  | wing  | cell  | diet        | count |
 |------------|----------| ------|-------|-------------|-------|
 | 2025/02/25 |          |       |       |             | 5000  |
 ```
@@ -498,7 +498,7 @@ which will produce the following `list` visualisation.
 ### Visualisation:
 
 ```js
-| Total prisoners | 
+| Total prisoners |
 |-----------------|
 | 5000            |
 ```
@@ -535,7 +535,7 @@ which will produce the following `list` visualisation.
 ### Visualisation dataset
 
 ```js
-| ts         |  est_id  | wing  | cell  | diet        | count | 
+| ts         |  est_id  | wing  | cell  | diet        | count |
 |------------|----------| ------|-------|-------------|-------|
 | 2025/02/25 |          |       |       | Diet one    | 1507  |
 | 2025/02/25 |          |       |       | Diet two    | 1130  |
@@ -546,7 +546,7 @@ which will produce the following `list` visualisation.
 ### Visualisation:
 
 ```js
-| Diet        | Total prisoners | 
+| Diet        | Total prisoners |
 |-------------|-----------------|
 | Diet one    | 1507            |
 | Diet two    | 1130            |
@@ -584,7 +584,7 @@ which will produce the following `list` visualisation.
       {
         id: 'count',
         display: 'Total prisoners',
-        aggregate: 'sum' 
+        aggregate: 'sum'
       },
     ],
     expectNull: true,
@@ -595,7 +595,7 @@ which will produce the following `list` visualisation.
 ### Visualisation dataset
 
 ```js
-| ts         |  est_id  | wing  | cell  | diet        | count | 
+| ts         |  est_id  | wing  | cell  | diet        | count |
 |------------|----------| ------|-------|-------------|-------|
 | 2025/02/25 | ABC      |       |       | Diet one    | 169   |
 | 2025/02/25 | ABC      |       |       | Diet two    | 463   |
@@ -606,7 +606,7 @@ which will produce the following `list` visualisation.
 ### Visualisation:
  
 ```js
-|  Establishment ID  | Diet        | Total prisoners | 
+|  Establishment ID  | Diet        | Total prisoners |
 |--------------------|-------------|-----------------|
 | ABC                | Diet one    | 169             |
 | ABC                | Diet two    | 463             |
@@ -655,7 +655,7 @@ which will produce the following `list` visualisation.
 ### Visualisation dataset
 
 ```js
-| ts         |  est_id  | wing  | cell  | diet        | count | 
+| ts         |  est_id  | wing  | cell  | diet        | count |
 |------------|----------| ------|-------|-------------|-------|
 | 2025/02/25 | ABC      | north | cell1 |             | 30    |
 | 2025/02/25 | ABC      | north | cell2 |             | 29    |
@@ -667,7 +667,7 @@ which will produce the following `list` visualisation.
 ### Visualisation:
 
 ```js
-| Cell  | Total prisoners | 
+| Cell  | Total prisoners |
 |-------|-----------------|
 | cell1 | 30              |
 | cell2 | 29              |

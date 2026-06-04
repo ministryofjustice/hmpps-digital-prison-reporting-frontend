@@ -3,7 +3,7 @@
 {% macro dprCatalogueFilterByType(tableId) %}
   <div class="dpr-unauthorised-toggle" data-dpr-module="dpr-catalogue-type-filter">
     {% set name = 'Filter by report type' %}
-    
+
     {{ govukRadios({
       name: "report-type",
       classes: "govuk-radios--small",

@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express'
 import { getActions } from 'src/dpr/components/_reports/report-heading/report-actions/utils'
-import { ReportType } from 'src/dpr/types/UserReports'
 import { getRouteLocals } from 'src/dpr/utils/localsHelper'
+import { ReportType } from '../../../../src/dpr/types/UserReports'
 
 export class ReportHeadingController {
   GET: RequestHandler = async (_req, res) => {

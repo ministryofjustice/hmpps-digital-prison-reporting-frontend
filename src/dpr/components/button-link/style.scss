@@ -9,8 +9,8 @@
   text-underline-offset: 2px;
   cursor: pointer;
 
-  font: inherit; /* inherit GOV.UK font */
-  margin-bottom: 0px;
+  font-family: 'GDS Transport', arial, sans-serif;
+  margin-bottom: govuk-spacing(2);
   box-shadow: none;
 }
 

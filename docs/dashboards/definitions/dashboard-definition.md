@@ -32,7 +32,7 @@ The dashboard definition is responsible for defining the structure and IA of a d
 | -----------------| ------- | -------- | ---------------------------------------------------------------------|
 | `id`             | string  | yes      | The section ID                                                       |
 | `display`        | string  | yes      | The section title                                                    |
-| `description`    | string  | yes      | The section desciption                                               | 
+| `description`    | string  | yes      | The section desciption                                               |
 | `visualisation` | array   | yes      | The visualisation definitions. See [Visualisation Definition](/dashboards/visualisations/visualisation-definition/)   |
 
 <hr class='dpr-docs-hr'/>
@@ -67,5 +67,3 @@ The dashboard definition is responsible for defining the structure and IA of a d
   ],
 }
 ```
-
-

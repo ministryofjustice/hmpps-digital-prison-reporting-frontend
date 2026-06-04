@@ -1,4 +1,4 @@
-import { ReportType } from 'src/dpr/types/UserReports'
+import { ReportType } from '../../types/UserReports'
 import { DprClientClass } from '../../DprClientClass'
 
 export enum BookmarkAction {

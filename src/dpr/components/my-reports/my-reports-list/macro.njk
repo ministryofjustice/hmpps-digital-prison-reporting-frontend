@@ -15,7 +15,7 @@
 
   {% set classes = 'dpr-my-reports__table--requests' %}
   {% set hasItems = items | length > 0 %}
-  
+
   {% if listType == 'bookmarks' %}
     {% set classes = 'dpr-my-reports__table--bookmarks' %}
   {% endif %}
@@ -26,7 +26,7 @@
   {{ dprMyReportsListHelp(listType) }}
 
   <div data-list-root>
-    
+
     {% if hasItems %}
       {{ dprMyReportsListTotals(totals) }}
     {% endif %}
@@ -61,7 +61,7 @@
       >
         {{ dprMyReportsEmpty(listType) }}
       </div>
-      
+
     </div>
 
   </div>

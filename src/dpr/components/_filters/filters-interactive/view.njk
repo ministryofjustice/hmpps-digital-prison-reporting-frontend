@@ -20,7 +20,7 @@
 
     <div class='dpr-interactive-save-defaults-actions'>
       {{ dprFiltersFormReset(reportType, csrfToken) }}
-      
+
       {% if saveDefaultsEnabled %}
         {{ dprFiltersSaveDefaults(reportType, hasDefaults, formId) }}
       {% endif %}
@@ -32,7 +32,7 @@
         <div class="dpr-filters sync-filters-form--hidden">
           {{ dprFiltersForm({
             formId: formId,
-            filters: filters, 
+            filters: filters,
             prefix: prefix,
             reportType: reportType,
             csrfToken: csrfToken,
@@ -43,7 +43,7 @@
     {% endset %}
 
 
-    <div class="dpr-interactive-filters-accordion"> 
+    <div class="dpr-interactive-filters-accordion">
       {{ govukDetails({
         summaryText: 'Show filters',
         html: filtersHtml,

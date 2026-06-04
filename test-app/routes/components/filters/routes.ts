@@ -7,6 +7,7 @@ import DateRoutes from './date/routes'
 import DateRangeRoutes from './date-range/routes'
 import GranularDateRangeRoutes from './granular-date-range/routes'
 import MultiSelectRoutes from './multi-select/routes'
+import AutocompleteMultiRoutes from './autocompletemulti/routes'
 
 import FiltersController from './controller'
 
@@ -21,6 +22,7 @@ export default function routes(): Router {
   router.use(`/date-range`, DateRangeRoutes())
   router.use(`/granular-date-range`, GranularDateRangeRoutes())
   router.use(`/multi-select`, MultiSelectRoutes())
+  router.use(`/auto-multi-select`, AutocompleteMultiRoutes())
 
   return router
 }

@@ -15,6 +15,7 @@ export const buildFilterValidator = (field: FieldDefinition): z.ZodTypeAny => {
 
   switch (field.filter.type) {
     case 'multiselect':
+    case 'autocompletemulti':
       return buildMultiSelectField(field)
 
     case 'date':
@@ -69,21 +70,35 @@ const buildMultiSelectField = (field: FieldDefinition) => {
 
   let arraySchema = z.array(z.string())
 
+  // Valid option check
   arraySchema = arraySchema.refine((values) => values.every((v) => validValues.includes(v)), {
     message: `${display} contains invalid selections`,
   })
 
+  // Mandatory
   if (filter.mandatory) {
     arraySchema = arraySchema.min(1, `${display} Please select at least one`)
+  }
+
+  // minSelected
+  if (typeof filter.minSelected === 'number') {
+    arraySchema = arraySchema.min(filter.minSelected, `${display} Select at least ${filter.minSelected}`)
+  }
+
+  // maxSelected
+  if (typeof filter.maxSelected === 'number') {
+    arraySchema = arraySchema.max(filter.maxSelected, `${display} Select no more than ${filter.maxSelected}`)
   }
 
   return z.preprocess((value) => {
     if (value == null) return []
     if (Array.isArray(value)) return value
+
     return value
       .toString()
       .split(',')
       .map((v: string) => v.trim())
+      .filter(Boolean) // removes empty strings
   }, arraySchema)
 }
 

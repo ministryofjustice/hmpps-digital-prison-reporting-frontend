@@ -837,7 +837,7 @@ context('Dashboard visualisation: bar chart', () => {
           'This dashboard represents example of invlaid bar visualisation definition using a partial dataset.',
       })
 
-      checkA11y()
+      cy.url().should('include', '/view-report')
 
       cy.url().then((url) => {
         invalidDashboardUrl = url

@@ -4,6 +4,7 @@ import {
   stubBaseTasks,
   stubDefinitionsTasks,
 } from 'cypress-tests/cypressUtils'
+import { resetDefinitionsCheck } from 'test-app/routes/integrationTests/appStateUtils'
 
 context('Try to run the app with failing and broken api endpoints', () => {
   const path = '/embedded/platform'
@@ -18,6 +19,7 @@ context('Try to run the app with failing and broken api endpoints', () => {
       cy.task('stubDefinitionRequestExamplesSuccess')
       cy.task('stubRequestSuccessResult20')
       cy.task('getDefinitionSummariesFailure')
+      resetDefinitionsCheck()
 
       cy.visit(path)
 
@@ -29,6 +31,7 @@ context('Try to run the app with failing and broken api endpoints', () => {
       cy.task('stubDefinitionRequestExamplesSuccess')
       cy.task('stubRequestSuccessResult20')
       cy.task('getDefinitionSummariesUnauthenticatedFailure')
+      resetDefinitionsCheck()
 
       cy.visit(path)
 
@@ -268,7 +271,7 @@ context('Try to run the app with failing and broken api endpoints', () => {
       cy.findByLabelText(/Reports catalogue.*/i).within(() => {
         cy.findByRole('row', {
           name: (_, element) => {
-            return Boolean(element.textContent?.includes('Dashboard used for testing testing'))
+            return Boolean(element.textContent?.includes('Test Dashboard used for testing'))
           },
         }).within(() => {
           cy.findByRole('link', { name: 'Request dashboard' }).click()
@@ -289,7 +292,7 @@ context('Try to run the app with failing and broken api endpoints', () => {
       cy.findByLabelText(/Reports catalogue.*/i).within(() => {
         cy.findByRole('row', {
           name: (_, element) => {
-            return Boolean(element.textContent?.includes('Dashboard used for testing testing'))
+            return Boolean(element.textContent?.includes('Test Dashboard used for testing'))
           },
         }).within(() => {
           cy.findByRole('link', { name: 'Request dashboard' }).click()
@@ -311,7 +314,7 @@ context('Try to run the app with failing and broken api endpoints', () => {
       cy.findByLabelText(/Reports catalogue.*/i).within(() => {
         cy.findByRole('row', {
           name: (_, element) => {
-            return Boolean(element.textContent?.includes('Dashboard used for testing testing'))
+            return Boolean(element.textContent?.includes('Test Dashboard used for testing'))
           },
         }).within(() => {
           cy.findByRole('link', { name: 'Request dashboard' }).click()
@@ -335,7 +338,7 @@ context('Try to run the app with failing and broken api endpoints', () => {
       cy.findByLabelText(/Reports catalogue.*/i).within(() => {
         cy.findByRole('row', {
           name: (_, element) => {
-            return Boolean(element.textContent?.includes('Dashboard used for testing testing'))
+            return Boolean(element.textContent?.includes('Test Dashboard used for testing'))
           },
         }).within(() => {
           cy.findByRole('link', { name: 'Request dashboard' }).click()
@@ -361,7 +364,7 @@ context('Try to run the app with failing and broken api endpoints', () => {
       cy.findByLabelText(/Reports catalogue.*/i).within(() => {
         cy.findByRole('row', {
           name: (_, element) => {
-            return Boolean(element.textContent?.includes('Dashboard used for testing testing'))
+            return Boolean(element.textContent?.includes('Test Dashboard used for testing'))
           },
         }).within(() => {
           cy.findByRole('link', { name: 'Request dashboard' }).click()

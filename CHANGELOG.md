@@ -1,5 +1,10 @@
 Below you can find the changes included in each release.
 
+## 6.6.2
+
+- Update some dependencies to fix vulnerabilities
+- Remove cypress-xpath as not needed
+
 ## 6.6.1
 
 - Bugfix: Debug logs for summary tables data order issue
@@ -371,7 +376,7 @@ There are also now two type-only exports:
 `/extraLocals` - this is an export of all the variables that the library _can_ inject into Express' [res.locals property](https://expressjs.com/en/api.html#res.locals). If you want to make these available to your app, you should do this via [declaration merging](https://www.typescriptlang.org/docs/handbook/declaration-merging.html#merging-namespaces). For example:
 
 ```typescript
-import { ExtraLocals } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/extraLocals'
+import { ExtraLocals } from "@ministryofjustice/hmpps-digital-prison-reporting-frontend/extraLocals";
 declare namespace Express {
   interface Locals extends ExtraLocals {}
 }

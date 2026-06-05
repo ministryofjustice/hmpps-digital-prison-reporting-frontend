@@ -1,9 +1,13 @@
 Below you can find the changes included in each release.
 
-## 6.6.1
+## 6.6.2
 
 - Update some dependencies to fix vulnerabilities
 - Remove cypress-xpath as not needed
+
+## 6.6.1
+
+- Bugfix: Debug logs for summary tables data order issue
 
 ## 6.6.0
 

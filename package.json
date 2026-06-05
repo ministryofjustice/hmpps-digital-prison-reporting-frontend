@@ -132,28 +132,6 @@
     "delay": 2500,
     "ext": "js,json,html,njk"
   },
-  "overrides": {
-    "mocha": {
-      "diff": "^8.0.3"
-    },
-    "@sentry/node": {
-      "minimatch": "^10.2.1"
-    },
-    "glob": {
-      "minimatch": "^10.2.1"
-    },
-    "js-beautify": {
-      "editorconfig": {
-        "minimatch": "^3.1.5"
-      }
-    },
-    "serve": {
-      "serve-handler": {
-        "minimatch": "^3.1.5"
-      },
-      "ajv": "^8.15.0"
-    }
-  },
   "dependencies": {
     "@flipt-io/flipt-client-js": "0.4.2",
     "@ministryofjustice/frontend": "^8.0.0",

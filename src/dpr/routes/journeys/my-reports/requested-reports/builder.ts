@@ -147,8 +147,6 @@ class RequestedReportBuilder extends StoreItemBuilder {
       timestamp,
     }
 
-    // Validate it here
-
     return requestedReportData
   }
 }

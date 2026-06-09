@@ -136,8 +136,6 @@ class ViewedReportBuilder extends StoreItemBuilder {
       timestamp,
     }
 
-    // Validate it here
-
     return viewedReportData
   }
 }

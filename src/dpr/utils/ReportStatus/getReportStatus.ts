@@ -471,7 +471,7 @@ async function detectExpiredFinishedReports({
   // de‑duplicate tableIds for batch lookup
   const tableIds = [...new Set(finishedWithTables.map((r) => r.tableId!))]
 
-  const batches = chunkArray(tableIds, 50)
+  const batches = chunkArray(tableIds, 200)
 
   const expiryStates = await batches.reduce<Promise<components['schemas']['ResultTableExpiryState'][]>>(
     async (accPromise, batch) => {

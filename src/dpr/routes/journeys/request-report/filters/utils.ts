@@ -150,7 +150,7 @@ const requestChildReports = async (
   queryData?: SetQueryFromFiltersResult,
   dataProductDefinitionsPath?: string,
 ): Promise<Array<ChildReportExecutionData>> => {
-  let query: Record<string, string>
+  let query: Record<string, string | string[]>
   if (queryData) {
     query = queryData.query
     delete query['sortColumn']

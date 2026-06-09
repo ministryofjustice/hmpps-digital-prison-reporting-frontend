@@ -42,7 +42,7 @@ class RequestedReportBuilder extends StoreItemBuilder {
   }
 
   private buildSortData = () => {
-    if (!this.queryData || !this.queryData.sortData) return undefined
+    if (!this.queryData || !this.queryData?.sortData) return undefined
 
     const { sortData } = this.queryData
 
@@ -100,7 +100,7 @@ class RequestedReportBuilder extends StoreItemBuilder {
   }
 
   private buildQuery = (): AsyncReportQueryData | undefined => {
-    if (!this.queryData.query || !this.queryData.querySummary) return undefined
+    if (!this.queryData?.query || !this.queryData.querySummary) return undefined
 
     const { query: data, querySummary: summary } = this.queryData
 

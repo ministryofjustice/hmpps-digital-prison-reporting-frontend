@@ -5,14 +5,13 @@ import { Request, Response, NextFunction } from 'express'
 import { buildFilterData, buildSortData } from '../../../../components/_async/async-filters-form/utils'
 import LocalsHelper from '../../../../utils/localsHelper'
 import { getRequestFilters } from '../../../../components/_filters/utils'
-import UserStoreItemBuilder from '../../../../utils/UserStoreItemBuilder'
 
 // Types
 import type ReportingService from '../../../../services/reportingService'
-import { ReportType, RequestFormData, RequestStatus } from '../../../../types/UserReports'
+import { ReportType } from '../../../../types/UserReports'
 import type { ExecutionData, ChildReportExecutionData } from '../../../../types/ExecutionData'
 import type { AsyncReportUtilsParams, RequestDataResult, RequestReportData } from '../../../../types/AsyncReportUtils'
-import type { SetQueryFromFiltersResult } from '../../../../components/_async/async-filters-form/types'
+import type { QueryData, SetQueryFromFiltersResult } from '../../../../components/_async/async-filters-form/types'
 import type { components } from '../../../../types/api'
 import type { Services } from '../../../../types/Services'
 import { getDefinitionByType, getFields } from '../../../../utils/definitionUtils'
@@ -21,6 +20,7 @@ import { formBodyToQueryObject } from '../../../../utils/queryMappers'
 import { joinQueryStrings } from '../../../../utils/urlHelper'
 import { buildQuerySummary } from '../../../../components/_async/request-details/utils'
 import ReportQuery from '../../../../types/ReportQuery'
+import RequestedReportBuilder from '../../my-reports/requested-reports/builder'
 
 // ----------------------------------------------------------------------
 // POST
@@ -82,50 +82,20 @@ export const updateStore = async ({
   executionData: ExecutionData
   childExecutionData: Array<ChildReportExecutionData>
 }): Promise<void> => {
-  const { type } = req.body
-  const { dprUser, definitionsPath, dpdPathFromQuery } = LocalsHelper.getValues(res)
+  const { dprUser } = LocalsHelper.getValues(res)
 
-  const requestFormData: RequestFormData = req.body
-  const reportData = {
-    type: requestFormData.type as ReportType,
-    reportId: requestFormData.reportId,
-    reportName: requestFormData.reportName,
-    description: requestFormData.description,
-    id: requestFormData.id,
-    name: requestFormData.name,
-  }
-
-  let requestedReportData
-
-  const requestDataBuilder = new UserStoreItemBuilder(reportData, requestFormData)
-    .addExecutionData(executionData)
-    .addFilters(queryData?.filterData)
-    .addDefinitionsPath(definitionsPath, dpdPathFromQuery)
-    .addRequestUrls(req)
-    .addQuery(queryData)
-    .addStatus(RequestStatus.SUBMITTED)
-    .addTimestamp()
-
-  switch (type) {
-    case ReportType.REPORT:
-      requestedReportData = requestDataBuilder
-        .addSortData(queryData?.sortData)
-        .addChildExecutionData(childExecutionData)
-        .build()
-      break
-    case ReportType.DASHBOARD: {
-      requestedReportData = requestDataBuilder.addMetrics(JSON.parse(req.body.sections)).build()
-      break
-    }
-    default:
-      break
-  }
+  const requestedReportData = new RequestedReportBuilder(req, res)
+    .withExecutionData(executionData)
+    .withChildExecutionData(childExecutionData)
+    .withQueryData(queryData)
+    .build()
 
   if (!requestedReportData) {
     return
   }
 
   await services.requestedReportService.addReport(dprUser.id, requestedReportData)
+
   const removedExecutionIds = await services.requestedReportService.removeDuplicateRequestedReports(dprUser.id)
 
   if (!removedExecutionIds.length) {
@@ -143,7 +113,7 @@ const requestChildReports = async (
   queryData?: SetQueryFromFiltersResult,
   dataProductDefinitionsPath?: string,
 ): Promise<Array<ChildReportExecutionData>> => {
-  let query: Record<string, string>
+  let query: QueryData['query']
   if (queryData) {
     query = queryData.query
     delete query['sortColumn']
@@ -189,45 +159,38 @@ const requestProduct = async ({
   let executionId
   let tableId
   let childVariants: components['schemas']['ChildVariantDefinition'][] = []
-  let sortData: Record<string, string> | undefined
 
   const { definition, fields } = await getDefinitionByType(type, services, token, reportId, id)
-  const query = new ReportQuery({
-    fields,
-    queryParams: formBodyToQueryObject(req.body),
-    definitionsPath: <string>dataProductDefinitionsPath,
-    reportType: type,
-  }).toRecordWithFilterPrefix(true) as Record<string, string>
+
+  const queryData = buildProductQuery(req, fields, dataProductDefinitionsPath ?? '', type)
 
   if (type === ReportType.REPORT) {
     const requestReportResponse = await services.reportingService.requestAsyncReport(token, reportId, id, {
-      ...query,
+      ...queryData.query,
       dataProductDefinitionsPath,
     })
+
     executionId = requestReportResponse['executionId']
     tableId = requestReportResponse['tableId']
     childVariants = (<components['schemas']['SingleVariantReportDefinition']>definition).variant.childVariants ?? []
-    sortData = buildSortData(req.body)
-    setActiveJourneySortSearch(req, { reportId, id, tableId }, sortData)
+
+    setActiveJourneySortSearch(req, { reportId, id, tableId }, queryData.sortData)
   }
 
   if (type === ReportType.DASHBOARD) {
     const requestDashboardResponse = await services.dashboardService.requestAsyncDashboard(token, reportId, id, {
-      ...query,
+      ...queryData.query,
       dataProductDefinitionsPath,
     })
+
     executionId = requestDashboardResponse['executionId']
     tableId = requestDashboardResponse['tableId']
   }
 
-  const querySummary = buildQuerySummary(req.body, fields)
-  const filterData = buildFilterData(req.body)
-
-  const queryData = {
-    querySummary,
-    filterData,
-    query,
-    ...(sortData && { sortData }),
+  const executionData = {
+    executionId,
+    tableId,
+    ...(dpdPathFromQuery && { dataProductDefinitionsPath }),
   }
 
   const childExecutionData = await requestChildReports(
@@ -239,16 +202,39 @@ const requestProduct = async ({
     dataProductDefinitionsPath,
   )
 
-  const executionData = {
-    executionId,
-    tableId,
-    ...(dpdPathFromQuery && { dataProductDefinitionsPath }),
-  }
-
   return {
     executionData,
     childExecutionData,
     queryData,
+  }
+}
+
+const buildProductQuery = (
+  req: Request,
+  fields: components['schemas']['FieldDefinition'][],
+  definitionsPath: string,
+  reportType: ReportType,
+) => {
+  const queryParams = formBodyToQueryObject(req.body)
+
+  const querySummary = buildQuerySummary(req.body, fields)
+
+  const filterData = buildFilterData(req.body)
+
+  const sortData = buildSortData(req.body)
+
+  const query = new ReportQuery({
+    fields,
+    queryParams,
+    definitionsPath,
+    reportType,
+  })
+
+  return {
+    query: query.toRecordWithFilterPrefix(true) as Record<string, string>,
+    querySummary,
+    filterData,
+    ...(sortData && { sortData }),
   }
 }
 

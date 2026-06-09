@@ -19,7 +19,7 @@ class StoreItemBuilder {
 
   syncUrl: AsyncReportUrlData | undefined
 
-  queryData!: SetQueryFromFiltersResult
+  queryData!: SetQueryFromFiltersResult | undefined
 
   reportType!: ReportType
 
@@ -29,18 +29,26 @@ class StoreItemBuilder {
 
   withExecutionData = (executionData: ExecutionData) => {
     this.executionData = executionData
+
+    return this
   }
 
-  withChildExecutionData = (childExecutionData: ChildReportExecutionData[]) => {
+  withChildExecutionData = (childExecutionData: ChildReportExecutionData[] = []) => {
     this.childExecutionData = childExecutionData
+
+    return this
   }
 
   withSyncUrls = (url?: AsyncReportUrlData) => {
     this.syncUrl = url
+
+    return this
   }
 
-  withQueryData = (queryData: SetQueryFromFiltersResult) => {
+  withQueryData = (queryData: SetQueryFromFiltersResult | undefined) => {
     this.queryData = queryData
+
+    return this
   }
 
   // Builders

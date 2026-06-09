@@ -13,11 +13,11 @@ import LocalsHelper from '../../../utils/localsHelper'
 import ColumnsUtils from '../../../components/_reports/report-heading/report-columns/report-columns-form/utils'
 import { getActiveJourneyValue } from '../../../utils/sessionHelper'
 import { getFields } from '../../../utils/definitionUtils'
-import { LoadType, ReportType, RequestedReport } from '../../../types/UserReports'
+import { LoadType, RequestedReport } from '../../../types/UserReports'
 import { QuerySummaryItem } from '../../../components/_async/request-details/types'
 import { buildQuerySummary } from '../../../components/_async/request-details/utils'
-import UserStoreItemBuilder from '../../../utils/UserStoreItemBuilder'
-import { RequestStatus } from '../../../utils/ReportStatus/types'
+import ViewedReportBuilder from '../my-reports/recently-viewed/builder'
+import { ReportData } from '../my-reports/builder'
 
 /**
  * Apply interactive query to a REPORT
@@ -363,6 +363,7 @@ export const updateStateToExpiredAndRedirect = async (req: Request, res: Respons
  */
 export const updateLastViewedAsync = async (
   req: Request,
+  res: Response,
   services: Services,
   reportStateData: RequestedReport,
   userId: string,
@@ -372,26 +373,22 @@ export const updateLastViewedAsync = async (
   const reportData = { type, reportId, reportName, description, id, name }
   const executionData = { executionId, tableId }
 
-  const queryData = query ? { query: query.data, querySummary: query.summary } : { query: {}, querySummary: [] }
-
   const filtersQuery = extractFiltersFromQuery(req.query)
   const interactiveQueryData: { query: Record<string, string | string[]>; querySummary: QuerySummaryItem[] } = {
     query: <Record<string, string>>req.query,
     querySummary: buildQuerySummary(filtersQuery, fields),
   }
 
-  const recentlyViewedData = new UserStoreItemBuilder(reportData)
-    .addExecutionData(executionData)
-    .addQuery(queryData)
-    .addInteractiveQuery(interactiveQueryData)
-    .addStatus(RequestStatus.READY)
-    .addTimestamp()
-    .addAsyncUrls(url)
-    .addReportUrls(req)
+  const recentlyViewedReportData = new ViewedReportBuilder(req, res)
+    .withReportData(reportData)
+    .withExecutionData(executionData)
+    .withInteractiveQuery(interactiveQueryData)
+    .withRequestData(query, url)
     .build()
 
   if (executionId) await services.requestedReportService.updateLastViewed(executionId, userId)
-  await services.recentlyViewedService.setRecentlyViewed(recentlyViewedData, userId)
+
+  await services.recentlyViewedService.setRecentlyViewed(recentlyViewedReportData, userId)
 }
 
 /**
@@ -405,15 +402,9 @@ export const updateLastViewedAsync = async (
  */
 export const updateLastViewedSync = async (
   req: Request,
+  res: Response,
   services: Services,
-  stateData: {
-    type: ReportType
-    reportId: string
-    id: string
-    reportName: string
-    name: string
-    description: string
-  },
+  reportData: ReportData,
   userId: string,
   fields: components['schemas']['FieldDefinition'][],
 ) => {
@@ -423,14 +414,12 @@ export const updateLastViewedSync = async (
     querySummary: buildQuerySummary(filtersQuery, fields),
   }
 
-  const recentlyViewedData = new UserStoreItemBuilder(stateData)
-    .addInteractiveQuery(interactiveQueryData)
-    .addStatus(RequestStatus.READY)
-    .addTimestamp()
-    .addReportUrls(req)
+  const recentlyViewedReportData = new ViewedReportBuilder(req, res)
+    .withReportData(reportData)
+    .withInteractiveQuery(interactiveQueryData)
     .build()
 
-  await services.recentlyViewedService?.setRecentlyViewed(recentlyViewedData, userId)
+  await services.recentlyViewedService?.setRecentlyViewed(recentlyViewedReportData, userId)
 }
 
 export default {

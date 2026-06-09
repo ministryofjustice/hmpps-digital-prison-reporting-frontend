@@ -4,10 +4,10 @@ import {
   AsyncReportQueryData,
   AsyncReportUrlData,
   ParamsConfig,
-  // RecentlyViewedReport,
+  RecentlyViewedReport,
 } from '../../../../types/UserReports'
 import StoreItemBuilder, { ReportData } from '../builder'
-// import { RequestStatus } from '../../../../utils/ReportStatus/types'
+import { RequestStatus } from '../../../../utils/ReportStatus/types'
 
 class ViewedReportBuilder extends StoreItemBuilder {
   filters!: ParamsConfig
@@ -16,11 +16,11 @@ class ViewedReportBuilder extends StoreItemBuilder {
 
   reportData!: ReportData
 
-  requestUrls!: AsyncReportUrlData
+  requestUrls!: AsyncReportUrlData | undefined
 
   interactiveQuery!: QueryData
 
-  asyncQueryData!: AsyncReportQueryData
+  asyncQueryData!: AsyncReportQueryData | undefined
 
   constructor(
     readonly req: Request,
@@ -33,80 +33,113 @@ class ViewedReportBuilder extends StoreItemBuilder {
 
   withReportData = (reportData: ReportData) => {
     this.reportData = reportData
+
+    return this
   }
 
-  withAsyncUrls = (url: AsyncReportUrlData) => {
+  withRequestData = (asyncQueryData: AsyncReportQueryData | undefined, url: AsyncReportUrlData | undefined) => {
+    this.withAsyncUrls(url)
+    this.withAsyncQuery(asyncQueryData)
+
+    return this
+  }
+
+  private withAsyncUrls = (url: AsyncReportUrlData | undefined) => {
     this.requestUrls = url
+  }
+
+  private withAsyncQuery = (asyncQueryData: AsyncReportQueryData | undefined) => {
+    this.asyncQueryData = asyncQueryData
   }
 
   withInteractiveQuery = (interactiveQueryData: QueryData) => {
     this.interactiveQuery = interactiveQueryData
-  }
 
-  withAsycnQuery = (asyncQueryData: AsyncReportQueryData) => {
-    this.asyncQueryData = asyncQueryData
+    return this
   }
 
   // Builder methods
 
-  // private buildReportData = () => {
-  //   return this.buildReportMetaData(this.reportData)
-  // }
+  private buildReportData = () => {
+    return this.buildReportMetaData(this.reportData)
+  }
 
-  // private buildUrls = () => {
-  //   const origin = this.req.get('host') || ''
-  //   const report = this.buildReportUrls()
-  //   const { polling, request } = this.requestUrls
+  private buildUrls = () => {
+    const origin = this.req.get('host') || ''
+    const report = this.buildReportUrls()
 
-  //   return {
-  //     origin,
-  //     polling,
-  //     request,
-  //     report,
-  //   }
-  // }
+    let polling
+    let request
 
-  // private buildReportUrls = () => {
-  //   const origin = this.req.get('host') || ''
-  //   const fullUrl = `${this.req.protocol}://${origin}${this.req.originalUrl}`
+    if (this.requestUrls) {
+      polling = this.requestUrls.polling
+      request = this.requestUrls.request
+    }
 
-  //   const parsed = new URL(fullUrl)
-  //   const { search } = parsed
+    return {
+      origin,
+      ...(polling && { polling }),
+      ...(request && { request }),
+      report,
+    }
+  }
 
-  //   return {
-  //     fullUrl,
-  //     search,
-  //   }
-  // }
+  private buildReportUrls = () => {
+    const origin = this.req.get('host') || ''
+    const fullUrl = `${this.req.protocol}://${origin}${this.req.originalUrl}`
 
-  // private buildStatus = () => {
-  //   return RequestStatus.READY
-  // }
+    const parsed = new URL(fullUrl)
+    const { search } = parsed
 
-  // private buildTimestamp = () => {
-  //   return {
-  //     viewed: new Date(),
-  //   }
-  // }
+    return {
+      fullUrl,
+      search,
+    }
+  }
 
-  // private buildInteractiveQuery = (): AsyncReportQueryData | undefined => {
-  //   if (!this.interactiveQuery.query || !this.interactiveQuery.querySummary) return undefined
+  private buildStatus = () => {
+    return RequestStatus.READY
+  }
 
-  //   const { query: data, querySummary: summary } = this.interactiveQuery
+  private buildTimestamp = () => {
+    return {
+      lastViewed: new Date(),
+    }
+  }
 
-  //   return {
-  //     data,
-  //     summary,
-  //   }
-  // }
+  private buildInteractiveQuery = (): AsyncReportQueryData | undefined => {
+    if (!this.interactiveQuery.query || !this.interactiveQuery.querySummary) return undefined
 
-  // build = (): RecentlyViewedReport => {
-  //   const viewedReportData: RecentlyViewedReport = {}
+    const { query: data, querySummary: summary } = this.interactiveQuery
 
-  //   // Validate it here
+    return {
+      data,
+      summary,
+    }
+  }
 
-  //   return viewedReportData
-  // }
+  build = (): RecentlyViewedReport => {
+    const reportData = this.buildReportData()
+    const url = this.buildUrls()
+    const status = this.buildStatus()
+    const timestamp = this.buildTimestamp()
+    const definitionsPath = this.buidDefinitionsPath()
+    const interactiveQuery = this.buildInteractiveQuery()
+
+    const viewedReportData: RecentlyViewedReport = {
+      ...reportData,
+      ...(definitionsPath && definitionsPath),
+      ...(this.asyncQueryData && { query: this.asyncQueryData }),
+      ...(interactiveQuery && { interactiveQuery }),
+      url,
+      status,
+      timestamp,
+    }
+
+    // Validate it here
+
+    return viewedReportData
+  }
 }
 
 export { ViewedReportBuilder }

@@ -38,6 +38,6 @@ export interface SetQueryFromFiltersResult extends QueryData {
 }
 
 export interface QueryData {
-  query: Record<string, string>
+  query: Record<string, string | string[]>
   querySummary: QuerySummaryItem[]
 }

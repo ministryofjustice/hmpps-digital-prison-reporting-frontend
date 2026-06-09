@@ -132,9 +132,6 @@
     "delay": 2500,
     "ext": "js,json,html,njk"
   },
-  "overrides": {
-    "import-in-the-middle": "3.0.1"
-  },
   "dependencies": {
     "@flipt-io/flipt-client-js": "0.4.2",
     "@ministryofjustice/frontend": "^8.0.0",

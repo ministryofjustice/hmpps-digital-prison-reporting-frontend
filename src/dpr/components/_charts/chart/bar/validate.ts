@@ -22,9 +22,9 @@ const BarOptionsSchema = z.object({
 const BarMeasuresSchema = z
   .array(BarMeasureShema)
   .refine(
-    (measures) => {
-      const xAxis = measures.find((m) => m.axis === 'x')
-      const yAxis = measures.find((m) => m.axis === 'y')
+    measures => {
+      const xAxis = measures.find(m => m.axis === 'x')
+      const yAxis = measures.find(m => m.axis === 'y')
 
       let valid = true
       if ((xAxis !== undefined && !yAxis) || (yAxis !== undefined && !xAxis)) {
@@ -35,9 +35,9 @@ const BarMeasuresSchema = z
     { error: 'X and Y axis must be defined in measure' },
   )
   .refine(
-    (measures) => {
-      const xAxis = measures.find((m) => m.axis === 'x')
-      const yAxis = measures.find((m) => m.axis === 'y')
+    measures => {
+      const xAxis = measures.find(m => m.axis === 'x')
+      const yAxis = measures.find(m => m.axis === 'y')
       let valid = true
       if (xAxis !== undefined && yAxis !== undefined && measures.length > 2) valid = false
       return valid

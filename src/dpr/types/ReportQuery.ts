@@ -82,9 +82,9 @@ class ReportQuery implements FilteredListRequest {
    */
   private setAndTrimFiltersFromQuery(queryParams: ParsedQs, fields: components['schemas']['FieldDefinition'][]) {
     Object.keys(queryParams)
-      .filter((key) => key.startsWith(this.filtersPrefix))
-      .filter((key) => queryParams[key])
-      .forEach((key) => {
+      .filter(key => key.startsWith(this.filtersPrefix))
+      .filter(key => queryParams[key])
+      .forEach(key => {
         const filterName = key.replace(this.filtersPrefix, '')
         const p = queryParams[key]
         let value = p ? p.toString() : ''
@@ -92,7 +92,7 @@ class ReportQuery implements FilteredListRequest {
         // Extract base field name
         const baseFieldName = filterName.split('.')[0]
 
-        const field = fields.find((f) => f.name === baseFieldName)
+        const field = fields.find(f => f.name === baseFieldName)
 
         if (!field?.filter) return
 
@@ -167,20 +167,20 @@ class ReportQuery implements FilteredListRequest {
     if (!staticOptions || !rawValue) return undefined
 
     // Map lowercase -> original casing
-    const valueMap = new Map(staticOptions.map((o) => [o.name.toLowerCase(), o.name]))
+    const valueMap = new Map(staticOptions.map(o => [o.name.toLowerCase(), o.name]))
 
     // Normalize input to lowercase strings
     const values = Array.isArray(rawValue)
-      ? rawValue.map((v) => v.toString().toLowerCase())
+      ? rawValue.map(v => v.toString().toLowerCase())
       : rawValue
           .toString()
           .split(',')
-          .map((v) => v.trim().toLowerCase())
+          .map(v => v.trim().toLowerCase())
 
     if (type === 'multiselect') {
-      const invalidValues = values.filter((v) => !valueMap.has(v))
+      const invalidValues = values.filter(v => !valueMap.has(v))
 
-      const filtered = [...new Set(values.map((v) => valueMap.get(v)).filter((v): v is string => v !== undefined))]
+      const filtered = [...new Set(values.map(v => valueMap.get(v)).filter((v): v is string => v !== undefined))]
 
       if (invalidValues.length > 0) {
         logger.warn(`Invalid filter values removed for multiselect: ${fieldName}: [${invalidValues.join(', ')}]`)
@@ -215,7 +215,7 @@ class ReportQuery implements FilteredListRequest {
    * @memberof ReportQuery
    */
   private handleUnsetDateTypeDefaultsAndBounds(fields: components['schemas']['FieldDefinition'][]) {
-    const dateFields: components['schemas']['FieldDefinition'][] | undefined = fields.filter((f) => {
+    const dateFields: components['schemas']['FieldDefinition'][] | undefined = fields.filter(f => {
       return (
         (f.type === 'date' && f.filter && f.filter.type === 'daterange') ||
         (f.type === 'date' && f.filter && f.filter.type === 'date') ||
@@ -223,7 +223,7 @@ class ReportQuery implements FilteredListRequest {
       )
     })
 
-    dateFields.forEach((df) => {
+    dateFields.forEach(df => {
       if (df.filter) {
         const min = df.filter.min ?? undefined
         const max = df.filter.max ?? undefined
@@ -255,8 +255,8 @@ class ReportQuery implements FilteredListRequest {
     const endKey = `${baseKey}.end`
 
     if (dateFieldFilter.type === 'daterange' || dateFieldFilter.type === 'granulardaterange') {
-      const hasStart = existingKeys.some((key) => key === startKey)
-      const hasEnd = existingKeys.some((key) => key === endKey)
+      const hasStart = existingKeys.some(key => key === startKey)
+      const hasEnd = existingKeys.some(key => key === endKey)
 
       if (min && !hasStart) {
         this.filters[startKey] = min
@@ -269,7 +269,7 @@ class ReportQuery implements FilteredListRequest {
 
     if (dateFieldFilter.type === 'date') {
       // Any value for this field counts (base or dotted)
-      const hasAnyValueForField = existingKeys.some((key) => key === baseKey || key.startsWith(`${baseKey}.`))
+      const hasAnyValueForField = existingKeys.some(key => key === baseKey || key.startsWith(`${baseKey}.`))
 
       if (!hasAnyValueForField) {
         const value = min ?? max
@@ -290,7 +290,7 @@ class ReportQuery implements FilteredListRequest {
       return ColumnUtils.ensureMandatoryColumns(fields, columns)
     }
 
-    return fields.filter((f) => f.visible).map((f) => f.name)
+    return fields.filter(f => f.visible).map(f => f.name)
   }
 
   /**
@@ -302,8 +302,8 @@ class ReportQuery implements FilteredListRequest {
    * @memberof ReportQuery
    */
   private getDefaultSortColumn(fields: components['schemas']['FieldDefinition'][]): string | undefined {
-    const defaultSortColumn = fields.find((f) => f.defaultsort)
-    return defaultSortColumn ? defaultSortColumn.name : fields.find((f) => f.sortable)?.name
+    const defaultSortColumn = fields.find(f => f.defaultsort)
+    return defaultSortColumn ? defaultSortColumn.name : fields.find(f => f.sortable)?.name
   }
 
   /**
@@ -316,7 +316,7 @@ class ReportQuery implements FilteredListRequest {
    * @memberof ReportQuery
    */
   private getDefaultSortDirection(fields: components['schemas']['FieldDefinition'][]) {
-    const field = fields.find((f) => f.defaultsort)
+    const field = fields.find(f => f.defaultsort)
     if (field) {
       return field.sortDirection ? field.sortDirection === 'asc' : true
     }
@@ -358,7 +358,7 @@ class ReportQuery implements FilteredListRequest {
       record['dataProductDefinitionsPath'] = this.dataProductDefinitionsPath
     }
 
-    Object.keys(this.filters).forEach((filterName) => {
+    Object.keys(this.filters).forEach(filterName => {
       const value = this.filters[filterName]
       if ((value && !removeClearedFilters) || value !== clearFilterValue) {
         record[`${this.filtersPrefix}${filterName}`] = <string>value

@@ -1,54 +1,56 @@
 {%- from "node_modules/@ministryofjustice/frontend/moj/components/side-navigation/macro.njk" import mojSideNavigation %}
 
-{{ mojSideNavigation({
-  classes: 'govuk-!-padding-top-6',
-  sections: [
-    {
-      heading: {
-        text: "How to guides"
-      },
-      items: [
-        {
-          text: 'Integrating the library',
-          href: ('/integration-guides/integrating-the-library')
+{{
+  mojSideNavigation({
+    classes: 'govuk-!-padding-top-6',
+    sections: [
+      {
+        heading: {
+          text: "How to guides"
         },
-        {
-          html: '<strong>Integrating the FE platform</strong>',
-          href: ('/integration-guides/integrating-the-fe-platform')
-        },
-        {
-          href: '#add-dpr-configuration',
-          html: '<div class="dpr-docs-sub-nav"><span class="dpr-docs-sub-nav__bullet">▪︎</span>Add DPR configuration</div>'
-        },
-        {
-          href: '#initialise-redis-client',
-          html: '<div class="dpr-docs-sub-nav"><span class="dpr-docs-sub-nav__bullet">▪︎</span>Initialise Redis client</div>'
-        },
-        {
-          html: '<div class="dpr-docs-sub-nav"><span class="dpr-docs-sub-nav__bullet">▪︎</span>Initialise data clients</div>',
-          href: '#initialise-data-clients'
-        },
-        {
-          html: '<div class="dpr-docs-sub-nav"><span class="dpr-docs-sub-nav__bullet">▪︎</span>Setup the DPR user in locals</div>',
-          href: '#setup-the-dpr-user-in-locals'
-        },
-        {
-          html: '<div class="dpr-docs-sub-nav"><span class="dpr-docs-sub-nav__bullet">▪︎</span>Create services</div>',
-          href: '#create-services'
-        },
-        {
-          html: '<div class="dpr-docs-sub-nav"><span class="dpr-docs-sub-nav__bullet">▪︎</span>Initialise middleware</div>',
-          href: '#initialise-middleware'
-        },
-        {
-          html: '<div class="dpr-docs-sub-nav"><span class="dpr-docs-sub-nav__bullet">▪︎</span>Initialise routes</div>',
-          href: '#initialise-routes'
-        },
-        {
-          text: 'Integrating the FE',
-          href: ('/integration-guides/integrating-the-fe')
-        }
-      ]
-    }
-  ]
-}) }}
+        items: [
+          {
+            text: 'Integrating the library',
+            href: ('/integration-guides/integrating-the-library')
+          },
+          {
+            html: '<strong>Integrating the FE platform</strong>',
+            href: ('/integration-guides/integrating-the-fe-platform')
+          },
+          {
+            href: '#add-dpr-configuration',
+            html: '<div class="dpr-docs-sub-nav"><span class="dpr-docs-sub-nav__bullet">▪︎</span>Add DPR configuration</div>'
+          },
+          {
+            href: '#initialise-redis-client',
+            html: '<div class="dpr-docs-sub-nav"><span class="dpr-docs-sub-nav__bullet">▪︎</span>Initialise Redis client</div>'
+          },
+          {
+            html: '<div class="dpr-docs-sub-nav"><span class="dpr-docs-sub-nav__bullet">▪︎</span>Initialise data clients</div>',
+            href: '#initialise-data-clients'
+          },
+          {
+            html: '<div class="dpr-docs-sub-nav"><span class="dpr-docs-sub-nav__bullet">▪︎</span>Setup the DPR user in locals</div>',
+            href: '#setup-the-dpr-user-in-locals'
+          },
+          {
+            html: '<div class="dpr-docs-sub-nav"><span class="dpr-docs-sub-nav__bullet">▪︎</span>Create services</div>',
+            href: '#create-services'
+          },
+          {
+            html: '<div class="dpr-docs-sub-nav"><span class="dpr-docs-sub-nav__bullet">▪︎</span>Initialise middleware</div>',
+            href: '#initialise-middleware'
+          },
+          {
+            html: '<div class="dpr-docs-sub-nav"><span class="dpr-docs-sub-nav__bullet">▪︎</span>Initialise routes</div>',
+            href: '#initialise-routes'
+          },
+          {
+            text: 'Integrating the FE',
+            href: ('/integration-guides/integrating-the-fe')
+          }
+        ]
+      }
+    ]
+  })
+}}

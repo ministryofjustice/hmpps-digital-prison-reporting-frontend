@@ -12,8 +12,8 @@ import { uiDateToApi } from '../../../utils/dateHelper'
 export const getSortByFromDefinition = (fields: components['schemas']['FieldDefinition'][]): FilterValue[] => {
   const sortBy = SortHelper.sortByTemplate()
   const options = fields
-    .filter((f) => f.sortable)
-    .map((f) => {
+    .filter(f => f.sortable)
+    .map(f => {
       if (f.defaultsort) sortBy[0].value = f.name
       const field: FilterOption = { value: f.name, text: f.display }
       sortBy[1].value = f.sortDirection ? `${f.sortDirection === 'asc'}` : 'true'
@@ -63,7 +63,7 @@ export const buildFilterData = (body: Record<string, unknown>): Record<string, s
 
     if (Array.isArray(value)) {
       const csv = value
-        .filter((v) => v != null && v !== '')
+        .filter(v => v != null && v !== '')
         .map(String)
         .join(',')
 
@@ -100,7 +100,7 @@ export const buildSortData = (body: Record<string, unknown>): Record<string, str
   }
 
   const columns = Array.isArray(rawColumns)
-    ? rawColumns.filter((v) => v != null && v !== '').map(String)
+    ? rawColumns.filter(v => v != null && v !== '').map(String)
     : [String(rawColumns)]
 
   if (columns.length === 0) {

@@ -23,12 +23,12 @@ class ReportingClient {
         query: countRequest.toRecordWithFilterPrefix(true),
         token,
       })
-      .then((response) => (<Count>response).count)
+      .then(response => (<Count>response).count)
   }
 
   getList(resourceName: string, token: string, listRequest: ReportQuery): Promise<Array<Dict<string>>> {
     return this.getListWithWarnings(resourceName, token, listRequest).then(
-      (response) => response.data as Array<Dict<string>>,
+      response => response.data as Array<Dict<string>>,
     )
   }
 
@@ -66,7 +66,7 @@ class ReportingClient {
         query: queryParams,
         token,
       })
-      .then((response) => <components['schemas']['ReportDefinitionSummary']>response)
+      .then(response => <components['schemas']['ReportDefinitionSummary']>response)
   }
 
   getDefinitions(
@@ -86,7 +86,7 @@ class ReportingClient {
         query: queryParams,
         token,
       })
-      .then((response) => <Array<components['schemas']['ReportDefinitionSummary']>>response)
+      .then(response => <Array<components['schemas']['ReportDefinitionSummary']>>response)
   }
 
   getDefinition(
@@ -109,7 +109,7 @@ class ReportingClient {
         query,
         token,
       })
-      .then((response) => <components['schemas']['SingleVariantReportDefinition']>response)
+      .then(response => <components['schemas']['SingleVariantReportDefinition']>response)
   }
 
   requestAsyncReport(
@@ -126,7 +126,7 @@ class ReportingClient {
         token,
         query,
       })
-      .then((response) => <Dict<string>>response)
+      .then(response => <Dict<string>>response)
   }
 
   cancelAsyncRequest(
@@ -146,7 +146,7 @@ class ReportingClient {
           dataProductDefinitionsPath,
         },
       })
-      .then((response) => <Dict<string>>response)
+      .then(response => <Dict<string>>response)
   }
 
   downloadAsyncReport(
@@ -201,7 +201,7 @@ class ReportingClient {
         token,
         query,
       })
-      .then((response) => <Array<Record<string, string>>>response)
+      .then(response => <Array<Record<string, string>>>response)
   }
 
   getAsyncSummaryReport(
@@ -220,7 +220,7 @@ class ReportingClient {
         token,
         query,
       })
-      .then((response) => <Array<Record<string, string>>>response)
+      .then(response => <Array<Record<string, string>>>response)
   }
 
   getAsyncReportStatus(
@@ -242,7 +242,7 @@ class ReportingClient {
           tableId,
         },
       })
-      .then((response) => <components['schemas']['StatementExecutionStatus']>response)
+      .then(response => <components['schemas']['StatementExecutionStatus']>response)
   }
 
   getAsyncCount(token: string, tableId: string, dataProductDefinitionsPath?: string): Promise<number> {
@@ -256,7 +256,7 @@ class ReportingClient {
           dataProductDefinitionsPath,
         },
       })
-      .then((response) => (<Count>response).count)
+      .then(response => (<Count>response).count)
   }
 
   getAsyncInteractiveCount(
@@ -274,7 +274,7 @@ class ReportingClient {
         token,
         query: filters.toRecordWithFilterPrefix(true),
       })
-      .then((response) => (<Count>response).count)
+      .then(response => (<Count>response).count)
   }
 
   /**
@@ -294,7 +294,7 @@ class ReportingClient {
         },
         token,
       )
-      .then((response) => <components['schemas']['ResultTableExpiryState'][]>response)
+      .then(response => <components['schemas']['ResultTableExpiryState'][]>response)
   }
 
   logInfo(title: string, args?: Dict<string>) {

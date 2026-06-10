@@ -127,7 +127,7 @@ class DoughnutChartVisualisation extends ChartVisualisation {
     return {
       textAlign: 'center',
       color: '#FFF',
-      display: (context) => {
+      display: context => {
         const { dataset, dataIndex } = context
         const value = dataset.data[dataIndex]
         const total = dataset.data.reduce((a, c) => a + c, 0)

@@ -3,6 +3,7 @@ layout: layouts/component.njk
 title: Heading
 subsection: Report components
 ---
+
 {% example "report/heading", 430, "default" %}
 
 ## Overview

@@ -1,7 +1,6 @@
 {% from "govuk/components/tabs/macro.njk" import govukTabs %}
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 {% from "../date-input/view.njk" import dprDate %}
-
 {% from "../start-end-date/view.njk" import dprStartEndDate %}
 
 {% macro dprDateRange(data, validationErrors, parameterPrefix = "filters.", mandatory = false) %}
@@ -10,61 +9,63 @@
 
   <div class="dpr-date-range" data-dpr-module="date-range-input">
     <fieldset class="govuk-fieldset">
-      <legend class="govuk-fieldset__legend govuk-label govuk-!-font-weight-bold">
-        {{ data.text }}
-      </legend>
+      <legend class="govuk-fieldset__legend govuk-label govuk-!-font-weight-bold">{{ data.text }}</legend>
 
       {% set datepickerHtml %}
-      <div id='dpr-date-range' data-field-name='{{ data.name }}'>
-        {{ dprStartEndDate(data, mandatory, validationErrors) }}
-      </div>
+        <div id="dpr-date-range" data-field-name="{{ data.name }}">
+          {{ dprStartEndDate(data, mandatory, validationErrors) }}
+        </div>
       {% endset %}
 
+
       {% set relativeRangeHtml %}
-      {{ govukRadios({
-        classes: 'govuk-radios--small',
-        id: durationInputId,
-        name: durationInputId,
-        fieldset: {
-          legend: {
-            text: 'Preset date range',
-            classes: "govuk-label govuk-!-font-weight-bold"
-          }
-        },
-        formGroup: {
-          classes: "govuk-!-margin-bottom-3 dpr-relative-range-radio"
-        },
-        items: relativeOptions,
-        value: data.value.relative,
-        attributes: {
-          'display-name': 'Preset date range'
-        }
-      }) }}
+        {{
+          govukRadios({
+            classes: 'govuk-radios--small',
+            id: durationInputId,
+            name: durationInputId,
+            fieldset: {
+              legend: {
+                text: 'Preset date range',
+                classes: "govuk-label govuk-!-font-weight-bold"
+              }
+            },
+            formGroup: {
+              classes: "govuk-!-margin-bottom-3 dpr-relative-range-radio"
+            },
+            items: relativeOptions,
+            value: data.value.relative,
+            attributes: {
+              'display-name': 'Preset date range'
+            }
+          })
+        }}
       {% endset -%}
 
       {% if relativeOptions === undefined or relativeOptions.length === 0 %}
         {{ datepickerHtml | safe }}
       {% else %}
-        {{ govukTabs({
-          items: [
-            {
-              label: "Date range",
-              id: data.name + "-date-picker",
-              panel: {
-                html: datepickerHtml
+        {{
+          govukTabs({
+            items: [
+              {
+                label: "Date range",
+                id: data.name + "-date-picker",
+                panel: {
+                  html: datepickerHtml
+                }
+              },
+              {
+                label: "Preset date ranges",
+                id: data.name + "-relative-range",
+                panel: {
+                  html: relativeRangeHtml
+                }
               }
-            },
-            {
-              label: "Preset date ranges",
-              id: data.name + "-relative-range",
-              panel: {
-                html: relativeRangeHtml
-              }
-            }
-          ]
-        }) }}
+            ]
+          })
+        }}
       {% endif %}
-
     </fieldset>
   </div>
 {% endmacro %}

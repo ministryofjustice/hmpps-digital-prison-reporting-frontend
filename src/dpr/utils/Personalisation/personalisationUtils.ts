@@ -50,15 +50,15 @@ const getDefaultValues = async (
   }
 
   const bodyFilterValues = Object.keys(req.body)
-    .filter((k) => {
+    .filter(k => {
       return k.startsWith('filters.') || k.includes('sortColumn') || k.includes('sortedAsc')
     })
-    .map((k) => {
+    .map(k => {
       return { name: k.replace('filters.', ''), value: req.body[k] }
     })
-    .map((k) => {
+    .map(k => {
       const n = k.name.split('.')[0]
-      const field = fields.find((f) => f.name === n)
+      const field = fields.find(f => f.name === n)
       let { value, name } = k
 
       if (field) {
@@ -89,13 +89,13 @@ const getDefaultValues = async (
       }
     })
 
-  const defaultValuesConfig = Array.from(new Set(bodyFilterValues.map((a) => a.name)))
-    .map((name) => {
-      return bodyFilterValues.find((a) => a.name === name)
+  const defaultValuesConfig = Array.from(new Set(bodyFilterValues.map(a => a.name)))
+    .map(name => {
+      return bodyFilterValues.find(a => a.name === name)
     })
-    .filter((c) => c !== undefined)
+    .filter(c => c !== undefined)
 
-  const result = defaultValuesConfig.filter((defaultValue) => {
+  const result = defaultValuesConfig.filter(defaultValue => {
     return defaultValue ? defaultValue.value !== '' : false
   })
 
@@ -106,7 +106,7 @@ export const setUserContextDefaults = (res: Response, filters: FilterValue[]) =>
   const { dprUser } = localsHelper.getValues(res)
   const { activeCaseLoadId } = dprUser
 
-  filters.forEach((filter) => {
+  filters.forEach(filter => {
     if (
       filter.type.toLocaleLowerCase() === FilterType.autocomplete.toLocaleLowerCase() &&
       filter.text.toLocaleLowerCase().includes('establishment') &&
@@ -114,7 +114,7 @@ export const setUserContextDefaults = (res: Response, filters: FilterValue[]) =>
       activeCaseLoadId.length
     ) {
       const f = <FilterValueWithOptions>filter
-      const option = f.options.find((opt) => opt.value === activeCaseLoadId)
+      const option = f.options.find(opt => opt.value === activeCaseLoadId)
 
       if (option) {
         f.value = option.text
@@ -136,7 +136,7 @@ export const createQsFromSavedDefaults = (
   defaults: defaultFilterValue[],
   fieldDefinitions: components['schemas']['FieldDefinition'][],
 ): string => {
-  const fieldMap = new Map(fieldDefinitions.map((f) => [f.name, f]))
+  const fieldMap = new Map(fieldDefinitions.map(f => [f.name, f]))
 
   return defaults
     .flatMap(({ name, value }): Array<[string, string]> => {
@@ -151,9 +151,9 @@ export const createQsFromSavedDefaults = (
         if (isMultiSelect) {
           return value
             .split(',')
-            .map((v) => v.trim())
+            .map(v => v.trim())
             .filter(Boolean)
-            .map((v) => [keyBase, v])
+            .map(v => [keyBase, v])
         }
         return [[keyBase, uiDateToApi(value) || value]]
       }

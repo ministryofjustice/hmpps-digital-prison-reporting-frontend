@@ -1,17 +1,18 @@
 {% from "govuk/components/table/macro.njk" import govukTable %}
 
-{%  macro dprReportSummary(reportSummaries, template) %}
-{% if reportSummaries and reportSummaries[template] %}
-  <div class="dpr-summary-container-group dpr-summary-container-group-{{ template }}">
-    {% for reportSummary in reportSummaries[template] %}
-      <div class="dpr-summary-container">
-        {{ govukTable({
-          head: reportSummary.head,
-          rows: reportSummary.rows
-        }) }}
-      </div>
-    {% endfor %}
-  </div>
-{% endif %}
-
+{% macro dprReportSummary(reportSummaries, template) %}
+  {% if reportSummaries and reportSummaries[template] %}
+    <div class="dpr-summary-container-group dpr-summary-container-group-{{ template }}">
+      {% for reportSummary in reportSummaries[template] %}
+        <div class="dpr-summary-container">
+          {{
+            govukTable({
+              head: reportSummary.head,
+              rows: reportSummary.rows
+            })
+          }}
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
 {% endmacro %}

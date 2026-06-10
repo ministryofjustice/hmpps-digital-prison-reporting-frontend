@@ -4,22 +4,22 @@
 }
 
 .chart-colour__blue {
-  background-color: govuk-colour("blue")
+  background-color: govuk-colour('blue');
 }
 
 .chart-colour__purple {
-  background-color: govuk-colour("bright-purple")
+  background-color: govuk-colour('bright-purple');
 }
 
 .chart-colour__purple {
-  background-color: govuk-colour("bright-purple")
+  background-color: govuk-colour('bright-purple');
 }
 
 .chart-colour__green {
-  background-color: govuk-colour("green")
+  background-color: govuk-colour('green');
 }
 .chart-colour__dark_blue {
-  background-color: govuk-colour("dark-blue")
+  background-color: govuk-colour('dark-blue');
 }
 
 @for $i from 1 through 200 {

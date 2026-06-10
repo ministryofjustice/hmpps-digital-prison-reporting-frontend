@@ -23,10 +23,10 @@ export const normalizeQueryStringArray = (
   if (typeof queryParamValue === 'object') {
     const obj = queryParamValue as Record<string, string>
     const numericKeys = Object.keys(obj)
-      .filter((k) => /^\d+$/.test(k))
+      .filter(k => /^\d+$/.test(k))
       .sort((a, b) => Number(a) - Number(b))
 
-    return numericKeys.length > 0 ? numericKeys.map((k) => obj[k]) : undefined
+    return numericKeys.length > 0 ? numericKeys.map(k => obj[k]) : undefined
   }
 
   return typeof queryParamValue === 'string' ? [queryParamValue] : undefined
@@ -86,7 +86,7 @@ export const queryObjectToQs = (
     .filter(([key]) => !exclude.has(key))
     .flatMap(([key, value]) =>
       Array.isArray(value)
-        ? value.map((v) => [key, normaliseUiDateIfPresent(v)] as const)
+        ? value.map(v => [key, normaliseUiDateIfPresent(v)] as const)
         : [[key, normaliseUiDateIfPresent(value)] as const],
     )
     .reduce((params, [key, value]) => {
@@ -180,7 +180,7 @@ export const formBodyToQs = (body: Record<string, unknown>, exclude: Set<string>
     if (value == null || value === '') return
 
     if (Array.isArray(value)) {
-      const values = value.filter((v) => v != null && v !== '').map((v) => normaliseUiDateIfPresent(String(v)))
+      const values = value.filter(v => v != null && v !== '').map(v => normaliseUiDateIfPresent(String(v)))
       if (values.length > 0) {
         params.set(key, values.join(','))
       }
@@ -211,7 +211,7 @@ export const formBodyToQueryObject = (
     if (value === undefined || value === null || value === '') return acc
 
     if (Array.isArray(value)) {
-      const values = value.filter((v) => v != null && v !== '').map((v) => normaliseUiDateIfPresent(String(v)))
+      const values = value.filter(v => v != null && v !== '').map(v => normaliseUiDateIfPresent(String(v)))
 
       if (values.length > 0) {
         acc[key] = values.join(',')

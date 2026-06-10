@@ -49,8 +49,8 @@ export function buildAppliedFilters(
 
 export function buildAppliedFilterChips(query: QueryParams, fields: FieldDefinition[]): AppliedFilterChip[] {
   return fields
-    .filter((field) => Boolean(field.filter))
-    .map((field) => buildChipForField(field, query))
+    .filter(field => Boolean(field.filter))
+    .map(field => buildChipForField(field, query))
     .filter(Boolean) as AppliedFilterChip[]
 }
 
@@ -113,7 +113,7 @@ function buildDateRangeChip(field: FieldDefinition, baseKey: string, query: Quer
       ...(relativeDuration !== undefined && { relativeDuration }),
     }),
     reset: {
-      keys: Object.keys(query).filter((key) => key.startsWith(baseKey)),
+      keys: Object.keys(query).filter(key => key.startsWith(baseKey)),
     },
   }
 }
@@ -147,7 +147,7 @@ function buildGranularDateRangeChip(
       ...(end !== undefined && { end }),
     }),
     reset: {
-      keys: Object.keys(query).filter((key) => key.startsWith(baseKey)),
+      keys: Object.keys(query).filter(key => key.startsWith(baseKey)),
     },
   }
 }

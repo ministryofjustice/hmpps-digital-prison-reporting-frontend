@@ -3,31 +3,36 @@
 
 {% macro dprAsyncFiltersSaveDefaults(reportType, hasDefaults) %}
   {% set text = 'Save current filter values as defaults' %}
-  {% set submitAction = './' + reportType + '/save-defaults'  %}
+  {% set submitAction = './' + reportType + '/save-defaults' %}
   {% set removeAction = './' + reportType + '/remove-defaults' %}
 
   <div class="dpr-save-defaults-action">
     {% if hasDefaults %}
-      <p class="govuk-body-xs govuk-!-margin-bottom-2 govuk-!-margin-top-1">Your saved default filter values have been applied to this form.</p>
+      <p class="govuk-body-xs govuk-!-margin-bottom-2 govuk-!-margin-top-1">
+        Your saved default filter values have been applied to this form.
+      </p>
       {% set text = 'Update defaults' %}
     {% endif %}
 
-    {{ dprButtonLink({
-      text: text,
-      classes: 'govuk-!-margin-bottom-1',
-      attributes: {
-        formaction: submitAction
-      }
-    }) }}
+    {{
+      dprButtonLink({
+        text: text,
+        classes: 'govuk-!-margin-bottom-1',
+        attributes: {
+          formaction: submitAction
+        }
+      })
+    }}
 
     {% if hasDefaults %}
-      {{ dprButtonLink({
-        text: 'Delete defaults',
-        attributes: {
-          formaction: removeAction
-        }
-      }) }}
+      {{
+        dprButtonLink({
+          text: 'Delete defaults',
+          attributes: {
+            formaction: removeAction
+          }
+        })
+      }}
     {% endif %}
-
   </div>
 {% endmacro %}

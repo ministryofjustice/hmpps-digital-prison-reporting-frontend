@@ -17,32 +17,32 @@ export type CalculableRelativeDateRange = Exclude<RelativeDateRange, RelativeDat
 type DateRangeCalculator = (now: dayjs.Dayjs) => CalculatedDateRange
 
 const RANGE_CALCULATORS: Record<CalculableRelativeDateRange, DateRangeCalculator> = {
-  [RelativeDateRange.YESTERDAY]: (now) => ({
+  [RelativeDateRange.YESTERDAY]: now => ({
     startDate: now.subtract(1, 'day'),
     endDate: now,
   }),
 
-  [RelativeDateRange.TOMORROW]: (now) => ({
+  [RelativeDateRange.TOMORROW]: now => ({
     startDate: now,
     endDate: now.add(1, 'day'),
   }),
 
-  [RelativeDateRange.LAST_WEEK]: (now) => ({
+  [RelativeDateRange.LAST_WEEK]: now => ({
     startDate: now.subtract(1, 'week'),
     endDate: now,
   }),
 
-  [RelativeDateRange.NEXT_WEEK]: (now) => ({
+  [RelativeDateRange.NEXT_WEEK]: now => ({
     startDate: now,
     endDate: now.add(1, 'week'),
   }),
 
-  [RelativeDateRange.LAST_MONTH]: (now) => ({
+  [RelativeDateRange.LAST_MONTH]: now => ({
     startDate: now.subtract(1, 'month'),
     endDate: now,
   }),
 
-  [RelativeDateRange.NEXT_MONTH]: (now) => ({
+  [RelativeDateRange.NEXT_MONTH]: now => ({
     startDate: now,
     endDate: now.add(1, 'month'),
   }),

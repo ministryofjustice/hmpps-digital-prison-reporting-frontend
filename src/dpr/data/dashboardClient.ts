@@ -31,7 +31,7 @@ class DashboardClient {
         query,
         token,
       })
-      .then((response) => <components['schemas']['DashboardDefinition']>response)
+      .then(response => <components['schemas']['DashboardDefinition']>response)
   }
 
   requestAsyncDashboard(
@@ -48,7 +48,7 @@ class DashboardClient {
         token,
         query,
       })
-      .then((response) => <Dict<string>>response)
+      .then(response => <Dict<string>>response)
   }
 
   getAsyncDashboard(
@@ -66,7 +66,7 @@ class DashboardClient {
         token,
         query,
       })
-      .then((response) => <DashboardDataResponse[][]>response)
+      .then(response => <DashboardDataResponse[][]>response)
   }
 
   getAsyncStatus(
@@ -88,7 +88,7 @@ class DashboardClient {
           tableId,
         },
       })
-      .then((response) => <components['schemas']['StatementExecutionStatus']>response)
+      .then(response => <components['schemas']['StatementExecutionStatus']>response)
   }
 
   cancelAsyncRequest(
@@ -108,7 +108,7 @@ class DashboardClient {
           dataProductDefinitionsPath,
         },
       })
-      .then((response) => <Dict<string>>response)
+      .then(response => <Dict<string>>response)
   }
 
   getSyncDashboard(
@@ -125,7 +125,7 @@ class DashboardClient {
         token,
         query,
       })
-      .then((response) => <DashboardDataResponse[][]>response)
+      .then(response => <DashboardDataResponse[][]>response)
   }
 
   logInfo(title: string, args?: Dict<string>) {

@@ -364,10 +364,10 @@ module.exports = {
     name: 'Test Report',
     variants,
   },
-  singleVariantReport: (variantId) => ({
+  singleVariantReport: variantId => ({
     id: 'test-report',
     name: 'Test Report',
-    variant: variants.find((v) => v.id === variantId),
+    variant: variants.find(v => v.id === variantId),
   }),
   variant: defaultVariant,
 }

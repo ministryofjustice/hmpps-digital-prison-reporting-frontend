@@ -79,7 +79,7 @@ class HeatmapChart {
   private initTimeseriesData = () => {
     const timeBlockData = DatasetHelper.groupRowsByTimestamp(this.responseData)
 
-    this.data = timeBlockData.map((tsData) => {
+    this.data = timeBlockData.map(tsData => {
       const { raw, rag } = tsData[0][this.valueKey]
       const tsRaw = tsData[0]['ts'].raw
 
@@ -128,7 +128,7 @@ class HeatmapChart {
   }
 
   private bucketData = () => {
-    this.data = this.data.map((d) => {
+    this.data = this.data.map(d => {
       const { v, r } = d
       const bucketData = this.bucketsHelper.getBucketForValue(v, r)
       return { ...d, c: bucketData.colour }
@@ -145,14 +145,14 @@ class HeatmapChart {
   setScales() {
     this.xLabels = [
       ...new Set(
-        (<MatrixChartData[]>this.datasets[0].data).map((d) => {
+        (<MatrixChartData[]>this.datasets[0].data).map(d => {
           return d.x
         }),
       ),
     ]
     this.yLabels = [
       ...new Set(
-        (<MatrixChartData[]>this.datasets[0].data).map((d) => {
+        (<MatrixChartData[]>this.datasets[0].data).map(d => {
           return d.y
         }),
       ),

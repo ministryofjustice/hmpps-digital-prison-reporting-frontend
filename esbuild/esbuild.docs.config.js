@@ -24,7 +24,7 @@ const buildConfig = () => ({
     outDir: path.join(cwd, 'dist-docs/dpr'),
     entryPoints: glob
       .sync([path.join(cwd, 'src/dpr/**/*.js'), path.join(cwd, 'src/dpr/**/*.ts')])
-      .filter((file) => !file.endsWith('.test.ts') && !file.endsWith('.spec.ts')),
+      .filter(file => !file.endsWith('.test.ts') && !file.endsWith('.spec.ts')),
     copy: [
       {
         from: path.join(cwd, 'src/dpr/**/*.{png,jpg,jpeg,gif,svg}'),
@@ -79,7 +79,7 @@ const buildLibrary = async () => {
     'docs/scss/example.scss',
     'src/dpr/components/**/*.scss',
   ])
-  const imports = scssFiles.map((file) => `@import '${file}';`).join('\n')
+  const imports = scssFiles.map(file => `@import '${file}';`).join('\n')
 
   const allImportsBundle = 'esbuild/all-imports-bundle.scss'
   fs.writeFileSync(allImportsBundle, imports, {
@@ -121,10 +121,10 @@ const main = async () => {
     // App
     chokidar
       .watch(['src/dpr/**/*'], { ...chokidarOptions, ignored: ['**/*.test.ts', '**/*.cy.ts'] })
-      .on('all', () => buildLibrary().catch((e) => process.stderr.write(`${e}\n`)))
+      .on('all', () => buildLibrary().catch(e => process.stderr.write(`${e}\n`)))
     chokidar
       .watch(['docs/**/*'], { ...chokidarOptions, ignored: ['**/*.test.ts', '**/*.cy.ts'] })
-      .on('all', () => buildLibrary().catch((e) => process.stderr.write(`${e}\n`)))
+      .on('all', () => buildLibrary().catch(e => process.stderr.write(`${e}\n`)))
   }
 }
 

@@ -23,7 +23,7 @@ class DataTable extends DprClientClass {
       this.checkOffsetWidths()
     })
 
-    this.tableContainer.addEventListener('scroll', (event) => {
+    this.tableContainer.addEventListener('scroll', event => {
       const endOfScroll = this.table.offsetWidth
       const currentScroll = event.target.offsetWidth + event.target.scrollLeft
       if (endOfScroll === currentScroll) {

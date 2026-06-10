@@ -28,12 +28,12 @@ class RequestedReportService extends ReportStoreService {
 
   async getReportByExecutionId(id: string, userId: string) {
     const userConfig = await this.getState(userId)
-    return userConfig.requestedReports.find((report) => report.executionId === id)
+    return userConfig.requestedReports.find(report => report.executionId === id)
   }
 
   async getReportByTableId(id: string, userId: string) {
     const userConfig = await this.getState(userId)
-    return userConfig.requestedReports.find((report) => report.tableId === id)
+    return userConfig.requestedReports.find(report => report.tableId === id)
   }
 
   async getAllReports(userId: string): Promise<RequestedReport[]> {
@@ -43,7 +43,7 @@ class RequestedReportService extends ReportStoreService {
 
   async getAllReportsById(id: string, userId: string) {
     const userConfig = await this.getState(userId)
-    return userConfig.requestedReports.filter((requested) => {
+    return userConfig.requestedReports.filter(requested => {
       return (requested.id && requested.id === id) || (requested.variantId && requested.variantId === id)
     })
   }
@@ -127,15 +127,15 @@ class RequestedReportService extends ReportStoreService {
   async cleanList(userId: string, viewedReports: StoredReportData[]) {
     const userConfig = await this.getState(userId)
     const allRequested = userConfig.requestedReports
-    const viewedRequestedReports = allRequested.filter((requestedReport) => {
+    const viewedRequestedReports = allRequested.filter(requestedReport => {
       return requestedReport.timestamp.lastViewed !== undefined
     })
 
     let count = 0
     await Promise.all(
-      viewedRequestedReports.map(async (viewedRequestReport) => {
+      viewedRequestedReports.map(async viewedRequestReport => {
         const { executionId } = viewedRequestReport
-        const viewedReport = viewedReports.find((report) => {
+        const viewedReport = viewedReports.find(report => {
           const { executionId: viewedExecutionId } = report
           return viewedExecutionId && viewedExecutionId === executionId
         })
@@ -231,7 +231,7 @@ class RequestedReportService extends ReportStoreService {
     const latest = reports[0]
     const latestFilters = latest.url?.request?.search?.trim() ?? ''
 
-    const duplicates = reports.slice(1).filter((report) => {
+    const duplicates = reports.slice(1).filter(report => {
       if (!report.executionId) {
         return false
       }

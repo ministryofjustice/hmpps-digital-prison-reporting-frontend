@@ -45,9 +45,9 @@ class DataTableBuilder {
     overrideFields: components['schemas']['FieldDefinition'][] = [],
   ): Cell[] {
     return this.fields
-      .filter((f) => this.columns.includes(f.name))
-      .map((f) => {
-        const overrideField = overrideFields.find((o) => o.name === f.name)
+      .filter(f => this.columns.includes(f.name))
+      .map(f => {
+        const overrideField = overrideFields.find(o => o.name === f.name)
         const field = overrideField ?? f
         return this.mapCell(field, rowData, extraClasses)
       })
@@ -111,8 +111,8 @@ class DataTableBuilder {
   protected mapHeader(): Cell[] {
     const WRAP_LENGTH = 20
     return this.fields
-      .filter((field) => this.columns.includes(field.name))
-      .map((f) => {
+      .filter(field => this.columns.includes(field.name))
+      .map(f => {
         const { display, sortable, name } = f
         const displayLength = display.length
         const classes = displayLength > WRAP_LENGTH ? 'govuk-table__header--long' : ''
@@ -157,7 +157,7 @@ class DataTableBuilder {
 
   protected mapData(data: Array<Dict<string>>): Cell[][] {
     const mappedHeaderSummary = this.mapSummary('table-header')
-    const mappedTableData = this.mergeCells(data.map((rowData) => this.mapRow(rowData)))
+    const mappedTableData = this.mergeCells(data.map(rowData => this.mapRow(rowData)))
     const mappedFooterSummary = this.mapSummary('table-footer')
 
     return mappedHeaderSummary.concat(mappedTableData).concat(mappedFooterSummary)
@@ -165,15 +165,15 @@ class DataTableBuilder {
 
   private mergeCells(rows: Cell[][]): Cell[][] {
     const mergeFieldNames = this.fields
-      .filter((f) => (<components['schemas']['SummaryField']>f).mergeRows)
-      .map((f) => f.name)
+      .filter(f => (<components['schemas']['SummaryField']>f).mergeRows)
+      .map(f => f.name)
 
     if (mergeFieldNames.length === 0) {
       return rows
     }
 
     const occurrences: Dict<Dict<number>> = {}
-    mergeFieldNames.forEach((f) => {
+    mergeFieldNames.forEach(f => {
       occurrences[f] = rows.reduce((accumulator: Dict<number>, currentRow) => {
         const currentCell = this.getCellByFieldName(currentRow, f)
         let cellValue = ''
@@ -188,10 +188,10 @@ class DataTableBuilder {
       }, {})
     })
 
-    return rows.map((row) => {
+    return rows.map(row => {
       let mergedRow = [...row]
 
-      mergeFieldNames.forEach((mergeFieldName) => {
+      mergeFieldNames.forEach(mergeFieldName => {
         const currentRowCell = this.getCellByFieldName(row, mergeFieldName)
         let cellValue
         let occurrencesOfValue
@@ -201,7 +201,7 @@ class DataTableBuilder {
 
           switch (occurrencesOfValue) {
             case -1:
-              mergedRow = mergedRow.filter((c) => c.fieldName !== mergeFieldName)
+              mergedRow = mergedRow.filter(c => c.fieldName !== mergeFieldName)
               break
 
             case 1:
@@ -219,13 +219,13 @@ class DataTableBuilder {
   }
 
   private getCellByFieldName(row: Cell[], fieldName: string) {
-    return row.find((c) => c.fieldName === fieldName)
+    return row.find(c => c.fieldName === fieldName)
   }
 
   private mapSummary(template: SummaryTemplate): Cell[][] {
     if (this.reportSummaries[template]) {
-      return this.reportSummaries[template].flatMap((reportSummary) =>
-        reportSummary.data.map((rowData) =>
+      return this.reportSummaries[template].flatMap(reportSummary =>
+        reportSummary.data.map(rowData =>
           this.mapRow(
             rowData,
             `dpr-report-summary-cell dpr-report-summary-cell-${template}`,
@@ -268,7 +268,7 @@ class DataTableBuilder {
   ): SortKey[] {
     const sortFields = fields || this.fields
 
-    return data.map((rowData) => {
+    return data.map(rowData => {
       const sortKey = this.getSortKey(rowData, sortFields)
 
       return {
@@ -279,12 +279,12 @@ class DataTableBuilder {
   }
 
   protected mapNamesToFields(names: string[]): components['schemas']['FieldDefinition'][] {
-    return names.map((s) => this.fields.find((f) => f.name === s)).filter((n) => n !== undefined)
+    return names.map(s => this.fields.find(f => f.name === s)).filter(n => n !== undefined)
   }
 
   protected getSortKey(rowData: NodeJS.Dict<string>, sortFields: components['schemas']['FieldDefinition'][]) {
     return sortFields
-      .map((f) => {
+      .map(f => {
         const value = rowData[f.name]
         if (value && this.dateMapper.isDate(value)) {
           return this.dateMapper.toDateString(value, 'iso')
@@ -298,12 +298,12 @@ class DataTableBuilder {
 
   protected convertDataTableToHtml(dataTable: DataTable): string {
     const head = dataTable.head || []
-    const headers = head.map((h) => `<th scope='col' class='govuk-table__header'>${h.html ?? h.text}</th>`)
+    const headers = head.map(h => `<th scope='col' class='govuk-table__header'>${h.html ?? h.text}</th>`)
     const rows = dataTable.rows.map(
-      (r) =>
+      r =>
         `<tr class='govuk-table__row'>${r
           .map(
-            (c) => `<td class='govuk-table__cell govuk-table__cell--${c.format} ${c.classes}'>${c.html ?? c.text}</td>`,
+            c => `<td class='govuk-table__cell govuk-table__cell--${c.format} ${c.classes}'>${c.html ?? c.text}</td>`,
           )
           .join('')}</tr>`,
     )

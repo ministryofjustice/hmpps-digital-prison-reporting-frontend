@@ -4,7 +4,6 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 {% from "govuk/components/warning-text/macro.njk" import govukWarningText %}
-
 {% from "../../../../../components/validation-summary/view.njk" import dprValidationSummary %}
 
 {% macro dprDownloadRequestForm(user, report, validationErrors, csrfToken) %}
@@ -27,104 +26,117 @@
 
   <div class="dpr-download-feedback-form-wrapper">
     <form method="post" novalidate>
-
-      <p>To enable downloads for this report (<strong>{{ reportName}} - {{ variantName }}</strong>), take a few moments to fill out this request form.</p><p>Once you have submitted the form you the download button will be enabled immediately.</p>
+      <p>
+        To enable downloads for this report (<strong>{{ reportName }} - {{ variantName }}</strong>), take a few moments
+        to fill out this request form.
+      </p>
+      <p>Once you have submitted the form you the download button will be enabled immediately.</p>
 
       <h2 class="govuk-heading-m">Help us improve our service</h2>
-      <p>We would like to understand more about your reasons for downloading this report. The more detail you provide, the better we can understand how to improve our service and offer features that meet your needs.</p>
+      <p>
+        We would like to understand more about your reasons for downloading this report. The more detail you provide,
+        the better we can understand how to improve our service and offer features that meet your needs.
+      </p>
 
-      <input type="hidden" name="_csrf" value="{{ csrfToken }}">
-      <input type="hidden" name="reportId" value="{{ reportId }}">
-      <input type="hidden" name="reportName" value="{{ reportName }}">
-      <input type="hidden" name="variantId" value="{{ variantId }}">
-      <input type="hidden" name="loadType" value="{{ loadType }}">
-      <input type="hidden" name="tableId" value="{{ tableId }}">
-      <input type="hidden" name="variantName" value="{{ variantName }}">
-      <input type="hidden" name="time" value="{{ time }}">
-      <input type="hidden" name="staffId" value="{{ staffId }}">
-      <input type="hidden" name="reportUrl" value="{{ reportUrl }}">
-      <input type="hidden" name="activeCaseLoadId" value="{{ activeCaseLoadId }}">
+      <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
+      <input type="hidden" name="reportId" value="{{ reportId }}" />
+      <input type="hidden" name="reportName" value="{{ reportName }}" />
+      <input type="hidden" name="variantId" value="{{ variantId }}" />
+      <input type="hidden" name="loadType" value="{{ loadType }}" />
+      <input type="hidden" name="tableId" value="{{ tableId }}" />
+      <input type="hidden" name="variantName" value="{{ variantName }}" />
+      <input type="hidden" name="time" value="{{ time }}" />
+      <input type="hidden" name="staffId" value="{{ staffId }}" />
+      <input type="hidden" name="reportUrl" value="{{ reportUrl }}" />
+      <input type="hidden" name="activeCaseLoadId" value="{{ activeCaseLoadId }}" />
 
       <h2 class="govuk-fieldset__legend govuk-fieldset__legend--l">About you</h2>
       {# Role Input #}
-      {{ govukInput({
-        id: 'role',
-        name: 'role',
-        value: '',
-        label: {
-          text: 'What is your Job title?'
-        },
-        classes: "govuk-!-width-one-third",
-        errorMessage: validationErrors | dpr.findError('role'),
-        attributes: {
-          required: true
-        }
-      }) }}
-
-      {{ govukCheckboxes({
-        name: "reasons",
-        fieldset: {
-          legend: {
-            text: "How will you use the downloaded report?",
-            isPageHeading: false,
-            classes: "govuk-fieldset__legend--l"
+      {{
+        govukInput({
+          id: 'role',
+          name: 'role',
+          value: '',
+          label: {
+            text: 'What is your Job title?'
+          },
+          classes: "govuk-!-width-one-third",
+          errorMessage: validationErrors | dpr.findError('role'),
+          attributes: {
+            required: true
           }
-        },
-        hint: {
-          text: "Select all that apply to you."
-        },
-        items: [
-          {
-            value: "apply-specific-filters",
-            text: "To apply specific filters."
+        })
+      }}
+
+      {{
+        govukCheckboxes({
+          name: "reasons",
+          fieldset: {
+            legend: {
+              text: "How will you use the downloaded report?",
+              isPageHeading: false,
+              classes: "govuk-fieldset__legend--l"
+            }
           },
-          {
-            value: "join-tables",
-            text: "Join different tables."
+          hint: {
+            text: "Select all that apply to you."
           },
-          {
-            value: "combine-info",
-            text: "Combine demographic information (e.g. age, religion) with other reports."
+          items: [
+            {
+              value: "apply-specific-filters",
+              text: "To apply specific filters."
+            },
+            {
+              value: "join-tables",
+              text: "Join different tables."
+            },
+            {
+              value: "combine-info",
+              text: "Combine demographic information (e.g. age, religion) with other reports."
+            },
+            {
+              value: "produce-visualisations",
+              text: "Produce visualisations such as graphs or pie charts."
+            },
+            {
+              value: "other",
+              text: "Other"
+            }
+          ]
+        })
+      }}
+
+      {{
+        govukTextarea({
+          name: "moreDetail",
+          id: "moreDetail",
+          rows: "8",
+          classes: "govuk-!-width-three-quarters",
+          label: {
+            text: "Can you provide more detail",
+            classes: "govuk-label--l",
+            isPageHeading: true
           },
-          {
-            value: "produce-visualisations",
-            text: "Produce visualisations such as graphs or pie charts."
+          hint: {
+            text: "In your own words describe how you will use this data once it's downloaded."
           },
-          {
-            value: "other",
-            text: "Other"
+          errorMessage: validationErrors | dpr.findError('moreDetail'),
+          attributes: {
+            required: true
           }
-        ]
-      }) }}
+        })
+      }}
 
-      {{ govukTextarea({
-        name: "moreDetail",
-        id: "moreDetail",
-        rows: "8",
-        classes: "govuk-!-width-three-quarters",
-        label: {
-          text: "Can you provide more detail",
-          classes: "govuk-label--l",
-          isPageHeading: true
-        },
-        hint: {
-          text: "In your own words describe how you will use this data once it's downloaded."
-        },
-        errorMessage: validationErrors | dpr.findError('moreDetail'),
-        attributes: {
-          required: true
-        }
-      }) }}
-
-      {{ govukButton({
-        text: "Submit request",
-        classes: "govuk-button--primary govuk-!-margin-bottom-0",
-        attributes: {
-          id: 'dpr-form-summary--form-submit',
-          'data-submit-feedback': 'true'
-        }
-      }) }}
-
+      {{
+        govukButton({
+          text: "Submit request",
+          classes: "govuk-button--primary govuk-!-margin-bottom-0",
+          attributes: {
+            id: 'dpr-form-summary--form-submit',
+            'data-submit-feedback': 'true'
+          }
+        })
+      }}
     </form>
   </div>
 {% endmacro %}

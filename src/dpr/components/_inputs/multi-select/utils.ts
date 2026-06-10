@@ -43,9 +43,9 @@ export const appendMultiSelectFromDefinition = (
 export const appendMultiSelectValues = (params: URLSearchParams, fieldName: string, value: string) => {
   value
     .split(',')
-    .map((v) => v.trim())
+    .map(v => v.trim())
     .filter(Boolean)
-    .forEach((val) => {
+    .forEach(val => {
       params.append(`filters.${fieldName}`, val)
     })
 }
@@ -54,8 +54,8 @@ export const getMultiselectValues = (f: MultiselectFilterValue, prefix: string) 
   const MAX_VALUES = 3
   const splitValues = (<string>f.value).split(',')
   let displayValue = splitValues
-    .map((v) => {
-      const displayOption = f.options?.find((opt) => opt.value === v)
+    .map(v => {
+      const displayOption = f.options?.find(opt => opt.value === v)
       return displayOption ? displayOption.text : null
     })
     .filter((_v, i) => {
@@ -66,7 +66,7 @@ export const getMultiselectValues = (f: MultiselectFilterValue, prefix: string) 
   displayValue =
     splitValues.length > MAX_VALUES ? `${displayValue} + ${splitValues.length - MAX_VALUES} more` : displayValue
 
-  const value = splitValues.map((v) => `"${v}"`)
+  const value = splitValues.map(v => `"${v}"`)
   const key = [`${prefix}${f.name}`]
 
   return {

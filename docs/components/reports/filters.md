@@ -3,6 +3,7 @@ layout: layouts/component.njk
 title: Interactive Filters
 subsection: Report components
 ---
+
 {% example "report/filters", 650, "default" %}
 
 ## Overview

@@ -57,7 +57,7 @@ class TimeseriesChart {
   initFromDefinition = (definition: BarTimeseriesDefinitionType | LineTimeseriesDefinitionType) => {
     this.measures = definition.columns.measures
     this.keys = definition.columns.keys || []
-    this.unit = this.measures.find((m) => m.unit)?.unit
+    this.unit = this.measures.find(m => m.unit)?.unit
   }
 
   withPartialDate = (partialDate?: PartialDate) => {
@@ -78,7 +78,7 @@ class TimeseriesChart {
   buildDatasets = () => {
     this.chartColoursHelper = new ChartColoursHelper()
     for (let index = 0; index < this.datasetCount; index += 1) {
-      const data = this.timeBlockData.map((timeperiod) => {
+      const data = this.timeBlockData.map(timeperiod => {
         const valueId = this.measures[1].id
         const period = timeperiod[index]
         return period && period[valueId].raw ? Number(period[valueId].raw) : 0

@@ -6,14 +6,13 @@
 
   <div
     data-dpr-module="dpr-current-status-polling"
-    data-report-id='{{ meta.reportId }}'
-    data-id='{{ meta.id }}'
-    data-table-id='{{ meta.tableId }}'
-    data-execution-id='{{ meta.executionId }}'
+    data-report-id="{{ meta.reportId }}"
+    data-id="{{ meta.id }}"
+    data-table-id="{{ meta.tableId }}"
+    data-execution-id="{{ meta.executionId }}"
     data-csrf-token="{{ csrfToken }}"
-    data-path='{{ path }}'>
-
+    data-path="{{ path }}"
+  >
     {% include "./current-status/view.njk" %}
-
   </div>
 {% endmacro %}

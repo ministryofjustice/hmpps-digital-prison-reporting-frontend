@@ -90,7 +90,7 @@ context('Filters: Autocomplete', () => {
         cy.findAllByRole('button').eq(0).contains('Prince Humperdink, Princess Buttercup')
       })
 
-      cy.location().should((location) => {
+      cy.location().should(location => {
         expect(location.search).to.contain('filters.autocompletemulti=PrHu')
         expect(location.search).to.contain('filters.autocompletemulti=Princess+Buttercup')
       })

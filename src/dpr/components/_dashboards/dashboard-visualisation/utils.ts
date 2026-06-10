@@ -38,7 +38,7 @@ type Result<T> = Success<T> | Failure
 export async function validateDashboardVisualisations(
   dashboardDefinition: components['schemas']['DashboardDefinition'],
 ) {
-  const visualisationDefs = dashboardDefinition.sections.flatMap((section) => {
+  const visualisationDefs = dashboardDefinition.sections.flatMap(section => {
     return section.visualisations
   })
 
@@ -77,14 +77,14 @@ export async function validateDashboardVisualisations(
   const failures = results.filter((r): r is Failure => r.success === false)
 
   if (failures.length > 0) {
-    const indexedIssues = failures.flatMap((f) =>
-      f.error.issues.map((issue) => ({
+    const indexedIssues = failures.flatMap(f =>
+      f.error.issues.map(issue => ({
         ...issue,
         path: [f.index, ...issue.path],
       })),
     )
     const aggregatedZod = new ZodError(indexedIssues)
-    const details = failures.map((f) => ({
+    const details = failures.map(f => ({
       index: f.index,
       type: f.type,
       id: f.id,
@@ -98,7 +98,7 @@ export async function validateDashboardVisualisations(
     )
   }
 
-  return results.filter((r): r is Success<unknown> => r.success).map((r) => r.data)
+  return results.filter((r): r is Success<unknown> => r.success).map(r => r.data)
 }
 
 export const getFeatureFlagVisTypeMap = (dashboardFeatureFlags: Record<string, boolean>) => {

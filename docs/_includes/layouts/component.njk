@@ -1,5 +1,4 @@
 {% extends "./base.njk" %}
-
 {%- from "node_modules/@ministryofjustice/frontend/moj/components/side-navigation/macro.njk" import mojSideNavigation %}
 
 {% block content %}
@@ -19,7 +18,8 @@
           {{ title }}
         </h1>
         {{ content | safe }}
-        {% block exampleContent %}{% endblock %}
+        {% block exampleContent %}
+        {% endblock %}
       </main>
     </div>
   </div>

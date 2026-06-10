@@ -16,14 +16,14 @@ class RecentlyViewedStoreService extends ReportStoreService {
 
   async getAllReportsById(id: string, userId: string) {
     const userConfig = await this.getState(userId)
-    return userConfig.recentlyViewedReports.filter((requested) => {
+    return userConfig.recentlyViewedReports.filter(requested => {
       return (requested.id && requested.id === id) || (requested.variantId && requested.variantId === id)
     })
   }
 
   async getReportById(id: string, userId: string) {
     const userConfig = await this.getState(userId)
-    return userConfig.recentlyViewedReports.find((viewed) => {
+    return userConfig.recentlyViewedReports.find(viewed => {
       return (viewed.id && viewed.id === id) || (viewed.variantId && viewed.variantId === id)
     })
   }
@@ -31,12 +31,12 @@ class RecentlyViewedStoreService extends ReportStoreService {
   async getReportByExecutionId(id: string, userId: string) {
     const userConfig = await this.getState(userId)
 
-    return userConfig.recentlyViewedReports.find((report) => report.executionId === id)
+    return userConfig.recentlyViewedReports.find(report => report.executionId === id)
   }
 
   async getReportByTableId(id: string, userId: string) {
     const userConfig = await this.getState(userId)
-    return userConfig.recentlyViewedReports.find((report) => report.tableId === id)
+    return userConfig.recentlyViewedReports.find(report => report.tableId === id)
   }
 
   async setRecentlyViewed(reportData: RequestedReport, userId: string) {
@@ -124,7 +124,7 @@ class RecentlyViewedStoreService extends ReportStoreService {
 
   async removeSupersededViewedReports(removedExecutionIds: string[], userId: string): Promise<void> {
     Promise.all(
-      removedExecutionIds.map(async (executionId) => {
+      removedExecutionIds.map(async executionId => {
         const report = await this.getReportByExecutionId(executionId, userId)
         if (report) {
           const { reportId, id, tableId } = report

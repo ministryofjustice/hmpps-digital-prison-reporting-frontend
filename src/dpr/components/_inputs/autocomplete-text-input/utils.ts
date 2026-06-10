@@ -4,7 +4,7 @@ import { FilterValueWithOptions } from '../../_filters/types'
 
 const setValueFromRequest = (filter: FilterValueWithOptions, req: Request, prefix: string) => {
   const value = <string>req.query[`${prefix}${filter.name}`]
-  const option = filter.options.find((opt) => opt.value === value)
+  const option = filter.options.find(opt => opt.value === value)
 
   let requestfilterValue = value
   let requestOptionValue
@@ -20,7 +20,7 @@ const setValueFromRequest = (filter: FilterValueWithOptions, req: Request, prefi
 }
 
 const getDisplayValue = (filter: components['schemas']['FilterDefinition'], value: string) => {
-  const option = filter.staticOptions?.find((opt) => opt.name === value)
+  const option = filter.staticOptions?.find(opt => opt.name === value)
   return option ? option.display : value
 }
 

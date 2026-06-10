@@ -3,12 +3,13 @@
 
 {% macro dprFiltersFormReset() %}
 
-  {{ dprButtonLink({
-    text: "Reset filters",
-    attributes: {
-      formaction: "filters/resetFilters",
-      type: "submit"
-    }
-  }) }}
-
+  {{
+    dprButtonLink({
+      text: "Reset filters",
+      attributes: {
+        formaction: "filters/resetFilters",
+        type: "submit"
+      }
+    })
+  }}
 {% endmacro %}

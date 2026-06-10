@@ -208,7 +208,7 @@ const setColumnsForDownload = (
   const requestedColumns = [...new Set([...queryColumns, ...sections])]
 
   // Ensure only valid columns are part of download query
-  const validColumns = requestedColumns.filter((fieldName) => {
+  const validColumns = requestedColumns.filter(fieldName => {
     const field = getField(fields, fieldName)
     return field && (field.fieldSource === 'specfield' || field.fieldSource === undefined)
   })

@@ -4,7 +4,6 @@
 
 {% block content %}
   <div class="govuk-width-container">
-
     {% set rows = [] %}
     {% if (breadCrumbList.length > 0) %}
       {% set rows = rows.concat(breadCrumbList) %}
@@ -12,11 +11,13 @@
 
     {% if title !== 'Home' %}
       <div class="govuk-!-margin-bottom-4">
-        {{ govukBreadcrumbs({
-          collapseOnMobile: true,
-          items: rows,
-          classes: "govuk-!-display-none-print hmpps-header__container"
-        }) }}
+        {{
+          govukBreadcrumbs({
+            collapseOnMobile: true,
+            items: rows,
+            classes: "govuk-!-display-none-print hmpps-header__container"
+          })
+        }}
       </div>
     {% endif %}
 
@@ -25,7 +26,6 @@
     {% endif %}
 
     <h1 class="govuk-heading-l">{{ title }}</h1>
-
 
     {{ dprCardGroup(cards, 2) }}
   </div>

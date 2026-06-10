@@ -72,7 +72,7 @@ export const getFilter = (
   fields: components['schemas']['FieldDefinition'][],
   fieldId: string,
 ): components['schemas']['FilterDefinition'] | null | undefined => {
-  return fields.find((f) => f.name === fieldId)?.filter
+  return fields.find(f => f.name === fieldId)?.filter
 }
 
 /**
@@ -101,7 +101,7 @@ export const getCurrentVariantDefinition = (
   if (reportDef) {
     // TODO: this needs fixing, we should never be using `as unknown as`, but the types are very mixed up here
     variantDef = reportDef.variants.find(
-      (variant) => variantId === variant.id,
+      variant => variantId === variant.id,
     ) as unknown as components['schemas']['VariantDefinition']
 
     return variantDef
@@ -122,7 +122,7 @@ export const getFieldDisplayName = (
   fieldId: string,
 ) => {
   const ids = fieldId.split('.')
-  const field = fields.find((f) => {
+  const field = fields.find(f => {
     return f.name === ids[0]
   })
   if (field) {
@@ -139,7 +139,7 @@ export const getFieldDisplayName = (
  * @return {*}
  */
 export const getField = (fields: components['schemas']['FieldDefinition'][], fieldId: string) => {
-  return fields.find((field) => {
+  return fields.find(field => {
     return field.name === fieldId
   })
 }
@@ -178,7 +178,7 @@ export const getFieldsWithFiltersFromDefinition = (
   definition: components['schemas']['SingleVariantReportDefinition'],
 ): components['schemas']['FieldDefinition'][] => {
   const fields = getFields(definition)
-  return fields.filter((f) => f.filter !== undefined)
+  return fields.filter(f => f.filter !== undefined)
 }
 
 type FieldWithFilter = Omit<components['schemas']['FieldDefinition'], 'filter'> & {
@@ -232,7 +232,7 @@ export const getFieldsByName = (
   names: string[],
   fields: components['schemas']['FieldDefinition'][],
 ): components['schemas']['FieldDefinition'][] => {
-  return names.map((s) => fields.find((field) => field.name === s)).filter((field) => field !== undefined)
+  return names.map(s => fields.find(field => field.name === s)).filter(field => field !== undefined)
 }
 
 /**
@@ -272,7 +272,7 @@ export const validateVariant = (variant: components['schemas']['VariantDefinitio
  */
 export const hasInteractiveFilters = (fields: components['schemas']['FieldDefinition'][]) => {
   const filters = getFilters(fields)
-  return filters.some((filter) => filter.interactive)
+  return filters.some(filter => filter.interactive)
 }
 
 export const getReportSummary = (
@@ -305,7 +305,7 @@ export const getDefaultFiltersQueryString = (
 
   const fieldsWithFilters = getFieldsWithFilters(fields)
 
-  fieldsWithFilters.forEach((field) => {
+  fieldsWithFilters.forEach(field => {
     const { interactive = false } = field.filter
 
     appendFilterDefaults(interactive ? interactiveParams : defaultParams, field)
@@ -324,7 +324,7 @@ export const getDefaultFiltersQueryString = (
  * @return {*}
  */
 export const getDefaultSortQueryString = (fields: components['schemas']['FieldDefinition'][]) => {
-  const defaultSortField = fields.find((field) => field.defaultsort)
+  const defaultSortField = fields.find(field => field.defaultsort)
   if (!defaultSortField) {
     return ''
   }
@@ -411,7 +411,7 @@ export const getDefaultColumnsQueryString = (fields: components['schemas']['Fiel
   const defaultColumns = Array.from(new Set([...mandatoryCols, ...visibleCols]))
 
   const params = new URLSearchParams()
-  defaultColumns.forEach((column) => {
+  defaultColumns.forEach(column => {
     params.append('columns', column)
   })
 

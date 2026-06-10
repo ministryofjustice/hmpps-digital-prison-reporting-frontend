@@ -33,11 +33,11 @@ export class ReportBuilder extends TemplateBuilder {
   }
 
   buildSummaryTables(summaries: AsyncSummary[]) {
-    const summaryTables = summaries.map((summaryData) => {
+    const summaryTables = summaries.map(summaryData => {
       const fields = <components['schemas']['FieldDefinition'][]>summaryData.fields
       const { data, template } = summaryData
       const summaryTableData = new DataTableBuilder(fields)
-        .withNoHeaderOptions(fields.map((f) => f.name))
+        .withNoHeaderOptions(fields.map(f => f.name))
         .buildTable(data)
 
       return {

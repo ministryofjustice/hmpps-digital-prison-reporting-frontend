@@ -12,7 +12,7 @@ const { glob } = require('glob')
  * Copy additional assets into distribution
  * @type {import('./types').BuildStep}
  */
-const buildAdditionalAssets = (buildConfig) => {
+const buildAdditionalAssets = buildConfig => {
   return esbuild.build({
     outdir: buildConfig.assets.outDir,
     plugins: [
@@ -28,7 +28,7 @@ const buildAdditionalAssets = (buildConfig) => {
  * Build scss and javascript assets
  * @type {import('./types').BuildStep}
  */
-const buildAssets = (buildConfig) => {
+const buildAssets = buildConfig => {
   return esbuild.build({
     entryPoints: buildConfig.assets.entryPoints,
     outdir: buildConfig.assets.outDir,
@@ -44,10 +44,8 @@ const buildAssets = (buildConfig) => {
         patterns: glob.sync(buildConfig.assets.clear),
       }),
       manifestPlugin({
-        generate: (entries) =>
-          Object.fromEntries(
-            Object.entries(entries).map((paths) => paths.map((p) => p.replace(/^dist-test-app\//, '/'))),
-          ),
+        generate: entries =>
+          Object.fromEntries(Object.entries(entries).map(paths => paths.map(p => p.replace(/^dist-test-app\//, '/')))),
       }),
       sassPlugin({
         quietDeps: true,
@@ -61,7 +59,7 @@ const buildAssets = (buildConfig) => {
  * @param {BuildConfig} buildConfig
  * @returns {Promise}
  */
-module.exports = (buildConfig) => {
+module.exports = buildConfig => {
   process.stderr.write('\u{1b}[1m\u{2728} Building assets...\u{1b}[0m\n')
 
   return Promise.all([buildAssets(buildConfig), buildAdditionalAssets(buildConfig)])

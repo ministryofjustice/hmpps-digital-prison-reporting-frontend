@@ -2,10 +2,8 @@
 {% from "./report-download-message/view.njk" import dprDownloadMessage %}
 {% from "./report-columns/view.njk" import dprReportColumns %}
 {% from "./report-filters/view.njk" import dprReportFilters %}
-
 {% from "../../bookmark/view.njk" import dprBookmarkButton %}
 {% from "../../_async/request-details/view.njk" import dprRequestDetails %}
-
 {% from "govuk/components/details/macro.njk" import govukDetails %}
 
 {% macro dprReportHeading(reportData, validationErrors) %}
@@ -53,30 +51,27 @@
     {% if downloadConfig.canDownload is defined %}
 
       {{ dprDownloadMessage(reportData.feedbackFormHref) }}
-
     {% endif %}
 
-      {% set reportDetailsHtml %}
-        {{ dprRequestDetails(reportData)}}
-      {% endset %}
 
-      {{ govukDetails({
+    {% set reportDetailsHtml %}
+      {{ dprRequestDetails(reportData) }}
+    {% endset %}
+
+    {{
+      govukDetails({
         summaryText: type | capitalize + ' details',
         html: reportDetailsHtml,
         classes: 'dpr-meta-data-details',
         open: detailsOpen
-      }) }}
+      })
+    }}
 
     {% if type === 'dashboard' %}
-
-      <p class="govuk-body govuk-!-margin-top-2" >{{ reportData.description }}</p>
-
+      <p class="govuk-body govuk-!-margin-top-2">{{ reportData.description }}</p>
     {% endif %}
 
-
-    <div class="dpr-report-details-print">
-      {{ dprRequestDetails(reportData)}}
-    </div>
+    <div class="dpr-report-details-print">{{ dprRequestDetails(reportData) }}</div>
 
     <div class="dpr-report-interactive-actions">
       {% if count and count > 0 %}

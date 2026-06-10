@@ -14,11 +14,11 @@ const mockStatusSequence = {
 const mockStatusHelper = async (requestsStore, statuses, executionId) => {
   const mockResponse = Object.assign(mockStatusApiResponse, {})
 
-  let reportIndex = requestsStore.findIndex((r) => r.executionId === executionId)
+  let reportIndex = requestsStore.findIndex(r => r.executionId === executionId)
   if (reportIndex === -1) reportIndex = 0
 
   const currentStatus = requestsStore[reportIndex].status
-  const currentStatusIndex = statuses.findIndex((status) => status === currentStatus)
+  const currentStatusIndex = statuses.findIndex(status => status === currentStatus)
   const nextStatus =
     statuses.length > currentStatusIndex + 1 ? statuses[currentStatusIndex + 1] : statuses[currentStatusIndex]
 

@@ -26,6 +26,7 @@ To start the Test Application, run: `npm run start:dev:noMockClients` as well as
 The Test Application is used both for visually checking components, and also by the integration tests (run using Cypress).
 
 ## Running and testing local builds
+
 To run the main suite of browser-based tests, start up the main app by running `npm run start:dev:noMockClients` then `npm run int-test` or `npm run int-test-ui` for getting the cypress UI up to choose individual tests to run.
 
 There are also a few jest tests - you can run these plus the small docs tests by running `npm run test`.
@@ -33,12 +34,13 @@ There are also a few jest tests - you can run these plus the small docs tests by
 We also have a small number of visual regression tests using Playwright that are **only** for our chart based pages - you can run these with `npm run int-test-visual` which will start up the server and mocks itself. Please ensure any other running server processes are stopped before running this!
 
 ### How to update and create new visual regression tests
+
 There may ocassionally be the need to create new visual regression tests, again, only for our charting based pages. To do this, you should develop the test as normal, but use `npm run int-test-visual-ui` which will allow you to see what the test is doing in the UI. Once you have the test on the page you want to capture a screenshot of for comparison, use
 
 ```typescript
 await expect(page).toHaveScreenshot({
-    fullPage: true,
-  })
+  fullPage: true,
+})
 ```
 
 and then run your test. It will fail locally on this last step, which is expected, as you are not creating screenshots. These will be created by CI as screenshots on different OSes can have slightly different pixel values. You should push this branch and make a PR, which will set off the CI run, and if all is well, create the screenshots as an artifact of the CI run in GitHub Actions (but fail the run). You should create a folder based on the name of the file running the test - if the file is called `some-chart-test.spec.ts`, create a folder called `some-chart-test.spec.ts-screenshots/` and download the screenshots artifact and put the new screenshots in there. You should then double check these to ensure no sensitive data is being captured, then commit and push them up. This time, the CI run should use these screenshots and pass. If they do not, some common pitfalls include:

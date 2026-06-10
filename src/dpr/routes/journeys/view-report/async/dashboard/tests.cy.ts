@@ -103,7 +103,7 @@ context('Viewing a dashboard', () => {
       cy.findByRole('heading', { level: 1, name: /Test Dashboard/ }).should('be.visible')
       checkA11y()
       cy.findAllByText(/This visualisation type is not supported yet./)
-        .each((el) => cy.wrap(el).should('be.visible'))
+        .each(el => cy.wrap(el).should('be.visible'))
         .should('have.length.at.least', 1)
       cy.get('canvas').should('not.exist')
       cy.visit(path)
@@ -232,7 +232,7 @@ context('Viewing a dashboard', () => {
       })
       cy.findByRole('button', { name: /Request/ }).click()
       cy.findByRole('heading', { level: 1, name: /Test Dashboard/ }).should('be.visible')
-      cy.url().then((url) => {
+      cy.url().then(url => {
         viewDashboardUrl = url
       })
     })

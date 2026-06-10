@@ -11,7 +11,8 @@
 
   <div class="dpr-search" data-dpr-module="dpr-catalogue-search">
     <div class="dpr-search-inputs">
-        {{ govukInput({
+      {{
+        govukInput({
           label: {
             text: "Filter by key word",
             classes: "govuk-!-font-weight-bold govuk-!-margin-bottom-2"
@@ -24,26 +25,29 @@
             placeholder: "Type to filter reports",
             "data-table-id": id
           }
-        }) }}
-        {% if productCollections.length > 0 %}
-          <form method="post" action="{{ formAction }}">
-            <input type="hidden" name="_csrf" value="{{ csrfToken }}">
-            <input type="hidden" name="returnTo" value="{{ currentUrl }}">
-            {{ govukSelect({
-              id: 'productCollection',
-              name: 'productCollection',
-              value: selectedProductCollection.id,
-              formGroup: {
-                attributes: {
-                  style: "justify-self: end;"
+        })
+      }}
+      {% if productCollections.length > 0 %}
+        <form method="post" action="{{ formAction }}">
+          <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
+          <input type="hidden" name="returnTo" value="{{ currentUrl }}" />
+          {{
+            govukSelect({
+                id: 'productCollection',
+                name: 'productCollection',
+                value: selectedProductCollection.id,
+                formGroup: {
+                  attributes: {
+                    style: "justify-self: end;"
+                  }
+                },
+                items: productCollections,
+                label: {
+                  text: 'Your collections',
+                  classes: "govuk-label govuk-!-font-weight-bold govuk-!-margin-bottom-2"
                 }
-              },
-              items: productCollections,
-              label: {
-                text: 'Your collections',
-                classes: "govuk-label govuk-!-font-weight-bold govuk-!-margin-bottom-2"
-              }
-          }) }}
+            })
+          }}
         </form>
       {% endif %}
     </div>

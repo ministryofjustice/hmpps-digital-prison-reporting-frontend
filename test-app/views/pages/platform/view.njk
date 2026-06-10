@@ -3,26 +3,29 @@
 {% from "components/_catalogue/catalogue/view.njk" import dprCatalogue %}
 {% from "components/my-reports/view.njk" import dprMyReports %}
 
-
 {% block content %}
   <div class="govuk-width-container">
     {% set rows = [] %}
     {% if (breadCrumbList.length > 0) %}
       {% set rows = rows.concat(breadCrumbList) %}
     {% endif %}
-    {% set rows = rows.concat([
-      {
-        text: title
-      }
-    ]) %}
+    {%
+      set rows = rows.concat([
+        {
+          text: title
+        }
+      ])
+    %}
 
     {% if title !== 'Home' %}
       <div class="govuk-!-margin-bottom-4">
-        {{ govukBreadcrumbs({
-          collapseOnMobile: true,
-          items: rows,
-          classes: "govuk-!-display-none-print hmpps-header__container"
-        }) }}
+        {{
+          govukBreadcrumbs({
+            collapseOnMobile: true,
+            items: rows,
+            classes: "govuk-!-display-none-print hmpps-header__container"
+          })
+        }}
       </div>
     {% endif %}
 

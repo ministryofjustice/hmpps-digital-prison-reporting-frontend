@@ -1,17 +1,17 @@
 .dpr-granular-date-range {
   .dpr-granular-date-range__inputs_wrapper {
-      position: relative;
-      display: grid;
-      grid-template-areas: "header header" "start end";
-      column-gap: govuk-spacing(4);
-      margin-bottom: govuk-spacing(2);
-    }
-
-
-  .dpr-daterange__start-end-date-wrapper, .dpr-granular-date-range__inputs_wrapper {
     position: relative;
     display: grid;
-    grid-template-areas: "header header" "start end";
+    grid-template-areas: 'header header' 'start end';
+    column-gap: govuk-spacing(4);
+    margin-bottom: govuk-spacing(2);
+  }
+
+  .dpr-daterange__start-end-date-wrapper,
+  .dpr-granular-date-range__inputs_wrapper {
+    position: relative;
+    display: grid;
+    grid-template-areas: 'header header' 'start end';
     column-gap: govuk-spacing(4);
     row-gap: govuk-spacing(0);
   }

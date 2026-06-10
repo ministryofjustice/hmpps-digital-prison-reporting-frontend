@@ -19,7 +19,7 @@ class DprCatalogueTypeFilter extends DprCatalogueFilters {
   }
 
   initRadioButtonEvent() {
-    this.reportTypeFilter.addEventListener('change', (e) => {
+    this.reportTypeFilter.addEventListener('change', e => {
       const queryParams = new URLSearchParams(window.location.search)
       if (e.target.checked) {
         queryParams.set(e.target.name, e.target.value)
@@ -45,19 +45,19 @@ class DprCatalogueTypeFilter extends DprCatalogueFilters {
   }
 
   updateRows(value, hideClassName, tag) {
-    Array.from(this.table.rows).forEach((row) => {
+    Array.from(this.table.rows).forEach(row => {
       row.classList.remove(hideClassName)
     })
 
     Array.from(this.table.rows)
-      .filter((row) => {
+      .filter(row => {
         const isTypeRow = []
-        Array.from(row.cells).forEach((cell) => {
+        Array.from(row.cells).forEach(cell => {
           return isTypeRow.push(cell.innerHTML.includes(tag))
         })
-        return isTypeRow.every((t) => t === false)
+        return isTypeRow.every(t => t === false)
       })
-      .forEach((row) => {
+      .forEach(row => {
         if (value && value !== 'all') {
           row.classList.add(hideClassName)
         }

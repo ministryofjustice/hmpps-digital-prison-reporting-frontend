@@ -31,7 +31,7 @@ export default class ChartColoursHelper {
   }
 
   getHexPallette = () => {
-    return this.pallette.map((p) => p.hex)
+    return this.pallette.map(p => p.hex)
   }
 
   setColourStyles = (datasetIndex: number) => {

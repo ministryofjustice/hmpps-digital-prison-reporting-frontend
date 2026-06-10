@@ -214,7 +214,7 @@ class UserStoreItemBuilder {
   addMetrics = (metrics: components['schemas']['DashboardSectionDefinition'][]) => {
     this.userStoreItem = {
       ...this.userStoreItem,
-      metrics: metrics.filter((metric) => metric.display).map((metric) => ({ name: metric.display || '' })),
+      metrics: metrics.filter(metric => metric.display).map(metric => ({ name: metric.display || '' })),
     }
     return this
   }

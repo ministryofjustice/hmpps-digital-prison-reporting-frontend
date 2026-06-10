@@ -10,7 +10,7 @@ export default class ChartLabelsHelper {
    * @memberof ChartLabelsHelper
    */
   getLabels = (measures: ChartMeasure[]) => {
-    return measures.map((col) => {
+    return measures.map(col => {
       const { unit, display } = col
       return setUnitOnValue(display || '', mapUnitToSymbol(unit))
     })
@@ -43,8 +43,8 @@ export default class ChartLabelsHelper {
    * @memberof ChartLabelsHelper
    */
   getListLabels = (groups: DashboardDataResponse[][], axisId: string, unitSymbol?: string) => {
-    const allLabels = groups.flatMap((gd) => {
-      return gd.map((row) => {
+    const allLabels = groups.flatMap(gd => {
+      return gd.map(row => {
         const field = row[axisId]
         let label = ''
         if (field) {

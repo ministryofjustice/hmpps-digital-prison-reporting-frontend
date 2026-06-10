@@ -25,7 +25,7 @@ context('Dashboard visualisation: bar chart', () => {
       cy.findByRole('heading', { level: 1, name: /Bar - Complete dataset/ }).should('be.visible')
       checkA11y()
 
-      cy.url().then((url) => {
+      cy.url().then(url => {
         completeDashboardUrl = url
       })
     })
@@ -376,7 +376,7 @@ context('Dashboard visualisation: bar chart', () => {
       cy.findByRole('heading', { level: 1, name: /Bar - Partial dataset/ }).should('be.visible')
       checkA11y()
 
-      cy.url().then((url) => {
+      cy.url().then(url => {
         partialDashboardUrl = url
       })
     })
@@ -839,7 +839,7 @@ context('Dashboard visualisation: bar chart', () => {
 
       cy.url().should('include', '/view-report')
 
-      cy.url().then((url) => {
+      cy.url().then(url => {
         invalidDashboardUrl = url
       })
     })

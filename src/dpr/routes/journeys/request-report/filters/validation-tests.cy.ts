@@ -66,7 +66,7 @@ describe('Filter validation', () => {
         cy.findByRole('link', { name: /Field 1 is required/ }).should('be.visible')
         cy.findByRole('group', { name: 'Field 1' })
           .invoke('attr', 'aria-describedby')
-          .then((id) => {
+          .then(id => {
             cy.get(`[id="${id}"]`).should('contain.text', 'Field 1 is required')
           })
       })
@@ -88,7 +88,7 @@ describe('Filter validation', () => {
         cy.findByRole('link', { name: /Field 2 is required/ }).should('be.visible')
         cy.findByRole('combobox', { name: 'Field 2' })
           .invoke('attr', 'aria-describedby')
-          .then((id) => {
+          .then(id => {
             cy.get(`[id="${id}"]`).should('contain.text', 'Field 2 is required')
           })
       })
@@ -110,7 +110,7 @@ describe('Filter validation', () => {
         cy.findByRole('link', { name: /Field 4 is required/ }).should('be.visible')
         cy.findByRole('combobox', { name: 'Field 4' })
           .invoke('attr', 'aria-describedby')
-          .then((id) => {
+          .then(id => {
             cy.get(`[id="${id}"]`).should('contain.text', 'Field 4 is required')
           })
       })
@@ -132,7 +132,7 @@ describe('Filter validation', () => {
         cy.findByRole('link', { name: /Field 5 is required/ }).should('be.visible')
         cy.findByRole('textbox', { name: 'Field 5' })
           .invoke('attr', 'aria-describedby')
-          .then((id) => {
+          .then(id => {
             cy.get(`[id="${id}"]`).should('contain.text', 'Field 5 is required')
           })
       })
@@ -144,7 +144,7 @@ describe('Filter validation', () => {
         cy.findByRole('link', { name: /Field 5 has an invalid format/ }).should('be.visible')
         cy.findByRole('textbox', { name: 'Field 5' })
           .invoke('attr', 'aria-describedby')
-          .then((id) => {
+          .then(id => {
             cy.get(`[id="${id}"]`).should('contain.text', 'Field 5 has an invalid format')
           })
       })
@@ -166,7 +166,7 @@ describe('Filter validation', () => {
         cy.findByRole('link', { name: /Field 7 Please select at least one/ }).should('be.visible')
         cy.findByRole('group', { name: 'Field 7' })
           .invoke('attr', 'aria-describedby')
-          .then((describedBy) => {
+          .then(describedBy => {
             cy.get(`[id="${describedBy}"]`).should('be.visible').and('contain.text', 'Please select at least one')
           })
       })
@@ -248,7 +248,7 @@ describe('Filter validation', () => {
         cy.location('pathname', { timeout: 20000 }).should('include', '/view-report')
         cy.findByRole('heading', { level: 1, name: /Validation Test/ }).should('be.visible')
 
-        cy.location('pathname').then((interactivePath) => {
+        cy.location('pathname').then(interactivePath => {
           interactiveFiltersPath = interactivePath
         })
       })
@@ -282,7 +282,7 @@ describe('Filter validation', () => {
         cy.findByRole('link', { name: /Field 8 is required/ }).should('be.visible')
         cy.findByRole('group', { name: 'Field 8' })
           .invoke('attr', 'aria-describedby')
-          .then((id) => {
+          .then(id => {
             cy.get(`[id="${id}"]`).should('contain.text', 'Field 8 is required')
           })
       })
@@ -307,7 +307,7 @@ describe('Filter validation', () => {
         cy.findByRole('link', { name: /Field 9 is required/ }).should('be.visible')
         cy.findByRole('combobox', { name: 'Field 9' })
           .invoke('attr', 'aria-describedby')
-          .then((id) => {
+          .then(id => {
             cy.get(`[id="${id}"]`).should('contain.text', 'Field 9 is required')
           })
       })
@@ -332,7 +332,7 @@ describe('Filter validation', () => {
         cy.findByRole('link', { name: /Field 11 is required/ }).should('be.visible')
         cy.findByRole('combobox', { name: 'Field 11' })
           .invoke('attr', 'aria-describedby')
-          .then((id) => {
+          .then(id => {
             cy.get(`[id="${id}"]`).should('contain.text', 'Field 11 is required')
           })
       })
@@ -357,7 +357,7 @@ describe('Filter validation', () => {
         cy.findByRole('link', { name: /Field 12 is required/ }).should('be.visible')
         cy.findByRole('textbox', { name: 'Field 12' })
           .invoke('attr', 'aria-describedby')
-          .then((id) => {
+          .then(id => {
             cy.get(`[id="${id}"]`).should('contain.text', 'Field 12 is required')
           })
       })
@@ -372,7 +372,7 @@ describe('Filter validation', () => {
         cy.findByRole('link', { name: /Field 12 has an invalid format/ }).should('be.visible')
         cy.findByRole('textbox', { name: 'Field 12' })
           .invoke('attr', 'aria-describedby')
-          .then((id) => {
+          .then(id => {
             cy.get(`[id="${id}"]`).should('contain.text', 'Field 12 has an invalid format')
           })
       })
@@ -397,7 +397,7 @@ describe('Filter validation', () => {
         cy.findByRole('link', { name: /Field 14 Please select at least one/ }).should('be.visible')
         cy.findByRole('group', { name: 'Field 14' })
           .invoke('attr', 'aria-describedby')
-          .then((describedBy) => {
+          .then(describedBy => {
             cy.get(`[id="${describedBy}"]`).should('be.visible').and('contain.text', 'Please select at least one')
           })
       })

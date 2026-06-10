@@ -18,7 +18,7 @@ export class DprAppliedFilters extends DprClientClass {
   // ----------------------------------
 
   private bindRemoveEvents(): void {
-    this.getFilterButtons().forEach((button) => {
+    this.getFilterButtons().forEach(button => {
       button.addEventListener('click', () => {
         const reset = this.getResetConfig(button)
         if (!reset) return
@@ -36,7 +36,7 @@ export class DprAppliedFilters extends DprClientClass {
     const url = new URL(window.location.href)
 
     // Remove filter-related params
-    reset.keys.forEach((key) => {
+    reset.keys.forEach(key => {
       url.searchParams.delete(key)
     })
 
@@ -49,7 +49,7 @@ export class DprAppliedFilters extends DprClientClass {
   }
 
   private hasAnyFilterParams(url: URL): boolean {
-    return Array.from(url.searchParams.keys()).some((key) => key.startsWith('filters.'))
+    return Array.from(url.searchParams.keys()).some(key => key.startsWith('filters.'))
   }
 
   // ----------------------------------

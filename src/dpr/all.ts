@@ -91,9 +91,9 @@ function initAll() {
 
   dayjs.extend(customParse)
 
-  components.forEach((Component) => {
+  components.forEach(Component => {
     const $elements = document.querySelectorAll(`[data-dpr-module="${Component.getModuleName()}"]`)
-    $elements.forEach(async ($element) => {
+    $elements.forEach(async $element => {
       try {
         new Component($element).initialise()
       } catch (error) {

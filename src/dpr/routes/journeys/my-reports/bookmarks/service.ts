@@ -43,7 +43,7 @@ class BookmarkService extends ReportStoreService {
     if (!this.enabled) return
 
     const userConfig = await this.getState(userId)
-    const index = userConfig.bookmarks.findIndex((bookmark) => {
+    const index = userConfig.bookmarks.findIndex(bookmark => {
       const bmVarId = bookmark.id || bookmark.variantId
       return bmVarId === id && bookmark.reportId === reportId
     })
@@ -68,14 +68,14 @@ class BookmarkService extends ReportStoreService {
   }
 
   private isBookmarkedCheck = (userConfig: ReportStoreConfig, id: string, reportId: string): boolean => {
-    return userConfig.bookmarks.some((bookmark) => {
+    return userConfig.bookmarks.some(bookmark => {
       const bmVarId = bookmark.id
       return bmVarId === id && bookmark.reportId === reportId
     })
   }
 
   private getBookmark = (userConfig: ReportStoreConfig, id: string, reportId: string) => {
-    return userConfig.bookmarks.find((bookmark) => {
+    return userConfig.bookmarks.find(bookmark => {
       const bmVarId = bookmark.id
       return bmVarId === id && bookmark.reportId === reportId
     })

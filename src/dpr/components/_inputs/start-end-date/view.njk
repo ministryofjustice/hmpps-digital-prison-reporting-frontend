@@ -9,46 +9,50 @@
 
   {# START #}
   <div class="dpr-daterange__start-end-date-wrapper">
-     {% if label %}
-      <p class="dpr-daterange__start-end-label govuk-label govuk-label govuk-!-font-weight-bold" for="{{id}}">
+    {% if label %}
+      <p class="dpr-daterange__start-end-label govuk-label govuk-label govuk-!-font-weight-bold" for="{{ id }}">
         {{ label }}
       </p>
     {% endif %}
 
     <div class="dpr-daterange__start-date">
-      {{ dprDate(
-        {
-          name: name,
-          value: value.start,
-          min: min,
-          max: max,
-          mandatory: mandatory,
-          displayName: text + ' start'
-        },
-        validationErrors,
-        'From',
-        '.start',
-        true,
-        false
-      )}}
+      {{
+        dprDate(
+          {
+            name: name,
+            value: value.start,
+            min: min,
+            max: max,
+            mandatory: mandatory,
+            displayName: text + ' start'
+          },
+          validationErrors,
+          'From',
+          '.start',
+          true,
+          false
+        )
+      }}
     </div>
 
     {# END #}
     <div class="dpr-daterange__end-date">
-      {{ dprDate(
-        {
-          name: name,
-          value: value.end,
-          min: min,
-          max: max,
-          mandatory: mandatory,
-          displayName: text + ' end'
-        },
-        validationErrors,
-        'To',
-        '.end',
-        false
-      )}}
+      {{
+        dprDate(
+          {
+            name: name,
+            value: value.end,
+            min: min,
+            max: max,
+            mandatory: mandatory,
+            displayName: text + ' end'
+          },
+          validationErrors,
+          'To',
+          '.end',
+          false
+        )
+      }}
     </div>
   </div>
 {% endmacro %}

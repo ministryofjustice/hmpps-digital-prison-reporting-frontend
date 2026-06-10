@@ -54,10 +54,7 @@ context('Dashboard visualisation: Scorecards', () => {
         .should('exist')
         .within(() => {
           // Metric
-          cy.findAllByRole('paragraph')
-            .eq(1)
-            .invoke('text')
-            .should('match', /^[0-9]*$/)
+          cy.findAllByRole('paragraph').eq(1).contains(684).should('exist')
           // Colour
           cy.findAllByRole('paragraph').eq(1).invoke('attr', 'style', 'background-color').should('exist')
           // trend
@@ -94,10 +91,7 @@ context('Dashboard visualisation: Scorecards', () => {
         .should('exist')
         .within(() => {
           // Metric
-          cy.findAllByRole('paragraph')
-            .eq(1)
-            .invoke('text')
-            .should('match', /^[0-9]*$/)
+          cy.findAllByRole('paragraph').eq(1).contains(684).should('exist')
           // Colour
           cy.findAllByRole('paragraph').eq(1).invoke('attr', 'style', 'background-color').should('exist')
           // trend

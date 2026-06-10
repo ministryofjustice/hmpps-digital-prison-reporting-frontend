@@ -43,10 +43,13 @@ const buildLibrary = async () => {
     process.stderr.write(`${e}\n`)
     process.exit(1)
   })
+
   const scssFiles = glob.sync(['src/**/*.scss'])
-  scssFiles.forEach((file) =>
-    fs.appendFileSync(path.join(cwd, 'dist/dpr/all.scss'), fs.readFileSync(path.join(cwd, file))),
-  )
+
+  const combinedScss = scssFiles.map((file) => fs.readFileSync(path.join(cwd, file), 'utf8')).join('\n')
+
+  fs.writeFileSync(path.join(cwd, 'dist/dpr/all.scss'), combinedScss)
+
   // esbuild is outputting incorrect sourcemaps, possibly because we have our source in src/dpr and output to dist/dpr
   // moving all the files would be a major change right now, so fix them manually
   const sourceMapFiles = glob.sync(['dist/**/*.map'])

@@ -128,6 +128,7 @@ class ViewedReportBuilder extends StoreItemBuilder {
 
     const viewedReportData: RecentlyViewedReport = {
       ...reportData,
+      ...this.executionData,
       ...(definitionsPath && definitionsPath),
       ...(this.asyncQueryData && { query: this.asyncQueryData }),
       ...(interactiveQuery && { interactiveQuery }),

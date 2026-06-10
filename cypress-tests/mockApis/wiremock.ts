@@ -26,7 +26,7 @@ export const resetRedis = async () => {
       host: '127.0.0.1',
       port: 6379,
       tls: false,
-      reconnectStrategy: (attempts) => {
+      reconnectStrategy: attempts => {
         // Exponential back off: 20ms, 40ms, 80ms..., capped to retry every 30 seconds
         const nextDelay = Math.min(2 ** attempts * 20, 30000)
         console.log(`Retry Redis connection attempt: ${attempts}, next attempt in: ${nextDelay}ms`)
@@ -50,8 +50,8 @@ export const getSentAuditEvents = async (): Promise<unknown> => {
 }
 
 export const getMappings = async () => {
-  const response = (await fetch(`${url}/mappings?limit=10000`))
-  return (await response.json()) as { mappings: Record<string, unknown>[], meta: { total: number } }
+  const response = await fetch(`${url}/mappings?limit=10000`)
+  return (await response.json()) as { mappings: Record<string, unknown>[]; meta: { total: number } }
 }
 
 export const resetStubs = (): Promise<Array<Response>> =>

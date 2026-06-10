@@ -34,7 +34,7 @@ context('Inputs: date range', () => {
     it('should set the date value in the query string', () => {
       setDateRangeValuesViaInput()
 
-      cy.location().should((location) => {
+      cy.location().should(location => {
         expect(location.search).to.contain(`filters.date-range.start=2025-05-02`)
         expect(location.search).to.contain(`filters.date-range.end=2025-07-05`)
       })
@@ -43,7 +43,7 @@ context('Inputs: date range', () => {
     it('should set the date value in the query string if single digits', () => {
       setDateRangeValuesViaInputSingleDigit()
 
-      cy.location().should((location) => {
+      cy.location().should(location => {
         expect(location.search).to.contain(`filters.date-range.start=2025-05-02`)
         expect(location.search).to.contain(`filters.date-range.end=2025-07-05`)
       })
@@ -168,7 +168,7 @@ context('Inputs: date range', () => {
     it('should set the date value correctly in the query string', () => {
       setDateRangeValuesViaCalendar(11, 28)
 
-      cy.location().should((location) => {
+      cy.location().should(location => {
         expect(location.search).to.contain(
           `filters.date-range.start=${getISOFormattedDate(
             new Date(dateToday.getFullYear(), dateToday.getMonth(), 11),
@@ -183,7 +183,7 @@ context('Inputs: date range', () => {
     it('should format the date value correctly in the query string when single digits', () => {
       setDateRangeValuesViaCalendar(1, 9)
 
-      cy.location().should((location) => {
+      cy.location().should(location => {
         expect(location.search).to.contain(
           `filters.date-range.start=${getISOFormattedDate(new Date(dateToday.getFullYear(), dateToday.getMonth(), 1))}`,
         )

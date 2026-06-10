@@ -39,7 +39,7 @@ class DownloadPermissionService extends ReportStoreService {
     const userConfig = await this.getState(userId)
     const { downloadPermissions } = userConfig
     if (downloadPermissions) {
-      const index = downloadPermissions.findIndex((downloadConfig) => {
+      const index = downloadPermissions.findIndex(downloadConfig => {
         return downloadConfig.id === id
       })
       if (index >= 0) {

@@ -103,14 +103,14 @@ if (!existsSync(path.join(cwd, 'dist/dpr/all.scss'))) {
   writeFileSync(path.join(cwd, 'dist/dpr/all.scss'), '\n')
 }
 const scssFiles = glob.sync(['src/**/*.scss'])
-scssFiles.forEach((file) => {
+scssFiles.forEach(file => {
   appendFileSync(path.join(cwd, 'dist/dpr/all.scss'), readFileSync(path.join(cwd, file)))
 })
 
 // esbuild is outputting incorrect sourcemaps, possibly because we have our source in src/dpr and output to dist/dpr
 // moving all the files would be a major change right now, so fix them manually
 const sourceMapFiles = glob.sync(['dist/**/*.map'])
-sourceMapFiles.forEach((filePath) => {
+sourceMapFiles.forEach(filePath => {
   const fileContents = readFileSync(filePath).toString()
   const correctedContents = fileContents.replace(/\.\.\/src\//, '')
   writeFileSync(filePath, correctedContents)

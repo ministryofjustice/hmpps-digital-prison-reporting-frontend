@@ -24,7 +24,7 @@ context('Platform sync download tests', () => {
           })
         })
         cy.findByRole('heading', { name: /Sync report/, level: 1 }).should('be.visible')
-        cy.url().then((url) => {
+        cy.url().then(url => {
           viewReportUrl = url.replace('load-', '')
         })
       })
@@ -52,7 +52,7 @@ context('Platform sync download tests', () => {
           cy.findByLabelText(/Enable download/).click()
           cy.findByRole('link', { name: 'Fill out a form' }).click()
 
-          cy.url().then((url) => {
+          cy.url().then(url => {
             downloadRequestFormPage = url
           })
           cy.url().should(
@@ -115,5 +115,5 @@ context('Platform sync download tests', () => {
     })
   }
 
-  paths.forEach((route) => tests(route))
+  paths.forEach(route => tests(route))
 })

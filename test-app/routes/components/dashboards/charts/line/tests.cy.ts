@@ -25,7 +25,7 @@ context('Dashboard visualisation: line chart', () => {
       cy.findByRole('heading', { level: 1, name: /Line - Complete dataset/ }).should('be.visible')
       checkA11y()
 
-      cy.url().then((url) => {
+      cy.url().then(url => {
         completeUrl = url
       })
     })
@@ -130,7 +130,7 @@ context('Dashboard visualisation: line chart', () => {
       cy.findByRole('heading', { level: 1, name: /Line - Partial dataset/ }).should('be.visible')
       checkA11y()
 
-      cy.url().then((url) => {
+      cy.url().then(url => {
         partialUrl = url
       })
     })

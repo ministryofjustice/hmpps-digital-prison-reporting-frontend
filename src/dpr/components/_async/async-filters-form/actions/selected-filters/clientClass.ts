@@ -27,7 +27,7 @@ export class DprSelectedAsyncFilters extends DprClientClass {
   // ----------------------------------
 
   private bindInputEvents(): void {
-    this.getAllFilterControls().forEach((control) => {
+    this.getAllFilterControls().forEach(control => {
       control.addEventListener('change', () => {
         this.renderFromInputs()
       })
@@ -46,7 +46,7 @@ export class DprSelectedAsyncFilters extends DprClientClass {
       return
     }
 
-    selectedFilters.forEach((filter) => {
+    selectedFilters.forEach(filter => {
       this.container.appendChild(this.createFilterElement(filter))
     })
   }
@@ -66,7 +66,7 @@ export class DprSelectedAsyncFilters extends DprClientClass {
     const grouped = this.groupControlsByField()
 
     return Object.values(grouped)
-      .map((controls) => this.buildFilterFromControls(controls))
+      .map(controls => this.buildFilterFromControls(controls))
       .filter(Boolean) as SelectedFilter[]
   }
 
@@ -115,7 +115,7 @@ export class DprSelectedAsyncFilters extends DprClientClass {
   // ----------------------------------
 
   private getActiveControls(controls: FilterControl[]): FilterControl[] {
-    return controls.filter((control) => {
+    return controls.filter(control => {
       if (control instanceof HTMLSelectElement) {
         return Boolean(control.value)
       }
@@ -129,11 +129,11 @@ export class DprSelectedAsyncFilters extends DprClientClass {
   }
 
   private isGranularDateRange(controls: FilterControl[]): boolean {
-    return controls.some((c) => c.name.includes('granularity'))
+    return controls.some(c => c.name.includes('granularity'))
   }
 
   private isDateRange(controls: FilterControl[]): boolean {
-    return controls.some((c) => c.name.endsWith('.start')) || controls.some((c) => c.name.endsWith('.end'))
+    return controls.some(c => c.name.endsWith('.start')) || controls.some(c => c.name.endsWith('.end'))
   }
 
   private isMultiSelect(active: FilterControl[]): boolean {
@@ -145,9 +145,9 @@ export class DprSelectedAsyncFilters extends DprClientClass {
   // ----------------------------------
 
   private buildDateRangeFilter(displayName: string, controls: FilterControl[]): SelectedFilter {
-    const start = controls.find((c) => c.name.endsWith('.start')) as HTMLInputElement | undefined
-    const end = controls.find((c) => c.name.endsWith('.end')) as HTMLInputElement | undefined
-    const relativeDuration = controls.find((c) => {
+    const start = controls.find(c => c.name.endsWith('.start')) as HTMLInputElement | undefined
+    const end = controls.find(c => c.name.endsWith('.end')) as HTMLInputElement | undefined
+    const relativeDuration = controls.find(c => {
       if (!c.name.endsWith('.relative-duration')) return false
       const input = c as HTMLInputElement
       return input.type === 'radio' && input.checked
@@ -167,17 +167,17 @@ export class DprSelectedAsyncFilters extends DprClientClass {
   }
 
   private buildGranularDateRangeFilter(displayName: string, controls: FilterControl[]): SelectedFilter {
-    const quick = controls.find((c) => c.name.includes('quick-filter') && (c as HTMLInputElement).value) as
+    const quick = controls.find(c => c.name.includes('quick-filter') && (c as HTMLInputElement).value) as
       | HTMLInputElement
       | undefined
 
-    const granularity = controls.find((c) => c.name.includes('granularity')) as HTMLInputElement | undefined
+    const granularity = controls.find(c => c.name.includes('granularity')) as HTMLInputElement | undefined
 
-    const start = controls.find((c) => c.name.endsWith('.start') && (c as HTMLInputElement).value) as
+    const start = controls.find(c => c.name.endsWith('.start') && (c as HTMLInputElement).value) as
       | HTMLInputElement
       | undefined
 
-    const end = controls.find((c) => c.name.endsWith('.end') && (c as HTMLInputElement).value) as
+    const end = controls.find(c => c.name.endsWith('.end') && (c as HTMLInputElement).value) as
       | HTMLInputElement
       | undefined
 
@@ -202,7 +202,7 @@ export class DprSelectedAsyncFilters extends DprClientClass {
     active: FilterControl[],
     controls: FilterControl[],
   ): SelectedFilter {
-    const values = active.map((c) => this.getDisplayValue(c))
+    const values = active.map(c => this.getDisplayValue(c))
 
     const displayValue =
       values.length > 3 ? `${values.slice(0, 3).join(', ')} + ${values.length - 3} more` : values.join(', ')
@@ -233,23 +233,23 @@ export class DprSelectedAsyncFilters extends DprClientClass {
       return legend.trim()
     }
 
-    const isDateRange = controls.some((c) => c.name.endsWith('.start')) && controls.some((c) => c.name.endsWith('.end'))
+    const isDateRange = controls.some(c => c.name.endsWith('.start')) && controls.some(c => c.name.endsWith('.end'))
 
     if (isDateRange) {
-      const explicit = controls.map((c) => c.getAttribute('display-name')).find(Boolean)
+      const explicit = controls.map(c => c.getAttribute('display-name')).find(Boolean)
       if (explicit) {
         return explicit.replace(/\s+(start|end)$/i, '').trim()
       }
     }
 
-    const explicit = controls.map((c) => c.getAttribute('display-name')).find(Boolean)
+    const explicit = controls.map(c => c.getAttribute('display-name')).find(Boolean)
 
     if (explicit) {
       return explicit
     }
 
     const label = controls
-      .map((c) => (c instanceof HTMLInputElement ? c.labels?.[0]?.innerText : undefined))
+      .map(c => (c instanceof HTMLInputElement ? c.labels?.[0]?.innerText : undefined))
       .find(Boolean)
 
     if (label) {
@@ -307,7 +307,7 @@ export class DprSelectedAsyncFilters extends DprClientClass {
       const params = new URLSearchParams(window.location.search)
 
       // Remove ALL values for this filter from the query string
-      filter.inputs.forEach((control) => {
+      filter.inputs.forEach(control => {
         params.delete(control.name)
 
         if (control instanceof HTMLSelectElement) {
@@ -343,7 +343,7 @@ export class DprSelectedAsyncFilters extends DprClientClass {
       `input[type="hidden"][name="${CSS.escape(realFilterName)}"]`,
     )
 
-    hidden.forEach((h) => {
+    hidden.forEach(h => {
       h.value = ''
       params.delete(h.name)
     })
@@ -358,7 +358,7 @@ export class DprSelectedAsyncFilters extends DprClientClass {
       document.querySelectorAll<FilterControl>(
         'input[name^="filters."], select[name^="filters."], input[name^="label.filters."]',
       ),
-    ).filter((control) => {
+    ).filter(control => {
       if (control instanceof HTMLInputElement && control.type === 'hidden') {
         return false
       }

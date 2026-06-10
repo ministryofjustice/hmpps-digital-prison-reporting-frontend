@@ -14,7 +14,7 @@ export const setUpNunjucksFilters = (env: nunjucks.Environment) => {
 }
 
 const findError = (errs: { text: string; href: string }[] | undefined, errToFind: string) => {
-  const error = errs?.find((err) => err.href.slice(1) === errToFind)?.text
+  const error = errs?.find(err => err.href.slice(1) === errToFind)?.text
   return error ? { text: error } : null
 }
 
@@ -28,7 +28,7 @@ const capitaliseSentence = (text: string) => {
 }
 
 const addRequiredAttributeToAll = (items: Array<FilterOption>) => {
-  return items.map((i) => ({
+  return items.map(i => ({
     ...i,
     attributes: {
       required: true,

@@ -141,7 +141,7 @@ const updateStore = async (
 const getPartialDate = (filters: FilterValue[]) => {
   let partialDate: PartialDate | undefined
   const granularDateRangeFilter = <GranularDateRangeFilterValue | undefined>(
-    filters.find((f) => f.type === FilterType.granularDateRange.toLowerCase())
+    filters.find(f => f.type === FilterType.granularDateRange.toLowerCase())
   )
   if (granularDateRangeFilter) {
     partialDate = granularDateRangeFilter.value.partialDate

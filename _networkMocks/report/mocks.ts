@@ -14,7 +14,7 @@ import { filterInputExamplesVariants } from './mockVariants/filter-input-example
 import { featureTestingVariants } from './mockVariants/feature-testing'
 
 const generateMocksFromDefs = (reportId: string, defs: components['schemas']['VariantDefinition'][]) => {
-  return defs.map((def) => setupSimpleReportDefinitionResponseMock(reportId, def))
+  return defs.map(def => setupSimpleReportDefinitionResponseMock(reportId, def))
 }
 
 export const setupSimpleReportDefinitionResponseMock = (

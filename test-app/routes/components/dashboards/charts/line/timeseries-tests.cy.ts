@@ -25,7 +25,7 @@ context('Dashboard visualisation: line timeseries chart', () => {
       cy.findByRole('heading', { level: 1, name: /Line-timeseries - Complete dataset/ }).should('be.visible')
       checkA11y()
 
-      cy.url().then((url) => {
+      cy.url().then(url => {
         completeUrl = url
       })
     })
@@ -659,7 +659,7 @@ context('Dashboard visualisation: line timeseries chart', () => {
       cy.findByRole('heading', { level: 1, name: /Line-timeseries - Partial dataset/ }).should('be.visible')
       checkA11y()
 
-      cy.url().then((url) => {
+      cy.url().then(url => {
         partialData = url
       })
     })

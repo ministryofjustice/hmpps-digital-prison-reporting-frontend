@@ -11,7 +11,11 @@ const dataQuality = {
       id: 'section-1',
       display: 'Bar charts',
       description: '',
-      visualisations: [charts.dataQualityMetricOneBar, charts.dataQualityMetricTwoBar, charts.dataQualityMetricThreeBar],
+      visualisations: [
+        charts.dataQualityMetricOneBar,
+        charts.dataQualityMetricTwoBar,
+        charts.dataQualityMetricThreeBar,
+      ],
     },
     {
       id: 'section-2',

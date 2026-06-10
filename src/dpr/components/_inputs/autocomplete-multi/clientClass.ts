@@ -28,7 +28,7 @@ class AutoCompleteMulti extends DprClientClass {
   }
 
   initialiseCheckboxes() {
-    this.multiselectOptions.forEach((input) => {
+    this.multiselectOptions.forEach(input => {
       const wrapper = input.closest('.govuk-checkboxes__item')
       if (!wrapper) return
 
@@ -41,7 +41,7 @@ class AutoCompleteMulti extends DprClientClass {
 
     const input = this.searchInput
 
-    this.searchInput.addEventListener('keyup', (_event) => {
+    this.searchInput.addEventListener('keyup', _event => {
       this.searchInputValue = input.value
       this.updateCheckboxes()
     })
@@ -51,7 +51,7 @@ class AutoCompleteMulti extends DprClientClass {
     const query = this.searchInputValue.toLowerCase().trim()
     const minLength = 3
 
-    this.multiselectOptions.forEach((input) => {
+    this.multiselectOptions.forEach(input => {
       const wrapper = input.closest('.govuk-checkboxes__item')
       if (!wrapper) return
 

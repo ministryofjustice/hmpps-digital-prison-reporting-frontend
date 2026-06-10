@@ -22,7 +22,7 @@ class DprCatalogueUnauthorisedFilter extends DprCatalogueFilters {
   }
 
   initCheckboxToggleEvents() {
-    this.toggleFilters.addEventListener('change', (e) => {
+    this.toggleFilters.addEventListener('change', e => {
       const queryParams = new URLSearchParams(window.location.search)
       if (e.target.checked) {
         queryParams.set(e.target.id, e.target.value)
@@ -65,12 +65,12 @@ class DprCatalogueUnauthorisedFilter extends DprCatalogueFilters {
 
   updateRowsLive(value, hideClassName, tag) {
     Array.from(this.table.rows)
-      .filter((row) => {
-        return Array.from(row.cells).find((cell) => {
+      .filter(row => {
+        return Array.from(row.cells).find(cell => {
           return cell.innerHTML.includes(tag)
         })
       })
-      .forEach((row) => {
+      .forEach(row => {
         if (value) {
           row.classList.add(hideClassName)
         } else {
@@ -81,12 +81,12 @@ class DprCatalogueUnauthorisedFilter extends DprCatalogueFilters {
 
   updateRows(value, hideClassName, tag) {
     Array.from(this.table.rows)
-      .filter((row) => {
-        return Array.from(row.cells).find((cell) => {
+      .filter(row => {
+        return Array.from(row.cells).find(cell => {
           return cell.innerHTML.includes(tag)
         })
       })
-      .forEach((row) => {
+      .forEach(row => {
         if (value) {
           row.classList.remove(hideClassName)
         } else if (!row.classList.contains(hideClassName)) {

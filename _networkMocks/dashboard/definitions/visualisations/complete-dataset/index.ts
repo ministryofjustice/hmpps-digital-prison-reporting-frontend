@@ -49,10 +49,10 @@ export const visualisations: components['schemas']['DashboardDefinition'][] = [
   mixedDefinition,
 ]
 
-export const visualisationIds: string[] = visualisations.map((vis) => {
+export const visualisationIds: string[] = visualisations.map(vis => {
   return vis.id
 })
 
-export const visIdsNoTs: string[] = [scorecardsCompleteNoTsDataset].map((vis) => {
+export const visIdsNoTs: string[] = [scorecardsCompleteNoTsDataset].map(vis => {
   return vis.id
 })

@@ -14,7 +14,7 @@ const STALE_INTERVAL = 14 * 24 * 60 * 60 * 1000 // Two weeks
 const getStaleReports = (reports: StoredReportData[]) => {
   const now = Date.now()
 
-  return reports.filter((report) => {
+  return reports.filter(report => {
     const timestamp = getTerminalTimestamp(report)
 
     if (!timestamp) return false
@@ -63,7 +63,7 @@ const flashRemovedReports = (
 
   const removedReports = Array.from(
     new Set(
-      [...staleRequested, ...staleViewed].map((stale) => `${stale.reportName} - ${stale.name || stale.variantName}`),
+      [...staleRequested, ...staleViewed].map(stale => `${stale.reportName} - ${stale.name || stale.variantName}`),
     ),
   )
 

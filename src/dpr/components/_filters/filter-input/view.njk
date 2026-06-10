@@ -2,7 +2,6 @@
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 {% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
 {% from "govuk/components/input/macro.njk" import govukInput %}
-
 {% from "../../_inputs/autocomplete-text-input/view.njk" import dprAutocompleteTextInput -%}
 {% from "../../_inputs/date-range/view.njk" import dprDateRange -%}
 {% from "../../_inputs/granular-date-range/view.njk" import dprGranularDateRange -%}
@@ -18,130 +17,131 @@
   {% set values = filter.values %}
   {% set text = filter.text %}
   {% set options = filter.options %}
-  {% set pattern = filter.pattern if filter.pattern else
-    '.+' %}
-  {% set mandatory = filter.mandatory if filter.mandatory else
-    false %}
+  {%
+    set pattern = filter.pattern if filter.pattern else
+    '.+'
+  %}
+  {%
+    set mandatory = filter.mandatory if filter.mandatory else
+    false
+  %}
 
   {% set labelText = text | capitaliseSentence %}
 
   <div id="dpr_filter-wrapper_{{ id }}" class="dpr-filter-item">
     {%- if filterType === 'select' %}
 
-      {{ govukSelect({
-        id: id,
-        name: name,
-        value: value,
-        items: options,
-        label: {
-          text: labelText,
-          classes: "govuk-label govuk-!-font-weight-bold"
-        },
-        errorMessage: validationErrors | dpr.findError(id),
-        attributes: {
-          required: true,
-          'display-name': labelText
-        } if mandatory else {
-          'display-name': labelText
-        },
-        hint: {
-          html: "(Optional)"
-        } if not mandatory
-      }) }}
-
-    {%- elif filterType === 'multiselect' %}
-
-      {{ dprMultiSelect(filter, validationErrors, parameterPrefix, mandatory)}}
-
-    {% elif filterType === 'radio' %}
-
-      {{ govukRadios({
-        id: id,
-        name: name,
-        classes: "govuk-radios--small",
-        fieldset: {
-          legend: {
+      {{
+        govukSelect({
+          id: id,
+          name: name,
+          value: value,
+          items: options,
+          label: {
             text: labelText,
             classes: "govuk-label govuk-!-font-weight-bold"
-          }
-        },
-        items: (options | addRequiredAttributeToAll) if mandatory else options,
-        errorMessage: validationErrors | dpr.findError(id),
-        value: value,
-        attributes: {
-          required: true,
-          'display-name': labelText
-        } if mandatory else {
-          'display-name': labelText
-        },
-        hint: {
-          html: "(Optional)"
-        } if not mandatory
-      }) }}
+          },
+          errorMessage: validationErrors | dpr.findError(id),
+          attributes: {
+            required: true,
+            'display-name': labelText
+          } if mandatory else {
+            'display-name': labelText
+          },
+          hint: {
+            html: "(Optional)"
+          } if not mandatory
+        })
+      }}
+    {%- elif filterType === 'multiselect' %}
 
+      {{ dprMultiSelect(filter, validationErrors, parameterPrefix, mandatory) }}
+    {% elif filterType === 'radio' %}
+
+      {{
+        govukRadios({
+          id: id,
+          name: name,
+          classes: "govuk-radios--small",
+          fieldset: {
+            legend: {
+              text: labelText,
+              classes: "govuk-label govuk-!-font-weight-bold"
+            }
+          },
+          items: (options | addRequiredAttributeToAll) if mandatory else options,
+          errorMessage: validationErrors | dpr.findError(id),
+          value: value,
+          attributes: {
+            required: true,
+            'display-name': labelText
+          } if mandatory else {
+            'display-name': labelText
+          },
+          hint: {
+            html: "(Optional)"
+          } if not mandatory
+        })
+      }}
     {% elif filterType === 'date' %}
 
       {{ dprDate(filter, validationErrors) }}
-
     {% elif filterType === 'daterange' %}
-
       <div class="govuk-form-group govuk-!-margin-bottom-0">
         {{ dprDateRange(filter, validationErrors, parameterPrefix, mandatory) }}
       </div>
-
     {% elif filterType === 'granulardaterange' %}
-
       <div class="govuk-form-group">
         {{ dprGranularDateRange(filter, validationErrors, parameterPrefix, mandatory) }}
       </div>
-
     {% elif filterType === 'autocomplete' %}
 
       {% set minimumLength = filter.minimumLength %}
       {% set dynamicResourceEndpoint = filter.dynamicResourceEndpoint %}
 
-      {{ dprAutocompleteTextInput({
-        id: id,
-        name: name,
-        items: options,
-        value: value,
-        staticOptionNameValue: filter.staticOptionNameValue,
-        labelText: labelText,
-        minimumLength: minimumLength,
-        dynamicResourceEndpoint: dynamicResourceEndpoint,
-        pattern: pattern,
-        mandatory: mandatory
-      }, validationErrors) }}
-
+      {{
+        dprAutocompleteTextInput({
+          id: id,
+          name: name,
+          items: options,
+          value: value,
+          staticOptionNameValue: filter.staticOptionNameValue,
+          labelText: labelText,
+          minimumLength: minimumLength,
+          dynamicResourceEndpoint: dynamicResourceEndpoint,
+          pattern: pattern,
+          mandatory: mandatory
+        }, validationErrors)
+      }}
     {% elif filterType === 'text' %}
 
-      {{ govukInput({
-        id: id,
-        name: name,
-        value: value,
-        label: {
-          text: labelText,
-          classes: 'govuk-!-font-weight-bold'
-        },
-        classes: 'govuk-input--width-20',
-        errorMessage: validationErrors | dpr.findError(id),
-        attributes: {
-          pattern: pattern,
-          required: true,
-          'display-name': labelText
-        } if mandatory else {
-          pattern: pattern,
-          'display-name': labelText
-        },
-        hint: {
-          html: "(Optional)"
-        } if not mandatory
-      }) }}
-
+      {{
+        govukInput({
+          id: id,
+          name: name,
+          value: value,
+          label: {
+            text: labelText,
+            classes: 'govuk-!-font-weight-bold'
+          },
+          classes: 'govuk-input--width-20',
+          errorMessage: validationErrors | dpr.findError(id),
+          attributes: {
+            pattern: pattern,
+            required: true,
+            'display-name': labelText
+          } if mandatory else {
+            pattern: pattern,
+            'display-name': labelText
+          },
+          hint: {
+            html: "(Optional)"
+          } if not mandatory
+        })
+      }}
     {% elif filterType === 'autocompletemulti' %}
 
-      {{ dprAutocompleteMulti(filter, validationErrors, parameterPrefix, mandatory)}}
-
+      {{ dprAutocompleteMulti(filter, validationErrors, parameterPrefix, mandatory) }}
     {% endif %}
   </div>
 {% endmacro %}

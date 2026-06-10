@@ -1,5 +1,5 @@
 // @ts-nocheck
-const createMockData = (amount) => {
+const createMockData = amount => {
   return Array(amount)
     .fill(0)
     .map((_, index) => {

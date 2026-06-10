@@ -6,10 +6,11 @@
   {% set classes = args.classes %}
   {% set attributes = args.attributes %}
 
-    {{ govukButton({
+  {{
+    govukButton({
       text: text,
       classes: 'dpr-button-link ' + classes,
       attributes: attributes
-    }) }}
-
+    })
+  }}
 {% endmacro %}

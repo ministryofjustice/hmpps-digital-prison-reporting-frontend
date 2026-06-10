@@ -94,7 +94,7 @@ class BookmarkButton extends DprClientClass {
             this.updateUI()
           }
         })
-        .catch((error) => console.error('Error:', error))
+        .catch(error => console.error('Error:', error))
     } finally {
       this.isRunning = false
       this.getElement().classList.remove('bookmark-disabled')

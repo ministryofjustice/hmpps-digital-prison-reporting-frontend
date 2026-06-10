@@ -3,6 +3,7 @@ layout: layouts/component.njk
 title: Columns
 subsection: Report components
 ---
+
 ## 🚧 👷🏻‍♀️ Documentation under construction 👷🏾 🚧
 
 ## Overview

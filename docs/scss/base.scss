@@ -1,9 +1,9 @@
 $govuk-global-styles: true;
 $moj-page-width: 1170px;
 
-@import "node_modules/highlight.js/scss/github.scss";
-@import "govuk-frontend/dist/govuk/all";
-@import "@ministryofjustice/frontend/moj/all";
+@import 'node_modules/highlight.js/scss/github.scss';
+@import 'govuk-frontend/dist/govuk/all';
+@import '@ministryofjustice/frontend/moj/all';
 
 .govuk-header__container {
   padding-top: 25px;
@@ -47,21 +47,25 @@ th {
 
 code {
   font-size: 16px;
-  background-color: govuk-colour("light-grey");
+  background-color: govuk-colour('light-grey');
   padding: 4px 6px;
 }
 
-.language-javascript, .language-js, .language-scss, .language-html, .language-jinja {
+.language-javascript,
+.language-js,
+.language-scss,
+.language-html,
+.language-jinja {
   padding: 18px;
   display: block;
   overflow: scroll;
   line-height: 1.7;
 
   .language-javascript,
-    .language-scss,
-    .language-html {
-      padding: 0px;
-    }
+  .language-scss,
+  .language-html {
+    padding: 0px;
+  }
 }
 
 .dpr-component-args {
@@ -83,7 +87,7 @@ code {
     }
 
     td:nth-child(2) {
-        width: 100px;
+      width: 100px;
     }
 
     td:nth-child(3) {
@@ -99,13 +103,13 @@ code {
 // Sidebar
 
 .dpr-docs-sidebar {
-    position: -webkit-sticky;
-    position: sticky;
-    overflow-y: scroll;
-    max-height: 100vh;
-    top: 4px;
-    flex: 0 0 auto;
-    align-self: flex-start;
+  position: -webkit-sticky;
+  position: sticky;
+  overflow-y: scroll;
+  max-height: 100vh;
+  top: 4px;
+  flex: 0 0 auto;
+  align-self: flex-start;
 }
 
 .dpr-request-details__table {
@@ -130,7 +134,8 @@ table {
   border-collapse: collapse;
   margin-bottom: 40px;
 
-  td, th {
+  td,
+  th {
     border-bottom: 1px solid #ddd;
     padding-top: 8px;
     padding-bottom: 10px;
@@ -141,7 +146,8 @@ table {
 
 .dpr-docs-table {
   width: 100%;
-  td, th {
+  td,
+  th {
     padding-top: 10px;
     padding-bottom: 10px;
   }
@@ -152,10 +158,12 @@ table {
   margin-bottom: govuk-spacing(7);
   background-color: govuk-colour('mid-grey');
   height: 1px;
-  border: 0
+  border: 0;
 }
 
-.moj-side-navigation__title, .dpr-docs-sidebar, .govuk-grid-column-one-quarter {
+.moj-side-navigation__title,
+.dpr-docs-sidebar,
+.govuk-grid-column-one-quarter {
   padding-left: 0px;
 }
 

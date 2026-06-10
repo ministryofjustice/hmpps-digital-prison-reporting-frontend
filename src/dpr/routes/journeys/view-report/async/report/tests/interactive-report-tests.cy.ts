@@ -46,7 +46,7 @@ context('Interactive report', () => {
             .findAllByRole('cell')
             .eq(4)
             .should('be.visible')
-            .then((cell) => {
+            .then(cell => {
               expect(cell.text().trim()).to.equal('')
             })
           cy.findAllByRole('row')
@@ -64,7 +64,7 @@ context('Interactive report', () => {
   describe('Apply filters', () => {
     before(() => {
       requestReport({ name: 'Interactive Report', description: 'this is an interactive report', path })
-      cy.url().then((url) => {
+      cy.url().then(url => {
         viewReportUrl = url
       })
     })
@@ -94,7 +94,7 @@ context('Interactive report', () => {
 
         applyFilters()
 
-        cy.location().should((location) => {
+        cy.location().should(location => {
           expect(location.search).to.contain(`filters.field3.start=2025-05-02`)
           expect(location.search).to.contain(`filters.field3.end=2025-07-05`)
         })
@@ -116,21 +116,21 @@ context('Interactive report', () => {
         cy.findByRole('textbox', { name: 'From' })
           .invoke('val')
           .should('not.be.empty')
-          .then((val) => {
+          .then(val => {
             startValue = val
           })
         cy.findByRole('textbox', { name: 'To' })
           .invoke('val')
           .should('not.be.empty')
-          .then((val) => {
+          .then(val => {
             endValue = val
           })
 
-        cy.location().then((location) => {
-          cy.task('dateMapperToDateString', startValue).then((startDate) => {
+        cy.location().then(location => {
+          cy.task('dateMapperToDateString', startValue).then(startDate => {
             expect(location.search).to.contain(`filters.field3.start=${startDate}`)
           })
-          cy.task('dateMapperToDateString', endValue).then((endDate) => {
+          cy.task('dateMapperToDateString', endValue).then(endDate => {
             expect(location.search).to.contain(`filters.field3.end=${endDate}`)
           })
           expect(location.search).to.contain(`filters.field3.relative-duration=tomorrow`)
@@ -337,7 +337,7 @@ context('Interactive report', () => {
     it('should init the report with saved interactive defaults', () => {
       // request the report
       requestReport({ name: 'Interactive Report', description: 'this is an interactive report', path })
-      cy.url().then((url) => {
+      cy.url().then(url => {
         viewReportUrl = url
       })
 
@@ -491,7 +491,7 @@ context('Interactive report', () => {
       })
 
       requestReport({ name: 'Interactive Report', description: 'this is an interactive report', path })
-      cy.url().then((url) => {
+      cy.url().then(url => {
         viewReportUrl = url
       })
 
@@ -684,7 +684,7 @@ context('Interactive report', () => {
   describe('Sorting', () => {
     before(() => {
       requestReport({ name: 'Interactive Report', description: 'this is an interactive report', path })
-      cy.url().then((url) => {
+      cy.url().then(url => {
         viewReportUrl = url
       })
     })
@@ -704,7 +704,7 @@ context('Interactive report', () => {
       cy.findByRole('link', { name: 'Field 1' }).click()
       cy.findByRole('link', { name: 'Field 1' }).should('have.class', 'data-table-header-button-sort-descending')
       cy.findByRole('link', { name: 'Field 2' }).should('have.class', 'data-table-header-button-sort-none')
-      cy.location().should((location) => {
+      cy.location().should(location => {
         expect(location.search).to.contain(`&sortColumn=field1&sortedAsc=false`)
         expect(location.search).to.contain(`filters.field8=value8.2&filters.field8=value8.3`)
       })
@@ -713,7 +713,7 @@ context('Interactive report', () => {
       cy.findByRole('link', { name: 'Field 1' }).click()
       cy.findByRole('link', { name: 'Field 1' }).should('have.class', 'data-table-header-button-sort-ascending')
       cy.findByRole('link', { name: 'Field 2' }).should('have.class', 'data-table-header-button-sort-none')
-      cy.location().should((location) => {
+      cy.location().should(location => {
         expect(location.search).to.contain(`&sortColumn=field1&sortedAsc=true`)
         expect(location.search).to.contain(`filters.field8=value8.2&filters.field8=value8.3`)
       })
@@ -722,7 +722,7 @@ context('Interactive report', () => {
       cy.findByRole('link', { name: 'Field 2' }).click()
       cy.findByRole('link', { name: 'Field 2' }).should('have.class', 'data-table-header-button-sort-ascending')
       cy.findByRole('link', { name: 'Field 1' }).should('have.class', 'data-table-header-button-sort-none')
-      cy.location().should((location) => {
+      cy.location().should(location => {
         expect(location.search).to.contain(`&sortColumn=field2&sortedAsc=true`)
         expect(location.search).to.contain(`filters.field8=value8.2&filters.field8=value8.3`)
       })
@@ -731,7 +731,7 @@ context('Interactive report', () => {
       cy.findByRole('link', { name: 'Field 2' }).click()
       cy.findByRole('link', { name: 'Field 2' }).should('have.class', 'data-table-header-button-sort-descending')
       cy.findByRole('link', { name: 'Field 1' }).should('have.class', 'data-table-header-button-sort-none')
-      cy.location().should((location) => {
+      cy.location().should(location => {
         expect(location.search).to.contain(`&sortColumn=field2&sortedAsc=false`)
         expect(location.search).to.contain(`filters.field8=value8.2&filters.field8=value8.3`)
       })

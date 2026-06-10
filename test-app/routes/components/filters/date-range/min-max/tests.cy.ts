@@ -14,7 +14,7 @@ context('Inputs: date range with min and max', () => {
 
   const expectMinValues = () => {
     cy.findByRole('textbox', { name: 'From' }).should('have.value', '01/02/2003')
-    cy.location().should((location) => {
+    cy.location().should(location => {
       expect(location.search).to.contain(`filters.date-range-min-max.start=2003-02-01`)
     })
     cy.findByLabelText(/Selected filters.*/i).within(() => {
@@ -33,7 +33,7 @@ context('Inputs: date range with min and max', () => {
 
   const expectMaxValues = () => {
     cy.findByRole('textbox', { name: 'To' }).should('have.value', '04/05/2007')
-    cy.location().should((location) => {
+    cy.location().should(location => {
       expect(location.search).to.contain(`filters.date-range-min-max.end=2007-05-04`)
     })
     cy.findByLabelText(/Selected filters.*/i).within(() => {
@@ -67,7 +67,7 @@ context('Inputs: date range with min and max', () => {
 
     it('should set the start value correctly is value is after the min date', () => {
       cy.findByRole('textbox', { name: 'From' }).clear().type('03/06/2004').blur()
-      cy.location().should((location) => {
+      cy.location().should(location => {
         expect(location.search).to.contain(`filters.date-range-min-max.start=2004-06-03`)
       })
       cy.findByLabelText(/Selected filters.*/i).within(() => {
@@ -86,7 +86,7 @@ context('Inputs: date range with min and max', () => {
 
     it('should set the end value correctly is value is before the max date', () => {
       cy.findByRole('textbox', { name: 'To' }).clear().type('06/11/2005').blur()
-      cy.location().should((location) => {
+      cy.location().should(location => {
         expect(location.search).to.contain(`filters.date-range-min-max.end=2005-11-06`)
       })
       cy.findByLabelText(/Selected filters.*/i).within(() => {

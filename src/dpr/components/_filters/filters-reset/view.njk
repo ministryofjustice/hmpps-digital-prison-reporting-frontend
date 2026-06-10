@@ -1,14 +1,14 @@
 {% from "../../button-link/view.njk" import dprButtonLink %}
 
 {% macro dprFiltersFormReset(reportType, csrfToken) %}
+  <form method="post" action="./{{ reportType }}/reset-filters">
+    <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
 
-  <form method='post' action='./{{ reportType }}/reset-filters'>
-    <input type="hidden" name="_csrf" value="{{ csrfToken }}">
-
-    {{ dprButtonLink({
-      text: 'Reset filters',
-      classes: classes
-    }) }}
-
+    {{
+      dprButtonLink({
+        text: 'Reset filters',
+        classes: classes
+      })
+    }}
   </form>
 {% endmacro %}

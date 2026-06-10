@@ -51,12 +51,12 @@ const buildTextField = (field: FieldDefinition) => {
 
   if (filter.pattern) {
     const regex = new RegExp(filter.pattern)
-    stringSchema = stringSchema.refine((value) => value === '' || regex.test(value), {
+    stringSchema = stringSchema.refine(value => value === '' || regex.test(value), {
       message: `${display} has an invalid format`,
     })
   }
 
-  return z.preprocess((value) => value ?? '', stringSchema)
+  return z.preprocess(value => value ?? '', stringSchema)
 }
 
 /**
@@ -66,12 +66,12 @@ const buildMultiSelectField = (field: FieldDefinition) => {
   const { filter, display } = field
   if (!filter) throw new Error('Missing filter')
 
-  const validValues = (filter.staticOptions ?? []).map((o) => o.name)
+  const validValues = (filter.staticOptions ?? []).map(o => o.name)
 
   let arraySchema = z.array(z.string())
 
   // Valid option check
-  arraySchema = arraySchema.refine((values) => values.every((v) => validValues.includes(v)), {
+  arraySchema = arraySchema.refine(values => values.every(v => validValues.includes(v)), {
     message: `${display} contains invalid selections`,
   })
 
@@ -90,7 +90,7 @@ const buildMultiSelectField = (field: FieldDefinition) => {
     arraySchema = arraySchema.max(filter.maxSelected, `${display} Select no more than ${filter.maxSelected}`)
   }
 
-  return z.preprocess((value) => {
+  return z.preprocess(value => {
     if (value == null) return []
     if (Array.isArray(value)) return value
 
@@ -109,19 +109,19 @@ const buildSelectField = (field: FieldDefinition) => {
   const { filter, display } = field
   if (!filter) throw new Error('Missing filter')
 
-  const validValues = (filter.staticOptions ?? []).map((o) => o.name)
+  const validValues = (filter.staticOptions ?? []).map(o => o.name)
 
   let schema = z.string().trim()
 
-  schema = schema.refine((value) => value === 'no-filter' || value === '' || validValues.includes(value), {
+  schema = schema.refine(value => value === 'no-filter' || value === '' || validValues.includes(value), {
     message: `${display} has an invalid selection`,
   })
 
   if (filter.mandatory) {
-    schema = schema.refine((value) => value !== '' && value !== 'no-filter', `${display} is required`)
+    schema = schema.refine(value => value !== '' && value !== 'no-filter', `${display} is required`)
   }
 
-  return z.preprocess((v) => v ?? '', schema)
+  return z.preprocess(v => v ?? '', schema)
 }
 
 /**
@@ -132,11 +132,11 @@ export const buildDateField = (field: FieldDefinition) => {
   if (!filter) throw new Error('Missing filter')
 
   const schema = z.preprocess(
-    (v) => (v === '' ? undefined : v),
+    v => (v === '' ? undefined : v),
     z.string().refine(isValidUiDate, `${display} must be a valid date`).optional(),
   )
 
-  return filter.mandatory ? schema.refine((v) => v !== undefined, `${display} is required`) : schema
+  return filter.mandatory ? schema.refine(v => v !== undefined, `${display} is required`) : schema
 }
 
 /**
@@ -158,7 +158,7 @@ export const buildDateRangeField = (field: FieldDefinition) => {
         : z
             .string()
             .optional()
-            .refine((value) => !value || isValidUiDate(value), `${display} start date must be a valid date`),
+            .refine(value => !value || isValidUiDate(value), `${display} start date must be a valid date`),
 
       end: isMandatory
         ? z
@@ -168,7 +168,7 @@ export const buildDateRangeField = (field: FieldDefinition) => {
         : z
             .string()
             .optional()
-            .refine((value) => !value || isValidUiDate(value), `${display} end date must be a valid date`),
+            .refine(value => !value || isValidUiDate(value), `${display} end date must be a valid date`),
     })
 
     // Cross-field validation:

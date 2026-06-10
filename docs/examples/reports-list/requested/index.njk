@@ -2,236 +2,239 @@
 layout: layouts/example.njk
 title: User Reports List (example)
 ---
+
 {%- from "dpr/components/my-reports/view.njk" import dprMyReports -%}
 
-{% set myReportsData = {
-  "requested": {
-    "title": "Requested reports",
-    "listType": "requested",
-    "csrfToken": "csrfToken",
-    "headings": [
-      {
-        "key": "title",
-        "name": "Product",
-        "classes": "dpr-my-reports__cell--title",
-        "showIn": [
-          "bookmarks",
-          "requested",
-          "viewed"
-        ]
-      },
-      {
-        "key": "filters",
-        "name": "Filters",
-        "classes": "dpr-my-reports__cell--filters",
-        "showIn": [
-          "requested",
-          "viewed"
-        ]
-      },
-      {
-        "key": "status",
-        "name": "Status",
-        "classes": "dpr-my-reports__cell--status",
-        "showIn": [
-          "requested",
-          "viewed"
-        ]
-      },
-      {
-        "key": "actions",
-        "name": "Actions",
-        "classes": "dpr-my-reports__cell--actions",
-        "showIn": [
-          "bookmarks",
-          "requested",
-          "viewed"
-        ]
+{%
+  set myReportsData = {
+    "requested": {
+      "title": "Requested reports",
+      "listType": "requested",
+      "csrfToken": "csrfToken",
+      "headings": [
+        {
+          "key": "title",
+          "name": "Product",
+          "classes": "dpr-my-reports__cell--title",
+          "showIn": [
+            "bookmarks",
+            "requested",
+            "viewed"
+          ]
+        },
+        {
+          "key": "filters",
+          "name": "Filters",
+          "classes": "dpr-my-reports__cell--filters",
+          "showIn": [
+            "requested",
+            "viewed"
+          ]
+        },
+        {
+          "key": "status",
+          "name": "Status",
+          "classes": "dpr-my-reports__cell--status",
+          "showIn": [
+            "requested",
+            "viewed"
+          ]
+        },
+        {
+          "key": "actions",
+          "name": "Actions",
+          "classes": "dpr-my-reports__cell--actions",
+          "showIn": [
+            "bookmarks",
+            "requested",
+            "viewed"
+          ]
+        }
+      ],
+      "items": [
+        {
+          "title": {
+            "productName": "Requested report",
+            "reportName": "Requested report 1",
+            "reportType": "report",
+            "timestamp": "Expired at 24/10/2024 11:31"
+          },
+          "filters": {
+            "prerequest": [
+              {
+                "name": "Field 1",
+                "value": "value1.3"
+              },
+              {
+                "name": "Field 2",
+                "value": "value2.1"
+              },
+              {
+                "name": "Field 3 start",
+                "value": "01/02/2003"
+              },
+              {
+                "name": "Sort Column",
+                "value": "Field 1"
+              },
+              {
+                "name": "Sort Direction",
+                "value": "Ascending"
+              }
+            ],
+            "interactive": []
+          },
+          "status": "EXPIRED",
+          "actions": {
+            "refresh": {
+              "href": "http://localhost:3010/embedded/platform/async/report/rr1/rr1.1/request?filters.field1=value1.3&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&sortColumn=field1&sortedAsc=true&filters.field2=value2.1"
+            },
+            "remove": {
+              "action": "/dpr/my-reports/requested-reports/remove-item/exId_238947923",
+              "csrfToken": "csrfToken",
+              "returnTo": "/"
+            }
+          },
+          "meta": {
+            "id": "rr1",
+            "reportId": "rr1.1",
+            "tableId": "tblId_1729765871851",
+            "executionId": "exId_238947923",
+            "path": "/dpr/my-reports",
+            "listType": "requested"
+          }
+        },
+        {
+          "title": {
+            "productName": "Requested report",
+            "reportName": "Requested report 1",
+            "reportType": "report",
+            "timestamp": "Failed at 24/10/2024 11:28"
+          },
+          "filters": {
+            "prerequest": [
+              {
+                "name": "Field 1",
+                "value": "value1.3"
+              },
+              {
+                "name": "Field 2",
+                "value": "value2.2"
+              },
+              {
+                "name": "Field 3 start",
+                "value": "01/02/2003"
+              },
+              {
+                "name": "Field 3 end",
+                "value": "04/05/2006"
+              },
+              {
+                "name": "Field 4",
+                "value": "Inigo Montoya"
+              },
+              {
+                "name": "Sort Column",
+                "value": "Field 1"
+              },
+              {
+                "name": "Sort Direction",
+                "value": "Ascending"
+              }
+            ],
+            "interactive": []
+          },
+          "status": "FAILED",
+          "actions": {
+            "retry": {
+              "href": "http://localhost:3010/embedded/platform/async/report/rr2/rr2.1/request/exId_238947923"
+            },
+            "remove": {
+              "action": "/dpr/my-reports/requested-reports/remove-item/exId_238947924",
+              "csrfToken": "csrfToken",
+              "returnTo": "/"
+            }
+          },
+          "meta": {
+            "id": "rr2.1",
+            "reportId": "rr2",
+            "tableId": "tblId_1729765694790",
+            "executionId": "exId_238947924",
+            "path": "/dpr/my-reports",
+            "listType": "requested"
+          }
+        },
+        {
+          "title": {
+            "productName": "Requested report",
+            "reportName": "Requested report 3",
+            "reportType": "report",
+            "timestamp": "Aborted at 24/10/2024 11:33"
+          },
+          "filters": {
+            "prerequest": [
+              {
+                "name": "Field 1",
+                "value": "value1.1"
+              },
+              {
+                "name": "Field 2",
+                "value": "value2.3"
+              },
+              {
+                "name": "Field 3 start",
+                "value": "01/02/2003"
+              },
+              {
+                "name": "Field 3 end",
+                "value": "04/05/2006"
+              },
+              {
+                "name": "Field 6",
+                "value": "Value 6.1"
+              },
+              {
+                "name": "Field 7",
+                "value": "04/05/2007"
+              },
+              {
+                "name": "Sort Column",
+                "value": "Field 1"
+              },
+              {
+                "name": "Sort Direction",
+                "value": "Ascending"
+              }
+            ],
+            "interactive": []
+          },
+          "status": "ABORTED",
+          "actions": {
+            "retry": {
+              "href": "http://localhost:3010/embedded/platform/async/report/rr3/rr3.1/request?filters.field1=value1.1&filters.field2=value2.3&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2007-05-04&sortColumn=field1&sortedAsc=true&filters.field6=Value+6.1"
+            },
+            "remove": {
+              "action": "/dpr/my-reports/requested-reports/remove-item/exId_238947925",
+              "csrfToken": "csrfToken",
+              "returnTo": "/"
+            }
+          },
+          "meta": {
+            "id": "rr3.1",
+            "reportId": "rr3",
+            "tableId": "tblId_1729766013077",
+            "executionId": "exId_238947925",
+            "path": "/dpr/my-reports",
+            "listType": "requested"
+          }
+        }
+      ],
+      "totals": {
+        "total": 3,
+        "shown": 3
       }
-    ],
-    "items": [
-      {
-        "title": {
-          "productName": "Requested report",
-          "reportName": "Requested report 1",
-          "reportType": "report",
-          "timestamp": "Expired at 24/10/2024 11:31"
-        },
-        "filters": {
-          "prerequest": [
-            {
-              "name": "Field 1",
-              "value": "value1.3"
-            },
-            {
-              "name": "Field 2",
-              "value": "value2.1"
-            },
-            {
-              "name": "Field 3 start",
-              "value": "01/02/2003"
-            },
-            {
-              "name": "Sort Column",
-              "value": "Field 1"
-            },
-            {
-              "name": "Sort Direction",
-              "value": "Ascending"
-            }
-          ],
-          "interactive": []
-        },
-        "status": "EXPIRED",
-        "actions": {
-          "refresh": {
-            "href": "http://localhost:3010/embedded/platform/async/report/rr1/rr1.1/request?filters.field1=value1.3&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&sortColumn=field1&sortedAsc=true&filters.field2=value2.1"
-          },
-          "remove": {
-            "action": "/dpr/my-reports/requested-reports/remove-item/exId_238947923",
-            "csrfToken": "csrfToken",
-            "returnTo": "/"
-          }
-        },
-        "meta": {
-          "id": "rr1",
-          "reportId": "rr1.1",
-          "tableId": "tblId_1729765871851",
-          "executionId": "exId_238947923",
-          "path": "/dpr/my-reports",
-          "listType": "requested"
-        }
-      },
-      {
-        "title": {
-          "productName": "Requested report",
-          "reportName": "Requested report 1",
-          "reportType": "report",
-          "timestamp": "Failed at 24/10/2024 11:28"
-        },
-        "filters": {
-          "prerequest": [
-            {
-              "name": "Field 1",
-              "value": "value1.3"
-            },
-            {
-              "name": "Field 2",
-              "value": "value2.2"
-            },
-            {
-              "name": "Field 3 start",
-              "value": "01/02/2003"
-            },
-            {
-              "name": "Field 3 end",
-              "value": "04/05/2006"
-            },
-            {
-              "name": "Field 4",
-              "value": "Inigo Montoya"
-            },
-            {
-              "name": "Sort Column",
-              "value": "Field 1"
-            },
-            {
-              "name": "Sort Direction",
-              "value": "Ascending"
-            }
-          ],
-          "interactive": []
-        },
-        "status": "FAILED",
-        "actions": {
-          "retry": {
-            "href": "http://localhost:3010/embedded/platform/async/report/rr2/rr2.1/request/exId_238947923"
-          },
-          "remove": {
-            "action": "/dpr/my-reports/requested-reports/remove-item/exId_238947924",
-            "csrfToken": "csrfToken",
-            "returnTo": "/"
-          }
-        },
-        "meta": {
-          "id": "rr2.1",
-          "reportId": "rr2",
-          "tableId": "tblId_1729765694790",
-          "executionId": "exId_238947924",
-          "path": "/dpr/my-reports",
-          "listType": "requested"
-        }
-      },
-      {
-        "title": {
-          "productName": "Requested report",
-          "reportName": "Requested report 3",
-          "reportType": "report",
-          "timestamp": "Aborted at 24/10/2024 11:33"
-        },
-        "filters": {
-          "prerequest": [
-            {
-              "name": "Field 1",
-              "value": "value1.1"
-            },
-            {
-              "name": "Field 2",
-              "value": "value2.3"
-            },
-            {
-              "name": "Field 3 start",
-              "value": "01/02/2003"
-            },
-            {
-              "name": "Field 3 end",
-              "value": "04/05/2006"
-            },
-            {
-              "name": "Field 6",
-              "value": "Value 6.1"
-            },
-            {
-              "name": "Field 7",
-              "value": "04/05/2007"
-            },
-            {
-              "name": "Sort Column",
-              "value": "Field 1"
-            },
-            {
-              "name": "Sort Direction",
-              "value": "Ascending"
-            }
-          ],
-          "interactive": []
-        },
-        "status": "ABORTED",
-        "actions": {
-          "retry": {
-            "href": "http://localhost:3010/embedded/platform/async/report/rr3/rr3.1/request?filters.field1=value1.1&filters.field2=value2.3&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2007-05-04&sortColumn=field1&sortedAsc=true&filters.field6=Value+6.1"
-          },
-          "remove": {
-            "action": "/dpr/my-reports/requested-reports/remove-item/exId_238947925",
-            "csrfToken": "csrfToken",
-            "returnTo": "/"
-          }
-        },
-        "meta": {
-          "id": "rr3.1",
-          "reportId": "rr3",
-          "tableId": "tblId_1729766013077",
-          "executionId": "exId_238947925",
-          "path": "/dpr/my-reports",
-          "listType": "requested"
-        }
-      }
-    ],
-    "totals": {
-      "total": 3,
-      "shown": 3
     }
   }
-} %}
+%}
 
-{{ dprMyReports(myReportsData)}}
+{{ dprMyReports(myReportsData) }}

@@ -8,7 +8,7 @@ export const initCatalogue = async ({ res, services, req }: { res: Response; ser
   const currentUrl = req?.originalUrl || '/'
   const { token, bookmarkingEnabled, dprUser, csrfToken } = LocalsHelper.getValues(res)
   const productCollections = (await services.productCollectionService.getProductCollections(token))?.map(
-    (collection) => ({
+    collection => ({
       value: collection.id,
       text: collection.name,
     }),

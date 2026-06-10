@@ -1,19 +1,9 @@
 {
-  "nunjucksFilters": [
-    "/dpr/utils/urlHelper.js"
-  ],
-  "scripts": [
-    "/dpr/js/all.mjs"
-  ],
-  "assets": [
-    "/dpr/assets"
-  ],
-  "sass": [
-    "/dpr/all.scss"
-  ],
-  "nunjucksPaths": [
-    "/"
-  ],
+  "nunjucksFilters": ["/dpr/utils/urlHelper.js"],
+  "scripts": ["/dpr/js/all.mjs"],
+  "assets": ["/dpr/assets"],
+  "sass": ["/dpr/all.scss"],
+  "nunjucksPaths": ["/"],
   "nunjucksMacros": [
     {
       "importFrom": "dpr/components/card-group/view.njk",

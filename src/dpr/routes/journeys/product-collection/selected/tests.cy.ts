@@ -61,5 +61,5 @@ context('Catalogue collections', () => {
     })
   }
 
-  paths.forEach((route) => tests(route))
+  paths.forEach(route => tests(route))
 })

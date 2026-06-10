@@ -33,7 +33,7 @@ class LineChartVisualisation extends ChartVisualisation {
   setDatasetStyling() {
     return {
       segment: {
-        borderDash: (ctx) => this.setPartialStyle(ctx),
+        borderDash: ctx => this.setPartialStyle(ctx),
       },
     }
   }

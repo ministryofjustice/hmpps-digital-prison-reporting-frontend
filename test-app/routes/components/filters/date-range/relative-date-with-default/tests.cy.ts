@@ -26,7 +26,7 @@ context('Inputs: Relative date range with defaults', () => {
     it('should save the relative date range as user defined defaults, overriding the existing defaults', () => {
       cy.visit(platformPath)
       checkA11y()
-      cy.location().should((location) => {
+      cy.location().should(location => {
         expect(location.search).to.contain(`filters.field1.relative-duration=next-month`)
       })
 
@@ -61,7 +61,7 @@ context('Inputs: Relative date range with defaults', () => {
       })
 
       cy.visit(platformPath)
-      cy.location().should((location) => {
+      cy.location().should(location => {
         expect(location.search).to.contain(`filters.field1.relative-duration=next-month`)
       })
     })

@@ -1,4 +1,4 @@
-import { checkA11y } from "cypress-tests/cypressUtils"
+import { checkA11y } from 'cypress-tests/cypressUtils'
 
 context('Catalogue component', () => {
   const path = '/components/catalogue/default'
@@ -73,7 +73,7 @@ context('Catalogue component', () => {
         cy.findAllByRole('rowgroup')
           .eq(1)
           .within(() => {
-            cy.findAllByRole('row').each((tr) => {
+            cy.findAllByRole('row').each(tr => {
               cy.wrap(tr).contains(/Succ|succ/g)
             })
           })
@@ -89,7 +89,7 @@ context('Catalogue component', () => {
         cy.findAllByRole('rowgroup')
           .eq(1)
           .within(() => {
-            cy.findAllByRole('row').each((tr) => {
+            cy.findAllByRole('row').each(tr => {
               cy.wrap(tr).contains(/Succ|succ/g)
             })
           })
@@ -103,7 +103,7 @@ context('Catalogue component', () => {
         cy.findAllByRole('rowgroup')
           .eq(1)
           .within(() => {
-            cy.findAllByRole('row').each((row) => {
+            cy.findAllByRole('row').each(row => {
               cy.wrap(row).within(() => {
                 cy.findAllByRole('cell').each((cell, index) => {
                   cy.wrap(cell).within(() => {

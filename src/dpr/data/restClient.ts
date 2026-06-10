@@ -47,7 +47,7 @@ class RestClient {
   }
 
   async get<T>(request: GetRequest): Promise<T> {
-    return this.getWithHeaders<T>(request).then((result) => result.data)
+    return this.getWithHeaders<T>(request).then(result => result.data)
   }
 
   async getStream({ path = '', query = {}, headers = {}, token }: GetRequest, res: ExpressResponse): Promise<void> {
@@ -56,7 +56,7 @@ class RestClient {
     Object.entries(query).forEach(([key, value]) => {
       if (value === undefined) return
       if (Array.isArray(value)) {
-        value.forEach((v) => url.searchParams.append(key, String(v)))
+        value.forEach(v => url.searchParams.append(key, String(v)))
       } else {
         url.searchParams.append(key, String(value))
       }
@@ -74,7 +74,7 @@ class RestClient {
         },
         agent: this.agent,
       },
-      (upstream) => {
+      upstream => {
         // Forward status
         res.status(upstream.statusCode || 500)
 
@@ -91,7 +91,7 @@ class RestClient {
           req.destroy()
         })
 
-        pipeline(upstream, res, (err) => {
+        pipeline(upstream, res, err => {
           if (err) {
             res.destroy(err)
           }
@@ -103,7 +103,7 @@ class RestClient {
       req.destroy(new Error('Upstream request timed out.'))
     })
 
-    req.on('error', (err) => {
+    req.on('error', err => {
       logger.warn({ err }, `Error streaming from ${this.name}, path: '${path}'`)
       if (!res.headersSent) {
         res.status(502).end('Download request failed')
@@ -127,7 +127,7 @@ class RestClient {
         .query(query)
         .send(data)
         .agent(this.agent)
-        .retry(2, (err) => {
+        .retry(2, err => {
           if (retry === false) {
             return false
           }
@@ -171,7 +171,7 @@ class RestClient {
       const result = await superagent
         .get(`${this.apiUrl()}${path}`)
         .agent(this.agent)
-        .retry(2, (err) => {
+        .retry(2, err => {
           if (err) logger.info(`Retry handler found API error with ${err.code} ${err.message}`)
           return undefined // retry handler only for logging retries, not to influence retry logic
         })
@@ -209,7 +209,7 @@ class RestClient {
       const result = await superagent
         .delete(`${this.apiUrl()}${path}`)
         .agent(this.agent)
-        .retry(2, (err) => {
+        .retry(2, err => {
           if (err) logger.info(`Retry handler found API error with ${err.code} ${err.message}`)
           return undefined // retry handler only for logging retries, not to influence retry logic
         })
@@ -231,7 +231,7 @@ class RestClient {
   }
 
   async delete<T>(request: GetRequest): Promise<T> {
-    return this.deleteWithHeaders<T>(request).then((result) => result.data)
+    return this.deleteWithHeaders<T>(request).then(result => result.data)
   }
 }
 

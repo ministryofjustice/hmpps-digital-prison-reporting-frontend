@@ -48,7 +48,7 @@ export const initServices = (featureConfig?: ServiceFeatureConfig) => {
           host: '127.0.0.1',
           port: 6379,
           tls: false,
-          reconnectStrategy: (attempts) => {
+          reconnectStrategy: attempts => {
             // Exponential back off: 20ms, 40ms, 80ms..., capped to retry every 30 seconds
             const nextDelay = Math.min(2 ** attempts * 20, 30000)
             console.log(`Retry Redis connection attempt: ${attempts}, next attempt in: ${nextDelay}ms`)

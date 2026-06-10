@@ -1,4 +1,3 @@
-
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 {% from "govuk/components/select/macro.njk" import govukSelect %}
 {% from "../date-input/view.njk" import dprDate %}
@@ -14,13 +13,13 @@
   {% set defaultGranularityValue = value.granularity.value %}
   {% set granularityOptions = data.granularityOptions %}
   {% set granularityId = parameterPrefix + fieldName + '.granularity' %}
-  {% set granularityLabelText = 'Granularity'%}
+  {% set granularityLabelText = 'Granularity' %}
 
   {# Quick filters vars #}
   {% set defaultQuickFilterValue = value.quickFilter.value %}
   {% set quickFilterOptions = data.quickFilterOptions %}
   {% set quickFilterId = parameterPrefix + fieldName + '.quick-filter' %}
-  {% set quickFilterLabelText = 'Quick filters'%}
+  {% set quickFilterLabelText = 'Quick filters' %}
 
   {# Partial markers #}
   {% set partialStart = value.partialDate.start %}
@@ -34,48 +33,52 @@
   {% set defaultStartValue = value.start %}
   {% set defaultEndValue = value.end %}
 
-  <div class="dpr-granular-date-range" id="dpr-granular-date-range_{{fieldName}}"
+  <div
+    class="dpr-granular-date-range"
+    id="dpr-granular-date-range_{{ fieldName }}"
     data-dpr-module="granular-date-range-input"
-    data-field-name='{{ fieldName }}'
-    data-field-display-name='{{ filterName }}'
-    data-partial-start='{{ partialStart }}'
-    data-partial-end='{{ partialEnd }}'
-    >
-    <legend class="govuk-fieldset__legend govuk-label govuk-!-font-weight-bold">
-      {{ filterName }}
-    </legend>
+    data-field-name="{{ fieldName }}"
+    data-field-display-name="{{ filterName }}"
+    data-partial-start="{{ partialStart }}"
+    data-partial-end="{{ partialEnd }}"
+  >
+    <legend class="govuk-fieldset__legend govuk-label govuk-!-font-weight-bold">{{ filterName }}</legend>
 
     {# GRANULARITY #}
     <div class="dpr-granular-date-range__inputs_wrapper">
       {# QUICK FILTERS #}
-      {{ govukSelect({
-        id: quickFilterId,
-        name: quickFilterId,
-        value: defaultQuickFilterValue,
-        items: quickFilterOptions,
-        label: {
-          text: quickFilterLabelText,
-          classes: "govuk-label"
-        },
-        attributes: {
-          'display-name': quickFilterLabelText
-        }
-      }) }}
+      {{
+        govukSelect({
+          id: quickFilterId,
+          name: quickFilterId,
+          value: defaultQuickFilterValue,
+          items: quickFilterOptions,
+          label: {
+            text: quickFilterLabelText,
+            classes: "govuk-label"
+          },
+          attributes: {
+            'display-name': quickFilterLabelText
+          }
+        })
+      }}
 
       {# GRANULARITY #}
-      {{ govukSelect({
-        id: granularityId,
-        name: granularityId,
-        value: defaultGranularityValue,
-        items: granularityOptions,
-        label: {
-          text: granularityLabelText,
-          classes: "govuk-label"
-        },
-        attributes: {
-          'display-name': granularityLabelText
-        }
-      }) }}
+      {{
+        govukSelect({
+          id: granularityId,
+          name: granularityId,
+          value: defaultGranularityValue,
+          items: granularityOptions,
+          label: {
+            text: granularityLabelText,
+            classes: "govuk-label"
+          },
+          attributes: {
+            'display-name': granularityLabelText
+          }
+        })
+      }}
     </div>
 
     {# DATEPICKER #}

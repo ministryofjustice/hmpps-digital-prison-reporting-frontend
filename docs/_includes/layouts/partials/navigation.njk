@@ -1,21 +1,23 @@
 {%- from "node_modules/@ministryofjustice/frontend/moj/components/primary-navigation/macro.njk" import mojPrimaryNavigation %}
 
-{{ mojPrimaryNavigation({
-  items: [
-    {
-      text: 'Get started',
-      href: ('/'),
-      active: (page.filePathStem === '/index' or page.filePathStem.indexOf('/get-started') === 0)
-    },
-    {
-      text: 'Components',
-      href: ('/components'),
-      active: page.filePathStem.indexOf('/components') === 0
-    },
-    {
-      html: 'Dashboards <strong class="govuk-tag">beta</strong>',
-      href: ('/dashboards'),
-      active: page.filePathStem.indexOf('/dashboards') === 0
-    }
-  ]
-}) }}
+{{
+  mojPrimaryNavigation({
+    items: [
+      {
+        text: 'Get started',
+        href: ('/'),
+        active: (page.filePathStem === '/index' or page.filePathStem.indexOf('/get-started') === 0)
+      },
+      {
+        text: 'Components',
+        href: ('/components'),
+        active: page.filePathStem.indexOf('/components') === 0
+      },
+      {
+        html: 'Dashboards <strong class="govuk-tag">beta</strong>',
+        href: ('/dashboards'),
+        active: page.filePathStem.indexOf('/dashboards') === 0
+      }
+    ]
+  })
+}}

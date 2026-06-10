@@ -69,7 +69,7 @@ class MissingReportFormController {
 
             res.redirect(redirect)
           },
-          (err) => {
+          err => {
             captureDprError(err)
             next(err)
           },

@@ -30,7 +30,7 @@ context('Download report', () => {
         cy.findByRole('button', { name: /Request/ }).click()
         checkA11y()
         cy.findByRole('heading', { level: 1, name: /Successful Report/ }).should('be.visible')
-        cy.url().then((url) => {
+        cy.url().then(url => {
           viewReportUrl = url
         })
       })
@@ -61,7 +61,7 @@ context('Download report', () => {
           cy.findByLabelText(/Enable download/).click()
           cy.findByRole('link', { name: 'Fill out a form' }).click()
 
-          cy.url().then((url) => {
+          cy.url().then(url => {
             downloadRequestFormPage = url
           })
 
@@ -126,5 +126,5 @@ context('Download report', () => {
     })
   }
 
-  paths.forEach((route) => tests(route))
+  paths.forEach(route => tests(route))
 })

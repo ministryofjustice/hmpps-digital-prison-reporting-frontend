@@ -32,7 +32,7 @@ context('Inputs: multiselect', () => {
         cy.findAllByRole('button').eq(0).contains('Value 8.2, Value 8.4')
       })
 
-      cy.location().should((location) => {
+      cy.location().should(location => {
         expect(location.search).to.contain('filters.multiselect=value8.2')
         expect(location.search).to.contain('filters.multiselect=value8.4')
       })
@@ -85,7 +85,7 @@ context('Inputs: multiselect', () => {
 
       cy.get('[data-govuk-checkboxes-init]')
         .eq(1)
-        .should(($el) => {
+        .should($el => {
           const el = $el[0]
           expect(el.scrollHeight, 'has more content than viewport').to.be.greaterThan(el.clientHeight)
           expect(getComputedStyle(el).overflowY, 'allows vertical scrolling').to.match(/auto|scroll/)
@@ -112,13 +112,13 @@ context('Inputs: multiselect', () => {
 
       getCheckbox('Value 2.2').click().blur()
 
-      cy.location('search').should((qs) => {
+      cy.location('search').should(qs => {
         expect(qs).to.match(/filters\.multiselect-long=.*value2.2/i)
       })
 
       getCheckbox('Value 4.2').click().blur()
 
-      cy.location('search').should((qs) => {
+      cy.location('search').should(qs => {
         expect(qs).to.match(/filters\.multiselect-long=.*value2.2/i)
         expect(qs).to.match(/filters\.multiselect-long=.*value4.2/i)
       })
@@ -192,17 +192,17 @@ context('Inputs: multiselect', () => {
       startReportRequest(reportDetails)
       cy.findByRole('heading', { level: 1, name: /Request report/ }).should('be.visible')
       cy.findByRole('link', { name: /View full list/ }).should('be.visible')
-      cy.findByLabelText('Value 16').then(($checkbox) => {
+      cy.findByLabelText('Value 16').then($checkbox => {
         cy.get(`label[for="${$checkbox.attr('id')}"]`).should('not.be.visible')
       })
       cy.findByRole('link', { name: /View full list/ }).click()
-      cy.findByLabelText('Value 16').then(($checkbox) => {
+      cy.findByLabelText('Value 16').then($checkbox => {
         cy.get(`label[for="${$checkbox.attr('id')}"]`).should('be.visible')
       })
       cy.findByRole('link', { name: /Hide full list/ })
         .should('be.visible')
         .click()
-      cy.findByLabelText('Value 16').then(($checkbox) => {
+      cy.findByLabelText('Value 16').then($checkbox => {
         cy.get(`label[for="${$checkbox.attr('id')}"]`).should('not.be.visible')
       })
     })
@@ -216,10 +216,10 @@ context('Inputs: multiselect', () => {
 
       cy.findAllByRole('link', { name: /View full list/ }).should('have.length', 2)
 
-      cy.findByLabelText('Value 16').then(($checkbox) => {
+      cy.findByLabelText('Value 16').then($checkbox => {
         cy.get(`label[for="${$checkbox.attr('id')}"]`).should('not.be.visible')
       })
-      cy.findByLabelText('Value 4.16').then(($checkbox) => {
+      cy.findByLabelText('Value 4.16').then($checkbox => {
         cy.get(`label[for="${$checkbox.attr('id')}"]`).should('not.be.visible')
       })
 
@@ -231,10 +231,10 @@ context('Inputs: multiselect', () => {
         .eq(0)
         .click()
 
-      cy.findByLabelText('Value 16').then(($checkbox) => {
+      cy.findByLabelText('Value 16').then($checkbox => {
         cy.get(`label[for="${$checkbox.attr('id')}"]`).should('be.visible')
       })
-      cy.findByLabelText('Value 4.16').then(($checkbox) => {
+      cy.findByLabelText('Value 4.16').then($checkbox => {
         cy.get(`label[for="${$checkbox.attr('id')}"]`).should('be.visible')
       })
 
@@ -246,10 +246,10 @@ context('Inputs: multiselect', () => {
         .eq(0)
         .click()
 
-      cy.findByLabelText('Value 16').then(($checkbox) => {
+      cy.findByLabelText('Value 16').then($checkbox => {
         cy.get(`label[for="${$checkbox.attr('id')}"]`).should('not.be.visible')
       })
-      cy.findByLabelText('Value 4.16').then(($checkbox) => {
+      cy.findByLabelText('Value 4.16').then($checkbox => {
         cy.get(`label[for="${$checkbox.attr('id')}"]`).should('not.be.visible')
       })
     })

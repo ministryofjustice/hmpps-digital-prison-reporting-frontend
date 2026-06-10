@@ -13,7 +13,7 @@ const DashboardSchema = z.object({
   name: z.string(),
   description: z.string().optional(),
   sections: z.array(DashboardSectionSchema, {
-    error: (issue) =>
+    error: issue =>
       issue.input === undefined
         ? 'Dashboard definition: Sections is required'
         : 'Dashboard definition: Sections must be an array',

@@ -2,6 +2,7 @@
 layout: layouts/component.njk
 title: Card Group
 ---
+
 {% example "card-group/default", 400, "default" %}
 
 ## Overview

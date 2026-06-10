@@ -1,35 +1,38 @@
 {%- from "moj/components/side-navigation/macro.njk" import mojSideNavigation -%}
 
-
 {% macro dprDashboardSidebar(sections) %}
-    {% set items = [] %}
+  {% set items = [] %}
 
-    {% for section in sections %}
+  {% for section in sections %}
 
-      {% set title = section.title %}
-      {% set id = section.id %}
+    {% set title = section.title %}
+    {% set id = section.id %}
 
-      {% set items = (items.push({
+    {%
+      set items = (items.push({
         html: '<span class="dashboard-sidebar-nav-item">' + title + '</span>',
         href: '#' + id + '-dashboard-section'
-      }), items) %}
+      }), items)
+    %}
 
-      {% for vis in section.visualisations %}
+    {% for vis in section.visualisations %}
 
-        {% set visTitle = vis.title %}
-        {% set visId = vis.id %}
+      {% set visTitle = vis.title %}
+      {% set visId = vis.id %}
 
-        {% if visTitle %}
-          {% set items = (items.push({
+      {% if visTitle %}
+        {%
+          set items = (items.push({
             html: '<span class="dashboard-sidebar-sub-nav-item">' + visTitle + '</span>',
             href: '#' + visId + '-dash-section-visualisation'
-          }), items) %}
-        {% endif %}
-
-      {% endfor %}
+          }), items)
+        %}
+      {% endif %}
     {% endfor %}
+  {% endfor %}
 
-    {{ mojSideNavigation({
+  {{
+    mojSideNavigation({
       label: 'Side navigation',
       sections: [{
         heading: {
@@ -37,5 +40,6 @@
         },
         items: items
       }]
-    }) }}
+    })
+  }}
 {% endmacro %}

@@ -11,26 +11,29 @@
   {% set group = scorecard.group %}
   {% set trend = scorecard.trend %}
 
-  <div class="dpr-scorecard" data-dpr-module="scorecard" aria-labelledby="{{ id }}_title_{{index }}">
-    <p id="{{ id }}_title_{{index}}" class="govuk-heading-s govuk-!-margin-bottom-1">
-      {{ title }}
-    </p>
+  <div class="dpr-scorecard" data-dpr-module="scorecard" aria-labelledby="{{ id }}_title_{{ index }}">
+    <p id="{{ id }}_title_{{ index }}" class="govuk-heading-s govuk-!-margin-bottom-1">{{ title }}</p>
 
-    <p {% if rag %}style="background-color: {{ rag.colour }}"{% endif %} class="govuk-body dpr-scorecard__value {% if rag %}govuk-tag--{{ rag.colour }}{% endif %}">{{ value }}</p>
+    <p
+      {% if rag %}style="background-color: {{ rag.colour }}"{% endif %}
+      class="govuk-body dpr-scorecard__value {% if rag %}govuk-tag--{{ rag.colour }}{% endif %}"
+    >
+      {{ value }}
+    </p>
 
     {% if rag.score and rag.score !== 'undefined' %}
       <p class="govuk-body dpr-scorecard__value-description">Status: {{ rag.score }}</p>
     {% endif %}
 
     {% if trend %}
-    <p class="govuk-body-s govuk-!-margin-bottom-2">
-      {{ trend.direction }} {{ trend.value }} from {{ trend.from }}
-    </p>
+      <p class="govuk-body-s govuk-!-margin-bottom-2">{{ trend.direction }} {{ trend.value }} from {{ trend.from }}</p>
     {% endif %}
 
     {% if link.href %}
       <div class="govuk-!-margin-bottom-3">
-        <a class="govuk-link govuk-link--no-visited-state " href="{{ link.href }}">{{ link.displayName }}<span class="govuk-visually-hidden"> for {{ title }}</span></a>
+        <a class="govuk-link govuk-link--no-visited-state " href="{{ link.href }}"
+          >{{ link.displayName }}<span class="govuk-visually-hidden"> for {{ title }}</span></a
+        >
       </div>
     {% endif %}
 

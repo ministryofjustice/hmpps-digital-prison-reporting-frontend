@@ -35,7 +35,7 @@ context('Dashboard visualisation: Scorecards', () => {
 
       cy.findByRole('heading', { level: 1, name: /Scorecard/ }).should('be.visible')
 
-      cy.url().then((url) => {
+      cy.url().then(url => {
         scorecardPathViewUrl = url
       })
     })
@@ -54,10 +54,7 @@ context('Dashboard visualisation: Scorecards', () => {
         .should('exist')
         .within(() => {
           // Metric
-          cy.findAllByRole('paragraph')
-            .eq(1)
-            .invoke('text')
-            .should('match', /^[0-9]*$/)
+          cy.findAllByRole('paragraph').eq(1).contains(684).should('exist')
           // Colour
           cy.findAllByRole('paragraph').eq(1).invoke('attr', 'style', 'background-color').should('exist')
           // trend
@@ -75,7 +72,7 @@ context('Dashboard visualisation: Scorecards', () => {
       cy.findByRole('button', { name: /Request/ }).click()
       cy.task('stubMockDashboardsStatusFinished')
       cy.findByRole('heading', { level: 1, name: /Scorecard/ }).should('be.visible')
-      cy.url().then((url) => {
+      cy.url().then(url => {
         scorecardBucketPathViewUrl = url
       })
     })
@@ -94,10 +91,7 @@ context('Dashboard visualisation: Scorecards', () => {
         .should('exist')
         .within(() => {
           // Metric
-          cy.findAllByRole('paragraph')
-            .eq(1)
-            .invoke('text')
-            .should('match', /^[0-9]*$/)
+          cy.findAllByRole('paragraph').eq(1).contains(684).should('exist')
           // Colour
           cy.findAllByRole('paragraph').eq(1).invoke('attr', 'style', 'background-color').should('exist')
           // trend
@@ -115,7 +109,7 @@ context('Dashboard visualisation: Scorecards', () => {
           let value = 0
           cy.findAllByRole('paragraph')
             .eq(1)
-            .then((p) => {
+            .then(p => {
               value = Number(p.text())
 
               let colour = '#f4cdc6'
@@ -138,7 +132,7 @@ context('Dashboard visualisation: Scorecards', () => {
           let value = 0
           cy.findAllByRole('paragraph')
             .eq(1)
-            .then((p) => {
+            .then(p => {
               value = Number(p.text())
 
               let colour = '#f4cdc6'
@@ -160,7 +154,7 @@ context('Dashboard visualisation: Scorecards', () => {
           let value = 0
           cy.findAllByRole('paragraph')
             .eq(1)
-            .then((p) => {
+            .then(p => {
               value = Number(p.text())
               let colour = '#f4cdc6'
               if (value <= 500) {
@@ -181,7 +175,7 @@ context('Dashboard visualisation: Scorecards', () => {
       cy.findByRole('button', { name: /Request/ }).click()
       cy.task('stubMockDashboardsStatusFinished')
       cy.findByRole('heading', { level: 1, name: /Scorecard/ }).should('be.visible')
-      cy.url().then((url) => {
+      cy.url().then(url => {
         scorecardsPathViewUrl = url
       })
     })

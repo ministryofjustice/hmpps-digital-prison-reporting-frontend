@@ -4,10 +4,10 @@ import { Column, Columns } from './types'
 import { normalizeQueryStringArray } from '../../../../../utils/queryMappers'
 
 export const mandatoryColumns = (fields: Array<components['schemas']['FieldDefinition']>) =>
-  fields.filter((field) => field.mandatory).map((field) => field.name)
+  fields.filter(field => field.mandatory).map(field => field.name)
 
 export const visibleColumns = (fields: Array<components['schemas']['FieldDefinition']>) =>
-  fields.filter((field) => field.visible).map((field) => field.name)
+  fields.filter(field => field.visible).map(field => field.name)
 
 export const ensureMandatoryColumns = (
   fields: Array<components['schemas']['FieldDefinition']>,
@@ -35,7 +35,7 @@ export const getColumns = (specification: components['schemas']['Specification']
   const requestedColumns = normalizeQueryStringArray(<string[] | string | undefined>req.query['columns'])
   const { fields } = specification
 
-  const options: Column[] = fields.map((field) => ({
+  const options: Column[] = fields.map(field => ({
     text: field.display,
     value: field.name,
     disabled: field.mandatory,

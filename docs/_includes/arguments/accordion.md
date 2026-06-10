@@ -1,6 +1,5 @@
-
 | Name           | Type   | Required | Description                       |
-| -------------- | ------ | -------- |-----------------------------------|
+| -------------- | ------ | -------- | --------------------------------- |
 | accordionItems | object | Yes      | Data object. See [Items](#items). |
 
 ### Items

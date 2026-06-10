@@ -49,7 +49,7 @@ class DoughnutChart extends Chart {
 
   private augmentDataset = () => {
     const hexColours = this.chartColoursHelper.getHexPallette()
-    this.datasets = this.datasets.map((set) => {
+    this.datasets = this.datasets.map(set => {
       return {
         ...set,
         backgroundColor: [...hexColours, ...hexColours],

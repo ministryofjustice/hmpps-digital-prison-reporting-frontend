@@ -25,21 +25,21 @@ export const mergeAndStringifyQuery = (
     // Special handling for filters.*
     if (key.startsWith('filters.') && typeof value === 'string') {
       const fieldName = key.replace('filters.', '')
-      const fieldDef = fields.find((f) => f.name === fieldName)
+      const fieldDef = fields.find(f => f.name === fieldName)
 
       // Only expand CSV for multiselect filters
       if (fieldDef?.filter?.type?.toLowerCase() === FilterType.multiselect.toLowerCase() && value.includes(',')) {
         value
           .split(',')
           .filter(Boolean)
-          .forEach((v) => params.append(key, v))
+          .forEach(v => params.append(key, v))
         return
       }
     }
 
     // Arrays = repeated params
     if (Array.isArray(value)) {
-      value.forEach((v) => params.append(key, String(v)))
+      value.forEach(v => params.append(key, String(v)))
       return
     }
 
@@ -59,7 +59,7 @@ export const mergeAndStringifyQuery = (
 export const joinQueryStrings = (...parts: Array<string | undefined>) => {
   return parts
     .filter((p): p is string => Boolean(p && p.length))
-    .map((p) => p.replace(/^\?/, ''))
+    .map(p => p.replace(/^\?/, ''))
     .join('&')
 }
 

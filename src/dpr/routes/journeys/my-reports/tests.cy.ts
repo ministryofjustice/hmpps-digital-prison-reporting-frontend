@@ -136,8 +136,8 @@ describe('My Reports', () => {
 
             cy.findByRole('list')
               .findAllByRole('listitem')
-              .should(($items) => {
-                const texts = [...$items].map((el) => el.textContent?.trim())
+              .should($items => {
+                const texts = [...$items].map(el => el.textContent?.trim())
                 expect(texts).to.deep.equal(expected)
               })
           })
@@ -145,5 +145,5 @@ describe('My Reports', () => {
     })
   }
 
-  paths.forEach((route) => sharedTests(route))
+  paths.forEach(route => sharedTests(route))
 })

@@ -8,7 +8,7 @@ import { DashboardDataResponse } from '../../types/Metrics'
  * @return {*}  {boolean}
  */
 export const hasOptionalKeys = (keys: components['schemas']['DashboardVisualisationColumnDefinition'][]): boolean => {
-  return Boolean(keys?.some((key) => key.optional))
+  return Boolean(keys?.some(key => key.optional))
 }
 
 /**
@@ -40,7 +40,7 @@ export const filterRowsByKeys = (
    */
   const isRowValid = (row: DashboardDataResponse): boolean =>
     Object.keys(row)
-      .map((fieldId) => {
+      .map(fieldId => {
         const value = row[fieldId].raw
 
         // Only validate fields that are part of the selected key set
@@ -69,8 +69,8 @@ export const filterRowsByKeys = (
 export const getKeyVariations = (
   keys: components['schemas']['DashboardVisualisationColumnDefinition'][],
 ): string[][] => {
-  const colIds: string[] = keys.map((k) => k.id)
-  const allOptional: boolean = keys.every((k) => k.optional)
+  const colIds: string[] = keys.map(k => k.id)
+  const allOptional: boolean = keys.every(k => k.optional)
   const reversedKeys: components['schemas']['DashboardVisualisationColumnDefinition'][] = keys.slice().reverse()
 
   interface ReducerState {
@@ -118,13 +118,13 @@ export const getKeyVariations = (
  */
 export const getKeyIds = (dashboardData: DashboardDataResponse[], colIdVariations: string[][]): string[] => {
   // Precompute field lists for each row (performance optimisation)
-  const rowFieldLists: string[][] = dashboardData.map((row) => Object.keys(row))
+  const rowFieldLists: string[][] = dashboardData.map(row => Object.keys(row))
 
   /**
    * Check whether a row satisfies all required IDs.
    */
   const isRowValid = (row: DashboardDataResponse, rowFields: string[], ids: string[]): boolean =>
-    ids.every((id) => {
+    ids.every(id => {
       if (!rowFields.includes(id)) return false
       const value = row[id].raw
       return value !== '' && value !== null && value !== undefined
@@ -133,7 +133,7 @@ export const getKeyIds = (dashboardData: DashboardDataResponse[], colIdVariation
   /**
    * Find the first variation with at least one valid row.
    */
-  const match = colIdVariations.find((ids) =>
+  const match = colIdVariations.find(ids =>
     dashboardData.some((row, index) => isRowValid(row, rowFieldLists[index], ids)),
   )
 

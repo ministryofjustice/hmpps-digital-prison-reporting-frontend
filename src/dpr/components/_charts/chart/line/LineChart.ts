@@ -29,7 +29,7 @@ class LineChart extends Chart {
   private initFromDefinitionData = () => {
     this.measures = this.definition.columns.measures
     this.keys = this.definition.columns.keys || []
-    this.isList = !!this.measures.find((col) => col.axis)
+    this.isList = !!this.measures.find(col => col.axis)
     this.initUnit(this.measures)
   }
 
@@ -61,7 +61,7 @@ class LineChart extends Chart {
 
   augmentDataset = (datasets?: DashboardVisualisationDataSet[]) => {
     const ds = datasets || this.datasets
-    this.datasets = ds.map((set) => {
+    this.datasets = ds.map(set => {
       return {
         ...set,
         pointStyle: 'circle',

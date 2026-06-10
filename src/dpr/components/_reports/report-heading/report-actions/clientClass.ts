@@ -1,11 +1,10 @@
 import { DprClientClass } from '../../../../DprClientClass'
 
 class ReportActions extends DprClientClass {
-
-private refreshButton?: HTMLElement | null
-private printButton?: HTMLElement | null
-private shareButton?: HTMLElement | null
-private copyButton?: HTMLElement | null
+  private refreshButton?: HTMLElement | null
+  private printButton?: HTMLElement | null
+  private shareButton?: HTMLElement | null
+  private copyButton?: HTMLElement | null
 
   static override getModuleName() {
     return 'report-actions'
@@ -32,7 +31,7 @@ private copyButton?: HTMLElement | null
         }
       })
 
-      this.printButton.addEventListener('keyup', (e) => {
+      this.printButton.addEventListener('keyup', e => {
         if (e.key === 'Enter') {
           if (disabled !== 'true') {
             window.print()
@@ -50,7 +49,7 @@ private copyButton?: HTMLElement | null
           window.location.href = href
         })
 
-        this.shareButton.addEventListener('keyup', (e) => {
+        this.shareButton.addEventListener('keyup', e => {
           if (e.key === 'Enter') {
             window.location.href = href
           }
@@ -64,16 +63,15 @@ private copyButton?: HTMLElement | null
       const href = this.copyButton.getAttribute('data-href')
       if (href) {
         this.copyButton.addEventListener('click', () => {
-        navigator.clipboard.writeText(href)
-      })
+          navigator.clipboard.writeText(href)
+        })
 
-        this.copyButton.addEventListener('keyup', (e) => {
+        this.copyButton.addEventListener('keyup', e => {
           if (e.key === 'Enter') {
             navigator.clipboard.writeText(href)
           }
         })
       }
-
     }
   }
 
@@ -86,7 +84,7 @@ private copyButton?: HTMLElement | null
           window.location.href = href
         })
 
-        this.refreshButton.addEventListener('keyup', (e) => {
+        this.refreshButton.addEventListener('keyup', e => {
           if (e.key === 'Enter') {
             window.location.href = href
           }

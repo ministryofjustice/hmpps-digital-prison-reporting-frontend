@@ -32,11 +32,11 @@ export class SectionedDataHelper {
 
   createSectionKey(row: Record<string, string>): { keyObj: SectionKey[]; key: string } {
     // Build structured entries with column names + values
-    const keyObj: SectionKey[] = this.sections.map((col) => ({
+    const keyObj: SectionKey[] = this.sections.map(col => ({
       name: col,
       value: row[col] ?? '',
     }))
-    const keyValues = keyObj.map((v) => v.value).join('')
+    const keyValues = keyObj.map(v => v.value).join('')
     const key = keyValues !== '' ? JSON.stringify(keyObj) : 'mainSection'
 
     return {
@@ -50,7 +50,7 @@ export class SectionedDataHelper {
     fields: components['schemas']['FieldDefinition'][] | components['schemas']['SummaryField'][],
   ) {
     return keyObj
-      .map((column) => {
+      .map(column => {
         const fieldName = getFieldDisplayName(fields, column.name)
         return `${fieldName}: ${column.value}`
       })
@@ -91,7 +91,7 @@ export class SectionedDataHelper {
 
       if (summary) {
         const { id, template } = summary
-        const existingSummary = section.summaries.find((s) => s.template === template)
+        const existingSummary = section.summaries.find(s => s.template === template)
         if (existingSummary) {
           existingSummary.data.push(row)
         } else {
@@ -118,7 +118,7 @@ export class SectionedDataHelper {
   }
 
   createSummarySections() {
-    this.summariesData.forEach((summaryData) => {
+    this.summariesData.forEach(summaryData => {
       const { fields, id, template, data } = summaryData
 
       logger.info('SUMMARY_SORT_BUG', 'createSummarySections', JSON.stringify({ summaryData }))
@@ -130,10 +130,10 @@ export class SectionedDataHelper {
   mergeSections(): SectionedData {
     return {
       sections: this.sectionedDataArray
-        .flatMap((input) => input.sections)
+        .flatMap(input => input.sections)
         .reduce<SectionData[]>((acc, section) => {
           const { key, keyObj } = section
-          const existing = acc.find((s) => s.key === key)
+          const existing = acc.find(s => s.key === key)
 
           // If section doesn't exist yet → add fresh copy
           if (!existing) {
@@ -148,7 +148,7 @@ export class SectionedDataHelper {
           }
 
           // If exists → update it by concatenating data & summaries
-          const updated = acc.map((s) =>
+          const updated = acc.map(s =>
             s.key === key
               ? {
                   ...s,
@@ -178,9 +178,9 @@ export class SectionedDataHelper {
 
   private enforceSummaryRowOrder(sectionedData: SectionedData): SectionedData {
     return {
-      sections: sectionedData.sections.map((section) => ({
+      sections: sectionedData.sections.map(section => ({
         ...section,
-        summaries: (section.summaries ?? []).map((summary) => ({
+        summaries: (section.summaries ?? []).map(summary => ({
           ...summary,
           data: [...summary.data].sort((a, b) => (Number(a['index']) ?? 0) - (Number(b['index']) ?? 0)),
         })),
@@ -201,14 +201,14 @@ export class SectionedDataHelper {
     if (sections.length === 0) return sectionedData
 
     // Default order is the order of the keyObj.name fields in the first section
-    const defaultOrder = sections[0].keyObj.map((k) => k.name)
+    const defaultOrder = sections[0].keyObj.map(k => k.name)
 
     // Merge partial nameOrder with default order
     const finalOrder = nameOrder
       // 1. start with user-specified names
-      .filter((name) => defaultOrder.includes(name))
+      .filter(name => defaultOrder.includes(name))
       // 2. append missing names in default order
-      .concat(defaultOrder.filter((name) => !nameOrder.includes(name)))
+      .concat(defaultOrder.filter(name => !nameOrder.includes(name)))
 
     const buildMap = (keyObj: SectionKey[]) =>
       keyObj.reduce<Record<string, string>>((acc, ko) => ({ ...acc, [ko.name]: ko.value }), {})
@@ -218,7 +218,7 @@ export class SectionedDataHelper {
       const bMap = buildMap(b.keyObj)
 
       // Compare using final order
-      const comparisons = finalOrder.map((name) => {
+      const comparisons = finalOrder.map(name => {
         const aVal = aMap[name] ?? ''
         const bVal = bMap[name] ?? ''
 
@@ -237,7 +237,7 @@ export class SectionedDataHelper {
       })
 
       // Return first non-zero comparison
-      return comparisons.find((x) => x !== 0) ?? 0
+      return comparisons.find(x => x !== 0) ?? 0
     })
 
     return {
@@ -261,7 +261,7 @@ export class SectionedDataHelper {
   }
 
   withSummaries(summaryData: Array<AsyncSummary>) {
-    this.summariesData = (summaryData || []).map((summary) => ({
+    this.summariesData = (summaryData || []).map(summary => ({
       ...summary,
       data: summary.data.map((row, index) => ({
         ...row,

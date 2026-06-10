@@ -5,12 +5,5 @@
   "printWidth": 120,
   "semi": false,
   "arrowParens": "avoid",
-  "overrides": [
-    {
-      "files": "*.njk",
-      "options": {
-        "parser": "jinja-template"
-      }
-    }
-  ]
+  "overrides": [{ "files": "*.njk", "options": { "parser": "jinja-template" } }]
 }

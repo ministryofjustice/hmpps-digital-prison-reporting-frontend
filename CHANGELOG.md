@@ -1,5 +1,10 @@
 Below you can find the changes included in each release.
 
+## 6.6.4
+
+- Update prettier config to format nunjucks files
+- Run prettier against entire codebase for consistent formatting
+
 ## 6.6.3
 
 - Updated batch of table IDs to check for expiry state to 200 from 50.

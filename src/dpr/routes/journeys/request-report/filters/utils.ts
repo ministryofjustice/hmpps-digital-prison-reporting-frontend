@@ -162,35 +162,42 @@ const requestProduct = async ({
 
   const { definition, fields } = await getDefinitionByType(type, services, token, reportId, id)
 
-  const queryData = buildProductQuery(req, fields, dataProductDefinitionsPath ?? '', type)
+  const query = new ReportQuery({
+    fields,
+    queryParams: formBodyToQueryObject(req.body),
+    definitionsPath: <string>dataProductDefinitionsPath,
+    reportType: type,
+  }).toRecordWithFilterPrefix(true) as Record<string, string>
 
   if (type === ReportType.REPORT) {
     const requestReportResponse = await services.reportingService.requestAsyncReport(token, reportId, id, {
-      ...queryData.query,
+      ...query,
       dataProductDefinitionsPath,
     })
-
     executionId = requestReportResponse['executionId']
     tableId = requestReportResponse['tableId']
     childVariants = (<components['schemas']['SingleVariantReportDefinition']>definition).variant.childVariants ?? []
-
+    sortData = buildSortData(req.body)
     setActiveJourneySortSearch(req, { reportId, id, tableId }, sortData)
   }
 
   if (type === ReportType.DASHBOARD) {
     const requestDashboardResponse = await services.dashboardService.requestAsyncDashboard(token, reportId, id, {
-      ...queryData.query,
+      ...query,
       dataProductDefinitionsPath,
     })
-
     executionId = requestDashboardResponse['executionId']
     tableId = requestDashboardResponse['tableId']
   }
 
-  const executionData = {
-    executionId,
-    tableId,
-    ...(dpdPathFromQuery && { dataProductDefinitionsPath }),
+  const querySummary = buildQuerySummary(req.body, fields)
+  const filterData = buildFilterData(req.body)
+
+  const queryData = {
+    querySummary,
+    filterData,
+    query,
+    ...(sortData && { sortData }),
   }
 
   const childExecutionData = await requestChildReports(
@@ -202,39 +209,16 @@ const requestProduct = async ({
     dataProductDefinitionsPath,
   )
 
+  const executionData = {
+    executionId,
+    tableId,
+    ...(dpdPathFromQuery && { dataProductDefinitionsPath }),
+  }
+
   return {
     executionData,
     childExecutionData,
     queryData,
-  }
-}
-
-const buildProductQuery = (
-  req: Request,
-  fields: components['schemas']['FieldDefinition'][],
-  definitionsPath: string,
-  reportType: ReportType,
-) => {
-  const queryParams = formBodyToQueryObject(req.body)
-
-  const querySummary = buildQuerySummary(req.body, fields)
-
-  const filterData = buildFilterData(req.body)
-
-  const sortData = buildSortData(req.body)
-
-  const query = new ReportQuery({
-    fields,
-    queryParams,
-    definitionsPath,
-    reportType,
-  })
-
-  return {
-    query: query.toRecordWithFilterPrefix(true) as Record<string, string>,
-    querySummary,
-    filterData,
-    ...(sortData && { sortData }),
   }
 }
 

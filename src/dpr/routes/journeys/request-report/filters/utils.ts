@@ -120,13 +120,13 @@ const requestChildReports = async (
   }
 
   return Promise.all(
-    childVariants.map((childVariant) =>
+    childVariants.map(childVariant =>
       reportingService
         .requestAsyncReport(token, reportId, childVariant.id, {
           ...(query && query),
           ...(dataProductDefinitionsPath && { dataProductDefinitionsPath }),
         })
-        .then((response) => {
+        .then(response => {
           const { executionId, tableId } = response
           if (!executionId || !tableId) {
             throw new Error('requestChildReports: No execution of tableId in response')
@@ -227,9 +227,9 @@ const requestProduct = async ({
 
 export const getFiltersFromReqBody = (req: Request) => {
   return Object.keys(req.body)
-    .filter((attr) => attr.includes('filters.'))
-    .filter((attr) => !!req.body[attr])
-    .map((attr) => {
+    .filter(attr => attr.includes('filters.'))
+    .filter(attr => !!req.body[attr])
+    .map(attr => {
       return { name: attr, value: req.body[attr] }
     })
 }

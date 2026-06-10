@@ -100,7 +100,7 @@ class DateMapper {
   parseIfDate = (value: string) => {
     if (typeof value !== 'string') return null
     const formats = this.getFormats()
-    return formats.map((fmt) => dayjs(value, fmt, true)).find((d) => d.isValid()) ?? null
+    return formats.map(fmt => dayjs(value, fmt, true)).find(d => d.isValid()) ?? null
   }
 
   toDateString(value: string | null, type: DateType): string | undefined {

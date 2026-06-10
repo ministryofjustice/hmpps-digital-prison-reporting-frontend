@@ -1,5 +1,4 @@
 {% from "../../../code-block/view.njk" import dprCodeBlock %}
-
 {% from "./report-totals/view.njk" import dprReportTotals %}
 {% from "./report-summary-table/view.njk" import dprReportSummary %}
 {% from "./report-section/view.njk" import dprReportSection %}
@@ -16,13 +15,10 @@
   {% set count = renderData.count %}
 
   {% if not count or count === 0 %}
-
     <div class="dpr-report-template-container dpr-report-template-container--no-data">
       {{ dprReportNoDataMessage(renderData.requestUrl.fullUrl) }}
     </div>
-
   {% else %}
-
     <div class="dpr-report-template-container {% if (printable == false) %}print-hide{% endif %}">
       {# Header summaries #}
       <div class="dpr-report-template__page-summaries dpr-report-template__page-summaries--header">
@@ -35,7 +31,7 @@
       </div>
 
       {# sections #}
-      <div class='dpr-report-template__sections dpr-report-template__sections--{{ template }}'>
+      <div class="dpr-report-template__sections dpr-report-template__sections--{{ template }}">
         {{ dprReportSection(dataTable, template, classification) }}
       </div>
 
@@ -51,11 +47,8 @@
 
       {# pagination #}
       {% if template === 'list' and count and count > 0 %}
-      <div class="dpr-report-template__pagination">
-        {{ dprReportPagination(pagination) }}
-      </div>
+        <div class="dpr-report-template__pagination">{{ dprReportPagination(pagination) }}</div>
       {% endif %}
     </div>
-
   {% endif %}
 {% endmacro %}

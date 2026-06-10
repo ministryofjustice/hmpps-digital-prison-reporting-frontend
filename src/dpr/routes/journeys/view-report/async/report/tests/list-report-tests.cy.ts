@@ -15,7 +15,7 @@ context('Viewing a report', () => {
 
       // Request and run a report so we can go back to it for each test
       requestReport({ name: 'Successful Report', description: 'this will succeed', path })
-      cy.url().then((url) => {
+      cy.url().then(url => {
         viewReportUrl = url
         const urlArr = url.split('/')
         tableId = urlArr[urlArr.length - 2]
@@ -106,7 +106,7 @@ context('Viewing a report', () => {
           'match',
           /(?:\/embedded\/platform(?:\/dpr)?)?\/request-report\/report\/request-examples\/request-example-success\/filters/i,
         )
-        cy.location().should((location) => {
+        cy.location().should(location => {
           expect(location.search).to.contain(`filters.field1=value1.2`)
           expect(location.search).to.contain(`filters.field3.start=2003-02-01`)
           expect(location.search).to.contain(`filters.field3.end=2006-05-04`)
@@ -127,7 +127,7 @@ context('Viewing a report', () => {
         cy.findByRole('checkbox', { name: 'Field 7' }).should('be.checked')
         cy.findByRole('checkbox', { name: 'Field 8' }).should('not.be.checked')
 
-        cy.location().should((location) => {
+        cy.location().should(location => {
           expect(location.search).to.contain(`columns=field1`)
           expect(location.search).to.contain(`columns=field2`)
           expect(location.search).to.contain(`columns=field3`)
@@ -161,7 +161,7 @@ context('Viewing a report', () => {
         cy.findByRole('checkbox', { name: 'Field 7' }).should('not.be.checked')
         cy.findByRole('checkbox', { name: 'Field 8' }).should('be.checked')
 
-        cy.location().should((location) => {
+        cy.location().should(location => {
           expect(location.search).not.to.contain(`columns=field1`)
           expect(location.search).to.contain(`columns=field2`)
           expect(location.search).not.to.contain(`columns=field3`)
@@ -347,7 +347,7 @@ context('Viewing a report', () => {
         cy.findByRole('checkbox', { name: 'Field 7' }).should('not.be.checked')
         cy.findByRole('checkbox', { name: 'Field 8' }).should('not.be.checked')
 
-        cy.location().should((location) => {
+        cy.location().should(location => {
           expect(location.search).not.to.contain(`columns=field1`)
           expect(location.search).to.contain(`columns=field2`)
           expect(location.search).not.to.contain(`columns=field3`)
@@ -418,7 +418,7 @@ context('Viewing a report', () => {
 
       it('should change the page', () => {
         cy.findByLabelText('Page 5').click()
-        cy.location().should((location) => {
+        cy.location().should(location => {
           expect(location.search).to.contain(`selectedPage=5`)
         })
       })

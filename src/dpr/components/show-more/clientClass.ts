@@ -29,21 +29,20 @@ class ShowMore extends DprClientClass {
       if (button) {
         button.style.display = 'none'
       }
-
     }
 
-    button?.addEventListener('click', (event) => {
+    button?.addEventListener('click', event => {
       event.preventDefault()
       if (button.innerHTML === 'show more') {
-        if(textContainer) {
+        if (textContainer) {
           textContainer.innerHTML = `${textContent}  `
         }
 
         button.innerHTML = 'show less'
       } else if (button.innerHTML === 'show less') {
-          if (textContainer) {
-            textContainer.innerHTML = `${shortString}... `
-          }
+        if (textContainer) {
+          textContainer.innerHTML = `${shortString}... `
+        }
 
         button.innerHTML = 'show more'
       }

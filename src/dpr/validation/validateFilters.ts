@@ -44,7 +44,7 @@ export const validateFilters =
           : getDashboardFields(<components['schemas']['DashboardDefinition']>definition)
 
       // Get only the relevant applicable fields for the form type
-      const applicableFields = getFieldsWithFilters(fields).filter((field) => {
+      const applicableFields = getFieldsWithFilters(fields).filter(field => {
         const isInteractive = field.filter?.interactive === true
         return interactive ? isInteractive : !isInteractive
       })
@@ -58,7 +58,7 @@ export const validateFilters =
         res.locals.validatedFilters = result.data
         next()
       } else {
-        const errors = result.error.issues.map((issue) => ({
+        const errors = result.error.issues.map(issue => ({
           href: `#filters.${issue.path.join('.')}`,
           text: issue.message,
         }))

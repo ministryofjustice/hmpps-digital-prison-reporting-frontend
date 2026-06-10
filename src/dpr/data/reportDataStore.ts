@@ -12,7 +12,7 @@ class ReportDataStore {
     private readonly redisClient: RedisClient,
     prefix = 'dprReportStoreUser:',
   ) {
-    redisClient.on('error', (error) => {
+    redisClient.on('error', error => {
       logger.error(error, `Redis error`)
     })
     this.prefix = prefix

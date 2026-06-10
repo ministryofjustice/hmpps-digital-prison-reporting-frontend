@@ -20,7 +20,7 @@ context('Download Interactive report', () => {
           path,
         })
 
-        cy.url().then((url) => {
+        cy.url().then(url => {
           viewReportUrl = url
         })
 
@@ -39,5 +39,5 @@ context('Download Interactive report', () => {
     })
   }
 
-  paths.forEach((route) => tests(route))
+  paths.forEach(route => tests(route))
 })

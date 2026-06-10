@@ -66,19 +66,19 @@ const createListFromColumns = (
   head.push({
     html: '<p class="govuk-visually-hidden">list values</p>',
   })
-  dashboardData.forEach((row) => {
+  dashboardData.forEach(row => {
     head.push({
       text: groupKey ? `${row[groupKey.id].raw}` : '',
     })
   })
 
   const rows: MoJTableRow[][] = []
-  measures.forEach((measure) => {
+  measures.forEach(measure => {
     rows.push([{ text: measure.display }] as MoJTableRow[])
   })
 
   measures.forEach((measure, index) => {
-    dashboardData.forEach((row) => {
+    dashboardData.forEach(row => {
       rows[index].push({ text: `${row[measure.id].raw}` })
     })
   })
@@ -108,11 +108,11 @@ export const createTableRows = (
 
   // Set the list data using the measure
   if (measures && measures.length) {
-    return data.map((dataRow) => {
+    return data.map(dataRow => {
       const row: MoJTableRow[] = Array.from({ length: measures.length }, () => ({ text: '' }))
 
-      Object.keys(dataRow).forEach((key) => {
-        const headIndex = measures.findIndex((m) => m.id === key)
+      Object.keys(dataRow).forEach(key => {
+        const headIndex = measures.findIndex(m => m.id === key)
         if (headIndex === -1) {
           return
         }
@@ -139,7 +139,7 @@ export const createTableRows = (
   }
 
   // Return the data unfiltered by measures
-  return data.map((dataRow) => {
+  return data.map(dataRow => {
     const row: MoJTableRow[] = Array(Object.keys(data[0]).length)
 
     Object.keys(dataRow).forEach((key, index) => {
@@ -157,7 +157,7 @@ const creatListFromRows = (
 ) => {
   const { measures } = listDefinition.columns
 
-  const head: MoJTableHead[] = measures.map((column) => {
+  const head: MoJTableHead[] = measures.map(column => {
     return { text: column.display || '' }
   })
 
@@ -185,7 +185,7 @@ const createFullList = (dashboardData: DashboardDataResponse[]) => {
   }
 
   const firstRow = dashboardData[0]
-  const head: MoJTableHead[] = Object.keys(firstRow).map((key) => {
+  const head: MoJTableHead[] = Object.keys(firstRow).map(key => {
     return { text: key || '' }
   })
   const rows = createTableRows(dashboardData)
@@ -214,7 +214,7 @@ const sumColumns = (
     }
 
     rowsData.push(sumRow)
-    sumColumnIndexes.forEach((index) => {
+    sumColumnIndexes.forEach(index => {
       const total = rowsData.reduce((acc, row) => {
         const rowIndex = row[index]
         if (rowIndex && rowIndex.text) {

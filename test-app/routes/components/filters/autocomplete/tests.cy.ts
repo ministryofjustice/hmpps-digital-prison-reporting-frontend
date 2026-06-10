@@ -50,7 +50,7 @@ context('Filters: Autocomplete', () => {
     it('should set the value in the url', () => {
       cy.findByRole('combobox').type('Ini')
       cy.findByRole('button', { name: /Inigo/ }).click()
-      cy.location().should((location) => {
+      cy.location().should(location => {
         expect(location.search).to.contain(`filters.autocomplete=Inigo+Montoya`)
       })
     })

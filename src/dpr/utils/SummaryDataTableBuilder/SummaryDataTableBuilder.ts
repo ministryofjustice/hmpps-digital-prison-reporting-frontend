@@ -7,11 +7,9 @@ class SummaryDataTableBuilder extends DataTableBuilder {
   private summary: AsyncSummary
 
   constructor(summary: AsyncSummary, sections?: Array<string>) {
-    const columns = summary.fields
-      .filter((field) => !sections || !sections.includes(field.name))
-      .map((field) => field.name)
+    const columns = summary.fields.filter(field => !sections || !sections.includes(field.name)).map(field => field.name)
 
-    const fields = summary.fields.map((field) => ({
+    const fields = summary.fields.map(field => ({
       ...field,
       calculated: false,
       sortable: false,

@@ -81,7 +81,7 @@ class ChartVisualisation extends DprClientClass {
   }
 
   createDatasets(datasets, styling) {
-    return datasets.map((dataset) => {
+    return datasets.map(dataset => {
       return {
         ...dataset,
         ...(styling && styling),
@@ -113,7 +113,7 @@ class ChartVisualisation extends DprClientClass {
   }
 
   initChartEvents() {
-    this.chart.canvas.addEventListener('mouseout', (e) => {
+    this.chart.canvas.addEventListener('mouseout', e => {
       if (this.tooltipDetailsEl) this.tooltipDetailsEl.style.display = 'none'
       if (this.headlineValuesEl) this.headlineValuesEl.style.display = 'block'
     })

@@ -22,12 +22,12 @@ class DprCatalogueFilters extends DprClientClass {
   updateTotals() {
     let count = 0
     this.table = document.getElementById(this.tableId).querySelector('tbody')
-    Array.from(this.table.rows).forEach((row) => {
+    Array.from(this.table.rows).forEach(row => {
       const hidden = []
-      this.classes.forEach((className) => {
+      this.classes.forEach(className => {
         hidden.push(Array.from(row.classList).includes(className))
       })
-      if (hidden.every((h) => h === false)) {
+      if (hidden.every(h => h === false)) {
         count += 1
       }
     })

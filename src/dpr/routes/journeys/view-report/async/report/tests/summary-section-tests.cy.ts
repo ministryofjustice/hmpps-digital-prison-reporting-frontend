@@ -27,7 +27,7 @@ context('Summary Section', () => {
         .within(() => {
           cy.findAllByRole('table')
             .should('have.length', 2)
-            .each((table) => {
+            .each(table => {
               cy.wrap(table).within(() => {
                 cy.findAllByRole('row').should('have.length', 5)
               })
@@ -39,7 +39,7 @@ context('Summary Section', () => {
         .within(() => {
           cy.findAllByRole('table')
             .should('have.length', 2)
-            .each((table) => {
+            .each(table => {
               cy.wrap(table).within(() => {
                 cy.findAllByRole('row').should('have.length', 7)
               })
@@ -51,7 +51,7 @@ context('Summary Section', () => {
         .within(() => {
           cy.findAllByRole('table')
             .should('have.length', 2)
-            .each((table) => {
+            .each(table => {
               cy.wrap(table).within(() => {
                 cy.findAllByRole('row').should('have.length', 4)
               })
@@ -63,7 +63,7 @@ context('Summary Section', () => {
         .within(() => {
           cy.findAllByRole('table')
             .should('have.length', 2)
-            .each((table) => {
+            .each(table => {
               cy.wrap(table).within(() => {
                 cy.findAllByRole('row').should('have.length', 8)
               })

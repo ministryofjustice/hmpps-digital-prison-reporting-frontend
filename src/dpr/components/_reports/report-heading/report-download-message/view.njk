@@ -1,25 +1,33 @@
-
 {%- from "moj/components/ticket-panel/macro.njk" import mojTicketPanel -%}
 
 {% macro dprDownloadMessage(feedbackFormHref) %}
   {% set html %}
     <h2 class="govuk-heading-m">To download this report</h2>
-    <p><a href="{{ feedbackFormHref }}" class="govuk-link govuk-link--no-visited-state">Fill out a form</a>, which will take about 1 minute to complete.</p>
+    <p>
+      <a href="{{ feedbackFormHref }}" class="govuk-link govuk-link--no-visited-state">Fill out a form</a>, which will
+      take about 1 minute to complete.
+    </p>
     <p>You can then download the report whenever you need it.</p>
   {% endset %}
 
-  <div id="dpr-download-message" class="dpr-download-message--hidden govuk-!-margin-bottom-6" data-dpr-module='download-message'>
-    {{ mojTicketPanel({
-      attributes: {
-        'aria-label': 'Sub navigation 1'
-      },
-      items: [{
-        html: html,
+  <div
+    id="dpr-download-message"
+    class="dpr-download-message--hidden govuk-!-margin-bottom-6"
+    data-dpr-module="download-message"
+  >
+    {{
+      mojTicketPanel({
         attributes: {
-          'aria-label': 'Section 1'
+          'aria-label': 'Sub navigation 1'
         },
-        classes: 'moj-ticket-panel__content--blue'
-      }]
-    }) }}
+        items: [{
+          html: html,
+          attributes: {
+            'aria-label': 'Section 1'
+          },
+          classes: 'moj-ticket-panel__content--blue'
+        }]
+      })
+    }}
   </div>
 {% endmacro %}

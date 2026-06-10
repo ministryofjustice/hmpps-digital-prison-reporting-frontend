@@ -3,6 +3,7 @@ layout: layouts/component.njk
 title: Autocomplete
 subsection: Inputs
 ---
+
 {% example "inputs/autocomplete-text-input", 300 "default" %}
 
 ## Overview
@@ -12,6 +13,7 @@ subsection: Inputs
 Use this component when users need to choose from a large set of options. Either populated statically, or dynamically from a remote API endpoint.
 
 Example uses:
+
 - Choosing an establishment name.
 - Searching for a post code.
 - Searching for a person's name.

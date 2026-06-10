@@ -18,19 +18,19 @@ class ReportStoreService {
   }
 
   findIndexByExecutionId(executionId: string, array: UserReportData[]) {
-    return array.findIndex((report) => report.executionId === executionId)
+    return array.findIndex(report => report.executionId === executionId)
   }
 
   findIndexByTableId(tableId: string, array: UserReportData[]) {
-    return array.findIndex((report) => report.tableId === tableId)
+    return array.findIndex(report => report.tableId === tableId)
   }
 
   findIndexByReportId(id: string, array: UserReportData[]) {
-    return array.findIndex((report) => report.id === id)
+    return array.findIndex(report => report.id === id)
   }
 
   findIndexByReportAndVariantId(id: string, reportId: string, array: UserReportData[]) {
-    return array.findIndex((report) => report.id === id && report.reportId === reportId)
+    return array.findIndex(report => report.id === id && report.reportId === reportId)
   }
 }
 

@@ -1,7 +1,7 @@
-import * as pathModule from 'path'
 import express from 'express'
-import nunjucks from 'nunjucks'
 import fs from 'fs'
+import nunjucks from 'nunjucks'
+import * as pathModule from 'path'
 import setUpNunjucksFilters from '../../src/dpr/setUpNunjucksFilters'
 
 export default function nunjucksSetup(app: express.Express, path: pathModule.PlatformPath): nunjucks.Environment {
@@ -34,7 +34,7 @@ export default function nunjucksSetup(app: express.Express, path: pathModule.Pla
     noCache: true,
     watch: true,
   })
-  nunjucksEnvironment.addFilter('assetMap', (url) => assetManifest[url] || url)
+  nunjucksEnvironment.addFilter('assetMap', url => assetManifest[url] || url)
 
   // Add library filters
   setUpNunjucksFilters(nunjucksEnvironment)

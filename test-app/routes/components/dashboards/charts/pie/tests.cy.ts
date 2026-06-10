@@ -25,7 +25,7 @@ context('Dashboard visualisation: Doughnut chart', () => {
       cy.findByRole('heading', { level: 1, name: /Doughnut - Complete dataset/ }).should('be.visible')
       checkA11y()
 
-      cy.url().then((url) => {
+      cy.url().then(url => {
         completeDashboardUrl = url
       })
     })

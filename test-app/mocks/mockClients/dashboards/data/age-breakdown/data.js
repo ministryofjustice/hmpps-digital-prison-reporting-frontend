@@ -867,14 +867,14 @@ const generateAgeBreakdownData = (establishment, wing) => {
   ]
 
   if (establishment) {
-    data = data.map((d) => {
+    data = data.map(d => {
       return {
         ...d,
         establishment_id: { raw: establishment },
       }
     })
   } else {
-    data = data.map((d) => {
+    data = data.map(d => {
       return {
         ...d,
         establishment_id: { raw: 'All' },
@@ -884,7 +884,7 @@ const generateAgeBreakdownData = (establishment, wing) => {
 
   if (wing) {
     data = [...data, ...mockTotalByWingTableData, ...mockCellTableData]
-    data = data.map((d) => {
+    data = data.map(d => {
       if (d.wing.raw === '') {
         return d
       }
@@ -894,7 +894,7 @@ const generateAgeBreakdownData = (establishment, wing) => {
       }
     })
   } else {
-    data = data.map((d) => {
+    data = data.map(d => {
       return {
         ...d,
         wing: { raw: '' },

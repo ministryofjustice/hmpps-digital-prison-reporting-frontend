@@ -1,15 +1,17 @@
 {% from "../../_filters/filters-interactive/view.njk" import dprInteractiveFilters %}
 
 {% macro dprDashboardFilters(filters, validationErrors, appliedFilters, csrfToken) %}
-    {% set templateArgs = {
+  {%
+    set templateArgs = {
       prefix: prefix,
       reportType: 'dashboard',
       csrfToken: csrfToken,
       validationErrors: validationErrors,
       appliedFilters: appliedFilters
-    }%}
+    }
+  %}
 
-    {% if filters.length %}
-      {{ dprInteractiveFilters(filters, templateArgs) }}
-    {% endif %}
+  {% if filters.length %}
+    {{ dprInteractiveFilters(filters, templateArgs) }}
+  {% endif %}
 {% endmacro %}

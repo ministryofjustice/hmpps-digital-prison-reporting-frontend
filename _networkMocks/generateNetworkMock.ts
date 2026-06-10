@@ -87,5 +87,5 @@ export const stubFor = (mapping: Record<string, unknown>): SuperAgentRequest =>
   superagent.post(`${wiremockUrl}/mappings`).send(mapping)
 
 export const postNetworkMocks = async (mockRequests: CompleteMockRequest[]) => {
-  return Promise.all(mockRequests.map(async (mock) => stubFor(mock)))
+  return Promise.all(mockRequests.map(async mock => stubFor(mock)))
 }

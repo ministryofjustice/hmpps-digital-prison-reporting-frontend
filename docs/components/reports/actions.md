@@ -3,6 +3,7 @@ layout: layouts/component.njk
 title: Actions
 subsection: Report components
 ---
+
 {% example "report/actions", 170, 'default' %}
 
 ## Overview
@@ -35,8 +36,8 @@ Use the Actions component when report users need to:
 
 {% example "report/actions/disabled", 170, 'disabled' %}
 
-
 ## Actions
+
 ### Print screen
 
 The print screen action enables the user to print the visible contents of their current screen.
@@ -61,8 +62,8 @@ The Share action open up your email client and populate it with a relevant subje
 
 ### Refresh
 
-The refresh action navigates the user back to the request page in order to update their request parameters, and re-request their report. Requires  [platform integration](/integration-guides/integrating-the-fe-platform)
+The refresh action navigates the user back to the request page in order to update their request parameters, and re-request their report. Requires [platform integration](/integration-guides/integrating-the-fe-platform)
 
 ### Download
 
-The download action enables users to download the full dataset as a CSV. Requires  [platform integration](/integration-guides/integrating-the-fe-platform)
+The download action enables users to download the full dataset as a CSV. Requires [platform integration](/integration-guides/integrating-the-fe-platform)

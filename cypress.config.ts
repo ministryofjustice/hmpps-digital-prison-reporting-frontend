@@ -39,7 +39,7 @@ const config: Cypress.ConfigOptions = {
           if (files.length === 0) return false
 
           const mostRecentReportPath = files
-            .map((name) => ({ name, ctime: fs.statSync(name).ctime }))
+            .map(name => ({ name, ctime: fs.statSync(name).ctime }))
             .sort((a, b) => b.ctime.getTime() - a.ctime.getTime())[0].name
 
           const contents = String(fs.readFileSync(mostRecentReportPath)).trim().split('\n')
@@ -48,13 +48,13 @@ const config: Cypress.ConfigOptions = {
           return (
             contents.length === 4 &&
             contents.reduce((acc, row) => acc && row.split(',').length === numCols, true) &&
-            contents.every((row) => row.length > 0)
+            contents.every(row => row.length > 0)
           )
         },
         async checkFilesIncremented(beforeCount) {
           for (let i = 3; i > 0; i -= 1) {
             // eslint-disable-next-line no-await-in-loop
-            await new Promise((r) => {
+            await new Promise(r => {
               setTimeout(r, 500)
             })
             if (Number(fs.readdirSync(cfg.downloadsFolder).length) === Number(beforeCount + 1)) {

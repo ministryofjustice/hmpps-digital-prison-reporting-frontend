@@ -232,7 +232,7 @@ export default class Report {
     this.summariesData = !this.variant.summaries
       ? []
       : await Promise.all(
-          this.variant.summaries.map(async (summary) => {
+          this.variant.summaries.map(async summary => {
             const summaryReport = await this.services.reportingService.getAsyncSummaryReport(
               this.token,
               this.reportId,
@@ -284,7 +284,7 @@ export default class Report {
     }
 
     return Promise.all(
-      childVariants.map(async (childVariant) => {
+      childVariants.map(async childVariant => {
         const { specification } = childVariant
         if (!specification) {
           throw new Error('getChildData: No specification found in child variant definition')
@@ -297,7 +297,7 @@ export default class Report {
           definitionsPath: dataProductDefinitionsPath,
         }).toRecordWithFilterPrefix(true)
 
-        const childData = childExecutionData.find((e) => e.variantId === childVariant.id)
+        const childData = childExecutionData.find(e => e.variantId === childVariant.id)
         if (!childData || !childData.tableId) {
           throw new Error('getChildData: No matching child execution data found')
         }

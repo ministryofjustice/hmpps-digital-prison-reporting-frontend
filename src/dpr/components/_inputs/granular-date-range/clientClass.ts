@@ -34,15 +34,15 @@ export class GranularDateRange extends DprClientClass {
   }
 
   initChangeEvents() {
-    [this.granularityInput, this.quickFiltersInput, this.startInput, this.endInput].forEach((el) => {
-      el.addEventListener('change', (event) => {
+    ;[this.granularityInput, this.quickFiltersInput, this.startInput, this.endInput].forEach(el => {
+      el.addEventListener('change', event => {
         this.resolveStateChange(event)
       })
     })
   }
 
   resolveStateChange(event: Event) {
-    const target = (event.target as HTMLInputElement | HTMLSelectElement)
+    const target = event.target as HTMLInputElement | HTMLSelectElement
     const value = target.value
 
     switch (target.id) {
@@ -90,13 +90,13 @@ export class GranularDateRange extends DprClientClass {
   }
 
   shouldResetQuickFilters(e: Event): boolean {
-    const { value } = (e.target as HTMLInputElement | HTMLSelectElement)
+    const { value } = e.target as HTMLInputElement | HTMLSelectElement
     const invalidDailyValues = ['annually', 'monthly']
     const invalidMonthlyValues = ['annually']
 
     if (
-      this.currentQuickFilterValue.includes('month') && invalidMonthlyValues.includes(value) ||
-      this.currentQuickFilterValue.includes('day') && invalidDailyValues.includes(value)
+      (this.currentQuickFilterValue.includes('month') && invalidMonthlyValues.includes(value)) ||
+      (this.currentQuickFilterValue.includes('day') && invalidDailyValues.includes(value))
     ) {
       return true
     }
@@ -241,7 +241,7 @@ export class GranularDateRange extends DprClientClass {
     return {
       startDate,
       endDate,
-      granularity
+      granularity,
     }
   }
 }

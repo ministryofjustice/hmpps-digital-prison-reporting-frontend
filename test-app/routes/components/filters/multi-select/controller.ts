@@ -53,7 +53,8 @@ export default class MultiSelectController {
     ]
 
     const { requestfilterValue, requestfilterValues } = setValueFromRequest(filters[0], _req, 'filters.')
-    const { requestfilterValue: longRequestfilterValue, requestfilterValues: longRequestfilterValues } = setValueFromRequest(filters[1], _req, 'filters.')
+    const { requestfilterValue: longRequestfilterValue, requestfilterValues: longRequestfilterValues } =
+      setValueFromRequest(filters[1], _req, 'filters.')
 
     res.render('views/pages/components/filters/view.njk', {
       title: 'Multiselect input',
@@ -67,7 +68,7 @@ export default class MultiSelectController {
           ...filters[1],
           value: longRequestfilterValue,
           values: longRequestfilterValues,
-        }
+        },
       ],
     })
   }

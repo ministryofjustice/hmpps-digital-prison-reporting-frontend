@@ -17,11 +17,11 @@ class Autocomplete extends DprClientClass {
 
   initialise() {
     const textInput = this.getTextInput()
-    textInput.addEventListener('keyup', (event) => {
+    textInput.addEventListener('keyup', event => {
       this.onTextInput(event, textInput)
     })
 
-    textInput.addEventListener('keypress', (e) => {
+    textInput.addEventListener('keypress', e => {
       if (e.key === 'Enter') {
         e.stopPropagation()
         e.preventDefault()
@@ -47,8 +47,8 @@ class Autocomplete extends DprClientClass {
 
     this.getElement()
       .querySelectorAll('.autocomplete-text-input-list-button')
-      .forEach((button) => {
-        button.addEventListener('mousedown', (event) => {
+      .forEach(button => {
+        button.addEventListener('mousedown', event => {
           this.onOptionClick(event, textInput, this.getElement())
         })
       })
@@ -93,7 +93,7 @@ class Autocomplete extends DprClientClass {
     } else {
       this.getElement()
         .querySelectorAll(this.listItemsSelector)
-        .forEach((item) => {
+        .forEach(item => {
           if (
             searchValue.length >= minLength &&
             this.isMatchingStaticOptionNameOrDisplayPrefix(this.getInputListButton(item), searchValue, item)
@@ -134,8 +134,8 @@ class Autocomplete extends DprClientClass {
       if (searchValue === textInput.value.toLowerCase()) {
         const template = templateProvider()
 
-        results.forEach((r) => {
-          this.addItem(template, r, (event) => {
+        results.forEach(r => {
+          this.addItem(template, r, event => {
             this.onOptionClick(event, textInput, this.getElement())
           })
         })
@@ -165,7 +165,7 @@ class Autocomplete extends DprClientClass {
 
     textInput.dataset.staticOptionNameValue = actualValue
 
-    topLevelElement.querySelectorAll('li').forEach((item) => {
+    topLevelElement.querySelectorAll('li').forEach(item => {
       item.classList.add('autocomplete-text-input-item-hide')
     })
 
@@ -186,7 +186,7 @@ class Autocomplete extends DprClientClass {
     this.getElement().querySelector(this.listParentSelector).appendChild(item)
 
     if (clickEvent) {
-      item.addEventListener('mousedown', (event) => {
+      item.addEventListener('mousedown', event => {
         clickEvent(event)
       })
     }
@@ -197,7 +197,7 @@ class Autocomplete extends DprClientClass {
     template.classList.add('autocomplete-text-input-item-hide')
     this.getElement()
       .querySelectorAll(this.listItemsSelector)
-      .forEach((e) => e.remove())
+      .forEach(e => e.remove())
     this.getElement().querySelector(this.listParentSelector).append(template)
     return template
   }

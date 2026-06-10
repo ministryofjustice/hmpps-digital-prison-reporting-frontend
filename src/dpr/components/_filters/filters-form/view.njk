@@ -1,5 +1,4 @@
 {% from "../filter-input/view.njk" import dprFilterInput %}
-
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 
@@ -13,7 +12,7 @@
   {% set validationErrors = args.validationErrors %}
 
   <form id="{{ formId }}" method="POST" action="./{{ reportType }}/apply-filters" novalidate>
-    <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+    <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
 
     <div class="filter-form-container">
       <div class="filter-container">
@@ -23,10 +22,12 @@
       </div>
 
       <div class="filter-actions">
-        {{ govukButton({
-          text: 'Apply filters',
-          classes: "govuk-button--primary"
-        }) }}
+        {{
+          govukButton({
+            text: 'Apply filters',
+            classes: "govuk-button--primary"
+          })
+        }}
       </div>
     </div>
   </form>

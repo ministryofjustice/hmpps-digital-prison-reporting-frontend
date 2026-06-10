@@ -58,9 +58,9 @@ export class CollatedSummaryBuilder {
   private mapToDataTables(summaries: Dict<Array<AsyncSummary>>): Dict<Array<DataTable>> {
     const dataTables: Dict<Array<DataTable>> = {}
 
-    Object.keys(summaries).forEach((summaryType) => {
+    Object.keys(summaries).forEach(summaryType => {
       if (summaries[summaryType]) {
-        dataTables[summaryType] = summaries[summaryType].map((summary) => {
+        dataTables[summaryType] = summaries[summaryType].map(summary => {
           return new SummaryDataTableBuilder(summary, this.specification.sections).buildSummaryTable()
         })
       }

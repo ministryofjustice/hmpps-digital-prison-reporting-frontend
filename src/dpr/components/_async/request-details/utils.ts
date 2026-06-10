@@ -96,7 +96,7 @@ const buildSortSummaries = (
 
     if (key === 'sortColumn') {
       const columns = Array.isArray(value) ? value.map(String) : [String(value)]
-      const displayNames = columns.map((col) => getField(fields, col)?.display ?? col)
+      const displayNames = columns.map(col => getField(fields, col)?.display ?? col)
       summary.push({
         name: 'Sort Column',
         value: displayNames.join(', '),

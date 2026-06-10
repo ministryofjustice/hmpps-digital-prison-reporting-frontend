@@ -97,14 +97,14 @@ class DprMyReports extends PollingClientClass {
    */
 
   private allTerminal(): boolean {
-    return Array.from(this.rows).every((row) => this.isTerminalElement(row))
+    return Array.from(this.rows).every(row => this.isTerminalElement(row))
   }
 
   /**
    * Setup the remove action
    */
   private initRemoveAction() {
-    this.getElement().addEventListener('submit', (e) => {
+    this.getElement().addEventListener('submit', e => {
       const form = e.target as HTMLFormElement
 
       // Only intercept matching forms
@@ -198,7 +198,7 @@ class DprMyReports extends PollingClientClass {
 
     const tabs = document.querySelectorAll<HTMLAnchorElement>('.govuk-tabs__tab')
 
-    Array.from(tabs).forEach((tab) => {
+    Array.from(tabs).forEach(tab => {
       const text = tab.textContent?.replace(/\s+/g, ' ').trim()
       if (text.startsWith(label)) {
         tab.textContent = `${label} (${total})`

@@ -26,13 +26,13 @@ context('Inputs: Relative date range', () => {
       cy.findByRole('textbox', { name: 'To' }).should('not.have.value', '')
       cy.findByRole('textbox', { name: 'From' })
         .invoke('val')
-        .then((dateValue) => {
+        .then(dateValue => {
           expect(dateValue).to.match(/\d{2}\/\d{2}\/\d{4}/)
         })
 
       cy.findByRole('textbox', { name: 'To' })
         .invoke('val')
-        .then((dateValue) => {
+        .then(dateValue => {
           expect(dateValue).to.match(/\d{2}\/\d{2}\/\d{4}/)
         })
 
@@ -52,7 +52,7 @@ context('Inputs: Relative date range', () => {
     it('should set the relative date to none', () => {
       cy.findByRole('tab', { name: 'Preset date ranges' }).click()
       cy.findByRole('radio', { name: 'None' }).check()
-      cy.location().should((location) => {
+      cy.location().should(location => {
         expect(location.search).to.contain(`filters.relative-date-range.relative-duration=none`)
       })
       cy.findByLabelText(/Selected filters.*/i).within(() => {
@@ -76,7 +76,7 @@ context('Inputs: Relative date range', () => {
     it('should set the relative date to yesterday', () => {
       cy.findByRole('tab', { name: 'Preset date ranges' }).click()
       cy.findByRole('radio', { name: 'Yesterday' }).check()
-      cy.location().should((location) => {
+      cy.location().should(location => {
         expect(location.search).to.contain(`filters.relative-date-range.relative-duration=yesterday`)
       })
       cy.findByLabelText(/Selected filters.*/i).within(() => {
@@ -98,7 +98,7 @@ context('Inputs: Relative date range', () => {
     it('should set the relative date to tommorrow', () => {
       cy.findByRole('tab', { name: 'Preset date ranges' }).click()
       cy.findByRole('radio', { name: 'Tomorrow' }).check()
-      cy.location().should((location) => {
+      cy.location().should(location => {
         expect(location.search).to.contain(`filters.relative-date-range.relative-duration=tomorrow`)
       })
       cy.findByLabelText(/Selected filters.*/i).within(() => {
@@ -120,7 +120,7 @@ context('Inputs: Relative date range', () => {
     it('should set the relative date to last week', () => {
       cy.findByRole('tab', { name: 'Preset date ranges' }).click()
       cy.findByRole('radio', { name: 'Last week' }).check()
-      cy.location().should((location) => {
+      cy.location().should(location => {
         expect(location.search).to.contain(`filters.relative-date-range.relative-duration=last-seven-days`)
       })
       cy.findByLabelText(/Selected filters.*/i).within(() => {
@@ -142,7 +142,7 @@ context('Inputs: Relative date range', () => {
     it('should set the relative date to next week', () => {
       cy.findByRole('tab', { name: 'Preset date ranges' }).click()
       cy.findByRole('radio', { name: 'Next week' }).check()
-      cy.location().should((location) => {
+      cy.location().should(location => {
         expect(location.search).to.contain(`filters.relative-date-range.relative-duration=next-seven-days`)
       })
       cy.findByLabelText(/Selected filters.*/i).within(() => {
@@ -164,7 +164,7 @@ context('Inputs: Relative date range', () => {
     it('should set the relative date to last month', () => {
       cy.findByRole('tab', { name: 'Preset date ranges' }).click()
       cy.findByRole('radio', { name: 'Last month' }).check()
-      cy.location().should((location) => {
+      cy.location().should(location => {
         expect(location.search).to.contain(`filters.relative-date-range.relative-duration=last-month`)
       })
       cy.findByLabelText(/Selected filters.*/i).within(() => {
@@ -186,7 +186,7 @@ context('Inputs: Relative date range', () => {
     it('should set the relative date to next month', () => {
       cy.findByRole('tab', { name: 'Preset date ranges' }).click()
       cy.findByRole('radio', { name: 'Next month' }).check()
-      cy.location().should((location) => {
+      cy.location().should(location => {
         expect(location.search).to.contain(`filters.relative-date-range.relative-duration=next-month`)
       })
       cy.findByLabelText(/Selected filters.*/i).within(() => {
@@ -219,7 +219,7 @@ context('Inputs: Relative date range', () => {
     it('should save relative date range', () => {
       cy.findByRole('tab', { name: 'Preset date ranges' }).click()
       cy.findByRole('radio', { name: 'Yesterday' }).check()
-      cy.location().should((location) => {
+      cy.location().should(location => {
         expect(location.search).to.contain(`filters.field1.relative-duration=yesterday`)
       })
       cy.findByLabelText(/Selected filters.*/i).within(() => {
@@ -272,7 +272,7 @@ context('Inputs: Relative date range', () => {
           },
         ],
       })
-      cy.location().should((location) => {
+      cy.location().should(location => {
         expect(location.search).to.contain(`filters.field1.relative-duration=yesterday`)
         expect(location.search).not.to.contain(`defaultsSaved=true`)
       })
@@ -321,7 +321,7 @@ context('Inputs: Relative date range', () => {
 
       cy.findByRole('button', { name: 'Update defaults' }).click()
 
-      cy.location().should((location) => {
+      cy.location().should(location => {
         expect(location.search).to.contain(`filters.field1.relative-duration=last-seven-days`)
       })
 
@@ -340,7 +340,7 @@ context('Inputs: Relative date range', () => {
 
       cy.reload()
 
-      cy.location().should((location) => {
+      cy.location().should(location => {
         expect(location.search).to.contain(`filters.field1.relative-duration=last-seven-days`)
       })
     })
@@ -366,7 +366,7 @@ context('Inputs: Relative date range', () => {
       })
       cy.findByRole('button', { name: 'Delete defaults' }).click()
 
-      cy.location().should((location) => {
+      cy.location().should(location => {
         expect(location.search).not.to.contain(`filters.field1.relative-duration=`)
         expect(location.search).not.to.contain(`filters.field1.start=`)
         expect(location.search).not.to.contain(`filters.field1.end=`)

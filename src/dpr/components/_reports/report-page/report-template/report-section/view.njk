@@ -1,6 +1,5 @@
 {% from "govuk/components/table/macro.njk" import govukTable %}
 {% from "../report-summary-table/view.njk" import dprReportSummary %}
-
 {% from "./report-data-table/view.njk" import dprDataTable %}
 {% from "./parent-child-template/view.njk" import dprParentChildTemplate %}
 {% from "./report-section-heading/view.njk" import dprReportSectionHeading %}
@@ -21,9 +20,8 @@
       <div
         id="dpr-{{ template }}-section-{{ loop.index }}"
         class="dpr-{{ template }}-section dpr-report-section"
-        {% if sectionLabelId %} aria-labelledby="{{ sectionLabelId }}" {% endif %}
+        {% if sectionLabelId %}aria-labelledby="{{ sectionLabelId }}"{% endif %}
       >
-
         {% if sectionTitle %}
           {{ dprReportSectionHeading(section, loop.index, template, sectionsCount) }}
         {% endif %}
@@ -35,18 +33,14 @@
         {% if template === 'parent-child' or template === 'parent-child-section' %}
 
           {{ dprParentChildTemplate(data, classification, template, sectionLabelId or 'dpr-report-name') }}
-
         {% elif template !== 'summary-section' %}
-
           <div id="dpr-{{ template }}-section-data-{{ loop.index }}" class="dpr-{{ template }}-section__data">
             {{ dprDataTable(data, classification, template, sectionLabelId or 'dpr-report-name', loop.index) }}
           </div>
-
         {% endif %}
 
         {# section footer summary tables #}
         {{ dprReportSummary(summaries, 'section-footer') }}
-
       </div>
     {% endfor %}
   </div>

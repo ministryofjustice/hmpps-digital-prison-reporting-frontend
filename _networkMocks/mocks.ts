@@ -98,7 +98,7 @@ export const expiredEndpoint = generateNetworkMock({
   },
 })
 
-export const generateIndividualDefinitionSummaries = summaries.map((summary) =>
+export const generateIndividualDefinitionSummaries = summaries.map(summary =>
   generateNetworkMock({
     ...defaultMockRequest,
     request: {

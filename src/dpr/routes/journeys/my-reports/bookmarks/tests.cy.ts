@@ -482,5 +482,5 @@ context('Bookmarks list', () => {
     })
   }
 
-  paths.forEach((route) => sharedTests(route))
+  paths.forEach(route => sharedTests(route))
 })

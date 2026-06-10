@@ -1,6 +1,5 @@
 {% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
-
 {% from "../../../request-details/view.njk" import dprRequestDetails %}
 
 {% macro dprPollingFinishedState(data) %}
@@ -14,7 +13,7 @@
   <div class="dpr-poling-state__finished">
     <p class="govuk-!-margin-top-4 govuk-!-margin-bottom-6">{{ descriptionText }}</p>
 
-    {{ dprRequestDetails(requestDetails)}}
+    {{ dprRequestDetails(requestDetails) }}
 
     {% for text in altText %}
       <p class="govuk-body govuk-!-margin-top-4 govuk-!-margin-bottom-6">{{ text }}</p>

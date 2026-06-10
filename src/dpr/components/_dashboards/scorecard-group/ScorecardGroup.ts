@@ -87,10 +87,10 @@ class ScorecardGroupVisualisation {
     this.groupKeyId = this.groupKey?.id
     this.groupKeyDisplay = this.groupKey?.display
 
-    this.valueColumn = this.measures.find((col) => col.displayValue)
+    this.valueColumn = this.measures.find(col => col.displayValue)
     if (this.valueColumn) {
       this.valueKey = this.valueColumn?.id
-      this.titleColumn = this.measures.find((col) => {
+      this.titleColumn = this.measures.find(col => {
         return col.display || col.display === ''
       })
       this.titleKey = this.titleColumn?.id || ''
@@ -104,9 +104,9 @@ class ScorecardGroupVisualisation {
       return {
         title: this.createGroupTitle(row),
         scorecards: Object.keys(row)
-          .filter((colId) => colId !== this.groupKeyId)
-          .map((colId) => {
-            const measure = this.measures.find((m) => m.id === colId)
+          .filter(colId => colId !== this.groupKeyId)
+          .map(colId => {
+            const measure = this.measures.find(m => m.id === colId)
             const title = measure?.display || colId
             const unit = measure?.unit
             const rowCol = row[colId]

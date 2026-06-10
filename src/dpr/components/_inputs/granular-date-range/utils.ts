@@ -247,7 +247,7 @@ const setDateRangeFromQuickFilterValue = (value: string) => {
 }
 
 const getOptionDisplayValue = (value: string, options: { text: string; value: string }[]) => {
-  const item = options.find((opt) => {
+  const item = options.find(opt => {
     return opt.value === value
   })
 
@@ -309,8 +309,8 @@ export const setValueFromRequest = (
 export const setDefaultValue = (req: Request, name: string) => {
   const dateRangeName = name.split('.')[0]
   const granularDateRangeDefaults = Object.keys(req.body)
-    .filter((key) => key.includes(dateRangeName))
-    .map((key) => {
+    .filter(key => key.includes(dateRangeName))
+    .map(key => {
       return { name: key, value: req.body[key] }
     })
 
@@ -321,7 +321,7 @@ export const setDefaultValue = (req: Request, name: string) => {
     quickFilter: QuickFilters.NONE,
   }
 
-  granularDateRangeDefaults.forEach((dateRangeDefault) => {
+  granularDateRangeDefaults.forEach(dateRangeDefault => {
     if (dateRangeDefault.name.includes('start')) {
       ;(<DefaultGranularDateFilterValue>granularDateRangeValue).start = dateRangeDefault.value
     }
@@ -355,11 +355,11 @@ export const setFilterValueFromDefault = (defaultValue: defaultFilterValue, filt
     end: end ? dayjs(end, 'D/M/YYYY').format('YYYY-MM-DD').toString() : '',
     granularity: {
       value: granularity,
-      display: granularityOptions?.find((o) => o.value === granularity)?.text || granularity,
+      display: granularityOptions?.find(o => o.value === granularity)?.text || granularity,
     },
     quickFilter: {
       value: quickFilter,
-      display: quickFilterOptions?.find((o) => o.value === quickFilter)?.text || quickFilter,
+      display: quickFilterOptions?.find(o => o.value === quickFilter)?.text || quickFilter,
     },
   }
 
@@ -501,7 +501,7 @@ export const resolveGranularDateRangeDefaults = (
   if (filter.defaultGranularity && filter.defaultValue) {
     const [start, end] = filter.defaultValue
       .split(' - ')
-      .map((v) => v.trim())
+      .map(v => v.trim())
       .filter(Boolean)
 
     return {

@@ -1,7 +1,6 @@
 {% from "govuk/components/tabs/macro.njk" import govukTabs %}
 {% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
 {%- from "moj/components/alert/macro.njk" import mojAlert -%}
-
 {% from "./my-reports-list/macro.njk" import dprMyReportList %}
 {% from "./my-reports-notification/view.njk" import dprMyReportsListNotification %}
 
@@ -22,11 +21,13 @@
       {{ dprMyReportList(bookmarks) }}
     {% endset %}
 
-    {% set items = (items.push({
-      label: "Bookmarks (" + bookmarks.totals.total + ")",
-      id: "my-bookmarks-tab",
-      panel: { html: bookmarksHtml }
-    }), items) -%}
+    {%
+      set items = (items.push({
+        label: "Bookmarks (" + bookmarks.totals.total + ")",
+        id: "my-bookmarks-tab",
+        panel: { html: bookmarksHtml }
+      }), items)
+    -%}
   {% endif %}
 
   {% if requested %}
@@ -34,11 +35,13 @@
       {{ dprMyReportList(requested) }}
     {% endset -%}
 
-    {% set items = (items.push({
-      label: "Requested (" + requested.totals.total + ")",
-      id: "requested-reports-tab",
-      panel: { html: requestedHtml }
-    }), items) %}
+    {%
+      set items = (items.push({
+        label: "Requested (" + requested.totals.total + ")",
+        id: "requested-reports-tab",
+        panel: { html: requestedHtml }
+      }), items)
+    %}
   {% endif %}
 
   {% if viewed %}
@@ -46,15 +49,14 @@
       {{ dprMyReportList(viewed) }}
     {% endset -%}
 
-    {% set items = (items.push({
-      label: "Viewed (" + viewed.totals.total + ")",
-      id: "recently-viewed-tab",
-      panel: { html: viewedHtml }
-    }), items) %}
+    {%
+      set items = (items.push({
+        label: "Viewed (" + viewed.totals.total + ")",
+        id: "recently-viewed-tab",
+        panel: { html: viewedHtml }
+      }), items)
+    %}
   {% endif %}
 
-  <div id="dpr-user-reports-list-component">
-    {{ govukTabs({ items: items}) }}
-  </div>
-
+  <div id="dpr-user-reports-list-component">{{ govukTabs({ items: items}) }}</div>
 {% endmacro %}

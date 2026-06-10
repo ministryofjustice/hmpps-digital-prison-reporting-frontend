@@ -2,36 +2,41 @@
 layout: layouts/example.njk
 title: Report Heading with actions (example)
 ---
+
 {% from "dpr/components/_reports/report-heading/view.njk" import dprReportHeading %}
 
-{% set actions = [
-  {
-    id: "dpr-button-printable",
-    disabled: false,
-    text: "Print",
-    ariaLabelText: "print report",
-    href: "#"
-  },
-  {
-    id: "dpr-button-sharable",
-    disabled: false,
-    text: "Share",
-    ariaLabelText: "Email report link",
-    href: "mailto:?subject=Product Name - Variant Name&body=link/to/report"
-  },
-  {
-    id: "dpr-button-copy",
-    disabled: false,
-    text: "Copy",
-    ariaLabelText: "report request",
-    href: "url/of/report"
-  }
-] %}
+{%
+  set actions = [
+    {
+      id: "dpr-button-printable",
+      disabled: false,
+      text: "Print",
+      ariaLabelText: "print report",
+      href: "#"
+    },
+    {
+      id: "dpr-button-sharable",
+      disabled: false,
+      text: "Share",
+      ariaLabelText: "Email report link",
+      href: "mailto:?subject=Product Name - Variant Name&body=link/to/report"
+    },
+    {
+      id: "dpr-button-copy",
+      disabled: false,
+      text: "Copy",
+      ariaLabelText: "report request",
+      href: "url/of/report"
+    }
+  ]
+%}
 
-{{ dprReportHeading({
-  name: 'Variant Name',
-  reportName: 'Product Name',
-  description: 'Report Description',
-  actions: actions,
-  detailsOpen: true
-}) }}
+{{
+  dprReportHeading({
+    name: 'Variant Name',
+    reportName: 'Product Name',
+    description: 'Report Description',
+    actions: actions,
+    detailsOpen: true
+  })
+}}

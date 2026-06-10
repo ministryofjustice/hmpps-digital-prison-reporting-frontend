@@ -10,8 +10,8 @@
   {% set visualisations = section.visualisations %}
   {% set sectionLabelId = "section-title-" + loopIndex %}
 
-  <hr class="dashboard-section-break">
-  <div class="dpr-dashboard-section" id="{{ id }}-dashboard-section". aria-labelledby={{ sectionLabelId }}>
+  <hr class="dashboard-section-break" />
+  <div class="dpr-dashboard-section" id="{{ id }}-dashboard-section" . aria-labelledby="{{ sectionLabelId }}">
     <h2 id="{{ sectionLabelId }}" class="govuk-heading-l">{{ title }}</h2>
 
     {% if description %}
@@ -19,11 +19,9 @@
     {% endif %}
 
     <div class="dashboard-section-container">
-
       {% for visualisation in visualisations %}
         {{ dprDashboardVisualisation(visualisation, loop.index) }}
       {% endfor %}
-
     </div>
   </div>
 {% endmacro %}

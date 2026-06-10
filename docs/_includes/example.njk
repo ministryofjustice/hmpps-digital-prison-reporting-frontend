@@ -2,91 +2,82 @@
 
 <div class="app-example">
   <span class="app-example__new-window">
-    <a href="{{ href }}" target="_blank">Open this example <span class="govuk-visually-hidden">({{ title }})</span> in a new window</a>
+    <a href="{{ href }}" target="_blank"
+      >Open this example <span class="govuk-visually-hidden">({{ title }})</span> in a new window</a
+    >
   </span>
   <iframe class="app-example__frame" height="{{ height }}" src="{{ href }}" title="{{ title }}"></iframe>
 </div>
 <div class="app-tabs" data-module="app-tabs">
-
-{% set htmlTab %}
-```html
-{{ htmlCode | safe }}
-```
-{% endset -%}
-
-{% set nunjucksTab %}
-  {%- if arguments %}
-    <details class="govuk-details" data-module="govuk-details">
-      <summary class="govuk-details__summary">
-      <span class="govuk-details__summary-text">
-        Nunjucks macro options
-      </span>
-      </summary>
-      <div class="govuk-details__text dpr-component-args">
-        {% include "./arguments/" + arguments + ".md" %}
-      </div>
-    </details>
-  {% endif %}
-
-```js
-{{ nunjucksCode | safe }}
-```
-{% endset -%}
-
-{% set tabItems = [
-  {
-    label: "_",
-    id: "blank-tab"
-  },
-  {
-    label: "HTML",
-    id: "html" + id,
-    panel: {
-      html: htmlTab
-    }
-  },
-  {
-    label: "Nunjucks",
-    id: "nunjucks" + id,
-    panel: {
-      html: nunjucksTab
-    }
-  }
-] %}
-
-{% if jsCode %}
-  {% set jsTab -%}
-    {% if jsArguments -%}
-      <details class="govuk-details govuk-!-padding-3" data-module="govuk-details">
-        <summary class="govuk-details__summary">
-          <span class="govuk-details__summary-text">
-            Javascript arguments
-          </span>
-        </summary>
-        <div class="govuk-details__text dpr-component-args">
-          {% include "./arguments/" + jsArguments + ".md" %}
-        </div>
-      </details>
-    {% endif %}
-
-```js
-{{ jsCode | safe }}
-```
+  {% set htmlTab %}
+    ```html {{ htmlCode | safe }} ```
   {% endset -%}
 
-  {% set tabItems = tabItems.concat([
-    {
-      label: "JavaScript",
-      id: "javascript" + id,
-      panel: {
-        html: jsTab
+
+  {% set nunjucksTab %}
+    {%- if arguments %}
+      <details class="govuk-details" data-module="govuk-details">
+        <summary class="govuk-details__summary">
+          <span class="govuk-details__summary-text"> Nunjucks macro options </span>
+        </summary>
+        <div class="govuk-details__text dpr-component-args">{% include "./arguments/" + arguments + ".md" %}</div>
+      </details>
+    {% endif %}
+    ```js {{ nunjucksCode | safe }} ```
+  {% endset -%}
+
+  {%
+    set tabItems = [
+      {
+        label: "_",
+        id: "blank-tab"
+      },
+      {
+        label: "HTML",
+        id: "html" + id,
+        panel: {
+          html: htmlTab
+        }
+      },
+      {
+        label: "Nunjucks",
+        id: "nunjucks" + id,
+        panel: {
+          html: nunjucksTab
+        }
       }
-    }
-  ]) %}
-{% endif %}
+    ]
+  %}
 
-{{ govukTabs({
-  items: tabItems
-}) }}
+  {% if jsCode %}
+    {% set jsTab -%}
+      {% if jsArguments -%}
+        <details class="govuk-details govuk-!-padding-3" data-module="govuk-details">
+          <summary class="govuk-details__summary">
+            <span class="govuk-details__summary-text"> Javascript arguments </span>
+          </summary>
+          <div class="govuk-details__text dpr-component-args">{% include "./arguments/" + jsArguments + ".md" %}</div>
+        </details>
+      {% endif %}
+      ```js {{ jsCode | safe }} ```
+    {% endset -%}
 
+    {%
+      set tabItems = tabItems.concat([
+        {
+          label: "JavaScript",
+          id: "javascript" + id,
+          panel: {
+            html: jsTab
+          }
+        }
+      ])
+    %}
+  {% endif %}
+
+  {{
+    govukTabs({
+      items: tabItems
+    })
+  }}
 </div>

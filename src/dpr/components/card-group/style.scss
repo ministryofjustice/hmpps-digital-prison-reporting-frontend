@@ -7,14 +7,15 @@
     position: relative;
     padding: 25px;
 
-    @media(min-width: 769px) and (max-width: 1019px) {
+    @media (min-width: 769px) and (max-width: 1019px) {
       margin-bottom: 10px;
     }
 
-    @media(max-width: 768px) {
+    @media (max-width: 768px) {
       margin-bottom: 0;
       min-height: 0 !important;
-      a, p {
+      a,
+      p {
         font-size: 18px !important;
       }
     }
@@ -27,41 +28,50 @@
 
   .card__heading {
     margin-top: 0;
-    margin-bottom: 15px
+    margin-bottom: 15px;
   }
 
   .card__description {
-    margin-bottom: 0
+    margin-bottom: 0;
   }
 
   .card--clickable {
-    border-bottom-width: 5px
+    border-bottom-width: 5px;
   }
 
-  .card--clickable:hover, .card--clickable:active {
-    cursor: pointer
+  .card--clickable:hover,
+  .card--clickable:active {
+    cursor: pointer;
   }
 
-  .card--clickable:hover .card__heading a, .card--clickable:hover .card__link, .card--clickable:active .card__heading a, .card--clickable:active .card__link {
+  .card--clickable:hover .card__heading a,
+  .card--clickable:hover .card__link,
+  .card--clickable:active .card__heading a,
+  .card--clickable:active .card__link {
     color: #003078;
-    text-decoration: none
+    text-decoration: none;
   }
 
-  .card--clickable:hover .card__heading a:focus, .card--clickable:hover .card__link:focus, .card--clickable:active .card__heading a:focus, .card--clickable:active .card__link:focus {
+  .card--clickable:hover .card__heading a:focus,
+  .card--clickable:hover .card__link:focus,
+  .card--clickable:active .card__heading a:focus,
+  .card--clickable:active .card__link:focus {
     outline: 3px solid transparent;
     color: #0b0c0c;
     background-color: #fd0;
-    box-shadow: 0 -2px #fd0, 0 4px #0b0c0c;
-    text-decoration: none
+    box-shadow:
+      0 -2px #fd0,
+      0 4px #0b0c0c;
+    text-decoration: none;
   }
 
   .card--clickable:hover {
-    border-color: #b1b4b6
+    border-color: #b1b4b6;
   }
 
   .card--clickable:active {
     border-color: #b1b4b6;
-    bottom: -1px
+    bottom: -1px;
   }
 }
 // === END VARIANT 1 STYLES ===
@@ -80,7 +90,7 @@
       width: calc(100% - 15px);
 
       a:before {
-        content: "";
+        content: '';
         display: block;
         height: 8px;
         position: absolute;
@@ -116,11 +126,11 @@
   column-gap: 30px;
   row-gap: 20px;
 
-  @media(min-width: 769px) and (max-width: 1019px) {
+  @media (min-width: 769px) and (max-width: 1019px) {
     grid-template-columns: 1fr 1fr;
   }
 
-  @media(max-width: 768px) {
+  @media (max-width: 768px) {
     grid-template-columns: 1fr;
 
     a,

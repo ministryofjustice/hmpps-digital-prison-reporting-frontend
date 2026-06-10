@@ -9,10 +9,10 @@ class CardGroup extends DprClientClass {
     const cards = this.getElement().querySelectorAll<HTMLElement>('[data-click-navigate-to]')
     const wrapperClass = 'card-loading'
 
-    cards.forEach((card) => {
+    cards.forEach(card => {
       card.addEventListener('click', () => {
         card.classList.add(wrapperClass)
-        cards.forEach((c) => {
+        cards.forEach(c => {
           if (!c.classList.contains('card-loading')) {
             const disabledClass = 'card-disabled'
             c.classList.add(disabledClass)

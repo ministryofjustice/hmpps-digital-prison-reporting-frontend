@@ -537,7 +537,7 @@ context('Viewing a report', () => {
         cy.findByRole('heading', { level: 1, name: /List-section/ }).should('be.visible')
         checkA11y()
 
-        cy.url().then((url) => {
+        cy.url().then(url => {
           listSectionReportUrl = url
         })
       })

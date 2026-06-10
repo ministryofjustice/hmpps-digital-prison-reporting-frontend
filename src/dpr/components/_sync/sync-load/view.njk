@@ -6,17 +6,17 @@
   {% set reportId = renderData.reportId %}
   {% set id = renderData.id %}
 
-  <h1>Loading {{type}}</h1>
+  <h1>Loading {{ type }}</h1>
 
   <div class="govuk-!-margin-bottom-6 govuk-!-padding-bottom-6" data-dpr-module="sync-loading">
-
     {{ dprRequestDetails(renderData) }}
 
-    {{ govukInsetText({
-      html: "<p><strong>Please keep this window open to preserve your progress</strong></p> <p>Your " + type + " will be ready shortly.</p>"
-    }) }}
+    {{
+      govukInsetText({
+        html: "<p><strong>Please keep this window open to preserve your progress</strong></p> <p>Your " + type + " will be ready shortly.</p>"
+      })
+    }}
 
     <form id="dpr-sync-loading-form" action="./{{ type }}" method="get"></form>
   </div>
-
 {% endmacro %}

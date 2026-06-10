@@ -78,7 +78,7 @@ export default class MatrixChartVisualisation extends ChartVisualisation {
 
   createDatasets() {
     const { datasets } = this.chartParams
-    return datasets.map((d) => {
+    return datasets.map(d => {
       const { label, data } = d
       return {
         label,

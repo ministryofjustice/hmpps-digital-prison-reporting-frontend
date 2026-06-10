@@ -1,24 +1,26 @@
 {%- from "node_modules/@ministryofjustice/frontend/moj/components/side-navigation/macro.njk" import mojSideNavigation %}
 
-{{ mojSideNavigation({
-  classes: 'govuk-!-padding-top-6',
-  sections: [
-    {
-      heading: {
-        text: 'Components'
-      },
-      items: [
-        {
-          text: 'Catalogue',
-          href: '/components/catalogue',
-          active: page.filePathStem.indexOf('/components/catalogue') === 0
+{{
+  mojSideNavigation({
+    classes: 'govuk-!-padding-top-6',
+    sections: [
+      {
+        heading: {
+          text: 'Components'
         },
-        {
-          text: 'User Reports list',
-          href: '/components/reports-list',
-          active: page.filePathStem.indexOf('/components/reports-list') === 0
-        }
-      ]
-    }
-  ]
-}) }}
+        items: [
+          {
+            text: 'Catalogue',
+            href: '/components/catalogue',
+            active: page.filePathStem.indexOf('/components/catalogue') === 0
+          },
+          {
+            text: 'User Reports list',
+            href: '/components/reports-list',
+            active: page.filePathStem.indexOf('/components/reports-list') === 0
+          }
+        ]
+      }
+    ]
+  })
+}}

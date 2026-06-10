@@ -1,5 +1,4 @@
 {% from "../report-heading/view.njk" import dprReportHeading %}
-
 {% from "./report-print-message/view.njk" import dprReportPrintMessage %}
 {% from "./report-template/view.njk" import dprReportTemplate %}
 {% from "../../validation-summary/view.njk" import dprValidationSummary %}
@@ -8,23 +7,15 @@
   {% set printable = renderData.printable %}
   <div class="govuk-width-container">
     <div id="dpr-report-page" class="dpr-report-page govuk-width-container report-list-container">
-
       {{ dprValidationSummary(validationErrors, 'There is a problem') }}
 
-      <div class="dpr-report-print-message-container">
-        {{ dprReportPrintMessage(printable) }}
-      </div>
+      <div class="dpr-report-print-message-container">{{ dprReportPrintMessage(printable) }}</div>
 
-      <div class="dpr-report-page__heading-container">
-        {{ dprReportHeading(renderData, validationErrors) }}
-      </div>
+      <div class="dpr-report-page__heading-container">{{ dprReportHeading(renderData, validationErrors) }}</div>
 
-      <div class="dpr-report-page__template-container">
-        {{ dprReportTemplate(renderData)}}
-      </div>
+      <div class="dpr-report-page__template-container">{{ dprReportTemplate(renderData) }}</div>
 
-      <div id="dpr-report-page-bottom">
+      <div id="dpr-report-page-bottom"></div>
     </div>
   </div>
-
 {% endmacro %}

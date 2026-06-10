@@ -11,15 +11,15 @@ const splitIntoRandomValues = (total, parts) => {
     }
     sum = arr.reduce((acc, val) => acc + val, 0)
     const scale = (total - parts) / sum
-    arr = arr.map((val) => Math.min(total, Math.round(val * scale) + 1))
+    arr = arr.map(val => Math.min(total, Math.round(val * scale) + 1))
     sum = arr.reduce((acc, val) => acc + val, 0)
-    hasNegativeValues = arr.some((v) => v === -1)
+    hasNegativeValues = arr.some(v => v === -1)
   } while (sum - total && hasNegativeValues)
 
   return arr
 }
 
-const extractQueryAndCreateTimestamps = (query) => {
+const extractQueryAndCreateTimestamps = query => {
   const start = query['filters.date.start'] || dayjs().format('YYYY-MM-DD')
   const end = query['filters.date.end'] || dayjs().format('YYYY-MM-DD')
   const granularity = query['filters.date.granularity'] || 'daily'
@@ -52,7 +52,7 @@ const createTimestamps = (start, end, granularity) => {
   return timestamps
 }
 
-const mapGranularityValue = (granularity) => {
+const mapGranularityValue = granularity => {
   let mappedValue = 'days'
   switch (granularity) {
     case 'daily':
@@ -71,7 +71,7 @@ const mapGranularityValue = (granularity) => {
   return mappedValue
 }
 
-const setFormat = (granularity) => {
+const setFormat = granularity => {
   switch (granularity) {
     case 'day':
       return 'YYYY-MM-DD'
@@ -90,7 +90,7 @@ const generateRawValue = (maxOverride, minOverride) => {
   return Math.round(Math.random() * (max - min) + min)
 }
 
-const generateRag = (value) => {
+const generateRag = value => {
   let ragValue
 
   if (value <= 100) ragValue = 2
@@ -180,7 +180,7 @@ const initEstablishments = (baseData, establishmentId, timestamp) => {
  * @return {*}
  */
 const generateFieldValuesWithCountData = (data, fields, values, filter) => {
-  return data.flatMap((d) => {
+  return data.flatMap(d => {
     const total = +d.count.raw
     const totals = splitIntoRandomValues(total, values[0].length)
 
@@ -205,8 +205,8 @@ const generateFieldValuesWithCountData = (data, fields, values, filter) => {
     })
 
     if (filter) {
-      fieldDataWithCount = fieldDataWithCount.filter((d) => {
-        return fields.some((field) => {
+      fieldDataWithCount = fieldDataWithCount.filter(d => {
+        return fields.some(field => {
           return d[field] && d[field].raw === filter
         })
       })
@@ -217,7 +217,7 @@ const generateFieldValuesWithCountData = (data, fields, values, filter) => {
 }
 
 const addColumnValuesToRows = (rows, columns) => {
-  return rows.map((row) => {
+  return rows.map(row => {
     const total = +row.count.raw
     const totals = splitIntoRandomValues(total, columns.length)
     const colValues = columns.reduce((acc, col, index) => {

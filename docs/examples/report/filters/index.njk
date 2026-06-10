@@ -2,26 +2,30 @@
 layout: layouts/example.njk
 title: Report Filters (example)
 ---
+
 {% from "dpr/components/_filters/filters-interactive/view.njk" import dprInteractiveFilters %}
 
-{% set appliedFilters = [
-  {
-    displayName: 'Radio filter',
-    displayValue: 'two',
-    reset: {
-      keys: [ "filters.field1" ]
+{%
+  set appliedFilters = [
+    {
+      displayName: 'Radio filter',
+      displayValue: 'two',
+      reset: {
+        keys: [ "filters.field1" ]
+      }
+    },
+    {
+      displayName: 'Multiselect',
+      displayValue: 'Value 8.2, Value 8.3',
+      reset: {
+        keys: [ "filters.multiselect" ]
+      }
     }
-  },
-  {
-    displayName: 'Multiselect',
-    displayValue: 'Value 8.2, Value 8.3',
-    reset: {
-      keys: [ "filters.multiselect" ]
-    }
-  }
-] %}
+  ]
+%}
 
-{% set templateArgs = {
+{%
+  set templateArgs = {
   reportType: "report",
   validationErrors: [],
   appliedFilters: appliedFilters,
@@ -29,7 +33,8 @@ title: Report Filters (example)
   saveDefaultsEnabled: true }
 %}
 
-{% set filters = [
+{%
+  set filters = [
     {
       text: "Radio filter",
       name: 'field1',
@@ -100,6 +105,7 @@ title: Report Filters (example)
       value: null,
       mandatory: true
     }
-  ] %}
+  ]
+%}
 
 {{ dprInteractiveFilters(filters, templateArgs) }}

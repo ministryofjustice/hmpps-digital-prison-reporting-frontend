@@ -119,7 +119,7 @@ class RequestedReportBuilder extends StoreItemBuilder {
       ? JSON.parse(this.req.body.sections)
       : []
 
-    return sections.filter((section) => section.display).map((section) => ({ name: section.display || '' }))
+    return sections.filter(section => section.display).map(section => ({ name: section.display || '' }))
   }
 
   build = (): RequestedReport => {

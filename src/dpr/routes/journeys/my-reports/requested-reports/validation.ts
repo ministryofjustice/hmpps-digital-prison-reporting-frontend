@@ -7,7 +7,7 @@ export const RequestedReportSchema = StoredReportDataObjectSchema.extend({
   sortBy: ParamsConfigSchema.optional(),
 })
   .transform(normalizeStoredReportData)
-  .refine((data) => data.name.length > 0, 'name or variantName must exist')
+  .refine(data => data.name.length > 0, 'name or variantName must exist')
 
 export const RequestedDashboardSchema = StoredReportDataObjectSchema.extend({
   metrics: z.array(
@@ -17,4 +17,4 @@ export const RequestedDashboardSchema = StoredReportDataObjectSchema.extend({
   ),
 })
   .transform(normalizeStoredReportData)
-  .refine((data) => data.name.length > 0, 'name or variantName must exist')
+  .refine(data => data.name.length > 0, 'name or variantName must exist')

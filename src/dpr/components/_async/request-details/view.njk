@@ -9,18 +9,18 @@
   {% set lists = reportData.lists %}
   {% set sections = reportData.sections %}
 
+
   {% set filtersHtml %}
-  {% if querySummary.length > 0 %}
-    <ul>
-      {% for query in querySummary %}
-        <li class="govuk-body govuk-!-margin-bottom-0">{{ query.name | capitaliseSentence }}: {{ query.value }}</li>
-      {% endfor %}
-    </ul>
-  {% endif %}
+    {% if querySummary.length > 0 %}
+      <ul>
+        {% for query in querySummary %}
+          <li class="govuk-body govuk-!-margin-bottom-0">{{ query.name | capitaliseSentence }}: {{ query.value }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
   {% endset %}
 
   <div class="dpr-request-details">
-
     <table class="dpr-request-details__table" id="dpr-request-details-table">
       <tbody>
         {% if name %}
@@ -83,9 +83,7 @@
             <td class="dpr-request-details__table-heading">
               <p class="govuk-body-m dpr-request-details__table-heading_name">Applied Filters:</p>
             </td>
-            <td>
-              {{ filtersHtml | safe }}
-            </td>
+            <td>{{ filtersHtml | safe }}</td>
           </tr>
         {% endif %}
 
@@ -94,28 +92,23 @@
             <td class="dpr-request-details__table-heading">
               <p class="govuk-body-m dpr-request-details__table-heading_name">No of sections:</p>
             </td>
-            <td>
-              {{ metrics.length }}
-            </td>
+            <td>{{ metrics.length }}</td>
           </tr>
 
           {% if metrics[0].name %}
-          <tr>
-            <td class="dpr-request-details__table-heading">
-              <p class="govuk-body-m dpr-request-details__table-heading_name">Sections: </p>
-            </td>
-            <td>
-              <ul class="govuk-list govuk-list--bullet">
-                {% for metric in metrics %}
-                  <li>
-                    {{ metric.name }}
-                  </li>
-                {% endfor %}
-              </ul>
-            </td>
-          </tr>
+            <tr>
+              <td class="dpr-request-details__table-heading">
+                <p class="govuk-body-m dpr-request-details__table-heading_name">Sections:</p>
+              </td>
+              <td>
+                <ul class="govuk-list govuk-list--bullet">
+                  {% for metric in metrics %}
+                    <li>{{ metric.name }}</li>
+                  {% endfor %}
+                </ul>
+              </td>
+            </tr>
           {% endif %}
-
         {% endif %}
 
         {% if sections.length %}
@@ -123,28 +116,23 @@
             <td class="dpr-request-details__table-heading">
               <p class="govuk-body-m dpr-request-details__table-heading_name">No of sections:</p>
             </td>
-            <td>
-              {{ sections.length }}
-            </td>
+            <td>{{ sections.length }}</td>
           </tr>
 
           {% if sections[0].display %}
-          <tr>
-            <td class="dpr-request-details__table-heading">
-              <p class="govuk-body-m dpr-request-details__table-heading_name">Sections: </p>
-            </td>
-            <td>
-              <ul class="govuk-list govuk-list--bullet">
-                {% for section in sections %}
-                  <li>
-                    {{ section.display }}
-                  </li>
-                {% endfor %}
-              </ul>
-            </td>
-          </tr>
+            <tr>
+              <td class="dpr-request-details__table-heading">
+                <p class="govuk-body-m dpr-request-details__table-heading_name">Sections:</p>
+              </td>
+              <td>
+                <ul class="govuk-list govuk-list--bullet">
+                  {% for section in sections %}
+                    <li>{{ section.display }}</li>
+                  {% endfor %}
+                </ul>
+              </td>
+            </tr>
           {% endif %}
-
         {% endif %}
       </tbody>
     </table>

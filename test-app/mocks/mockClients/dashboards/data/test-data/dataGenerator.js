@@ -32,7 +32,7 @@ const generateData = (query, type) => {
 
   const cells = ['cell-1', 'cell-2', 'cell-3', 'cell-4', 'cell-5']
 
-  const data = timestamps.map((ts) => {
+  const data = timestamps.map(ts => {
     const allTotals = initBaseData(baseData, ts)
     const allTotalsByEstablishment = initEstablishments(allTotals[0], establishmentId, ts)
 

@@ -1,4 +1,4 @@
-import { checkA11y } from "cypress-tests/cypressUtils"
+import { checkA11y } from 'cypress-tests/cypressUtils'
 
 context('Summary section template', () => {
   it('is accessible', () => {

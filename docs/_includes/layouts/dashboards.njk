@@ -1,5 +1,4 @@
 {% extends "./base.njk" %}
-
 {%- from "node_modules/@ministryofjustice/frontend/moj/components/side-navigation/macro.njk" import mojSideNavigation %}
 {% from "govuk/components/phase-banner/macro.njk" import govukPhaseBanner %}
 
@@ -13,15 +12,17 @@
     <div class="govuk-grid-column-three-quarters">
       <main id="main-content" class="govuk-main-wrapper app-prose-scope" role="main">
         {% if phase %}
-          {% set text = 'This feature is in ' + phase +'. Some behaviors may be unstable, and we’re actively working to improve the experience.'%}
+          {% set text = 'This feature is in ' + phase +'. Some behaviors may be unstable, and we’re actively working to improve the experience.' %}
           {% if phaseText %}
             {% set text = phaseText %}
           {% endif %}
           <div class="govuk-!-margin-bottom-6">
-            {{ govukPhaseBanner({
-              tag: { text: phase },
-              html: text
-            }) }}
+            {{
+              govukPhaseBanner({
+                tag: { text: phase },
+                html: text
+              })
+            }}
           </div>
         {% endif %}
 
@@ -32,7 +33,8 @@
           {{ title }}
         </h1>
         {{ content | safe }}
-        {% block exampleContent %}{% endblock %}
+        {% block exampleContent %}
+        {% endblock %}
       </main>
     </div>
   </div>

@@ -6,30 +6,38 @@
   {% set details = removedReports.details %}
 
   <div class="dpr-my-reports-notification">
-
     {% set detailsHtml %}
-      {% set detailsListHtml = '' %}
+    {% set detailsListHtml = '' %}
       {% for detail in details %}
         {% set detailsListHtml = detailsListHtml + '<li>' + detail + '</li>' %}
       {% endfor %}
-      <p class="govuk-body">Reports that are in an EXPIRED, FAILED or ABORTED state are removed automatically after two weeks.</p>
+      <p class="govuk-body">
+        Reports that are in an EXPIRED, FAILED or ABORTED state are removed automatically after two weeks.
+      </p>
       <p class="govuk-body">The following reports were removed:</p>
-      <ul>{{ detailsListHtml | safe }}</ul>
+      <ul>
+        {{ detailsListHtml | safe }}
+      </ul>
     {% endset %}
+
 
     {% set alertHtml %}
       {{ message }}
 
-      {{ govukDetails({
-        summaryText: 'Details',
-        html: detailsHtml
-      }) }}
+      {{
+        govukDetails({
+          summaryText: 'Details',
+          html: detailsHtml
+        })
+      }}
     {% endset %}
 
-    {{ mojAlert({
-      variant: "information",
-      dismissible: true,
-      html: alertHtml
-    }) }}
-    </div>
+    {{
+      mojAlert({
+        variant: "information",
+        dismissible: true,
+        html: alertHtml
+      })
+    }}
+  </div>
 {% endmacro %}

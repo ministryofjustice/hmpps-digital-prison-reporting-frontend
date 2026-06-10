@@ -1,58 +1,60 @@
 {%- from "node_modules/@ministryofjustice/frontend/moj/components/side-navigation/macro.njk" import mojSideNavigation %}
 
-{{ mojSideNavigation({
-  classes: 'govuk-!-padding-top-6',
-  sections: [
-    {
-      heading: {
-        text: "How to guides"
-      },
-      items: [
-        {
-          html: '<strong>Integrating the library</strong>',
-          href: ('/integration-guides/integrating-the-library')
+{{
+  mojSideNavigation({
+    classes: 'govuk-!-padding-top-6',
+    sections: [
+      {
+        heading: {
+          text: "How to guides"
         },
-        {
-          html: '<div class="dpr-docs-sub-nav"><span class="dpr-docs-sub-nav__bullet">▪︎</span>Install library using NPM</div>',
-          href: ('/integration-guides/integrating-the-library#install-library-using-npm')
-        },
-        {
-          html: '<div class="dpr-docs-sub-nav"><span class="dpr-docs-sub-nav__bullet">▪︎</span>Import SASS</div>',
-          href: ('/integration-guides/integrating-the-library#import-sass')
-        },
-        {
-          html: '<div class="dpr-docs-sub-nav"><span class="dpr-docs-sub-nav__bullet">▪︎</span>Import sssets</div>',
-          href: ('/integration-guides/integrating-the-library#import-assets')
-        },
-        {
-          html: '<div class="dpr-docs-sub-nav"><span class="dpr-docs-sub-nav__bullet">▪︎</span>Import Javascript</div>',
-          href: ('/integration-guides/integrating-the-library#import-javascript')
-        },
-        {
-          html: '<div class="dpr-docs-sub-nav"><span class="dpr-docs-sub-nav__bullet">▪︎</span>Add the JS files to your HTML</div>',
-          href: ('/integration-guides/integrating-the-library#add-the-javaScript-files-to-your-html')
-        },
-        {
-          html: '<div class="dpr-docs-sub-nav"><span class="dpr-docs-sub-nav__bullet">▪︎</span>Import JS using a bundler</div>',
-          href: ('/integration-guides/integrating-the-library#import-javaScript-using-a-bundler')
-        },
-        {
-          html: '<div class="dpr-docs-sub-nav"><span class="dpr-docs-sub-nav__bullet">▪︎</span>Nunjucks setup</div>',
-          href: ('/integration-guides/integrating-the-library#nunjucks-setup')
-        },
-        {
-          html: '<div class="dpr-docs-sub-nav"><span class="dpr-docs-sub-nav__bullet">▪︎</span>Import Fonts</div>',
-          href: ('/integration-guides/integrating-the-library#import-fonts')
-        },
-        {
-          text: 'Integrating the FE platform',
-          href: ('/integration-guides/integrating-the-fe-platform')
-        },
-        {
-          text: 'Integrating the FE',
-          href: ('/integration-guides/integrating-the-fe')
-        }
-      ]
-    }
-  ]
-}) }}
+        items: [
+          {
+            html: '<strong>Integrating the library</strong>',
+            href: ('/integration-guides/integrating-the-library')
+          },
+          {
+            html: '<div class="dpr-docs-sub-nav"><span class="dpr-docs-sub-nav__bullet">▪︎</span>Install library using NPM</div>',
+            href: ('/integration-guides/integrating-the-library#install-library-using-npm')
+          },
+          {
+            html: '<div class="dpr-docs-sub-nav"><span class="dpr-docs-sub-nav__bullet">▪︎</span>Import SASS</div>',
+            href: ('/integration-guides/integrating-the-library#import-sass')
+          },
+          {
+            html: '<div class="dpr-docs-sub-nav"><span class="dpr-docs-sub-nav__bullet">▪︎</span>Import sssets</div>',
+            href: ('/integration-guides/integrating-the-library#import-assets')
+          },
+          {
+            html: '<div class="dpr-docs-sub-nav"><span class="dpr-docs-sub-nav__bullet">▪︎</span>Import Javascript</div>',
+            href: ('/integration-guides/integrating-the-library#import-javascript')
+          },
+          {
+            html: '<div class="dpr-docs-sub-nav"><span class="dpr-docs-sub-nav__bullet">▪︎</span>Add the JS files to your HTML</div>',
+            href: ('/integration-guides/integrating-the-library#add-the-javaScript-files-to-your-html')
+          },
+          {
+            html: '<div class="dpr-docs-sub-nav"><span class="dpr-docs-sub-nav__bullet">▪︎</span>Import JS using a bundler</div>',
+            href: ('/integration-guides/integrating-the-library#import-javaScript-using-a-bundler')
+          },
+          {
+            html: '<div class="dpr-docs-sub-nav"><span class="dpr-docs-sub-nav__bullet">▪︎</span>Nunjucks setup</div>',
+            href: ('/integration-guides/integrating-the-library#nunjucks-setup')
+          },
+          {
+            html: '<div class="dpr-docs-sub-nav"><span class="dpr-docs-sub-nav__bullet">▪︎</span>Import Fonts</div>',
+            href: ('/integration-guides/integrating-the-library#import-fonts')
+          },
+          {
+            text: 'Integrating the FE platform',
+            href: ('/integration-guides/integrating-the-fe-platform')
+          },
+          {
+            text: 'Integrating the FE',
+            href: ('/integration-guides/integrating-the-fe')
+          }
+        ]
+      }
+    ]
+  })
+}}

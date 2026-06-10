@@ -1,4 +1,4 @@
-import { checkA11y } from "cypress-tests/cypressUtils"
+import { checkA11y } from 'cypress-tests/cypressUtils'
 
 context('Parent child section template', () => {
   it('is accessible', () => {

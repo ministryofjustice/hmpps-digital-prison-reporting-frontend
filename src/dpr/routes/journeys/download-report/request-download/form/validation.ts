@@ -4,8 +4,8 @@ const requiredText = (message: string) => {
   return z
     .string()
     .optional()
-    .transform((v) => v ?? '')
-    .refine((v) => v.trim().length > 0, { message })
+    .transform(v => v ?? '')
+    .refine(v => v.trim().length > 0, { message })
 }
 
 export const schema = z.object({

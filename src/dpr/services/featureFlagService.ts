@@ -38,7 +38,7 @@ export class FeatureFlagService {
     }
 
     if (!this.clientPromise) {
-      this.clientPromise = FliptClient.init(this.clientConfig).catch((error) => {
+      this.clientPromise = FliptClient.init(this.clientConfig).catch(error => {
         this.clientPromise = undefined
         throw error
       })
@@ -62,14 +62,14 @@ export class FeatureFlagService {
     subject: FeatureFlagEvaluationSubject,
   ): Promise<Record<TFlag, boolean>> {
     const results = Object.fromEntries(
-      flagKeys.map((flagKey) => [flagKey, getFeatureFlagFallbackState(flagKey)]),
+      flagKeys.map(flagKey => [flagKey, getFeatureFlagFallbackState(flagKey)]),
     ) as Record<TFlag, boolean>
 
     if (flagKeys.length === 0) {
       return results
     }
 
-    const client = await this.getClient().catch((error) => {
+    const client = await this.getClient().catch(error => {
       captureException(error)
       return undefined
     })
@@ -77,7 +77,7 @@ export class FeatureFlagService {
       return results
     }
 
-    const requests: EvaluationRequest[] = flagKeys.map((flagKey) => ({
+    const requests: EvaluationRequest[] = flagKeys.map(flagKey => ({
       flagKey,
       entityId: subject.entityId,
       context: subject.context,
@@ -87,8 +87,8 @@ export class FeatureFlagService {
       const batchResponse = client.evaluateBatch(requests)
 
       batchResponse.responses
-        .filter((response) => response.type === 'BOOLEAN_EVALUATION_RESPONSE_TYPE')
-        .forEach((response) => {
+        .filter(response => response.type === 'BOOLEAN_EVALUATION_RESPONSE_TYPE')
+        .forEach(response => {
           const flagKey = response.booleanEvaluationResponse?.flagKey as TFlag | undefined
           const enabled = response.booleanEvaluationResponse?.enabled
 

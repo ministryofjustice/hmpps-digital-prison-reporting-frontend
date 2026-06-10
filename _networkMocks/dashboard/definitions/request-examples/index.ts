@@ -14,4 +14,4 @@ export const requestExampleIds = [
   expiredDashboard,
   requestTimeout,
   failedRequest,
-].map((vis) => vis.id)
+].map(vis => vis.id)

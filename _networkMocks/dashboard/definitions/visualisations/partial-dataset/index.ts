@@ -12,10 +12,10 @@ export const snapshotVisualisations = [list, matrix, bar, invalidBar, mixed, lin
 export const historicVisualisations = [listHistoric, linetimeseries, mixedHistoric]
 export const visualisations = [...snapshotVisualisations, ...historicVisualisations]
 
-export const visualisationIds: string[] = snapshotVisualisations.map((vis) => {
+export const visualisationIds: string[] = snapshotVisualisations.map(vis => {
   return vis.id
 })
 
-export const historicVisualisationIds: string[] = historicVisualisations.map((vis) => {
+export const historicVisualisationIds: string[] = historicVisualisations.map(vis => {
   return vis.id
 })

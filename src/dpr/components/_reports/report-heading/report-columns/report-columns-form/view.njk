@@ -9,9 +9,10 @@
   {% set values = columns.value %}
 
   <form class="dpr-columns-form" method="post" action="./report/apply-columns">
-    <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+    <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
     <div class="columns-container">
-      {{ govukCheckboxes({
+      {{
+        govukCheckboxes({
           id: name,
           name: name,
           classes: "govuk-checkboxes--small",
@@ -29,14 +30,17 @@
           },
           items: items,
           values: values
-        }) }}
+        })
+      }}
     </div>
 
     <div class="govuk-button-group">
-      {{ govukButton({
-        text: "Apply columns",
-        classes: "govuk-button govuk-!-margin-bottom-0 dpr-apply-columns-button"
-      }) }}
+      {{
+        govukButton({
+          text: "Apply columns",
+          classes: "govuk-button govuk-!-margin-bottom-0 dpr-apply-columns-button"
+        })
+      }}
 
       {{ dprColumnsFormReset() }}
     </div>

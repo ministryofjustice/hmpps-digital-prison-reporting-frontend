@@ -20,7 +20,7 @@ const buildConfigLib = () => ({
     outDir: path.join(cwd, 'dist/dpr'),
     entryPoints: glob
       .sync([path.join(cwd, 'src/**/*.js'), path.join(cwd, 'src/**/*.ts')])
-      .filter((file) => !file.endsWith('.test.ts') && !file.endsWith('.spec.ts')),
+      .filter(file => !file.endsWith('.test.ts') && !file.endsWith('.spec.ts')),
     copy: [
       {
         from: path.join(cwd, 'src/dpr/**/*'),
@@ -39,21 +39,21 @@ const buildConfigLib = () => ({
 })
 
 const buildLibrary = async () => {
-  await buildApp(buildConfigLib()).catch((e) => {
+  await buildApp(buildConfigLib()).catch(e => {
     process.stderr.write(`${e}\n`)
     process.exit(1)
   })
 
   const scssFiles = glob.sync(['src/**/*.scss'])
 
-  const combinedScss = scssFiles.map((file) => fs.readFileSync(path.join(cwd, file), 'utf8')).join('\n')
+  const combinedScss = scssFiles.map(file => fs.readFileSync(path.join(cwd, file), 'utf8')).join('\n')
 
   fs.writeFileSync(path.join(cwd, 'dist/dpr/all.scss'), combinedScss)
 
   // esbuild is outputting incorrect sourcemaps, possibly because we have our source in src/dpr and output to dist/dpr
   // moving all the files would be a major change right now, so fix them manually
   const sourceMapFiles = glob.sync(['dist/**/*.map'])
-  sourceMapFiles.forEach((filePath) => {
+  sourceMapFiles.forEach(filePath => {
     const fileContents = fs.readFileSync(filePath).toString()
     const correctedContents = fileContents.replace(/\.\.\/src\//, '')
     fs.writeFileSync(filePath, correctedContents)
@@ -78,7 +78,7 @@ const buildConfig = {
         path.join(cwd, 'test-app/*.ts'),
         path.join(cwd, 'test-app/**/*.ts'),
       ])
-      .filter((file) => !file.endsWith('.test.ts') && !file.endsWith('.test.js')),
+      .filter(file => !file.endsWith('.test.ts') && !file.endsWith('.test.js')),
     copy: [
       {
         from: path.join(cwd, 'test-app/views/**/*'),
@@ -103,11 +103,11 @@ const buildConfig = {
 }
 
 const buildLibraryThenApp = async () => {
-  await buildLibrary().catch((e) => {
+  await buildLibrary().catch(e => {
     process.stderr.write(`${e}\n`)
     process.exit(1)
   })
-  await Promise.all([buildApp(buildConfig), buildAssets(buildConfig)]).catch((e) => {
+  await Promise.all([buildApp(buildConfig), buildAssets(buildConfig)]).catch(e => {
     process.stderr.write(`${e}\n`)
     process.exit(1)
   })
@@ -125,7 +125,7 @@ const main = async () => {
   const args = process.argv
   if (args.includes('--build')) {
     await buildLibrary()
-    Promise.all([buildApp(buildConfig), buildAssets(buildConfig)]).catch((e) => {
+    Promise.all([buildApp(buildConfig), buildAssets(buildConfig)]).catch(e => {
       process.stderr.write(`${e}\n`)
       process.exit(1)
     })
@@ -148,13 +148,13 @@ const main = async () => {
     // Assets
     chokidar
       .watch(['src/dpr/assets/**/*'], { ...chokidarOptions, ignored: ['**/*.test.ts', '**/*.cy.ts'] })
-      .on('all', () => buildAssets(buildConfig).catch((e) => process.stderr.write(`${e}\n`)))
+      .on('all', () => buildAssets(buildConfig).catch(e => process.stderr.write(`${e}\n`)))
 
     // App
     chokidar
       .watch(['test-app/**/*'], { ...chokidarOptions, ignored: ['**/*.test.ts', '**/*.cy.ts', 'manifest.json'] })
       .on('all', () =>
-        Promise.all([buildApp(buildConfig), buildAssets(buildConfig)]).catch((e) => process.stderr.write(`${e}\n`)),
+        Promise.all([buildApp(buildConfig), buildAssets(buildConfig)]).catch(e => process.stderr.write(`${e}\n`)),
       )
 
     chokidar
@@ -162,7 +162,7 @@ const main = async () => {
         ...chokidarOptions,
         ignored: ['**/*.test.ts', '**/*.cy.ts', 'manifest.json', 'cypress.config.ts', '**/*.png'],
       })
-      .on('all', () => buildLibraryThenApp().catch((e) => process.stderr.write(`${e}\n`)))
+      .on('all', () => buildLibraryThenApp().catch(e => process.stderr.write(`${e}\n`)))
   }
 }
 

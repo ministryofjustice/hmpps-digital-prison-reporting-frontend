@@ -28,7 +28,7 @@ class DprCatalogueSearch extends DprCatalogueFilters {
      */
     const productCollections = this.getElement().querySelector('#productCollection')
     if (productCollections) {
-      productCollections.addEventListener('change', (e) => {
+      productCollections.addEventListener('change', e => {
         e.preventDefault()
         productCollections.closest('form').submit()
       })
@@ -36,7 +36,7 @@ class DprCatalogueSearch extends DprCatalogueFilters {
   }
 
   initSeachBoxEvents() {
-    this.searchBox.addEventListener('keyup', (e) => {
+    this.searchBox.addEventListener('keyup', e => {
       this.updateTableRows(e.target.value)
 
       // Update Query Params
@@ -55,23 +55,23 @@ class DprCatalogueSearch extends DprCatalogueFilters {
   initSearchRows(value) {
     const rows = Array.from(this.table.rows)
     if (value) {
-      rows.forEach((row) => row.classList.add(this.hideClass))
+      rows.forEach(row => row.classList.add(this.hideClass))
     }
   }
 
   updateSearchListing(value) {
     Array.from(this.table.rows)
-      .filter((row) => {
+      .filter(row => {
         return (
           !value ||
           value.length === 0 ||
-          Array.from(row.cells).find((cell) => {
+          Array.from(row.cells).find(cell => {
             const searchValue = value.toLowerCase()
             return cell.innerText.toLowerCase().includes(searchValue.toLowerCase())
           })
         )
       })
-      .forEach((row) => {
+      .forEach(row => {
         row.classList.remove(this.hideClass)
       })
   }

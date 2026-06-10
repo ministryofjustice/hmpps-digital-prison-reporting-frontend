@@ -1,12 +1,11 @@
 {% from "govuk/components/input/macro.njk" import govukInput %}
 {%- from "moj/components/date-picker/macro.njk" import mojDatePicker -%}
 
-
 {% macro dprDate(dateData, validationErrors, label, parameterSuffix = '', toggleMin = true, toggleMax = true, parameterPrefix = 'filters.') %}
   {% set name = dateData.name %}
   {% set text = dateData.text %}
   {% set displayName = dateData.displayName %}
-  {% if not displayName  %}
+  {% if not displayName %}
     {% set displayName = text %}
   {% endif %}
   {% set value = dateData.value %}
@@ -16,7 +15,7 @@
   {% set id = parameterPrefix + name + parameterSuffix %}
 
   {% set defaultMinDate = '1977-05-25' %}
-  {% set defaultMaxDate = '9999-01-01'%}
+  {% set defaultMaxDate = '9999-01-01' %}
 
   {% if not minDate %}
     {% set toggleMin = false %}
@@ -29,52 +28,56 @@
   {% endif %}
 
   {% if label %}
-    {% set labelText = {
-      text: label | capitaliseSentence
-    } %}
+    {%
+      set labelText = {
+        text: label | capitaliseSentence
+      }
+    %}
   {% endif %}
 
   {% if value %}
     {% set value = value | dprDate %}
   {% endif %}
 
-  <div class="dpr-date"
+  <div
+    class="dpr-date"
     data-dpr-module="date-input"
     data-required="{{ mandatory }}"
     data-display-name="{{ displayName }}"
     data-pattern="\d{1,2}\/\d{1,2}\/\d{2,4}"
     data-min="{{ minDate }}"
     data-max="{{ maxDate }}"
-    data-pattern-hint="DD/MM/YYYY">
+    data-pattern-hint="DD/MM/YYYY"
+  >
     {% if text %}
-    <label class="govuk-label govuk-label govuk-!-font-weight-bold" for="{{id}}">
-      {{ text }}
-    </label>
+      <label class="govuk-label govuk-label govuk-!-font-weight-bold" for="{{ id }}"> {{ text }} </label>
     {% endif %}
 
-
-    {{ mojDatePicker({
-      id: id,
-      name: id,
-      label: labelText,
-      value: value,
-      minDate: minDate | dprDate,
-      maxDate: maxDate | dprDate,
-      hint: {
-        text: "For example 17/05/2024."
-      },
-      errorMessage: validationErrors | dpr.findError(id)
-    }) }}
+    {{
+      mojDatePicker({
+        id: id,
+        name: id,
+        label: labelText,
+        value: value,
+        minDate: minDate | dprDate,
+        maxDate: maxDate | dprDate,
+        hint: {
+          text: "For example 17/05/2024."
+        },
+        errorMessage: validationErrors | dpr.findError(id)
+      })
+    }}
 
     {% if toggleMin and minDate or toggleMax and maxDate %}
       <div class="daterange-set-to-minmax__container">
-
         {# Min setting #}
         {% if toggleMin and minDate %}
-          <a class="govuk-body-s daterange-set-to-minmax" id="{{ name }}-min-helper"
-            data-set-to-input='{{ id }}'
-            data-set-min-max-value={{ minDate | dprDate }}
-            data-set-min-max-trigger='true'
+          <a
+            class="govuk-body-s daterange-set-to-minmax"
+            id="{{ name }}-min-helper"
+            data-set-to-input="{{ id }}"
+            data-set-min-max-value="{{ minDate | dprDate }}"
+            data-set-min-max-trigger="true"
             href="#"
           >
             Set value to minimum date: {{ minDate | dprDate }}
@@ -83,16 +86,17 @@
 
         {# Max setting #}
         {% if toggleMax and maxDate %}
-          <a class="govuk-body-s daterange-set-to-minmax" id="{{ name }}-max-helper"
-            data-set-to-input='{{ id }}'
-            data-set-min-max-value={{ maxDate | dprDate }}
-            data-set-min-max-trigger='true'
+          <a
+            class="govuk-body-s daterange-set-to-minmax"
+            id="{{ name }}-max-helper"
+            data-set-to-input="{{ id }}"
+            data-set-min-max-value="{{ maxDate | dprDate }}"
+            data-set-min-max-trigger="true"
             href="#"
           >
             Set value to maximum date: {{ maxDate | dprDate }}
           </a>
         {% endif %}
-
       </div>
     {% endif %}
   </div>

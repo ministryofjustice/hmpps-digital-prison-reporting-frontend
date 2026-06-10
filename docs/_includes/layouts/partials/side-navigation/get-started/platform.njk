@@ -1,27 +1,29 @@
 {%- from "node_modules/@ministryofjustice/frontend/moj/components/side-navigation/macro.njk" import mojSideNavigation %}
 
-{{ mojSideNavigation({
-  classes: 'govuk-!-padding-top-0',
-  sections: [
-    {
-      heading: {
-        text: "Platform"
-      },
-      items: [
-        {
-          text: 'Components',
-          href: ('/components')
+{{
+  mojSideNavigation({
+    classes: 'govuk-!-padding-top-0',
+    sections: [
+      {
+        heading: {
+          text: "Platform"
         },
-        {
-          text: 'Environments',
-          href: ('/get-started/environments')
-        },
-        {
-          text: 'Routes',
-          href: ('/get-started/routes'),
-          active: page.filePathStem.indexOf('/get-started/routes') === 0
-        }
-      ]
-    }
-  ]
-}) }}
+        items: [
+          {
+            text: 'Components',
+            href: ('/components')
+          },
+          {
+            text: 'Environments',
+            href: ('/get-started/environments')
+          },
+          {
+            text: 'Routes',
+            href: ('/get-started/routes'),
+            active: page.filePathStem.indexOf('/get-started/routes') === 0
+          }
+        ]
+      }
+    ]
+  })
+}}

@@ -3,7 +3,8 @@
   {% set unit = options.unit %}
   {% set height = options.height %}
 
-  <div id="{{ id }}-chart-wrapper"
+  <div
+    id="{{ id }}-chart-wrapper"
     class="dpr-chart dpr-{{ type }}-chart dpr-chart-height-{{ height }}"
     data-dpr-module="{{ type }}-chart"
     data-dpr-chart-data="{{ chartData | json }}"

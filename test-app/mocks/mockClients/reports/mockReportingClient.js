@@ -48,8 +48,8 @@ class MockReportingClient {
   async getDefinition(token, reportId, variantId, definitionsPath, query) {
     this.logInfo('getDefinition', { token, reportId, variantId, definitionsPath, ...query })
 
-    const report = defs.reports.find((r) => r.id === reportId)
-    const variant = report.variants.filter((v) => v.id === variantId)
+    const report = defs.reports.find(r => r.id === reportId)
+    const variant = report.variants.filter(v => v.id === variantId)
     // eslint-disable-next-line prefer-destructuring
     const reportClone = JSON.parse(JSON.stringify(report))
     reportClone.variant = variant[0]
@@ -59,7 +59,7 @@ class MockReportingClient {
 
   async getDefinitionSummary(token, reportId, definitionsPath) {
     this.logInfo('getDefinitions', { token, definitionsPath })
-    const report = defs.reports.find((r) => r.id === reportId)
+    const report = defs.reports.find(r => r.id === reportId)
     return Promise.resolve(report)
   }
 
@@ -72,13 +72,13 @@ class MockReportingClient {
   async getList(resourceName, token, listRequest) {
     const report = createMockData(10)
 
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       resolve(report)
     })
   }
 
   async getCount(resourceName, token, query) {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       resolve(100)
     })
   }
@@ -86,7 +86,7 @@ class MockReportingClient {
   async getListWithWarnings(resourceName, token, listRequest) {
     const report = createMockData(10)
 
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       resolve({ data: report })
     })
   }
@@ -139,7 +139,7 @@ class MockReportingClient {
   async cancelAsyncRequest(token, reportId, variantId, executionId, definitionsPath) {
     this.logInfo('cancelAsyncRequest', { token, reportId, variantId, executionId, definitionsPath })
 
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       resolve({
         cancellationSucceeded: true,
       })

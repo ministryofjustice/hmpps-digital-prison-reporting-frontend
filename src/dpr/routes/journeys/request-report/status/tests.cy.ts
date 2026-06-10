@@ -60,7 +60,7 @@ context('Request status', () => {
       checkA11y()
       cy.task('stubReportsPickedStatus')
       cy.findByText('PICKED').should('be.visible')
-      getRedisState().then((state) => {
+      getRedisState().then(state => {
         const newState = {
           ...state.body,
         }

@@ -249,7 +249,7 @@ const buildBookmarkListItems = async (res: Response, services: Services): Promis
   // gather data for loop.
   const mappedBookmarks: MappedBookmarks[] = await mapBookmarks(bookmarks, services, res)
 
-  return mappedBookmarks.map((bookmark) => {
+  return mappedBookmarks.map(bookmark => {
     const { name, reportName, reportType, description } = bookmark
     return {
       title: {
@@ -279,7 +279,7 @@ const mapBookmarks = async (
   const { token, definitionsPath } = LocalsHelper.getValues(res)
 
   const mapped = await Promise.all(
-    bookmarks.map(async (bm) => {
+    bookmarks.map(async bm => {
       try {
         const resolved = await resolveBookmarkDefinition(bm, services, token, definitionsPath)
 
@@ -325,7 +325,7 @@ const resolveBookmarkDefinition = async (
 
   if (!type || type === ReportType.REPORT) {
     const definition = await services.reportingService.getDefinition(token, reportId, sourceId, definitionsPath)
-    const defSummary = summary.variants.find((v) => v.id === sourceId)
+    const defSummary = summary.variants.find(v => v.id === sourceId)
 
     return {
       sourceId,
@@ -338,7 +338,7 @@ const resolveBookmarkDefinition = async (
   }
 
   const definition = await services.dashboardService.getDefinition(token, reportId, sourceId, definitionsPath)
-  const defSummary = summary.dashboards?.find((d) => d.id === sourceId)
+  const defSummary = summary.dashboards?.find(d => d.id === sourceId)
 
   return {
     sourceId,
@@ -438,12 +438,12 @@ const getDataForList = async (res: Response, listType: ListType): Promise<Stored
   switch (listType) {
     case ListType.REQUESTED:
       // Only show reports in the list that have not been viewed
-      return requestedReports.filter((report) => {
+      return requestedReports.filter(report => {
         return report.timestamp ? !report.timestamp.lastViewed : false
       })
     case ListType.VIEWED:
       // Only show READY or EXPIRED reports
-      return recentlyViewedReports.filter((report) => {
+      return recentlyViewedReports.filter(report => {
         return Boolean(
           report.status === RequestStatus.READY ||
           Boolean(report.executionId?.length && report.status === RequestStatus.EXPIRED),
@@ -465,7 +465,7 @@ const getDataForList = async (res: Response, listType: ListType): Promise<Stored
  * @return {*}  {DprMyReportHeading[]}
  */
 const buildHeadings = (listType: ListType): DprMyReportHeading[] => {
-  return ALL_HEADINGS.filter((heading) => heading.showIn.includes(listType))
+  return ALL_HEADINGS.filter(heading => heading.showIn.includes(listType))
 }
 
 const ALL_HEADINGS: HeadingConfig[] = [

@@ -1,25 +1,23 @@
-import { checkA11y, executeReportStubs } from "cypress-tests/cypressUtils"
+import { checkA11y, executeReportStubs } from 'cypress-tests/cypressUtils'
 
 context('Inputs: granular date range', () => {
   describe('Granular date range filter component', () => {
     const route = '/components/filters/granular-date-range'
 
-    const getQuickFilters = () =>
-      cy.findByRole('combobox', { name: /^Quick filters$/i })
+    const getQuickFilters = () => cy.findByRole('combobox', { name: /^Quick filters$/i })
 
-    const getGranularity = () =>
-      cy.findByRole('combobox', { name: /^Granularity$/i })
+    const getGranularity = () => cy.findByRole('combobox', { name: /^Granularity$/i })
 
     const getFrom = () =>
       cy.findByRole('textbox', {
         name: /^From$/i,
-        description: /For example/
+        description: /For example/,
       })
 
     const getTo = () =>
       cy.findByRole('textbox', {
         name: /^To$/i,
-        description: /For example/
+        description: /For example/,
       })
 
     const pretestSetup = (query = '') => {
@@ -73,22 +71,20 @@ context('Inputs: granular date range', () => {
         textbox.should('have.value', expectedDMY)
       }
 
-      const getQuickFilters = () =>
-        cy.findByRole('combobox', { name: /^Quick filters$/i })
+      const getQuickFilters = () => cy.findByRole('combobox', { name: /^Quick filters$/i })
 
-      const getGranularity = () =>
-        cy.findByRole('combobox', { name: /^Granularity$/i })
+      const getGranularity = () => cy.findByRole('combobox', { name: /^Granularity$/i })
 
       const getFrom = () =>
         cy.findByRole('textbox', {
           name: /^From$/i,
-          description: /For example/
+          description: /For example/,
         })
 
       const getTo = () =>
         cy.findByRole('textbox', {
           name: /^To$/i,
-          description: /For example/
+          description: /For example/,
         })
 
       cy.visit('/components/filters/granular-date-range')
@@ -118,7 +114,6 @@ context('Inputs: granular date range', () => {
       getQuickFilters().should('have.value', 'today')
       assertDate(getFrom(), '01/01/1970')
       assertDate(getTo(), '01/01/1970')
-
 
       getQuickFilters().select('Yesterday')
       getQuickFilters().should('have.value', 'yesterday')

@@ -17,7 +17,7 @@ export default function setUpStaticResources(): Router {
     '/node_modules/@ministryofjustice/frontend',
     '/node_modules/@microsoft/applicationinsights-web/dist/es5',
     '/node_modules/@microsoft/applicationinsights-clickanalytics-js/dist/es5',
-  ).forEach((dir) => {
+  ).forEach(dir => {
     router.use('/assets', express.static(path.join(process.cwd(), dir), cacheControl))
   })
 

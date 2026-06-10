@@ -157,7 +157,7 @@ const applyColumns = (
   let filters = {}
   if (queryData) {
     filters = Object.keys(queryData)
-      .filter((key) => key.includes('filters.'))
+      .filter(key => key.includes('filters.'))
       .reduce((acc, key) => ({ ...acc, [key]: queryData[key] }), {})
   }
 
@@ -180,8 +180,8 @@ const applyFilters = (
   const columns = normalizeQueryStringArray(queryData?.['columns']) || []
   const filters = Object.fromEntries(
     Object.keys(req.body)
-      .filter((key) => key.startsWith('filters.'))
-      .map((key) => [key, req.body[key]]),
+      .filter(key => key.startsWith('filters.'))
+      .map(key => [key, req.body[key]]),
   )
 
   return { ...formData, ...filters, columns }

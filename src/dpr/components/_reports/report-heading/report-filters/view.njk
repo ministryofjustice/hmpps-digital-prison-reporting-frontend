@@ -1,16 +1,18 @@
 {% from "../../../_filters/filters-interactive/view.njk" import dprInteractiveFilters %}
 
 {% macro dprReportFilters(filters, validationErrors, appliedFilters, csrfToken, saveDefaultsEnabled, hasDefaults) %}
-    {% set templateArgs = {
+  {%
+    set templateArgs = {
       reportType: 'report',
       csrfToken: csrfToken,
       validationErrors: validationErrors,
       appliedFilters: appliedFilters,
       hasDefaults: hasDefaults,
       saveDefaultsEnabled: saveDefaultsEnabled
-    }%}
+    }
+  %}
 
-    {% if filters.length %}
-      {{ dprInteractiveFilters(filters, templateArgs) }}
-    {% endif %}
+  {% if filters.length %}
+    {{ dprInteractiveFilters(filters, templateArgs) }}
+  {% endif %}
 {% endmacro %}

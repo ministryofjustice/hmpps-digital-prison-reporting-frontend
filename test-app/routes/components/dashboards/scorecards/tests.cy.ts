@@ -35,7 +35,7 @@ context('Dashboard visualisation: Scorecards', () => {
 
       cy.findByRole('heading', { level: 1, name: /Scorecard/ }).should('be.visible')
 
-      cy.url().then((url) => {
+      cy.url().then(url => {
         scorecardPathViewUrl = url
       })
     })
@@ -75,7 +75,7 @@ context('Dashboard visualisation: Scorecards', () => {
       cy.findByRole('button', { name: /Request/ }).click()
       cy.task('stubMockDashboardsStatusFinished')
       cy.findByRole('heading', { level: 1, name: /Scorecard/ }).should('be.visible')
-      cy.url().then((url) => {
+      cy.url().then(url => {
         scorecardBucketPathViewUrl = url
       })
     })
@@ -115,7 +115,7 @@ context('Dashboard visualisation: Scorecards', () => {
           let value = 0
           cy.findAllByRole('paragraph')
             .eq(1)
-            .then((p) => {
+            .then(p => {
               value = Number(p.text())
 
               let colour = '#f4cdc6'
@@ -138,7 +138,7 @@ context('Dashboard visualisation: Scorecards', () => {
           let value = 0
           cy.findAllByRole('paragraph')
             .eq(1)
-            .then((p) => {
+            .then(p => {
               value = Number(p.text())
 
               let colour = '#f4cdc6'
@@ -160,7 +160,7 @@ context('Dashboard visualisation: Scorecards', () => {
           let value = 0
           cy.findAllByRole('paragraph')
             .eq(1)
-            .then((p) => {
+            .then(p => {
               value = Number(p.text())
               let colour = '#f4cdc6'
               if (value <= 500) {
@@ -181,7 +181,7 @@ context('Dashboard visualisation: Scorecards', () => {
       cy.findByRole('button', { name: /Request/ }).click()
       cy.task('stubMockDashboardsStatusFinished')
       cy.findByRole('heading', { level: 1, name: /Scorecard/ }).should('be.visible')
-      cy.url().then((url) => {
+      cy.url().then(url => {
         scorecardsPathViewUrl = url
       })
     })

@@ -3,6 +3,7 @@ layout: layouts/component.njk
 title: Pagination
 subsection: Report components
 ---
+
 ## 🚧 👷🏻‍♀️ Documentation under construction 👷🏾 🚧
 
 ## Overview

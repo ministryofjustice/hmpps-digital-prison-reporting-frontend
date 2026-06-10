@@ -37,7 +37,7 @@ export const setFilterValuesFromRequest = (
 ): FilterValue[] => {
   const { preventDefault } = req.query
 
-  if (Object.keys(req.query).every((key) => !key.includes(prefix)) && !preventDefault) {
+  if (Object.keys(req.query).every(key => !key.includes(prefix)) && !preventDefault) {
     return filters
   }
 
@@ -118,8 +118,8 @@ export const getFiltersFromDefinition = (
   interactive?: boolean,
 ): FilterValue[] => {
   const filters = fields
-    .filter((f) => f.filter)
-    .filter((f) => {
+    .filter(f => f.filter)
+    .filter(f => {
       if (interactive !== undefined) {
         if (f.filter?.interactive === undefined) {
           return !interactive
@@ -128,13 +128,13 @@ export const getFiltersFromDefinition = (
       }
       return true
     })
-    .map((f) => {
+    .map(f => {
       const { display: text, name } = f
       const filter = <components['schemas']['FilterDefinition']>f.filter
       const { type, staticOptions, dynamicOptions, defaultValue, mandatory, pattern, index } = filter
 
       const options: FilterOption[] = staticOptions
-        ? staticOptions.map((opt) => {
+        ? staticOptions.map(opt => {
             return { value: opt.name, text: opt.display }
           })
         : []
@@ -228,8 +228,8 @@ export const getFiltersFromDefinition = (
 export const getSortByFromDefinition = (fields: components['schemas']['FieldDefinition'][]): FilterValue[] => {
   const sortBy = SortHelper.sortByTemplate()
   const options = fields
-    .filter((f) => f.sortable)
-    .map((f) => {
+    .filter(f => f.sortable)
+    .map(f => {
       if (f.defaultsort) sortBy[0].value = f.name
       const field: FilterOption = { value: f.name, text: f.display }
       sortBy[1].value = f.sortDirection ? `${f.sortDirection === 'asc'}` : 'true'
@@ -246,9 +246,9 @@ export const getSortByFromDefinition = (fields: components['schemas']['FieldDefi
 }
 
 const orderFilters = (filterValues: FilterValue[]) => {
-  const noIndexFilters = filterValues.filter((f) => f.index === undefined)
-  const indexFilters = filterValues.filter((f) => f.index !== undefined)
-  indexFilters.forEach((f) => {
+  const noIndexFilters = filterValues.filter(f => f.index === undefined)
+  const indexFilters = filterValues.filter(f => f.index !== undefined)
+  indexFilters.forEach(f => {
     if (f.index !== undefined && f.index !== null) noIndexFilters.splice(f.index, 0, f)
   })
   return noIndexFilters

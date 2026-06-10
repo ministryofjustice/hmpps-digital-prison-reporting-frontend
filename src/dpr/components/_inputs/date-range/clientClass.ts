@@ -48,7 +48,7 @@ class DateRangeInput extends DprClientClass {
 
   private bindEvents(): void {
     // Relative radios
-    this.radios.forEach((radio) => {
+    this.radios.forEach(radio => {
       radio.addEventListener('change', () => {
         if (!radio.checked) return
         if (radio.value === RelativeDateRange.NONE) {
@@ -65,9 +65,9 @@ class DateRangeInput extends DprClientClass {
     })
 
     // Date inputs (manual changes)
-    ;[this.startInput, this.endInput].forEach((input) => {
+    ;[this.startInput, this.endInput].forEach(input => {
       input.addEventListener('change', () => {
-        this.radios.forEach((radio) => {
+        this.radios.forEach(radio => {
           radio.checked = false
         })
         this.removeQueryParam(this.durationName)
@@ -94,7 +94,7 @@ class DateRangeInput extends DprClientClass {
     }
 
     // Also keep the relative-range param in the URL
-    const checkedRadio = this.radios.find((r) => r.checked)
+    const checkedRadio = this.radios.find(r => r.checked)
     if (checkedRadio) {
       params.set(this.durationName, checkedRadio.value)
     }

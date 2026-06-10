@@ -28,7 +28,7 @@ export class ParentChildDataBuilder extends TemplateBuilder {
   }
 
   getChildVariant(childId: string) {
-    return this.childVariants.find((cv) => cv.id === childId)
+    return this.childVariants.find(cv => cv.id === childId)
   }
 
   /**
@@ -50,7 +50,7 @@ export class ParentChildDataBuilder extends TemplateBuilder {
     if (childVariant && childVariant.specification) {
       fields = childVariant.specification.fields
       joinFields = childVariant && childVariant.specification ? childVariant.joinFields : []
-      columns = fields.filter((f) => f.visible).map((f) => f.name)
+      columns = fields.filter(f => f.visible).map(f => f.name)
       name = childVariant.name
     }
 
@@ -73,7 +73,7 @@ export class ParentChildDataBuilder extends TemplateBuilder {
     const groups: GroupedParentChildDataset[] = []
     let pendingParents: Array<Record<string, string>> = []
 
-    parentData.forEach((parentRow) => {
+    parentData.forEach(parentRow => {
       // Build a dataset for this parent
       const dataset: ParentChildDataset = {
         parent: parentRow,
@@ -81,13 +81,13 @@ export class ParentChildDataBuilder extends TemplateBuilder {
       }
 
       // Match against each child dataset
-      this.childData.forEach((child) => {
+      this.childData.forEach(child => {
         const { joinFields } = this.getChildVariantDefinitionData(child.id)
         const matchedChildren: Record<string, string>[] = []
 
         // Compare join fields
-        child.data.forEach((childRow) => {
-          const isMatch = joinFields.every((col) => {
+        child.data.forEach(childRow => {
+          const isMatch = joinFields.every(col => {
             return parentRow[col] === childRow[col]
           })
           if (isMatch) matchedChildren.push(childRow)
@@ -153,7 +153,7 @@ export class ParentChildDataBuilder extends TemplateBuilder {
    * @memberof ParentChildDataBuilder
    */
   mapChildDataToTableData(group: GroupedParentChildDataset) {
-    return group.children.map((child) => {
+    return group.children.map(child => {
       const { fields: childFields, columns: childColumns, name } = this.getChildVariantDefinitionData(child.id)
       const childTableBuilder = new DataTableBuilder(childFields)
       const childTable = childTableBuilder.withNoHeaderOptions(childColumns).buildTable(child.data)

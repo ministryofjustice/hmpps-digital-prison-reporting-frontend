@@ -1,5 +1,4 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
-
 {% from "../../../../error-summary/view.njk" import dprErrorSummary %}
 {% from "../../../request-details/view.njk" import dprRequestDetails %}
 
@@ -17,7 +16,6 @@
   {% set buttonHref = statusDetails.buttonHref %}
 
   <div class="dpr-poling-state__failed">
-
     {% if errorMessage %}
       {{ dprErrorSummary(errorMessage, meta) }}
     {% endif %}
@@ -26,13 +24,14 @@
       <p class="govuk-!-margin-top-4 govuk-!-margin-bottom-6">{{ descriptionText }}</p>
     {% endif %}
 
-    {{ dprRequestDetails(requestDetails)}}
+    {{ dprRequestDetails(requestDetails) }}
 
-    {{ govukButton({
-      text: buttonText,
-      classes: "govuk-button govuk-!-margin-top-5",
-      href: buttonHref
-    }) }}
-
+    {{
+      govukButton({
+        text: buttonText,
+        classes: "govuk-button govuk-!-margin-top-5",
+        href: buttonHref
+      })
+    }}
   </div>
 {% endmacro %}

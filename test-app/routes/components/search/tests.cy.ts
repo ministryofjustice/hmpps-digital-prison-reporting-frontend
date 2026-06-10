@@ -1,4 +1,4 @@
-import { checkA11y } from "cypress-tests/cypressUtils"
+import { checkA11y } from 'cypress-tests/cypressUtils'
 
 context('Search component', () => {
   const path = '/components/search'
@@ -43,7 +43,7 @@ context('Search component', () => {
     cy.findAllByRole('rowgroup')
       .eq(1)
       .within(() => {
-        cy.findAllByRole('row').each((tr) => {
+        cy.findAllByRole('row').each(tr => {
           cy.wrap(tr).contains(/one/g)
         })
       })
@@ -68,7 +68,7 @@ context('Search component', () => {
     cy.findAllByRole('rowgroup')
       .eq(1)
       .within(() => {
-        cy.findAllByRole('row').each((tr) => {
+        cy.findAllByRole('row').each(tr => {
           cy.wrap(tr).contains(/one/g)
         })
       })

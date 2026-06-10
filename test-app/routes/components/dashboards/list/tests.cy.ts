@@ -25,7 +25,7 @@ context('Dashboard visualisation: List', () => {
       cy.findByRole('heading', { level: 1, name: /List - Complete dataset/ }).should('be.visible')
       checkA11y()
 
-      cy.url().then((url) => {
+      cy.url().then(url => {
         completeDashboardUrl = url
       })
     })
@@ -209,7 +209,7 @@ context('Dashboard visualisation: List', () => {
       cy.findByRole('heading', { level: 1, name: /List - with links/ }).should('be.visible')
       checkA11y()
 
-      cy.url().then((url) => {
+      cy.url().then(url => {
         completeDashboardWithLinksUrl = url
       })
     })
@@ -267,7 +267,7 @@ context('Dashboard visualisation: List', () => {
       cy.findByRole('heading', { level: 1, name: /List - Complete dataset - Historic/ }).should('be.visible')
       checkA11y()
 
-      cy.url().then((url) => {
+      cy.url().then(url => {
         completeHistoricDashboardUrl = url
       })
     })
@@ -403,7 +403,7 @@ context('Dashboard visualisation: List', () => {
       cy.findByRole('heading', { level: 1, name: /List - Partial dataset/ }).should('be.visible')
       checkA11y()
 
-      cy.url().then((url) => {
+      cy.url().then(url => {
         partialDashboardUrl = url
       })
     })

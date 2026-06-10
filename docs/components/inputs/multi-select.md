@@ -2,6 +2,7 @@
 layout: layouts/component.njk
 title: Multi select
 ---
+
 {% example "inputs/multiselect/default", 300, "default" %}
 
 ## Overview

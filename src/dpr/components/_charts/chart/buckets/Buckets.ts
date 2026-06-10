@@ -55,7 +55,7 @@ class Buckets {
     this.useRagColour = this.options?.useRagColour || false
     this.onlyBucketColoursDefined =
       this.options && this.options.buckets
-        ? this.options?.buckets?.every((bucket) => !bucket.max && !bucket.min && bucket.hexColour !== undefined)
+        ? this.options?.buckets?.every(bucket => !bucket.max && !bucket.min && bucket.hexColour !== undefined)
         : false
   }
 
@@ -132,7 +132,7 @@ class Buckets {
   }
 
   private setAutomaticThresholdSize = () => {
-    const values = this.responseData.map((resData) => Number(resData[this.valueKey].raw))
+    const values = this.responseData.map(resData => Number(resData[this.valueKey].raw))
     const min = Math.min(...values)
     const max = Math.max(...values)
     const bucketSize = Math.ceil((max - min) / this.bucketCount)

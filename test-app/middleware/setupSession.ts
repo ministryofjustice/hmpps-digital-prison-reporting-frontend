@@ -7,7 +7,6 @@ import { randomUUID } from 'crypto'
 import { createClient } from 'redis'
 import logger from 'src/dpr/utils/logger'
 
-
 export default function setUpWebSession(): Router {
   const client = createClient()
   client.connect().catch((err: Error) => logger.error(`Error connecting to Redis`, err))

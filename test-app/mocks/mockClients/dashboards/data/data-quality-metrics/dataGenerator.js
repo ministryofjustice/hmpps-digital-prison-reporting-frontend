@@ -19,15 +19,15 @@ const baseData = {
   count: { raw: '' },
 }
 
-const generateData = (query) => {
+const generateData = query => {
   const { establishmentId, timestamps } = extractQueryAndCreateTimestamps(query)
   const estId = establishmentId || 'ALL'
 
-  const data = timestamps.map((ts) => {
+  const data = timestamps.map(ts => {
     const allTotals = initBaseData(baseData, ts)
     const allEstablishments = initEstablishments(allTotals[0], estId, ts)
 
-    return allEstablishments.map((estData) => {
+    return allEstablishments.map(estData => {
       const hasMetricOne = generateRawValue(100, 1)
       const MetricOneIsMissing = generateRawValue(100, 1)
       const hasMetricTwo = generateRawValue(100, 1)

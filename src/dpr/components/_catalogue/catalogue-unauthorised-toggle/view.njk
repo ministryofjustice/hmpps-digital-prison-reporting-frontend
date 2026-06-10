@@ -8,27 +8,29 @@
     {% set showMissing = { text:"Show missing reports", value:"show-missing", id: "show-missing" } %}
     {% set hideLive = { text:"Hide live reports", value:"hide-live", id: "hide-live" } %}
 
-    {{ govukCheckboxes({
-      name: name,
-      classes: "dpr-show-unauthorised-checkbox govuk-checkboxes--small",
-      formGroup: {
-        classes: ""
-      },
-      fieldset: {
-        legend: {
-          text: 'Show/hide reports',
-          classes: "govuk-label govuk-!-font-weight-bold"
-        }
-      },
-      attributes: {
-        "id": 'dpr-toggle-filters',
-        "aria-label": name + ' checkboxes',
-        "data-table-id": tableId
-      },
-      items: [
-        showUnauthorised
-      ],
-      values: []
-    }) }}
+    {{
+      govukCheckboxes({
+        name: name,
+        classes: "dpr-show-unauthorised-checkbox govuk-checkboxes--small",
+        formGroup: {
+          classes: ""
+        },
+        fieldset: {
+          legend: {
+            text: 'Show/hide reports',
+            classes: "govuk-label govuk-!-font-weight-bold"
+          }
+        },
+        attributes: {
+          "id": 'dpr-toggle-filters',
+          "aria-label": name + ' checkboxes',
+          "data-table-id": tableId
+        },
+        items: [
+          showUnauthorised
+        ],
+        values: []
+      })
+    }}
   </div>
 {% endmacro %}

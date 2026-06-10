@@ -193,8 +193,8 @@ const setProductCollection = async (services: Services, req: Request, res: Respo
       if (collection) {
         req.session['currentCollection'] = collection
 
-        const productIds = collection.products.map((p) => p.productId)
-        res.locals['definitions'] = allDefs.filter((def) => productIds.includes(def.id))
+        const productIds = collection.products.map(p => p.productId)
+        res.locals['definitions'] = allDefs.filter(def => productIds.includes(def.id))
 
         logger.info(`COLLECTION SET: ${res.locals['definitions'].length}`)
         return

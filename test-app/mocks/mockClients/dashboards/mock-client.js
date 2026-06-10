@@ -22,7 +22,7 @@ class MockDashboardClient {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async getDefinition(token, id, dpdId, dataProductDefinitionsPath, query) {
     logInfo('getDefinition', { token, dpdId, id, dataProductDefinitionsPath, ...query })
-    return Promise.resolve(this.dashboards.find((d) => d.id === id))
+    return Promise.resolve(this.dashboards.find(d => d.id === id))
   }
 
   async getDefinitions() {
@@ -53,7 +53,7 @@ class MockDashboardClient {
   async cancelAsyncRequest(token, reportId, variantId, executionId, definitionsPath) {
     this.logInfo('cancelAsyncRequest', { token, reportId, variantId, executionId, definitionsPath })
 
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       resolve({
         cancellationSucceeded: true,
       })
@@ -66,11 +66,11 @@ class MockDashboardClient {
     const def = await this.getDefinition('token', dashboardId)
     if (def) {
       const data = getData(def, dashboardId, query)
-      return new Promise((resolve) => {
+      return new Promise(resolve => {
         resolve(data)
       })
     }
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       resolve([])
     })
   }
@@ -81,11 +81,11 @@ class MockDashboardClient {
     const def = await this.getDefinition('token', dashboardId)
     if (def) {
       const data = getData(def, dashboardId, query)
-      return new Promise((resolve) => {
+      return new Promise(resolve => {
         resolve(data)
       })
     }
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       resolve([])
     })
   }

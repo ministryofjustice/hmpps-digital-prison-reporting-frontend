@@ -47,7 +47,7 @@ context('Requesting a report', () => {
             'have.string',
             `${basePath}/dpr/request-report/report/request-examples/request-example-success/filters`,
           )
-          cy.location().should((location) => {
+          cy.location().should(location => {
             expect(location.search).to.contain(`filters.field1=value1.2`)
             expect(location.search).to.contain(`filters.field3.start=2003-02-0`)
             expect(location.search).to.contain(`filters.field3.end=2006-05-04`)
@@ -67,7 +67,7 @@ context('Requesting a report', () => {
             'match',
             /.*(?:\/embedded\/platform(?:\/dpr)?)?\/view-report\/async\/report\/request-examples\/request-example-success\/(.*)\/report/i,
           )
-          cy.location().should((location) => {
+          cy.location().should(location => {
             expect(location.search).to.contain(
               `columns=field2&columns=field6&columns=field1&columns=field3&columns=field7`,
             )
@@ -81,7 +81,7 @@ context('Requesting a report', () => {
             'have.string',
             `${basePath}/dpr/request-report/report/request-examples/request-example-success/filters`,
           )
-          cy.location().should((location) => {
+          cy.location().should(location => {
             expect(location.search).to.contain(`filters.field1=value1.2`)
             expect(location.search).to.contain(`filters.field3.start=2003-02-0`)
             expect(location.search).to.contain(`filters.field3.end=2006-05-04`)
@@ -148,51 +148,51 @@ context('Requesting a report', () => {
           cy.findByRole('group', { name: /Field 1/ })
             .findByRole('radio', { checked: true })
             .invoke('val')
-            .then((val) => {
+            .then(val => {
               cy.get('@field1').should('equal', val)
             })
           cy.findByRole('combobox', { name: /Field 2/ })
             .invoke('val')
-            .then((val) => {
+            .then(val => {
               cy.get('@field2').should('equal', val)
             })
           cy.findByRole('group', { name: /Field 3/ }).within(() => {
             cy.findByRole('textbox', { name: /From/ })
               .invoke('val')
-              .then((val) => {
+              .then(val => {
                 cy.get('@field3From').should('equal', val)
               })
             cy.findByRole('textbox', { name: /To/ })
               .invoke('val')
-              .then((val) => {
+              .then(val => {
                 cy.get('@field3To').should('equal', val)
               })
           })
           cy.findByRole('combobox', { name: /Field 4/ })
             .invoke('val')
-            .then((val) => {
+            .then(val => {
               cy.get('@field4').should('equal', val)
             })
           cy.findByRole('combobox', { name: /Field 5/ })
             .invoke('val')
-            .then((val) => {
+            .then(val => {
               cy.get('@field5').should('equal', val)
             })
           cy.findByRole('textbox', { name: /Field 6/ })
             .invoke('val')
-            .then((val) => {
+            .then(val => {
               cy.get('@field6').should('equal', val)
             })
           cy.findByRole('textbox', { name: /Field 7/ })
             .invoke('val')
-            .then((val) => {
+            .then(val => {
               cy.get('@field7').should('equal', val)
             })
           cy.findByRole('group', { name: /Field 8/ }).within(() => {
             cy.findAllByRole('checkbox').each((el, idx) => {
               cy.wrap(el)
                 .invoke('val')
-                .then((val) => {
+                .then(val => {
                   cy.get(`@field8-${idx}`).should('equal', val)
                 })
             })
@@ -215,7 +215,7 @@ context('Requesting a report', () => {
         }
 
         const testRedirectsOldStatusUrl = () => {
-          cy.url().then((url) => {
+          cy.url().then(url => {
             const splitUrl = url.split('/')
             const prevExId = splitUrl[splitUrl.length - 2]
             const oldPath = `${basePath}/async/report/request-examples/request-example-success/request/${prevExId}`
@@ -346,5 +346,5 @@ context('Requesting a report', () => {
     })
   }
 
-  paths.forEach((route) => tests(route))
+  paths.forEach(route => tests(route))
 })

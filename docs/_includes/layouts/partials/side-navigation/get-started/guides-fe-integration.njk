@@ -1,34 +1,36 @@
 {%- from "node_modules/@ministryofjustice/frontend/moj/components/side-navigation/macro.njk" import mojSideNavigation %}
 
-{{ mojSideNavigation({
-  classes: 'govuk-!-padding-top-6',
-  sections: [
-    {
-      heading: {
-        text: "How to guides"
-      },
-      items: [
-        {
-          text: 'Integrating the library',
-          href: ('/integration-guides/integrating-the-library')
+{{
+  mojSideNavigation({
+    classes: 'govuk-!-padding-top-6',
+    sections: [
+      {
+        heading: {
+          text: "How to guides"
         },
-        {
-          text: 'Integrating the FE platform',
-          href: ('/integration-guides/integrating-the-fe-platform')
-        },
-        {
-          html: '<strong>Integrating the FE</strong>',
-          href: ('/integration-guides/integrating-the-fe')
-        },
-        {
-          html: '<div class="dpr-docs-sub-nav"><span class="dpr-docs-sub-nav__bullet">▪︎</span>Viewing a report</div>',
-          href: ('/integration-guides/integrating-the-fe#viewing-a-report')
-        },
-        {
-          html: '<div class="dpr-docs-sub-nav"><span class="dpr-docs-sub-nav__bullet">▪︎</span>Optional components</div>',
-          href: ('/integration-guides/integrating-the-fe#optional-components')
-        }
-      ]
-    }
-  ]
-}) }}
+        items: [
+          {
+            text: 'Integrating the library',
+            href: ('/integration-guides/integrating-the-library')
+          },
+          {
+            text: 'Integrating the FE platform',
+            href: ('/integration-guides/integrating-the-fe-platform')
+          },
+          {
+            html: '<strong>Integrating the FE</strong>',
+            href: ('/integration-guides/integrating-the-fe')
+          },
+          {
+            html: '<div class="dpr-docs-sub-nav"><span class="dpr-docs-sub-nav__bullet">▪︎</span>Viewing a report</div>',
+            href: ('/integration-guides/integrating-the-fe#viewing-a-report')
+          },
+          {
+            html: '<div class="dpr-docs-sub-nav"><span class="dpr-docs-sub-nav__bullet">▪︎</span>Optional components</div>',
+            href: ('/integration-guides/integrating-the-fe#optional-components')
+          }
+        ]
+      }
+    ]
+  })
+}}

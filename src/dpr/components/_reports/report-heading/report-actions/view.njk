@@ -6,56 +6,59 @@
   {% set items = [] %}
   {% for button in buttonList %}
     {% if button.id === 'dpr-button-downloadable' %}
-      {% set item = {
-        text: button.text,
-        attributes: {
-          id: button.id,
-          disabled: button.disabled,
-          form: "download-report-form",
-          "aria-label": button.ariaLabelText
-        } if button.disabled else {
-          id: button.id,
-          form: "download-report-form",
-          "aria-label": button.ariaLabelText
-        },
-        classes: '{{ button.id }} govuk-button--secondary'
-      } %}
+      {%
+        set item = {
+          text: button.text,
+          attributes: {
+            id: button.id,
+            disabled: button.disabled,
+            form: "download-report-form",
+            "aria-label": button.ariaLabelText
+          } if button.disabled else {
+            id: button.id,
+            form: "download-report-form",
+            "aria-label": button.ariaLabelText
+          },
+          classes: '{{ button.id }} govuk-button--secondary'
+        }
+      %}
 
-    {% if not button.disabled %}
-      <form id="download-report-form" action="{{ button.attributes.formAction }}" method="post">
-        <input type="hidden" name="_csrf" value="{{ button.attributes.csrfToken }}">
-      </form>
-    {% endif %}
-
+      {% if not button.disabled %}
+        <form id="download-report-form" action="{{ button.attributes.formAction }}" method="post">
+          <input type="hidden" name="_csrf" value="{{ button.attributes.csrfToken }}" />
+        </form>
+      {% endif %}
     {% else %}
-      {% set item = {
-        text: button.text,
-        attributes: {
-          id: button.id,
-          "data-href": button.href,
-          "aria-label": button.ariaLabelText,
-          disabled: button.disabled
-        } if button.disabled else {
-          id: button.id,
-          "data-href": button.href,
-          "aria-label": button.ariaLabelText
-        },
-        classes: '{{ button.id }}'
-      } %}
+      {%
+        set item = {
+          text: button.text,
+          attributes: {
+            id: button.id,
+            "data-href": button.href,
+            "aria-label": button.ariaLabelText,
+            disabled: button.disabled
+          } if button.disabled else {
+            id: button.id,
+            "data-href": button.href,
+            "aria-label": button.ariaLabelText
+          },
+          classes: '{{ button.id }}'
+        }
+      %}
     {% endif %}
 
     {% set items = (items.push(item), items) %}
   {% endfor %}
 
-{#
+  {#
   Replaced with copy of MoJ button menu njk without the data-module attribute;
   to stop it from being turned into an action menu.
 #}
-{#  {{ mojButtonMenu({#}
-{#    items: items#}
-{#  }) }}#}
+  {#  {{ mojButtonMenu({#}
+  {#    items: items#}
+  {#  }) }}#}
 
-  <div class="report-actions" data-dpr-module='report-actions'>
+  <div class="report-actions" data-dpr-module="report-actions">
     <div class="moj-button-menu">
       {%- for item in items %}
         {%- set itemClassNames = "moj-button-menu__item govuk-button--secondary" %}
@@ -64,25 +67,25 @@
         {% endif %}
 
         {% if not item.attributes.disabled %}
-          {{ govukButton({
-            element: item.element,
-            classes: itemClassNames,
-            text: item.text,
-            html: item.html,
-            name: item.name,
-            type: item.type,
-            value: item.value,
-            href: item.href,
-            disabled: item.disabled,
-            attributes: item.attributes,
-            preventDoubleClick: items.preventDoubleClick
-          }) }}
+          {{
+            govukButton({
+              element: item.element,
+              classes: itemClassNames,
+              text: item.text,
+              html: item.html,
+              name: item.name,
+              type: item.type,
+              value: item.value,
+              href: item.href,
+              disabled: item.disabled,
+              attributes: item.attributes,
+              preventDoubleClick: items.preventDoubleClick
+            })
+          }}
         {% endif %}
       {% endfor -%}
     </div>
 
-    <div class="dpr-display-none">
-      {{ downloadFormHtml }}
-    </div>
+    <div class="dpr-display-none">{{ downloadFormHtml }}</div>
   </div>
 {% endmacro %}

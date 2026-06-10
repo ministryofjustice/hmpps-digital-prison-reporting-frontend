@@ -57,14 +57,14 @@ class DefaultFilterValuesService extends ReportStoreService {
     if (!this.enabled) return []
 
     const userConfig = await this.getState(userId)
-    const defaultConfig = userConfig.defaultFilters?.find((defaultFilter) => {
+    const defaultConfig = userConfig.defaultFilters?.find(defaultFilter => {
       return defaultFilter.id === id && defaultFilter.reportId === reportId
     })
 
     if (!defaultConfig) {
       return undefined
     }
-    return defaultConfig.values.filter((v) => {
+    return defaultConfig.values.filter(v => {
       const type = !v.type ? FiltersType.REQUEST : v.type
       return filtersType === type
     })
@@ -79,13 +79,13 @@ class DefaultFilterValuesService extends ReportStoreService {
     if (!this.enabled) return false
 
     const userConfig = await this.getState(userId)
-    const defaults = userConfig.defaultFilters?.find((df) => df.reportId === reportId && df.id === id)
+    const defaults = userConfig.defaultFilters?.find(df => df.reportId === reportId && df.id === id)
 
     if (!defaults || !Array.isArray(defaults.values) || defaults.values.length === 0) {
       return false
     }
 
-    return defaults.values.some((value) => {
+    return defaults.values.some(value => {
       const filtersType = !value.type ? FiltersType.REQUEST : value.type
       return filtersType === type
     })
@@ -93,7 +93,7 @@ class DefaultFilterValuesService extends ReportStoreService {
 
   private async getIndex(userId: string, reportId: string, id: string) {
     const userConfig = await this.getState(userId)
-    return userConfig.defaultFilters?.findIndex((defaultFilter) => {
+    return userConfig.defaultFilters?.findIndex(defaultFilter => {
       return defaultFilter.id === id && defaultFilter.reportId === reportId
     })
   }
@@ -106,7 +106,7 @@ class DefaultFilterValuesService extends ReportStoreService {
     if (index !== undefined && index !== -1 && userConfig.defaultFilters) {
       const defaults = userConfig.defaultFilters[index]
       if (defaults.values.length > 0) {
-        const updatedValues = defaults.values.filter((value) => {
+        const updatedValues = defaults.values.filter(value => {
           const filtersType = !value.type ? FiltersType.REQUEST : value.type
           return filtersType !== type
         })

@@ -154,7 +154,7 @@ describe('Request a report', () => {
           })
       })
 
-      cy.location().should((location) => {
+      cy.location().should(location => {
         expect(location.search).to.contain(`filters.field2=value2.2`)
         expect(location.search).to.contain(`filters.field3.start=2003-02-01`)
         expect(location.search).to.contain(`filters.field3.end=2007-05-04`)
@@ -184,7 +184,7 @@ describe('Request a report', () => {
 
   context('Request query parameters', () => {
     it('should correctly set the request query parameters from DPD defaults', () => {
-      cy.location().should((location) => {
+      cy.location().should(location => {
         expect(location.search).to.contain(`filters.field1=value1.2`)
         expect(location.search).to.contain(`filters.field3.start=2003-02-01`)
         expect(location.search).to.contain(`filters.field3.end=2006-05-04`)
@@ -195,7 +195,7 @@ describe('Request a report', () => {
       clearSelectedFilters()
       updateFilterValues()
 
-      cy.location().should((location) => {
+      cy.location().should(location => {
         expect(location.search).to.contain(`filters.field2=value2.2`)
         expect(location.search).to.contain(`filters.field3.start=2003-02-01`)
         expect(location.search).to.contain(`filters.field3.end=2007-05-04`)
@@ -213,7 +213,7 @@ describe('Request a report', () => {
       clearSelectedFilters()
       updateFilterValues()
 
-      cy.location().should((location) => {
+      cy.location().should(location => {
         expect(location.search).to.contain(`filters.field2=value2.2`)
         expect(location.search).to.contain(`filters.field3.start=2003-02-01`)
         expect(location.search).to.contain(`filters.field3.end=2007-05-04`)
@@ -325,7 +325,7 @@ describe('Request a report', () => {
     })
 
     it('should pre-fill the filter values with the saved defaults next visit', () => {
-      cy.location().should((location) => {
+      cy.location().should(location => {
         expect(location.search).to.contain(`filters.field2=value2.2`)
         expect(location.search).to.contain(`filters.field3.start=2003-02-01`)
         expect(location.search).to.contain(`filters.field3.end=2007-05-04`)
@@ -359,7 +359,7 @@ describe('Request a report', () => {
         cy.findAllByRole('button').should('have.length', 3)
       })
 
-      cy.location().should((location) => {
+      cy.location().should(location => {
         expect(location.search).to.contain(`filters.field2=value2.3`)
         expect(location.search).not.to.contain(`filters.field3.start=2003-02-01`)
         expect(location.search).not.to.contain(`filters.field3.end=2007-05-04`)
@@ -374,7 +374,7 @@ describe('Request a report', () => {
 
       cy.reload()
 
-      cy.location().should((location) => {
+      cy.location().should(location => {
         expect(location.search).to.contain(`filters.field2=value2.3`)
         expect(location.search).not.to.contain(`filters.field3.start=2003-02-01`)
         expect(location.search).not.to.contain(`filters.field3.end=2007-05-04`)
@@ -408,7 +408,7 @@ describe('Request a report', () => {
     it('should remove the save defaults', () => {
       cy.findByRole('button', { name: 'Delete defaults' }).click()
 
-      cy.location().should((location) => {
+      cy.location().should(location => {
         expect(location.search).to.contain(`filters.field1=value1.2`)
         expect(location.search).to.contain(`filters.field3.start=2003-02-01`)
         expect(location.search).to.contain(`filters.field3.end=2006-05-04`)
@@ -430,7 +430,7 @@ describe('Request a report', () => {
 
       cy.wait('@requestSubmit')
         .its('request')
-        .then((request) => {
+        .then(request => {
           cy.wrap(request).its('body').should('include', 'reportId=request-examples')
           cy.wrap(request).its('body').should('include', 'name=Successful+Report')
           cy.wrap(request).its('body').should('include', 'reportName=Successful+Report')
@@ -448,7 +448,7 @@ describe('Request a report', () => {
 
       cy.wait('@requestSubmit')
         .its('request')
-        .then((request) => {
+        .then(request => {
           expect(request.query).to.have.property('filters.field1', 'value1.2')
           expect(request.query).to.have.property('filters.field3.end', '2006-05-04')
           expect(request.query).to.have.property('filters.field3.start', '2003-02-01')
@@ -473,21 +473,21 @@ describe('Request a report', () => {
             case 0:
               cy.wrap(el)
                 .should('have.attr', 'display-name')
-                .then((displayName) => {
+                .then(displayName => {
                   expect(displayName).contains('Field 2')
                 })
               break
             case 1:
               cy.wrap(el)
                 .should('have.attr', 'display-name')
-                .then((displayName) => {
+                .then(displayName => {
                   expect(displayName).contains('Field 3')
                 })
               break
             case 2:
               cy.wrap(el)
                 .should('have.attr', 'display-name')
-                .then((displayName) => {
+                .then(displayName => {
                   expect(displayName).contains('Field 1')
                 })
               break

@@ -1,4 +1,3 @@
-
 {% from "govuk/components/details/macro.njk" import govukDetails %}
 
 {% macro dprCodeBlock(code) %}
@@ -10,8 +9,10 @@
     </pre>
   {% endset %}
 
-  {{ govukDetails({
-    summaryText: 'Code block',
-    html: codeblockHtml
-  }) }}
+  {{
+    govukDetails({
+      summaryText: 'Code block',
+      html: codeblockHtml
+    })
+  }}
 {% endmacro %}

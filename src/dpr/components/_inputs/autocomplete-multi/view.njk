@@ -11,17 +11,25 @@
 
   {% set searchInputName = 'search.' + name %}
 
-  <div class="multiselect-container govuk-!-margin-bottom-6" data-filter-id="{{ name }}" data-dpr-module="autocomplete-multiselect-input">
+  <div
+    class="multiselect-container govuk-!-margin-bottom-6"
+    data-filter-id="{{ name }}"
+    data-dpr-module="autocomplete-multiselect-input"
+  >
     <fieldset class="govuk-fieldset">
-      <input type="hidden" name="{{ options.name }}" value="{{ options.staticOptionNameValue }}" data-autocomplete-hidden>
+      <input
+        type="hidden"
+        name="{{ options.name }}"
+        value="{{ options.staticOptionNameValue }}"
+        data-autocomplete-hidden
+      />
 
-        {# Input name #}
-        <legend class="govuk-fieldset__legend govuk-label govuk-!-font-weight-bold">
-          {{ labelText }}
-        </legend>
+      {# Input name #}
+      <legend class="govuk-fieldset__legend govuk-label govuk-!-font-weight-bold">{{ labelText }}</legend>
 
-        {# Input for filtering multiselect values #}
-        {{ govukInput({
+      {# Input for filtering multiselect values #}
+      {{
+        govukInput({
           label: {
             text: 'search',
             classes: 'govuk-visually-hidden'
@@ -33,10 +41,12 @@
           },
           id: searchInputName,
           name: searchInputName
-        }) }}
+        })
+      }}
 
-        {# Multiselect options #}
-        {{ govukCheckboxes({
+      {# Multiselect options #}
+      {{
+        govukCheckboxes({
           id: name,
           name: name,
           classes: "govuk-checkboxes--small dpr-multi-select" ,
@@ -52,7 +62,8 @@
           },
           items: options,
           values: values
-        }) }}
-      </fieldset>
+        })
+      }}
+    </fieldset>
   </div>
 {% endmacro %}

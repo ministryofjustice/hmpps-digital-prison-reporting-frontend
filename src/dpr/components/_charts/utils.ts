@@ -74,7 +74,7 @@ export const createTimeseriesCharts = (
   let granularity: Granularity = Granularity.DAILY
 
   if (query) {
-    Object.keys(query).forEach((key) => {
+    Object.keys(query).forEach(key => {
       if (key.includes('granularity')) {
         granularity = <Granularity>query[key]
       }
@@ -180,7 +180,7 @@ const createHeadlines = (
   const headlines: ChartMetaData[] = []
   const { columns } = chartDefinition
   const { measures } = columns
-  const isListChart = !!measures.find((col) => col.axis)
+  const isListChart = !!measures.find(col => col.axis)
   let headline: ChartMetaData | undefined
 
   let headlineColumn: components['schemas']['DashboardVisualisationColumnDefinition'] | undefined
@@ -188,7 +188,7 @@ const createHeadlines = (
   let label: string = ''
 
   if (timeseries) {
-    headlineColumn = measures.find((col) => col.type !== 'date')
+    headlineColumn = measures.find(col => col.type !== 'date')
     if (headlineColumn) {
       const { id } = headlineColumn
       const { raw } = data[0][id]
@@ -208,7 +208,7 @@ const createHeadlines = (
       }
     }
   } else {
-    headlineColumn = !isListChart ? measures[0] : measures.find((col) => col.axis && col.axis === 'y')
+    headlineColumn = !isListChart ? measures[0] : measures.find(col => col.axis && col.axis === 'y')
 
     if (headlineColumn) {
       const display = headlineColumn.display?.toLowerCase()
@@ -237,7 +237,7 @@ const createHeadlines = (
 }
 
 const mapTableHead = (headerColumns: components['schemas']['DashboardVisualisationColumnDefinition'][]) => {
-  return headerColumns.map((column) => {
+  return headerColumns.map(column => {
     const unitSymbol = mapUnitToSymbol(column.unit as UnitType)
     const headText = unitSymbol ? `${column.display} (${unitSymbol})` : column.display
     return { text: headText || '' }
@@ -283,14 +283,14 @@ const createTimeseriesTable = (
   let tableColumns: components['schemas']['DashboardVisualisationColumnDefinition'][]
 
   if (timeseriesData.length > 1) {
-    const dateMeasures = measures.filter((m) => m.type === 'date')
+    const dateMeasures = measures.filter(m => m.type === 'date')
 
     if (dateMeasures.length !== 1) {
       throw new Error('Multi-timeseries tables require exactly one date measure')
     }
 
     const [dateColumn] = dateMeasures
-    const valueColumns = measures.filter((m) => m.type !== 'date')
+    const valueColumns = measures.filter(m => m.type !== 'date')
 
     tableColumns = [dateColumn, ...safeKeys, ...valueColumns]
   } else {

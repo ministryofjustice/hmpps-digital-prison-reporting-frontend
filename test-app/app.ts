@@ -4,24 +4,24 @@
 // Core dependencies
 
 // NPM dependencies
+import flash from 'connect-flash'
 import express from 'express'
 import path from 'path'
-import flash from 'connect-flash'
 
 // middleware
-import { Services } from 'src/dpr/types/Services'
 import setUpDprResources from 'src/dpr/middleware/setUpDprResources'
-import setUpStaticResources from './middleware/setUpStaticResources'
+import { Services } from 'src/dpr/types/Services'
 import setUpMockUser from './middleware/setUpMockUser'
+import setUpStaticResources from './middleware/setUpStaticResources'
 
 // routes
 import Routes from './routes/routes'
-import nunjucksSetup from './utils/nujucksSetup'
+import nunjucksSetup from './utils/nunjucksSetup'
 
 // Mocks
-import setUpMockSyncApis from './mocks/mockSyncData/mockSyncApis'
 import setUpBookmarks from './middleware/setUpBookmarks'
 import setUpWebSession from './middleware/setupSession'
+import setUpMockSyncApis from './mocks/mockSyncData/mockSyncApis'
 
 export default function createApp(services: Services): express.Application {
   const app = express()

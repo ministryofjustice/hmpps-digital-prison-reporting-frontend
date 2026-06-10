@@ -23,8 +23,8 @@ const ScorecardGroupSchema = z.object({
       .array(ScorecardGroupColumn)
       .min(2, 'Measure must contain two or more items')
       .refine(
-        (measures) => {
-          const displayValue = measures.find((m) => m.displayValue !== undefined)
+        measures => {
+          const displayValue = measures.find(m => m.displayValue !== undefined)
           return displayValue ? measures.length === 2 : true
         },
         { error: 'Measure must have length 2 when displayValue is defined' },

@@ -24,7 +24,7 @@ export class DprFiltersFormClass extends DprClientClass {
   // ----------------------------------
 
   private bindInputEvents(): void {
-    this.getAllInputs().forEach((input) => {
+    this.getAllInputs().forEach(input => {
       input.addEventListener('change', () => {
         const params = new URLSearchParams(window.location.search)
 
@@ -65,8 +65,8 @@ export class DprFiltersFormClass extends DprClientClass {
 
     // Re‑add all values except the unchecked one
     values
-      .filter((value) => value !== input.value || input.checked)
-      .forEach((value) => {
+      .filter(value => value !== input.value || input.checked)
+      .forEach(value => {
         params.append(input.name, value)
       })
 
@@ -143,7 +143,7 @@ export class DprFiltersFormClass extends DprClientClass {
   // ----------------------------------
 
   private getAllInputs(): FormInput[] {
-    return Array.from(this.form.querySelectorAll<FormInput>('input, select, textarea')).filter((el) => el.name)
+    return Array.from(this.form.querySelectorAll<FormInput>('input, select, textarea')).filter(el => el.name)
   }
 
   private normaliseFilterName(name: string): string {

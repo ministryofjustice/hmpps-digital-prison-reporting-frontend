@@ -124,14 +124,14 @@ export const getMyReportRow = ({ name }: { name: string | RegExp }) => {
     })
     .closest('.dpr-my-reports__cell--title')
     .nextUntil('.dpr-my-reports__cell--title')
-    .then(($cells) => {
+    .then($cells => {
       const $row = $cells.addBack()
       return cy.wrap($row)
     })
 }
 
 export const getMyReportRowCell = ({ name, cell }: { name: string | RegExp; cell: string }) => {
-  return getMyReportRow({ name }).then(($cells) => {
+  return getMyReportRow({ name }).then($cells => {
     const $cell = $cells.filter(`.dpr-my-reports__cell--${cell}`)
     expect($cell.length, 'exactly one actions cell per report row').to.eq(1)
     return cy.wrap($cell)

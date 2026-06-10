@@ -3,30 +3,33 @@ layout: layouts/example.njk
 title: Report actions (example)
 arguments: report/actions
 ---
+
 {% from "dpr/components/_reports/report-heading/report-actions/view.njk" import dprReportActions %}
 
-{% set actions = [
-  {
-    id: "dpr-button-printable",
-    disabled: false,
-    text: "Print",
-    ariaLabelText: "print report",
-    href: "#"
-  },
-  {
-    id: "dpr-button-sharable",
-    disabled: false,
-    text: "Share",
-    ariaLabelText: "Email report link",
-    href: "mailto:?subject=Product Name - Variant Name&body=link/to/report"
-  },
-  {
-    id: "dpr-button-copy",
-    disabled: false,
-    text: "Copy",
-    ariaLabelText: "report request",
-    href: "url/of/report"
-  }
-] %}
+{%
+  set actions = [
+    {
+      id: "dpr-button-printable",
+      disabled: false,
+      text: "Print",
+      ariaLabelText: "print report",
+      href: "#"
+    },
+    {
+      id: "dpr-button-sharable",
+      disabled: false,
+      text: "Share",
+      ariaLabelText: "Email report link",
+      href: "mailto:?subject=Product Name - Variant Name&body=link/to/report"
+    },
+    {
+      id: "dpr-button-copy",
+      disabled: false,
+      text: "Copy",
+      ariaLabelText: "report request",
+      href: "url/of/report"
+    }
+  ]
+%}
 
 {{ dprReportActions(actions) }}

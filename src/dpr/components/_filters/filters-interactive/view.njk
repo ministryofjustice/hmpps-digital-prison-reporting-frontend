@@ -15,10 +15,10 @@
   {% set saveDefaultsEnabled = templateArgs.saveDefaultsEnabled %}
   {% set formId = 'dpr-interactive-filters-form' %}
 
-  <div class='dpr-interactive-filters-section'>
+  <div class="dpr-interactive-filters-section">
     {{ dprAppliedFilters(appliedFilters) }}
 
-    <div class='dpr-interactive-save-defaults-actions'>
+    <div class="dpr-interactive-save-defaults-actions">
       {{ dprFiltersFormReset(reportType, csrfToken) }}
 
       {% if saveDefaultsEnabled %}
@@ -26,31 +26,33 @@
       {% endif %}
     </div>
 
-
     {% set filtersHtml %}
-      <div class='dpr-interactive-filters'>
+      <div class="dpr-interactive-filters">
         <div class="dpr-filters sync-filters-form--hidden">
-          {{ dprFiltersForm({
-            formId: formId,
-            filters: filters,
-            prefix: prefix,
-            reportType: reportType,
-            csrfToken: csrfToken,
-            validationErrors: validationErrors
-          }) }}
+          {{
+            dprFiltersForm({
+              formId: formId,
+              filters: filters,
+              prefix: prefix,
+              reportType: reportType,
+              csrfToken: csrfToken,
+              validationErrors: validationErrors
+            })
+          }}
         </div>
       </div>
     {% endset %}
 
-
     <div class="dpr-interactive-filters-accordion">
-      {{ govukDetails({
-        summaryText: 'Show filters',
-        html: filtersHtml,
-        attributes: {
-          id: 'dpr-interactive-filters-details'
-        }
-      }) }}
+      {{
+        govukDetails({
+          summaryText: 'Show filters',
+          html: filtersHtml,
+          attributes: {
+            id: 'dpr-interactive-filters-details'
+          }
+        })
+      }}
     </div>
   </div>
 {% endmacro %}

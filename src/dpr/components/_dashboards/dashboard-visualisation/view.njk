@@ -11,9 +11,14 @@
   {% set isEnabled = visualisation.isEnabled %}
   {% set visualisationLabelId = "visualisation-title-" + loopIndex %}
 
-  <div class="dashboard-visualisation-container" id="{{ id }}-dash-section-visualisation" tabindex="0" aria-labelledby={{ visualisationLabelId }}>
+  <div
+    class="dashboard-visualisation-container"
+    id="{{ id }}-dash-section-visualisation"
+    tabindex="0"
+    aria-labelledby="{{ visualisationLabelId }}"
+  >
     {% if title %}
-      <h3 id='{{ visualisationLabelId }}' class="govuk-heading-m">{{ title }}</h3>
+      <h3 id="{{ visualisationLabelId }}" class="govuk-heading-m">{{ title }}</h3>
     {% endif %}
 
     {% if description %}
@@ -26,17 +31,13 @@
       {% if type === 'scorecard-group' %}
 
         {{ dprScoreCardGroup(id, data) }}
-
       {% elif type === 'list' %}
 
         {{ dprDashboardList(data) }}
-
       {% else %}
 
         {{ dprChartCard(id, data) }}
-
       {% endif %}
     {% endif %}
-
   </div>
 {% endmacro %}

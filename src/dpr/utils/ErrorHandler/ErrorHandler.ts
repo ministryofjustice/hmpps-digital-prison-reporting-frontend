@@ -32,7 +32,7 @@ class ErrorHandler {
 
     // 1. Zod
     if (err instanceof ZodError) {
-      const issues = err.issues.map((i) => i.message).join('. ')
+      const issues = err.issues.map(i => i.message).join('. ')
       return {
         status: 500,
         userMessage: `Schema validation error: ${issues}`,
@@ -45,8 +45,8 @@ class ErrorHandler {
         status: 500,
         userMessage: [
           err.message,
-          ...err.details.map((detail) => {
-            const issues = detail.issues.map((i) => i.message).join('. ')
+          ...err.details.map(detail => {
+            const issues = detail.issues.map(i => i.message).join('. ')
             let prefix = ''
             if (detail.type) prefix += `Type: '${detail.type}'. `
             if (detail.id) prefix += `ID: '${detail.id}'. `

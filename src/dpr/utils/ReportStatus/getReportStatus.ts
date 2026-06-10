@@ -149,7 +149,7 @@ async function getStatus({
 
   const childSignals = stored.childExecutionData
     ? await Promise.all(
-        stored.childExecutionData.map((child) => {
+        stored.childExecutionData.map(child => {
           const { tableId: childTableId, executionId: childExecutionId } = child
 
           if (!childExecutionId || !childTableId) {
@@ -298,9 +298,9 @@ function resolveReportStatus({
    * ------------------------------------------------------------
    * The API failed.
    */
-  if (parentSignal.kind === 'ERROR' || childSignals.some((signal) => signal.kind === 'ERROR')) {
+  if (parentSignal.kind === 'ERROR' || childSignals.some(signal => signal.kind === 'ERROR')) {
     const failure =
-      parentSignal.kind === 'ERROR' ? parentSignal.failure : childSignals.find((s) => s.kind === 'ERROR')!.failure
+      parentSignal.kind === 'ERROR' ? parentSignal.failure : childSignals.find(s => s.kind === 'ERROR')!.failure
 
     return {
       type: 'UPDATE',
@@ -316,16 +316,16 @@ function resolveReportStatus({
    * Execution identity comes from stored.childExecutionData,
    * execution truth comes from childSignals.
    */
-  const childStatuses = childSignals.filter((s) => s.kind === 'STATUS').map((s) => s.status)
+  const childStatuses = childSignals.filter(s => s.kind === 'STATUS').map(s => s.status)
 
-  if (childStatuses.some((status) => status === RequestStatus.FAILED)) {
+  if (childStatuses.some(status => status === RequestStatus.FAILED)) {
     return {
       type: 'UPDATE',
       newStatus: RequestStatus.FAILED,
     }
   }
 
-  if (childStatuses.length > 0 && childStatuses.every((status) => status === RequestStatus.FINISHED)) {
+  if (childStatuses.length > 0 && childStatuses.every(status => status === RequestStatus.FINISHED)) {
     return {
       type: 'UPDATE',
       newStatus: RequestStatus.FINISHED,
@@ -458,7 +458,7 @@ async function detectExpiredFinishedReports({
   }[]
 > {
   const finishedWithTables = reports.filter(
-    (r) =>
+    r =>
       (r.status === RequestStatus.FINISHED || r.status === RequestStatus.READY) &&
       Boolean(r.executionId) &&
       Boolean(r.tableId),
@@ -469,7 +469,7 @@ async function detectExpiredFinishedReports({
   }
 
   // de‑duplicate tableIds for batch lookup
-  const tableIds = [...new Set(finishedWithTables.map((r) => r.tableId!))]
+  const tableIds = [...new Set(finishedWithTables.map(r => r.tableId!))]
 
   const batches = chunkArray(tableIds, 200)
 
@@ -483,9 +483,9 @@ async function detectExpiredFinishedReports({
   )
   logger.info(`EXPIRED STATES: ${JSON.stringify(expiryStates)}`)
 
-  const expiredTableIds = new Set(expiryStates.filter((s) => s.expired).map((s) => s.tableId))
+  const expiredTableIds = new Set(expiryStates.filter(s => s.expired).map(s => s.tableId))
 
-  return finishedWithTables.filter((r) => expiredTableIds.has(r.tableId!)).map((r) => ({ executionId: r.executionId! }))
+  return finishedWithTables.filter(r => expiredTableIds.has(r.tableId!)).map(r => ({ executionId: r.executionId! }))
 }
 
 const chunkArray = <T>(arr: T[], size: number): T[][] =>
@@ -530,7 +530,7 @@ export async function expireFinishedReports({
   }
 
   // de-duplicate executionIds
-  const uniqueExpired = [...new Map(expired.map((e) => [e.executionId, e])).values()]
+  const uniqueExpired = [...new Map(expired.map(e => [e.executionId, e])).values()]
   logger.info(`EXPIRED STATES: ${JSON.stringify({ uniqueExpired })}`)
 
   // If any expired then update the state

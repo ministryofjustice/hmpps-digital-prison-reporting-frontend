@@ -3,9 +3,9 @@ const ReportingClient = require('../../../src/dpr/data/reportingClient')
 const definitions = require('./reportDefinition')
 const data = require('./data')
 
-const setUpMockSyncApis = (app) => {
+const setUpMockSyncApis = app => {
   function sleep(ms) {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       setTimeout(resolve, ms)
     })
   }
@@ -42,7 +42,7 @@ const setUpMockSyncApis = (app) => {
     res.setHeader('Content-Type', 'application/json')
     res.end(
       JSON.stringify(
-        ['Fezzick', 'Inigo Montoya', 'Prince Humperdink', 'Princess Buttercup', 'Westley'].filter((p) =>
+        ['Fezzick', 'Inigo Montoya', 'Prince Humperdink', 'Princess Buttercup', 'Westley'].filter(p =>
           p.toLowerCase().startsWith(prefix.toLowerCase()),
         ),
       ),

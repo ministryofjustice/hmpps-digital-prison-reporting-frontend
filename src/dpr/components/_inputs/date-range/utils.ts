@@ -35,7 +35,7 @@ export const setValueFromRequest = (
 
   let relativeDisabled = false
   if (relative && relativeOptions) {
-    const option = relativeOptions.find((opt) => opt.value === relative)
+    const option = relativeOptions.find(opt => opt.value === relative)
     relativeDisabled = option && option.disabled ? option.disabled : false
   }
 
@@ -52,13 +52,13 @@ export const setDefaultValue = (req: Request, name: string) => {
   const dateRangeName = name.split('.')[0]
 
   const dateRangeDefaults = Object.keys(req.body)
-    .filter((key) => key.includes(dateRangeName))
-    .map((key) => {
+    .filter(key => key.includes(dateRangeName))
+    .map(key => {
       return { name: key.split('.')[2], value: req.body[key] }
     })
 
   const dateRangeValue: DateRangeFilterValue['value'] | string = { start: '', end: '' }
-  dateRangeDefaults.forEach((dateRangeDefault) => {
+  dateRangeDefaults.forEach(dateRangeDefault => {
     if (dateRangeDefault.name.includes('start')) {
       dateRangeValue.start = dateRangeDefault.value
     }
@@ -120,7 +120,7 @@ export const getRelativeDateOptions = (min?: string, max?: string) => {
 
 export const mapRelativeValue = (value: RelativeDateRange) => {
   const values = getRelativeValues()
-  const opt = values.find((v) => v.value === value)
+  const opt = values.find(v => v.value === value)
   return opt ? opt.text : ''
 }
 
@@ -198,7 +198,7 @@ export const resolveDateRangeDefaults = (
   if (filter.defaultValue) {
     const [start, end] = filter.defaultValue
       .split(' - ')
-      .map((v) => v.trim())
+      .map(v => v.trim())
       .filter(Boolean)
 
     return {

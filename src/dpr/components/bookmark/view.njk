@@ -2,7 +2,8 @@
   {% set reportType %}{{ type if type else 'report' }}{% endset %}
   {% set linkId = reportId + '-' + id + '-' + reportType %}
 
-  <a href="#"
+  <a
+    href="#"
     class="govuk-link govuk-link--no-visited-state"
     id="{{ linkId }}"
     data-dpr-module="bookmark-button"
@@ -13,8 +14,6 @@
     data-endpoint="{{ config.bookmarkActionEndpoint }}"
     data-link-type="{{ config.linkType }}"
   >
-
     {{ config.linkText }}
-
   </a>
 {% endmacro %}

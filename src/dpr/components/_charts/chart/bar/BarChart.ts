@@ -36,7 +36,7 @@ class BarChart extends Chart {
     this.measures = this.definition.columns.measures
     this.options = this.definition.options
     this.keys = this.definition.columns.keys || []
-    this.isList = !!this.measures.find((col) => col.axis)
+    this.isList = !!this.measures.find(col => col.axis)
     this.initUnit(this.measures)
   }
 
@@ -76,7 +76,7 @@ class BarChart extends Chart {
 
   augmentDataset = (datasets?: DashboardVisualisationDataSet[]) => {
     const ds = datasets || this.datasets
-    this.datasets = ds.map((set) => {
+    this.datasets = ds.map(set => {
       return {
         ...set,
         borderWidth: [0, 0],

@@ -95,8 +95,8 @@ function formatFilterValues(field: components['schemas']['FieldDefinition'], raw
 // -----------------------------------------------------------
 
 function formatMultiselect(filter: components['schemas']['FilterDefinition'], rawValues: string[]): string {
-  const split = rawValues.flatMap((v) => v.split(',').map((s) => s.trim()))
-  const labels = split.map((v) => resolveStaticOption(filter, v))
+  const split = rawValues.flatMap(v => v.split(',').map(s => s.trim()))
+  const labels = split.map(v => resolveStaticOption(filter, v))
 
   const MAX = 3
   return labels.length > MAX ? `${labels.slice(0, MAX).join(', ')} + ${labels.length - MAX} more` : labels.join(', ')
@@ -107,7 +107,7 @@ function formatMultiselect(filter: components['schemas']['FilterDefinition'], ra
 // -----------------------------------------------------------
 
 function resolveStaticOption(filter: components['schemas']['FilterDefinition'], value: string): string {
-  const opt = filter.staticOptions?.find((o) => o.name === value)
+  const opt = filter.staticOptions?.find(o => o.name === value)
   return opt?.display ?? value
 }
 

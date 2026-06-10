@@ -28,7 +28,7 @@ const baseData = {
   count: { raw: '' },
 }
 
-const generateData = (query) => {
+const generateData = query => {
   const { establishmentId, wing: wingFilter, timestamps } = extractQueryAndCreateTimestamps(query)
 
   const ageRange1Values = ['18-25', '26-34', '35-44', '45-54', '56-54']
@@ -68,7 +68,7 @@ const generateData = (query) => {
   const MetricTwoCodes = ['BRIT']
   const MetricTwoDescription = ['British']
 
-  const data = timestamps.map((ts) => {
+  const data = timestamps.map(ts => {
     const baseTotals = initBaseData(baseData, ts)
 
     const allTotalsByEstablishment = initEstablishments(baseTotals[0], establishmentId, ts)

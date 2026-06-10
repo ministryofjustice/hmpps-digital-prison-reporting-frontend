@@ -1,5 +1,4 @@
 {% extends layoutPath %}
-
 {% from "../../../../components/_async/request-details/view.njk" import dprRequestDetails %}
 {% from "govuk/components/panel/macro.njk" import govukPanel %}
 {% from "govuk/components/details/macro.njk" import govukDetails %}
@@ -7,28 +6,36 @@
 {% set mainClasses = "app-container govuk-body" %}
 
 {% block content %}
-  {{ govukPanel({
-    titleText: "We've received your request for report " + report.reportName
-  }) }}
+  {{
+    govukPanel({
+      titleText: "We've received your request for report " + report.reportName
+    })
+  }}
+
 
   {% set detailsHtml %}
     <p>You have requested the following report to be added to the catalogue:</p>
     {{ dprRequestDetails(report) }}
   {% endset %}
-  {{ govukDetails({
-    summaryText: 'Request details',
-    html: detailsHtml
-  }) }}
+  {{
+    govukDetails({
+      summaryText: 'Request details',
+      html: detailsHtml
+    })
+  }}
 
   <h2 class="govuk-heading">Here's what happens next</h2>
-    <p class="govuk-body">We'll review your request.<br/></p>
-    <p class="govuk-body govuk-!-margin-0">If the report can be added to Digital Reporting quickly, we'll do that.</p>
-    <p class="govuk-body govuk-!-margin-0">Or</p>
-    <p class="govuk-body">If the information is already available in another report, we'll tell you which report to use.<br/></p>
-    <p class="govuk-body">Some information may be better suited to a different format, such as a dashboard. If this is the case we'll add it to our list of potential future improvements.<br/></p>
-    <p class="govuk-body">We'll always let you know when new improvements are added to the service.</p>
-
+  <p class="govuk-body">We'll review your request.<br /></p>
+  <p class="govuk-body govuk-!-margin-0">If the report can be added to Digital Reporting quickly, we'll do that.</p>
+  <p class="govuk-body govuk-!-margin-0">Or</p>
+  <p class="govuk-body">
+    If the information is already available in another report, we'll tell you which report to use.<br />
+  </p>
+  <p class="govuk-body">
+    Some information may be better suited to a different format, such as a dashboard. If this is the case we'll add it
+    to our list of potential future improvements.<br />
+  </p>
+  <p class="govuk-body">We'll always let you know when new improvements are added to the service.</p>
 
   <a href="{{ cataloguePath }}">Return to catalogue</a>
-
 {% endblock %}

@@ -21,47 +21,49 @@
 
   <div class="dpr-form--request-missing-report" data-dpr-module="dpr-generic-form">
     <form method="post">
-
-      <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+      <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
 
       {# Report details #}
-      <input type="hidden" name="reportId" value="{{ reportId }}">
-      <input type="hidden" name="reportName" value="{{ reportName }}">
-      <input type="hidden" name="variantId" value="{{ variantId }}">
-      <input type="hidden" name="variantName" value="{{ variantName }}">
-      <input type="hidden" name="time" value="{{ time }}">
+      <input type="hidden" name="reportId" value="{{ reportId }}" />
+      <input type="hidden" name="reportName" value="{{ reportName }}" />
+      <input type="hidden" name="variantId" value="{{ variantId }}" />
+      <input type="hidden" name="variantName" value="{{ variantName }}" />
+      <input type="hidden" name="time" value="{{ time }}" />
 
       {# User details #}
-      <input type="hidden" name="staffId" value="{{ staffId }}">
-      <input type="hidden" name="name" value="{{ name }}">
-      <input type="hidden" name="email" value="{{ email }}">
-      <input type="hidden" name="activeCaseLoadId" value="{{ activeCaseLoadId }}">
+      <input type="hidden" name="staffId" value="{{ staffId }}" />
+      <input type="hidden" name="name" value="{{ name }}" />
+      <input type="hidden" name="email" value="{{ email }}" />
+      <input type="hidden" name="activeCaseLoadId" value="{{ activeCaseLoadId }}" />
 
-      {{ govukTextarea({
-        name: "more-detail",
-        id: "more-detail",
-        rows: "8",
-        classes: "govuk-!-width-three-quarters",
-        label: {
-          text: "Request this report",
-          classes: "govuk-label--s",
-          isPageHeading: true
-        },
-        hint: {
-          html: "Tell us what information you need from it and how you will use it. This will help us shape future improvements."
-        },
-        errorMessage: validationErrors | dpr.findError('more-detail')
-      }) }}
+      {{
+        govukTextarea({
+          name: "more-detail",
+          id: "more-detail",
+          rows: "8",
+          classes: "govuk-!-width-three-quarters",
+          label: {
+            text: "Request this report",
+            classes: "govuk-label--s",
+            isPageHeading: true
+          },
+          hint: {
+            html: "Tell us what information you need from it and how you will use it. This will help us shape future improvements."
+          },
+          errorMessage: validationErrors | dpr.findError('more-detail')
+        })
+      }}
 
-      {{ govukButton({
-        text: "Submit",
-        classes: "govuk-button--primary govuk-!-margin-bottom-0",
-        attributes: {
-          id: 'dpr-form-summary--form-submit',
-          'data-submit-feedback': 'true'
-        }
-      }) }}
-
+      {{
+        govukButton({
+          text: "Submit",
+          classes: "govuk-button--primary govuk-!-margin-bottom-0",
+          attributes: {
+            id: 'dpr-form-summary--form-submit',
+            'data-submit-feedback': 'true'
+          }
+        })
+      }}
     </form>
   </div>
 {% endmacro %}

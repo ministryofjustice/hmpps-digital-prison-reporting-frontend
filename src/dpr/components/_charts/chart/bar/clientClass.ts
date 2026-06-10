@@ -49,7 +49,7 @@ class BarChartVisualisation extends ChartVisualisation {
       display: () => {
         return !this.timeseries
       },
-      formatter: (value) => {
+      formatter: value => {
         return `${value}${this.suffix}`
       },
       labels: {

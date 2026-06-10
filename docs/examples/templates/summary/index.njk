@@ -5,28 +5,51 @@ title: List-section Report (example)
 
 {%- from "dpr/components/_reports/report-page/view.njk" import dprReportPage -%}
 
-{% set data = {
-  filterData: {
-    filters: [],
-    selectedFilters: [],
-    canSaveDefaults: true
-  },
-  count: 100,
-  nestedBaseUrl: '/embedded/platform',
-  csrfToken: 'csrfToken',
-  loadType: 'async',
-  type: 'report',
-  tableId: 'tblId_1769454359101',
-  reportId: 'report-template-examples',
-  id: 'report-template-summary',
-  actions: [],
-  canDownload: false,
-  reportName: 'Report templates',
-  name: 'Summary',
-  description: 'Template: "summary"',
-  classification: 'OFFICIAL',
-  printable: true,
-  specification: {
+{%
+  set data = {
+    filterData: {
+      filters: [],
+      selectedFilters: [],
+      canSaveDefaults: true
+    },
+    count: 100,
+    nestedBaseUrl: '/embedded/platform',
+    csrfToken: 'csrfToken',
+    loadType: 'async',
+    type: 'report',
+    tableId: 'tblId_1769454359101',
+    reportId: 'report-template-examples',
+    id: 'report-template-summary',
+    actions: [],
+    canDownload: false,
+    reportName: 'Report templates',
+    name: 'Summary',
+    description: 'Template: "summary"',
+    classification: 'OFFICIAL',
+    printable: true,
+    specification: {
+      template: 'summary',
+      fields: [
+        {
+          name: 'section1',
+          display: 'First',
+          sortable: false,
+          defaultsort: false,
+          type: 'string',
+          mandatory: false,
+          visible: false
+        },
+        {
+          name: 'section2',
+          display: 'Second',
+          sortable: false,
+          defaultsort: false,
+          type: 'string',
+          mandatory: false,
+          visible: false
+        }
+      ]
+    },
     template: 'summary',
     fields: [
       {
@@ -47,107 +70,86 @@ title: List-section Report (example)
         mandatory: false,
         visible: false
       }
-    ]
-  },
-  template: 'summary',
-  fields: [
-    {
-      name: 'section1',
-      display: 'First',
-      sortable: false,
-      defaultsort: false,
-      type: 'string',
-      mandatory: false,
-      visible: false
+    ],
+    executionId: 'exId_1769454359101',
+    requestedTimestamp: '26/01/2026, 19:06:00',
+    querySummary: [],
+    queryData: {},
+    requestUrl: {
+      fullUrl:
+        'http://localhost:3010/embedded/platform/dpr/request-report/report/report-template-examples/report-template-summary/filters',
+      pathname: '/embedded/platform/dpr/request-report/report/report-template-examples/report-template-summary/filters',
+      search: ''
     },
-    {
-      name: 'section2',
-      display: 'Second',
-      sortable: false,
-      defaultsort: false,
-      type: 'string',
-      mandatory: false,
-      visible: false
+    reportUrl:
+      '/embedded/platform/dpr/view-report/async/report/report-template-examples/report-template-summary/tblId_1769454359101/report',
+    pathname:
+      '/embedded/platform/dpr/view-report/async/report/report-template-examples/report-template-summary/tblId_1769454359101/report',
+    dataTable: {
+      rowCount: 20,
+      summaries: {
+        'page-header': [
+          {
+            head: [
+              {
+                text: 'Total'
+              }
+            ],
+            rows: [
+              [
+                {
+                  fieldName: 'total',
+                  text: 52,
+                  format: 'numeric',
+                  classes: ''
+                }
+              ]
+            ],
+            rowCount: 1,
+            colCount: 1
+          },
+          {
+            head: [
+              {
+                text: 'Good (%)'
+              },
+              {
+                text: 'Bad (%)'
+              },
+              {
+                text: 'Ugly (%)'
+              }
+            ],
+            rows: [
+              [
+                {
+                  fieldName: 'percentGood',
+                  text: 1,
+                  format: 'numeric',
+                  classes: ''
+                },
+                {
+                  fieldName: 'percentBad',
+                  text: 10,
+                  format: 'numeric',
+                  classes: ''
+                },
+                {
+                  fieldName: 'percentUgly',
+                  text: 89,
+                  format: 'numeric',
+                  classes: ''
+                }
+              ]
+            ],
+            rowCount: 1,
+            colCount: 3
+          }
+        ]
+      },
+      sections: []
     }
-  ],
-  executionId: 'exId_1769454359101',
-  requestedTimestamp: '26/01/2026, 19:06:00',
-  querySummary: [],
-  queryData: {},
-  requestUrl: {
-    fullUrl:
-      'http://localhost:3010/embedded/platform/dpr/request-report/report/report-template-examples/report-template-summary/filters',
-    pathname: '/embedded/platform/dpr/request-report/report/report-template-examples/report-template-summary/filters',
-    search: ''
-  },
-  reportUrl:
-    '/embedded/platform/dpr/view-report/async/report/report-template-examples/report-template-summary/tblId_1769454359101/report',
-  pathname:
-    '/embedded/platform/dpr/view-report/async/report/report-template-examples/report-template-summary/tblId_1769454359101/report',
-  dataTable: {
-    rowCount: 20,
-    summaries: {
-      'page-header': [
-        {
-          head: [
-            {
-              text: 'Total'
-            }
-          ],
-          rows: [
-            [
-              {
-                fieldName: 'total',
-                text: 52,
-                format: 'numeric',
-                classes: ''
-              }
-            ]
-          ],
-          rowCount: 1,
-          colCount: 1
-        },
-        {
-          head: [
-            {
-              text: 'Good (%)'
-            },
-            {
-              text: 'Bad (%)'
-            },
-            {
-              text: 'Ugly (%)'
-            }
-          ],
-          rows: [
-            [
-              {
-                fieldName: 'percentGood',
-                text: 1,
-                format: 'numeric',
-                classes: ''
-              },
-              {
-                fieldName: 'percentBad',
-                text: 10,
-                format: 'numeric',
-                classes: ''
-              },
-              {
-                fieldName: 'percentUgly',
-                text: 89,
-                format: 'numeric',
-                classes: ''
-              }
-            ]
-          ],
-          rowCount: 1,
-          colCount: 3
-        }
-      ]
-    },
-    sections: []
   }
-} %}
+%}
 
 {{ dprReportPage(data) }}

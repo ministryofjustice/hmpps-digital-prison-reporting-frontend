@@ -54,10 +54,10 @@ export class TemplateBuilder {
   }
 
   withSummaries(summariesData: AsyncSummary[]) {
-    this.pageSummaries = summariesData.filter((summary) => {
+    this.pageSummaries = summariesData.filter(summary => {
       return summary.template.includes('page')
     })
-    this.summaries = summariesData.filter((summary) => {
+    this.summaries = summariesData.filter(summary => {
       return summary.template.includes('section') || summary.template.includes('table')
     })
     return this

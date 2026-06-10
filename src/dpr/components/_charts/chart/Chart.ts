@@ -50,7 +50,7 @@ class Chart {
   }
 
   initUnit = (measures: ChartMeasure[]) => {
-    this.unit = measures.find((m) => m.unit)?.unit
+    this.unit = measures.find(m => m.unit)?.unit
   }
 
   initHelpers = () => {
@@ -101,18 +101,18 @@ class Chart {
     this.yAxisColumn = measures.find((col: BarDefinitionMeasure | LineDefinitionMeasure) => col.axis === 'y')
     const yId = this.yAxisColumn?.id || ''
     const xId = this.xAxisColumn?.id || ''
-    const keyIds = keys.map((key) => key.id)
+    const keyIds = keys.map(key => key.id)
     this.groupedData = keyIds.length ? DatasetHelper.groupRowsBy(this.responseData, keyIds) : [this.responseData]
     this.labels = this.chartLabelsHelper.getListLabels(this.groupedData, xId)
 
     this.datasets = this.groupedData.map((groupData, groupIndex) => {
       const data = Array(this.labels.length)
-      groupData.forEach((row) => {
+      groupData.forEach(row => {
         const labelField = row[xId]
         const valueField = row[yId]
 
         const raw = valueField && valueField.raw ? Number(valueField.raw) : 0
-        const dataIndex = this.labels.findIndex((l) => l === labelField.raw)
+        const dataIndex = this.labels.findIndex(l => l === labelField.raw)
 
         if (dataIndex !== -1) {
           data[dataIndex] = Number(raw)
@@ -134,7 +134,7 @@ class Chart {
   }
 
   private createDatasetValues = (measures: ChartMeasure[], row: DashboardDataResponse) => {
-    return measures.map((column) => {
+    return measures.map(column => {
       const rowId = column.id
       return row[rowId] && row[rowId].raw ? Number(row[rowId].raw) : 0
     })

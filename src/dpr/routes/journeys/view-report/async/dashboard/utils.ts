@@ -125,6 +125,7 @@ const updateStore = async (
   userId: string,
   sections: DashboardSection[],
   req: Request,
+  res: Response,
   fields: components['schemas']['FieldDefinition'][],
 ): Promise<RequestedReport | undefined> => {
   const { requestedReportService } = services
@@ -132,7 +133,7 @@ const updateStore = async (
 
   // Add to recently viewed
   if (sections && sections.length && dashboardRequestData) {
-    await updateLastViewedAsync(req, services, dashboardRequestData, userId, fields)
+    await updateLastViewedAsync(req, res, services, dashboardRequestData, userId, fields)
   }
 
   return dashboardRequestData
@@ -186,7 +187,7 @@ export const renderAsyncDashboard = async ({ req, res, services }: AsyncReportUt
 
   // Update the store
   if (requestedReportService) {
-    requestData = await updateStore(services, tableId, dprUser.id, sections, req, fields)
+    requestData = await updateStore(services, tableId, dprUser.id, sections, req, res, fields)
   }
 
   return {

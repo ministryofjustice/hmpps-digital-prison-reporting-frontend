@@ -26,7 +26,7 @@ export const renderReport = async ({ req, res, services }: AsyncReportUtilsParam
 
   if (renderData && requestData && Object.keys(requestData).length) {
     // Save the data to redis
-    await updateLastViewedAsync(req, services, requestData, dprUser.id, renderData.fields || [])
+    await updateLastViewedAsync(req, res, services, requestData, dprUser.id, renderData.fields || [])
   }
 
   return reportConfig

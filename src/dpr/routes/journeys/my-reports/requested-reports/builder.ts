@@ -56,7 +56,7 @@ class RequestedReportBuilder extends StoreItemBuilder {
     const url = new URL(this.req.originalUrl, `${this.req.protocol}://${this.req.get('host')}`)
     const { pathname, search, origin } = url
 
-    const pollingUrlData = this.setPollingUrlData()
+    const pollingUrlData = this.setPollingUrlData(origin)
 
     const requestUrlData = {
       fullUrl: `${origin}${this.req.originalUrl}`,
@@ -71,7 +71,7 @@ class RequestedReportBuilder extends StoreItemBuilder {
     }
   }
 
-  private setPollingUrlData = () => {
+  private setPollingUrlData = (origin: string) => {
     const { definitionsPath, dpdPathFromQuery } = this.res.locals
 
     const { executionId } = this.executionData

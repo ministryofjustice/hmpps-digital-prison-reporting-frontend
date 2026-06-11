@@ -14,10 +14,7 @@ import { setRedisState, resetStaleReportsCheck } from '../../../../../test-app/r
 import { RequestedReport, StoredReportData } from '../../../types/UserReports'
 
 describe('My Reports', () => {
-  const paths = [
-    '/',
-    // '/dpr', '/embedded/platform', '/embedded/platform/dpr'
-  ]
+  const paths = ['/', '/dpr', '/embedded/platform', '/embedded/platform/dpr']
 
   const sharedTests = (path: string) => {
     describe(`My reports - ${path}`, () => {

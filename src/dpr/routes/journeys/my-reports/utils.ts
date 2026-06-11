@@ -115,8 +115,6 @@ export const getAllMyReports = async (
 
   const res = results.filter(Boolean) as (RequestedReport | RecentlyViewedReport)[]
 
-  console.log(JSON.stringify(res, null, 2))
-
   return res
 }
 

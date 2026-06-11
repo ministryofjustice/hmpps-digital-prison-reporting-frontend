@@ -57,6 +57,7 @@ const AsyncReportUrlDataSchema = z.object({
 const ChildReportExecutionDataSchema = z.object({
   variantId: z.string(),
   executionId: z.string().optional(),
+  tableId: z.string().optional(),
   status: RequestStatusSchema.optional(),
 })
 

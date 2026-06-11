@@ -5,8 +5,8 @@ import { RequestedReportSchema } from './requested-reports/validation'
 import { ViewedReportSchema } from './recently-viewed/validation'
 
 interface GetRemoveMyReportData {
-  reportId: string
-  id: string
+  reportId?: string | undefined
+  id?: string | undefined
   executionId?: string | undefined
   tableId?: string | undefined
 }
@@ -23,7 +23,7 @@ interface GetRemoveMyReportData {
  */
 export const getMyReport = async (
   reportData: GetRemoveMyReportData,
-  type: 'requested' | 'viewed',
+  type: 'requestedReports' | 'recentlyViewedReports',
   services: Services,
   userId: string,
 ): Promise<RequestedReport | RecentlyViewedReport | undefined> => {
@@ -33,7 +33,7 @@ export const getMyReport = async (
     return undefined
   }
 
-  const schema = type === 'requested' ? RequestedReportSchema : ViewedReportSchema
+  const schema = type === 'requestedReports' ? RequestedReportSchema : ViewedReportSchema
 
   const result = schema.safeParse(rawReport)
 
@@ -61,25 +61,25 @@ export const getMyReport = async (
  * @return {*}  {(Promise<(RequestedReport | RecentlyViewedReport)[]>)}
  */
 export const getAllMyReports = async (
-  type: 'requested' | 'viewed',
+  type: 'requestedReports' | 'recentlyViewedReports',
   services: Services,
   userId: string,
 ): Promise<(RequestedReport | RecentlyViewedReport)[]> => {
   const serviceMap = {
-    requested: services.requestedReportService,
-    viewed: services.recentlyViewedService,
+    requestedReports: services.requestedReportService,
+    recentlyViewedReports: services.recentlyViewedService,
   } as const
 
   const schemaMap = {
-    requested: RequestedReportSchema,
-    viewed: ViewedReportSchema,
+    requestedReports: RequestedReportSchema,
+    recentlyViewedReports: ViewedReportSchema,
   } as const
 
   const service = serviceMap[type]
   const schema = schemaMap[type]
 
   const reports: unknown[] =
-    type === 'requested' ? await service.getAllReports(userId) : await service.getAllReports(userId)
+    type === 'requestedReports' ? await service.getAllReports(userId) : await service.getAllReports(userId)
 
   const results = await Promise.all(
     reports.map(async rawReport => {
@@ -128,12 +128,12 @@ export const getAllMyReports = async (
  * @param {string} userId
  */
 export const addMyReport = async (
-  type: 'requested' | 'viewed',
+  type: 'requestedReports' | 'recentlyViewedReports',
   reportData: RequestedReport | RecentlyViewedReport,
   services: Services,
   userId: string,
 ) => {
-  const schema = type === 'requested' ? RequestedReportSchema : ViewedReportSchema
+  const schema = type === 'requestedReports' ? RequestedReportSchema : ViewedReportSchema
 
   const result = schema.safeParse(reportData)
 
@@ -144,11 +144,11 @@ export const addMyReport = async (
   }
 
   switch (type) {
-    case 'requested':
+    case 'requestedReports':
       await services.requestedReportService.addReport(userId, result.data)
       break
 
-    case 'viewed':
+    case 'recentlyViewedReports':
       await services.recentlyViewedService.setRecentlyViewed(result.data, userId)
       break
 
@@ -167,18 +167,18 @@ export const addMyReport = async (
  * @return {*}  {Promise<unknown>}
  */
 export const removeMyReport = async (
-  type: 'requested' | 'viewed',
+  type: 'requestedReports' | 'recentlyViewedReports',
   reportData: GetRemoveMyReportData,
   services: Services,
   userId: string,
 ): Promise<unknown> => {
   const { executionId, tableId, reportId, id } = reportData
 
-  if (executionId && type === 'requested') {
+  if (executionId && type === 'requestedReports') {
     return services.requestedReportService.removeReport(executionId, userId)
   }
 
-  if (tableId && type === 'viewed') {
+  if (tableId && reportId && id && type === 'recentlyViewedReports') {
     return services.recentlyViewedService.removeReport(userId, reportId, id, tableId)
   }
 
@@ -195,7 +195,7 @@ export const removeMyReport = async (
  * @return {*}  {Promise<unknown>}
  */
 const fetchReport = async (
-  type: 'requested' | 'viewed',
+  type: 'requestedReports' | 'recentlyViewedReports',
   reportData: GetRemoveMyReportData,
   services: Services,
   userId: string,
@@ -203,8 +203,8 @@ const fetchReport = async (
   const { executionId, tableId } = reportData
 
   const serviceMap = {
-    requested: services.requestedReportService,
-    viewed: services.recentlyViewedService,
+    requestedReports: services.requestedReportService,
+    recentlyViewedReports: services.recentlyViewedService,
   } as const
 
   if (executionId) {

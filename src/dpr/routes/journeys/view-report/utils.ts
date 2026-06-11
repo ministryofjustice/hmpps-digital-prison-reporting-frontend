@@ -18,6 +18,7 @@ import { QuerySummaryItem } from '../../../components/_async/request-details/typ
 import { buildQuerySummary } from '../../../components/_async/request-details/utils'
 import ViewedReportBuilder from '../my-reports/recently-viewed/builder'
 import { ReportData } from '../my-reports/builder'
+import { getMyReport } from '../my-reports/utils'
 
 /**
  * Apply interactive query to a REPORT
@@ -345,7 +346,7 @@ export const updateStateToExpiredAndRedirect = async (req: Request, res: Respons
   await services.requestedReportService.setToExpiredByTableId(tableId, dprUser.id)
 
   // get the updated report state
-  const updatedReportState = await services.recentlyViewedService.getReportByTableId(tableId, dprUser.id)
+  const updatedReportState = await getMyReport({ tableId }, 'recentlyViewedReports', services, dprUser.id)
   const pollingUrl = updatedReportState?.url?.polling?.fullUrl
 
   // redirect to polling page, or safe fallback

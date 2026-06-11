@@ -4,14 +4,19 @@ import LocalsHelper from '../../../../../utils/localsHelper'
 import { AsyncReportUtilsParams } from '../../../../../types/AsyncReportUtils'
 import { components } from '../../../../../types/api'
 import { updateLastViewedAsync } from '../../utils'
+import { getMyReport } from '../../../my-reports/utils'
 
 export const renderReport = async ({ req, res, services }: AsyncReportUtilsParams) => {
   const { token, dprUser, definitionsPath } = LocalsHelper.getValues(res)
   const { id, tableId, reportId } = <{ id: string; tableId: string; reportId: string }>req.params
-  const requestData: RequestedReport | undefined = await services.requestedReportService.getReportByTableId(
-    tableId,
+
+  const requestData: RequestedReport | undefined = await getMyReport(
+    { tableId },
+    'requestedReports',
+    services,
     dprUser.id,
   )
+
   // get pre-filter query data required by getDefinition
   const queryData = requestData?.query?.data
 

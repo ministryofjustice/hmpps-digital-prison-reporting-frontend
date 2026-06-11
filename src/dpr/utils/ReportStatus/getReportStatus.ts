@@ -1,3 +1,4 @@
+import { getMyReport } from 'src/dpr/routes/journeys/my-reports/utils'
 import {
   RequestStatus,
   UpstreamSignal,
@@ -427,7 +428,7 @@ export async function evaluateAndUpdateReportStatus({
   await services.requestedReportService.updateStatus(executionId, dprUser.id, resolution.newStatus, errorMessage)
 
   // Get the updated stored state
-  const updated = await services.requestedReportService.getReportByExecutionId(executionId, dprUser.id)
+  const updated = await getMyReport({ executionId }, 'requestedReports', services, dprUser.id)
   if (!updated) {
     return { resolution }
   }

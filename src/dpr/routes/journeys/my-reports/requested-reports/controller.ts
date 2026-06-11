@@ -8,6 +8,7 @@ import { StoredReportData } from '../../../../types/UserReports'
 import { UpdatedResolution } from '../../../../utils/ReportStatus/types'
 import { initRequested } from '../../../../components/my-reports/utils'
 import { captureDprError } from '../../../../utils/captureError'
+import { getAllMyReports, removeMyReport } from '../utils'
 
 class RequestedReportsController {
   services: Services
@@ -41,13 +42,13 @@ class RequestedReportsController {
    */
   POST: RequestHandler = async (req, res) => {
     const { dprUser } = LocalsHelper.getValues(res)
-    const { executionId } = req.params
+    const { executionId } = req.params as { executionId: string; reportId: string; id: string }
 
     // Remove the report
-    await this.services.requestedReportService.removeReport(executionId as string, dprUser.id)
+    await removeMyReport('requestedReports', { executionId }, this.services, dprUser.id)
 
     // Update the locals
-    res.locals['requestedReports'] = await this.services.requestedReportService.getAllReports(dprUser.id)
+    res.locals['requestedReports'] = await getAllMyReports('requestedReports', this.services, dprUser.id)
 
     try {
       // get the data for the requested list

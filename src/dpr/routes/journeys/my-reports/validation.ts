@@ -10,6 +10,7 @@ const RequestStatusSchema = z.enum([
   RequestStatus.EXPIRED,
   RequestStatus.FAILED,
   RequestStatus.ABORTED,
+  RequestStatus.ALL,
 ])
 
 const ReportTypeSchema = z.enum([ReportType.REPORT, ReportType.DASHBOARD])

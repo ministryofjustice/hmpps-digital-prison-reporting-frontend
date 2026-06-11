@@ -6,30 +6,30 @@ import { QuerySummaryItem } from '../components/_async/request-details/types'
 
 export interface StoredReportData {
   reportId: string
-  variantId?: string // NOTE variant ID exists fir V1 async routes
+  variantId?: string | undefined
   id: string
   executionId?: string | undefined
   tableId?: string | undefined
   reportName: string
-  variantName?: string
+  variantName?: string | undefined
   name: string
   description: string
-  status?: RequestStatus
+  status?: RequestStatus | undefined
   timestamp: AsyncReportsTimestamp
-  dataProductDefinitionsPath?: string
-  dpdPathFromQuery?: boolean
-  query?: AsyncReportQueryData
-  interactiveQuery?: AsyncReportQueryData
-  url?: AsyncReportUrlData
+  dataProductDefinitionsPath?: string | undefined
+  dpdPathFromQuery?: boolean | undefined
+  query?: AsyncReportQueryData | undefined
+  interactiveQuery?: AsyncReportQueryData | undefined
+  url?: AsyncReportUrlData | undefined
   type: ReportType
-  loadType?: LoadType
-  childExecutionData?: Array<ChildReportExecutionData>
+  loadType?: LoadType | undefined
+  childExecutionData?: Array<ChildReportExecutionData> | undefined
 }
 
 export interface RequestedReport extends StoredReportData {
-  errorMessage?: string
-  filters?: ParamsConfig
-  sortBy?: ParamsConfig
+  errorMessage?: string | undefined
+  filters?: ParamsConfig | undefined
+  sortBy?: ParamsConfig | undefined
 }
 
 export interface RequestedDashboard extends StoredReportData {
@@ -41,16 +41,16 @@ export type UserReportData = RequestedReport | RecentlyViewedReport | StoredRepo
 
 export interface AsyncReportUrlData {
   origin: string
-  request?: AsyncReportUrlItemData
-  report?: AsyncReportUrlItemData
-  polling?: AsyncReportUrlItemData
+  request?: AsyncReportUrlItemData | undefined
+  report?: AsyncReportUrlItemData | undefined
+  polling?: AsyncReportUrlItemData | undefined
 }
 
 export interface AsyncReportUrlItemData {
   pathname?: string | undefined
   fullUrl?: string | undefined
-  search?: string
-  default?: string
+  search?: string | undefined
+  default?: string | undefined
 }
 
 export interface AsyncReportQueryData {
@@ -82,14 +82,14 @@ export enum ReportType {
 }
 
 export interface AsyncReportsTimestamp {
-  lastViewed?: Date
-  requested?: Date
-  completed?: Date
-  expired?: Date
-  failed?: Date
-  retried?: Date
-  aborted?: Date
-  refresh?: Date
+  lastViewed?: Date | undefined
+  requested?: Date | undefined
+  completed?: Date | undefined
+  expired?: Date | undefined
+  failed?: Date | undefined
+  retried?: Date | undefined
+  aborted?: Date | undefined
+  refresh?: Date | undefined
 }
 
 export interface AsyncSummary {

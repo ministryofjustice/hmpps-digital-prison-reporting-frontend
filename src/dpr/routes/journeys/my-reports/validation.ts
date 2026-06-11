@@ -16,7 +16,7 @@ const ReportTypeSchema = z.enum([ReportType.REPORT, ReportType.DASHBOARD])
 
 const LoadTypeSchema = z.enum([LoadType.ASYNC, LoadType.SYNC])
 
-const AsyncReportsTimestampSchema = z.object({
+export const AsyncReportsTimestampSchema = z.object({
   lastViewed: z.coerce.date().optional(),
   requested: z.coerce.date().optional(),
   completed: z.coerce.date().optional(),
@@ -27,13 +27,42 @@ const AsyncReportsTimestampSchema = z.object({
   refresh: z.coerce.date().optional(),
 })
 
-const AsyncReportQueryDataSchema = z.object({}).catchall(z.unknown())
+const QuerySummaryItemSchema = z
+  .object({
+    name: z.string(),
+    value: z.string(),
+  })
+  .catchall(z.unknown())
 
-const AsyncReportUrlDataSchema = z.object({}).catchall(z.unknown())
+const AsyncReportQueryDataSchema = z.object({
+  data: z.record(z.string(), z.union([z.string(), z.array(z.string())])),
+  summary: z.array(QuerySummaryItemSchema),
+})
 
-const ChildReportExecutionDataSchema = z.object({}).catchall(z.unknown())
+const AsyncReportUrlItemDataSchema = z.object({
+  pathname: z.string().optional(),
+  fullUrl: z.string().optional(),
+  search: z.string().optional(),
+  default: z.string().optional(),
+})
 
-export const ParamsConfigSchema = z.object({}).catchall(z.unknown())
+const AsyncReportUrlDataSchema = z.object({
+  origin: z.string(),
+  request: AsyncReportUrlItemDataSchema.optional(),
+  report: AsyncReportUrlItemDataSchema.optional(),
+  polling: AsyncReportUrlItemDataSchema.optional(),
+})
+
+const ChildReportExecutionDataSchema = z.object({
+  variantId: z.string(),
+  executionId: z.string().optional(),
+  status: RequestStatusSchema.optional(),
+})
+
+export const ParamsConfigSchema = z.object({
+  data: z.record(z.string(), z.string()),
+  queryString: z.string(),
+})
 
 export const normalizeStoredReportData = <
   T extends {

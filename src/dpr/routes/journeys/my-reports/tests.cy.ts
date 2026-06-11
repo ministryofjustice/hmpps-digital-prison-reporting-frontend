@@ -142,6 +142,32 @@ describe('My Reports', () => {
               })
           })
       })
+
+      it('should validate the reports before loading the UI', () => {
+        const invalidViewedReport = {
+          ...requestedReady,
+          reportId: 'one',
+          id: 'two',
+          type: 'NotARealType',
+          status: 'NotARealStatus',
+        }
+
+        setRedisState({
+          bookmarks: [],
+          recentlyViewedReports: [],
+          requestedReports: [invalidViewedReport as RequestedReport],
+        })
+
+        cy.visit(path)
+
+        cy.findByRole('tab', { name: /Requested/ }).click()
+
+        cy.findByLabelText(/Requested \(/).within(() => {
+          cy.findAllByRole('paragraph')
+            .contains(/You have 0 requested reports/)
+            .should('be.visible')
+        })
+      })
     })
   }
 

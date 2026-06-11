@@ -75,8 +75,6 @@ export const normalizeStoredReportData = <
 ) => ({
   ...data,
   name: data.name ?? data.variantName ?? '',
-  // Backwards compatibility
-  variantName: data.variantName ?? data.name,
 })
 
 export const StoredReportDataObjectSchema = z.object({

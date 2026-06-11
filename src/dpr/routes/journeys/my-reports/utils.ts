@@ -94,19 +94,17 @@ export const getAllMyReports = async (
       try {
         const report = rawReport as Partial<GetRemoveMyReportData>
 
-        if (report.reportId && report.id) {
-          await removeMyReport(
-            type,
-            {
-              reportId: report.reportId,
-              id: report.id,
-              executionId: report.executionId,
-              tableId: report.tableId,
-            },
-            services,
-            userId,
-          )
-        }
+        await removeMyReport(
+          type,
+          {
+            reportId: report.reportId,
+            id: report.id,
+            executionId: report.executionId,
+            tableId: report.tableId,
+          },
+          services,
+          userId,
+        )
       } catch (cleanupError) {
         captureDprError(cleanupError, 'Failed to remove invalid report (list)')
       }
@@ -115,7 +113,11 @@ export const getAllMyReports = async (
     }),
   )
 
-  return results.filter(Boolean) as (RequestedReport | RecentlyViewedReport)[]
+  const res = results.filter(Boolean) as (RequestedReport | RecentlyViewedReport)[]
+
+  console.log(JSON.stringify(res, null, 2))
+
+  return res
 }
 
 /**

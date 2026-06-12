@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## 6.7.0
+
+- My reports validation on addition and retrieval of report state
+
 ## 6.6.5
 
 - move chokidar to dev dependencies
@@ -24,7 +28,7 @@ Below you can find the changes included in each release.
 
 ## 6.6.0
 
-- Bugfix: Statics options should not be normalized before query
+- My Reports: Automatically remove stale reports
 
 ## 6.5.0
 

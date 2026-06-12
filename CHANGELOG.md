@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## 6.6.5
+
+- move chokidar to dev dependencies
+
 ## 6.6.4
 
 - Update prettier config to format nunjucks files

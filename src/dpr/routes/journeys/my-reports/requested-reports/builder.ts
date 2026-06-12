@@ -7,11 +7,11 @@ import {
   RequestedReport,
   RequestFormData,
 } from '../../../../types/UserReports'
-import StoreItemBuilder from '../builder'
+import { StoreItemBuilder } from '../builder'
 import { RequestStatus } from '../../../../utils/ReportStatus/types'
 import { components } from '../../../../types/api'
 
-class RequestedReportBuilder extends StoreItemBuilder {
+export class RequestedReportBuilder extends StoreItemBuilder {
   filters!: ParamsConfig
 
   sort!: ParamsConfig
@@ -150,6 +150,3 @@ class RequestedReportBuilder extends StoreItemBuilder {
     return requestedReportData
   }
 }
-
-export { RequestedReportBuilder }
-export default RequestedReportBuilder

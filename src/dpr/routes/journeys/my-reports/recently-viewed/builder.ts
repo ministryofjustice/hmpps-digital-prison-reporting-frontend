@@ -6,10 +6,10 @@ import {
   ParamsConfig,
   RecentlyViewedReport,
 } from '../../../../types/UserReports'
-import StoreItemBuilder, { ReportData } from '../builder'
+import { StoreItemBuilder, ReportData } from '../builder'
 import { RequestStatus } from '../../../../utils/ReportStatus/types'
 
-class ViewedReportBuilder extends StoreItemBuilder {
+export class ViewedReportBuilder extends StoreItemBuilder {
   filters!: ParamsConfig
 
   sort!: ParamsConfig
@@ -140,6 +140,3 @@ class ViewedReportBuilder extends StoreItemBuilder {
     return viewedReportData
   }
 }
-
-export { ViewedReportBuilder }
-export default ViewedReportBuilder

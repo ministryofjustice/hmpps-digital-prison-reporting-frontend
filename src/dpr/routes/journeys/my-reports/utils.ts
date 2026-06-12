@@ -164,14 +164,14 @@ export const addMyReport = async (
  * @param {GetRemoveMyReportData} reportData
  * @param {Services} services
  * @param {string} userId
- * @return {*}  {Promise<unknown>}
+ * @return {*}  {Promise<void>}
  */
 export const removeMyReport = async (
   type: 'requestedReports' | 'recentlyViewedReports',
   reportData: GetRemoveMyReportData,
   services: Services,
   userId: string,
-): Promise<unknown> => {
+): Promise<void> => {
   const { executionId, tableId, reportId, id } = reportData
 
   if (executionId && type === 'requestedReports') {
@@ -192,14 +192,14 @@ export const removeMyReport = async (
  * @param {GetRemoveMyReportData} reportData
  * @param {Services} services
  * @param {string} userId
- * @return {*}  {Promise<unknown>}
+ * @return {*}  {Promise<RequestedReport | RecentlyViewedReport | undefined>}
  */
 const fetchReport = async (
   type: 'requestedReports' | 'recentlyViewedReports',
   reportData: GetRemoveMyReportData,
   services: Services,
   userId: string,
-): Promise<unknown> => {
+): Promise<RequestedReport | RecentlyViewedReport | undefined> => {
   const { executionId, tableId } = reportData
 
   const serviceMap = {

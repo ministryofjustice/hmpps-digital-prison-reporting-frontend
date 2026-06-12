@@ -16,7 +16,7 @@ import { getFields } from '../../../utils/definitionUtils'
 import { LoadType, RequestedReport } from '../../../types/UserReports'
 import { QuerySummaryItem } from '../../../components/_async/request-details/types'
 import { buildQuerySummary } from '../../../components/_async/request-details/utils'
-import ViewedReportBuilder from '../my-reports/recently-viewed/builder'
+import { ViewedReportBuilder } from '../my-reports/recently-viewed/builder'
 import { ReportData } from '../my-reports/builder'
 import { getMyReport } from '../my-reports/utils'
 

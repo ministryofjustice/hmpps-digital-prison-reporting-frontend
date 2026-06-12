@@ -20,7 +20,7 @@ import { formBodyToQueryObject } from '../../../../utils/queryMappers'
 import { joinQueryStrings } from '../../../../utils/urlHelper'
 import { buildQuerySummary } from '../../../../components/_async/request-details/utils'
 import ReportQuery from '../../../../types/ReportQuery'
-import RequestedReportBuilder from '../../my-reports/requested-reports/builder'
+import { RequestedReportBuilder } from '../../my-reports/requested-reports/builder'
 
 // ----------------------------------------------------------------------
 // POST

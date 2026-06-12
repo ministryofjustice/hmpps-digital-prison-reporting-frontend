@@ -12,7 +12,7 @@ export interface ReportData {
   name: string
 }
 
-class StoreItemBuilder {
+export class StoreItemBuilder {
   executionData!: ExecutionData
 
   childExecutionData!: ChildReportExecutionData[]
@@ -76,6 +76,3 @@ class StoreItemBuilder {
     }
   }
 }
-
-export { StoreItemBuilder }
-export default StoreItemBuilder

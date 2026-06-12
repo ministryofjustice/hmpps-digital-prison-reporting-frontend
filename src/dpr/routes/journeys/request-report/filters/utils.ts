@@ -5,11 +5,10 @@ import { Request, Response, NextFunction } from 'express'
 import { buildFilterData, buildSortData } from '../../../../components/_async/async-filters-form/utils'
 import LocalsHelper from '../../../../utils/localsHelper'
 import { getRequestFilters } from '../../../../components/_filters/utils'
-import UserStoreItemBuilder from '../../../../utils/UserStoreItemBuilder'
 
 // Types
 import type ReportingService from '../../../../services/reportingService'
-import { ReportType, RequestFormData, RequestStatus } from '../../../../types/UserReports'
+import { ReportType } from '../../../../types/UserReports'
 import type { ExecutionData, ChildReportExecutionData } from '../../../../types/ExecutionData'
 import type { AsyncReportUtilsParams, RequestDataResult, RequestReportData } from '../../../../types/AsyncReportUtils'
 import type { SetQueryFromFiltersResult } from '../../../../components/_async/async-filters-form/types'
@@ -21,6 +20,7 @@ import { formBodyToQueryObject } from '../../../../utils/queryMappers'
 import { joinQueryStrings } from '../../../../utils/urlHelper'
 import { buildQuerySummary } from '../../../../components/_async/request-details/utils'
 import ReportQuery from '../../../../types/ReportQuery'
+import { RequestedReportBuilder } from '../../my-reports/requested-reports/builder'
 
 // ----------------------------------------------------------------------
 // POST
@@ -82,51 +82,13 @@ export const updateStore = async ({
   executionData: ExecutionData
   childExecutionData: Array<ChildReportExecutionData>
 }): Promise<void> => {
-  const { type } = req.body
-  const { dprUser, definitionsPath, dpdPathFromQuery } = LocalsHelper.getValues(res)
+  const { dprUser } = LocalsHelper.getValues(res)
 
-  const requestFormData: RequestFormData = req.body
-  const reportData = {
-    type: requestFormData.type as ReportType,
-    reportId: requestFormData.reportId,
-    reportName: requestFormData.reportName,
-    description: requestFormData.description,
-    id: requestFormData.id,
-    name: requestFormData.name,
-  }
-
-  let requestedReportData
-  switch (type) {
-    case ReportType.REPORT:
-      requestedReportData = new UserStoreItemBuilder(reportData, requestFormData)
-        .addExecutionData(executionData)
-        .addChildExecutionData(childExecutionData)
-        .addFilters(queryData?.filterData)
-        .addSortData(queryData?.sortData)
-        .addDefinitionsPath(definitionsPath, dpdPathFromQuery)
-        .addRequestUrls(req)
-        .addQuery(queryData)
-        .addStatus(RequestStatus.SUBMITTED)
-        .addTimestamp()
-        .build()
-      break
-    case ReportType.DASHBOARD: {
-      requestedReportData = new UserStoreItemBuilder(reportData, requestFormData)
-        .addExecutionData(executionData)
-        .addChildExecutionData(childExecutionData)
-        .addFilters(queryData?.filterData)
-        .addDefinitionsPath(definitionsPath, dpdPathFromQuery)
-        .addRequestUrls(req)
-        .addQuery(queryData)
-        .addStatus(RequestStatus.SUBMITTED)
-        .addTimestamp()
-        .addMetrics(JSON.parse(req.body.sections))
-        .build()
-      break
-    }
-    default:
-      break
-  }
+  const requestedReportData = new RequestedReportBuilder(req, res)
+    .withExecutionData(executionData)
+    .withChildExecutionData(childExecutionData)
+    .withQueryData(queryData)
+    .build()
 
   if (!requestedReportData) {
     return
@@ -150,7 +112,7 @@ const requestChildReports = async (
   queryData?: SetQueryFromFiltersResult,
   dataProductDefinitionsPath?: string,
 ): Promise<Array<ChildReportExecutionData>> => {
-  let query: Record<string, string>
+  let query: Record<string, string | string[]>
   if (queryData) {
     query = queryData.query
     delete query['sortColumn']

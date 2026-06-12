@@ -3,6 +3,7 @@ import { Services } from '../../../../types/Services'
 import LocalsHelper from '../../../../utils/localsHelper'
 import { initViewed } from '../../../../components/my-reports/utils'
 import { captureDprError } from '../../../../utils/captureError'
+import { getAllMyReports, removeMyReport } from '../utils'
 
 class RecentlyViewedReportsController {
   services: Services
@@ -21,16 +22,16 @@ class RecentlyViewedReportsController {
     }
 
     // Remove the report from recenly viewed list
-    await this.services.recentlyViewedService.removeReport(dprUser.id, reportId, id, tableId)
+    await removeMyReport('recentlyViewedReports', { reportId, id, tableId }, this.services, dprUser.id)
 
     // And clean up the request data, if there is any
     if (executionId) {
-      await this.services.requestedReportService.removeReport(executionId, dprUser.id)
+      await removeMyReport('requestedReports', { executionId }, this.services, dprUser.id)
     }
 
     // Update the locals
-    res.locals['recentlyViewedReports'] = await this.services.recentlyViewedService.getAllReports(dprUser.id)
-    res.locals['requestedReports'] = await this.services.requestedReportService.getAllReports(dprUser.id)
+    res.locals['recentlyViewedReports'] = await getAllMyReports('recentlyViewedReports', this.services, dprUser.id)
+    res.locals['requestedReports'] = await getAllMyReports('requestedReports', this.services, dprUser.id)
 
     try {
       // get the data for the requested list

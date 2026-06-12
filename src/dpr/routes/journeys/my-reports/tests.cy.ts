@@ -14,10 +14,7 @@ import { setRedisState, resetStaleReportsCheck } from '../../../../../test-app/r
 import { RequestedReport, StoredReportData } from '../../../types/UserReports'
 
 describe('My Reports', () => {
-  const paths = [
-    '/',
-    // '/dpr', '/embedded/platform', '/embedded/platform/dpr'
-  ]
+  const paths = ['/', '/dpr', '/embedded/platform', '/embedded/platform/dpr']
 
   const sharedTests = (path: string) => {
     describe(`My reports - ${path}`, () => {
@@ -141,6 +138,32 @@ describe('My Reports', () => {
                 expect(texts).to.deep.equal(expected)
               })
           })
+      })
+
+      it('should validate the reports before loading the UI', () => {
+        const invalidViewedReport = {
+          ...requestedReady,
+          reportId: 'one',
+          id: 'two',
+          type: 'NotARealType',
+          status: 'NotARealStatus',
+        }
+
+        setRedisState({
+          bookmarks: [],
+          recentlyViewedReports: [],
+          requestedReports: [invalidViewedReport as RequestedReport],
+        })
+
+        cy.visit(path)
+
+        cy.findByRole('tab', { name: /Requested/ }).click()
+
+        cy.findByLabelText(/Requested \(/).within(() => {
+          cy.findAllByRole('paragraph')
+            .contains(/You have 0 requested reports/)
+            .should('be.visible')
+        })
       })
     })
   }

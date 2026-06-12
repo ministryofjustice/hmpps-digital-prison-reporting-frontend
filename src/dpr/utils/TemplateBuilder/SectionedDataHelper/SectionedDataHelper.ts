@@ -5,7 +5,6 @@ import { components } from '../../../types/api'
 import { getFieldsByName, getFieldDisplayName } from '../../definitionUtils'
 import { SectionData, SectionedData, SectionKey } from './types'
 import DateMapper from '../../DateMapper/DateMapper'
-import logger from '../../logger'
 
 type OrderedRow = Record<string, string> & {
   index: string
@@ -110,8 +109,6 @@ export class SectionedDataHelper {
       return acc
     }, {})
 
-    logger.info('SUMMARY_SORT_BUG', 'groupBySections', JSON.stringify({ sectionMap }))
-
     this.sectionedDataArray.push({
       sections: Object.values(sectionMap),
     })
@@ -120,8 +117,6 @@ export class SectionedDataHelper {
   createSummarySections() {
     this.summariesData.forEach(summaryData => {
       const { fields, id, template, data } = summaryData
-
-      logger.info('SUMMARY_SORT_BUG', 'createSummarySections', JSON.stringify({ summaryData }))
 
       this.groupBySections(<Array<Record<string, string>>>data, fields, { id, template })
     })
@@ -158,8 +153,6 @@ export class SectionedDataHelper {
                 }
               : s,
           )
-
-          logger.info('SUMMARY_SORT_BUG', 'build 1', JSON.stringify({ mergedSections: updated }))
 
           return updated
         }, []),
@@ -290,11 +283,7 @@ export class SectionedDataHelper {
 
       sections = this.enforceSummaryRowOrder(sections)
 
-      logger.info('SUMMARY_SORT_BUG', 'build 1', JSON.stringify({ mergedSections: sections }))
-
       sections = this.sortSections(sections)
-
-      logger.info('SUMMARY_SORT_BUG', 'build 2', JSON.stringify({ sortedSections: sections }))
     } else {
       const singleSection: SectionData = {
         key: '',
@@ -304,8 +293,6 @@ export class SectionedDataHelper {
         summaries: this.summariesData,
       }
       sections = { sections: [singleSection] }
-
-      logger.info('SUMMARY_SORT_BUG', 'build 3', JSON.stringify({ singleSection }))
     }
 
     return sections

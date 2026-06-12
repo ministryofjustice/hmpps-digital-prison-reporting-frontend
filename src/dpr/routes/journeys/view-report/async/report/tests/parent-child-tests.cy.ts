@@ -28,6 +28,7 @@ context('Parent-child', () => {
       it('should display a parent child section variant', () => {
         cy.visit(path)
         startReportRequest(ParentChildSectionReport)
+
         cy.findByRole('group', { name: /Column/ })
           .findByRole('radio', { name: 'Section 1' })
           .check()

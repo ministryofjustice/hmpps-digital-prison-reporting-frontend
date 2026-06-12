@@ -124,7 +124,7 @@ context('Dashboard visualisation: Scorecards', () => {
         })
     })
 
-    it('should show the correct colour based in custom boundaries  2', () => {
+    it('should show the correct colour based in custom boundaries 2', () => {
       cy.findAllByLabelText(/No of prisoners with MetricOne/)
         .eq(0)
         .should('exist')

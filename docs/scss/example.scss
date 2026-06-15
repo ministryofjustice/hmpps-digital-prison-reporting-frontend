@@ -4,7 +4,7 @@
 
 .app-example {
   background-color: govuk-colour('white');
-  border: 1px solid $govuk-border-colour;
+  border: 1px solid govuk-functional-colour(border);
   position: relative;
 }
 
@@ -23,8 +23,8 @@
 }
 
 .app-example__new-window {
-  @include govuk-font($size: 14);
-  border: 1px solid $govuk-border-colour;
+  @include govuk-font($size: 16);
+  border: 1px solid govuk-functional-colour(border);
   position: absolute;
   top: -1px;
   left: -1px;
@@ -40,13 +40,13 @@
   }
 
   a:hover {
-    color: govuk-colour('light-blue');
+    color: govuk-colour('blue', $variant: 'tint-25');
   }
 
   a:focus {
-    // color: $govuk-focus-text-colour;
-    background-color: $govuk-focus-colour;
-    // box-shadow: 0 -2px $govuk-focus-colour, 0 4px $govuk-focus-text-colour;
-    // border-color: $govuk-focus-text-colour;
+    // color: govuk-functional-colour(focus-text);
+    background-color: govuk-functional-colour(focus);
+    // box-shadow: 0 -2px govuk-functional-colour(focus), 0 4px govuk-functional-colour(focus-text);
+    // border-color: govuk-functional-colour(focus-text);
   }
 }

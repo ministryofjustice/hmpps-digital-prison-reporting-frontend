@@ -36,7 +36,7 @@
 
     margin-bottom: govuk-spacing(6);
     border: solid 1px #b1b4b6;
-    border-left: solid 4px govuk-colour('light-blue');
+    border-left: solid 4px govuk-colour('blue', $variant: 'tint-25');
 
     h2 {
       background-color: #f3f2f1;
@@ -76,7 +76,7 @@
         }
       }
 
-      border-left: solid 1px govuk-colour('mid-grey');
+      border-left: solid 1px govuk-colour('black', $variant: 'tint-80');
       margin-bottom: govuk-spacing(2);
 
       h2 {

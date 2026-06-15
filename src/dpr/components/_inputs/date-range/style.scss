@@ -17,7 +17,7 @@
     color: govuk-colour('blue');
 
     &:hover {
-      color: govuk-colour('dark-blue');
+      color: govuk-colour('blue', $variant: 'shade-50');
     }
   }
 }

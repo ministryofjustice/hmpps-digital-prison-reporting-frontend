@@ -10,7 +10,7 @@
     width: fit-content;
 
     .govuk-table {
-      border: solid 1px govuk-colour('mid-grey');
+      border: solid 1px govuk-colour('black', $variant: 'tint-80');
       margin-bottom: 0;
 
       th,
@@ -18,7 +18,7 @@
         padding: 10px;
       }
       th {
-        background-color: govuk-colour('light-grey');
+        background-color: govuk-colour('black', $variant: 'tint-95');
         border-bottom: 0px;
       }
     }
@@ -47,7 +47,7 @@
           padding: govuk-spacing(1);
         }
         th {
-          background-color: govuk-colour('light-grey');
+          background-color: govuk-colour('black', $variant: 'tint-95');
           border-bottom: 0px;
         }
       }

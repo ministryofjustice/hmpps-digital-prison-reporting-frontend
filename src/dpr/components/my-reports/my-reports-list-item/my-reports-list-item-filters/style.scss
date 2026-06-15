@@ -16,11 +16,11 @@ li.dpr-my-reports__item-filters-list-item {
 }
 
 li.dpr-my-reports__item-filters-list-item--pre {
-  background-color: govuk-colour('light-grey');
+  background-color: govuk-colour('black', $variant: 'tint-95');
 }
 
 li.dpr-my-reports__item-filters-list-item--int {
-  background-color: lighten(govuk-colour('light-blue'), 36%);
+  background-color: lighten(govuk-colour('blue', $variant: 'tint-25'), 36%);
 }
 
 li:last-child {

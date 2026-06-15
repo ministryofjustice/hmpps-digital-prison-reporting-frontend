@@ -2,6 +2,7 @@ import { RequestStatus } from '../../../../types/UserReports'
 import { AsyncReportUtilsParams } from '../../../../types/AsyncReportUtils'
 import LocalsHelper from '../../../../utils/localsHelper'
 import { buildCurrentStatusView } from '../../../../components/_async/async-polling/current-status/utils'
+import { getMyReport } from '../../my-reports/utils'
 
 export const initPollingView = async ({ req, res, services }: AsyncReportUtilsParams) => {
   const { dprUser } = LocalsHelper.getValues(res)
@@ -10,7 +11,8 @@ export const initPollingView = async ({ req, res, services }: AsyncReportUtilsPa
     type: string
   }
 
-  const requestReportData = await services.requestedReportService.getReportByExecutionId(executionId, dprUser.id)
+  const requestReportData = await getMyReport({ executionId }, 'requestedReports', services, dprUser.id)
+
   if (!requestReportData) return {}
 
   const title = `${type.charAt(0).toUpperCase() + type.substring(1).toLowerCase()} request status`

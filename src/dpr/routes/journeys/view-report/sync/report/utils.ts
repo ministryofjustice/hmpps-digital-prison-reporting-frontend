@@ -35,7 +35,7 @@ export const renderReport = async ({ req, res, services }: AsyncReportUtilsParam
       name,
     }
 
-    await updateLastViewedSync(req, services, stateData, dprUser.id, fields)
+    await updateLastViewedSync(req, res, services, stateData, dprUser.id, fields)
   }
 
   return reportConfig

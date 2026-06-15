@@ -1,4 +1,5 @@
 import { RequestHandler, Request, Response } from 'express'
+import { getMyReport } from 'src/dpr/routes/journeys/my-reports/utils'
 import { Services } from 'src/dpr/types/Services'
 import { captureDprError } from 'src/dpr/utils/captureError'
 import { getValues } from 'src/dpr/utils/localsHelper'
@@ -22,7 +23,7 @@ export const createReportPollingHandler =
 
       const { token, dprUser } = getValues(res)
 
-      const requestedReport = await services.requestedReportService.getReportByExecutionId(executionId, dprUser.id)
+      const requestedReport = await getMyReport({ executionId }, 'requestedReports', services, dprUser.id)
 
       if (!requestedReport) {
         return res.sendStatus(404)

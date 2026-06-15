@@ -25,6 +25,7 @@ import LocalsHelper from '../../../../../utils/localsHelper'
 import { extractFiltersFromQuery } from '../../../../../utils/queryMappers'
 import { updateLastViewedAsync } from '../../utils'
 import DashboardSchema from './validate'
+import { getMyReport } from '../../../my-reports/utils'
 
 const setDashboardActions = (
   dashboardDefinition: components['schemas']['DashboardDefinition'],
@@ -125,14 +126,14 @@ const updateStore = async (
   userId: string,
   sections: DashboardSection[],
   req: Request,
+  res: Response,
   fields: components['schemas']['FieldDefinition'][],
 ): Promise<RequestedReport | undefined> => {
-  const { requestedReportService } = services
-  const dashboardRequestData = await requestedReportService.getReportByTableId(tableId, userId)
+  const dashboardRequestData = await getMyReport({ tableId }, 'requestedReports', services, userId)
 
   // Add to recently viewed
   if (sections && sections.length && dashboardRequestData) {
-    await updateLastViewedAsync(req, services, dashboardRequestData, userId, fields)
+    await updateLastViewedAsync(req, res, services, dashboardRequestData, userId, fields)
   }
 
   return dashboardRequestData
@@ -155,7 +156,7 @@ export const renderAsyncDashboard = async ({ req, res, services }: AsyncReportUt
   const { bookmarkService, requestedReportService } = services
   const { id: userId } = dprUser
 
-  let requestData: RequestedReport | undefined = await requestedReportService.getReportByTableId(tableId, userId)
+  let requestData: RequestedReport | undefined = await getMyReport({ tableId }, 'requestedReports', services, userId)
   const queryData = requestData?.query?.data
   const querySummary = requestData?.query?.summary
 
@@ -186,7 +187,7 @@ export const renderAsyncDashboard = async ({ req, res, services }: AsyncReportUt
 
   // Update the store
   if (requestedReportService) {
-    requestData = await updateStore(services, tableId, dprUser.id, sections, req, fields)
+    requestData = await updateStore(services, tableId, dprUser.id, sections, req, res, fields)
   }
 
   return {

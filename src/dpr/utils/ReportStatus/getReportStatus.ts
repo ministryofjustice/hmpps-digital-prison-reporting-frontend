@@ -1,3 +1,4 @@
+import { getMyReport } from 'src/dpr/routes/journeys/my-reports/utils'
 import {
   RequestStatus,
   UpstreamSignal,
@@ -15,7 +16,6 @@ import { StoredReportData, ReportType, RequestedReport } from '../../types/UserR
 import { getValues } from '../localsHelper'
 import { getAllMyReports } from '../reportStoreHelper'
 import { components } from '../../types/api'
-import logger from '../logger'
 
 /**
  * ------------------------------------------------------------
@@ -427,7 +427,7 @@ export async function evaluateAndUpdateReportStatus({
   await services.requestedReportService.updateStatus(executionId, dprUser.id, resolution.newStatus, errorMessage)
 
   // Get the updated stored state
-  const updated = await services.requestedReportService.getReportByExecutionId(executionId, dprUser.id)
+  const updated = await getMyReport({ executionId }, 'requestedReports', services, dprUser.id)
   if (!updated) {
     return { resolution }
   }
@@ -481,7 +481,6 @@ async function detectExpiredFinishedReports({
     },
     Promise.resolve([]),
   )
-  logger.info(`EXPIRED STATES: ${JSON.stringify(expiryStates)}`)
 
   const expiredTableIds = new Set(expiryStates.filter(s => s.expired).map(s => s.tableId))
 
@@ -531,7 +530,6 @@ export async function expireFinishedReports({
 
   // de-duplicate executionIds
   const uniqueExpired = [...new Map(expired.map(e => [e.executionId, e])).values()]
-  logger.info(`EXPIRED STATES: ${JSON.stringify({ uniqueExpired })}`)
 
   // If any expired then update the state
   await uniqueExpired.reduce(async (prev, { executionId }) => {

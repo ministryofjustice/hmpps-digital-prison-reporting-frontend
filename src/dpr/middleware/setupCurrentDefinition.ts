@@ -4,6 +4,7 @@ import LocalsHelper from '../utils/localsHelper'
 import { Services } from '../types/Services'
 import { ReportType, RequestedReport } from '../types/UserReports'
 import { getDefinitionByType } from '../utils/definitionUtils'
+import { getMyReport } from '../routes/journeys/my-reports/utils'
 
 export const setupCurrentDefinition = (services: Services): RequestHandler => {
   return async (req, res, next) => {
@@ -27,8 +28,10 @@ export const setupCurrentDefinition = (services: Services): RequestHandler => {
 
     let queryData: Dict<string | string[]> | undefined
     if (tableId) {
-      const requestData: RequestedReport | undefined = await services.requestedReportService.getReportByTableId(
-        tableId,
+      const requestData: RequestedReport | undefined = await getMyReport(
+        { tableId },
+        'requestedReports',
+        services,
         dprUser.id,
       )
       queryData = requestData?.query?.data

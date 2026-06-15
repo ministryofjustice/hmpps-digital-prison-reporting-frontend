@@ -3,6 +3,7 @@ import { Services } from '../types/Services'
 import { RequestedReport, StoredReportData } from '../types/UserReports'
 import { getCurrentVariantDefinition } from './definitionUtils'
 import { BookmarkStoreData } from '../types/Bookmark'
+import * as MyReportsUtils from '../routes/journeys/my-reports/utils'
 
 /**
  * Get all Requested and Viewed reports
@@ -16,7 +17,8 @@ export const getAllMyReports = async (res: Response, services: Services, dprUser
   const { definitions, definitionsPath } = res.locals
 
   // 1. Get the recently viewed reports
-  let recentlyViewedReports = await services.recentlyViewedService.getAllReports(dprUserId)
+  let recentlyViewedReports = await MyReportsUtils.getAllMyReports('recentlyViewedReports', services, dprUserId)
+
   recentlyViewedReports = !definitionsPath
     ? recentlyViewedReports
     : recentlyViewedReports.filter((report: StoredReportData) => {
@@ -25,7 +27,9 @@ export const getAllMyReports = async (res: Response, services: Services, dprUser
 
   // 2. Clean and get requested reports
   await services.requestedReportService.cleanList(dprUserId, recentlyViewedReports)
-  let requestedReports = await services.requestedReportService.getAllReports(dprUserId)
+
+  let requestedReports = await MyReportsUtils.getAllMyReports('requestedReports', services, dprUserId)
+
   requestedReports = !definitionsPath
     ? requestedReports
     : requestedReports.filter((report: RequestedReport) => {

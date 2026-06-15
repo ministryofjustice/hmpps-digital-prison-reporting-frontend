@@ -188,7 +188,7 @@
     "concurrently": "^10.0.3",
     "cypress": "15.16.0",
     "cypress-axe": "^1.6.0",
-    "esbuild": "^0.28.0",
+    "esbuild": "^0.28.1",
     "esbuild-plugin-clean": "^1.0.1",
     "esbuild-plugin-copy": "^2.1.1",
     "esbuild-plugin-manifest": "^1.0.5",
@@ -223,7 +223,7 @@
     "superagent": "^10.3.0",
     "ts-jest": "^29.4.6",
     "tsconfig-paths": "^4.2.0",
-    "tsx": "4.21.0",
+    "tsx": "4.22.4",
     "typescript": "^5.9.3",
     "wait-on": "^9.0.1",
     "wiremock": "^3.13.1"

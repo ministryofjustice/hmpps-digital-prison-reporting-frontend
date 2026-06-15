@@ -3,42 +3,77 @@ import { Request, Response } from 'express'
 import parseUrl from 'parseurl'
 
 // Utils
-import { hasInteractiveFilters, getTemplate } from '../../utils/definitionUtils'
+import { setUpBookmark } from '../bookmark/utils'
+import { setUpDownload } from '../../routes/journeys/download-report/utils'
+import ReportActionsUtils from './report-heading/report-actions/utils'
+import { hasInteractiveFilters, getFields, getTemplate } from '../../utils/definitionUtils'
 import PaginationUtils from './report-page/report-template/report-pagination/utils'
 import TotalsUtils from './report-page/report-template/report-totals/utils'
 import ReportTemplateUtils from './report-page/report-template/utils'
+import ReportFiltersUtils from '../_filters/utils'
 import ColumnUtils from './report-heading/report-columns/report-columns-form/utils'
+import { qsToQueryObject } from '../../utils/queryMappers'
 
 // Types
 import { Services } from '../../types/Services'
 import { AsyncSummary, LoadType, ReportType, RequestedReport } from '../../types/UserReports'
+import { ExtractedDefinitionData, ExtractedRequestData } from '../../routes/journeys/view-report/async/report/types'
 import { Columns } from './report-heading/report-columns/report-columns-form/types'
+import { DownloadActionParams, ReportAction } from './report-heading/report-actions/types'
 import { Pagination } from './report-page/report-template/report-pagination/types'
 import { ReportTemplateData } from '../../utils/TemplateBuilder/SectionedDataHelper/types'
 import { DataTable } from '../../utils/DataTableBuilder/types'
+import { FilterValue } from '../_filters/types'
 import { ChildData } from '../../utils/TemplateBuilder/ParentChildDataBuilder/types'
 
 // Classes
 import ReportQuery from '../../types/ReportQuery'
 
 // Helpers
+import { getActiveJourneyValue } from '../../utils/sessionHelper'
 import LocalsHelper from '../../utils/localsHelper'
+import { AppliedFilterChip, buildAppliedFilters } from '../_filters/filters-applied/utils'
+import { apiTimestampToUiDateTime } from '../../utils/dateHelper'
+import { FiltersType } from '../_filters/filtersTypeEnum'
 import ErrorHandler from '../../utils/ErrorHandler/ErrorHandler'
 import logger from '../../utils/logger'
-import DataPresentation from '../_dashboards/DataPresentation'
 
-type ReportDefinition = components['schemas']['SingleVariantReportDefinition']
+export default class Report {
+  id: string
 
-export default class Report extends DataPresentation {
-  variant!: components['schemas']['VariantDefinition']
+  reportId: string
 
-  specification!: components['schemas']['Specification']
+  tableId: string
+
+  token: string
+
+  userId: string
+
+  variant: components['schemas']['VariantDefinition']
+
+  specification: components['schemas']['Specification']
+
+  fields: components['schemas']['FieldDefinition'][]
 
   reportData!: Record<string, string>[]
 
   childData: ChildData[] = []
 
   summariesData: AsyncSummary[] = []
+
+  reportDetails!: ExtractedDefinitionData
+
+  actions!: {
+    actions: ReportAction[]
+    downloadConfig: DownloadActionParams | undefined
+    bookmarkConfig: {
+      bookmarkActionEndpoint: string
+      showBookmark: boolean
+      linkText: string
+      linkType: string
+    }
+    feedbackFormHref: string | undefined
+  }
 
   columns!: Columns
 
@@ -50,30 +85,51 @@ export default class Report extends DataPresentation {
 
   dataTable!: DataTable | ReportTemplateData
 
-  constructor(
-    services: Services,
-    res: Response,
-    req: Request,
-    definition: components['schemas']['SingleVariantReportDefinition'],
-    loadType: LoadType,
-    requestData?: RequestedReport | undefined,
-  ) {
-    super(services, res, req, definition, loadType, ReportType.REPORT, requestData)
-    this.setSpecification()
+  filterData!: FilterValue[]
+
+  savedDefaultsConfig!: {
+    hasDefaults: boolean | undefined
+    saveDefaultsEnabled: boolean
   }
 
-  setSpecification = () => {
-    this.variant = (<ReportDefinition>this.definition).variant
+  reportQuery!: ReportQuery
+
+  appliedFilters!: AppliedFilterChip[]
+
+  extractedRequestData!: ExtractedRequestData | undefined
+
+  expired: boolean = false
+
+  constructor(
+    readonly services: Services,
+    readonly res: Response,
+    readonly req: Request,
+    readonly definition: components['schemas']['SingleVariantReportDefinition'],
+    readonly loadType: LoadType,
+    readonly requestData?: RequestedReport | undefined,
+  ) {
+    // From locals
+    this.token = res.locals['dprUser'].token
+    this.userId = res.locals['dprUser'].id
+
+    // From params
+    this.id = <string>this.req.params['id']
+    this.reportId = <string>this.req.params['reportId']
+    this.tableId = <string>this.req.params['tableId']
+
+    // From definition
+    this.variant = this.definition.variant
     const { specification } = this.variant
     if (!specification) {
       throw new Error('No specification in definition')
     }
     this.specification = specification
+    this.fields = this.specification.fields
   }
 
   build = async () => {
     // General report data
-    const reportMeta = this.buildReportMeta(ReportType.REPORT)
+    const reportMeta = this.buildReportMeta()
     this.buildReportDetails()
 
     // Columns and filters
@@ -93,7 +149,7 @@ export default class Report extends DataPresentation {
 
     // Template & page furniture
     this.buildTable()
-    this.buildActions(ReportType.REPORT)
+    this.buildActions()
     this.buildPagination()
 
     return {
@@ -269,7 +325,7 @@ export default class Report extends DataPresentation {
    */
   buildTable = () => {
     this.dataTable = ReportTemplateUtils.createReportTemplateData(
-      this.definition as ReportDefinition,
+      this.definition,
       this.columns,
       this.reportData,
       this.childData,
@@ -297,6 +353,106 @@ export default class Report extends DataPresentation {
       specification: this.specification, // TODO: check if needed ???
       fields, // TODO: check if needed???
     }
+  }
+
+  /**
+   * Gets the reports meta data required to load a report
+   *
+   * @return {*}
+   */
+  buildReportMeta = () => {
+    const { csrfToken } = LocalsHelper.getValues(this.res)
+    return {
+      id: this.id,
+      reportId: this.reportId,
+      ...(this.tableId && { tableId: this.tableId }),
+      loadType: this.loadType,
+      csrfToken,
+      type: ReportType.REPORT,
+    }
+  }
+
+  /**
+   * Extracts the relevant data from the requested report data
+   *
+   * @param {RequestedReport} requestData
+   * @return {*}  {ExtractedRequestData}
+   */
+  extractDataFromRequest = (requestData: RequestedReport): ExtractedRequestData => {
+    const { query, url, timestamp } = requestData
+    return {
+      executionId: requestData.executionId,
+      requestedTimestamp: apiTimestampToUiDateTime(timestamp.requested),
+      querySummary: query?.summary || [],
+      queryData: query?.data,
+      requestUrl: url?.request,
+      defaultQuery: url?.report?.default,
+      dataProductDefinitionsPath: requestData.dataProductDefinitionsPath,
+    }
+  }
+
+  /**
+   * Builds the report actions:
+   * - download config
+   * - bookmark config
+   * - general actions
+   */
+  buildActions = () => {
+    const { tableId, reportId, id } = <{ id: string; tableId: string; reportId: string }>this.req.params
+    this.extractedRequestData = this.requestData ? this.extractDataFromRequest(this.requestData) : undefined
+
+    // Setup bookmark
+    const bookmarkConfig = setUpBookmark(this.res, this.req, this.services.bookmarkService)
+
+    // Setup download
+    const downloadConfig = setUpDownload(this.res, this.req)
+
+    // Setup other actions
+    const actions = ReportActionsUtils.setActions(this.reportDetails, downloadConfig, this.extractedRequestData)
+
+    // Get the feedback submission path
+    const sessionKey = this.loadType === LoadType.SYNC ? { id, reportId } : { id, reportId, tableId }
+    const feedbackSubmissionFormPath = getActiveJourneyValue(this.req, sessionKey, 'feedbackSubmissionFormPath')
+
+    this.actions = {
+      actions,
+      downloadConfig,
+      bookmarkConfig,
+      feedbackFormHref: feedbackSubmissionFormPath,
+    }
+  }
+
+  /**
+   * Build thee filters
+   *
+   */
+  buildFilters = async () => {
+    this.filterData = await ReportFiltersUtils.getInteractiveFilters({
+      fields: getFields(this.definition),
+      req: this.req,
+    })
+  }
+
+  buildSavedDefaultsConfig = async () => {
+    this.savedDefaultsConfig = {
+      hasDefaults: await this.services.defaultFilterValuesService.hasDefaults(
+        this.userId,
+        this.reportId,
+        this.id,
+        FiltersType.INTERACTIVE,
+      ),
+      saveDefaultsEnabled: this.res.app.locals['saveDefaultsEnabled'],
+    }
+  }
+
+  /**
+   * Builds the applied filters buttons
+   *
+   */
+  buildAppliedFilters = () => {
+    const fields = getFields(this.definition)
+    const sessionKey = { id: this.id, reportId: this.reportId, tableId: this.tableId }
+    this.appliedFilters = buildAppliedFilters(this.req, sessionKey, fields)
   }
 
   /**
@@ -347,7 +503,7 @@ export default class Report extends DataPresentation {
       )
     } else {
       this.count =
-        !this.variant.interactive || !hasInteractiveFilters(this.fields ?? [])
+        !this.variant.interactive || !hasInteractiveFilters(getFields(this.definition))
           ? await this.services.reportingService.getAsyncCount(this.token, this.tableId)
           : await this.services.reportingService.getAsyncInteractiveCount(
               this.token,
@@ -365,7 +521,8 @@ export default class Report extends DataPresentation {
    */
   buildReportQuery = () => {
     const { definitionsPath } = LocalsHelper.getValues(this.res)
-    const template = getTemplate(this.definition as ReportDefinition)
+    const fields = getFields(this.definition)
+    const template = getTemplate(this.definition)
 
     // Sort
     const sortColumn = this.req.query?.['sortColumn'] || this.requestData?.sortBy?.data?.['sortColumn']
@@ -375,8 +532,24 @@ export default class Report extends DataPresentation {
     const selectedPage = this.req.query?.['selectedPage']
     const pageSize = this.req.query?.['pageSize']
 
-    // Filters query
-    const filtersQuery = this.getCurrentQuery()
+    // Filters from query string
+    // 1. Initialise the filters query to the defaults from the DPD
+    const interactiveDefaultSearch = getActiveJourneyValue(
+      this.req,
+      { id: this.id, reportId: this.reportId },
+      'interactiveDefaultFiltersSearch',
+    )
+    let filtersQuery = interactiveDefaultSearch ? qsToQueryObject(interactiveDefaultSearch, 'filters.') : {}
+
+    // 2. Get the search params from the current report and use those if they are present
+    const currentSearch = getActiveJourneyValue(
+      this.req,
+      { id: this.id, reportId: this.reportId, tableId: this.tableId },
+      'currentReportFiltersSearch',
+    )
+    if (currentSearch) {
+      filtersQuery = qsToQueryObject(currentSearch, 'filters.')
+    }
 
     const queryParams = {
       ...(sortColumn && { sortColumn }),
@@ -388,7 +561,7 @@ export default class Report extends DataPresentation {
     }
 
     this.reportQuery = new ReportQuery({
-      fields: this.fields ?? [],
+      fields,
       template,
       queryParams,
       definitionsPath,

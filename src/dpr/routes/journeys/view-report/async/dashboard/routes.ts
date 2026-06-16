@@ -1,4 +1,5 @@
 import { Router } from 'express'
+import { ReportType } from 'src/dpr/types/UserReports'
 import { ViewAsyncDashboardController } from './controller'
 import { ViewAsyncController } from '../controller'
 import { Services } from '../../../../../types/Services'
@@ -9,7 +10,7 @@ export function routes({ layoutPath, services }: { layoutPath: string; services:
   const controller = new ViewAsyncDashboardController(layoutPath, services)
   const viewReportController = new ViewAsyncController(layoutPath, services)
 
-  router.get(`/`, viewReportController.GET)
+  router.get(`/`, viewReportController.GET(ReportType.DASHBOARD))
 
   // ----------------------------
   // FILTERS

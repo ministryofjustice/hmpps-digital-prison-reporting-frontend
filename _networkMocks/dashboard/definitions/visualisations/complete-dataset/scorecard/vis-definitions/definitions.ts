@@ -6,6 +6,7 @@ export const simpleScorecardMetricTwo: components['schemas']['DashboardVisualisa
   id: 'simple-scorecard-MetricTwo',
   type: DashboardVisualisationType.SCORECARD,
   display: 'No of prisoners with MetricTwo',
+  description: '',
   columns: {
     keys: [{ id: 'establishment_id' }],
     measures: [{ id: 'has_metric_two' }],
@@ -17,6 +18,7 @@ export const simpleScorecardMetricTwoWithUnit: components['schemas']['DashboardV
   id: 'simple-scorecard-MetricTwo-with-uint',
   type: DashboardVisualisationType.SCORECARD,
   display: 'Percentage of prisoners with MetricTwo',
+  description: '',
   columns: {
     keys: [{ id: 'establishment_id' }],
     measures: [{ id: 'has_metric_two', unit: UnitType.PERCENTAGE }],
@@ -28,6 +30,7 @@ export const simpleScorecardMetricTwoFilter: components['schemas']['DashboardVis
   id: 'simple-scorecard-MetricTwo',
   type: DashboardVisualisationType.SCORECARD,
   display: 'No of prisoners with MetricTwo',
+  description: '',
   columns: {
     keys: [{ id: 'establishment_id' }],
     measures: [{ id: 'has_metric_two' }],
@@ -45,6 +48,7 @@ export const simpleScorecardMetricThree: components['schemas']['DashboardVisuali
   id: 'simple-scorecard-MetricThree',
   type: DashboardVisualisationType.SCORECARD,
   display: 'No of prisoners with MetricThree',
+  description: '',
   columns: {
     keys: [{ id: 'establishment_id' }],
     measures: [{ id: 'has_metric_three' }],
@@ -56,6 +60,7 @@ export const simpleScorecardMetricThreeWithUnit: components['schemas']['Dashboar
   id: 'simple-scorecard-MetricThreeWithUnit',
   type: DashboardVisualisationType.SCORECARD,
   display: 'Percentage of prisoners with MetricThree',
+  description: '',
   columns: {
     keys: [{ id: 'establishment_id' }],
     measures: [{ id: 'has_metric_three', unit: UnitType.PERCENTAGE }],
@@ -67,6 +72,7 @@ export const simpleScorecardMetricOne: components['schemas']['DashboardVisualisa
   id: 'simple-scorecard-MetricOne',
   type: DashboardVisualisationType.SCORECARD,
   display: 'No of prisoners with MetricOne',
+  description: '',
   columns: {
     keys: [{ id: 'establishment_id' }],
     measures: [{ id: 'has_metric_one' }],
@@ -78,6 +84,7 @@ export const simpleScorecardMetricOneTrendDown: components['schemas']['Dashboard
   id: 'simple-scorecard-MetricOne-trend-down',
   type: DashboardVisualisationType.SCORECARD,
   display: 'No of prisoners with MetricOne',
+  description: '',
   columns: {
     keys: [{ id: 'establishment_id' }],
     measures: [{ id: 'has_metric_one' }],
@@ -90,6 +97,7 @@ export const simpleScorecardMetricOneWithUnit: components['schemas']['DashboardV
   id: 'simple-scorecard-MetricOneWithUnit',
   type: DashboardVisualisationType.SCORECARD,
   display: 'Percentage of prisoners with MetricOne',
+  description: '',
   columns: {
     keys: [{ id: 'establishment_id' }],
     measures: [{ id: 'has_metric_one', unit: UnitType.PERCENTAGE }],
@@ -101,6 +109,7 @@ export const simpleScorecardRagColoursMetricTwo: components['schemas']['Dashboar
   id: 'simple-scorecard-rag-MetricTwo',
   type: DashboardVisualisationType.SCORECARD,
   display: 'No of prisoners with MetricTwo',
+  description: '',
   options: {
     useRagColour: true,
   },
@@ -115,6 +124,7 @@ export const simpleScorecardRagColoursMetricThree: components['schemas']['Dashbo
   id: 'simple-scorecard-rag-MetricThree',
   type: DashboardVisualisationType.SCORECARD,
   display: 'No of prisoners with MetricThree',
+  description: '',
   options: {
     useRagColour: true,
   },
@@ -129,6 +139,7 @@ export const simpleScorecardRagColoursMetricOne: components['schemas']['Dashboar
   id: 'simple-scorecard-rag-MetricOne',
   type: DashboardVisualisationType.SCORECARD,
   display: 'No of prisoners with MetricOne',
+  description: '',
   options: {
     useRagColour: true,
   },

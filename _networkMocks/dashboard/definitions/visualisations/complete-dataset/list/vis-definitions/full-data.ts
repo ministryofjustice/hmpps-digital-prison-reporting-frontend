@@ -5,6 +5,7 @@ export const fullDataset: components['schemas']['DashboardVisualisationDefinitio
   id: 'allData',
   type: DashboardVisualisationType.LIST,
   display: 'All Data in dataset',
+  description: '',
   options: {
     showLatest: true,
   },
@@ -18,6 +19,7 @@ export const fullDatasetHistoric: components['schemas']['DashboardVisualisationD
   id: 'allData',
   type: DashboardVisualisationType.LIST,
   display: 'All Data in dataset',
+  description: '',
   options: {
     showLatest: false,
   },

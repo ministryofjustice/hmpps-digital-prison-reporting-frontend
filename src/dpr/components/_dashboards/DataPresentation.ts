@@ -1,22 +1,28 @@
-import { components } from 'src/dpr/types/api'
 import { Request, Response } from 'express'
-import { Services } from 'src/dpr/types/Services'
-import ReportQuery from 'src/dpr/types/ReportQuery'
-import { ExtractedDefinitionData, ExtractedRequestData } from 'src/dpr/routes/journeys/view-report/async/report/types'
-import { LoadType, ReportType, RequestedReport } from 'src/dpr/types/UserReports'
-import { apiTimestampToUiDateTime } from 'src/dpr/utils/dateHelper'
-import { setUpDownload } from 'src/dpr/routes/journeys/download-report/utils'
-import { getActiveJourneyValue } from 'src/dpr/utils/sessionHelper'
-import { qsToQueryObject } from 'src/dpr/utils/queryMappers'
-import { FilterValue } from '../_filters/types'
-import { AppliedFilterChip, buildAppliedFilters } from '../_filters/filters-applied/utils'
-import { DownloadActionParams, ReportAction } from '../_reports/report-heading/report-actions/types'
-import LocalsHelper from '../../utils/localsHelper'
-import ReportFiltersUtils from '../_filters/utils'
-import { getDashboardFields, getFields } from '../../utils/definitionUtils'
+
+// Types
+import { components } from '../../types/api'
+import ReportQuery from '../../types/ReportQuery'
+import { Services } from '../../types/Services'
+import { ExtractedDefinitionData, ExtractedRequestData } from '../../routes/journeys/view-report/async/report/types'
+import { LoadType, ReportType, RequestedReport } from '../../types/UserReports'
 import { FiltersType } from '../_filters/filtersTypeEnum'
-import { setUpBookmark } from '../bookmark/utils'
+import { FilterValue } from '../_filters/types'
+import { DownloadActionParams, ReportAction } from '../_reports/report-heading/report-actions/types'
+
+// Helpers
+import { apiTimestampToUiDateTime } from '../../utils/dateHelper'
+import { getActiveJourneyValue } from '../../utils/sessionHelper'
+import { qsToQueryObject } from '../../utils/queryMappers'
+import LocalsHelper from '../../utils/localsHelper'
+
+// Utils
+import { AppliedFilterChip, buildAppliedFilters } from '../_filters/filters-applied/utils'
+import { setUpDownload } from '../../routes/journeys/download-report/utils'
+import ReportFiltersUtils from '../_filters/utils'
 import ReportActionsUtils from '../_reports/report-heading/report-actions/utils'
+import { setUpBookmark } from '../bookmark/utils'
+import { getDashboardFields, getFields } from '../../utils/definitionUtils'
 
 export default class DataPresentation {
   // Meta
@@ -91,6 +97,10 @@ export default class DataPresentation {
     this.getFields()
   }
 
+  /**
+   * Gets and sets the fields by report types
+   *
+   */
   getFields = () => {
     this.fields =
       this.type === ReportType.REPORT
@@ -98,8 +108,13 @@ export default class DataPresentation {
         : getDashboardFields(<components['schemas']['DashboardDefinition']>this.definition)
   }
 
+  /**
+   * Builds the report meta data
+   *
+   */
   buildReportMeta = (type: ReportType) => {
     const { csrfToken } = LocalsHelper.getValues(this.res)
+
     return {
       id: this.id,
       reportId: this.reportId,
@@ -129,6 +144,10 @@ export default class DataPresentation {
     this.appliedFilters = buildAppliedFilters(this.req, sessionKey, this.fields ?? [])
   }
 
+  /**
+   * Builds the saved defaults config
+   *
+   */
   buildSavedDefaultsConfig = async () => {
     this.savedDefaultsConfig = {
       hasDefaults: await this.services.defaultFilterValuesService.hasDefaults(
@@ -191,6 +210,10 @@ export default class DataPresentation {
     }
   }
 
+  /**
+   * Gets the current request query
+   *
+   */
   getCurrentQuery = () => {
     // Filters from query string
     // 1. Initialise the filters query to the defaults from the DPD

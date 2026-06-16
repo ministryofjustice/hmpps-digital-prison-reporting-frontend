@@ -5,6 +5,7 @@ export const dataQualityMetricOneDoughnut: components['schemas']['DashboardVisua
   id: 'doughnut-data-quality-has-MetricOne',
   type: DashboardVisualisationType.DONUT,
   display: 'MetricOne values',
+  description: '',
   columns: {
     keys: [
       {
@@ -36,6 +37,7 @@ export const dataQualityMetricThreeDoughnut: components['schemas']['DashboardVis
   id: 'doughnut-data-quality-has-MetricThree',
   type: DashboardVisualisationType.DONUT,
   display: 'MetricThree values',
+  description: '',
   columns: {
     keys: [
       {
@@ -67,6 +69,7 @@ export const dataQualityMetricTwoDoughnut: components['schemas']['DashboardVisua
   id: 'doughnut-data-quality-has-MetricTwo',
   type: DashboardVisualisationType.DONUT,
   display: 'MetricTwo values',
+  description: '',
   columns: {
     keys: [
       {
@@ -98,6 +101,7 @@ export const dataQualityMetricTwoMetricThreeDoughnut: components['schemas']['Das
   id: 'doughnut-data-quality-has-MetricTwo-MetricThree',
   type: DashboardVisualisationType.DONUT,
   display: 'MetricTwo & MetricThree values',
+  description: '',
   columns: {
     keys: [
       {
@@ -138,6 +142,7 @@ export const dataQualityMetricOneDoughnutTwoEst: components['schemas']['Dashboar
   id: 'doughnut-data-quality-has-MetricOne-two-ring',
   type: DashboardVisualisationType.DONUT,
   display: 'MetricOne values',
+  description: '',
   columns: {
     keys: [
       {
@@ -173,6 +178,7 @@ export const dataQualityMetricThreeDoughnutTwoEst: components['schemas']['Dashbo
   id: 'doughnut-data-quality-has-MetricThree-two-ring',
   type: DashboardVisualisationType.DONUT,
   display: 'MetricThree values',
+  description: '',
   columns: {
     keys: [
       {
@@ -208,6 +214,7 @@ export const dataQualityMetricTwoDoughnutTwoEst: components['schemas']['Dashboar
   id: 'doughnut-data-quality-has-MetricTwo-two-ring',
   type: DashboardVisualisationType.DONUT,
   display: 'MetricTwo values',
+  description: '',
   columns: {
     keys: [
       {
@@ -244,6 +251,7 @@ export const dataQualityMetricTwoMetricThreeDoughnutTwoEst: components['schemas'
     id: 'doughnut-data-quality-has-MetricTwo-MetricThree-two-ring',
     type: DashboardVisualisationType.DONUT,
     display: 'MetricTwo & MetricThree values',
+    description: '',
     columns: {
       keys: [
         {
@@ -288,6 +296,7 @@ export const dataQualityMetricOneDoughnutAllEst: components['schemas']['Dashboar
   id: 'doughnut-data-quality-has-MetricOne-multi-ring',
   type: DashboardVisualisationType.DONUT,
   display: 'MetricOne values',
+  description: '',
   columns: {
     keys: [
       {
@@ -313,6 +322,7 @@ export const dataQualityMetricThreeDoughnutAllEst: components['schemas']['Dashbo
   id: 'doughnut-data-quality-has-MetricThree-multi-ring',
   type: DashboardVisualisationType.DONUT,
   display: 'MetricThree values',
+  description: '',
   columns: {
     keys: [
       {
@@ -338,6 +348,7 @@ export const dataQualityMetricTwoDoughnutAllEst: components['schemas']['Dashboar
   id: 'doughnut-data-quality-has-MetricTwo-multi-ring',
   type: DashboardVisualisationType.DONUT,
   display: 'MetricTwo values',
+  description: '',
   columns: {
     keys: [
       {
@@ -364,6 +375,7 @@ export const dataQualityMetricTwoMetricThreeDoughnutAllEst: components['schemas'
     id: 'doughnut-data-quality-has-MetricTwo-MetricThree-multi-ring',
     type: DashboardVisualisationType.DONUT,
     display: 'MetricTwo & MetricThree values',
+    description: '',
     columns: {
       keys: [
         {

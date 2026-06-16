@@ -24,6 +24,7 @@ export const dataQualityMetricOneMetricTwoLine: components['schemas']['Dashboard
   id: 'bar-data-quality-has-MetricOne-and-MetricTwo',
   type: DashboardVisualisationType.LINE,
   display: 'MetricOne & MetricTwo values',
+  description: '',
   columns: {
     keys: [
       {

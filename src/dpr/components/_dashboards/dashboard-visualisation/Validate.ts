@@ -69,8 +69,8 @@ export const DashboardVisualisationSchema = z.object({
     'matrix-timeseries',
     'line-timeseries',
   ]),
-  display: z.string().optional(),
-  description: z.string().optional(),
+  display: z.string(),
+  description: z.string(),
   options: z.object(dashboardOptions.shape).optional(),
   columns: z.object(DashboardColumns.shape),
 })

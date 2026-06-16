@@ -4,44 +4,30 @@ import { checkA11y, executeDashboardStubs } from '../../../../../cypress-tests/c
 context('Dashboard visualisation: Scorecards', () => {
   const scorecardPath =
     '/dpr/request-report/dashboard/dashboard-visualisations/scorecard-examples_complete-data/filters'
-  let scorecardPathViewUrl = ''
 
   const scorecardBucketPath =
     '/dpr/request-report/dashboard/dashboard-visualisations/scorecard-example_bucket_complete-data/filters'
-  let scorecardBucketPathViewUrl = ''
 
   const scorecardsPath =
     '/dpr/request-report/dashboard/dashboard-visualisations/scorecard-group-example_complete-data/filters'
-  let scorecardsPathViewUrl = ''
 
   before(() => {
-    cy.task('resetStubs')
     executeDashboardStubs()
-    cy.task('stubFeatureFlags')
     resetFeatureFlags()
     cy.task('stubDefinitionScorecardDashboard')
     cy.task('stubDefinitionScorecardBucketDashboard')
     cy.task('stubDefinitionScorecardGroupDashboard')
     cy.task('stubDashboardResultCompleteData')
+    cy.task('stubMockDashboardsStatusStarted')
+    cy.task('stubMockDashboardsStatusFinished')
   })
 
   describe('scorecard', () => {
-    before(() => {
+    beforeEach(() => {
       cy.visit(scorecardPath)
-      cy.task('stubMockDashboardsStatusStarted')
-      cy.task('stubMockDashboardsStatusFinished')
 
       cy.findByRole('button', { name: /Request/ }).click()
-
       cy.findByRole('heading', { level: 1, name: /Scorecard/ }).should('be.visible')
-
-      cy.url().then(url => {
-        scorecardPathViewUrl = url
-      })
-    })
-
-    beforeEach(() => {
-      cy.visit(scorecardPathViewUrl)
     })
 
     it('is accessible', () => {
@@ -50,13 +36,13 @@ context('Dashboard visualisation: Scorecards', () => {
 
     it('should show the correct information on a scorecard', () => {
       cy.findAllByLabelText(/No of prisoners with MetricTwo/)
-        .eq(0)
-        .should('exist')
+        .first()
+        .should('be.visible')
         .within(() => {
           // Metric
           cy.findAllByRole('paragraph').eq(1).contains(684).should('exist')
           // Colour
-          cy.findAllByRole('paragraph').eq(1).invoke('attr', 'style', 'background-color').should('exist')
+          cy.findAllByRole('paragraph').eq(1).should('have.css', 'background-color').should('exist')
           // trend
           cy.findAllByRole('paragraph').eq(2).contains('from').should('exist')
           // date
@@ -66,19 +52,11 @@ context('Dashboard visualisation: Scorecards', () => {
   })
 
   describe('scorecard buckets', () => {
-    before(() => {
-      cy.visit(scorecardBucketPath)
-      cy.task('stubMockDashboardsStatusStarted')
-      cy.findByRole('button', { name: /Request/ }).click()
-      cy.task('stubMockDashboardsStatusFinished')
-      cy.findByRole('heading', { level: 1, name: /Scorecard/ }).should('be.visible')
-      cy.url().then(url => {
-        scorecardBucketPathViewUrl = url
-      })
-    })
-
     beforeEach(() => {
-      cy.visit(scorecardBucketPathViewUrl)
+      cy.visit(scorecardBucketPath)
+
+      cy.findByRole('button', { name: /Request/ }).click()
+      cy.findByRole('heading', { level: 1, name: /Scorecard/ }).should('be.visible')
     })
 
     it('is accessible', () => {
@@ -87,13 +65,13 @@ context('Dashboard visualisation: Scorecards', () => {
 
     it('should show the correct information on a scorecard', () => {
       cy.findAllByLabelText(/No of prisoners with MetricTwo/)
-        .eq(0)
+        .first()
         .should('exist')
         .within(() => {
           // Metric
           cy.findAllByRole('paragraph').eq(1).contains(684).should('exist')
           // Colour
-          cy.findAllByRole('paragraph').eq(1).invoke('attr', 'style', 'background-color').should('exist')
+          cy.findAllByRole('paragraph').eq(1).should('have.css', 'background-color').should('exist')
           // trend
           cy.findAllByRole('paragraph').eq(2).contains('from').should('exist')
           // date
@@ -101,9 +79,9 @@ context('Dashboard visualisation: Scorecards', () => {
         })
     })
 
-    it('should show correct colour based in custom boundaries  1', () => {
+    it('should show correct colour based in custom boundaries 1', () => {
       cy.findAllByLabelText(/No of prisoners with MetricTwo/)
-        .eq(0)
+        .first()
         .should('exist')
         .within(() => {
           let value = 0
@@ -126,7 +104,7 @@ context('Dashboard visualisation: Scorecards', () => {
 
     it('should show the correct colour based in custom boundaries 2', () => {
       cy.findAllByLabelText(/No of prisoners with MetricOne/)
-        .eq(0)
+        .first()
         .should('exist')
         .within(() => {
           let value = 0
@@ -148,7 +126,7 @@ context('Dashboard visualisation: Scorecards', () => {
 
     it('should show the correct colour based in custom boundaries 3', () => {
       cy.findAllByLabelText(/No of prisoners with MetricThree/)
-        .eq(0)
+        .first()
         .should('exist')
         .within(() => {
           let value = 0
@@ -168,25 +146,16 @@ context('Dashboard visualisation: Scorecards', () => {
     })
   })
 
-  describe('scorecard-group', () => {
-    before(() => {
-      cy.visit(scorecardsPath)
-      cy.task('stubMockDashboardsStatusStarted')
-      cy.findByRole('button', { name: /Request/ }).click()
-      cy.task('stubMockDashboardsStatusFinished')
-      cy.findByRole('heading', { level: 1, name: /Scorecard/ }).should('be.visible')
-      cy.url().then(url => {
-        scorecardsPathViewUrl = url
-      })
-    })
-
+  describe('scorecard group', () => {
     beforeEach(() => {
-      cy.visit(scorecardsPathViewUrl)
+      cy.visit(scorecardsPath)
+      cy.findByRole('button', { name: /Request/ }).click()
+      cy.findByRole('heading', { level: 1, name: /Scorecard/ }).should('be.visible')
     })
 
-    it('Should show scorecard group using list', () => {
+    it('should show scorecard group using list', () => {
       cy.findAllByLabelText(/By Establishment ID/)
-        .eq(0)
+        .first()
         .should('exist')
         .within(() => {
           cy.findByLabelText('ABC')

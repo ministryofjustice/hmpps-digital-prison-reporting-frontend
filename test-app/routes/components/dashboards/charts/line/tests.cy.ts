@@ -65,12 +65,13 @@ context('Dashboard visualisation: line chart', () => {
                   switch (index) {
                     case 0:
                       cy.wrap(row).within(() => {
-                        cy.findAllByRole('columnheader').should('have.length', 5)
-                        cy.findAllByRole('columnheader').eq(0).contains('Establishment ID')
-                        cy.findAllByRole('columnheader').eq(1).contains('Point 1')
-                        cy.findAllByRole('columnheader').eq(2).contains('Point 2')
-                        cy.findAllByRole('columnheader').eq(3).contains('Point 3')
-                        cy.findAllByRole('columnheader').eq(4).contains('Point 4')
+                        cy.findAllByRole('columnheader').should('have.length', 6)
+                        cy.findAllByRole('columnheader').eq(0).contains('Date')
+                        cy.findAllByRole('columnheader').eq(1).contains('Establishment ID')
+                        cy.findAllByRole('columnheader').eq(2).contains('Point 1')
+                        cy.findAllByRole('columnheader').eq(3).contains('Point 2')
+                        cy.findAllByRole('columnheader').eq(4).contains('Point 3')
+                        cy.findAllByRole('columnheader').eq(5).contains('Point 4')
                       })
                       break
                     default:
@@ -91,14 +92,15 @@ context('Dashboard visualisation: line chart', () => {
                   switch (index) {
                     case 0:
                       cy.wrap(row).within(() => {
-                        cy.findAllByRole('columnheader').should('have.length', 7)
-                        cy.findAllByRole('columnheader').eq(0).contains('Establishment ID')
-                        cy.findAllByRole('columnheader').eq(1).contains('Point 1')
-                        cy.findAllByRole('columnheader').eq(2).contains('Point 2')
-                        cy.findAllByRole('columnheader').eq(3).contains('Point 3')
-                        cy.findAllByRole('columnheader').eq(4).contains('Point 4')
-                        cy.findAllByRole('columnheader').eq(5).contains('Point 5')
-                        cy.findAllByRole('columnheader').eq(6).contains('Point 6')
+                        cy.findAllByRole('columnheader').should('have.length', 8)
+                        cy.findAllByRole('columnheader').eq(0).contains('Date')
+                        cy.findAllByRole('columnheader').eq(1).contains('Establishment ID')
+                        cy.findAllByRole('columnheader').eq(2).contains('Point 1')
+                        cy.findAllByRole('columnheader').eq(3).contains('Point 2')
+                        cy.findAllByRole('columnheader').eq(4).contains('Point 3')
+                        cy.findAllByRole('columnheader').eq(5).contains('Point 4')
+                        cy.findAllByRole('columnheader').eq(6).contains('Point 5')
+                        cy.findAllByRole('columnheader').eq(7).contains('Point 6')
                       })
                       break
                     default:
@@ -170,37 +172,38 @@ context('Dashboard visualisation: line chart', () => {
                   switch (index) {
                     case 0:
                       cy.wrap(row).within(() => {
-                        cy.findAllByRole('columnheader').should('have.length', 2)
-                        cy.findAllByRole('columnheader').eq(0).contains('Diet')
-                        cy.findAllByRole('columnheader').eq(1).contains('Total prisoners')
+                        cy.findAllByRole('columnheader').should('have.length', 3)
+                        cy.findAllByRole('columnheader').eq(0).contains('Date')
+                        cy.findAllByRole('columnheader').eq(1).contains('Diet')
+                        cy.findAllByRole('columnheader').eq(2).contains('Total prisoners')
                       })
                       break
                     case 1:
                       cy.wrap(row).within(() => {
-                        cy.findAllByRole('cell').should('have.length', 2)
-                        cy.findAllByRole('cell').eq(0).contains('Diet one')
-                        cy.findAllByRole('cell').eq(1).contains('1219')
+                        cy.findAllByRole('cell').should('have.length', 3)
+                        cy.findAllByRole('cell').eq(1).contains('Diet one')
+                        cy.findAllByRole('cell').eq(2).contains('1219')
                       })
                       break
                     case 2:
                       cy.wrap(row).within(() => {
-                        cy.findAllByRole('cell').should('have.length', 2)
-                        cy.findAllByRole('cell').eq(0).contains('Diet two')
-                        cy.findAllByRole('cell').eq(1).contains('1125')
+                        cy.findAllByRole('cell').should('have.length', 3)
+                        cy.findAllByRole('cell').eq(1).contains('Diet two')
+                        cy.findAllByRole('cell').eq(2).contains('1125')
                       })
                       break
                     case 3:
                       cy.wrap(row).within(() => {
-                        cy.findAllByRole('cell').should('have.length', 2)
-                        cy.findAllByRole('cell').eq(0).contains('Diet three')
-                        cy.findAllByRole('cell').eq(1).contains('1838')
+                        cy.findAllByRole('cell').should('have.length', 3)
+                        cy.findAllByRole('cell').eq(1).contains('Diet three')
+                        cy.findAllByRole('cell').eq(2).contains('1838')
                       })
                       break
                     case 4:
                       cy.wrap(row).within(() => {
-                        cy.findAllByRole('cell').should('have.length', 2)
-                        cy.findAllByRole('cell').eq(0).contains('Diet four')
-                        cy.findAllByRole('cell').eq(1).contains('818')
+                        cy.findAllByRole('cell').should('have.length', 3)
+                        cy.findAllByRole('cell').eq(1).contains('Diet four')
+                        cy.findAllByRole('cell').eq(2).contains('818')
                       })
                       break
                     default:
@@ -221,74 +224,75 @@ context('Dashboard visualisation: line chart', () => {
                   switch (index) {
                     case 0:
                       cy.wrap(row).within(() => {
-                        cy.findAllByRole('columnheader').should('have.length', 3)
-                        cy.findAllByRole('columnheader').eq(0).contains('Establishment ID')
-                        cy.findAllByRole('columnheader').eq(1).contains('Diet')
-                        cy.findAllByRole('columnheader').eq(2).contains('Total prisoners')
+                        cy.findAllByRole('columnheader').should('have.length', 4)
+                        cy.findAllByRole('columnheader').eq(0).contains('Date')
+                        cy.findAllByRole('columnheader').eq(1).contains('Establishment ID')
+                        cy.findAllByRole('columnheader').eq(2).contains('Diet')
+                        cy.findAllByRole('columnheader').eq(3).contains('Total prisoners')
                       })
                       break
                     case 1:
                       cy.wrap(row).within(() => {
-                        cy.findAllByRole('cell').should('have.length', 3)
-                        cy.findAllByRole('cell').eq(0).contains('ABC')
-                        cy.findAllByRole('cell').eq(1).contains('Diet one')
-                        cy.findAllByRole('cell').eq(2).contains('360')
+                        cy.findAllByRole('cell').should('have.length', 4)
+                        cy.findAllByRole('cell').eq(1).contains('ABC')
+                        cy.findAllByRole('cell').eq(2).contains('Diet one')
+                        cy.findAllByRole('cell').eq(3).contains('360')
                       })
                       break
                     case 2:
                       cy.wrap(row).within(() => {
-                        cy.findAllByRole('cell').should('have.length', 3)
-                        cy.findAllByRole('cell').eq(0).contains('ABC')
-                        cy.findAllByRole('cell').eq(1).contains('Diet two')
-                        cy.findAllByRole('cell').eq(2).contains('256')
+                        cy.findAllByRole('cell').should('have.length', 4)
+                        cy.findAllByRole('cell').eq(1).contains('ABC')
+                        cy.findAllByRole('cell').eq(2).contains('Diet two')
+                        cy.findAllByRole('cell').eq(3).contains('256')
                       })
                       break
                     case 3:
                       cy.wrap(row).within(() => {
-                        cy.findAllByRole('cell').should('have.length', 3)
-                        cy.findAllByRole('cell').eq(0).contains('ABC')
-                        cy.findAllByRole('cell').eq(1).contains('Diet three')
-                        cy.findAllByRole('cell').eq(2).contains('559')
+                        cy.findAllByRole('cell').should('have.length', 4)
+                        cy.findAllByRole('cell').eq(1).contains('ABC')
+                        cy.findAllByRole('cell').eq(2).contains('Diet three')
+                        cy.findAllByRole('cell').eq(3).contains('559')
                       })
                       break
                     case 4:
                       cy.wrap(row).within(() => {
-                        cy.findAllByRole('cell').should('have.length', 3)
-                        cy.findAllByRole('cell').eq(0).contains('ABC')
-                        cy.findAllByRole('cell').eq(1).contains('Diet four')
-                        cy.findAllByRole('cell').eq(2).contains('144')
+                        cy.findAllByRole('cell').should('have.length', 4)
+                        cy.findAllByRole('cell').eq(1).contains('ABC')
+                        cy.findAllByRole('cell').eq(2).contains('Diet four')
+                        cy.findAllByRole('cell').eq(3).contains('144')
                       })
                       break
                     case 5:
                       cy.wrap(row).within(() => {
-                        cy.findAllByRole('cell').should('have.length', 3)
-                        cy.findAllByRole('cell').eq(0).contains('DEF')
-                        cy.findAllByRole('cell').eq(1).contains('Diet one')
-                        cy.findAllByRole('cell').eq(2).contains('260')
+                        cy.findAllByRole('cell').should('have.length', 4)
+                        cy.findAllByRole('cell').eq(1).contains('DEF')
+                        cy.findAllByRole('cell').eq(2).contains('Diet one')
+                        cy.findAllByRole('cell').eq(3).contains('260')
                       })
                       break
                     case 6:
                       cy.wrap(row).within(() => {
-                        cy.findAllByRole('cell').should('have.length', 3)
-                        cy.findAllByRole('cell').eq(0).contains('DEF')
-                        cy.findAllByRole('cell').eq(1).contains('Diet two')
-                        cy.findAllByRole('cell').eq(2).contains('281')
+                        cy.findAllByRole('cell').should('have.length', 4)
+                        cy.findAllByRole('cell').eq(1).contains('DEF')
+                        cy.findAllByRole('cell').eq(2).contains('Diet two')
+                        cy.findAllByRole('cell').eq(3).contains('281')
                       })
                       break
                     case 7:
                       cy.wrap(row).within(() => {
-                        cy.findAllByRole('cell').should('have.length', 3)
-                        cy.findAllByRole('cell').eq(0).contains('DEF')
-                        cy.findAllByRole('cell').eq(1).contains('Diet three')
-                        cy.findAllByRole('cell').eq(2).contains('520')
+                        cy.findAllByRole('cell').should('have.length', 4)
+                        cy.findAllByRole('cell').eq(1).contains('DEF')
+                        cy.findAllByRole('cell').eq(2).contains('Diet three')
+                        cy.findAllByRole('cell').eq(3).contains('520')
                       })
                       break
                     case 8:
                       cy.wrap(row).within(() => {
-                        cy.findAllByRole('cell').should('have.length', 3)
-                        cy.findAllByRole('cell').eq(0).contains('DEF')
-                        cy.findAllByRole('cell').eq(1).contains('Diet four')
-                        cy.findAllByRole('cell').eq(2).contains('160')
+                        cy.findAllByRole('cell').should('have.length', 4)
+                        cy.findAllByRole('cell').eq(1).contains('DEF')
+                        cy.findAllByRole('cell').eq(2).contains('Diet four')
+                        cy.findAllByRole('cell').eq(3).contains('160')
                       })
                       break
                     default:
@@ -309,11 +313,12 @@ context('Dashboard visualisation: line chart', () => {
                   switch (index) {
                     case 0:
                       cy.wrap(row).within(() => {
-                        cy.findAllByRole('columnheader').should('have.length', 4)
-                        cy.findAllByRole('columnheader').eq(0).contains('Establishment ID')
-                        cy.findAllByRole('columnheader').eq(1).contains('Wing')
-                        cy.findAllByRole('columnheader').eq(2).contains('Diet')
-                        cy.findAllByRole('columnheader').eq(3).contains('Total prisoners')
+                        cy.findAllByRole('columnheader').should('have.length', 5)
+                        cy.findAllByRole('columnheader').eq(0).contains('Date')
+                        cy.findAllByRole('columnheader').eq(1).contains('Establishment ID')
+                        cy.findAllByRole('columnheader').eq(2).contains('Wing')
+                        cy.findAllByRole('columnheader').eq(3).contains('Diet')
+                        cy.findAllByRole('columnheader').eq(4).contains('Total prisoners')
                       })
                       break
                     default:

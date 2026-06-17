@@ -124,8 +124,10 @@ const getDataForSnapshotCharts = (
   chartDefinition: components['schemas']['DashboardVisualisationDefinition'],
   rawData: DashboardDataResponse[],
 ) => {
-  const dateMeasure = DatasetHelper.getDateMeasure(chartDefinition.columns.measures)
-  const data = DatasetHelper.getLastestDataset(rawData, dateMeasure)
+  const { columns } = chartDefinition
+  const dateColumn = DatasetHelper.getDateColumn(columns)
+
+  const data = DatasetHelper.getLastestDataset(rawData, dateColumn)
   const dataSetRows = DatasetHelper.getDatasetRows(chartDefinition, data)
   const snapshotData = DatasetHelper.filterRowsByDisplayColumns(chartDefinition, dataSetRows, true)
 

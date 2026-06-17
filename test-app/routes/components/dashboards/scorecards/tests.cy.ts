@@ -1,4 +1,4 @@
-import { resetFeatureFlags } from 'test-app/routes/integrationTests/appStateUtils'
+import { resetFeatureFlags } from '../../../../routes/integrationTests/appStateUtils'
 import { checkA11y, executeDashboardStubs } from '../../../../../cypress-tests/cypressUtils'
 
 context('Dashboard visualisation: Scorecards', () => {

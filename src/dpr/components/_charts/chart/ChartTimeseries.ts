@@ -70,10 +70,10 @@ class TimeseriesChart {
       this.responseData,
       <Array<components['schemas']['DashboardVisualisationColumnDefinition']>>this.keys,
     ) as LineTimeseriesDefinitionMeasure | BarTimeseriesDefinitionMeasure | undefined
-
     const dateMeasure = DatasetHelper.getDateMeasure(
       <components['schemas']['DashboardVisualisationColumnDefinition'][]>this.measures,
     )
+
     if (!dateMeasure) {
       throw new Error('No date field in definition')
     }

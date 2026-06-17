@@ -7,7 +7,7 @@ export const simpleScorecardMetricTwo: components['schemas']['DashboardVisualisa
   type: DashboardVisualisationType.SCORECARD,
   display: 'No of prisoners with MetricTwo',
   columns: {
-    keys: [{ id: 'establishment_id' }],
+    keys: [{ id: 'ts', type: 'date' }, { id: 'establishment_id' }],
     measures: [{ id: 'has_metric_two' }],
     expectNulls: false,
   },
@@ -18,7 +18,7 @@ export const simpleScorecardMetricTwoWithUnit: components['schemas']['DashboardV
   type: DashboardVisualisationType.SCORECARD,
   display: 'Percentage of prisoners with MetricTwo',
   columns: {
-    keys: [{ id: 'establishment_id' }],
+    keys: [{ id: 'ts', type: 'date' }, { id: 'establishment_id' }],
     measures: [{ id: 'has_metric_two', unit: UnitType.PERCENTAGE }],
     expectNulls: false,
   },
@@ -29,7 +29,7 @@ export const simpleScorecardMetricTwoFilter: components['schemas']['DashboardVis
   type: DashboardVisualisationType.SCORECARD,
   display: 'No of prisoners with MetricTwo',
   columns: {
-    keys: [{ id: 'establishment_id' }],
+    keys: [{ id: 'ts', type: 'date' }, { id: 'establishment_id' }],
     measures: [{ id: 'has_metric_two' }],
     filters: [
       {
@@ -46,7 +46,7 @@ export const simpleScorecardMetricThree: components['schemas']['DashboardVisuali
   type: DashboardVisualisationType.SCORECARD,
   display: 'No of prisoners with MetricThree',
   columns: {
-    keys: [{ id: 'establishment_id' }],
+    keys: [{ id: 'ts', type: 'date' }, { id: 'establishment_id' }],
     measures: [{ id: 'has_metric_three' }],
     expectNulls: false,
   },
@@ -57,7 +57,7 @@ export const simpleScorecardMetricThreeWithUnit: components['schemas']['Dashboar
   type: DashboardVisualisationType.SCORECARD,
   display: 'Percentage of prisoners with MetricThree',
   columns: {
-    keys: [{ id: 'establishment_id' }],
+    keys: [{ id: 'ts', type: 'date' }, { id: 'establishment_id' }],
     measures: [{ id: 'has_metric_three', unit: UnitType.PERCENTAGE }],
     expectNulls: false,
   },
@@ -68,7 +68,7 @@ export const simpleScorecardMetricOne: components['schemas']['DashboardVisualisa
   type: DashboardVisualisationType.SCORECARD,
   display: 'No of prisoners with MetricOne',
   columns: {
-    keys: [{ id: 'establishment_id' }],
+    keys: [{ id: 'ts', type: 'date' }, { id: 'establishment_id' }],
     measures: [{ id: 'has_metric_one' }],
     expectNulls: false,
   },
@@ -79,7 +79,7 @@ export const simpleScorecardMetricOneTrendDown: components['schemas']['Dashboard
   type: DashboardVisualisationType.SCORECARD,
   display: 'No of prisoners with MetricOne',
   columns: {
-    keys: [{ id: 'establishment_id' }],
+    keys: [{ id: 'ts', type: 'date' }, { id: 'establishment_id' }],
     measures: [{ id: 'has_metric_one' }],
     filters: [{ id: 'establishment_id', equals: 'GHI' }],
     expectNulls: false,
@@ -91,7 +91,7 @@ export const simpleScorecardMetricOneWithUnit: components['schemas']['DashboardV
   type: DashboardVisualisationType.SCORECARD,
   display: 'Percentage of prisoners with MetricOne',
   columns: {
-    keys: [{ id: 'establishment_id' }],
+    keys: [{ id: 'ts', type: 'date' }, { id: 'establishment_id' }],
     measures: [{ id: 'has_metric_one', unit: UnitType.PERCENTAGE }],
     expectNulls: false,
   },
@@ -105,7 +105,7 @@ export const simpleScorecardRagColoursMetricTwo: components['schemas']['Dashboar
     useRagColour: true,
   },
   columns: {
-    keys: [{ id: 'establishment_id' }],
+    keys: [{ id: 'ts', type: 'date' }, { id: 'establishment_id' }],
     measures: [{ id: 'has_metric_two' }],
     expectNulls: false,
   },
@@ -119,7 +119,7 @@ export const simpleScorecardRagColoursMetricThree: components['schemas']['Dashbo
     useRagColour: true,
   },
   columns: {
-    keys: [{ id: 'establishment_id' }],
+    keys: [{ id: 'ts', type: 'date' }, { id: 'establishment_id' }],
     measures: [{ id: 'has_metric_three' }],
     expectNulls: false,
   },
@@ -133,7 +133,7 @@ export const simpleScorecardRagColoursMetricOne: components['schemas']['Dashboar
     useRagColour: true,
   },
   columns: {
-    keys: [{ id: 'establishment_id' }],
+    keys: [{ id: 'ts', type: 'date' }, { id: 'establishment_id' }],
     measures: [{ id: 'has_metric_one' }],
     expectNulls: false,
   },

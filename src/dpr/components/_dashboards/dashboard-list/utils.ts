@@ -16,17 +16,19 @@ export const createList = (
   dashboardData: DashboardDataResponse[],
 ): { table: MoJTable; ts: string } => {
   ListVisSchemas.ListSchema.parse(listDefinition)
+
   const { columns, options } = listDefinition
-  const listOptions = <ListDashboardVisualisationOptions>options
-  const showLatest = listOptions?.showLatest !== undefined ? listOptions.showLatest : true
-  const columnsAsList = listOptions?.columnsAsList
   const { measures, keys } = columns
+
+  const listOptions = <ListDashboardVisualisationOptions>options
+  const columnsAsList = listOptions?.columnsAsList
   const showAllData = (!measures && !keys) || (!measures.length && !keys)
-  const dateMeasure = DatasetHelper.getDateMeasure(measures)
 
   let datasetData: DashboardDataResponse[] = [...dashboardData]
-  if (showLatest) {
-    datasetData = DatasetHelper.getLastestDataset(datasetData, dateMeasure)
+
+  if (listOptions?.showLatest ?? true) {
+    const dateColumn = DatasetHelper.getDateColumn(columns)
+    datasetData = DatasetHelper.getLastestDataset(datasetData, dateColumn)
   }
 
   let head

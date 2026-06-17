@@ -224,8 +224,27 @@ export const getDateDataFromResult = (
   }
 }
 
-export const getDateMeasure = (measures: components['schemas']['DashboardVisualisationColumnDefinition'][]) => {
+export const getDateMeasure = (
+  measures: components['schemas']['DashboardVisualisationColumnDefinition'][],
+): components['schemas']['DashboardVisualisationColumnDefinition'] | undefined => {
   return measures.find(m => m.type === 'date')
+}
+
+export const getDateKey = (
+  keys: components['schemas']['DashboardVisualisationColumnDefinition'][] | undefined | null,
+): components['schemas']['DashboardVisualisationColumnDefinition'] | undefined => {
+  return keys ? keys.find(m => m.type === 'date') : undefined
+}
+
+export const getDateColumn = (
+  columns: components['schemas']['DashboardVisualisationColumnsDefinition'],
+): components['schemas']['DashboardVisualisationColumnDefinition'] | undefined => {
+  const { measures, keys } = columns
+
+  const dateMeasure = getDateMeasure(measures)
+  const dateKey = getDateKey(keys)
+
+  return dateKey ?? dateMeasure
 }
 
 export default {
@@ -238,5 +257,7 @@ export default {
   groupRowsBy,
   getGroupKey,
   getDateMeasure,
+  getDateKey,
+  getDateColumn,
   getDateDataFromResult,
 }

@@ -22,10 +22,11 @@ export const createList = (
   const columnsAsList = listOptions?.columnsAsList
   const { measures, keys } = columns
   const showAllData = (!measures && !keys) || (!measures.length && !keys)
+  const dateMeasure = DatasetHelper.getDateMeasure(measures)
 
   let datasetData: DashboardDataResponse[] = [...dashboardData]
   if (showLatest) {
-    datasetData = DatasetHelper.getLastestDataset(datasetData)
+    datasetData = DatasetHelper.getLastestDataset(datasetData, dateMeasure)
   }
 
   let head
@@ -33,7 +34,7 @@ export const createList = (
   let ts
 
   if (showAllData) {
-    ;({ head, rows, ts } = createFullList(datasetData))
+    ;({ head, rows, ts } = createFullList(datasetData, measures))
   } else if (columnsAsList) {
     ;({ head, rows, ts } = createListFromColumns(listDefinition, datasetData))
   } else {
@@ -59,8 +60,8 @@ const createListFromColumns = (
   const { keys, measures } = columns
   const groupKey = DatasetHelper.getGroupKey(dashboardData, keys || [])
 
-  const timestampData = dashboardData[0]?.['ts']?.raw
-  const ts = timestampData ? `${timestampData}` : ''
+  const dateData = DatasetHelper.getDateDataFromResult(measures, dashboardData)
+  const ts = dateData?.value ? `${dateData.value}` : ''
 
   const head: MoJTableHead[] = []
   head.push({
@@ -165,8 +166,8 @@ const creatListFromRows = (
   const displayRows = DatasetHelper.filterRowsByDisplayColumns(listDefinition, dataSetRows)
   const rows = createTableRows(displayRows, measures)
 
-  const timestampData = dataSetRows[0]?.['ts']?.raw
-  const ts = timestampData ? `${timestampData}` : ''
+  const dateData = DatasetHelper.getDateDataFromResult(measures, dataSetRows)
+  const ts = dateData?.value ? `${dateData.value}` : ''
 
   return {
     head,
@@ -175,7 +176,10 @@ const creatListFromRows = (
   }
 }
 
-const createFullList = (dashboardData: DashboardDataResponse[]) => {
+const createFullList = (
+  dashboardData: DashboardDataResponse[],
+  measures: components['schemas']['DashboardVisualisationColumnDefinition'][],
+) => {
   if (!dashboardData || dashboardData.length === 0 || !dashboardData[0]) {
     return {
       head: [],
@@ -189,10 +193,10 @@ const createFullList = (dashboardData: DashboardDataResponse[]) => {
     return { text: key || '' }
   })
   const rows = createTableRows(dashboardData)
-
-  const latestData = DatasetHelper.getLastestDataset(dashboardData)
-  const timestampData = latestData[0]?.['ts']?.raw
-  const ts = timestampData ? `${timestampData}` : ''
+  const dateMeasure = DatasetHelper.getDateMeasure(measures)
+  const latestData = DatasetHelper.getLastestDataset(dashboardData, dateMeasure)
+  const dateData = DatasetHelper.getDateDataFromResult(measures, latestData)
+  const ts = dateData?.value ? `${dateData.value}` : ''
 
   return {
     head,

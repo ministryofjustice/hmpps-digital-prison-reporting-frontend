@@ -70,7 +70,15 @@ class TimeseriesChart {
       this.responseData,
       <Array<components['schemas']['DashboardVisualisationColumnDefinition']>>this.keys,
     ) as LineTimeseriesDefinitionMeasure | BarTimeseriesDefinitionMeasure | undefined
-    this.timeBlockData = DatasetHelper.groupRowsByTimestamp(this.responseData)
+
+    const dateMeasure = DatasetHelper.getDateMeasure(
+      <components['schemas']['DashboardVisualisationColumnDefinition'][]>this.measures,
+    )
+    if (!dateMeasure) {
+      throw new Error('No date field in definition')
+    }
+
+    this.timeBlockData = DatasetHelper.groupRowsByTimestamp(this.responseData, dateMeasure)
     this.labels = this.getLabels()
     this.datasetCount = this.timeBlockData[0]?.length
   }
@@ -95,7 +103,16 @@ class TimeseriesChart {
   }
 
   private getLabels = () => {
-    return this.timeBlockData.map((d: DashboardDataResponse[]) => <string>d[0]['ts'].raw)
+    return this.timeBlockData
+      .map((data: DashboardDataResponse[]) => {
+        const dateData = DatasetHelper.getDateDataFromResult(
+          <components['schemas']['DashboardVisualisationColumnDefinition'][]>this.measures,
+          data,
+        )
+        if (!dateData) return undefined
+        return dateData.value
+      })
+      .filter((v): v is string => Boolean(v))
   }
 }
 

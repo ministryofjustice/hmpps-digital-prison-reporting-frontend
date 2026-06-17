@@ -1,8 +1,12 @@
 /* eslint-disable prefer-destructuring */
 import dayjs from 'dayjs'
+import logger from '../../../../utils/logger'
 import { components } from '../../../../types/api'
 import { DashboardDataResponse } from '../../../../types/Metrics'
-import DatasetHelper from '../../../../utils/Dashboards/VisualisationDatasetHelper'
+import DatasetHelper, {
+  getDateDataFromResult,
+  getDateMeasure,
+} from '../../../../utils/Dashboards/VisualisationDatasetHelper'
 import {
   DashboardVisualisationData,
   DashboardVisualisationDataSet,
@@ -77,46 +81,63 @@ class HeatmapChart {
   }
 
   private initTimeseriesData = () => {
-    const timeBlockData = DatasetHelper.groupRowsByTimestamp(this.responseData)
+    const dateMeasure = getDateMeasure(<components['schemas']['DashboardVisualisationColumnDefinition'][]>this.measures)
+    if (!dateMeasure) {
+      throw new Error('No date field in definition')
+    }
 
-    this.data = timeBlockData.map(tsData => {
-      const { raw, rag } = tsData[0][this.valueKey]
-      const tsRaw = tsData[0]['ts'].raw
+    const timeBlockData = DatasetHelper.groupRowsByTimestamp(this.responseData, dateMeasure)
 
-      const v: MatrixChartData['v'] = Number(raw)
-      const r: MatrixChartData['r'] = rag !== undefined ? Number(tsData[0][this.valueKey].rag) : undefined
-      let x: MatrixChartData['x'] = 0
-      let y: MatrixChartData['y'] = 0
+    this.data = timeBlockData
+      .map<MatrixChartData | undefined>(tsData => {
+        const { raw, rag } = tsData[0][this.valueKey]
 
-      switch (this.granularity) {
-        case 'hourly':
-          break
-        case 'weekly':
-          x = dayjs(tsRaw, this.dayDateFormat).format('ddd')
-          y = dayjs(tsRaw, this.dayDateFormat).week()
-          break
-        case 'daily':
-          x = dayjs(tsRaw, this.dayDateFormat).format('MMM YY')
-          y = dayjs(tsRaw, this.dayDateFormat).format('D')
-          break
-        case 'monthly':
-          {
-            const ts = (<string>tsRaw).split(' ')
-            x = ts[1]
-            y = ts[0]
-          }
-          break
-        case 'annually':
-          x = 'year'
-          y = <string>tsRaw
-          break
-        default:
-          x = dayjs(tsRaw, this.dayDateFormat).format('MMM YY')
-          y = dayjs(tsRaw, this.dayDateFormat).format('D')
-          break
-      }
-      return { y, x, v, r }
-    })
+        const dateData = getDateDataFromResult(
+          <components['schemas']['DashboardVisualisationColumnDefinition'][]>this.measures,
+          tsData,
+        )
+        if (!dateData?.value) {
+          logger.warn('Data point dropped due to no date value')
+          return undefined
+        }
+
+        const tsRaw = dateData.value
+
+        const v: MatrixChartData['v'] = Number(raw)
+        const r: MatrixChartData['r'] = rag !== undefined ? Number(tsData[0][this.valueKey].rag) : undefined
+        let x: MatrixChartData['x'] = 0
+        let y: MatrixChartData['y'] = 0
+
+        switch (this.granularity) {
+          case 'hourly':
+            break
+          case 'weekly':
+            x = dayjs(tsRaw, this.dayDateFormat).format('ddd')
+            y = dayjs(tsRaw, this.dayDateFormat).week()
+            break
+          case 'daily':
+            x = dayjs(tsRaw, this.dayDateFormat).format('MMM YY')
+            y = dayjs(tsRaw, this.dayDateFormat).format('D')
+            break
+          case 'monthly':
+            {
+              const ts = (<string>tsRaw).split(' ')
+              x = ts[1]
+              y = ts[0]
+            }
+            break
+          case 'annually':
+            x = 'year'
+            y = <string>tsRaw
+            break
+          default:
+            x = dayjs(tsRaw, this.dayDateFormat).format('MMM YY')
+            y = dayjs(tsRaw, this.dayDateFormat).format('D')
+            break
+        }
+        return { y, x, v, r }
+      })
+      .filter((v): v is MatrixChartData => v !== undefined)
 
     this.bucketData()
     this.datasets = [

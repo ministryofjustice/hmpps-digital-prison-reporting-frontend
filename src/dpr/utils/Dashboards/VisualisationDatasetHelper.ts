@@ -1,5 +1,6 @@
 import { DashboardDataResponse } from '../../types/Metrics'
 import { components } from '../../types/api'
+import { apiDateToUi } from '../dateHelper'
 import * as OptionalKeysHelper from './VisualisationOptionalKeysHelper'
 
 /**
@@ -24,7 +25,10 @@ export const getDatasetRows = (
   filterColIds = [...new Set(filterColIds)]
   const hasOptionalKeys = OptionalKeysHelper.hasOptionalKeys(keys || [])
 
-  if (dashboardData.length && dashboardData[0]['ts']) keyColumnsIds.unshift('ts')
+  const dateData = getDateDataFromResult(measures, dashboardData)
+  if (dashboardData.length && dateData) {
+    keyColumnsIds.unshift(dateData.measure.id)
+  }
 
   const filtered = dashboardData.filter((datasetRow: DashboardDataResponse) => {
     const validRow: boolean[] = []
@@ -77,26 +81,44 @@ export const getDatasetRows = (
   return filtered
 }
 
-export const getLastestDataset = (dashboardData: DashboardDataResponse[]): DashboardDataResponse[] => {
-  const latestTimestamp = dashboardData[dashboardData.length - 1]?.['ts']?.raw
-  if (latestTimestamp) {
-    return dashboardData.filter(data => data['ts'].raw === latestTimestamp)
+export const getLastestDataset = (
+  dashboardData: DashboardDataResponse[],
+  dateMeasure?: components['schemas']['DashboardVisualisationColumnDefinition'],
+): DashboardDataResponse[] => {
+  if (dateMeasure) {
+    const latestTimestamp = dashboardData[dashboardData.length - 1]?.[dateMeasure.id]?.raw
+
+    if (latestTimestamp) {
+      return dashboardData.filter(data => data[dateMeasure.id].raw === latestTimestamp)
+    }
   }
+
   return dashboardData
 }
 
-export const getEarliestDataset = (dashboardData: DashboardDataResponse[]): DashboardDataResponse[] => {
-  const latestTimestamp = dashboardData[0]?.['ts']?.raw
-  if (latestTimestamp) {
-    return dashboardData.filter(data => data['ts'].raw === latestTimestamp)
+export const getEarliestDataset = (
+  dashboardData: DashboardDataResponse[],
+  dateMeasure?: components['schemas']['DashboardVisualisationColumnDefinition'],
+): DashboardDataResponse[] => {
+  if (dateMeasure) {
+    const earliestTimestamp = dashboardData[0]?.[dateMeasure.id]?.raw
+
+    if (earliestTimestamp) {
+      return dashboardData.filter(data => data[dateMeasure.id].raw === earliestTimestamp)
+    }
   }
+
   return dashboardData
 }
 
-export const groupRowsByTimestamp = (dashboardData: DashboardDataResponse[]): DashboardDataResponse[][] => {
-  const uniqueTimestamps = [...new Set(dashboardData.map(item => item['ts'].raw))]
+export const groupRowsByTimestamp = (
+  dashboardData: DashboardDataResponse[],
+  dateMeasure: components['schemas']['DashboardVisualisationColumnDefinition'],
+): DashboardDataResponse[][] => {
+  const { id } = dateMeasure
+  const uniqueTimestamps = [...new Set(dashboardData.map(item => item[id].raw))]
   return uniqueTimestamps.map(ts => {
-    return dashboardData.filter(d => d['ts'].raw === ts)
+    return dashboardData.filter(d => d[id].raw === ts)
   })
 }
 
@@ -171,6 +193,41 @@ export const filterRowsByDisplayColumns = (
   })
 }
 
+export type GetDateDataResponse = {
+  measure: components['schemas']['DashboardVisualisationColumnDefinition']
+  value: string
+}
+
+/**
+ * Gets the date measure and extracts the value
+ *
+ * @param {components['schemas']['DashboardVisualisationColumnDefinition'][]} measures
+ * @param {DashboardDataResponse[]} dashboardData
+ * @return {*}  {({ measure: components['schemas']['DashboardVisualisationColumnDefinition']; value: string } | undefined)}
+ */
+export const getDateDataFromResult = (
+  measures: components['schemas']['DashboardVisualisationColumnDefinition'][],
+  dashboardData: DashboardDataResponse[],
+): GetDateDataResponse | undefined => {
+  const dateColumn = measures.find(m => m.type === 'date')
+
+  if (!dateColumn) return undefined
+
+  const { id } = dateColumn
+  const dateValue = dashboardData[0][id].raw
+
+  if (!dateValue || typeof dateValue !== 'string') return undefined
+
+  return {
+    measure: dateColumn,
+    value: apiDateToUi(dateValue) || dateValue,
+  }
+}
+
+export const getDateMeasure = (measures: components['schemas']['DashboardVisualisationColumnDefinition'][]) => {
+  return measures.find(m => m.type === 'date')
+}
+
 export default {
   getDatasetRows,
   getLastestDataset,
@@ -180,4 +237,6 @@ export default {
   groupRowsByKey,
   groupRowsBy,
   getGroupKey,
+  getDateMeasure,
+  getDateDataFromResult,
 }

@@ -59,7 +59,7 @@ export const renderSyncDashboard = async ({
     description: dashboardDefinition.description || reportDefinition.description || '',
   }
 
-  await updateLastViewedSync(req, services, stateData, dprUser.id, fields)
+  await updateLastViewedSync(req, res, services, stateData, dprUser.id, fields)
 
   return {
     dashboardData: {

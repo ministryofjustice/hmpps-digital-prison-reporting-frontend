@@ -7,7 +7,6 @@ import { SectionedDataHelper } from '../SectionedDataHelper/SectionedDataHelper'
 import { ReportTemplateData, SectionData } from '../SectionedDataHelper/types'
 import { DataTable } from '../../DataTableBuilder/types'
 import { TemplateBuilder } from '../TemplateBuilder'
-import logger from '../../logger'
 
 export class ReportBuilder extends TemplateBuilder {
   dataTableBuilder!: DataTableBuilder
@@ -73,16 +72,10 @@ export class ReportBuilder extends TemplateBuilder {
       .withReportQuery(this.reportQuery)
       .build()
 
-    logger.info('SUMMARY_SORT_BUG', 'buildSectionedData 1', JSON.stringify({ sectionData }))
-
     return sectionData.sections.map((section: SectionData) => {
       const tableData = this.buildMainTable(section)
 
-      logger.info('SUMMARY_SORT_BUG', 'buildSectionedData 2', JSON.stringify({ sectionSummaries: section.summaries }))
-
       const sectionSummaryTables = this.buildSummaryTables(section.summaries)
-
-      logger.info('SUMMARY_SORT_BUG', 'buildSectionedData 3', JSON.stringify({ sectionSummaryTables }))
 
       return {
         ...section,

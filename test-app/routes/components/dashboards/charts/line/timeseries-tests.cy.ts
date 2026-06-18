@@ -23,7 +23,6 @@ context('Dashboard visualisation: line timeseries chart', () => {
       })
 
       cy.findByRole('heading', { level: 1, name: /Line-timeseries - Complete dataset/ }).should('be.visible')
-      checkA11y()
 
       cy.url().then(url => {
         completeUrl = url
@@ -32,6 +31,10 @@ context('Dashboard visualisation: line timeseries chart', () => {
 
     beforeEach(() => {
       cy.visit(completeUrl)
+    })
+
+    it('Should be accessible', () => {
+      checkA11y()
     })
 
     it('should should have the correct amount of sections', () => {
@@ -657,7 +660,6 @@ context('Dashboard visualisation: line timeseries chart', () => {
       })
 
       cy.findByRole('heading', { level: 1, name: /Line-timeseries - Partial dataset/ }).should('be.visible')
-      checkA11y()
 
       cy.url().then(url => {
         partialData = url
@@ -666,6 +668,10 @@ context('Dashboard visualisation: line timeseries chart', () => {
 
     beforeEach(() => {
       cy.visit(partialData)
+    })
+
+    it('Should be accessible', () => {
+      checkA11y()
     })
 
     it('should should have the correct amount of sections', () => {

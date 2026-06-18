@@ -632,9 +632,7 @@ context('Dashboard visualisation: line timeseries chart', () => {
   })
 
   describe('Partial data', () => {
-    let partialData = ''
-
-    before(() => {
+    beforeEach(() => {
       cy.task('resetStubs')
       executeDashboardStubs()
       cy.task('stubLineTimeseriesDashboardPartialData')
@@ -648,14 +646,7 @@ context('Dashboard visualisation: line timeseries chart', () => {
 
       cy.findByRole('heading', { level: 1, name: /Line-timeseries - Partial dataset/ }).should('be.visible')
       checkA11y()
-
-      cy.url().then(url => {
-        partialData = url
-      })
-    })
-
-    beforeEach(() => {
-      cy.visit(partialData)
+      
     })
 
     it('should should have the correct amount of sections', () => {

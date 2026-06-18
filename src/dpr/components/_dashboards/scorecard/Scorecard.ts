@@ -80,14 +80,16 @@ class ScorecardVisualisation {
     rawData: DashboardDataResponse[],
   ): ScorecardDataset => {
     const scorecardDefinition = <components['schemas']['DashboardVisualisationDefinition']>definition
-    const dateMeasure = DatasetHelper.getDateMeasure(scorecardDefinition.columns.measures)
+    const { columns } = scorecardDefinition
+
+    const dateColumn = DatasetHelper.getDateColumn(columns)
 
     // Latest most recent data
-    const latestData = DatasetHelper.getLastestDataset(rawData, dateMeasure)
+    const latestData = DatasetHelper.getLastestDataset(rawData, dateColumn)
     const latestDataSetRows = DatasetHelper.getDatasetRows(scorecardDefinition, latestData)
 
     let latestTs
-    const latestDateData = DatasetHelper.getDateDataFromResult(scorecardDefinition.columns.measures, latestDataSetRows)
+    const latestDateData = DatasetHelper.getDateValue(latestDataSetRows, dateColumn)
     if (latestDateData?.value) {
       latestTs = latestDateData.value
     }
@@ -95,14 +97,11 @@ class ScorecardVisualisation {
     const latestFiltered = DatasetHelper.filterRowsByDisplayColumns(scorecardDefinition, latestDataSetRows, true)
 
     // Earliest data
-    const earliestData = DatasetHelper.getEarliestDataset(rawData, dateMeasure)
+    const earliestData = DatasetHelper.getEarliestDataset(rawData, dateColumn)
     const earliestDataSetRows = DatasetHelper.getDatasetRows(scorecardDefinition, earliestData)
 
     let earliestTs
-    const earliestDateData = DatasetHelper.getDateDataFromResult(
-      scorecardDefinition.columns.measures,
-      earliestDataSetRows,
-    )
+    const earliestDateData = DatasetHelper.getDateValue(earliestDataSetRows, dateColumn)
     if (earliestDateData?.value) {
       earliestTs = earliestDateData.value
     }

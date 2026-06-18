@@ -16,6 +16,7 @@ export const getDatasetRows = (
   visDefinition: components['schemas']['DashboardVisualisationDefinition'],
   dashboardData: DashboardDataResponse[],
 ) => {
+  const { columns } = visDefinition
   const { measures, filters, expectNulls } = visDefinition.columns
   const { keys } = visDefinition.columns
 
@@ -25,7 +26,9 @@ export const getDatasetRows = (
   filterColIds = [...new Set(filterColIds)]
   const hasOptionalKeys = OptionalKeysHelper.hasOptionalKeys(keys || [])
 
-  const dateData = getDateDataFromResult(measures, dashboardData)
+  const dateColumn = getDateColumn(columns)
+  const dateData = getDateValue(dashboardData, dateColumn)
+
   if (dashboardData.length && dateData) {
     keyColumnsIds.unshift(dateData.measure.id)
   }
@@ -193,24 +196,15 @@ export const filterRowsByDisplayColumns = (
   })
 }
 
-export type GetDateDataResponse = {
+export type GetDateValueResponse = {
   measure: components['schemas']['DashboardVisualisationColumnDefinition']
   value: string
 }
 
-/**
- * Gets the date measure and extracts the value
- *
- * @param {components['schemas']['DashboardVisualisationColumnDefinition'][]} measures
- * @param {DashboardDataResponse[]} dashboardData
- * @return {*}  {({ measure: components['schemas']['DashboardVisualisationColumnDefinition']; value: string } | undefined)}
- */
-export const getDateDataFromResult = (
-  measures: components['schemas']['DashboardVisualisationColumnDefinition'][],
+export const getDateValue = (
   dashboardData: DashboardDataResponse[],
-): GetDateDataResponse | undefined => {
-  const dateColumn = measures.find(m => m.type === 'date')
-
+  dateColumn?: components['schemas']['DashboardVisualisationColumnDefinition'] | undefined,
+): GetDateValueResponse | undefined => {
   if (!dateColumn) return undefined
 
   const { id } = dateColumn
@@ -222,6 +216,17 @@ export const getDateDataFromResult = (
     measure: dateColumn,
     value: apiDateToUi(dateValue) || dateValue,
   }
+}
+
+export const getDateColumn = (
+  columns: components['schemas']['DashboardVisualisationColumnsDefinition'],
+): components['schemas']['DashboardVisualisationColumnDefinition'] | undefined => {
+  const { measures, keys } = columns
+
+  const dateMeasure = getDateMeasure(measures)
+  const dateKey = getDateKey(keys)
+
+  return dateKey ?? dateMeasure
 }
 
 export const getDateMeasure = (
@@ -236,17 +241,6 @@ export const getDateKey = (
   return keys ? keys.find(m => m.type === 'date') : undefined
 }
 
-export const getDateColumn = (
-  columns: components['schemas']['DashboardVisualisationColumnsDefinition'],
-): components['schemas']['DashboardVisualisationColumnDefinition'] | undefined => {
-  const { measures, keys } = columns
-
-  const dateMeasure = getDateMeasure(measures)
-  const dateKey = getDateKey(keys)
-
-  return dateKey ?? dateMeasure
-}
-
 export default {
   getDatasetRows,
   getLastestDataset,
@@ -259,5 +253,5 @@ export default {
   getDateMeasure,
   getDateKey,
   getDateColumn,
-  getDateDataFromResult,
+  getDateValue,
 }

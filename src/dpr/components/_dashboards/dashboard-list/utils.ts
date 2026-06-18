@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { components } from '../../../types/api'
 import { DashboardDataResponse } from '../../../types/Metrics'
-import DatasetHelper from '../../../utils/Dashboards/VisualisationDatasetHelper'
+import DatasetHelper, { getDateColumn, getDateValue } from '../../../utils/Dashboards/VisualisationDatasetHelper'
 import {
   ListDashboardVisualisationOptions,
   MoJTable,
@@ -36,7 +36,7 @@ export const createList = (
   let ts
 
   if (showAllData) {
-    ;({ head, rows, ts } = createFullList(datasetData, measures))
+    ;({ head, rows, ts } = createFullList(listDefinition, datasetData))
   } else if (columnsAsList) {
     ;({ head, rows, ts } = createListFromColumns(listDefinition, datasetData))
   } else {
@@ -62,7 +62,8 @@ const createListFromColumns = (
   const { keys, measures } = columns
   const groupKey = DatasetHelper.getGroupKey(dashboardData, keys || [])
 
-  const dateData = DatasetHelper.getDateDataFromResult(measures, dashboardData)
+  const dateColumn = getDateColumn(columns)
+  const dateData = getDateValue(dashboardData, dateColumn)
   const ts = dateData?.value ? `${dateData.value}` : ''
 
   const head: MoJTableHead[] = []
@@ -158,7 +159,8 @@ const creatListFromRows = (
   listDefinition: components['schemas']['DashboardVisualisationDefinition'],
   dashboardData: DashboardDataResponse[],
 ) => {
-  const { measures } = listDefinition.columns
+  const { columns } = listDefinition
+  const { measures } = columns
 
   const head: MoJTableHead[] = measures.map(column => {
     return { text: column.display || '' }
@@ -168,7 +170,8 @@ const creatListFromRows = (
   const displayRows = DatasetHelper.filterRowsByDisplayColumns(listDefinition, dataSetRows)
   const rows = createTableRows(displayRows, measures)
 
-  const dateData = DatasetHelper.getDateDataFromResult(measures, dataSetRows)
+  const dateColumn = getDateColumn(columns)
+  const dateData = getDateValue(dataSetRows, dateColumn)
   const ts = dateData?.value ? `${dateData.value}` : ''
 
   return {
@@ -179,8 +182,8 @@ const creatListFromRows = (
 }
 
 const createFullList = (
+  listDefinition: components['schemas']['DashboardVisualisationDefinition'],
   dashboardData: DashboardDataResponse[],
-  measures: components['schemas']['DashboardVisualisationColumnDefinition'][],
 ) => {
   if (!dashboardData || dashboardData.length === 0 || !dashboardData[0]) {
     return {
@@ -189,15 +192,19 @@ const createFullList = (
       ts: '',
     }
   }
+  const { columns } = listDefinition
 
   const firstRow = dashboardData[0]
   const head: MoJTableHead[] = Object.keys(firstRow).map(key => {
     return { text: key || '' }
   })
+
   const rows = createTableRows(dashboardData)
-  const dateMeasure = DatasetHelper.getDateMeasure(measures)
-  const latestData = DatasetHelper.getLastestDataset(dashboardData, dateMeasure)
-  const dateData = DatasetHelper.getDateDataFromResult(measures, latestData)
+  const dateColumn = getDateColumn(columns)
+
+  const latestData = DatasetHelper.getLastestDataset(dashboardData, dateColumn)
+
+  const dateData = getDateValue(latestData, dateColumn)
   const ts = dateData?.value ? `${dateData.value}` : ''
 
   return {

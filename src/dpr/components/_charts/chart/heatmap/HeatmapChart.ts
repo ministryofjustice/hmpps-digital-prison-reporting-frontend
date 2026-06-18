@@ -4,8 +4,9 @@ import logger from '../../../../utils/logger'
 import { components } from '../../../../types/api'
 import { DashboardDataResponse } from '../../../../types/Metrics'
 import DatasetHelper, {
-  getDateDataFromResult,
+  getDateColumn,
   getDateMeasure,
+  getDateValue,
 } from '../../../../utils/Dashboards/VisualisationDatasetHelper'
 import {
   DashboardVisualisationData,
@@ -92,10 +93,11 @@ class HeatmapChart {
       .map<MatrixChartData | undefined>(tsData => {
         const { raw, rag } = tsData[0][this.valueKey]
 
-        const dateData = getDateDataFromResult(
-          <components['schemas']['DashboardVisualisationColumnDefinition'][]>this.measures,
-          tsData,
+        const dateColumn = getDateColumn(
+          <components['schemas']['DashboardVisualisationColumnsDefinition']>this.definition.columns,
         )
+        const dateData = getDateValue(tsData, dateColumn)
+
         if (!dateData?.value) {
           logger.warn('Data point dropped due to no date value')
           return undefined

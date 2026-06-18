@@ -3,7 +3,11 @@ import weekOfYear from 'dayjs/plugin/weekOfYear'
 import { components } from '../../types/api'
 import { ChartDetails, ChartMetaData } from '../../types/Charts'
 import { DashboardDataResponse } from '../../types/Metrics'
-import DatasetHelper from '../../utils/Dashboards/VisualisationDatasetHelper'
+import DatasetHelper, {
+  getDateColumn,
+  getDateMeasure,
+  getDateValue,
+} from '../../utils/Dashboards/VisualisationDatasetHelper'
 import { mapUnitToSymbol } from '../../utils/Dashboards/VisualisationUnitHelper'
 import DashboardListUtils from '../_dashboards/dashboard-list/utils'
 import {
@@ -158,11 +162,13 @@ const getChartDetails = (
   data: DashboardDataResponse[],
   timeseries = false,
 ): ChartDetails => {
-  const { measures } = chartDefinition.columns
+  const { columns } = chartDefinition
   const meta: ChartMetaData[] = []
   const headlines: ChartMetaData[] = createHeadlines(chartDefinition, data, timeseries)
 
-  const dateData = DatasetHelper.getDateDataFromResult(measures, data)
+  const dateColumn = getDateColumn(columns)
+  const dateData = getDateValue(data, dateColumn)
+
   if (dateData) {
     const { value } = dateData
     meta.push({
@@ -198,7 +204,9 @@ const createHeadlines = (
       const { id } = headlineColumn
       const { raw } = data[0][id]
 
-      const dateData = DatasetHelper.getDateDataFromResult(measures, data)
+      const dateColumn = getDateMeasure(measures)
+      const dateData = getDateValue(data, dateColumn)
+
       if (dateData) {
         label = dateData.value
       }
@@ -309,7 +317,7 @@ const createTimeseriesTable = (
   return { head, rows }
 }
 
-export type GetDateDataResponse = {
+export type GetDateValueResponse = {
   measure: components['schemas']['DashboardVisualisationColumnDefinition']
   value: string
 }

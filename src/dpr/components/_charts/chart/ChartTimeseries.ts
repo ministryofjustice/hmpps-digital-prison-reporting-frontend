@@ -5,7 +5,7 @@ import {
   TimeseriesChartMeasure,
   VisualisationDefinitionKey,
 } from '../../_dashboards/dashboard-visualisation/types'
-import DatasetHelper from '../../../utils/Dashboards/VisualisationDatasetHelper'
+import DatasetHelper, { getDateMeasure, getDateValue } from '../../../utils/Dashboards/VisualisationDatasetHelper'
 import { BarTimeseriesDefinitionMeasure, BarTimeseriesDefinitionType } from './bar-timeseries/types'
 import { LineTimeseriesDefinitionMeasure, LineTimeseriesDefinitionType } from './line-timeseries/types'
 import ChartColoursHelper from './ChartColours'
@@ -105,11 +105,13 @@ class TimeseriesChart {
   private getLabels = () => {
     return this.timeBlockData
       .map((data: DashboardDataResponse[]) => {
-        const dateData = DatasetHelper.getDateDataFromResult(
+        const dateColumn = getDateMeasure(
           <components['schemas']['DashboardVisualisationColumnDefinition'][]>this.measures,
-          data,
         )
+        const dateData = getDateValue(data, dateColumn)
+
         if (!dateData) return undefined
+
         return dateData.value
       })
       .filter((v): v is string => Boolean(v))

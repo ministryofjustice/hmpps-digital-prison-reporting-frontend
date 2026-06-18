@@ -216,6 +216,10 @@ const dataQualityAllEstablishmentsMetricOne = {
   columns: {
     keys: [
       {
+        id: 'ts',
+        type: 'date'
+      },
+      {
         id: 'establishment_id',
         display: 'Establishment ID',
       },
@@ -240,6 +244,10 @@ const dataQualityAllEstablishmentsNoMetricOne = {
   description: '',
   columns: {
     keys: [
+      {
+        id: 'ts',
+        type: 'date'
+      },
       {
         id: 'establishment_id',
         display: 'Establishment ID',
@@ -266,6 +274,10 @@ const dataQualityAllEstablishmentsMetricThree = {
   columns: {
     keys: [
       {
+        id: 'ts',
+        type: 'date'
+      },
+      {
         id: 'establishment_id',
         display: 'Establishment ID',
       },
@@ -290,6 +302,10 @@ const dataQualityAllEstablishmentsNoMetricThree = {
   description: '',
   columns: {
     keys: [
+      {
+        id: 'ts',
+        type: 'date'
+      },
       {
         id: 'establishment_id',
         display: 'Establishment ID',
@@ -319,6 +335,10 @@ const dataQualityAllEstablishmentsMetricTwo = {
   columns: {
     keys: [
       {
+        id: 'ts',
+        type: 'date'
+      },
+      {
         id: 'establishment_id',
         display: 'Establishment ID',
       },
@@ -343,6 +363,10 @@ const dataQualityAllEstablishmentsNoMetricTwo = {
   description: '',
   columns: {
     keys: [
+      {
+        id: 'ts',
+        type: 'date'
+      },
       {
         id: 'establishment_id',
         display: 'Establishment ID',
@@ -371,6 +395,10 @@ const dataQualityAllCols = {
   },
   columns: {
     keys: [
+      {
+        id: 'ts',
+        type: 'date'
+      },
       {
         id: 'establishment_id',
         display: 'Establishment ID',
@@ -413,6 +441,10 @@ const dataQualityAllColsList = {
   cols: true,
   columns: {
     keys: [
+      {
+        id: 'ts',
+        type: 'date'
+      },
       {
         id: 'establishment_id',
       },

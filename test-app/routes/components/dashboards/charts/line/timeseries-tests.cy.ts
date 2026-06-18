@@ -8,9 +8,7 @@ context('Dashboard visualisation: line timeseries chart', () => {
   const path = '/'
 
   describe('Complete data', () => {
-    let completeUrl = ''
-
-    before(() => {
+    beforeEach(() => {
       cy.task('resetStubs')
       executeDashboardStubs()
       cy.task('stubLineTimeseriesDashboardCompleteData')
@@ -24,14 +22,6 @@ context('Dashboard visualisation: line timeseries chart', () => {
 
       cy.findByRole('heading', { level: 1, name: /Line-timeseries - Complete dataset/ }).should('be.visible')
       checkA11y()
-
-      cy.url().then(url => {
-        completeUrl = url
-      })
-    })
-
-    beforeEach(() => {
-      cy.visit(completeUrl)
     })
 
     it('should should have the correct amount of sections', () => {

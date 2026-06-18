@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## 6.7.1
+
+- Bugfix: Retrieving fields without a filter set not longer throws an error
+
 ## 6.7.0
 
 - My reports validation on addition and retrieval of report state

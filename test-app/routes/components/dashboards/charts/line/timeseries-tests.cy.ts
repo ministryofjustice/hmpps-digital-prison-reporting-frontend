@@ -34,7 +34,12 @@ context('Dashboard visualisation: line timeseries chart', () => {
     })
 
     it('should be accessible', { defaultCommandTimeout: 30000 }, () => {
-      checkA11y()
+      cy.injectAxe()
+      cy.window().then(win => {
+        return win.axe.run(win.document).then(results => {
+          expect(results.violations).to.have.length(0)
+        })
+      })
     })
 
     it('should have the correct amount of sections', () => {

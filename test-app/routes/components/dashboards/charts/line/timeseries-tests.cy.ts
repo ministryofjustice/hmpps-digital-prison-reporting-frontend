@@ -8,6 +8,8 @@ context('Dashboard visualisation: line timeseries chart', () => {
   const path = '/'
 
   describe('Complete data', () => {
+    let completeUrl = ''
+    
     beforeEach(() => {
       cy.task('resetStubs')
       executeDashboardStubs()
@@ -643,6 +645,8 @@ context('Dashboard visualisation: line timeseries chart', () => {
   })
 
   describe('Partial data', () => {
+    let partialData = ''
+    
     beforeEach(() => {
       cy.task('resetStubs')
       executeDashboardStubs()

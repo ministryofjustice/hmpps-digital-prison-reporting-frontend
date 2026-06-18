@@ -43,6 +43,10 @@ export const createList = (
     ;({ head, rows, ts } = creatListFromRows(listDefinition, datasetData))
   }
 
+  console.log({
+    ts,
+  })
+
   if (rows.length && measures) rows = sumColumns(rows, measures)
 
   return {

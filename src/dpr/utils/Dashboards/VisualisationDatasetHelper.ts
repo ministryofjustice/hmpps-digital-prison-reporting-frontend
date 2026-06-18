@@ -202,10 +202,10 @@ export type GetDateValueResponse = {
 }
 
 export const getDateValue = (
-  dashboardData: DashboardDataResponse[],
+  dashboardData?: DashboardDataResponse[] | undefined,
   dateColumn?: components['schemas']['DashboardVisualisationColumnDefinition'] | undefined,
 ): GetDateValueResponse | undefined => {
-  if (!dateColumn) return undefined
+  if (!dateColumn || !dashboardData || !dashboardData.length) return undefined
 
   const { id } = dateColumn
   const dateValue = dashboardData[0][id].raw

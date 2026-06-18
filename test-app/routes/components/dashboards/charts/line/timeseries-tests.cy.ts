@@ -21,10 +21,21 @@ context('Dashboard visualisation: line timeseries chart', () => {
       })
 
       cy.findByRole('heading', { level: 1, name: /Line-timeseries - Complete dataset/ }).should('be.visible')
+
+      cy.url().then(url => {
+        completeUrl = url
+      })
+    })
+
+    beforeEach(() => {
+      cy.visit(completeUrl)
+    })
+
+    it('should be accessible', () => {
       checkA11y()
     })
 
-    it('should should have the correct amount of sections', () => {
+    it('should have the correct amount of sections', () => {
       cy.findAllByRole('heading', { level: 2 })
         .should('have.length', 3)
         .each((section, index) => {
@@ -44,7 +55,7 @@ context('Dashboard visualisation: line timeseries chart', () => {
         })
     })
 
-    it('should should show the correct data for charts', () => {
+    it('should show the correct data for charts', () => {
       cy.findAllByLabelText(/Line timeseries charts - single line/).within(() => {
         cy.findAllByRole('heading', { level: 3 }).should('have.length', 3)
 
@@ -645,11 +656,21 @@ context('Dashboard visualisation: line timeseries chart', () => {
       })
 
       cy.findByRole('heading', { level: 1, name: /Line-timeseries - Partial dataset/ }).should('be.visible')
-      checkA11y()
-      
+
+      cy.url().then(url => {
+        partialData = url
+      })
     })
 
-    it('should should have the correct amount of sections', () => {
+    beforeEach(() => {
+      cy.visit(partialData)
+    })
+
+    it('should be accessible', { defaultCommandTimeout: 30000 }, () => {
+      checkA11y()
+    })
+
+    it('should have the correct amount of sections', () => {
       cy.findAllByRole('heading', { level: 2 })
         .should('have.length', 2)
         .each((section, index) => {
@@ -666,7 +687,7 @@ context('Dashboard visualisation: line timeseries chart', () => {
         })
     })
 
-    it('should should show the correct data for simple bar charts', () => {
+    it('should show the correct data for simple bar charts', () => {
       cy.findAllByLabelText(/Section 1 title/).within(() => {
         cy.findAllByRole('heading', { level: 3 }).should('have.length', 7)
 

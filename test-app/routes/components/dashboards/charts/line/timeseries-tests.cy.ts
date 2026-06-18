@@ -33,13 +33,8 @@ context('Dashboard visualisation: line timeseries chart', () => {
       cy.visit(completeUrl)
     })
 
-    it('should be accessible', { defaultCommandTimeout: 30000 }, () => {
-      cy.injectAxe()
-      cy.window().then(win => {
-        return win.axe.run(win.document).then(results => {
-          expect(results.violations).to.have.length(0)
-        })
-      })
+    it('should be accessible', () => {
+      checkA11y()
     })
 
     it('should have the correct amount of sections', () => {
@@ -675,7 +670,7 @@ context('Dashboard visualisation: line timeseries chart', () => {
       cy.visit(partialData)
     })
 
-    it('should be accessible', () => {
+    it('should be accessible', { defaultCommandTimeout: 30000 }, () => {
       checkA11y()
     })
 

@@ -1,4 +1,9 @@
-import { establishmentIdFilter, granularDateRangeFilter } from '@networkMocks/dashboard/filter-definitions'
+import {
+  establishmentIdFilter,
+  granularDateRangeFilter,
+  nullEstablishmentIdFilter,
+  undefinedEstablishmentIdFilter,
+} from '@networkMocks/dashboard/filter-definitions'
 import { components } from 'src/dpr/types/api'
 
 export const definition: components['schemas']['DashboardDefinition'] & {
@@ -46,5 +51,10 @@ export const definition: components['schemas']['DashboardDefinition'] & {
     },
   ],
   loadType: 'sync' as components['schemas']['DashboardDefinitionSummary']['loadType'],
-  filterFields: [establishmentIdFilter, granularDateRangeFilter],
+  filterFields: [
+    establishmentIdFilter,
+    nullEstablishmentIdFilter,
+    granularDateRangeFilter,
+    undefinedEstablishmentIdFilter,
+  ],
 }

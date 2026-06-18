@@ -192,7 +192,7 @@ type FieldWithFilter = Omit<components['schemas']['FieldDefinition'], 'filter'> 
  * @return {*}  {FieldWithFilter[]}
  */
 export const getFieldsWithFilters = (fields: components['schemas']['FieldDefinition'][]): FieldWithFilter[] => {
-  return fields.filter((f): f is FieldWithFilter => !!f.filter)
+  return fields.filter((f): f is FieldWithFilter => !!f!.filter)
 }
 
 /**

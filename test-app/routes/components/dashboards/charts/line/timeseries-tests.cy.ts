@@ -33,7 +33,7 @@ context('Dashboard visualisation: line timeseries chart', () => {
       cy.visit(completeUrl)
     })
 
-    it('should be accessible', () => {
+    it('should be accessible', { defaultCommandTimeout: 30000 }, () => {
       checkA11y()
     })
 

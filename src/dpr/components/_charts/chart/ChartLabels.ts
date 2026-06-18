@@ -24,6 +24,9 @@ export default class ChartLabelsHelper {
    */
   getDatasetLabel = (keys: VisualisationDefinitionKey[], row: DashboardDataResponse) => {
     return keys
+      .filter((key: VisualisationDefinitionKey) => {
+        return key.type !== 'date'
+      })
       .map((key: VisualisationDefinitionKey) => {
         // Only set the label if there is more than one key
         const label = key.display && keys.length > 1 ? `${key.display}: ` : ''

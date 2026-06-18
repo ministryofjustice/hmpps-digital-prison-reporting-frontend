@@ -3,11 +3,7 @@ import { logAccessibilityViolations } from './axeCoreUtils'
 export const checkA11y = () => {
   cy.document().its('readyState').should('eq', 'complete')
   cy.get('body').should('be.visible')
-
-  cy.log('Inject Axe')
   cy.injectAxe()
-
-  cy.log('Check A11y')
   cy.checkA11y(undefined, undefined, logAccessibilityViolations)
 }
 

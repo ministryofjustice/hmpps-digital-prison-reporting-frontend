@@ -77,6 +77,16 @@ export const establishmentIdFilterInteractiveFalse: FilterField = {
   fieldSource: 'specfield',
 }
 
+export const nullEstablishmentIdFilter: FilterField = {
+  ...establishmentIdFilter,
+  filter: null,
+} as unknown as FilterField
+
+export const undefinedEstablishmentIdFilter: FilterField = {
+  ...establishmentIdFilter,
+  filter: undefined,
+} as unknown as FilterField
+
 export const wingFilterCompass: FilterField = {
   header: false,
   name: 'wing',

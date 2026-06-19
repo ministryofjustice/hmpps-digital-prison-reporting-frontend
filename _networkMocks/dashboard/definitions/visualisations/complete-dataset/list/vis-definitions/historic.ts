@@ -9,6 +9,10 @@ export const dataQualityMetricOneHistoric: components['schemas']['DashboardVisua
   columns: {
     keys: [
       {
+        id: 'ts',
+        type: 'date',
+      },
+      {
         id: 'establishment_id',
       },
     ],
@@ -16,6 +20,7 @@ export const dataQualityMetricOneHistoric: components['schemas']['DashboardVisua
       {
         id: 'ts',
         display: 'Date',
+        type: 'date',
       },
       {
         id: 'establishment_id',
@@ -43,6 +48,10 @@ export const dataQualityMetricThreeHistoric: components['schemas']['DashboardVis
   columns: {
     keys: [
       {
+        id: 'ts',
+        type: 'date',
+      },
+      {
         id: 'establishment_id',
       },
     ],
@@ -50,6 +59,7 @@ export const dataQualityMetricThreeHistoric: components['schemas']['DashboardVis
       {
         id: 'ts',
         display: 'Date',
+        type: 'date',
       },
       {
         id: 'establishment_id',
@@ -77,6 +87,10 @@ export const dataQualityMetricTwoHistoric: components['schemas']['DashboardVisua
   columns: {
     keys: [
       {
+        id: 'ts',
+        type: 'date',
+      },
+      {
         id: 'establishment_id',
       },
     ],
@@ -84,6 +98,7 @@ export const dataQualityMetricTwoHistoric: components['schemas']['DashboardVisua
       {
         id: 'ts',
         display: 'Date',
+        type: 'date',
       },
       {
         id: 'establishment_id',

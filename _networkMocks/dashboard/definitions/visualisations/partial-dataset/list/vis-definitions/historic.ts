@@ -115,7 +115,7 @@ export const dietTotalsByEstablishmentByWingOverTimeOptional: components['schema
         {
           id: 'ts',
           display: 'Date',
-          type: 'date',
+          type: 'timestamp',
         },
         {
           id: 'establishment_id',

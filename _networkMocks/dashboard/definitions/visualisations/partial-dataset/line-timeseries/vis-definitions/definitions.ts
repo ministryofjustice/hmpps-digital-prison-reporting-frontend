@@ -218,7 +218,7 @@ export const dietTotalsDietOneOvertimeByEstByWingAndCellLine: components['schema
         {
           id: 'ts',
           display: 'Date',
-          type: 'date',
+          type: 'timestamp',
         },
         {
           id: 'count',

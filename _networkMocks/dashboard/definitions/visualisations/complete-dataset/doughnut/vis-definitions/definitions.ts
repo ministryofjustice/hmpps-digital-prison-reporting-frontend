@@ -284,7 +284,7 @@ export const dataQualityMetricTwoMetricThreeDoughnutTwoEst: components['schemas'
         {
           id: 'ts',
           display: 'Date',
-          type: 'date',
+          type: 'timestamp',
         },
         {
           id: 'establishment_id',
@@ -424,7 +424,7 @@ export const dataQualityMetricTwoMetricThreeDoughnutAllEst: components['schemas'
         {
           id: 'ts',
           display: 'Date',
-          type: 'date',
+          type: 'timestamp',
         },
         {
           id: 'establishment_id',

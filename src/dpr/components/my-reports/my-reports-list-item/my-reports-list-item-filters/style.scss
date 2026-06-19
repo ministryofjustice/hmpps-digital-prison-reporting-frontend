@@ -1,5 +1,3 @@
-@use 'sass:color';
-
 ul.dpr-my-reports__item-filters-list {
   list-style-type: none;
   padding: 0;
@@ -22,7 +20,7 @@ li.dpr-my-reports__item-filters-list-item--pre {
 }
 
 li.dpr-my-reports__item-filters-list-item--int {
-  background-color: color.adjust(govuk-colour('blue', $variant: 'tint-25'), $lightness: 36%);
+  background-color: lighten(govuk-colour('blue', $variant: 'tint-25'), 36%);
 }
 
 li:last-child {

@@ -1,5 +1,3 @@
-@use 'sass:color';
-
 .dpr-show-more {
   .dpr-show-hide-button {
     display: inline-block;
@@ -30,7 +28,7 @@ ul.dpr-card-group__item__filters-list {
   }
 
   li.dpr-interactive-query-summary {
-    background-color: color.adjust(govuk-colour('blue', $variant: 'tint-25'), $lightness: 36%);
+    background-color: lighten(govuk-colour('blue', $variant: 'tint-25'), 36%);
   }
 
   li:last-child {

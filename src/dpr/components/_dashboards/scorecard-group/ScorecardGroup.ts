@@ -104,16 +104,21 @@ class ScorecardGroupVisualisation {
       return {
         title: this.createGroupTitle(row),
         scorecards: Object.keys(row)
-          .filter(colId => colId !== this.groupKeyId)
+          .filter(colId => {
+            return this.measures.some(m => m.id === colId)
+          })
           .map(colId => {
             const measure = this.measures.find(m => m.id === colId)
+
             const title = measure?.display || colId
             const unit = measure?.unit
+
             const rowCol = row[colId]
+
             const { raw, rag } = rowCol
             const value = Number(raw)
-
             const ragValue = rag !== undefined ? Number(rag) : undefined
+
             this.initBuckets([row], colId)
 
             const valueFor = `${latestTs}`

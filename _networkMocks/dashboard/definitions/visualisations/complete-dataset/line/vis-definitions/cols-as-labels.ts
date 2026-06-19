@@ -27,6 +27,11 @@ export const dataQualityMetricOneMetricTwoLine: components['schemas']['Dashboard
   columns: {
     keys: [
       {
+        id: 'ts',
+        display: 'Date',
+        type: 'date',
+      },
+      {
         id: 'establishment_id',
         display: 'Establishment ID',
       },

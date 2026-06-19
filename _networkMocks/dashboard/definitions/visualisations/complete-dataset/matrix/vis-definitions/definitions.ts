@@ -12,12 +12,14 @@ export const dataQualityHasMetricTwoOvertime: components['schemas']['DashboardVi
       {
         id: 'ts',
         display: 'Date',
+        type: 'date',
       },
     ],
     measures: [
       {
         id: 'ts',
         display: 'Date',
+        type: 'date',
       },
       {
         id: 'has_metric_two',

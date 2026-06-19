@@ -7,7 +7,13 @@ export const dietTotalsLine: components['schemas']['DashboardVisualisationDefini
   display: 'Diet totals as line chart',
   description: '',
   columns: {
-    keys: [],
+    keys: [
+      {
+        id: 'ts',
+        display: 'Date',
+        type: 'date',
+      },
+    ],
     measures: [
       {
         id: 'diet',
@@ -31,6 +37,11 @@ export const dietTotalsByEstablishmentLine: components['schemas']['DashboardVisu
   description: '',
   columns: {
     keys: [
+      {
+        id: 'ts',
+        display: 'Date',
+        type: 'date',
+      },
       {
         id: 'establishment_id',
         display: 'Establishment ID',
@@ -59,6 +70,11 @@ export const dietTotalsByEstablishmentByWingLine: components['schemas']['Dashboa
   description: '',
   columns: {
     keys: [
+      {
+        id: 'ts',
+        display: 'Date',
+        type: 'date',
+      },
       {
         id: 'establishment_id',
         display: 'Establishment ID',

@@ -256,7 +256,7 @@ describe('VisualisationDatasetHelper', () => {
         },
       ]
 
-      const result = VisualisationDatasetHelper.groupRowsByTimestamp(data)
+      const result = VisualisationDatasetHelper.groupRowsByTimestamp(data, { id: 'ts' })
 
       expect(result).toEqual([
         [

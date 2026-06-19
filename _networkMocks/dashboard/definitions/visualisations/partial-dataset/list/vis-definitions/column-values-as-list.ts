@@ -12,7 +12,12 @@ export const dietTotals: components['schemas']['DashboardVisualisationDefinition
   display: 'Diet totals',
   description: '',
   columns: {
-    keys: <components['schemas']['DashboardVisualisationColumnDefinition'][]>[],
+    keys: [
+      {
+        id: 'ts',
+        type: 'date',
+      },
+    ],
     measures: [
       {
         id: 'diet',
@@ -39,7 +44,12 @@ export const dietTotalsWithFilters: components['schemas']['DashboardVisualisatio
   display: 'Diet totals filter on DietOne',
   description: '',
   columns: {
-    keys: <components['schemas']['DashboardVisualisationColumnDefinition'][]>[],
+    keys: [
+      {
+        id: 'ts',
+        type: 'date',
+      },
+    ],
     measures: [
       {
         id: 'diet',
@@ -73,6 +83,10 @@ export const dietTotalsWithFiltersSingleColumn: components['schemas']['Dashboard
   description: '',
   columns: {
     keys: [
+      {
+        id: 'ts',
+        type: 'date',
+      },
       {
         id: 'diet',
         display: 'Diet',
@@ -111,6 +125,10 @@ export const dietTotalsByEstablishment: components['schemas']['DashboardVisualis
   columns: {
     keys: [
       {
+        id: 'ts',
+        type: 'date',
+      },
+      {
         id: 'establishment_id',
       },
     ],
@@ -145,6 +163,10 @@ export const dietTotalsByEstablishmentByWing: components['schemas']['DashboardVi
   description: '',
   columns: {
     keys: [
+      {
+        id: 'ts',
+        type: 'date',
+      },
       {
         id: 'establishment_id',
       },
@@ -186,6 +208,10 @@ export const dietTotalsByEstablishmentByWingByCell: components['schemas']['Dashb
   description: '',
   columns: {
     keys: [
+      {
+        id: 'ts',
+        type: 'date',
+      },
       {
         id: 'establishment_id',
       },
@@ -232,6 +258,10 @@ export const dietTotalsByEstablishmentByWingByCellFilters: components['schemas']
   description: '',
   columns: {
     keys: [
+      {
+        id: 'ts',
+        type: 'date',
+      },
       {
         id: 'establishment_id',
       },

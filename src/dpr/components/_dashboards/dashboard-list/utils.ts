@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { components } from '../../../types/api'
 import { DashboardDataResponse } from '../../../types/Metrics'
-import DatasetHelper from '../../../utils/Dashboards/VisualisationDatasetHelper'
+import DatasetHelper, { getDateColumn, getDateValue } from '../../../utils/Dashboards/VisualisationDatasetHelper'
 import {
   ListDashboardVisualisationOptions,
   MoJTable,
@@ -16,16 +16,19 @@ export const createList = (
   dashboardData: DashboardDataResponse[],
 ): { table: MoJTable; ts: string } => {
   ListVisSchemas.ListSchema.parse(listDefinition)
+
   const { columns, options } = listDefinition
-  const listOptions = <ListDashboardVisualisationOptions>options
-  const showLatest = listOptions?.showLatest !== undefined ? listOptions.showLatest : true
-  const columnsAsList = listOptions?.columnsAsList
   const { measures, keys } = columns
+
+  const listOptions = <ListDashboardVisualisationOptions>options
+  const columnsAsList = listOptions?.columnsAsList
   const showAllData = (!measures && !keys) || (!measures.length && !keys)
 
   let datasetData: DashboardDataResponse[] = [...dashboardData]
-  if (showLatest) {
-    datasetData = DatasetHelper.getLastestDataset(datasetData)
+
+  if (listOptions?.showLatest ?? true) {
+    const dateColumn = DatasetHelper.getDateColumn(columns)
+    datasetData = DatasetHelper.getLastestDataset(datasetData, dateColumn)
   }
 
   let head
@@ -33,7 +36,7 @@ export const createList = (
   let ts
 
   if (showAllData) {
-    ;({ head, rows, ts } = createFullList(datasetData))
+    ;({ head, rows, ts } = createFullList(listDefinition, datasetData))
   } else if (columnsAsList) {
     ;({ head, rows, ts } = createListFromColumns(listDefinition, datasetData))
   } else {
@@ -59,8 +62,9 @@ const createListFromColumns = (
   const { keys, measures } = columns
   const groupKey = DatasetHelper.getGroupKey(dashboardData, keys || [])
 
-  const timestampData = dashboardData[0]?.['ts']?.raw
-  const ts = timestampData ? `${timestampData}` : ''
+  const dateColumn = getDateColumn(columns)
+  const dateData = getDateValue(dashboardData, dateColumn)
+  const ts = dateData?.value ? `${dateData.value}` : ''
 
   const head: MoJTableHead[] = []
   head.push({
@@ -155,7 +159,8 @@ const creatListFromRows = (
   listDefinition: components['schemas']['DashboardVisualisationDefinition'],
   dashboardData: DashboardDataResponse[],
 ) => {
-  const { measures } = listDefinition.columns
+  const { columns } = listDefinition
+  const { measures } = columns
 
   const head: MoJTableHead[] = measures.map(column => {
     return { text: column.display || '' }
@@ -165,8 +170,9 @@ const creatListFromRows = (
   const displayRows = DatasetHelper.filterRowsByDisplayColumns(listDefinition, dataSetRows)
   const rows = createTableRows(displayRows, measures)
 
-  const timestampData = dataSetRows[0]?.['ts']?.raw
-  const ts = timestampData ? `${timestampData}` : ''
+  const dateColumn = getDateColumn(columns)
+  const dateData = getDateValue(dataSetRows, dateColumn)
+  const ts = dateData?.value ? `${dateData.value}` : ''
 
   return {
     head,
@@ -175,7 +181,10 @@ const creatListFromRows = (
   }
 }
 
-const createFullList = (dashboardData: DashboardDataResponse[]) => {
+const createFullList = (
+  listDefinition: components['schemas']['DashboardVisualisationDefinition'],
+  dashboardData: DashboardDataResponse[],
+) => {
   if (!dashboardData || dashboardData.length === 0 || !dashboardData[0]) {
     return {
       head: [],
@@ -184,15 +193,20 @@ const createFullList = (dashboardData: DashboardDataResponse[]) => {
     }
   }
 
+  const { columns } = listDefinition
+
   const firstRow = dashboardData[0]
   const head: MoJTableHead[] = Object.keys(firstRow).map(key => {
     return { text: key || '' }
   })
-  const rows = createTableRows(dashboardData)
 
-  const latestData = DatasetHelper.getLastestDataset(dashboardData)
-  const timestampData = latestData[0]?.['ts']?.raw
-  const ts = timestampData ? `${timestampData}` : ''
+  const rows = createTableRows(dashboardData)
+  const dateColumn = getDateColumn(columns)
+
+  const latestData = DatasetHelper.getLastestDataset(dashboardData, dateColumn)
+
+  const dateData = getDateValue(latestData, dateColumn)
+  const ts = dateData?.value ? `${dateData.value}` : ''
 
   return {
     head,

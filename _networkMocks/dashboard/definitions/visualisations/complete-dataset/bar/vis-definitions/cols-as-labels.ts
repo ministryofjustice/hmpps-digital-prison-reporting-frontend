@@ -9,6 +9,11 @@ export const dataQualityMetricOneBar: components['schemas']['DashboardVisualisat
   columns: {
     keys: [
       {
+        id: 'ts',
+        display: 'Date',
+        type: 'date',
+      },
+      {
         id: 'establishment_id',
         display: 'Establishment ID',
       },
@@ -37,6 +42,11 @@ export const dataQualityMetricOneBarHorizontal: components['schemas']['Dashboard
   columns: {
     keys: [
       {
+        id: 'ts',
+        display: 'Date',
+        type: 'date',
+      },
+      {
         id: 'establishment_id',
         display: 'Establishment ID',
       },
@@ -62,6 +72,11 @@ export const dataQualityMetricThreeBar: components['schemas']['DashboardVisualis
   columns: {
     keys: [
       {
+        id: 'ts',
+        display: 'Date',
+        type: 'date',
+      },
+      {
         id: 'establishment_id',
         display: 'Establishment ID',
       },
@@ -86,6 +101,11 @@ export const dataQualityMetricTwoBar: components['schemas']['DashboardVisualisat
   display: 'MetricTwo values',
   columns: {
     keys: [
+      {
+        id: 'ts',
+        display: 'Date',
+        type: 'date',
+      },
       {
         id: 'establishment_id',
         display: 'Establishment ID',
@@ -114,6 +134,11 @@ export const dataQualityAllBar: components['schemas']['DashboardVisualisationDef
   },
   columns: {
     keys: [
+      {
+        id: 'ts',
+        display: 'Date',
+        type: 'date',
+      },
       {
         id: 'establishment_id',
         display: 'Establishment ID',
@@ -159,6 +184,11 @@ export const dataQualityAllBarHorizontal: components['schemas']['DashboardVisual
   columns: {
     keys: [
       {
+        id: 'ts',
+        display: 'Date',
+        type: 'date',
+      },
+      {
         id: 'establishment_id',
         display: 'Establishment ID',
       },
@@ -202,6 +232,11 @@ export const dataQualityAllBarWithUnit: components['schemas']['DashboardVisualis
   },
   columns: {
     keys: [
+      {
+        id: 'ts',
+        display: 'Date',
+        type: 'date',
+      },
       {
         id: 'establishment_id',
         display: 'Establishment ID',
@@ -252,6 +287,11 @@ export const dataQualityAllBarWithUnitHorizontal: components['schemas']['Dashboa
   },
   columns: {
     keys: [
+      {
+        id: 'ts',
+        display: 'Date',
+        type: 'date',
+      },
       {
         id: 'establishment_id',
         display: 'Establishment ID',

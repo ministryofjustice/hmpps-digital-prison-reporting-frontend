@@ -21,6 +21,7 @@ const DashboardVisualisationKeySchema = z.object({
   id: z.string(),
   display: z.string().optional(),
   optional: z.boolean().default(false),
+  type: z.string().optional(),
 })
 
 export enum UnitType {
@@ -39,6 +40,7 @@ export const DashboardVisualisationMeasureSchema = z.object({
   display: z.string().optional(),
   unit: DashboardVisualisationUnitType.optional(),
   aggregate: DashboardVisualisationAggregateType.optional(),
+  type: z.string().optional(),
 })
 
 export const DashboardColumns = z.object({

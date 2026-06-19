@@ -8,6 +8,7 @@ import {
 const LineTimeseriesMeasureSchema = z.object({
   id: z.string(),
   display: z.string().optional(),
+  type: z.string().optional(),
   unit: z.enum(UnitType).optional(),
 })
 

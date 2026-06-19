@@ -8,11 +8,13 @@ import {
 
 const scorecardKey = z.object({
   id: z.string(),
+  type: z.string().optional(),
   optional: z.boolean().default(false),
 })
 
 const scorecardMeasure = z.object({
   id: z.string(),
+  type: z.string().optional(),
   unit: z.enum(UnitType).optional(),
 })
 

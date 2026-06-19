@@ -208,7 +208,7 @@ export const getDateValue = (
   if (!dateColumn || !dashboardData || !dashboardData.length) return undefined
 
   const { id } = dateColumn
-  const dateValue = dashboardData[0][id].raw
+  const dateValue = dashboardData[0][id]?.raw
 
   if (!dateValue || typeof dateValue !== 'string') return undefined
 

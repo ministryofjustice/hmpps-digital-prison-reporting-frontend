@@ -42,6 +42,11 @@ export const dataQualityMetricOneBarHorizontal: components['schemas']['Dashboard
   columns: {
     keys: [
       {
+        id: 'ts',
+        display: 'Date',
+        type: 'date',
+      },
+      {
         id: 'establishment_id',
         display: 'Establishment ID',
       },
@@ -179,6 +184,11 @@ export const dataQualityAllBarHorizontal: components['schemas']['DashboardVisual
   columns: {
     keys: [
       {
+        id: 'ts',
+        display: 'Date',
+        type: 'date',
+      },
+      {
         id: 'establishment_id',
         display: 'Establishment ID',
       },
@@ -277,6 +287,11 @@ export const dataQualityAllBarWithUnitHorizontal: components['schemas']['Dashboa
   },
   columns: {
     keys: [
+      {
+        id: 'ts',
+        display: 'Date',
+        type: 'date',
+      },
       {
         id: 'establishment_id',
         display: 'Establishment ID',

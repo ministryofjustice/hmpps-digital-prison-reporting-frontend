@@ -72,7 +72,7 @@ export const DashboardVisualisationSchema = z.object({
     'line-timeseries',
   ]),
   display: z.string(),
-  description: z.string(),
+  description: z.string().optional(),
   options: z.object(dashboardOptions.shape).optional(),
   columns: z.object(DashboardColumns.shape),
 })

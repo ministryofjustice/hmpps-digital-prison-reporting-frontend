@@ -76,6 +76,8 @@ export async function validateDashboardVisualisations(
 
   const failures = results.filter((r): r is Failure => r.success === false)
 
+  console.log(failures)
+
   if (failures.length > 0) {
     const indexedIssues = failures.flatMap(f =>
       f.error.issues.map(issue => ({

@@ -4,8 +4,8 @@ import { components } from '../../types/api'
 import { ChartDetails, ChartMetaData } from '../../types/Charts'
 import { DashboardDataResponse } from '../../types/Metrics'
 import DatasetHelper, {
-  getDateColumn,
-  getDateMeasure,
+  getTimestampColumn,
+  getTimestampMeasure,
   getDateValue,
 } from '../../utils/Dashboards/VisualisationDatasetHelper'
 import { mapUnitToSymbol } from '../../utils/Dashboards/VisualisationUnitHelper'
@@ -129,7 +129,7 @@ const getDataForSnapshotCharts = (
   rawData: DashboardDataResponse[],
 ) => {
   const { columns } = chartDefinition
-  const dateColumn = DatasetHelper.getDateColumn(columns)
+  const dateColumn = DatasetHelper.getTimestampColumn(columns)
 
   const data = DatasetHelper.getLastestDataset(rawData, dateColumn)
   const dataSetRows = DatasetHelper.getDatasetRows(chartDefinition, data)
@@ -145,7 +145,7 @@ const getDataForTimeseriesCharts = (
   chartDefinition: components['schemas']['DashboardVisualisationDefinition'],
   rawData: DashboardDataResponse[],
 ) => {
-  const dateMeasure = DatasetHelper.getDateMeasure(chartDefinition.columns.measures)
+  const dateMeasure = DatasetHelper.getTimestampMeasure(chartDefinition.columns.measures)
   const latestData = DatasetHelper.getLastestDataset(rawData, dateMeasure)
   const dataSetRows = DatasetHelper.getDatasetRows(chartDefinition, rawData)
   const timeseriesData = DatasetHelper.filterRowsByDisplayColumns(chartDefinition, dataSetRows, true)
@@ -166,7 +166,7 @@ const getChartDetails = (
   const meta: ChartMetaData[] = []
   const headlines: ChartMetaData[] = createHeadlines(chartDefinition, data, timeseries)
 
-  const dateColumn = getDateColumn(columns)
+  const dateColumn = getTimestampColumn(columns)
   const dateData = getDateValue(data, dateColumn)
 
   if (dateData) {
@@ -198,13 +198,13 @@ const createHeadlines = (
   let label: string = ''
 
   if (timeseries) {
-    headlineColumn = measures.find(col => col.type !== 'date')
+    headlineColumn = measures.find(col => col.type !== 'timestamp')
 
     if (headlineColumn) {
       const { id } = headlineColumn
       const { raw } = data[0][id]
 
-      const dateColumn = getDateMeasure(measures)
+      const dateColumn = getTimestampMeasure(measures)
       const dateData = getDateValue(data, dateColumn)
 
       if (dateData) {
@@ -296,16 +296,16 @@ const createTimeseriesTable = (
   let tableColumns: components['schemas']['DashboardVisualisationColumnDefinition'][]
 
   if (timeseriesData.length > 1) {
-    const dateMeasures = measures.filter(m => m.type === 'date')
+    const tsMeasures = measures.filter(m => m.type === 'timestamp')
 
-    if (dateMeasures.length !== 1) {
+    if (tsMeasures.length !== 1) {
       throw new Error('Multi-timeseries tables require exactly one date measure')
     }
 
-    const [dateColumn] = dateMeasures
-    const valueColumns = measures.filter(m => m.type !== 'date')
+    const [tsColumn] = tsMeasures
+    const valueColumns = measures.filter(m => m.id !== tsColumn.id)
 
-    tableColumns = [dateColumn, ...safeKeys, ...valueColumns]
+    tableColumns = [tsColumn, ...safeKeys, ...valueColumns]
   } else {
     flatTimeseriesData = DatasetHelper.filterRowsByDisplayColumns(chartDefinition, flatTimeseriesData)
     tableColumns = measures

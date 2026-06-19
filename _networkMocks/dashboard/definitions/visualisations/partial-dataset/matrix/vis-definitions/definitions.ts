@@ -12,14 +12,13 @@ export const dietTotalsDietOneOvertime: components['schemas']['DashboardVisualis
       {
         id: 'ts',
         display: 'Date',
-        type: 'date',
       },
     ],
     measures: [
       {
         id: 'ts',
         display: 'Date',
-        type: 'date',
+        type: 'timestamp',
       },
       {
         id: 'count',

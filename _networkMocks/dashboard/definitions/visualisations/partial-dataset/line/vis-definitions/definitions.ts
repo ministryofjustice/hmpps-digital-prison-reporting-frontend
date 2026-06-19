@@ -11,7 +11,7 @@ export const dietTotalsLine: components['schemas']['DashboardVisualisationDefini
       {
         id: 'ts',
         display: 'Date',
-        type: 'date',
+        type: 'timestamp',
       },
     ],
     measures: [
@@ -40,7 +40,7 @@ export const dietTotalsByEstablishmentLine: components['schemas']['DashboardVisu
       {
         id: 'ts',
         display: 'Date',
-        type: 'date',
+        type: 'timestamp',
       },
       {
         id: 'establishment_id',
@@ -73,7 +73,7 @@ export const dietTotalsByEstablishmentByWingLine: components['schemas']['Dashboa
       {
         id: 'ts',
         display: 'Date',
-        type: 'date',
+        type: 'timestamp',
       },
       {
         id: 'establishment_id',

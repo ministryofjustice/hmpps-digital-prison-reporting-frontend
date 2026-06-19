@@ -734,7 +734,7 @@ export interface components {
       axis?: string | null
       optional?: boolean | null
       /** @enum {string|null} */
-      type?: 'boolean' | 'date' | 'double' | 'HTML' | 'long' | 'string' | 'time' | null
+      type?: 'boolean' | 'date' | 'double' | 'HTML' | 'long' | 'string' | 'time' | 'timestamp' | null
     }
     DashboardVisualisationColumnsDefinition: {
       keys?: components['schemas']['DashboardVisualisationColumnDefinition'][] | null

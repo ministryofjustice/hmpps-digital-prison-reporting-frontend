@@ -5,7 +5,7 @@ import {
   TimeseriesChartMeasure,
   VisualisationDefinitionKey,
 } from '../../_dashboards/dashboard-visualisation/types'
-import DatasetHelper, { getDateMeasure, getDateValue } from '../../../utils/Dashboards/VisualisationDatasetHelper'
+import DatasetHelper, { getTimestampMeasure, getDateValue } from '../../../utils/Dashboards/VisualisationDatasetHelper'
 import { BarTimeseriesDefinitionMeasure, BarTimeseriesDefinitionType } from './bar-timeseries/types'
 import { LineTimeseriesDefinitionMeasure, LineTimeseriesDefinitionType } from './line-timeseries/types'
 import ChartColoursHelper from './ChartColours'
@@ -70,7 +70,7 @@ class TimeseriesChart {
       this.responseData,
       <Array<components['schemas']['DashboardVisualisationColumnDefinition']>>this.keys,
     ) as LineTimeseriesDefinitionMeasure | BarTimeseriesDefinitionMeasure | undefined
-    const dateMeasure = DatasetHelper.getDateMeasure(
+    const dateMeasure = DatasetHelper.getTimestampMeasure(
       <components['schemas']['DashboardVisualisationColumnDefinition'][]>this.measures,
     )
 
@@ -105,7 +105,7 @@ class TimeseriesChart {
   private getLabels = () => {
     return this.timeBlockData
       .map((data: DashboardDataResponse[]) => {
-        const dateColumn = getDateMeasure(
+        const dateColumn = getTimestampMeasure(
           <components['schemas']['DashboardVisualisationColumnDefinition'][]>this.measures,
         )
         const dateData = getDateValue(data, dateColumn)

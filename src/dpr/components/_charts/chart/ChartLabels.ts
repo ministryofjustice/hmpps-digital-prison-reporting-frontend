@@ -24,7 +24,7 @@ export default class ChartLabelsHelper {
    */
   getDatasetLabel = (keys: VisualisationDefinitionKey[], row: DashboardDataResponse) => {
     const labelKeys = keys.filter((key: VisualisationDefinitionKey) => {
-      return key.type !== 'date'
+      return key.type !== 'timestamp'
     })
 
     return labelKeys

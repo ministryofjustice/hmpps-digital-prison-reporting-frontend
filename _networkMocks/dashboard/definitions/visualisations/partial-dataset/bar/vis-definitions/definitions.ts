@@ -12,7 +12,7 @@ export const dietTotalsBar: components['schemas']['DashboardVisualisationDefinit
       {
         id: 'ts',
         display: 'Date',
-        type: 'date',
+        type: 'timestamp',
       },
     ],
     measures: [
@@ -41,7 +41,7 @@ export const dietTotalsByEstablishmentBar: components['schemas']['DashboardVisua
       {
         id: 'ts',
         display: 'Date',
-        type: 'date',
+        type: 'timestamp',
       },
       {
         id: 'establishment_id',
@@ -74,7 +74,7 @@ export const dietTotalsByEstablishmentBarWithUnit: components['schemas']['Dashbo
       {
         id: 'ts',
         display: 'Date',
-        type: 'date',
+        type: 'timestamp',
       },
       {
         id: 'establishment_id',
@@ -108,7 +108,7 @@ export const dietTotalsByEstablishmentByWingBar: components['schemas']['Dashboar
       {
         id: 'ts',
         display: 'Date',
-        type: 'date',
+        type: 'timestamp',
       },
       {
         id: 'establishment_id',
@@ -148,7 +148,7 @@ export const dietTotalsByEstablishmentByWingByCellBar: components['schemas']['Da
       {
         id: 'ts',
         display: 'Date',
-        type: 'date',
+        type: 'timestamp',
       },
       {
         id: 'establishment_id',

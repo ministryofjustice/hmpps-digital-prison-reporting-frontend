@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { components } from '../../../types/api'
 import { DashboardDataResponse } from '../../../types/Metrics'
-import DatasetHelper, { getDateColumn, getDateValue } from '../../../utils/Dashboards/VisualisationDatasetHelper'
+import DatasetHelper, { getTimestampColumn, getDateValue } from '../../../utils/Dashboards/VisualisationDatasetHelper'
 import {
   ListDashboardVisualisationOptions,
   MoJTable,
@@ -27,7 +27,7 @@ export const createList = (
   let datasetData: DashboardDataResponse[] = [...dashboardData]
 
   if (listOptions?.showLatest ?? true) {
-    const dateColumn = DatasetHelper.getDateColumn(columns)
+    const dateColumn = DatasetHelper.getTimestampColumn(columns)
     datasetData = DatasetHelper.getLastestDataset(datasetData, dateColumn)
   }
 
@@ -62,7 +62,7 @@ const createListFromColumns = (
   const { keys, measures } = columns
   const groupKey = DatasetHelper.getGroupKey(dashboardData, keys || [])
 
-  const dateColumn = getDateColumn(columns)
+  const dateColumn = getTimestampColumn(columns)
   const dateData = getDateValue(dashboardData, dateColumn)
   const ts = dateData?.value ? `${dateData.value}` : ''
 
@@ -129,7 +129,7 @@ export const createTableRows = (
         let cellContent = String(raw)
 
         const { type } = measure
-        if (type === 'date') {
+        if (type === 'date' || type === 'timestamp') {
           cellContent = apiDateToUi(cellContent) || cellContent
         }
 
@@ -170,7 +170,7 @@ const creatListFromRows = (
   const displayRows = DatasetHelper.filterRowsByDisplayColumns(listDefinition, dataSetRows)
   const rows = createTableRows(displayRows, measures)
 
-  const dateColumn = getDateColumn(columns)
+  const dateColumn = getTimestampColumn(columns)
   const dateData = getDateValue(dataSetRows, dateColumn)
   const ts = dateData?.value ? `${dateData.value}` : ''
 
@@ -201,7 +201,7 @@ const createFullList = (
   })
 
   const rows = createTableRows(dashboardData)
-  const dateColumn = getDateColumn(columns)
+  const dateColumn = getTimestampColumn(columns)
 
   const latestData = DatasetHelper.getLastestDataset(dashboardData, dateColumn)
 

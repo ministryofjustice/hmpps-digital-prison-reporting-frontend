@@ -5,6 +5,11 @@ const dataQualityLine = {
   columns: {
     keys: [
       {
+        id: 'ts',
+        display: 'Date',
+        type: 'date'
+      },
+      {
         id: 'establishment_id',
         display: 'Establishment ID',
       },
@@ -45,6 +50,11 @@ const dataQualityMetricThreeLine = {
   columns: {
     keys: [
       {
+        id: 'ts',
+        display: 'Date',
+        type: 'date'
+      },
+      {
         id: 'establishment_id',
         display: 'Establishment ID',
       },
@@ -68,6 +78,11 @@ const dataQualityMetricTwoLine = {
   display: 'MetricTwo values',
   columns: {
     keys: [
+      {
+        id: 'ts',
+        display: 'Date',
+        type: 'date'
+      },
       {
         id: 'establishment_id',
         display: 'Establishment ID',

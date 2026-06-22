@@ -8,7 +8,13 @@ export const dietTotalsBar: components['schemas']['DashboardVisualisationDefinit
   display: 'Diet totals as bar chart',
   description: '',
   columns: {
-    keys: [],
+    keys: [
+      {
+        id: 'ts',
+        display: 'Date',
+        type: 'timestamp',
+      },
+    ],
     measures: [
       {
         id: 'diet',
@@ -32,6 +38,11 @@ export const dietTotalsByEstablishmentBar: components['schemas']['DashboardVisua
   description: '',
   columns: {
     keys: [
+      {
+        id: 'ts',
+        display: 'Date',
+        type: 'timestamp',
+      },
       {
         id: 'establishment_id',
         display: 'Establishment ID',
@@ -61,6 +72,11 @@ export const dietTotalsByEstablishmentBarWithUnit: components['schemas']['Dashbo
   columns: {
     keys: [
       {
+        id: 'ts',
+        display: 'Date',
+        type: 'timestamp',
+      },
+      {
         id: 'establishment_id',
         display: 'Establishment ID',
       },
@@ -89,6 +105,11 @@ export const dietTotalsByEstablishmentByWingBar: components['schemas']['Dashboar
   description: '',
   columns: {
     keys: [
+      {
+        id: 'ts',
+        display: 'Date',
+        type: 'timestamp',
+      },
       {
         id: 'establishment_id',
         display: 'Establishment ID',
@@ -124,6 +145,11 @@ export const dietTotalsByEstablishmentByWingByCellBar: components['schemas']['Da
   },
   columns: {
     keys: [
+      {
+        id: 'ts',
+        display: 'Date',
+        type: 'timestamp',
+      },
       {
         id: 'establishment_id',
         display: 'Establishment ID',

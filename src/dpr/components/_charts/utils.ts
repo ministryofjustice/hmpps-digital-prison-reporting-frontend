@@ -1,10 +1,13 @@
 import dayjs from 'dayjs'
 import weekOfYear from 'dayjs/plugin/weekOfYear'
-import { apiDateToUi } from 'src/dpr/utils/dateHelper'
 import { components } from '../../types/api'
 import { ChartDetails, ChartMetaData } from '../../types/Charts'
 import { DashboardDataResponse } from '../../types/Metrics'
-import DatasetHelper from '../../utils/Dashboards/VisualisationDatasetHelper'
+import DatasetHelper, {
+  getTimestampColumn,
+  getTimestampMeasure,
+  getDateValue,
+} from '../../utils/Dashboards/VisualisationDatasetHelper'
 import { mapUnitToSymbol } from '../../utils/Dashboards/VisualisationUnitHelper'
 import DashboardListUtils from '../_dashboards/dashboard-list/utils'
 import {
@@ -125,7 +128,10 @@ const getDataForSnapshotCharts = (
   chartDefinition: components['schemas']['DashboardVisualisationDefinition'],
   rawData: DashboardDataResponse[],
 ) => {
-  const data = DatasetHelper.getLastestDataset(rawData)
+  const { columns } = chartDefinition
+  const dateColumn = DatasetHelper.getTimestampColumn(columns)
+
+  const data = DatasetHelper.getLastestDataset(rawData, dateColumn)
   const dataSetRows = DatasetHelper.getDatasetRows(chartDefinition, data)
   const snapshotData = DatasetHelper.filterRowsByDisplayColumns(chartDefinition, dataSetRows, true)
 
@@ -139,7 +145,8 @@ const getDataForTimeseriesCharts = (
   chartDefinition: components['schemas']['DashboardVisualisationDefinition'],
   rawData: DashboardDataResponse[],
 ) => {
-  const latestData = DatasetHelper.getLastestDataset(rawData)
+  const dateMeasure = DatasetHelper.getTimestampMeasure(chartDefinition.columns.measures)
+  const latestData = DatasetHelper.getLastestDataset(rawData, dateMeasure)
   const dataSetRows = DatasetHelper.getDatasetRows(chartDefinition, rawData)
   const timeseriesData = DatasetHelper.filterRowsByDisplayColumns(chartDefinition, dataSetRows, true)
 
@@ -155,14 +162,18 @@ const getChartDetails = (
   data: DashboardDataResponse[],
   timeseries = false,
 ): ChartDetails => {
+  const { columns } = chartDefinition
   const meta: ChartMetaData[] = []
   const headlines: ChartMetaData[] = createHeadlines(chartDefinition, data, timeseries)
-  const rawDate = `${data[0]['ts'].raw}`
 
-  if (rawDate) {
+  const dateColumn = getTimestampColumn(columns)
+  const dateData = getDateValue(data, dateColumn)
+
+  if (dateData) {
+    const { value } = dateData
     meta.push({
       label: 'Values for:',
-      value: apiDateToUi(rawDate) || rawDate,
+      value,
     })
   }
 
@@ -182,20 +193,22 @@ const createHeadlines = (
   const { measures } = columns
   const isListChart = !!measures.find(col => col.axis)
   let headline: ChartMetaData | undefined
-
   let headlineColumn: components['schemas']['DashboardVisualisationColumnDefinition'] | undefined
   let value: number | undefined
   let label: string = ''
 
   if (timeseries) {
-    headlineColumn = measures.find(col => col.type !== 'date')
+    headlineColumn = measures.find(col => col.type !== 'timestamp')
+
     if (headlineColumn) {
       const { id } = headlineColumn
       const { raw } = data[0][id]
-      const rawDate = `${data[0]['ts'].raw}`
 
-      if (rawDate) {
-        label = apiDateToUi(rawDate) || rawDate
+      const dateColumn = getTimestampMeasure(measures)
+      const dateData = getDateValue(data, dateColumn)
+
+      if (dateData) {
+        label = dateData.value
       }
 
       value = raw ? Number(raw) : undefined
@@ -283,16 +296,16 @@ const createTimeseriesTable = (
   let tableColumns: components['schemas']['DashboardVisualisationColumnDefinition'][]
 
   if (timeseriesData.length > 1) {
-    const dateMeasures = measures.filter(m => m.type === 'date')
+    const tsMeasures = measures.filter(m => m.type === 'timestamp')
 
-    if (dateMeasures.length !== 1) {
+    if (tsMeasures.length !== 1) {
       throw new Error('Multi-timeseries tables require exactly one date measure')
     }
 
-    const [dateColumn] = dateMeasures
-    const valueColumns = measures.filter(m => m.type !== 'date')
+    const [tsColumn] = tsMeasures
+    const valueColumns = measures.filter(m => m.id !== tsColumn.id)
 
-    tableColumns = [dateColumn, ...safeKeys, ...valueColumns]
+    tableColumns = [tsColumn, ...safeKeys, ...valueColumns]
   } else {
     flatTimeseriesData = DatasetHelper.filterRowsByDisplayColumns(chartDefinition, flatTimeseriesData)
     tableColumns = measures
@@ -302,6 +315,11 @@ const createTimeseriesTable = (
   const rows = DashboardListUtils.createTableRows(flatTimeseriesData, tableColumns)
 
   return { head, rows }
+}
+
+export type GetDateValueResponse = {
+  measure: components['schemas']['DashboardVisualisationColumnDefinition']
+  value: string
 }
 
 export default {

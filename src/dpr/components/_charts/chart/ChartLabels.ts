@@ -23,10 +23,15 @@ export default class ChartLabelsHelper {
    * @memberof ChartLabels
    */
   getDatasetLabel = (keys: VisualisationDefinitionKey[], row: DashboardDataResponse) => {
-    return keys
+    const labelKeys = keys.filter((key: VisualisationDefinitionKey) => {
+      return key.type !== 'timestamp'
+    })
+
+    return labelKeys
       .map((key: VisualisationDefinitionKey) => {
         // Only set the label if there is more than one key
-        const label = key.display && keys.length > 1 ? `${key.display}: ` : ''
+        const label = key.display && labelKeys.length > 1 ? `${key.display}: ` : ''
+
         // Use the row/col value as the value
         const value = row[key.id]?.raw ?? ''
 

@@ -79,29 +79,34 @@ class ScorecardVisualisation {
     definition: ScorecardDefinitionType | ScorecardGroupDefinitionType,
     rawData: DashboardDataResponse[],
   ): ScorecardDataset => {
-    const latestData = DatasetHelper.getLastestDataset(rawData)
-    const latestDataSetRows = DatasetHelper.getDatasetRows(
-      <components['schemas']['DashboardVisualisationDefinition']>definition,
-      latestData,
-    )
-    const latestTs = latestDataSetRows[0]?.['ts']?.raw
-    const latestFiltered = DatasetHelper.filterRowsByDisplayColumns(
-      <components['schemas']['DashboardVisualisationDefinition']>definition,
-      latestDataSetRows,
-      true,
-    )
+    const scorecardDefinition = <components['schemas']['DashboardVisualisationDefinition']>definition
+    const { columns } = scorecardDefinition
 
-    const earliestData = DatasetHelper.getEarliestDataset(rawData)
-    const earliestDataSetRows = DatasetHelper.getDatasetRows(
-      <components['schemas']['DashboardVisualisationDefinition']>definition,
-      earliestData,
-    )
-    const earliestTs = earliestDataSetRows[0]?.['ts']?.raw
-    const earliestfiltered = DatasetHelper.filterRowsByDisplayColumns(
-      <components['schemas']['DashboardVisualisationDefinition']>definition,
-      earliestDataSetRows,
-      true,
-    )
+    const dateColumn = DatasetHelper.getTimestampColumn(columns)
+
+    // Latest most recent data
+    const latestData = DatasetHelper.getLastestDataset(rawData, dateColumn)
+    const latestDataSetRows = DatasetHelper.getDatasetRows(scorecardDefinition, latestData)
+
+    let latestTs
+    const latestDateData = DatasetHelper.getDateValue(latestDataSetRows, dateColumn)
+    if (latestDateData?.value) {
+      latestTs = latestDateData.value
+    }
+
+    const latestFiltered = DatasetHelper.filterRowsByDisplayColumns(scorecardDefinition, latestDataSetRows, true)
+
+    // Earliest data
+    const earliestData = DatasetHelper.getEarliestDataset(rawData, dateColumn)
+    const earliestDataSetRows = DatasetHelper.getDatasetRows(scorecardDefinition, earliestData)
+
+    let earliestTs
+    const earliestDateData = DatasetHelper.getDateValue(earliestDataSetRows, dateColumn)
+    if (earliestDateData?.value) {
+      earliestTs = earliestDateData.value
+    }
+
+    const earliestfiltered = DatasetHelper.filterRowsByDisplayColumns(scorecardDefinition, earliestDataSetRows, true)
 
     return {
       earliest: earliestfiltered,

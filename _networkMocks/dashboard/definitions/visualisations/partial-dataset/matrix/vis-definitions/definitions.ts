@@ -18,6 +18,7 @@ export const dietTotalsDietOneOvertime: components['schemas']['DashboardVisualis
       {
         id: 'ts',
         display: 'Date',
+        type: 'timestamp',
       },
       {
         id: 'count',

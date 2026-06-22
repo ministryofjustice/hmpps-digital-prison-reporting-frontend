@@ -1,33 +1,42 @@
-import { resetFeatureFlags } from 'test-app/routes/integrationTests/appStateUtils'
-import { checkA11y, executeDashboardStubs } from '../../../../../cypress-tests/cypressUtils'
+import { resetFeatureFlags } from '../../../../routes/integrationTests/appStateUtils'
+import {
+  checkA11y,
+  executeDashboardStubs,
+  requestReportByNameAndDescription,
+} from '../../../../../cypress-tests/cypressUtils'
 
 context('Dashboard visualisation: Scorecards', () => {
-  const scorecardPath =
-    '/dpr/request-report/dashboard/dashboard-visualisations/scorecard-examples_complete-data/filters'
-
-  const scorecardBucketPath =
-    '/dpr/request-report/dashboard/dashboard-visualisations/scorecard-example_bucket_complete-data/filters'
-
-  const scorecardsPath =
-    '/dpr/request-report/dashboard/dashboard-visualisations/scorecard-group-example_complete-data/filters'
-
-  before(() => {
-    executeDashboardStubs()
-    resetFeatureFlags()
-    cy.task('stubDefinitionScorecardDashboard')
-    cy.task('stubDefinitionScorecardBucketDashboard')
-    cy.task('stubDefinitionScorecardGroupDashboard')
-    cy.task('stubDashboardResultCompleteData')
-    cy.task('stubMockDashboardsStatusStarted')
-    cy.task('stubMockDashboardsStatusFinished')
-  })
+  const path = '/'
 
   describe('scorecard', () => {
-    beforeEach(() => {
-      cy.visit(scorecardPath)
+    let completeDashboardUrl = ''
 
-      cy.findByRole('button', { name: /Request/ }).click()
+    before(() => {
+      cy.task('resetStubs')
+      executeDashboardStubs()
+      resetFeatureFlags()
+
+      cy.task('stubDefinitionScorecardDashboard')
+      cy.task('stubDashboardResultCompleteData')
+      cy.task('stubMockDashboardsStatusStarted')
+      cy.task('stubMockDashboardsStatusFinished')
+
+      cy.visit(path)
+
+      requestReportByNameAndDescription({
+        name: 'Scorecard - Complete data',
+        description: 'Scorecard examples',
+      })
+
       cy.findByRole('heading', { level: 1, name: /Scorecard/ }).should('be.visible')
+
+      cy.url().then(url => {
+        completeDashboardUrl = url
+      })
+    })
+
+    beforeEach(() => {
+      cy.visit(completeDashboardUrl)
     })
 
     it('is accessible', () => {
@@ -52,11 +61,34 @@ context('Dashboard visualisation: Scorecards', () => {
   })
 
   describe('scorecard buckets', () => {
-    beforeEach(() => {
-      cy.visit(scorecardBucketPath)
+    let scorecardBucketsUrl = ''
 
-      cy.findByRole('button', { name: /Request/ }).click()
+    before(() => {
+      cy.task('resetStubs')
+      executeDashboardStubs()
+      resetFeatureFlags()
+
+      cy.task('stubDefinitionScorecardBucketDashboard')
+      cy.task('stubDashboardResultCompleteData')
+      cy.task('stubMockDashboardsStatusStarted')
+      cy.task('stubMockDashboardsStatusFinished')
+
+      cy.visit(path)
+
+      requestReportByNameAndDescription({
+        name: 'Scorecard - Buckets - Complete data',
+        description: 'Scorecard examples',
+      })
+
       cy.findByRole('heading', { level: 1, name: /Scorecard/ }).should('be.visible')
+
+      cy.url().then(url => {
+        scorecardBucketsUrl = url
+      })
+    })
+
+    beforeEach(() => {
+      cy.visit(scorecardBucketsUrl)
     })
 
     it('is accessible', () => {
@@ -147,10 +179,34 @@ context('Dashboard visualisation: Scorecards', () => {
   })
 
   describe('scorecard group', () => {
-    beforeEach(() => {
-      cy.visit(scorecardsPath)
-      cy.findByRole('button', { name: /Request/ }).click()
+    let scorecardGroupUrl = ''
+
+    before(() => {
+      cy.task('resetStubs')
+      executeDashboardStubs()
+      resetFeatureFlags()
+
+      cy.task('stubDefinitionScorecardGroupDashboard')
+      cy.task('stubDashboardResultCompleteData')
+      cy.task('stubMockDashboardsStatusStarted')
+      cy.task('stubMockDashboardsStatusFinished')
+
+      cy.visit(path)
+
+      requestReportByNameAndDescription({
+        name: 'Scorecard Group - Complete data',
+        description: 'Scorecard examples',
+      })
+
       cy.findByRole('heading', { level: 1, name: /Scorecard/ }).should('be.visible')
+
+      cy.url().then(url => {
+        scorecardGroupUrl = url
+      })
+    })
+
+    beforeEach(() => {
+      cy.visit(scorecardGroupUrl)
     })
 
     it('should show scorecard group using list', () => {

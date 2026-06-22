@@ -9,6 +9,10 @@ export const columnValuesAsList: components['schemas']['DashboardVisualisationDe
   columns: {
     keys: [
       {
+        id: 'ts',
+        type: 'timestamp',
+      },
+      {
         id: 'establishment_id',
       },
     ],

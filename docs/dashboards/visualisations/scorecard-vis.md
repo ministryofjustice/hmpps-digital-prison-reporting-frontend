@@ -97,7 +97,9 @@ See [Custom buckets](/dashboards/visualisations/custom-buckets##custom-buckets) 
 
 # Data assumptions
 
-- To display trend data, a column with an ID of `ts` must be present in the **parent data**
+- To display trend data, a date column must be present in the **parent data**
+- Ensure that your measure includes a `type` of `timestamp` when specifying a timestamp measure.
+- The `timestamp` date format must be `YYYY-MM-DD`
 
 <hr class='dpr-docs-hr'/>
 
@@ -122,12 +124,12 @@ This exmaple demonstrates how to define a scorecard in its simplest form.
 ```js
 | ts         | est_id | has_metric_two  | metric_two_is_missing  | has_metric_three | metric_three_is_missing |
 |------------|--------|-----------------|------------------------|------------------|-------------------------|
-| Jun 25.    | ABC    | 74              | 485                    | 300              | 500                     |
-| Jul 25.    | ABC    | 80              | 701                    | 280              | 320                     |
-| Aug 25.    | ABC    | 56              | 725                    | 220              | 214                     |
-| Sep 25     | ABC    | 30              | 765                    | 220              | 214                     |
-| Oct 25.    | ABC    | 42              | 765                    | 220              | 214                     |
-| Nov 25.    | ABC    | 21              | 765                    | 220              | 214                     |
+| 2025-06-01 | ABC    | 74              | 485                    | 300              | 500                     |
+| 2025-07-01 | ABC    | 80              | 701                    | 280              | 320                     |
+| 2025-08-01 | ABC    | 56              | 725                    | 220              | 214                     |
+| 2025-09-01 | ABC    | 30              | 765                    | 220              | 214                     |
+| 2025-10-01 | ABC    | 42              | 765                    | 220              | 214                     |
+| 2025-11-01 | ABC    | 21              | 765                    | 220              | 214                     |
 ```
 
 ### Definition
@@ -162,18 +164,18 @@ The example demonstrates how to a define scorecard that get its value by using t
 ```js
 | ts         | est_id | has_metric_two | has_metric_three |
 |------------|--------|----------------|------------------|
-| Jun 25.    | ABC    | 21             | 485              |
-| Jun 25.    | DEF    | 27             | 485              |
-| Jul 25.    | ABC    | 80             | 701              |
-| Jul 25.    | DEF    | 84             | 701              |
-| Aug 25.    | ABC    | 56             | 725              |
-| Aug 25.    | DEF    | 34             | 725              |
-| Sep 25     | ABC    | 30             | 765              |
-| Sep 25     | DEF    | 36             | 765              |
-| Oct 25.    | ABC    | 42             | 765              |
-| Oct 25.    | DEF    | 44             | 765              |
-| Nov 25.    | ABC    | 12             | 765              |
-| Nov 25.    | DEF    | 33             | 765              |
+| 2025-06-01 | ABC    | 21             | 485              |
+| 2025-06-01 | DEF    | 27             | 485              |
+| 2025-07-01 | ABC    | 80             | 701              |
+| 2025-07-01 | DEF    | 84             | 701              |
+| 2025-08-01 | ABC    | 56             | 725              |
+| 2025-08-01 | DEF    | 34             | 725              |
+| 2025-09-01 | ABC    | 30             | 765              |
+| 2025-09-01 | DEF    | 36             | 765              |
+| 2025-10-01 | ABC    | 42             | 765              |
+| 2025-10-01 | DEF    | 44             | 765              |
+| 2025-11-01 | ABC    | 12             | 765              |
+| 2025-11-01 | DEF    | 33             | 765              |
 ```
 
 ### Definition
@@ -210,19 +212,19 @@ The example demonstrates how to a define scorecard that get its value by using t
 ```js
 | ts         | est_id | wing     | diet       | total  |
 |------------|--------|----------|------------|--------|
-| Nov 25.    |        |          |            | 30     |
-| Nov 25.    |        |          | Diet one   | 12     |
-| Nov 25.    |        |          | Diet three | 8      |
-| Nov 25.    |        |          | Diet four  | 10     |
-| Nov 25.    |  ABC   |          |            | 30     |
-| Nov 25.    |  ABC   | north    |            | 15     |
-| Nov 25.    |  ABC   | south    |            | 15     |
-| Nov 25.    |  ABC   | north    | Diet one   | 1      |
-| Nov 25.    |  ABC   | north    | Diet three | 5      |
-| Nov 25.    |  ABC   | north    | Diet four  | 9      |
-| Nov 25.    |  ABC   | south    | Diet one   | 11     |
-| Nov 25.    |  ABC   | south    | Diet three | 3      |
-| Nov 25.    |  ABC   | south    | Diet four  | 1      |
+| 2025-11-01 |        |          |            | 30     |
+| 2025-11-01 |        |          | Diet one   | 12     |
+| 2025-11-01 |        |          | Diet three | 8      |
+| 2025-11-01 |        |          | Diet four  | 10     |
+| 2025-11-01 |  ABC   |          |            | 30     |
+| 2025-11-01 |  ABC   | north    |            | 15     |
+| 2025-11-01 |  ABC   | south    |            | 15     |
+| 2025-11-01 |  ABC   | north    | Diet one   | 1      |
+| 2025-11-01 |  ABC   | north    | Diet three | 5      |
+| 2025-11-01 |  ABC   | north    | Diet four  | 9      |
+| 2025-11-01 |  ABC   | south    | Diet one   | 11     |
+| 2025-11-01 |  ABC   | south    | Diet three | 3      |
+| 2025-11-01 |  ABC   | south    | Diet four  | 1      |
 ... omitted past ts rows.
 ```
 
@@ -293,12 +295,12 @@ Defining multiple `scorecard` visualisation types adjacent to each other within 
 ```js
 | ts         | est_id | has_metric_two | has_metric_three | has_metric_one |
 |------------|--------|----------------|------------------|----------------|
-| Jun 25.    | ABC    | 81             | 89               | 36             |
-| Jul 25.    | ABC    | 80             | 34               | 80             |
-| Aug 25.    | ABC    | 56             | 67               | 30             |
-| Sep 25     | ABC    | 30             | 56               | 67             |
-| Oct 25.    | ABC    | 42             | 43               | 42             |
-| Nov 25.    | ABC    | 94             | 61               | 51             |
+| 2025-06-01 | ABC    | 81             | 89               | 36             |
+| 2025-07-01 | ABC    | 80             | 34               | 80             |
+| 2025-08-01 | ABC    | 56             | 67               | 30             |
+| 2025-09-01 | ABC    | 30             | 56               | 67             |
+| 2025-10-01 | ABC    | 42             | 43               | 42             |
+| 2025-11-01 | ABC    | 94             | 61               | 51             |
 ```
 
 ### Definition
@@ -360,12 +362,12 @@ This examples display RAG scores within the scorecard:
 ```js
 | ts         | est_id | has_metric_two | has_metric_three | has_metric_one |
 |------------|--------|----------------|------------------|----------------|
-| Jun 25.    | ABC    | 37             | 85               | 75             |
-| Jul 25.    | ABC    | 80             | 34               | 80             |
-| Aug 25.    | ABC    | 56             | 67               | 30             |
-| Sep 25     | ABC    | 30             | 56               | 67             |
-| Oct 25.    | ABC    | 42             | 43               | 42             |
-| Nov 25.    | ABC    | 87             | 29               | 38             |
+| 2025-06-01 | ABC    | 37             | 85               | 75             |
+| 2025-07-01 | ABC    | 80             | 34               | 80             |
+| 2025-08-01 | ABC    | 56             | 67               | 30             |
+| 2025-09-01 | ABC    | 30             | 56               | 67             |
+| 2025-10-01 | ABC    | 42             | 43               | 42             |
+| 2025-11-01 | ABC    | 87             | 29               | 38             |
 ```
 
 ### Definition
@@ -437,12 +439,12 @@ Define custom colours to your buckets:
 ```js
 | ts         | est_id | has_metric_two | has_metric_three | has_metric_one |
 |------------|--------|----------------|------------------|----------------|
-| Jun 25.    | ABC    | 70             | 30               | 60             |
-| Jul 25.    | ABC    | 80             | 34               | 80             |
-| Aug 25.    | ABC    | 56             | 67               | 30             |
-| Sep 25     | ABC    | 30             | 56               | 67             |
-| Oct 25.    | ABC    | 42             | 43               | 42             |
-| Nov 25.    | ABC    | 98             | 13               | 51             |
+| 2025-06-01 | ABC    | 70             | 30               | 60             |
+| 2025-07-01 | ABC    | 80             | 34               | 80             |
+| 2025-08-01 | ABC    | 56             | 67               | 30             |
+| 2025-09-01  | ABC    | 30             | 56               | 67             |
+| 2025-10-01 | ABC    | 42             | 43               | 42             |
+| 2025-11-01 | ABC    | 98             | 13               | 51             |
 ```
 
 ### Definition
@@ -522,12 +524,12 @@ In this example custom buckets are defined in the definition to set the RAG scor
 ```js
 | ts         | est_id | has_metric_two | has_metric_three | has_metric_one |
 |------------|--------|----------------|------------------|----------------|
-| Jun 25.    | ABC    | 70             | 30               | 60             |
-| Jul 25.    | ABC    | 80             | 34               | 80             |
-| Aug 25.    | ABC    | 56             | 67               | 30             |
-| Sep 25     | ABC    | 30             | 56               | 67             |
-| Oct 25.    | ABC    | 42             | 43               | 42             |
-| Nov 25.    | ABC    | 98             | 13               | 51             |
+| 2025-06-01 | ABC    | 70             | 30               | 60             |
+| 2025-07-01 | ABC    | 80             | 34               | 80             |
+| 2025-08-01 | ABC    | 56             | 67               | 30             |
+| 2025-09-01 | ABC    | 30             | 56               | 67             |
+| 2025-10-01 | ABC    | 42             | 43               | 42             |
+| 2025-11-01 | ABC    | 98             | 13               | 51             |
 ```
 
 ### Definition

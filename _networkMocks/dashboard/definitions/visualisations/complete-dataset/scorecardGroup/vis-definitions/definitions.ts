@@ -14,6 +14,10 @@ export const dataQualityAllEstablishmentsMetricOne: components['schemas']['Dashb
   columns: {
     keys: [
       {
+        id: 'ts',
+        type: 'timestamp',
+      },
+      {
         id: 'establishment_id',
         display: 'Establishment ID',
       },
@@ -39,6 +43,10 @@ export const dataQualityAllEstablishmentsNoMetricOne: components['schemas']['Das
   description: '',
   columns: {
     keys: [
+      {
+        id: 'ts',
+        type: 'timestamp',
+      },
       {
         id: 'establishment_id',
         display: 'Establishment ID',
@@ -66,6 +74,10 @@ export const dataQualityAllEstablishmentsMetricThree: components['schemas']['Das
   columns: {
     keys: [
       {
+        id: 'ts',
+        type: 'timestamp',
+      },
+      {
         id: 'establishment_id',
         display: 'Establishment ID',
       },
@@ -91,6 +103,10 @@ export const dataQualityAllEstablishmentsNoMetricThree: components['schemas']['D
   description: '',
   columns: {
     keys: [
+      {
+        id: 'ts',
+        type: 'timestamp',
+      },
       {
         id: 'establishment_id',
         display: 'Establishment ID',
@@ -121,6 +137,10 @@ export const dataQualityAllEstablishmentsMetricTwo: components['schemas']['Dashb
   columns: {
     keys: [
       {
+        id: 'ts',
+        type: 'timestamp',
+      },
+      {
         id: 'establishment_id',
         display: 'Establishment ID',
       },
@@ -146,6 +166,10 @@ export const dataQualityAllEstablishmentsNoMetricTwo: components['schemas']['Das
   description: '',
   columns: {
     keys: [
+      {
+        id: 'ts',
+        type: 'timestamp',
+      },
       {
         id: 'establishment_id',
         display: 'Establishment ID',
@@ -175,6 +199,10 @@ export const dataQualityAllCols: components['schemas']['DashboardVisualisationDe
   },
   columns: {
     keys: [
+      {
+        id: 'ts',
+        type: 'timestamp',
+      },
       {
         id: 'establishment_id',
         display: 'Establishment ID',
@@ -220,6 +248,10 @@ export const dataQualityAllColsWithUnits: components['schemas']['DashboardVisual
   },
   columns: {
     keys: [
+      {
+        id: 'ts',
+        type: 'timestamp',
+      },
       {
         id: 'establishment_id',
         display: 'Establishment ID',

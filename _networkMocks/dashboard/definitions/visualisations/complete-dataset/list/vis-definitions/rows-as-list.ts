@@ -9,6 +9,10 @@ export const dataQualityMetricOne: components['schemas']['DashboardVisualisation
   columns: {
     keys: [
       {
+        id: 'ts',
+        type: 'timestamp',
+      },
+      {
         id: 'establishment_id',
       },
     ],
@@ -38,6 +42,10 @@ export const dataQualityMetricThree: components['schemas']['DashboardVisualisati
   columns: {
     keys: [
       {
+        id: 'ts',
+        type: 'timestamp',
+      },
+      {
         id: 'establishment_id',
       },
     ],
@@ -66,6 +74,10 @@ export const dataQualityMetricTwo: components['schemas']['DashboardVisualisation
   description: 'List visualisation showing MetricTwo values',
   columns: {
     keys: [
+      {
+        id: 'ts',
+        type: 'timestamp',
+      },
       {
         id: 'establishment_id',
       },

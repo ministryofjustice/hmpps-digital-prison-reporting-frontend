@@ -72,9 +72,9 @@ See [Custom buckets](/dashboards/visualisations/custom-buckets#custom-buckets) f
     ...
   }
   column: {
-    key: [{ id: 'ts' }],
+    key: [{ id: 'ts', type: 'timestamp' }],
     measure: [
-      { id: 'ts', type: 'date' , display: 'Date' },
+      { id: 'ts', type: 'timestamp', display: 'Date' },
       { id: 'id-of-count-column', display: 'Count column title' },
     ],
   }
@@ -93,9 +93,8 @@ See [Custom buckets](/dashboards/visualisations/custom-buckets##custom-buckets) 
 
 # Data assumptions
 
-- The dataset includes a column with an ID of `ts` that contains timestamp data
-- Ensure that your measure includes a `type` of `date`.
-- The `ts` date format must be `YYYY-MM-DD`
+- Ensure that your measure includes a `type` of `timestamp` when specifying a timestamp measure.
+- The `timestamp` date format must be `YYYY-MM-DD`
 
 <hr class='dpr-docs-hr'/>
 
@@ -163,6 +162,7 @@ In this example we will define a heatmap that:
       {
         id: 'ts',
         display: 'Date',
+        type: 'timestamp',
       },
       {
         id: 'count',
@@ -225,6 +225,7 @@ In this example we will define a heatmap that:
       {
         id: 'ts',
         display: 'Date',
+        type: 'timestamp',
       },
       {
         id: 'count',
@@ -294,6 +295,7 @@ In this example we will define a heatmap that:
       {
         id: 'ts',
         display: 'Date',
+        type: 'timestamp',
       },
       {
         id: 'count',
@@ -360,6 +362,7 @@ In this example we will define a heatmap that:
       {
         id: 'ts',
         display: 'Date',
+        type: 'timestamp',
       },
       {
         id: 'count',
@@ -434,6 +437,7 @@ In this example we will define a matrix chart that:
       {
         id: 'ts',
         display: 'Date',
+        type: 'timestamp',
       },
       {
         id: 'count',
@@ -500,6 +504,7 @@ In this example we will define a matrix chart that:
       {
         id: 'ts',
         display: 'Date',
+        type: 'timestamp',
       },
       {
         id: 'count',

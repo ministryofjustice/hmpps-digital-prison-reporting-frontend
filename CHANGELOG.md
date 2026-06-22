@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## 6.8.0
+
+- Dashboards visualisation definition: Removed constraint requiring dataset column id of `ts` for timeseries charts. Instead reads the `type` field on the Dashboards visualisation column definition to identify the ts column ID where the type is `timestamp`.
+
 ## 6.7.1
 
 - Bugfix: Retrieving fields without a filter set not longer throws an error

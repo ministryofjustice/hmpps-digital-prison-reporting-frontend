@@ -76,8 +76,8 @@ See the [Targeting data](/dashboards/visualisations/visualisation-dataset) for a
 
 # Data assumptions
 
-- The dataset must include a column with the ID `ts`, containing timestamp values.
-- The `ts` values should already be formatted exactly as you want them displayed — the visualisation will render them as‑is without additional formatting.
+- Ensure that your measure includes a `type` of `timestamp` when specifying the timestamp measure.
+- The `timestamp` date format must be `YYYY-MM-DD`
 
 <hr class='dpr-docs-hr'/>
 
@@ -89,26 +89,26 @@ See the [Targeting data](/dashboards/visualisations/visualisation-dataset) for a
 ### Example Dataset
 
 ```js
-| Date   | est_id | no_metric_one  | no_metric_two  | no_metric_three  |
-|--------|--------|----------------|----------------|------------------|
-| Aug 24 | ABC    | 781            | 754            | 802              |
-| Aug 24 | GHI    | 610            | 589            | 633              |
-| Aug 24 | DEF    | 499            | 472            | 518              |
-| Sep 24 | ABC    | 514            | 538            | 497              |
-| Sep 24 | GHI    | 518            | 492            | 531              |
-| Sep 24 | DEF    | 521            | 549            | 505              |
-| Oct 24 | ABC    | 598            | 612            | 580              |
-| Oct 24 | GHI    | 676            | 702            | 661              |
-| Oct 24 | DEF    | 687            | 655            | 712              |
-| Nov 24 | ABC    | 522            | 499            | 548              |
-| Nov 24 | GHI    | 790            | 768            | 812              |
-| Nov 24 | DEF    | 713            | 689            | 727              |
-| Dec 24 | ABC    | 431            | 452            | 408              |
-| Dec 24 | GHI    | 536            | 522            | 561              |
-| Dec 24 | DEF    | 590            | 574            | 613              |
-| Jan 25 | ABC    | 614            | 643            | 609              |
-| Jan 25 | GHI    | 713            | 695            | 740              |
-| Jan 25 | DEF    | 682            | 668            | 701              |
+| Date       | est_id | no_metric_one  | no_metric_two  | no_metric_three  |
+|------------|--------|----------------|----------------|------------------|
+| 2024-08-01 | ABC    | 781            | 754            | 802              |
+| 2024-08-01 | GHI    | 610            | 589            | 633              |
+| 2024-08-01 | DEF    | 499            | 472            | 518              |
+| 2024-09-01 | ABC    | 514            | 538            | 497              |
+| 2024-09-01 | GHI    | 518            | 492            | 531              |
+| 2024-09-01 | DEF    | 521            | 549            | 505              |
+| 2024-10-01 | ABC    | 598            | 612            | 580              |
+| 2024-10-01 | GHI    | 676            | 702            | 661              |
+| 2024-10-01 | DEF    | 687            | 655            | 712              |
+| 2024-11-01 | ABC    | 522            | 499            | 548              |
+| 2024-11-01 | GHI    | 790            | 768            | 812              |
+| 2024-11-01 | DEF    | 713            | 689            | 727              |
+| 2024-12-01 | ABC    | 431            | 452            | 408              |
+| 2024-12-01 | GHI    | 536            | 522            | 561              |
+| 2024-12-01 | DEF    | 590            | 574            | 613              |
+| 2025-01-01 | ABC    | 614            | 643            | 609              |
+| 2025-01-01 | GHI    | 713            | 695            | 740              |
+| 2025-01-01 | DEF    | 682            | 668            | 701              |
 ```
 
 <hr class='dpr-docs-hr'/>
@@ -136,6 +136,7 @@ Prisoner totals for missing MetricOne by establishment over time
       {
         id: 'ts',
         display: 'Date',
+        type: 'timestamp',
       },
       {
         id: 'no_metric_one',
@@ -152,26 +153,26 @@ Prisoner totals for missing MetricOne by establishment over time
 This definition will return the following dataset
 
 ```js
-| ts     | est_id | no_metric_one  |
-|--------|--------|----------------|
-| Aug 24 | ABC    | 781            |
-| Aug 24 | GHI    | 610            |
-| Aug 24 | DEF    | 499            |
-| Sep 24 | ABC    | 514            |
-| Sep 24 | GHI    | 518            |
-| Sep 24 | DEF    | 521            |
-| Oct 24 | ABC    | 598            |
-| Oct 24 | GHI    | 676            |
-| Oct 24 | DEF    | 687            |
-| Nov 24 | ABC    | 522            |
-| Nov 24 | GHI    | 790            |
-| Nov 24 | DEF    | 713            |
-| Dec 24 | ABC    | 431            |
-| Dec 24 | GHI    | 536            |
-| Dec 24 | DEF    | 590            |
-| Jan 25 | ABC    | 614            |
-| Jan 25 | GHI    | 713            |
-| Jan 25 | DEF    | 682            |
+| ts         | est_id | no_metric_one  |
+|------------|--------|----------------|
+| 2024-08-01 | ABC    | 781            |
+| 2024-08-01 | GHI    | 610            |
+| 2024-08-01 | DEF    | 499            |
+| 2024-09-01 | ABC    | 514            |
+| 2024-09-01 | GHI    | 518            |
+| 2024-09-01 | DEF    | 521            |
+| 2024-10-01 | ABC    | 598            |
+| 2024-10-01 | GHI    | 676            |
+| 2024-10-01 | DEF    | 687            |
+| 2024-11-01 | ABC    | 522            |
+| 2024-11-01 | GHI    | 790            |
+| 2024-11-01 | DEF    | 713            |
+| 2024-12-01 | ABC    | 431            |
+| 2024-12-01 | GHI    | 536            |
+| 2024-12-01 | DEF    | 590            |
+| 2025-01-01 | ABC    | 614            |
+| 2025-01-01 | GHI    | 713            |
+| 2025-01-01 | DEF    | 682            |
 ```
 
 see [here](/dashboards/visualisations/visualisation-dataset) for more info on targeting data
@@ -207,6 +208,7 @@ Prisoner totals for missing MetricOne by single establishment over time, using f
       {
         id: 'ts',
         display: 'Date',
+        type: 'timestamp',
       },
       {
         id: 'no_metric_one',
@@ -229,14 +231,14 @@ Prisoner totals for missing MetricOne by single establishment over time, using f
 This definition will return the following dataset
 
 ```js
-| ts     | est_id | no_metric_one  |
-|--------|--------|----------------|
-| Aug 24 | ABC    | 781            |
-| Sep 24 | ABC    | 514            |
-| Oct 24 | ABC    | 598            |
-| Nov 24 | ABC    | 522            |
-| Dec 24 | ABC    | 431            |
-| Jan 25 | ABC    | 614            |
+| ts         | est_id | no_metric_one  |
+|------------|--------|----------------|
+| 2024-08-01 | ABC    | 781            |
+| 2024-09-01 | ABC    | 514            |
+| 2024-10-01 | ABC    | 598            |
+| 2024-11-01 | ABC    | 522            |
+| 2024-12-01 | ABC    | 431            |
+| 2025-01-01 | ABC    | 614            |
 ```
 
 see [here](/dashboards/visualisations/visualisation-dataset) for more info on targeting data

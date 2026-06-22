@@ -13,6 +13,7 @@ export const dietTotalsOverTime: components['schemas']['DashboardVisualisationDe
       {
         id: 'ts',
         display: 'Date',
+        type: 'timestamp',
       },
       {
         id: 'count',
@@ -39,6 +40,7 @@ export const dietTotalsByEstablishmentOverTime: components['schemas']['Dashboard
       {
         id: 'ts',
         display: 'Date',
+        type: 'timestamp',
       },
       {
         id: 'establishment_id',
@@ -72,6 +74,7 @@ export const dietTotalsByEstablishmentByWingOverTime: components['schemas']['Das
       {
         id: 'ts',
         display: 'Date',
+        type: 'timestamp',
       },
       {
         id: 'establishment_id',
@@ -112,6 +115,7 @@ export const dietTotalsByEstablishmentByWingOverTimeOptional: components['schema
         {
           id: 'ts',
           display: 'Date',
+          type: 'timestamp',
         },
         {
           id: 'establishment_id',
@@ -142,6 +146,7 @@ export const dietTotalsDietOneOvertime: components['schemas']['DashboardVisualis
       {
         id: 'ts',
         display: 'Date',
+        type: 'timestamp',
       },
       {
         id: 'diet',
@@ -179,6 +184,7 @@ export const dietTotalsDietOneOvertimeByEst: components['schemas']['DashboardVis
       {
         id: 'ts',
         display: 'Date',
+        type: 'timestamp',
       },
       {
         id: 'establishment_id',
@@ -224,6 +230,7 @@ export const dietTotalsDietOneOvertimeByEstByWing: components['schemas']['Dashbo
       {
         id: 'ts',
         display: 'Date',
+        type: 'timestamp',
       },
       {
         id: 'establishment_id',
@@ -264,6 +271,7 @@ export const dietTotalsDietThreeOvertime: components['schemas']['DashboardVisual
       {
         id: 'ts',
         display: 'Date',
+        type: 'timestamp',
       },
       {
         id: 'diet',
@@ -296,6 +304,7 @@ export const dietTotalsAllDietOvertime: components['schemas']['DashboardVisualis
       {
         id: 'ts',
         display: 'Date',
+        type: 'timestamp',
       },
       {
         id: 'diet',
@@ -328,6 +337,7 @@ export const dietTotalsAllDietOvertimeByEst: components['schemas']['DashboardVis
       {
         id: 'ts',
         display: 'Date',
+        type: 'timestamp',
       },
       {
         id: 'establishment_id',

@@ -18,6 +18,7 @@ export const dataQualityHasMetricTwoOvertime: components['schemas']['DashboardVi
       {
         id: 'ts',
         display: 'Date',
+        type: 'timestamp',
       },
       {
         id: 'has_metric_two',

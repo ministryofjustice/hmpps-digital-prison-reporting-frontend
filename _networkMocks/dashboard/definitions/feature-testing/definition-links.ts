@@ -20,6 +20,10 @@ export const definition: components['schemas']['DashboardDefinition'] = {
           columns: {
             keys: [
               {
+                id: 'ts',
+                type: 'timestamp',
+              },
+              {
                 id: 'establishment_id',
               },
             ],

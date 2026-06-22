@@ -9,7 +9,7 @@ export const simpleScorecardCustomBucketsMetricTwo: components['schemas']['Dashb
     buckets: [{ hexColour: '#912b88' }, { hexColour: '#28a197' }, { hexColour: '#f47738' }],
   },
   columns: {
-    keys: [{ id: 'establishment_id' }],
+    keys: [{ id: 'ts', type: 'timestamp' }, { id: 'establishment_id' }],
     measures: [{ id: 'has_metric_two' }],
     expectNulls: false,
   },
@@ -23,7 +23,7 @@ export const simpleScorecardCustomBucketsMetricOne: components['schemas']['Dashb
     buckets: [{ hexColour: '#912b88' }, { hexColour: '#28a197' }, { hexColour: '#f47738' }],
   },
   columns: {
-    keys: [{ id: 'establishment_id' }],
+    keys: [{ id: 'ts', type: 'timestamp' }, { id: 'establishment_id' }],
     measures: [{ id: 'has_metric_one' }],
     expectNulls: false,
   },
@@ -37,7 +37,7 @@ export const simpleScorecardCustomBucketsMetricThree: components['schemas']['Das
     buckets: [{ hexColour: '#912b88' }, { hexColour: '#28a197' }, { hexColour: '#f47738' }],
   },
   columns: {
-    keys: [{ id: 'establishment_id' }],
+    keys: [{ id: 'ts', type: 'timestamp' }, { id: 'establishment_id' }],
     measures: [{ id: 'has_metric_three' }],
     expectNulls: false,
   },
@@ -53,7 +53,7 @@ export const simpleScorecardCustomBucketsBoundariesMetricThree: components['sche
       buckets: [{ max: 500 }, { min: 501, max: 600 }, { min: 601 }],
     },
     columns: {
-      keys: [{ id: 'establishment_id' }],
+      keys: [{ id: 'ts', type: 'timestamp' }, { id: 'establishment_id' }],
       measures: [{ id: 'has_metric_three' }],
       expectNulls: false,
     },
@@ -69,7 +69,7 @@ export const simpleScorecardCustomBucketsBoundariesMetricTwo: components['schema
       buckets: [{ max: 300 }, { min: 301, max: 800 }, { min: 801 }],
     },
     columns: {
-      keys: [{ id: 'establishment_id' }],
+      keys: [{ id: 'ts', type: 'timestamp' }, { id: 'establishment_id' }],
       measures: [{ id: 'has_metric_two' }],
       expectNulls: false,
     },
@@ -85,7 +85,7 @@ export const simpleScorecardCustomBucketsBoundariesMetricOne: components['schema
       buckets: [{ max: 200 }, { min: 201, max: 700 }, { min: 701 }],
     },
     columns: {
-      keys: [{ id: 'establishment_id' }],
+      keys: [{ id: 'ts', type: 'timestamp' }, { id: 'establishment_id' }],
       measures: [{ id: 'has_metric_one' }],
       expectNulls: false,
     },

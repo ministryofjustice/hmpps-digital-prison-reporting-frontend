@@ -1,3 +1,4 @@
+import logger from 'src/dpr/utils/logger'
 import { components } from '../../../types/api'
 import { DashboardDataResponse } from '../../../types/Metrics'
 import {
@@ -14,6 +15,8 @@ import { PartialDate } from '../../_filters/types'
 import ChartLabelsHelper from './ChartLabels'
 
 class TimeseriesChart {
+  id!: string
+
   labels: string[] = []
 
   datasets: DashboardVisualisationDataSet[] = []
@@ -55,6 +58,9 @@ class TimeseriesChart {
   }
 
   initFromDefinition = (definition: BarTimeseriesDefinitionType | LineTimeseriesDefinitionType) => {
+    logger.debug('Building Dashboard Visualisation: ', JSON.stringify(definition))
+
+    this.id = definition.id
     this.measures = definition.columns.measures
     this.keys = definition.columns.keys || []
     this.unit = this.measures.find(m => m.unit)?.unit
@@ -75,7 +81,8 @@ class TimeseriesChart {
     )
 
     if (!dateMeasure) {
-      throw new Error('No date field in definition')
+      logger.debug(this.id, JSON.stringify(this.measures))
+      throw new Error(`${this.id}: No timestamp field in definition`)
     }
 
     this.timeBlockData = DatasetHelper.groupRowsByTimestamp(this.responseData, dateMeasure)

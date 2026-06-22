@@ -86,7 +86,7 @@ class HeatmapChart {
       <components['schemas']['DashboardVisualisationColumnDefinition'][]>this.measures,
     )
     if (!dateMeasure) {
-      throw new Error('No date field in definition')
+      throw new Error('No timestamp field in definition')
     }
 
     const timeBlockData = DatasetHelper.groupRowsByTimestamp(this.responseData, dateMeasure)

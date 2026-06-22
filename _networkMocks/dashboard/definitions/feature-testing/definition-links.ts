@@ -21,7 +21,7 @@ export const definition: components['schemas']['DashboardDefinition'] = {
             keys: [
               {
                 id: 'ts',
-                type: 'date',
+                type: 'timestamp',
               },
               {
                 id: 'establishment_id',

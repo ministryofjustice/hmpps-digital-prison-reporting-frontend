@@ -8,7 +8,7 @@ export const simpleScorecardMetricTwo: components['schemas']['DashboardVisualisa
   display: 'No of prisoners with MetricTwo',
   description: '',
   columns: {
-    keys: [{ id: 'ts', type: 'date' }, { id: 'establishment_id' }],
+    keys: [{ id: 'ts', type: 'timestamp' }, { id: 'establishment_id' }],
     measures: [{ id: 'has_metric_two' }],
     expectNulls: false,
   },
@@ -20,7 +20,7 @@ export const simpleScorecardMetricTwoWithUnit: components['schemas']['DashboardV
   display: 'Percentage of prisoners with MetricTwo',
   description: '',
   columns: {
-    keys: [{ id: 'ts', type: 'date' }, { id: 'establishment_id' }],
+    keys: [{ id: 'ts', type: 'timestamp' }, { id: 'establishment_id' }],
     measures: [{ id: 'has_metric_two', unit: UnitType.PERCENTAGE }],
     expectNulls: false,
   },
@@ -32,7 +32,7 @@ export const simpleScorecardMetricTwoFilter: components['schemas']['DashboardVis
   display: 'No of prisoners with MetricTwo',
   description: '',
   columns: {
-    keys: [{ id: 'ts', type: 'date' }, { id: 'establishment_id' }],
+    keys: [{ id: 'ts', type: 'timestamp' }, { id: 'establishment_id' }],
     measures: [{ id: 'has_metric_two' }],
     filters: [
       {
@@ -50,7 +50,7 @@ export const simpleScorecardMetricThree: components['schemas']['DashboardVisuali
   display: 'No of prisoners with MetricThree',
   description: '',
   columns: {
-    keys: [{ id: 'ts', type: 'date' }, { id: 'establishment_id' }],
+    keys: [{ id: 'ts', type: 'timestamp' }, { id: 'establishment_id' }],
     measures: [{ id: 'has_metric_three' }],
     expectNulls: false,
   },
@@ -62,7 +62,7 @@ export const simpleScorecardMetricThreeWithUnit: components['schemas']['Dashboar
   display: 'Percentage of prisoners with MetricThree',
   description: '',
   columns: {
-    keys: [{ id: 'ts', type: 'date' }, { id: 'establishment_id' }],
+    keys: [{ id: 'ts', type: 'timestamp' }, { id: 'establishment_id' }],
     measures: [{ id: 'has_metric_three', unit: UnitType.PERCENTAGE }],
     expectNulls: false,
   },
@@ -74,7 +74,7 @@ export const simpleScorecardMetricOne: components['schemas']['DashboardVisualisa
   display: 'No of prisoners with MetricOne',
   description: '',
   columns: {
-    keys: [{ id: 'ts', type: 'date' }, { id: 'establishment_id' }],
+    keys: [{ id: 'ts', type: 'timestamp' }, { id: 'establishment_id' }],
     measures: [{ id: 'has_metric_one' }],
     expectNulls: false,
   },
@@ -86,7 +86,7 @@ export const simpleScorecardMetricOneTrendDown: components['schemas']['Dashboard
   display: 'No of prisoners with MetricOne',
   description: '',
   columns: {
-    keys: [{ id: 'ts', type: 'date' }, { id: 'establishment_id' }],
+    keys: [{ id: 'ts', type: 'timestamp' }, { id: 'establishment_id' }],
     measures: [{ id: 'has_metric_one' }],
     filters: [{ id: 'establishment_id', equals: 'GHI' }],
     expectNulls: false,
@@ -99,7 +99,7 @@ export const simpleScorecardMetricOneWithUnit: components['schemas']['DashboardV
   display: 'Percentage of prisoners with MetricOne',
   description: '',
   columns: {
-    keys: [{ id: 'ts', type: 'date' }, { id: 'establishment_id' }],
+    keys: [{ id: 'ts', type: 'timestamp' }, { id: 'establishment_id' }],
     measures: [{ id: 'has_metric_one', unit: UnitType.PERCENTAGE }],
     expectNulls: false,
   },
@@ -114,7 +114,7 @@ export const simpleScorecardRagColoursMetricTwo: components['schemas']['Dashboar
     useRagColour: true,
   },
   columns: {
-    keys: [{ id: 'ts', type: 'date' }, { id: 'establishment_id' }],
+    keys: [{ id: 'ts', type: 'timestamp' }, { id: 'establishment_id' }],
     measures: [{ id: 'has_metric_two' }],
     expectNulls: false,
   },
@@ -129,7 +129,7 @@ export const simpleScorecardRagColoursMetricThree: components['schemas']['Dashbo
     useRagColour: true,
   },
   columns: {
-    keys: [{ id: 'ts', type: 'date' }, { id: 'establishment_id' }],
+    keys: [{ id: 'ts', type: 'timestamp' }, { id: 'establishment_id' }],
     measures: [{ id: 'has_metric_three' }],
     expectNulls: false,
   },
@@ -144,7 +144,7 @@ export const simpleScorecardRagColoursMetricOne: components['schemas']['Dashboar
     useRagColour: true,
   },
   columns: {
-    keys: [{ id: 'ts', type: 'date' }, { id: 'establishment_id' }],
+    keys: [{ id: 'ts', type: 'timestamp' }, { id: 'establishment_id' }],
     measures: [{ id: 'has_metric_one' }],
     expectNulls: false,
   },

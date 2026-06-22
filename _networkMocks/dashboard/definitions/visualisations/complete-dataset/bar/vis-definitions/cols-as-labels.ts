@@ -12,7 +12,7 @@ export const dataQualityMetricOneBar: components['schemas']['DashboardVisualisat
       {
         id: 'ts',
         display: 'Date',
-        type: 'date',
+        type: 'timestamp',
       },
       {
         id: 'establishment_id',
@@ -46,7 +46,7 @@ export const dataQualityMetricOneBarHorizontal: components['schemas']['Dashboard
       {
         id: 'ts',
         display: 'Date',
-        type: 'date',
+        type: 'timestamp',
       },
       {
         id: 'establishment_id',
@@ -77,7 +77,7 @@ export const dataQualityMetricThreeBar: components['schemas']['DashboardVisualis
       {
         id: 'ts',
         display: 'Date',
-        type: 'date',
+        type: 'timestamp',
       },
       {
         id: 'establishment_id',
@@ -108,7 +108,7 @@ export const dataQualityMetricTwoBar: components['schemas']['DashboardVisualisat
       {
         id: 'ts',
         display: 'Date',
-        type: 'date',
+        type: 'timestamp',
       },
       {
         id: 'establishment_id',
@@ -142,7 +142,7 @@ export const dataQualityAllBar: components['schemas']['DashboardVisualisationDef
       {
         id: 'ts',
         display: 'Date',
-        type: 'date',
+        type: 'timestamp',
       },
       {
         id: 'establishment_id',
@@ -192,7 +192,7 @@ export const dataQualityAllBarHorizontal: components['schemas']['DashboardVisual
       {
         id: 'ts',
         display: 'Date',
-        type: 'date',
+        type: 'timestamp',
       },
       {
         id: 'establishment_id',
@@ -242,7 +242,7 @@ export const dataQualityAllBarWithUnit: components['schemas']['DashboardVisualis
       {
         id: 'ts',
         display: 'Date',
-        type: 'date',
+        type: 'timestamp',
       },
       {
         id: 'establishment_id',
@@ -298,7 +298,7 @@ export const dataQualityAllBarWithUnitHorizontal: components['schemas']['Dashboa
       {
         id: 'ts',
         display: 'Date',
-        type: 'date',
+        type: 'timestamp',
       },
       {
         id: 'establishment_id',

@@ -82,7 +82,7 @@ class ScorecardVisualisation {
     const scorecardDefinition = <components['schemas']['DashboardVisualisationDefinition']>definition
     const { columns } = scorecardDefinition
 
-    const dateColumn = DatasetHelper.getDateColumn(columns)
+    const dateColumn = DatasetHelper.getTimestampColumn(columns)
 
     // Latest most recent data
     const latestData = DatasetHelper.getLastestDataset(rawData, dateColumn)

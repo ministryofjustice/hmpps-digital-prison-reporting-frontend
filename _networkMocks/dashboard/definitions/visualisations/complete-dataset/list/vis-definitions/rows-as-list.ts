@@ -10,7 +10,7 @@ export const dataQualityMetricOne: components['schemas']['DashboardVisualisation
     keys: [
       {
         id: 'ts',
-        type: 'date',
+        type: 'timestamp',
       },
       {
         id: 'establishment_id',
@@ -43,7 +43,7 @@ export const dataQualityMetricThree: components['schemas']['DashboardVisualisati
     keys: [
       {
         id: 'ts',
-        type: 'date',
+        type: 'timestamp',
       },
       {
         id: 'establishment_id',
@@ -76,7 +76,7 @@ export const dataQualityMetricTwo: components['schemas']['DashboardVisualisation
     keys: [
       {
         id: 'ts',
-        type: 'date',
+        type: 'timestamp',
       },
       {
         id: 'establishment_id',

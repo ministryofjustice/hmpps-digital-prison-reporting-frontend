@@ -15,7 +15,7 @@ export const dataQualityAllEstablishmentsMetricOne: components['schemas']['Dashb
     keys: [
       {
         id: 'ts',
-        type: 'date',
+        type: 'timestamp',
       },
       {
         id: 'establishment_id',
@@ -45,7 +45,7 @@ export const dataQualityAllEstablishmentsNoMetricOne: components['schemas']['Das
     keys: [
       {
         id: 'ts',
-        type: 'date',
+        type: 'timestamp',
       },
       {
         id: 'establishment_id',
@@ -75,7 +75,7 @@ export const dataQualityAllEstablishmentsMetricThree: components['schemas']['Das
     keys: [
       {
         id: 'ts',
-        type: 'date',
+        type: 'timestamp',
       },
       {
         id: 'establishment_id',
@@ -105,7 +105,7 @@ export const dataQualityAllEstablishmentsNoMetricThree: components['schemas']['D
     keys: [
       {
         id: 'ts',
-        type: 'date',
+        type: 'timestamp',
       },
       {
         id: 'establishment_id',
@@ -138,7 +138,7 @@ export const dataQualityAllEstablishmentsMetricTwo: components['schemas']['Dashb
     keys: [
       {
         id: 'ts',
-        type: 'date',
+        type: 'timestamp',
       },
       {
         id: 'establishment_id',
@@ -168,7 +168,7 @@ export const dataQualityAllEstablishmentsNoMetricTwo: components['schemas']['Das
     keys: [
       {
         id: 'ts',
-        type: 'date',
+        type: 'timestamp',
       },
       {
         id: 'establishment_id',
@@ -201,7 +201,7 @@ export const dataQualityAllCols: components['schemas']['DashboardVisualisationDe
     keys: [
       {
         id: 'ts',
-        type: 'date',
+        type: 'timestamp',
       },
       {
         id: 'establishment_id',
@@ -250,7 +250,7 @@ export const dataQualityAllColsWithUnits: components['schemas']['DashboardVisual
     keys: [
       {
         id: 'ts',
-        type: 'date',
+        type: 'timestamp',
       },
       {
         id: 'establishment_id',

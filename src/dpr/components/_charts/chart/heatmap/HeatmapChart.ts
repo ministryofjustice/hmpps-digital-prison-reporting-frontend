@@ -4,8 +4,8 @@ import logger from '../../../../utils/logger'
 import { components } from '../../../../types/api'
 import { DashboardDataResponse } from '../../../../types/Metrics'
 import DatasetHelper, {
-  getDateColumn,
-  getDateMeasure,
+  getTimestampColumn,
+  getTimestampMeasure,
   getDateValue,
 } from '../../../../utils/Dashboards/VisualisationDatasetHelper'
 import {
@@ -82,7 +82,9 @@ class HeatmapChart {
   }
 
   private initTimeseriesData = () => {
-    const dateMeasure = getDateMeasure(<components['schemas']['DashboardVisualisationColumnDefinition'][]>this.measures)
+    const dateMeasure = getTimestampMeasure(
+      <components['schemas']['DashboardVisualisationColumnDefinition'][]>this.measures,
+    )
     if (!dateMeasure) {
       throw new Error('No date field in definition')
     }
@@ -93,7 +95,7 @@ class HeatmapChart {
       .map<MatrixChartData | undefined>(tsData => {
         const { raw, rag } = tsData[0][this.valueKey]
 
-        const dateColumn = getDateColumn(
+        const dateColumn = getTimestampColumn(
           <components['schemas']['DashboardVisualisationColumnsDefinition']>this.definition.columns,
         )
         const dateData = getDateValue(tsData, dateColumn)

@@ -15,7 +15,7 @@ export const dietTotals: components['schemas']['DashboardVisualisationDefinition
     keys: [
       {
         id: 'ts',
-        type: 'date',
+        type: 'timestamp',
       },
     ],
     measures: [
@@ -47,7 +47,7 @@ export const dietTotalsWithFilters: components['schemas']['DashboardVisualisatio
     keys: [
       {
         id: 'ts',
-        type: 'date',
+        type: 'timestamp',
       },
     ],
     measures: [
@@ -85,7 +85,7 @@ export const dietTotalsWithFiltersSingleColumn: components['schemas']['Dashboard
     keys: [
       {
         id: 'ts',
-        type: 'date',
+        type: 'timestamp',
       },
       {
         id: 'diet',
@@ -126,7 +126,7 @@ export const dietTotalsByEstablishment: components['schemas']['DashboardVisualis
     keys: [
       {
         id: 'ts',
-        type: 'date',
+        type: 'timestamp',
       },
       {
         id: 'establishment_id',
@@ -165,7 +165,7 @@ export const dietTotalsByEstablishmentByWing: components['schemas']['DashboardVi
     keys: [
       {
         id: 'ts',
-        type: 'date',
+        type: 'timestamp',
       },
       {
         id: 'establishment_id',
@@ -210,7 +210,7 @@ export const dietTotalsByEstablishmentByWingByCell: components['schemas']['Dashb
     keys: [
       {
         id: 'ts',
-        type: 'date',
+        type: 'timestamp',
       },
       {
         id: 'establishment_id',
@@ -260,7 +260,7 @@ export const dietTotalsByEstablishmentByWingByCellFilters: components['schemas']
     keys: [
       {
         id: 'ts',
-        type: 'date',
+        type: 'timestamp',
       },
       {
         id: 'establishment_id',

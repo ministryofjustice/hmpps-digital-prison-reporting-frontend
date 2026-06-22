@@ -76,8 +76,8 @@ See the [Targeting data](/dashboards/visualisations/visualisation-dataset) for a
 
 # Data assumptions
 
-- Ensure that your measure includes a `type` of `date` when specifying a date measure.
-- The `ts` date format must be `YYYY-MM-DD`
+- Ensure that your measure includes a `type` of `timestamp` when specifying the timestamp measure.
+- The `timestamp` date format must be `YYYY-MM-DD`
 
 <hr class='dpr-docs-hr'/>
 
@@ -136,7 +136,7 @@ Prisoner totals for missing MetricOne by establishment over time
       {
         id: 'ts',
         display: 'Date',
-        type: 'date',
+        type: 'timestamp',
       },
       {
         id: 'no_metric_one',
@@ -208,7 +208,7 @@ Prisoner totals for missing MetricOne by single establishment over time, using f
       {
         id: 'ts',
         display: 'Date',
-        type: 'date',
+        type: 'timestamp',
       },
       {
         id: 'no_metric_one',

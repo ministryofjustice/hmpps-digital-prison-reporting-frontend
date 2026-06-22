@@ -579,7 +579,7 @@ export interface components {
       /** @enum {string|null} */
       sortDirection?: 'asc' | 'desc' | null
       /** @enum {string} */
-      type: 'boolean' | 'date' | 'double' | 'HTML' | 'long' | 'string' | 'time'
+      type: 'boolean' | 'date' | 'double' | 'HTML' | 'long' | 'string' | 'time' | 'timestamp'
       mandatory: boolean
       visible: boolean
       calculated: boolean
@@ -675,7 +675,7 @@ export interface components {
       name: string
       display?: string | null
       /** @enum {string|null} */
-      type?: 'boolean' | 'date' | 'double' | 'HTML' | 'long' | 'string' | 'time' | null
+      type?: 'boolean' | 'date' | 'double' | 'HTML' | 'long' | 'string' | 'time' | 'timestamp' | null
       header?: boolean | null
       mergeRows?: boolean | null
     }
@@ -734,7 +734,7 @@ export interface components {
       axis?: string | null
       optional?: boolean | null
       /** @enum {string|null} */
-      type?: 'boolean' | 'date' | 'double' | 'HTML' | 'long' | 'string' | 'time' | null
+      type?: 'boolean' | 'date' | 'double' | 'HTML' | 'long' | 'string' | 'time' | 'timestamp' | null
     }
     DashboardVisualisationColumnsDefinition: {
       keys?: components['schemas']['DashboardVisualisationColumnDefinition'][] | null

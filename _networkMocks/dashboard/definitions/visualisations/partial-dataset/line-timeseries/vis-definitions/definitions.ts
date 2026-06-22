@@ -13,7 +13,7 @@ export const dietTotalsOverTime: components['schemas']['DashboardVisualisationDe
       {
         id: 'ts',
         display: 'Date',
-        type: 'date',
+        type: 'timestamp',
       },
       {
         id: 'count',
@@ -41,7 +41,7 @@ export const dietTotalsByEstablishmentOverTime: components['schemas']['Dashboard
       {
         id: 'ts',
         display: 'Date',
-        type: 'date',
+        type: 'timestamp',
       },
       {
         id: 'count',
@@ -69,7 +69,7 @@ export const dietTotalsDietOneOvertime: components['schemas']['DashboardVisualis
       {
         id: 'ts',
         display: 'Date',
-        type: 'date',
+        type: 'timestamp',
       },
       {
         id: 'count',
@@ -103,7 +103,7 @@ export const dietTotalsDietThreeOvertime: components['schemas']['DashboardVisual
       {
         id: 'ts',
         display: 'Date',
-        type: 'date',
+        type: 'timestamp',
       },
       {
         id: 'count',
@@ -137,7 +137,7 @@ export const dietTotalsDietOneOvertimeByEstLine: components['schemas']['Dashboar
       {
         id: 'ts',
         display: 'Date',
-        type: 'date',
+        type: 'timestamp',
       },
       {
         id: 'count',
@@ -175,7 +175,7 @@ export const dietTotalsDietOneOvertimeByEstByWingLine: components['schemas']['Da
       {
         id: 'ts',
         display: 'Date',
-        type: 'date',
+        type: 'timestamp',
       },
       {
         id: 'count',
@@ -218,7 +218,7 @@ export const dietTotalsDietOneOvertimeByEstByWingAndCellLine: components['schema
         {
           id: 'ts',
           display: 'Date',
-          type: 'date',
+          type: 'timestamp',
         },
         {
           id: 'count',

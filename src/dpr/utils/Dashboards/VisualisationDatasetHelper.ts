@@ -26,7 +26,7 @@ export const getDatasetRows = (
   filterColIds = [...new Set(filterColIds)]
   const hasOptionalKeys = OptionalKeysHelper.hasOptionalKeys(keys || [])
 
-  const dateColumn = getDateColumn(columns)
+  const dateColumn = getTimestampColumn(columns)
   const dateData = getDateValue(dashboardData, dateColumn)
 
   if (dashboardData.length && dateData) {
@@ -218,27 +218,27 @@ export const getDateValue = (
   }
 }
 
-export const getDateColumn = (
+export const getTimestampColumn = (
   columns: components['schemas']['DashboardVisualisationColumnsDefinition'],
 ): components['schemas']['DashboardVisualisationColumnDefinition'] | undefined => {
   const { measures, keys } = columns
 
-  const dateMeasure = getDateMeasure(measures)
-  const dateKey = getDateKey(keys)
+  const tsMeasure = getTimestampMeasure(measures)
+  const tsKey = getTimestampKey(keys)
 
-  return dateKey ?? dateMeasure
+  return tsKey ?? tsMeasure
 }
 
-export const getDateMeasure = (
+export const getTimestampMeasure = (
   measures: components['schemas']['DashboardVisualisationColumnDefinition'][],
 ): components['schemas']['DashboardVisualisationColumnDefinition'] | undefined => {
-  return measures.find(m => m.type === 'date')
+  return measures.find(m => m.type === 'timestamp')
 }
 
-export const getDateKey = (
+export const getTimestampKey = (
   keys: components['schemas']['DashboardVisualisationColumnDefinition'][] | undefined | null,
 ): components['schemas']['DashboardVisualisationColumnDefinition'] | undefined => {
-  return keys ? keys.find(m => m.type === 'date') : undefined
+  return keys ? keys.find(m => m.type === 'timestamp') : undefined
 }
 
 export default {
@@ -250,8 +250,8 @@ export default {
   groupRowsByKey,
   groupRowsBy,
   getGroupKey,
-  getDateMeasure,
-  getDateKey,
-  getDateColumn,
+  getTimestampMeasure,
+  getTimestampKey,
+  getTimestampColumn,
   getDateValue,
 }

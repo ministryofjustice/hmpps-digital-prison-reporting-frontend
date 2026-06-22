@@ -10,7 +10,7 @@ export const dataQualityMetricOneDoughnut: components['schemas']['DashboardVisua
       {
         id: 'ts',
         display: 'Date',
-        type: 'date',
+        type: 'timestamp',
       },
       {
         id: 'establishment_id',
@@ -46,7 +46,7 @@ export const dataQualityMetricThreeDoughnut: components['schemas']['DashboardVis
       {
         id: 'ts',
         display: 'Date',
-        type: 'date',
+        type: 'timestamp',
       },
       {
         id: 'establishment_id',
@@ -82,7 +82,7 @@ export const dataQualityMetricTwoDoughnut: components['schemas']['DashboardVisua
       {
         id: 'ts',
         display: 'Date',
-        type: 'date',
+        type: 'timestamp',
       },
       {
         id: 'establishment_id',
@@ -118,7 +118,7 @@ export const dataQualityMetricTwoMetricThreeDoughnut: components['schemas']['Das
       {
         id: 'ts',
         display: 'Date',
-        type: 'date',
+        type: 'timestamp',
       },
       {
         id: 'establishment_id',
@@ -163,7 +163,7 @@ export const dataQualityMetricOneDoughnutTwoEst: components['schemas']['Dashboar
       {
         id: 'ts',
         display: 'Date',
-        type: 'date',
+        type: 'timestamp',
       },
       {
         id: 'establishment_id',
@@ -203,7 +203,7 @@ export const dataQualityMetricThreeDoughnutTwoEst: components['schemas']['Dashbo
       {
         id: 'ts',
         display: 'Date',
-        type: 'date',
+        type: 'timestamp',
       },
       {
         id: 'establishment_id',
@@ -243,7 +243,7 @@ export const dataQualityMetricTwoDoughnutTwoEst: components['schemas']['Dashboar
       {
         id: 'ts',
         display: 'Date',
-        type: 'date',
+        type: 'timestamp',
       },
       {
         id: 'establishment_id',
@@ -284,7 +284,7 @@ export const dataQualityMetricTwoMetricThreeDoughnutTwoEst: components['schemas'
         {
           id: 'ts',
           display: 'Date',
-          type: 'date',
+          type: 'timestamp',
         },
         {
           id: 'establishment_id',
@@ -333,7 +333,7 @@ export const dataQualityMetricOneDoughnutAllEst: components['schemas']['Dashboar
       {
         id: 'ts',
         display: 'Date',
-        type: 'date',
+        type: 'timestamp',
       },
       {
         id: 'establishment_id',
@@ -363,7 +363,7 @@ export const dataQualityMetricThreeDoughnutAllEst: components['schemas']['Dashbo
       {
         id: 'ts',
         display: 'Date',
-        type: 'date',
+        type: 'timestamp',
       },
       {
         id: 'establishment_id',
@@ -393,7 +393,7 @@ export const dataQualityMetricTwoDoughnutAllEst: components['schemas']['Dashboar
       {
         id: 'ts',
         display: 'Date',
-        type: 'date',
+        type: 'timestamp',
       },
       {
         id: 'establishment_id',
@@ -424,7 +424,7 @@ export const dataQualityMetricTwoMetricThreeDoughnutAllEst: components['schemas'
         {
           id: 'ts',
           display: 'Date',
-          type: 'date',
+          type: 'timestamp',
         },
         {
           id: 'establishment_id',

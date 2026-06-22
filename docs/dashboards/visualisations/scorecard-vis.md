@@ -98,8 +98,8 @@ See [Custom buckets](/dashboards/visualisations/custom-buckets##custom-buckets) 
 # Data assumptions
 
 - To display trend data, a date column must be present in the **parent data**
-- Ensure that your measure includes a `type` of `date` when specifying a date measure.
-- The `ts` date format must be `YYYY-MM-DD`
+- Ensure that your measure includes a `type` of `timestamp` when specifying a timestamp measure.
+- The `timestamp` date format must be `YYYY-MM-DD`
 
 <hr class='dpr-docs-hr'/>
 

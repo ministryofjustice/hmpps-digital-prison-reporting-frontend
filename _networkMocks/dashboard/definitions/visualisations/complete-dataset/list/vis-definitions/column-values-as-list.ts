@@ -10,7 +10,7 @@ export const columnValuesAsList: components['schemas']['DashboardVisualisationDe
     keys: [
       {
         id: 'ts',
-        type: 'date',
+        type: 'timestamp',
       },
       {
         id: 'establishment_id',

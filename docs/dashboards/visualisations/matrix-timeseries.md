@@ -72,9 +72,9 @@ See [Custom buckets](/dashboards/visualisations/custom-buckets#custom-buckets) f
     ...
   }
   column: {
-    key: [{ id: 'ts' }],
+    key: [{ id: 'ts', type: 'timestamp' }],
     measure: [
-      { id: 'ts', type: 'date' , display: 'Date' },
+      { id: 'ts', type: 'timestamp', display: 'Date' },
       { id: 'id-of-count-column', display: 'Count column title' },
     ],
   }
@@ -93,8 +93,8 @@ See [Custom buckets](/dashboards/visualisations/custom-buckets##custom-buckets) 
 
 # Data assumptions
 
-- Ensure that your measure includes a `type` of `date` when specifying a date measure.
-- The `ts` date format must be `YYYY-MM-DD`
+- Ensure that your measure includes a `type` of `timestamp` when specifying a timestamp measure.
+- The `timestamp` date format must be `YYYY-MM-DD`
 
 <hr class='dpr-docs-hr'/>
 
@@ -162,7 +162,7 @@ In this example we will define a heatmap that:
       {
         id: 'ts',
         display: 'Date',
-        type: 'date',
+        type: 'timestamp',
       },
       {
         id: 'count',
@@ -225,7 +225,7 @@ In this example we will define a heatmap that:
       {
         id: 'ts',
         display: 'Date',
-        type: 'date',
+        type: 'timestamp',
       },
       {
         id: 'count',
@@ -295,7 +295,7 @@ In this example we will define a heatmap that:
       {
         id: 'ts',
         display: 'Date',
-        type: 'date',
+        type: 'timestamp',
       },
       {
         id: 'count',
@@ -362,7 +362,7 @@ In this example we will define a heatmap that:
       {
         id: 'ts',
         display: 'Date',
-        type: 'date',
+        type: 'timestamp',
       },
       {
         id: 'count',
@@ -437,7 +437,7 @@ In this example we will define a matrix chart that:
       {
         id: 'ts',
         display: 'Date',
-        type: 'date',
+        type: 'timestamp',
       },
       {
         id: 'count',
@@ -504,7 +504,7 @@ In this example we will define a matrix chart that:
       {
         id: 'ts',
         display: 'Date',
-        type: 'date',
+        type: 'timestamp',
       },
       {
         id: 'count',

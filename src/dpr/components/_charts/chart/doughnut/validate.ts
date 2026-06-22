@@ -9,6 +9,7 @@ const DounutMeasureSchema = z.object({
   id: z.string(),
   display: z.string().optional(),
   unit: z.enum(UnitType).optional(),
+  type: z.string().optional(),
 })
 
 const DonutOptions = z.object({

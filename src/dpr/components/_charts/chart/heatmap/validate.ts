@@ -9,6 +9,7 @@ import {
 const matrixKeys = z.object({
   id: z.string(),
   optional: z.boolean().default(false),
+  type: z.string().optional(),
 })
 
 const MatrixTimeseriesSchema = z.object({

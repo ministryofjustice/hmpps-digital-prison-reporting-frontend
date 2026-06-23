@@ -28,14 +28,10 @@ export const setupNestedRoute = (): RequestHandler => {
 
       logger.info(
         'Running nested-route middleware',
-        JSON.stringify(
-          {
-            routerBase: req.baseUrl,
-            mountPoint: req.originalUrl,
-          },
-          null,
-          2,
-        ),
+        JSON.stringify({
+          routerBase: req.baseUrl,
+          mountPoint: req.originalUrl,
+        }),
       )
 
       // CASE 3: baseUrl is NEW so apply nested version

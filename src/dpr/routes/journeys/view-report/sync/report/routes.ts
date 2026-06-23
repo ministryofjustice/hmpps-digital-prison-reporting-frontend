@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { Router } from 'express'
-import ViewSyncReportController from './controller'
+import { ViewSyncReportController } from './controller'
+import { ViewSyncController } from '../controller'
 import { Services } from '../../../../../types/Services'
 import { validateFilters } from '../../../../../validation/validateFilters'
 import { LoadType } from '../../../../../types/UserReports'
@@ -8,6 +9,7 @@ import { LoadType } from '../../../../../types/UserReports'
 export function routes({ layoutPath, services }: { layoutPath: string; services: Services }): Router {
   const router = Router({ mergeParams: true })
   const controller = new ViewSyncReportController(layoutPath, services)
+  const viewSyncController = new ViewSyncController(layoutPath, services)
 
   router.get([`/`, `/download-disabled`], controller.GET)
 
@@ -19,7 +21,7 @@ export function routes({ layoutPath, services }: { layoutPath: string; services:
     validateFilters({ interactive: true, loadType: LoadType.SYNC }),
     controller.applyFilters,
   )
-  router.post('/reset-filters', controller.resetFilters)
+  router.post('/reset-filters', viewSyncController.resetFilters)
 
   // ---------------------------
   // COLUMNS
@@ -30,8 +32,8 @@ export function routes({ layoutPath, services }: { layoutPath: string; services:
   // ----------------------------
   // User defined defaults
   // ----------------------------
-  router.post('/save-defaults', controller.saveDefaultFilterValues)
-  router.post('/remove-defaults', controller.removeDefaultFilterValues)
+  router.post('/save-defaults', viewSyncController.saveDefaultFilterValues)
+  router.post('/remove-defaults', viewSyncController.removeDefaultFilterValues)
 
   return router
 }

@@ -24,7 +24,7 @@ const ScorecardSchema = z.object({
   ...DashboardVisualisationSchema.shape,
   type: z.literal('scorecard'),
   display: z.string(),
-  description: z.undefined(),
+  description: z.string().optional(),
   options: z.object(BucketOptionsSchema.shape).optional(),
   columns: z.object({
     ...DashboardColumns.shape,

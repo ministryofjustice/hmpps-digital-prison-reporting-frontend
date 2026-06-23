@@ -1,11 +1,10 @@
 import { RequestHandler } from 'express'
 import { Services } from '../../../../../types/Services'
-import { renderReport } from './utils'
-import ViewReportUtils, { updateStateToExpiredAndRedirect } from '../../utils'
+import ViewReportUtils from '../../utils'
 import ErrorHandler from '../../../../../utils/ErrorHandler/ErrorHandler'
 import { LoadType } from '../../../../../types/UserReports'
 
-class ViewAyncReportController {
+export class ViewAsyncReportController {
   layoutPath: string
 
   services: Services
@@ -14,58 +13,45 @@ class ViewAyncReportController {
     this.layoutPath = layoutPath
     this.services = services
   }
+  //   try {
+  //     // Redirect the same path to attach query string
+  //     if (ViewReportUtils.redirectWithDefaults(res, req)) {
+  //       return
+  //     }
 
-  /**
-   * Renders the report
-   *
-   * - ensures first render includes correct query string
-   * - which ensures first load always get the correct data
-   *
-   * @param {*} req
-   * @param {*} res
-   * @param {*} next
-   * @return {*}
-   */
-  GET: RequestHandler = async (req, res, next) => {
-    try {
-      // Redirect the same path to attach query string
-      if (ViewReportUtils.redirectWithDefaults(res, req)) {
-        return
-      }
+  //     // Get the validation errors
+  //     const validationErrors = res.locals['validationErrors'] || []
 
-      // Get the validation errors
-      const validationErrors = res.locals['validationErrors'] || []
+  //     // get the report config
+  //     const reportData = await renderReport({
+  //       req,
+  //       res,
+  //       services: this.services,
+  //       next,
+  //     })
 
-      // get the report config
-      const reportData = await renderReport({
-        req,
-        res,
-        services: this.services,
-        next,
-      })
+  //     // If report is expired redirect the the polling page to show expired status
+  //     if (reportData.expired) {
+  //       await updateStateToExpiredAndRedirect(req, res, this.services)
+  //       return
+  //     }
 
-      // If report is expired redirect the the polling page to show expired status
-      if (reportData.expired) {
-        await updateStateToExpiredAndRedirect(req, res, this.services)
-        return
-      }
+  //     // Render the report
+  //     res.render(`dpr/routes/journeys/view-report/report`, {
+  //       layoutPath: this.layoutPath,
+  //       ...reportData,
+  //       validationErrors,
+  //     })
+  //   } catch (error) {
+  //     const dprError = new ErrorHandler(error).formatError()
 
-      // Render the report
-      res.render(`dpr/routes/journeys/view-report/report`, {
-        layoutPath: this.layoutPath,
-        ...reportData,
-        validationErrors,
-      })
-    } catch (error) {
-      const dprError = new ErrorHandler(error).formatError()
+  //     req.body ??= {}
+  //     req.body.title = `Failed to retrieve report`
+  //     req.body.error = dprError
 
-      req.body ??= {}
-      req.body.title = `Failed to retrieve report`
-      req.body.error = dprError
-
-      next(error)
-    }
-  }
+  //     next(error)
+  //   }
+  // }
 
   // -----------------------------
   //  Filters
@@ -74,25 +60,6 @@ class ViewAyncReportController {
   applyFilters: RequestHandler = async (req, res, _next) => {
     await ViewReportUtils.applyReportInteractiveQuery(req, res, this.services, 'filters', LoadType.ASYNC)
   }
-
-  resetFilters: RequestHandler = async (req, res, next) => {
-    try {
-      const { id, reportId, tableId } = req.params as { id: string; reportId: string; tableId: string }
-      const sessionKey = { id, reportId, tableId }
-      await ViewReportUtils.resetFilters(req, res, sessionKey)
-    } catch (error) {
-      req.body = {
-        title: 'Failed to reset filters',
-        error: new ErrorHandler(error).formatError(),
-        ...(req.body && { ...req.body }),
-      }
-      next(error)
-    }
-  }
-
-  // -----------------------------
-  //  Columns
-  // -----------------------------
 
   applyColumns: RequestHandler = async (req, res, _next) => {
     await ViewReportUtils.applyReportInteractiveQuery(req, res, this.services, 'columns', LoadType.ASYNC)
@@ -119,6 +86,3 @@ class ViewAyncReportController {
     }
   }
 }
-
-export { ViewAyncReportController }
-export default ViewAyncReportController

@@ -320,7 +320,7 @@ const createDefaultQueryString = (req: Request): string | undefined => {
  * @param {Request} req
  * @return {*}
  */
-const redirectWithDefaults = (res: Response, req: Request) => {
+export const redirectWithDefaults = (res: Response, req: Request) => {
   const finalQuery = createDefaultQueryString(req)
   if (finalQuery) {
     const baseUrl = req.originalUrl.split('?')[0].replace(/\/$/, '')

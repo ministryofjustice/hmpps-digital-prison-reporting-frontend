@@ -1,13 +1,11 @@
 import { RequestHandler } from 'express'
 import ErrorHandler from '../../../../../utils/ErrorHandler/ErrorHandler'
 import { Services } from '../../../../../types/Services'
-import { FiltersType } from '../../../../../components/_filters/filtersTypeEnum'
-import PersonalisationUtils from '../../../../../utils/Personalisation/personalisationUtils'
 import ViewReportUtils from '../../utils'
 import { LoadType } from '../../../../../types/UserReports'
 import { renderReport } from './utils'
 
-class ViewSyncReportController {
+export class ViewSyncReportController {
   layoutPath: string
 
   services: Services
@@ -45,58 +43,11 @@ class ViewSyncReportController {
   }
 
   // -----------------------------
-  //  Save Defaults
-  // -----------------------------
-
-  saveDefaultFilterValues: RequestHandler = async (req, res, next) => {
-    try {
-      PersonalisationUtils.saveDefaults(FiltersType.INTERACTIVE, res, req, this.services)
-      res.redirect(`${req.baseUrl}?defaultsSaved=true`)
-    } catch (error) {
-      req.body = {
-        title: 'Failed to save defaults',
-        error: new ErrorHandler(error).formatError(),
-        ...(req.body && { ...req.body }),
-      }
-      next(error)
-    }
-  }
-
-  removeDefaultFilterValues: RequestHandler = async (req, res, next) => {
-    try {
-      PersonalisationUtils.removeDefaults(FiltersType.INTERACTIVE, res, req, this.services)
-      res.redirect(req.baseUrl)
-    } catch (error) {
-      req.body = {
-        title: 'Failed to remove defaults',
-        error: new ErrorHandler(error).formatError(),
-        ...(req.body && { ...req.body }),
-      }
-      next(error)
-    }
-  }
-
-  // -----------------------------
   //  Filters
   // -----------------------------
 
   applyFilters: RequestHandler = async (req, res, _next) => {
     await ViewReportUtils.applyReportInteractiveQuery(req, res, this.services, 'filters', LoadType.SYNC)
-  }
-
-  resetFilters: RequestHandler = async (req, res, next) => {
-    try {
-      const { id, reportId } = req.params as { id: string; reportId: string }
-      const sessionKey = { id, reportId }
-      await ViewReportUtils.resetFilters(req, res, sessionKey)
-    } catch (error) {
-      req.body = {
-        title: 'Failed to reset filters',
-        error: new ErrorHandler(error).formatError(),
-        ...(req.body && { ...req.body }),
-      }
-      next(error)
-    }
   }
 
   // -----------------------------
@@ -128,6 +79,3 @@ class ViewSyncReportController {
     }
   }
 }
-
-export { ViewSyncReportController }
-export default ViewSyncReportController

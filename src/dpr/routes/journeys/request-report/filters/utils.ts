@@ -383,6 +383,7 @@ const renderReportRequestData = async (definition: components['schemas']['Single
  */
 export const redirectWithDefaults = (res: Response, req: Request) => {
   const effectiveQueryString = setDefaultQueryString(req)
+
   if (effectiveQueryString && Object.keys(req.query).length === 0) {
     const baseUrl = req.originalUrl.split('?')[0].replace(/\/$/, '')
     res.redirect(`${baseUrl}?${effectiveQueryString}`)

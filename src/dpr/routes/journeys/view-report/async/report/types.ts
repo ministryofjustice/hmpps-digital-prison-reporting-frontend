@@ -14,11 +14,13 @@ export interface ExtractedDefinitionData {
   reportName: string
   name: string
   description: string | undefined
-  classification: string | undefined
   printable: boolean
-  specification: components['schemas']['Specification']
-  template: string
   fields: components['schemas']['FieldDefinition'][]
+
+  // Report specfic
+  classification?: string | undefined
+  template?: string
+  specification?: components['schemas']['Specification']
 }
 
 export interface ExtractedRequestData {

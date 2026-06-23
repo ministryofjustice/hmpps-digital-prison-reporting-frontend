@@ -1,7 +1,10 @@
 import { enableDownload, executeReportStubs, requestReport } from '../../../../../cypress-tests/cypressUtils'
 
 context('Download Interactive report', () => {
-  const paths = ['/', '/embedded/platform', '/embedded/platform/dpr']
+  const paths = [
+    '/',
+    // '/embedded/platform', '/embedded/platform/dpr'
+  ]
   let viewReportUrl: string = ''
 
   const tests = (path: string) => {

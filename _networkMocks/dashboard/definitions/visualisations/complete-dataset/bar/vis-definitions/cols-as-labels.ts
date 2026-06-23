@@ -6,6 +6,7 @@ export const dataQualityMetricOneBar: components['schemas']['DashboardVisualisat
   id: 'bar-data-quality-has-MetricOne',
   type: DashboardVisualisationType.BAR,
   display: 'MetricOne values',
+  description: '',
   columns: {
     keys: [
       {
@@ -36,6 +37,7 @@ export const dataQualityMetricOneBarHorizontal: components['schemas']['Dashboard
   id: 'bar-data-quality-has-MetricOne-horizontal',
   type: DashboardVisualisationType.BAR,
   display: 'MetricOne values',
+  description: '',
   options: {
     horizontal: true,
   },
@@ -69,6 +71,7 @@ export const dataQualityMetricThreeBar: components['schemas']['DashboardVisualis
   id: 'bar-data-quality-has-MetricThree',
   type: DashboardVisualisationType.BAR,
   display: 'MetricThree values',
+  description: '',
   columns: {
     keys: [
       {
@@ -99,6 +102,7 @@ export const dataQualityMetricTwoBar: components['schemas']['DashboardVisualisat
   id: 'bar-data-quality-has-MetricTwo',
   type: DashboardVisualisationType.BAR,
   display: 'MetricTwo values',
+  description: '',
   columns: {
     keys: [
       {
@@ -129,6 +133,7 @@ export const dataQualityAllBar: components['schemas']['DashboardVisualisationDef
   id: 'bar-data-quality-all',
   type: DashboardVisualisationType.BAR,
   display: 'All metrics together',
+  description: '',
   options: {
     horizontal: false,
   },
@@ -178,6 +183,7 @@ export const dataQualityAllBarHorizontal: components['schemas']['DashboardVisual
   id: 'bar-data-quality-all-horizontal',
   type: DashboardVisualisationType.BAR,
   display: 'All metrics together',
+  description: '',
   options: {
     horizontal: true,
   },
@@ -227,6 +233,7 @@ export const dataQualityAllBarWithUnit: components['schemas']['DashboardVisualis
   id: 'bar-data-quality-all-with-unit',
   type: DashboardVisualisationType.BAR,
   display: 'All metrics together with unit',
+  description: '',
   options: {
     horizontal: false,
   },
@@ -282,6 +289,7 @@ export const dataQualityAllBarWithUnitHorizontal: components['schemas']['Dashboa
   id: 'bar-data-quality-all-with-unit-horizontal',
   type: DashboardVisualisationType.BAR,
   display: 'All metrics together horizontal with unit',
+  description: '',
   options: {
     horizontal: true,
   },

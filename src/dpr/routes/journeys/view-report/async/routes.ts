@@ -11,6 +11,7 @@ export function routes({ layoutPath, services }: { layoutPath: string; services:
 
   router.use('/report', viewReportRoutes({ layoutPath, services }))
   router.use('/dashboard', viewDashboardRoutes({ layoutPath, services }))
+
   return router
 }
 

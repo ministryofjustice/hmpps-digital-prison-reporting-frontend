@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## 6.9.0
+
+- Upgrade to MoJ Frontend v9 and Gov UK Frontend v6
+
 ## 6.8.3
 
 - Bugfix: Fix My reports validation - sortData undefined
@@ -11,10 +15,6 @@ Below you can find the changes included in each release.
 ## 6.8.1
 
 - Improvements to error logging output for dashboard validation
-
-## 6.8.0
-
-- Upgrade to MoJ Frontend v9 and Gov UK Frontend v6
 
 ## 6.8.0
 

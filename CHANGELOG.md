@@ -1,5 +1,13 @@
 Below you can find the changes included in each release.
 
+## 6.8.2
+
+- Bugfix: Fixed remove action on viewed reports
+
+## 6.8.1
+
+- Improvements to error logging output for dashboard validation
+
 ## 6.8.0
 
 - Dashboards visualisation definition: Removed constraint requiring dataset column id of `ts` for timeseries charts. Instead reads the `type` field on the Dashboards visualisation column definition to identify the ts column ID where the type is `timestamp`.

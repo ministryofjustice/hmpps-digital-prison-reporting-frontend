@@ -178,7 +178,7 @@ export const removeMyReport = async (
     return services.requestedReportService.removeReport(executionId, userId)
   }
 
-  if (tableId && reportId && id && type === 'recentlyViewedReports') {
+  if (type === 'recentlyViewedReports') {
     return services.recentlyViewedService.removeReport(userId, reportId, id, tableId)
   }
 

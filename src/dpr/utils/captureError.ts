@@ -1,12 +1,23 @@
 import { captureException } from '@sentry/node'
 import logger from './logger'
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const captureDprError = (error: any, message?: string | undefined, captureSentry = true) => {
-  // Log the error to our logs
-  logger.error(message, error)
+export enum LoggerErrorType {
+  INFO = 'info',
+  DEBUG = 'debug',
+  ERROR = 'error',
+  WARN = 'warn',
+}
 
-  if (captureSentry) {
+export const captureDprError = (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  error: any,
+  message?: string | undefined,
+  type: LoggerErrorType = LoggerErrorType.ERROR,
+) => {
+  // Log the error to our logs
+  logger[type](message, error)
+
+  if (type === LoggerErrorType.ERROR) {
     // Capture in sentry
     captureException(error)
   }

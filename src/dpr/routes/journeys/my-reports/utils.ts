@@ -1,6 +1,6 @@
 import { Services } from 'src/dpr/types/Services'
 import { RecentlyViewedReport, RequestedReport } from 'src/dpr/types/UserReports'
-import { captureDprError } from 'src/dpr/utils/captureError'
+import { captureDprError, LoggerErrorType } from 'src/dpr/utils/captureError'
 import { RequestedReportSchema } from './requested-reports/validation'
 import { ViewedReportSchema } from './recently-viewed/validation'
 
@@ -89,7 +89,7 @@ export const getAllMyReports = async (
         return result.data
       }
 
-      captureDprError(result.error, 'Invalid Redis payload (list)', false)
+      captureDprError(result.error, 'Invalid Redis payload (list)', LoggerErrorType.WARN)
 
       try {
         const report = rawReport as Partial<GetRemoveMyReportData>

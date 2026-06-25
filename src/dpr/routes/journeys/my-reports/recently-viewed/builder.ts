@@ -8,6 +8,7 @@ import {
 } from '../../../../types/UserReports'
 import { StoreItemBuilder, ReportData } from '../builder'
 import { RequestStatus } from '../../../../utils/ReportStatus/types'
+import { normalizeQueryStringArray } from '../../../../utils/queryMappers'
 
 export class ViewedReportBuilder extends StoreItemBuilder {
   filters!: ParamsConfig
@@ -108,9 +109,18 @@ export class ViewedReportBuilder extends StoreItemBuilder {
   }
 
   private buildInteractiveQuery = (): AsyncReportQueryData | undefined => {
-    if (!this.interactiveQuery.query || !this.interactiveQuery.querySummary) return undefined
+    if (!this.interactiveQuery.query || !this.interactiveQuery.querySummary) {
+      return undefined
+    }
 
-    const { query: data, querySummary: summary } = this.interactiveQuery
+    const { query, querySummary: summary } = this.interactiveQuery
+
+    const data = {
+      ...query,
+      ...(query['columns'] && {
+        columns: normalizeQueryStringArray(query['columns']),
+      }),
+    }
 
     return {
       data,

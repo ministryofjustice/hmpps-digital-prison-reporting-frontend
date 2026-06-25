@@ -36,7 +36,7 @@ const QuerySummaryItemSchema = z
   .catchall(z.unknown())
 
 const AsyncReportQueryDataSchema = z.object({
-  data: z.record(z.string(), z.union([z.string(), z.array(z.string())])),
+  data: z.record(z.string(), z.union([z.string(), z.array(z.string())])).default({}),
   summary: z.array(QuerySummaryItemSchema),
 })
 
@@ -62,7 +62,7 @@ const ChildReportExecutionDataSchema = z.object({
 })
 
 export const ParamsConfigSchema = z.object({
-  data: z.record(z.string(), z.string()),
+  data: z.record(z.string(), z.string()).default({}),
   queryString: z.string(),
 })
 

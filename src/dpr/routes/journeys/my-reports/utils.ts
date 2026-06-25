@@ -89,7 +89,7 @@ export const getAllMyReports = async (
         return result.data
       }
 
-      captureDprError(result.error, 'Invalid Redis payload (list)')
+      captureDprError(result.error, 'Invalid Redis payload (list)', false)
 
       try {
         const report = rawReport as Partial<GetRemoveMyReportData>

@@ -103,7 +103,12 @@ class RecentlyViewedStoreService extends ReportStoreService {
     await this.saveState(userId, updatedUserConfig)
   }
 
-  async removeReport(userId: string, reportId: string, id: string, tableId?: string | undefined) {
+  async removeReport(
+    userId: string,
+    reportId?: string | undefined,
+    id?: string | undefined,
+    tableId?: string | undefined,
+  ) {
     const userConfig = await this.getState(userId)
     const { recentlyViewedReports } = userConfig
 
@@ -111,7 +116,7 @@ class RecentlyViewedStoreService extends ReportStoreService {
     if (tableId) {
       // is an ASYNC report so can find it with the table ID
       index = this.findIndexByTableId(tableId, recentlyViewedReports)
-    } else {
+    } else if (id && reportId) {
       // is a SYNC report - so only accessible via an ID and report ID
       index = this.findIndexByReportAndVariantId(id, reportId, recentlyViewedReports)
     }

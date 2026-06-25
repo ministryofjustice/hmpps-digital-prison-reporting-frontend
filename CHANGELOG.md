@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## 6.8.3
+
+- Bugfix: Fix My reports validation - sortData undefined
+
 ## 6.8.2
 
 - Bugfix: Fixed remove action on viewed reports

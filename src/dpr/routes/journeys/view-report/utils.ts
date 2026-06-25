@@ -381,8 +381,6 @@ export const updateLastViewedAsync = async (
     querySummary: buildQuerySummary(filtersQuery, fields),
   }
 
-  console.log(JSON.stringify(interactiveQueryData, null, 2))
-
   const recentlyViewedReportData = new ViewedReportBuilder(req, res)
     .withReportData(reportData)
     .withExecutionData(executionData)

@@ -47,6 +47,7 @@ export const initMyReports = async (
     ...(bookmarkingEnabled && { bookmarks: await initBookmarks(res, services) }),
     requested: await initRequested(req, res, options),
     viewed: await initViewed(req, res, options),
+    subscriptions: await initSubscribed(req, res, options),
     removedReports: res.locals['removedReports'],
   }
 }
@@ -145,6 +146,22 @@ export const initViewed = async (req: Request, res: Response, options?: MyReport
     listType: ListType.VIEWED,
     csrfToken,
     headings: buildHeadings(ListType.VIEWED),
+    items,
+    totals,
+  }
+}
+
+export const initSubscribed = async (_req: Request, res: Response, options?: MyReportsOptions | undefined) => {
+  const { csrfToken } = LocalsHelper.getValues(res)
+  const totalItems = [] as DprMyReportItem[]
+  const totals = buildTotals(res, totalItems, ListType.SUBSCRIPTIONS, options)
+  const items = cutItemsToSize(totalItems, options)
+
+  return {
+    title: 'Subscriptions',
+    listType: ListType.SUBSCRIPTIONS,
+    csrfToken,
+    headings: buildHeadings(ListType.SUBSCRIPTIONS),
     items,
     totals,
   }
@@ -473,7 +490,7 @@ const ALL_HEADINGS: HeadingConfig[] = [
     key: 'title',
     name: 'Product',
     classes: 'dpr-my-reports__cell--title',
-    showIn: [ListType.BOOKMARKS, ListType.REQUESTED, ListType.VIEWED],
+    showIn: [ListType.BOOKMARKS, ListType.REQUESTED, ListType.VIEWED, ListType.SUBSCRIPTIONS],
   },
   {
     key: 'description',
@@ -491,13 +508,13 @@ const ALL_HEADINGS: HeadingConfig[] = [
     key: 'status',
     name: 'Status',
     classes: 'dpr-my-reports__cell--status',
-    showIn: [ListType.REQUESTED, ListType.VIEWED],
+    showIn: [ListType.REQUESTED, ListType.VIEWED, ListType.SUBSCRIPTIONS],
   },
   {
     key: 'actions',
     name: 'Actions',
     classes: 'dpr-my-reports__cell--actions',
-    showIn: [ListType.BOOKMARKS, ListType.REQUESTED, ListType.VIEWED],
+    showIn: [ListType.BOOKMARKS, ListType.REQUESTED, ListType.VIEWED, ListType.SUBSCRIPTIONS],
   },
 ]
 

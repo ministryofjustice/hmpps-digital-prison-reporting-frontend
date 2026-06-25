@@ -113,6 +113,7 @@ export enum ListType {
   REQUESTED = 'requested',
   BOOKMARKS = 'bookmarks',
   VIEWED = 'viewed',
+  SUBSCRIPTIONS = 'subscriptions',
 }
 
 // HEADINGS
@@ -129,6 +130,7 @@ export type HeadingConfig = {
 export type DprMyReport = {
   requested: DprMyReportListConfig
   viewed: DprMyReportListConfig
+  subscriptions: DprMyReportListConfig
   bookmarks?: DprMyReportListConfig | undefined
   removedReports: string | undefined
 }

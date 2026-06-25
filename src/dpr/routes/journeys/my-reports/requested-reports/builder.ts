@@ -47,7 +47,7 @@ export class RequestedReportBuilder extends StoreItemBuilder {
     const { sortData } = this.queryData
 
     return {
-      data: sortData,
+      data: sortData ?? {},
       queryString: new URLSearchParams(sortData).toString(),
     }
   }

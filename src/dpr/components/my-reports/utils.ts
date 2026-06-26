@@ -151,9 +151,9 @@ export const initViewed = async (req: Request, res: Response, options?: MyReport
   }
 }
 
-export const initSubscribed = async (_req: Request, res: Response, options?: MyReportsOptions | undefined) => {
+export const initSubscribed = async (req: Request, res: Response, options?: MyReportsOptions | undefined) => {
   const { csrfToken } = LocalsHelper.getValues(res)
-  const totalItems = [] as DprMyReportItem[]
+  const totalItems = await buildListItems(req, res, ListType.VIEWED)
   const totals = buildTotals(res, totalItems, ListType.SUBSCRIPTIONS, options)
   const items = cutItemsToSize(totalItems, options)
 
@@ -450,7 +450,7 @@ const buildBookmarkRemoveAction = (res: Response, data: MappedBookmarks): DprMyR
  * @return {*}  {(StoredReportData[] | undefined)}
  */
 const getDataForList = async (res: Response, listType: ListType): Promise<StoredReportData[] | undefined> => {
-  const { requestedReports, recentlyViewedReports } = LocalsHelper.getValues(res)
+  const { requestedReports, recentlyViewedReports, subscriptions } = LocalsHelper.getValues(res)
 
   switch (listType) {
     case ListType.REQUESTED:
@@ -458,6 +458,7 @@ const getDataForList = async (res: Response, listType: ListType): Promise<Stored
       return requestedReports.filter(report => {
         return report.timestamp ? !report.timestamp.lastViewed : false
       })
+
     case ListType.VIEWED:
       // Only show READY or EXPIRED reports
       return recentlyViewedReports.filter(report => {
@@ -466,6 +467,10 @@ const getDataForList = async (res: Response, listType: ListType): Promise<Stored
           Boolean(report.executionId?.length && report.status === RequestStatus.EXPIRED),
         )
       })
+
+    case ListType.SUBSCRIPTIONS:
+      return subscriptions
+
     default:
       return undefined
   }
@@ -490,13 +495,13 @@ const ALL_HEADINGS: HeadingConfig[] = [
     key: 'title',
     name: 'Product',
     classes: 'dpr-my-reports__cell--title',
-    showIn: [ListType.BOOKMARKS, ListType.REQUESTED, ListType.VIEWED, ListType.SUBSCRIPTIONS],
+    showIn: [ListType.BOOKMARKS, ListType.REQUESTED, ListType.VIEWED],
   },
   {
     key: 'description',
     name: 'Description',
     classes: 'dpr-my-reports__cell--description',
-    showIn: [ListType.BOOKMARKS],
+    showIn: [ListType.BOOKMARKS, ListType.SUBSCRIPTIONS],
   },
   {
     key: 'filters',
@@ -508,7 +513,7 @@ const ALL_HEADINGS: HeadingConfig[] = [
     key: 'status',
     name: 'Status',
     classes: 'dpr-my-reports__cell--status',
-    showIn: [ListType.REQUESTED, ListType.VIEWED, ListType.SUBSCRIPTIONS],
+    showIn: [ListType.REQUESTED, ListType.VIEWED],
   },
   {
     key: 'actions',

@@ -38,11 +38,13 @@ const setUserReports = (res: Response) => {
   const requestedReports: RequestedReport[] = res.locals['requestedReports'] || []
   const recentlyViewedReports: StoredReportData[] = res.locals['recentlyViewedReports'] || []
   const bookmarks: BookmarkStoreData[] = res.locals['bookmarks'] || []
+  const subscriptions: StoredReportData[] = res.locals['subscriptions'] || []
 
   return {
     requestedReports,
     recentlyViewedReports,
     bookmarks,
+    subscriptions,
   }
 }
 

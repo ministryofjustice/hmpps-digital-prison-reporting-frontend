@@ -8,18 +8,18 @@
 }
 
 .chart-colour__purple {
-  background-color: govuk-colour('bright-purple');
+  background-color: govuk-colour('magenta', $variant: 'shade-25');
 }
 
 .chart-colour__purple {
-  background-color: govuk-colour('bright-purple');
+  background-color: govuk-colour('magenta', $variant: 'shade-25');
 }
 
 .chart-colour__green {
   background-color: govuk-colour('green');
 }
 .chart-colour__dark_blue {
-  background-color: govuk-colour('dark-blue');
+  background-color: govuk-colour('blue', $variant: 'shade-50');
 }
 
 @for $i from 1 through 200 {

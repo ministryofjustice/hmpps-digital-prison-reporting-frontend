@@ -1,13 +1,13 @@
 .dpr-interactive-filters-section,
 .dpr-columns-section-wrapper {
-  border: solid 1px govuk-colour('mid-grey');
+  border: solid 1px govuk-colour('black', $variant: 'tint-80');
   margin-bottom: govuk-spacing(4);
 
   .dpr-interactive-filters-heading {
     padding: govuk-spacing(2);
     padding-left: govuk-spacing(4);
     padding-right: govuk-spacing(4);
-    border-bottom: solid 1px govuk-colour('mid-grey');
+    border-bottom: solid 1px govuk-colour('black', $variant: 'tint-80');
 
     p {
       margin-bottom: 0px;
@@ -23,8 +23,8 @@
     padding-top: govuk-spacing(3);
     padding-bottom: govuk-spacing(2);
     background-color: white;
-    border-top: solid 1px govuk-colour('mid-grey');
-    border-bottom: solid 1px govuk-colour('mid-grey');
+    border-top: solid 1px govuk-colour('black', $variant: 'tint-80');
+    border-bottom: solid 1px govuk-colour('black', $variant: 'tint-80');
   }
 
   .dpr-interactive-filters-accordion {
@@ -51,7 +51,7 @@
         }
 
         .dpr-filter-item {
-          border-bottom: 1px Solid govuk-colour('mid-grey');
+          border-bottom: 1px Solid govuk-colour('black', $variant: 'tint-80');
           padding-right: govuk-spacing(3);
 
           .govuk-form-group {

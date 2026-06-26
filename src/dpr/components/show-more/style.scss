@@ -24,11 +24,11 @@ ul.dpr-card-group__item__filters-list {
   }
 
   li.dpr-query-summary {
-    background-color: govuk-colour('light-grey');
+    background-color: govuk-colour('black', $variant: 'tint-95');
   }
 
   li.dpr-interactive-query-summary {
-    background-color: lighten(govuk-colour('light-blue'), 36%);
+    background-color: lighten(govuk-colour('blue', $variant: 'tint-25'), 36%);
   }
 
   li:last-child {

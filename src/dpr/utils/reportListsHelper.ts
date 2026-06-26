@@ -40,7 +40,7 @@ export const createListItemProduct = (productName: string, reportName: string, t
   <p class="govuk-body govuk-!-margin-bottom-1" aria-label="Report name ${reportName}"><strong>${reportName}</strong></p>
   <p class="govuk-body-s govuk-!-margin-bottom-3" aria-label="Product name ${productName}">${productName}</p>
   <strong class="govuk-tag ${tagColor} dpr-request-status-tag--small govuk-!-margin-bottom-4" aria-label="Report type ${reportType}">${reportType}</strong>
-  <p class="govuk-body-xs govuk-!-margin-bottom-0 govuk-!-margin-top-3 ${tsClass}" aria-label="Timestamp">${ts}</p>
+  <p class="govuk-body-s govuk-!-margin-bottom-0 govuk-!-margin-top-3 ${tsClass}" aria-label="Timestamp">${ts}</p>
 </div>`
 }
 

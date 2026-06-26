@@ -1,5 +1,18 @@
 Below you can find the changes included in each release.
 
+## 7.0.0
+
+### Upgrade to MoJ Frontend v9 and Gov UK Frontend v6
+
+**This is a major release and contains breaking changes.**
+
+Largely, this involves updating to the new GOV.UK responsive type scale and colours.
+
+For more information, the relevant release notes can be found here:
+
+- https://github.com/ministryofjustice/moj-frontend/releases/tag/v9.0.0
+- https://github.com/alphagov/govuk-frontend/releases/tag/v6.0.0
+
 ## 6.8.3
 
 - Bugfix: Fix My reports validation - sortData undefined

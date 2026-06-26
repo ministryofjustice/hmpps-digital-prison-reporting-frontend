@@ -1,6 +1,6 @@
 import { Services } from 'src/dpr/types/Services'
-import { RecentlyViewedReport, RequestedReport } from 'src/dpr/types/UserReports'
-import { captureDprError } from 'src/dpr/utils/captureError'
+import { RecentlyViewedReport, RequestedReport, StoredReportData } from 'src/dpr/types/UserReports'
+import { captureDprError, LoggerErrorType } from 'src/dpr/utils/captureError'
 import { RequestedReportSchema } from './requested-reports/validation'
 import { ViewedReportSchema } from './recently-viewed/validation'
 
@@ -42,7 +42,16 @@ export const getMyReport = async (
     try {
       await removeMyReport(type, reportData, services, userId)
     } catch (cleanupError) {
-      captureDprError(cleanupError, 'Failed to remove invalid report')
+      const meta = rawReport
+        ? {
+            id: rawReport.id ?? 'unknown',
+            reportId: rawReport.reportId ?? 'unknown',
+            tableId: rawReport.tableId ?? 'unknown',
+            executionId: rawReport.executionId ?? 'unknown',
+            loadType: rawReport.loadType as string,
+          }
+        : {}
+      captureDprError(cleanupError, 'Failed to remove invalid report', meta)
     }
 
     return undefined
@@ -68,7 +77,7 @@ export const getAllMyReports = async (
   const service = getService(type, services)
   const schema = getSchema(type)
 
-  const reports: unknown[] =
+  const reports: StoredReportData[] =
     type === 'requestedReports' ? await service.getAllReports(userId) : await service.getAllReports(userId)
 
   const results = await Promise.all(
@@ -79,7 +88,16 @@ export const getAllMyReports = async (
         return result.data
       }
 
-      captureDprError(result.error, 'Invalid Redis payload (list)')
+      const { id, reportName, reportId, loadType } = rawReport
+      const errorMeta = {
+        id,
+        type,
+        reportName,
+        reportId,
+        loadType: loadType as string,
+      }
+
+      captureDprError(result.error, 'Invalid Redis payload', errorMeta, LoggerErrorType.WARN)
 
       try {
         const report = rawReport as Partial<GetRemoveMyReportData>
@@ -96,7 +114,16 @@ export const getAllMyReports = async (
           userId,
         )
       } catch (cleanupError) {
-        captureDprError(cleanupError, 'Failed to remove invalid report (list)')
+        const meta = rawReport
+          ? {
+              id: rawReport.id ?? 'unknown',
+              reportId: rawReport.reportId ?? 'unknown',
+              tableId: rawReport.tableId ?? 'unknown',
+              executionId: rawReport.executionId ?? 'unknown',
+              loadType: rawReport.loadType as string,
+            }
+          : {}
+        captureDprError(cleanupError, 'Failed to remove invalid report (list)', meta)
       }
 
       return null

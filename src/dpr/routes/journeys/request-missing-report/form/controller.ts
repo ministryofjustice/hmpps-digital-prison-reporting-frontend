@@ -70,7 +70,7 @@ class MissingReportFormController {
             res.redirect(redirect)
           },
           err => {
-            captureDprError(err)
+            captureDprError(err, 'Submit missing report entry error', { reportId, variantId, requestDetails })
             next(err)
           },
         )

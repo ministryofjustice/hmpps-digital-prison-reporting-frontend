@@ -377,7 +377,7 @@ export const updateLastViewedAsync = async (
 
   const filtersQuery = extractFiltersFromQuery(req.query)
   const interactiveQueryData: { query: Record<string, string | string[]>; querySummary: QuerySummaryItem[] } = {
-    query: <Record<string, string>>req.query,
+    query: <Record<string, string | string[]>>req.query,
     querySummary: buildQuerySummary(filtersQuery, fields),
   }
 

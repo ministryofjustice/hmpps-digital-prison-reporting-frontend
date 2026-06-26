@@ -110,7 +110,7 @@ jobs:
 
       - name: Clone mi-ui
         run: |
-          git clone --branch DPR2-2871-moj-frontend-v9 --single-branch https://github.com/ministryofjustice/hmpps-digital-prison-reporting-mi-ui.git ../app
+          git clone https://github.com/ministryofjustice/hmpps-digital-prison-reporting-mi-ui.git ../app
 
       - name: mi-ui setup using this branch
         run: npm run setup

@@ -13,7 +13,7 @@
 
   td,
   th {
-    border-bottom: 1px solid $govuk-border-colour;
+    border-bottom: 1px solid govuk-functional-colour(border);
     padding: 5px;
     vertical-align: top;
   }

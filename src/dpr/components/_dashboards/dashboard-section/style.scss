@@ -1,6 +1,6 @@
 .dashboard-section-break {
   border: 0px;
-  border-bottom: 1px solid lighten(govuk-colour('mid-grey'), 15%);
+  border-bottom: 1px solid lighten(govuk-colour('black', $variant: 'tint-80'), 15%);
   margin-top: govuk-spacing(6);
   margin-bottom: govuk-spacing(6);
 }

@@ -1,11 +1,31 @@
-import { captureException } from '@sentry/node'
+import * as Sentry from '@sentry/node'
 import logger from './logger'
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const captureDprError = (error: any, message?: string | undefined) => {
-  // Log the error to our logs
-  logger.error(message, error)
+export enum LoggerErrorType {
+  INFO = 'info',
+  DEBUG = 'debug',
+  ERROR = 'error',
+  WARN = 'warn',
+}
 
-  // Capture in sentry
-  captureException(error)
+export const captureDprError = (
+  error: unknown,
+  message?: string | undefined,
+  meta: Record<string, string | string[]> = {},
+  type: LoggerErrorType = LoggerErrorType.ERROR,
+) => {
+  const stringMeta = Object.keys(meta).length > 0 ? JSON.stringify(meta) : ''
+
+  // Log the error to our logs
+  logger[type]([message, stringMeta].filter(Boolean).join(' '), error)
+
+  if (type === LoggerErrorType.ERROR) {
+    const extras = message ? { message, ...meta } : meta
+
+    // Capture in sentry
+    Sentry.withScope(scope => {
+      scope.setExtras(extras)
+      Sentry.captureException(error)
+    })
+  }
 }

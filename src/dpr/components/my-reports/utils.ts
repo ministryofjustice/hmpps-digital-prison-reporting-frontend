@@ -293,7 +293,11 @@ const mapBookmarks = async (
           loadType: resolved.loadType,
         }
       } catch (error) {
-        captureDprError(error, `Unable to get info for bookmark: ${bm.reportId} - ${bm.variantId || bm.id}`)
+        const meta = {
+          reportId: bm.reportId,
+          id: bm.variantId || bm.id,
+        }
+        captureDprError(error, `Unable to get info for bookmark`, meta)
 
         return null
       }

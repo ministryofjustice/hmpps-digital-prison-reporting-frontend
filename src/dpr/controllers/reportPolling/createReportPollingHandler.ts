@@ -1,6 +1,7 @@
 import { RequestHandler, Request, Response } from 'express'
 import { getMyReport } from 'src/dpr/routes/journeys/my-reports/utils'
 import { Services } from 'src/dpr/types/Services'
+import { RecentlyViewedReport, RequestedReport } from 'src/dpr/types/UserReports'
 import { captureDprError } from 'src/dpr/utils/captureError'
 import { getValues } from 'src/dpr/utils/localsHelper'
 import { evaluateAndUpdateReportStatus } from 'src/dpr/utils/ReportStatus/getReportStatus'
@@ -18,12 +19,14 @@ type RenderFn<T, R> = (
 export const createReportPollingHandler =
   <T, R>(services: Services, renderFn: RenderFn<T, R>): RequestHandler =>
   async (req, res, _next) => {
+    let requestedReport: RequestedReport | RecentlyViewedReport | undefined
+
     try {
       const { executionId } = req.params as { executionId: string }
 
       const { token, dprUser } = getValues(res)
 
-      const requestedReport = await getMyReport({ executionId }, 'requestedReports', services, dprUser.id)
+      requestedReport = await getMyReport({ executionId }, 'requestedReports', services, dprUser.id)
 
       if (!requestedReport) {
         return res.sendStatus(404)
@@ -47,7 +50,23 @@ export const createReportPollingHandler =
         return res.type('text/html').send(html)
       })
     } catch (error) {
-      captureDprError(error)
+      const message = 'Polling error'
+
+      const { executionId, reportId, id } = req.params as { executionId: string; reportId: string; id: string }
+      const meta = {
+        reportId,
+        id,
+        executionId,
+        ...(requestedReport
+          ? {
+              type: requestedReport.type,
+              reportName: requestedReport.reportName,
+              loadType: requestedReport.loadType as string,
+            }
+          : {}),
+      }
+
+      captureDprError(error, message, meta)
 
       return res.sendStatus(500)
     }

@@ -46,6 +46,7 @@ export type RemoveAction = {
   action: string
   csrfToken: string
   returnTo: string
+  text: string
 }
 
 export type LinkAction = {
@@ -113,11 +114,12 @@ export enum ListType {
   REQUESTED = 'requested',
   BOOKMARKS = 'bookmarks',
   VIEWED = 'viewed',
+  SUBSCRIPTIONS = 'subscriptions',
 }
 
 // HEADINGS
 
-type HeadingKey = 'title' | 'description' | 'filters' | 'status' | 'actions'
+type HeadingKey = 'title' | 'description' | 'filters' | 'status' | 'schedule' | 'actions'
 
 export type HeadingConfig = {
   key: HeadingKey
@@ -129,6 +131,7 @@ export type HeadingConfig = {
 export type DprMyReport = {
   requested: DprMyReportListConfig
   viewed: DprMyReportListConfig
+  subscriptions: DprMyReportListConfig
   bookmarks?: DprMyReportListConfig | undefined
   removedReports: string | undefined
 }

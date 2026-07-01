@@ -93,7 +93,7 @@ export default class Report extends DataPresentation {
 
     // Template & page furniture
     this.buildTable()
-    this.buildActions(ReportType.REPORT)
+    this.buildActions(ReportType.REPORT, this.reportDetails.schedule)
     this.buildPagination()
 
     return {
@@ -284,7 +284,7 @@ export default class Report extends DataPresentation {
    */
   buildReportDetails = () => {
     const { name: reportName, description: reportDescription } = this.definition
-    const { classification, printable, name, description } = this.variant
+    const { classification, printable, name, description, schedule } = this.variant
     const { template, fields } = this.specification
 
     this.reportDetails = {
@@ -296,6 +296,7 @@ export default class Report extends DataPresentation {
       template,
       specification: this.specification, // TODO: check if needed ???
       fields, // TODO: check if needed???
+      schedule,
     }
   }
 

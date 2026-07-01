@@ -14,20 +14,6 @@ class RecentlyViewedStoreService extends ReportStoreService {
     return userConfig.recentlyViewedReports
   }
 
-  async getAllReportsById(id: string, userId: string) {
-    const userConfig = await this.getState(userId)
-    return userConfig.recentlyViewedReports.filter(requested => {
-      return (requested.id && requested.id === id) || (requested.variantId && requested.variantId === id)
-    })
-  }
-
-  async getReportById(id: string, userId: string) {
-    const userConfig = await this.getState(userId)
-    return userConfig.recentlyViewedReports.find(viewed => {
-      return (viewed.id && viewed.id === id) || (viewed.variantId && viewed.variantId === id)
-    })
-  }
-
   async getReportByExecutionId(id: string, userId: string) {
     const userConfig = await this.getState(userId)
 
@@ -36,6 +22,7 @@ class RecentlyViewedStoreService extends ReportStoreService {
 
   async getReportByTableId(id: string, userId: string) {
     const userConfig = await this.getState(userId)
+
     return userConfig.recentlyViewedReports.find(report => report.tableId === id)
   }
 

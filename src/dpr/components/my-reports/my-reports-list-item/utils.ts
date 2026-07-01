@@ -32,12 +32,21 @@ export const buildMyReportListRow = (
   res: Response,
   listType: ListType,
 ) => {
+  if (listType !== ListType.SUBSCRIPTIONS) {
+    return {
+      title: buildTitleCell(data),
+      filters: buildFiltersCell(data),
+      status,
+      actions: buildActionsCell(data, res, req, listType),
+      meta: buildMeta(data, res, listType),
+    }
+  }
+
   return {
     title: buildTitleCell(data),
-    filters: buildFiltersCell(data),
-    status,
+    description: buildDescriptionCell(data),
+    schedule: buildScheduleCell(data),
     actions: buildActionsCell(data, res, req, listType),
-    meta: buildMeta(data, res, listType),
   }
 }
 
@@ -53,6 +62,18 @@ const buildTitleCell = (data: StoredReportData): DprMyReportTitle => {
     reportType: data.type,
     timestamp: buildTimestamp(data),
   }
+}
+
+const buildDescriptionCell = (data: StoredReportData) => {
+  const { description } = data
+
+  return description
+}
+
+const buildScheduleCell = (data: StoredReportData) => {
+  const { schedule } = data
+
+  return schedule
 }
 
 /**
@@ -205,25 +226,36 @@ const buildActionsCell = (
  */
 const buildRemoveAction = (data: StoredReportData, res: Response, req: Request, listType: ListType): RemoveAction => {
   const { reportId, id, executionId, tableId } = data
-  const { requestedListPath, recentlyViewedListPath } = getRouteLocals(res)
+  const { requestedListPath, recentlyViewedListPath, subscribePath } = getRouteLocals(res)
 
   let action = ''
+  let text = 'Remove'
 
   if (listType === ListType.REQUESTED) {
     // ASYNC report - only executionId is needed
     action = `${requestedListPath}/remove-item/${executionId}`
-  } else if (tableId && executionId) {
-    // ASYNC report - tableId and executionId needed
-    action = `${recentlyViewedListPath}/remove-item/${executionId}/table-id/${tableId}`
-  } else {
-    // SYNC report - reportId and Id needed
-    action = `${recentlyViewedListPath}/remove-item/report-id/${reportId}/id/${id}`
+  }
+
+  if (listType === ListType.VIEWED) {
+    if (tableId && executionId) {
+      // ASYNC report - tableId and executionId needed
+      action = `${recentlyViewedListPath}/remove-item/${executionId}/table-id/${tableId}`
+    } else {
+      // SYNC report - reportId and Id needed
+      action = `${recentlyViewedListPath}/remove-item/report-id/${reportId}/id/${id}`
+    }
+  }
+
+  if (listType === ListType.SUBSCRIPTIONS) {
+    action = `${subscribePath}/${reportId}/${id}/list-unsubscribe`
+    text = 'Unsubscribe'
   }
 
   return {
     action,
     csrfToken: res.locals.csrfToken,
     returnTo: req.originalUrl,
+    text,
   }
 }
 

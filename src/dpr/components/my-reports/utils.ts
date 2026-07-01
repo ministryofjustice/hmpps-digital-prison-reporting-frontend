@@ -47,6 +47,7 @@ export const initMyReports = async (
     ...(bookmarkingEnabled && { bookmarks: await initBookmarks(res, services) }),
     requested: await initRequested(req, res, options),
     viewed: await initViewed(req, res, options),
+    subscriptions: await initSubscribed(req, res, options),
     removedReports: res.locals['removedReports'],
   }
 }
@@ -145,6 +146,22 @@ export const initViewed = async (req: Request, res: Response, options?: MyReport
     listType: ListType.VIEWED,
     csrfToken,
     headings: buildHeadings(ListType.VIEWED),
+    items,
+    totals,
+  }
+}
+
+export const initSubscribed = async (req: Request, res: Response, options?: MyReportsOptions | undefined) => {
+  const { csrfToken } = LocalsHelper.getValues(res)
+  const totalItems = await buildListItems(req, res, ListType.SUBSCRIPTIONS)
+  const totals = buildTotals(res, totalItems, ListType.SUBSCRIPTIONS, options)
+  const items = cutItemsToSize(totalItems, options)
+
+  return {
+    title: 'Subscriptions',
+    listType: ListType.SUBSCRIPTIONS,
+    csrfToken,
+    headings: buildHeadings(ListType.SUBSCRIPTIONS),
     items,
     totals,
   }
@@ -437,7 +454,7 @@ const buildBookmarkRemoveAction = (res: Response, data: MappedBookmarks): DprMyR
  * @return {*}  {(StoredReportData[] | undefined)}
  */
 const getDataForList = async (res: Response, listType: ListType): Promise<StoredReportData[] | undefined> => {
-  const { requestedReports, recentlyViewedReports } = LocalsHelper.getValues(res)
+  const { requestedReports, recentlyViewedReports, subscriptions } = LocalsHelper.getValues(res)
 
   switch (listType) {
     case ListType.REQUESTED:
@@ -445,6 +462,7 @@ const getDataForList = async (res: Response, listType: ListType): Promise<Stored
       return requestedReports.filter(report => {
         return report.timestamp ? !report.timestamp.lastViewed : false
       })
+
     case ListType.VIEWED:
       // Only show READY or EXPIRED reports
       return recentlyViewedReports.filter(report => {
@@ -453,6 +471,10 @@ const getDataForList = async (res: Response, listType: ListType): Promise<Stored
           Boolean(report.executionId?.length && report.status === RequestStatus.EXPIRED),
         )
       })
+
+    case ListType.SUBSCRIPTIONS:
+      return subscriptions
+
     default:
       return undefined
   }
@@ -477,13 +499,13 @@ const ALL_HEADINGS: HeadingConfig[] = [
     key: 'title',
     name: 'Product',
     classes: 'dpr-my-reports__cell--title',
-    showIn: [ListType.BOOKMARKS, ListType.REQUESTED, ListType.VIEWED],
+    showIn: [ListType.BOOKMARKS, ListType.REQUESTED, ListType.VIEWED, ListType.SUBSCRIPTIONS],
   },
   {
     key: 'description',
     name: 'Description',
     classes: 'dpr-my-reports__cell--description',
-    showIn: [ListType.BOOKMARKS],
+    showIn: [ListType.BOOKMARKS, ListType.SUBSCRIPTIONS],
   },
   {
     key: 'filters',
@@ -498,10 +520,16 @@ const ALL_HEADINGS: HeadingConfig[] = [
     showIn: [ListType.REQUESTED, ListType.VIEWED],
   },
   {
+    key: 'schedule',
+    name: 'Schedule',
+    classes: 'dpr-my-reports__cell--status',
+    showIn: [ListType.SUBSCRIPTIONS],
+  },
+  {
     key: 'actions',
     name: 'Actions',
     classes: 'dpr-my-reports__cell--actions',
-    showIn: [ListType.BOOKMARKS, ListType.REQUESTED, ListType.VIEWED],
+    showIn: [ListType.BOOKMARKS, ListType.REQUESTED, ListType.VIEWED, ListType.SUBSCRIPTIONS],
   },
 ]
 

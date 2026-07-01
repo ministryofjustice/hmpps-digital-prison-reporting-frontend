@@ -294,6 +294,13 @@ const initialiseServices = async (services: Services, res: Response) => {
       logger.info(`Init service: bookmarkService: ${res.app.locals['bookmarkingEnabled']}`)
     }
 
+    // Subscriptions
+    if (!res.app.locals['subscriptionsEnabled']) {
+      res.app.locals['subscriptionsEnabled'] = services.subscriptionService.enabled
+
+      logger.info(`Init service: subscriptionService: ${res.app.locals['subscriptionsEnabled']}`)
+    }
+
     // Collections
     if (!res.app.locals['collectionsEnabled']) {
       res.app.locals['collectionsEnabled'] = services.productCollectionService.enabled
@@ -342,7 +349,11 @@ const populateRequestedReports = async (services: Services, res: Response, req: 
     )
 
     res.locals['requestedReports'] = requestedReports
+
     res.locals['recentlyViewedReports'] = recentlyViewedReports
+
+    res.locals['subscriptions'] = myReports.subscriptions
+
     if (res.app.locals['bookmarkingEnabled']) {
       res.locals['bookmarks'] = await getAllMyBookmarks(res, services, dprUser.id)
     }
@@ -368,6 +379,7 @@ const setUpDprPaths = (res: Response) => {
     bookmarkListPath: '/dpr/my-reports/bookmarks',
     requestedListPath: '/dpr/my-reports/requested-reports',
     recentlyViewedListPath: '/dpr/my-reports/recently-viewed',
+    subscribePath: '/dpr/my-reports/subscriptions',
     reportsCatalogue: '/dpr/report-catalogue',
     userReportsList: '/dpr/my-reports',
     requestReportPath: '/dpr/request-report',

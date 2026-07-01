@@ -58,6 +58,9 @@ const makeServices = (): Services =>
     bookmarkService: {
       isBookmarked: jest.fn(async () => true),
     },
+    subscriptionService: {
+      isSubscribed: jest.fn(async () => false),
+    },
     downloadPermissionService: {
       downloadEnabledForReport: jest.fn(async () => true),
     },

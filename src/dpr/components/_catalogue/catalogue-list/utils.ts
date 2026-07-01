@@ -35,7 +35,7 @@ export const getReportsList = async (
     let variantsArray: DefinitionData[] = []
     if (variants) {
       variantsArray = variants.map((variant: components['schemas']['VariantDefinitionSummary']) => {
-        const { id, name, description, isMissing, loadType } = variant
+        const { id, name, description, isMissing, loadType, scheduled } = variant
 
         return {
           ...productBase,
@@ -45,6 +45,7 @@ export const getReportsList = async (
           name,
           description: description || '',
           isMissing,
+          scheduled,
         }
       })
     }
@@ -80,8 +81,19 @@ export const getReportsList = async (
   const userConfig = await services.bookmarkService.getState(dprUser.id)
   const rows = await Promise.all(
     sortedVariants.map(async (v: DefinitionData) => {
-      const { id, name, description, reportName, reportId, reportDescription, type, loadType, authorised, isMissing } =
-        v
+      const {
+        id,
+        name,
+        description,
+        reportName,
+        reportId,
+        reportDescription,
+        type,
+        loadType,
+        authorised,
+        isMissing,
+        scheduled,
+      } = v
       const desc = description || reportDescription || ''
 
       const href = setInitialHref(loadType, type, reportId, id, res, isMissing)
@@ -103,9 +115,9 @@ export const getReportsList = async (
 
       return [
         { html: `<p class="govuk-body-s">${reportName}</p>` },
-        { html: createListItemProductMin(name, <ReportType>type) },
+        { html: createListItemProductMin(name, <ReportType>type, scheduled) },
         { html: ShowMoreUtils.createShowMoreHtml(desc) },
-        { html: createListActions(href, type, loadType, bookmarkHtml, authorised, isMissing) },
+        { html: createListActions(href, type, loadType, bookmarkHtml, authorised, isMissing, scheduled) },
       ]
     }),
   )

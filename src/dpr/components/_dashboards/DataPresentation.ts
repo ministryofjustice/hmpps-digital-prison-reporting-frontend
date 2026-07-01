@@ -1,6 +1,7 @@
 import { Request, Response } from 'express'
 
 // Types
+import { SubscriptionActionConfig } from 'src/dpr/types/AsyncReportUtils'
 import { components } from '../../types/api'
 import ReportQuery from '../../types/ReportQuery'
 import { Services } from '../../types/Services'
@@ -23,6 +24,7 @@ import ReportFiltersUtils from '../_filters/utils'
 import ReportActionsUtils from '../_reports/report-heading/report-actions/utils'
 import { setUpBookmark } from '../bookmark/utils'
 import { getDashboardFields, getFields } from '../../utils/definitionUtils'
+import { setupSubscriptionConfig } from '../subscription/utils'
 
 export default class DataPresentation {
   // Meta
@@ -60,6 +62,7 @@ export default class DataPresentation {
       linkText: string
       linkType: string
     }
+    subscriptionConfig: SubscriptionActionConfig | undefined
     feedbackFormHref: string | undefined
   }
 
@@ -185,12 +188,15 @@ export default class DataPresentation {
    * - bookmark config
    * - general actions
    */
-  buildActions = (type: ReportType) => {
+  buildActions = (type: ReportType, schedule?: string | undefined) => {
     const { tableId, reportId, id } = <{ id: string; tableId: string; reportId: string }>this.req.params
     this.extractedRequestData = this.requestData ? this.extractDataFromRequest(this.requestData) : undefined
 
     // Setup bookmark
     const bookmarkConfig = setUpBookmark(this.res, this.req, this.services.bookmarkService)
+
+    // Setup subscribe
+    const subscriptionConfig = setupSubscriptionConfig(this.req, this.res, schedule)
 
     // Setup download
     const downloadConfig = type === ReportType.REPORT ? setUpDownload(this.res, this.req) : undefined
@@ -206,6 +212,7 @@ export default class DataPresentation {
       actions,
       downloadConfig,
       bookmarkConfig,
+      subscriptionConfig,
       feedbackFormHref: feedbackSubmissionFormPath,
     }
   }

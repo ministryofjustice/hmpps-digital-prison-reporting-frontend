@@ -145,6 +145,23 @@ class ReportingService {
   ): Promise<components['schemas']['ResultTableExpiryState'][]> {
     return this.reportingClient.getTableExpiryState(token, tableIds)
   }
+
+  async subscribe(
+    token: string,
+    reportId: string,
+    id: string,
+    dataProductDefinitionsPath?: string | undefined,
+  ): Promise<{ tableId: string }> {
+    return this.reportingClient.subscribe(token, reportId, id, dataProductDefinitionsPath)
+  }
+
+  async unsubscribe(token: string, reportId: string, id: string, dataProductDefinitionsPath?: string | undefined) {
+    return this.reportingClient.unsubscribe(token, reportId, id, dataProductDefinitionsPath)
+  }
+
+  async subscriptionStatus(token: string, tableIds: string[]) {
+    return this.reportingClient.getSubscriptionStatuses(token, tableIds)
+  }
 }
 
 export { ReportingService }

@@ -44,13 +44,21 @@ export const createListItemProduct = (productName: string, reportName: string, t
 </div>`
 }
 
-export const createListItemProductMin = (reportName: string, type: ReportType) => {
+export const createListItemProductMin = (reportName: string, type: ReportType, scheduled?: boolean | undefined) => {
   const tagColor = getTypeTagColor(type)
   const reportType = toSentenceCase(type)
-  return `<div>
+
+  let heading = `<div>
   <p class="govuk-body-s govuk-!-margin-bottom-2"><strong>${reportName}</strong></p>
-  <strong class="govuk-tag ${tagColor} dpr-request-status-tag--small">${reportType}</strong>
-</div>`
+  <strong class="govuk-tag ${tagColor} dpr-request-status-tag--small">${reportType}</strong>`
+
+  if (scheduled) {
+    heading += `<br><br><strong class="govuk-tag govuk-tag--magenta dpr-request-status-tag--small">Scheduled: Weekly at 9.00am</strong></div>`
+  } else {
+    heading += `<div>`
+  }
+
+  return heading
 }
 
 export const createListActions = (
@@ -60,29 +68,34 @@ export const createListActions = (
   bookmarkHtml?: string,
   authorised = true,
   missing = false,
+  scheduled = false,
 ) => {
   if (!authorised) {
     return `<strong class="govuk-tag govuk-tag--red dpr-request-status-tag dpr-request-status-tag--small dpr-unauthorised-report" aria-label="You are unauthorised to view this report">Unauthorised</strong>`
   }
 
-  let requestAction
+  let actions = `<ul class="dpr-my-reports__actions-list">`
   let actionText
   if (missing) {
     actionText = `Request report`
-    requestAction = `<a class='govuk-link dpr-user-list-action govuk-link--no-visited-state govuk-!-margin-bottom-1' href="${href}">${actionText}</a>`
+    actions = `${actions} <li><a class='govuk-link dpr-user-list-action govuk-link--no-visited-state' href="${href}">${actionText}</a></li>`
   } else {
     actionText = `Request ${type}`
     if (loadType && loadType === LoadType.SYNC) {
       actionText = `Load ${type}`
     }
-    requestAction = `<a class='govuk-link dpr-user-list-action govuk-link--no-visited-state govuk-!-margin-bottom-1 dpr-live-report dpr-type__${type}' href="${href}">${actionText}</a>`
+    actions = `${actions} <li><a class='govuk-link dpr-user-list-action govuk-link--no-visited-state dpr-live-report dpr-type__${type}' href="${href}">${actionText}</a></li>`
   }
 
   if (bookmarkHtml) {
-    requestAction = `${requestAction}</br>${bookmarkHtml}`
+    actions = `${actions} <li>${bookmarkHtml}</li>`
   }
 
-  return requestAction
+  if (scheduled) {
+    actions = `${actions} <li><a class='govuk-link dpr-user-list-action govuk-link--no-visited-state' href="#">Subscribe</a></li>`
+  }
+
+  return `${actions} </ul>`
 }
 
 export const toSentenceCase = (text: string) => {

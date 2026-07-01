@@ -2,6 +2,7 @@
 import { Request, Response, NextFunction } from 'express'
 
 // Utils
+import { setupSubscriptionConfig } from 'src/dpr/components/subscription/utils'
 import { buildFilterData, buildSortData } from '../../../../components/_async/async-filters-form/utils'
 import LocalsHelper from '../../../../utils/localsHelper'
 import { getRequestFilters } from '../../../../components/_filters/utils'
@@ -264,13 +265,16 @@ export const renderRequest = async ({
       dprUser,
       saveDefaultsEnabled,
     } = LocalsHelper.getValues(res)
-    const { definition } = res.locals
+    const definition = res.locals['definition'] as
+      | components['schemas']['SingleVariantReportDefinition']
+      | components['schemas']['DashboardDefinition']
 
     let name: string = ''
     let reportName: string = ''
     let description: string = ''
     let fields: components['schemas']['FieldDefinition'][] = []
     let sections: components['schemas']['DashboardDefinition']['sections'] = []
+    let subscriptionConfig
 
     if (type === ReportType.REPORT) {
       const reportData = await renderReportRequestData(
@@ -281,6 +285,8 @@ export const renderRequest = async ({
       reportName = reportData.reportName
       description = reportData.description
       fields = reportData.fields
+
+      subscriptionConfig = setupSubscriptionConfig(req, res, reportData.schedule)
     }
 
     if (type === ReportType.DASHBOARD) {
@@ -323,6 +329,7 @@ export const renderRequest = async ({
       filtersDescription: `Customise your ${type} using the filters below and submit your request.`,
       filtersData,
       reportData,
+      subscriptionConfig,
     }
   } catch (error) {
     next(error)
@@ -364,13 +371,16 @@ const renderDashboardRequestData = async ({
 
 const renderReportRequestData = async (definition: components['schemas']['SingleVariantReportDefinition']) => {
   const fields = getFields(definition)
+  const { variant } = definition
+
   return {
     definition,
     reportName: definition.name,
-    name: definition.variant.name,
-    description: definition.variant.description || definition.description || '',
-    template: definition.variant.specification,
+    name: variant.name,
+    description: variant.description || definition.description || '',
+    template: variant.specification,
     fields,
+    schedule: variant.schedule,
   }
 }
 

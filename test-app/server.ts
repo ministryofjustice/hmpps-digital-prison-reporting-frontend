@@ -10,6 +10,7 @@ const app = createApp(
     collections: true,
     missingReports: true,
     feedbackOnDownload: true,
+    subscriptions: true,
   }),
 )
 

@@ -297,6 +297,50 @@ class ReportingClient {
       .then(response => <components['schemas']['ResultTableExpiryState'][]>response)
   }
 
+  // TODO: update with correct endpoint
+  subscribe(
+    token: string,
+    reportId: string,
+    id: string,
+    dataProductDefinitionsPath?: string | undefined,
+  ): Promise<{ tableId: string }> {
+    return this.restClient
+      .get({
+        path: `/reports/${reportId}/${id}/subscribe`,
+        token,
+        query: {
+          dataProductDefinitionsPath,
+        },
+      })
+      .then(response => <{ tableId: string }>response)
+  }
+
+  // TODO: update with correct endpoint
+  unsubscribe(token: string, reportId: string, id: string, dataProductDefinitionsPath?: string | undefined) {
+    return this.restClient
+      .delete({
+        path: `/reports/${reportId}/${id}/unsubscribe`,
+        token,
+        query: {
+          dataProductDefinitionsPath,
+        },
+      })
+      .then(response => response)
+  }
+
+  // TODO: update with correct endpoint
+  getSubscriptionStatuses(token: string, tableIds: string[]) {
+    return this.restClient
+      .post(
+        {
+          path: `/reports/subscriptionState`,
+          data: { tableIds },
+        },
+        token,
+      )
+      .then(response => <components['schemas']['ResultTableExpiryState'][]>response)
+  }
+
   logInfo(title: string, args?: Dict<string>) {
     const query = args && Object.keys(args).length ? JSON.stringify(args) : ''
     const message = `Reporting Client: ${title}: ${query}`

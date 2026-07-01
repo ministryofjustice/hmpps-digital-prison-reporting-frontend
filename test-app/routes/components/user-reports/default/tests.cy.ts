@@ -38,6 +38,7 @@ context('User reports component', () => {
         bookmarks: [],
         recentlyViewedReports: [],
         requestedReports: [requestedReady, requestedAborted, requestedExpired, requestedFailed, requestedSubmitted],
+        subscriptions: [],
       })
       cy.visit(path)
       cy.findByRole('tab', { name: /Requested/ }).click()
@@ -88,6 +89,7 @@ context('User reports component', () => {
         bookmarks: [],
         defaultFilters: [],
         downloadPermissions: [],
+        subscriptions: [],
         recentlyViewedReports: [
           viewedReady,
           viewedDashboard,
@@ -150,6 +152,7 @@ context('User reports component', () => {
         ],
         defaultFilters: [],
         downloadPermissions: [],
+        subscriptions: [],
         recentlyViewedReports: [
           viewedReady,
           viewedDashboard,

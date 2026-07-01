@@ -14,6 +14,7 @@ export interface StoredReportData {
   variantName?: string | undefined
   name: string
   description: string
+  schedule?: string | undefined
   status?: RequestStatus | undefined
   timestamp: AsyncReportsTimestamp
   dataProductDefinitionsPath?: string | undefined
@@ -37,7 +38,13 @@ export interface RequestedDashboard extends StoredReportData {
 }
 
 export type RecentlyViewedReport = StoredReportData
-export type UserReportData = RequestedReport | RecentlyViewedReport | StoredReportData | RequestedDashboard
+export type SubscribedReport = StoredReportData
+export type UserReportData =
+  | RequestedReport
+  | RecentlyViewedReport
+  | StoredReportData
+  | RequestedDashboard
+  | SubscribedReport
 
 export interface AsyncReportUrlData {
   origin: string
@@ -158,6 +165,7 @@ export interface RequestFormData {
   variantId?: string
   template?: string
   metrics?: { name: string }[]
+  schedule?: string | undefined
 }
 
 export enum LoadType {
@@ -177,4 +185,5 @@ export interface DefinitionData {
   loadType: LoadType
   authorised: boolean
   isMissing?: boolean
+  scheduled?: boolean | undefined
 }

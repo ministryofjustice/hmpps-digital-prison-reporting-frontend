@@ -29,6 +29,7 @@ const setFeatures = (res: Response) => {
     bookmarkingEnabled: <boolean>res.app.locals['bookmarkingEnabled'],
     downloadingEnabled: <boolean>res.app.locals['downloadingEnabled'],
     saveDefaultsEnabled: <boolean>res.app.locals['saveDefaultsEnabled'],
+    subscriptionsEnabled: <boolean>res.app.locals['subscriptionsEnabled'],
     requestMissingEnabled: <boolean>res.app.locals['requestMissingEnabled'],
     collectionsEnabled: <boolean>res.app.locals['collectionsEnabled'],
   }
@@ -91,6 +92,7 @@ export const setDdpPathToReqQuery = (req: Request, value: string) => {
 export interface DprAppLocals {
   nestedBaseUrl?: string | undefined
   bookmarkActionEndpoint: string
+  subscribePath: string
   downloadActionEndpoint: string
   productCollectionEndpoint: string
   bookmarkListPath: string

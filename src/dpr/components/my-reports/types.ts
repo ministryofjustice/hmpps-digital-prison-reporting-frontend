@@ -46,6 +46,7 @@ export type RemoveAction = {
   action: string
   csrfToken: string
   returnTo: string
+  text: string
 }
 
 export type LinkAction = {
@@ -118,7 +119,7 @@ export enum ListType {
 
 // HEADINGS
 
-type HeadingKey = 'title' | 'description' | 'filters' | 'status' | 'actions'
+type HeadingKey = 'title' | 'description' | 'filters' | 'status' | 'schedule' | 'actions'
 
 export type HeadingConfig = {
   key: HeadingKey

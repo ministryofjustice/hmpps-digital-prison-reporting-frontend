@@ -3,7 +3,6 @@
 
 {% macro dprMyReportsListHelp(type) %}
 
-
   {% set mainBookmarkHelpHtml %}
     <p class="govuk-body">Bookmarking allows you curate a list of your most used reports for easy access.</p>
     <p class="govuk-body">
@@ -19,6 +18,11 @@
 
   {% set mainViewedHelpHtml %}
     <p class="govuk-body">List of reports that have been recently viewed</p>
+  {% endset -%}
+
+
+  {% set mainSubsHelpHtml %}
+    <p class="govuk-body">List of your report subscriptions</p>
   {% endset -%}
 
 
@@ -115,6 +119,17 @@
     </ul>
   {% endset -%}
 
+  {% set actionsSubsHelpHtml %}
+    <h3 class="govuk-heading-s govuk-!-margin-bottom-1">Actions:</h3>
+    <p class="govuk-body">The actions available for the report</p>
+    <ul>
+      <li class="govuk-!-margin-bottom-1"><strong>Go to report/dashboard:</strong> View the report/dashboard</li>
+      <li class="govuk-!-margin-bottom-1">
+        <strong>Unsubscribe:</strong> Unsubscribes from the report/dashboard and removes from the list
+      </li>
+    </ul>
+  {% endset -%}
+
 
   {% set descriptionHelpHtml %}
     <h3 class="govuk-heading-s govuk-!-margin-bottom-1">Description:</h3>
@@ -163,6 +178,16 @@
       {{ filtersViewedHelpHtml | safe }}
       {{ statusViewedHelpHtml | safe }}
       {{ actionsViewedHelpHtml | safe }}
+    {% endset -%}
+  {% endif %}
+
+  {% if type === 'subscriptions' %}
+    {% set helpHtml %}
+      {{ mainSubsHelpHtml | safe }}
+      <h3>Table details</h3>
+      {{ productHelpHtml | safe }}
+      {{ descriptionHelpHtml | safe }}
+      {{ actionsSubsHelpHtml | safe }}
     {% endset -%}
   {% endif %}
 

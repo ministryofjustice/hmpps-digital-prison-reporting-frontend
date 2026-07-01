@@ -1,3 +1,9 @@
+.dpr-my-reports__item-title {
+  position: relative;
+  width: 100%;
+  padding-bottom: govuk-spacing(4);
+}
+
 .dpr-my-reports__item-title--report-name,
 .dpr-my-reports__item-title--product-name {
   margin-top: 0px;
@@ -16,6 +22,8 @@
 .dpr-my-reports__item-title--ts {
   margin-top: auto;
   margin-bottom: 0px;
+  position: absolute;
+  bottom: 0px;
 }
 
 .dpr-my-reports__item-title--report-type {

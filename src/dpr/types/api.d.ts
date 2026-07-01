@@ -556,6 +556,7 @@ export interface components {
       isMissing: boolean
       /** @enum {string|null} */
       loadType?: 'sync' | 'async' | null
+      scheduled?: boolean | undefined
     }
     ChildVariantDefinition: {
       id: string
@@ -690,6 +691,7 @@ export interface components {
       summaries?: components['schemas']['ReportSummary'][] | null
       interactive?: boolean | null
       childVariants?: components['schemas']['ChildVariantDefinition'][] | null
+      schedule?: string | undefined
     }
     DashboardBucketDefinition: {
       /** Format: int64 */

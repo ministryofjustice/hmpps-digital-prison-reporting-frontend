@@ -3,6 +3,7 @@
 {% from "./report-columns/view.njk" import dprReportColumns %}
 {% from "./report-filters/view.njk" import dprReportFilters %}
 {% from "../../bookmark/view.njk" import dprBookmarkButton %}
+{% from "../../subscription/subscription-toggle/view.njk" import dprSubscriptionToggle %}
 {% from "../../_async/request-details/view.njk" import dprRequestDetails %}
 {% from "govuk/components/details/macro.njk" import govukDetails %}
 
@@ -21,6 +22,7 @@
   {% set csrfToken = reportData.csrfToken %}
   {% set bookmarkConfig = reportData.bookmarkConfig %}
   {% set downloadConfig = reportData.downloadConfig %}
+  {% set subscriptionConfig = reportData.subscriptionConfig %}
   {% set appliedFilters = reportData.appliedFilters %}
   {% set saveDefaultsEnabled = reportData.saveDefaultsEnabled %}
   {% set hasDefaults = reportData.hasDefaults %}
@@ -35,6 +37,10 @@
         {% if bookmarkConfig.showBookmark %}
           {% set id = reportData.id %}
           {{ dprBookmarkButton(reportId, id, type, csrfToken, bookmarkConfig) }}
+        {% endif %}
+
+        {% if subscriptionConfig.subscriptionsEnabled %}
+          {{ dprSubscriptionToggle(subscriptionConfig, reportData) }}
         {% endif %}
       </div>
     {% endif %}

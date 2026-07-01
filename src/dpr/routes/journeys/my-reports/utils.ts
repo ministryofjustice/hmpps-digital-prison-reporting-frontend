@@ -77,8 +77,7 @@ export const getAllMyReports = async (
   const service = getService(type, services)
   const schema = getSchema(type)
 
-  const reports: StoredReportData[] =
-    type === 'requestedReports' ? await service.getAllReports(userId) : await service.getAllReports(userId)
+  const reports: StoredReportData[] = await service.getAllReports(userId)
 
   const results = await Promise.all(
     reports.map(async rawReport => {
@@ -170,8 +169,7 @@ export const addMyReport = async (
       break
 
     case 'subscriptions':
-      // TODO: update service
-      await services.recentlyViewedService.setRecentlyViewed(result.data, userId)
+      await services.subscriptionService.addReport(userId, result.data)
       break
 
     default:
@@ -204,9 +202,8 @@ export const removeMyReport = async (
     return services.recentlyViewedService.removeReport(userId, reportId, id, tableId)
   }
 
-  if (type === 'subscriptions') {
-    // TODO: update service
-    return services.recentlyViewedService.removeReport(userId, reportId, id, tableId)
+  if (type === 'subscriptions' && reportId && id) {
+    return services.subscriptionService.removeReport(userId, reportId, id)
   }
 
   return undefined
@@ -256,8 +253,7 @@ const getService = (type: 'requestedReports' | 'recentlyViewedReports' | 'subscr
   const serviceMap = {
     requestedReports: services.requestedReportService,
     recentlyViewedReports: services.recentlyViewedService,
-    // TODO: update service
-    subscriptions: services.recentlyViewedService,
+    subscriptions: services.subscriptionService,
   } as const
 
   return serviceMap[type]

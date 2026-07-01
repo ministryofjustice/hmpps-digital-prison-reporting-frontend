@@ -11,6 +11,7 @@ import ReportingService from '../services/reportingService'
 import DashboardService from '../services/dashboardService'
 import { ProductCollectionService } from '../services/productCollection/productCollectionService'
 import { FeatureFlagService } from '../services/featureFlagService'
+import SubscriptionService from '../routes/journeys/my-reports/subscriptions/service'
 
 export type Services = UserStoreServices & {
   reportingService: ReportingService
@@ -24,6 +25,7 @@ export interface UserStoreServices {
   downloadPermissionService: DownloadPermissionService
   requestedReportService: RequestedReportService
   recentlyViewedService: RecentlyViewedStoreService
+  subscriptionService: SubscriptionService
   bookmarkService: BookmarkService
   defaultFilterValuesService: DefaultFilterValuesService
   productCollectionStoreService: ProductCollectionStoreService

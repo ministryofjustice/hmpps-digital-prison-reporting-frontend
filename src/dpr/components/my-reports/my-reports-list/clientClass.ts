@@ -194,6 +194,8 @@ class DprMyReports extends PollingClientClass {
       label = 'Requested'
     } else if (this.listType === `my-reports-${ListType.VIEWED}`) {
       label = 'Viewed'
+    } else if (this.listType === `my-reports-${ListType.SUBSCRIPTIONS}`) {
+      label = 'Subscriptions'
     }
 
     const tabs = document.querySelectorAll<HTMLAnchorElement>('.govuk-tabs__tab')

@@ -153,7 +153,7 @@ export const initViewed = async (req: Request, res: Response, options?: MyReport
 
 export const initSubscribed = async (req: Request, res: Response, options?: MyReportsOptions | undefined) => {
   const { csrfToken } = LocalsHelper.getValues(res)
-  const totalItems = await buildListItems(req, res, ListType.VIEWED)
+  const totalItems = await buildListItems(req, res, ListType.SUBSCRIPTIONS)
   const totals = buildTotals(res, totalItems, ListType.SUBSCRIPTIONS, options)
   const items = cutItemsToSize(totalItems, options)
 
@@ -499,7 +499,7 @@ const ALL_HEADINGS: HeadingConfig[] = [
     key: 'title',
     name: 'Product',
     classes: 'dpr-my-reports__cell--title',
-    showIn: [ListType.BOOKMARKS, ListType.REQUESTED, ListType.VIEWED],
+    showIn: [ListType.BOOKMARKS, ListType.REQUESTED, ListType.VIEWED, ListType.SUBSCRIPTIONS],
   },
   {
     key: 'description',
@@ -518,6 +518,12 @@ const ALL_HEADINGS: HeadingConfig[] = [
     name: 'Status',
     classes: 'dpr-my-reports__cell--status',
     showIn: [ListType.REQUESTED, ListType.VIEWED],
+  },
+  {
+    key: 'schedule',
+    name: 'Schedule',
+    classes: 'dpr-my-reports__cell--status',
+    showIn: [ListType.SUBSCRIPTIONS],
   },
   {
     key: 'actions',

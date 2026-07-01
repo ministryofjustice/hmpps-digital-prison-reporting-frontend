@@ -20,6 +20,7 @@ import { ProductCollectionStoreService } from '../services/productCollection/pro
 import { ProductCollectionService } from '../services/productCollection/productCollectionService'
 import { ServiceFeatureConfig } from '../types/DprConfig'
 import { FeatureFlagService } from '../services/featureFlagService'
+import SubscriptionService from '../routes/journeys/my-reports/subscriptions/service'
 
 export interface InitDPRServicesArgs {
   reportingClient: ReportingClient
@@ -38,6 +39,7 @@ export interface dprServices {
   missingReportService: MissingReportService
   recentlyViewedService: RecentlyViewedStoreService
   bookmarkService: BookmarkService
+  subscriptionService: SubscriptionService
   downloadPermissionService: DownloadPermissionService
   defaultFilterValuesService: DefaultFilterValuesService
   productCollectionStoreService: ProductCollectionStoreService
@@ -53,6 +55,7 @@ export const createDprServices = (
     missingReports: false,
     saveDefaults: false,
     feedbackOnDownload: false,
+    subscriptions: false,
   },
 ): Services => {
   logger.info('Initialising DPR services...')
@@ -65,6 +68,7 @@ export const createDprServices = (
     requestedReportService: new RequestedReportService(reportDataStore),
     recentlyViewedService: new RecentlyViewedStoreService(reportDataStore),
     bookmarkService: new BookmarkService(reportDataStore, serviceFeatureConfig),
+    subscriptionService: new SubscriptionService(reportDataStore, serviceFeatureConfig),
 
     defaultFilterValuesService: new DefaultFilterValuesService(reportDataStore, serviceFeatureConfig),
     productCollectionStoreService: new ProductCollectionStoreService(reportDataStore, serviceFeatureConfig),

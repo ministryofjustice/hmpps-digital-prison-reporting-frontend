@@ -47,6 +47,7 @@ const baseplateStore: ReportStoreConfig = {
   requestedReports: [],
   recentlyViewedReports: [],
   bookmarks: [],
+  subscriptions: [],
   downloadPermissions: [],
   defaultFilters: [],
 }

@@ -5,5 +5,30 @@ export interface ExecutionData {
 }
 
 export interface ChildReportExecutionData extends ExecutionData {
-  variantId: string
+  variantId?: string
+  datasetId?: string
 }
+
+// {
+//   reportId: 'REportID',
+//   variantId: 'MultipleDatasetId'
+//   tableId: 'abc'
+//   childExecutionData: [
+//     {
+//       datasetId: 'D1',
+//       tableID: 'def',
+//     },
+//     {
+//       datasetId: 'D2',
+//       tableID: 'def',
+//     },
+//     {
+//       datasetId: 'D2',
+//       tableID: 'fgh',
+//     },
+//   ]
+// }
+
+// {
+//   dataset: 'D1'
+// }

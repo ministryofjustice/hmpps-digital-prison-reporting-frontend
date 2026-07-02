@@ -62,19 +62,21 @@ const getSubscriptions = async (res: Response, services: Services, dprUserId: st
   const { definitions, definitionsPath, token, dprUser } = res.locals
   let subscriptions = await MyReportsUtils.getAllMyReports('subscriptions', services, dprUserId)
 
-  subscriptions = !definitionsPath
-    ? subscriptions
-    : subscriptions.filter((report: RequestedReport) => {
-        return getCurrentVariantDefinition(definitions, report.reportId, report.id)
-      })
+  if (subscriptions.length) {
+    subscriptions = !definitionsPath
+      ? subscriptions
+      : subscriptions.filter((report: RequestedReport) => {
+          return getCurrentVariantDefinition(definitions, report.reportId, report.id)
+        })
 
-  const subsTableIds = subscriptions
-    .map(sub => sub.tableId)
-    .filter((tableId): tableId is string => tableId !== undefined)
+    const subsTableIds = subscriptions
+      .map(sub => sub.tableId)
+      .filter((tableId): tableId is string => tableId !== undefined)
 
-  const timestampData = await services.reportingService.getDatasetTimestamps(token, subsTableIds)
+    const timestampData = await services.reportingService.getDatasetTimestamps(token, subsTableIds)
 
-  subscriptions = await services.subscriptionService.updateTimestamps(timestampData, dprUser.id)
+    subscriptions = await services.subscriptionService.updateTimestamps(timestampData, dprUser.id)
+  }
 
   return subscriptions
 }

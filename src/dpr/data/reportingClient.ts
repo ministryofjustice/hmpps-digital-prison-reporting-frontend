@@ -334,13 +334,13 @@ class ReportingClient {
     tableIds: string[],
   ): Promise<{ tableId: string; createdAt: string; addedAt: string }[]> {
     return this.restClient
-      .post(
-        {
-          path: `/reports/timestamps`,
-          data: { tableIds },
-        },
+      .get({
+        path: `/reports/timestamps`,
         token,
-      )
+        query: {
+          tableIds,
+        },
+      })
       .then(response => <{ tableId: string; createdAt: string; addedAt: string }[]>response)
   }
 

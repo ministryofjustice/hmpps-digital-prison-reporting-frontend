@@ -48,7 +48,14 @@ class RequestStatusController {
       })
     } catch (error) {
       const message = 'Failed to retrieve report status'
-      captureDprError(error, message)
+
+      const { reportId, executionId, id, type } = req.params as {
+        reportId: string
+        executionId: string
+        id: string
+        type: string
+      }
+      captureDprError(error, message, { reportId, executionId, id, type })
 
       req.body ??= {}
       req.body.title = message

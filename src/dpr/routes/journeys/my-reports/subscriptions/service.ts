@@ -70,6 +70,23 @@ class SubscriptionService extends ReportStoreService {
 
     return index > -1 ? userConfig.subscriptions[index] : undefined
   }
+
+  async updateRefreshedTimestamp(refreshed: Date, reportId: string, id: string, userId: string) {
+    const userConfig = await this.getState(userId)
+    const { subscriptions } = userConfig
+
+    const index = this.findIndexByReportAndVariantId(id, reportId, subscriptions)
+    if (index > 0) {
+      const { refresh } = subscriptions[index].timestamp
+      if (refreshed !== refresh) {
+        subscriptions[index].timestamp.refresh = refreshed
+
+        userConfig.subscriptions = subscriptions
+
+        this.saveState(userId, userConfig)
+      }
+    }
+  }
 }
 
 export { SubscriptionService }

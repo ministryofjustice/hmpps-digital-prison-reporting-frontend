@@ -1,3 +1,4 @@
+import { ReportStoreConfig } from 'src/dpr/types/ReportStore'
 import ReportStoreService from '../../../../services/reportStoreService'
 import UserDataStore from '../../../../data/reportDataStore'
 import { StoredReportData, SubscribedReport } from '../../../../types/UserReports'
@@ -14,34 +15,45 @@ class SubscriptionService extends ReportStoreService {
     if (!this.enabled) logger.info(`Subsriptions: disabled `)
   }
 
+  private getSubscriptionsState(userConfig: ReportStoreConfig) {
+    return userConfig.subscriptions ?? []
+  }
+
   async getAllReports(userId: string): Promise<SubscribedReport[]> {
     const userConfig = await this.getState(userId)
-    return userConfig.subscriptions
+    return this.getSubscriptionsState(userConfig)
   }
 
   async getReportByExecutionId(id: string, userId: string) {
     const userConfig = await this.getState(userId)
 
-    return userConfig.subscriptions.find(report => report.executionId === id)
+    const subscriptions = this.getSubscriptionsState(userConfig)
+
+    return subscriptions.find(report => report.executionId === id)
   }
 
   async getReportByTableId(id: string, userId: string) {
     const userConfig = await this.getState(userId)
 
-    return userConfig.subscriptions.find(report => report.tableId === id)
+    const subscriptions = this.getSubscriptionsState(userConfig)
+
+    return subscriptions.find(report => report.tableId === id)
   }
 
   async addReport(userId: string, reportStateData: SubscribedReport) {
     const userConfig = await this.getState(userId)
 
-    userConfig.subscriptions.unshift(reportStateData)
+    const subscriptions = this.getSubscriptionsState(userConfig)
+
+    subscriptions.unshift(reportStateData)
 
     await this.saveState(userId, userConfig)
   }
 
   async removeReport(userId: string, reportId: string, id: string) {
     const userConfig = await this.getState(userId)
-    const { subscriptions } = userConfig
+
+    const subscriptions = this.getSubscriptionsState(userConfig)
 
     const index = this.findIndexByReportAndVariantId(id, reportId, subscriptions)
 
@@ -57,14 +69,17 @@ class SubscriptionService extends ReportStoreService {
 
     const userConfig = await this.getState(userId)
 
-    return userConfig.subscriptions.some(report => report.id === id && report.reportId === reportId)
+    const subscriptions = this.getSubscriptionsState(userConfig)
+
+    return subscriptions.some(report => report.id === id && report.reportId === reportId)
   }
 
   async getSubscription(reportId: string, id: string, userId: string) {
     if (!this.enabled) return undefined
 
     const userConfig = await this.getState(userId)
-    const { subscriptions } = userConfig
+
+    const subscriptions = this.getSubscriptionsState(userConfig)
 
     const index = this.findIndexByReportAndVariantId(id, reportId, subscriptions)
 
@@ -76,7 +91,7 @@ class SubscriptionService extends ReportStoreService {
 
     const subscriptions = tsDataArray.reduce(
       (updatedSubscriptions, tsData) => this.updateRefreshedTimestamp(tsData, updatedSubscriptions),
-      userConfig.subscriptions,
+      this.getSubscriptionsState(userConfig),
     )
 
     userConfig.subscriptions = subscriptions

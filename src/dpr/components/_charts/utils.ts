@@ -202,7 +202,7 @@ const createHeadlines = (
 
     if (headlineColumn) {
       const { id } = headlineColumn
-      const { raw } = data[0][id]
+      const rawValue = data[0][id]?.raw
 
       const dateColumn = getTimestampMeasure(measures)
       const dateData = getDateValue(data, dateColumn)
@@ -211,7 +211,8 @@ const createHeadlines = (
         label = dateData.value
       }
 
-      value = raw ? Number(raw) : undefined
+      const numericValue = Number(rawValue)
+      value = Number.isNaN(numericValue) ? undefined : numericValue
 
       if (value) {
         headline = {

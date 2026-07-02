@@ -329,16 +329,19 @@ class ReportingClient {
   }
 
   // TODO: update with correct endpoint
-  getSubscriptionStatuses(token: string, tableIds: string[]) {
+  getDatasetTimestamps(
+    token: string,
+    tableIds: string[],
+  ): Promise<{ tableId: string; createdAt: string; addedAt: string }[]> {
     return this.restClient
       .post(
         {
-          path: `/reports/subscriptionState`,
+          path: `/reports/timestamps`,
           data: { tableIds },
         },
         token,
       )
-      .then(response => <components['schemas']['ResultTableExpiryState'][]>response)
+      .then(response => <{ tableId: string; createdAt: string; addedAt: string }[]>response)
   }
 
   logInfo(title: string, args?: Dict<string>) {

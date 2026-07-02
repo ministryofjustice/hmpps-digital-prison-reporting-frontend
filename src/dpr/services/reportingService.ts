@@ -159,8 +159,11 @@ class ReportingService {
     return this.reportingClient.unsubscribe(token, reportId, id, dataProductDefinitionsPath)
   }
 
-  async subscriptionStatus(token: string, tableIds: string[]) {
-    return this.reportingClient.getSubscriptionStatuses(token, tableIds)
+  async getDatasetTimestamps(
+    token: string,
+    tableIds: string[],
+  ): Promise<{ tableId: string; createdAt: string; addedAt: string }[]> {
+    return this.reportingClient.getDatasetTimestamps(token, tableIds)
   }
 }
 

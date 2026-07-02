@@ -112,7 +112,13 @@ const buildTimestamp = (data: StoredReportData) => {
     }
 
     case RequestStatus.READY: {
-      const { lastViewed } = timestamp
+      const { lastViewed, refresh } = timestamp
+
+      if (refresh) {
+        const ts = refresh ? apiTimestampToUiDateTime(refresh) : now
+        return `Refreshed at ${ts}`
+      }
+
       const ts = lastViewed ? apiTimestampToUiDateTime(lastViewed) : now
       return `Last viewed at ${ts}`
     }

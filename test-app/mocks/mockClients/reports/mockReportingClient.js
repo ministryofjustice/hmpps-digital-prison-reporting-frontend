@@ -308,13 +308,17 @@ MockReportingClient: ${functionName}`)
     return undefined
   }
 
-  subscriptionStatus(token, tableIds) {
-    const refreshedTime = new Date().toISOString();
+  getDatasetTimestamps(token, tableIds) {
+    const createdAt = new Date().toISOString();
+    const addedAt = new Date().toISOString();
 
-    return tableIds.reduce < SubsStatus > ((acc, tableId) => {
-      acc[tableId] = { refreshedTime };
-      return acc;
-    }, {});
+    return tableIds.map((tableId) => {
+      return {
+        tableId,
+        createdAt,
+        addedAt,
+      }
+    })
   }
 
 }

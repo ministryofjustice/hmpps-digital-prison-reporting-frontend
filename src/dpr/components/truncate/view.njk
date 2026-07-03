@@ -1,0 +1,33 @@
+
+{% from "../button-link/view.njk" import dprButtonLink %}
+
+{% macro dprTruncate(params) %}
+  {% set fullHtml = params.fullHtml %}
+  {% set truncatedHtml = params.truncatedHtml %}
+  {% set isTruncated = params.isTruncated %}
+  {% set showMore = params.showMore %}
+  {% set classes = params.classes %}
+
+  <div
+    class="dpr-truncate"
+    data-expanded="false"
+    data-dpr-module="dpr-truncate"
+  >
+    <div
+      class="js-content dpr-truncate-content {{ classes }}"
+      data-full-html="{{ params.fullHtml | escape }}"
+      data-truncated-html="{{ params.truncatedHtml | escape }}"
+    >
+      {{ params.truncatedHtml | safe }}
+    </div>
+
+    {% if params.showMore and params.isTruncated %}
+      {{
+        dprButtonLink({
+          text: "Show more",
+          classes: "js-show-more dpr-truncate-button " + classes
+        })
+      }}
+    {% endif %}
+  </div>
+{% endmacro %}

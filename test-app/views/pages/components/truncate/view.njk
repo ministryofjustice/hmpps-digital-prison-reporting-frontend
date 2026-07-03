@@ -1,0 +1,95 @@
+{% from "components/truncate/view.njk" import dprTruncate %}
+
+{% extends "views/page.njk" %}
+{% block content %}
+  <h1 class="govuk-heading-l">Truncate</h1>
+
+  <h2>Strings</h2>
+
+  <h3>default config</h3>
+  {{ dprTruncate(example1) }}
+
+  <h3>custom char length</h3>
+
+  {{ dprTruncate(example2) }}
+
+  <h3>explicit show more: true</h3>
+
+  {{ dprTruncate(example3) }}
+
+  <h3>show more: false</h3>
+
+  {{ dprTruncate(example4) }}
+
+  <h3>Small text</h3>
+
+  {{ dprTruncate(example5) }}
+
+  <h3>Small text + show more</h3>
+
+  {{ dprTruncate(example6) }}
+
+  <br>
+  <br>
+  <hr>
+  <br>
+
+  <h2>HTML strings</h2>
+
+  <h3>default config</h3>
+
+  {{ dprTruncate(example7) }}
+
+  <h3>custom char length</h3>
+
+  {{ dprTruncate(example8) }}
+
+  <h3>explicit show more: true</h3>
+
+  {{ dprTruncate(example9) }}
+
+  <h3>show more: false</h3>
+
+  {{ dprTruncate(example10) }}
+
+  <h3>Small text</h3>
+
+  {{ dprTruncate(example11) }}
+
+  <h3>Small text + show more</h3>
+
+  {{ dprTruncate(example12) }}
+
+  <br>
+  <br>
+  <hr>
+  <br>
+
+  <h2>Complex HTML strings</h2>
+
+  <h3>default config</h3>
+
+  {{ dprTruncate(example13) }}
+
+  <h3>custom char length</h3>
+
+  {{ dprTruncate(example14) }}
+
+  <h3>explicit show more: true</h3>
+
+  {{ dprTruncate(example15) }}
+
+  <h3>show more: false</h3>
+
+  {{ dprTruncate(example16) }}
+
+  <h3>Small text</h3>
+
+  {{ dprTruncate(example17) }}
+
+  <h3>Small text + show more</h3>
+
+  {{ dprTruncate(example18) }}
+
+
+{% endblock %}

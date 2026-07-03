@@ -1,16 +1,18 @@
-import { Response } from 'express'
+import { Response, Request } from 'express'
 import { components } from '../../../types/api'
 import { Services } from '../../../types/Services'
 import { DefinitionData, LoadType, ReportType } from '../../../types/UserReports'
 import ShowMoreUtils from '../../show-more/utils'
 import { createListItemProductMin, createListActions, setInitialHref } from '../../../utils/reportListsHelper'
 import LocalsHelper from '../../../utils/localsHelper'
+import { renderSubscriptionToggleAsHtml } from '../../subscription/subscription-toggle/utils'
 
 export const getReportsList = async (
   res: Response,
+  req: Request,
   services: Services,
 ): Promise<{ head: { text: string }[]; rows: { text?: string; html?: string }[][]; id: string }> => {
-  const { definitions, csrfToken, bookmarkingEnabled, dprUser } = LocalsHelper.getValues(res)
+  const { definitions, csrfToken, bookmarkingEnabled, subscriptionsEnabled, dprUser } = LocalsHelper.getValues(res)
 
   // Sort report Definitions by product name
   const sortedDefinitions = definitions.sort(
@@ -35,7 +37,7 @@ export const getReportsList = async (
     let variantsArray: DefinitionData[] = []
     if (variants) {
       variantsArray = variants.map((variant: components['schemas']['VariantDefinitionSummary']) => {
-        const { id, name, description, isMissing, loadType, scheduled } = variant
+        const { id, name, description, isMissing, loadType, schedule } = variant
 
         return {
           ...productBase,
@@ -45,7 +47,7 @@ export const getReportsList = async (
           name,
           description: description || '',
           isMissing,
-          scheduled,
+          schedule,
         }
       })
     }
@@ -92,7 +94,7 @@ export const getReportsList = async (
         loadType,
         authorised,
         isMissing,
-        scheduled,
+        schedule,
       } = v
       const desc = description || reportDescription || ''
 
@@ -113,11 +115,29 @@ export const getReportsList = async (
         })
       }
 
+      let subsHtml
+      if (subscriptionsEnabled && schedule) {
+        subsHtml = await renderSubscriptionToggleAsHtml(
+          req,
+          res,
+          schedule,
+          {
+            reportId,
+            id,
+            name,
+            reportName,
+            description: desc,
+            type,
+          },
+          services,
+        )
+      }
+
       return [
         { html: `<p class="govuk-body-s">${reportName}</p>` },
-        { html: createListItemProductMin(name, <ReportType>type, scheduled) },
+        { html: createListItemProductMin(name, <ReportType>type, schedule) },
         { html: ShowMoreUtils.createShowMoreHtml(desc) },
-        { html: createListActions(href, type, loadType, bookmarkHtml, authorised, isMissing, scheduled) },
+        { html: createListActions(href, type, loadType, bookmarkHtml, subsHtml, authorised, isMissing) },
       ]
     }),
   )

@@ -3,7 +3,6 @@ import { SubscribedReportBuilder } from '../../routes/journeys/my-reports/subscr
 import { addMyReport, removeMyReport } from '../../routes/journeys/my-reports/utils'
 import { SubscriptionActionConfig } from '../../types/AsyncReportUtils'
 import { Services } from '../../types/Services'
-import { getActiveJourneyValue } from '../../utils/sessionHelper'
 import LocalsHelper from '../../utils/localsHelper'
 
 /**
@@ -79,21 +78,26 @@ export const unsubscribe = async (req: Request, res: Response, services: Service
  * @param {(string | undefined)} schedule
  * @return {*}  {(SubscriptionActionConfig | undefined)}
  */
-export const setupSubscriptionConfig = (
+export const setupSubscriptionConfig = async (
   req: Request,
   res: Response,
+  reportId: string,
+  id: string,
   schedule: string | undefined,
-): SubscriptionActionConfig | undefined => {
-  const { csrfToken, subscriptionsEnabled } = LocalsHelper.getValues(res)
+  services: Services,
+): Promise<SubscriptionActionConfig | undefined> => {
+  const { csrfToken, subscriptionsEnabled, dprUser } = LocalsHelper.getValues(res)
 
   if (!subscriptionsEnabled || !schedule) return undefined
 
-  const { id, reportId } = req.params as {
-    id: string
-    reportId: string
+  let subscribed = false
+  let subscriptionUrl
+
+  subscribed = (await services.subscriptionService.isSubscribed(reportId, id, dprUser.id)) || false
+  if (subscribed) {
+    const subscribedReport = await services.subscriptionService.getSubscription(reportId, id, dprUser.id)
+    subscriptionUrl = subscribedReport?.url?.report?.fullUrl
   }
-  const subscribed = Boolean(getActiveJourneyValue(req, { id, reportId }, 'subscribed'))
-  const subscriptionUrl = getActiveJourneyValue(req, { id, reportId }, 'subscriptionUrl')
 
   const { subscribePath } = LocalsHelper.getRouteLocals(res)
   const actonPath = `${subscribePath}/${reportId}/${id}`

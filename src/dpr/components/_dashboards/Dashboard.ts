@@ -66,7 +66,7 @@ export default class Dashboard extends DataPresentation {
 
     this.buildSections()
 
-    this.buildActions(ReportType.DASHBOARD)
+    await this.buildActions(ReportType.DASHBOARD)
 
     return {
       dashboardData: {

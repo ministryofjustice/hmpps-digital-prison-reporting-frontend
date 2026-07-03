@@ -188,7 +188,7 @@ export default class DataPresentation {
    * - bookmark config
    * - general actions
    */
-  buildActions = (type: ReportType, schedule?: string | undefined) => {
+  buildActions = async (type: ReportType, schedule?: string | undefined) => {
     const { tableId, reportId, id } = <{ id: string; tableId: string; reportId: string }>this.req.params
     this.extractedRequestData = this.requestData ? this.extractDataFromRequest(this.requestData) : undefined
 
@@ -196,7 +196,7 @@ export default class DataPresentation {
     const bookmarkConfig = setUpBookmark(this.res, this.req, this.services.bookmarkService)
 
     // Setup subscribe
-    const subscriptionConfig = setupSubscriptionConfig(this.req, this.res, schedule)
+    const subscriptionConfig = await setupSubscriptionConfig(this.req, this.res, reportId, id, schedule, this.services)
 
     // Setup download
     const downloadConfig = type === ReportType.REPORT ? setUpDownload(this.res, this.req) : undefined

@@ -93,7 +93,7 @@ export default class Report extends DataPresentation {
 
     // Template & page furniture
     this.buildTable()
-    this.buildActions(ReportType.REPORT, this.reportDetails.schedule)
+    await this.buildActions(ReportType.REPORT, this.reportDetails.schedule)
     this.buildPagination()
 
     return {

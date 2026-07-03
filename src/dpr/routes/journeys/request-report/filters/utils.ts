@@ -286,7 +286,7 @@ export const renderRequest = async ({
       description = reportData.description
       fields = reportData.fields
 
-      subscriptionConfig = setupSubscriptionConfig(req, res, reportData.schedule)
+      subscriptionConfig = await setupSubscriptionConfig(req, res, reportId, id, reportData.schedule, services)
     }
 
     if (type === ReportType.DASHBOARD) {

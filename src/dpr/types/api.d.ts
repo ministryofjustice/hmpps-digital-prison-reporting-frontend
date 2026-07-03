@@ -556,7 +556,7 @@ export interface components {
       isMissing: boolean
       /** @enum {string|null} */
       loadType?: 'sync' | 'async' | null
-      scheduled?: boolean | undefined
+      schedule?: string | undefined
     }
     ChildVariantDefinition: {
       id: string

@@ -45,9 +45,13 @@ class SubscriptionService extends ReportStoreService {
 
     const subscriptions = this.getSubscriptionsState(userConfig)
 
-    subscriptions.unshift(reportStateData)
+    const sub = subscriptions.find(subscription => subscription.tableId === reportStateData.tableId)
 
-    await this.saveState(userId, userConfig)
+    if (!sub) {
+      subscriptions.unshift(reportStateData)
+
+      await this.saveState(userId, userConfig)
+    }
   }
 
   async removeReport(userId: string, reportId: string, id: string) {

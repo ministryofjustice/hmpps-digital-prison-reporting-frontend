@@ -185,5 +185,5 @@ export interface DefinitionData {
   loadType: LoadType
   authorised: boolean
   isMissing?: boolean
-  scheduled?: boolean | undefined
+  schedule?: string | undefined
 }

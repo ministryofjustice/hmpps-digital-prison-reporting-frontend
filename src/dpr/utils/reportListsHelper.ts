@@ -44,7 +44,7 @@ export const createListItemProduct = (productName: string, reportName: string, t
 </div>`
 }
 
-export const createListItemProductMin = (reportName: string, type: ReportType, scheduled?: boolean | undefined) => {
+export const createListItemProductMin = (reportName: string, type: ReportType, schedule?: string | undefined) => {
   const tagColor = getTypeTagColor(type)
   const reportType = toSentenceCase(type)
 
@@ -52,8 +52,8 @@ export const createListItemProductMin = (reportName: string, type: ReportType, s
   <p class="govuk-body-s govuk-!-margin-bottom-2"><strong>${reportName}</strong></p>
   <strong class="govuk-tag ${tagColor} dpr-request-status-tag--small">${reportType}</strong>`
 
-  if (scheduled) {
-    heading += `<br><br><strong class="govuk-tag govuk-tag--magenta dpr-request-status-tag--small">Scheduled: Weekly at 9.00am</strong></div>`
+  if (schedule) {
+    heading += `<br><br><strong class="govuk-tag govuk-tag--magenta dpr-request-status-tag--small">Scheduled: ${schedule}</strong></div>`
   } else {
     heading += `<div>`
   }
@@ -66,9 +66,9 @@ export const createListActions = (
   type: ReportType,
   loadType?: LoadType,
   bookmarkHtml?: string,
+  subsHtml?: string,
   authorised = true,
   missing = false,
-  scheduled = false,
 ) => {
   if (!authorised) {
     return `<strong class="govuk-tag govuk-tag--red dpr-request-status-tag dpr-request-status-tag--small dpr-unauthorised-report" aria-label="You are unauthorised to view this report">Unauthorised</strong>`
@@ -91,8 +91,8 @@ export const createListActions = (
     actions = `${actions} <li>${bookmarkHtml}</li>`
   }
 
-  if (scheduled) {
-    actions = `${actions} <li><a class='govuk-link dpr-user-list-action govuk-link--no-visited-state' href="#">Subscribe</a></li>`
+  if (subsHtml) {
+    actions = `${actions} <li>${subsHtml}</li>`
   }
 
   return `${actions} </ul>`

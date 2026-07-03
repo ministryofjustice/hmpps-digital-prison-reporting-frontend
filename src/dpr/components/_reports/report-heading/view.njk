@@ -4,10 +4,11 @@
 {% from "./report-filters/view.njk" import dprReportFilters %}
 {% from "../../bookmark/view.njk" import dprBookmarkButton %}
 {% from "../../subscription/subscription-toggle/view.njk" import dprSubscriptionToggle %}
+{% from "../../subscription/subscription-flash/view.njk" import dprSubscriptionFlash %}
 {% from "../../_async/request-details/view.njk" import dprRequestDetails %}
 {% from "govuk/components/details/macro.njk" import govukDetails %}
 
-{% macro dprReportHeading(reportData, validationErrors) %}
+{% macro dprReportHeading(reportData, validationErrors, subscriptionMessages) %}
   {% set name = reportData.name %}
   {% set reportName = reportData.reportName %}
   {% set reportId = reportData.reportId %}
@@ -27,7 +28,13 @@
   {% set saveDefaultsEnabled = reportData.saveDefaultsEnabled %}
   {% set hasDefaults = reportData.hasDefaults %}
 
+  {% set subscribedMessage = subscriptionMessages.subscribedMessage %}
+  {% set unsubscribedMessage = subscriptionMessages.unsubscribedMessage %}
+
   <div class="dpr-report-header">
+
+    {{ dprSubscriptionFlash(subscriptionMessages) }}
+
     {% if actions or bookmarked is defined %}
       <div class="dpr-report-heading__actions">
         {% if actions %}

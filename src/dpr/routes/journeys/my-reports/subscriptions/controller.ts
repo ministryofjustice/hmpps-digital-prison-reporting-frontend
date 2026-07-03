@@ -1,5 +1,6 @@
 import { RequestHandler } from 'express'
-import { subscribe, unsubscribe } from '../../../../components/subscription/utils'
+import { subscribe } from '../../../../components/subscription/subscribe/utils'
+import { unsubscribe } from '../../../../components/subscription/unsubscribe/utils'
 import { Services } from '../../../../types/Services'
 import { getAllMyReports } from '../utils'
 import { initSubscribed } from '../../../../components/my-reports/utils'

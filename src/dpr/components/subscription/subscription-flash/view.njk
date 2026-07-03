@@ -1,0 +1,26 @@
+{%- from "moj/components/alert/macro.njk" import mojAlert -%}
+
+{% macro dprSubscriptionFlash(subscriptionMessages) %}
+    {% set subscribedMessage = subscriptionMessages.subscribedMessage %}
+    {% set unsubscribedMessage = subscriptionMessages.unsubscribedMessage %}
+
+    {% if subscribedMessage.message %}
+      {{
+        mojAlert({
+          variant: "success",
+          dismissible: true,
+          text: subscribedMessage.message
+        })
+      }}
+    {% endif %}
+
+    {% if unsubscribedMessage.message %}
+      {{
+        mojAlert({
+          variant: "success",
+          dismissible: true,
+          text: unsubscribedMessage.message
+        })
+      }}
+    {% endif %}
+{% endmacro %}

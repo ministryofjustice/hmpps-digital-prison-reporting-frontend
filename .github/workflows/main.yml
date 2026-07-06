@@ -120,7 +120,9 @@ jobs:
         working-directory: ${{ github.workspace }}
         run: |
           npm run rpack
+          cd dist
           npm pack
+          mv *.tgz ../
 
       - name: Install this branch into mi-ui
         working-directory: ${{ github.workspace }}/../app

@@ -4,92 +4,94 @@
 {% block content %}
   <h1 class="govuk-heading-l">Truncate</h1>
 
-  <h2>Strings</h2>
 
-  <h3>default config</h3>
-  {{ dprTruncate(example1) }}
+  <div class="dpr-tests-truncate--strings govuk-!-martin-bottom-4">
 
-  <h3>custom char length</h3>
+    <h2>Strings</h2>
 
-  {{ dprTruncate(example2) }}
+    <h3>default config</h3>
+    {{ dprTruncate(example1) }}
 
-  <h3>explicit show more: true</h3>
+    <h3>custom char length</h3>
 
-  {{ dprTruncate(example3) }}
+    {{ dprTruncate(example2) }}
 
-  <h3>show more: false</h3>
+    <h3>explicit show more: true</h3>
 
-  {{ dprTruncate(example4) }}
+    {{ dprTruncate(example3) }}
 
-  <h3>Small text</h3>
+    <h3>show more: false</h3>
 
-  {{ dprTruncate(example5) }}
+    {{ dprTruncate(example4) }}
 
-  <h3>Small text + show more</h3>
+    <h3>Small text</h3>
 
-  {{ dprTruncate(example6) }}
+    {{ dprTruncate(example5) }}
 
-  <br>
-  <br>
-  <hr>
-  <br>
+    <h3>Small text + show more</h3>
 
-  <h2>HTML strings</h2>
+    {{ dprTruncate(example6) }}
+  </div>
 
-  <h3>default config</h3>
+  <div class="dpr-tests-truncate--html-strings govuk-!-martin-bottom-4">
 
-  {{ dprTruncate(example7) }}
+    <h2>HTML strings</h2>
 
-  <h3>custom char length</h3>
+    <h3>default config</h3>
 
-  {{ dprTruncate(example8) }}
+    {{ dprTruncate(example7) }}
 
-  <h3>explicit show more: true</h3>
+    <h3>custom char length</h3>
 
-  {{ dprTruncate(example9) }}
+    {{ dprTruncate(example8) }}
 
-  <h3>show more: false</h3>
+    <h3>explicit show more: true</h3>
 
-  {{ dprTruncate(example10) }}
+    {{ dprTruncate(example9) }}
 
-  <h3>Small text</h3>
+    <h3>show more: false</h3>
 
-  {{ dprTruncate(example11) }}
+    {{ dprTruncate(example10) }}
 
-  <h3>Small text + show more</h3>
+    <h3>Small text</h3>
 
-  {{ dprTruncate(example12) }}
+    {{ dprTruncate(example11) }}
 
-  <br>
-  <br>
-  <hr>
-  <br>
+    <h3>Small text + show more</h3>
 
-  <h2>Complex HTML strings</h2>
+    {{ dprTruncate(example12) }}
 
-  <h3>default config</h3>
+  </div>
 
-  {{ dprTruncate(example13) }}
+  <div class="dpr-tests-truncate--complex-html-strings govuk-!-martin-bottom-4">
 
-  <h3>custom char length</h3>
+    <h2>Complex HTML strings</h2>
 
-  {{ dprTruncate(example14) }}
+    <h3>default config</h3>
 
-  <h3>explicit show more: true</h3>
+    {{ dprTruncate(example13) }}
 
-  {{ dprTruncate(example15) }}
+    <h3>custom char length</h3>
 
-  <h3>show more: false</h3>
+    {{ dprTruncate(example14) }}
 
-  {{ dprTruncate(example16) }}
+    <h3>explicit show more: true</h3>
 
-  <h3>Small text</h3>
+    {{ dprTruncate(example15) }}
 
-  {{ dprTruncate(example17) }}
+    <h3>show more: false</h3>
 
-  <h3>Small text + show more</h3>
+    {{ dprTruncate(example16) }}
 
-  {{ dprTruncate(example18) }}
+    <h3>Small text</h3>
+
+    {{ dprTruncate(example17) }}
+
+    <h3>Small text + show more</h3>
+
+    {{ dprTruncate(example18) }}
+
+  </div>
 
 
 {% endblock %}

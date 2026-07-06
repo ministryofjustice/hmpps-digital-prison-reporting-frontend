@@ -119,7 +119,9 @@ export const groupRowsByTimestamp = (
   dateMeasure: components['schemas']['DashboardVisualisationColumnDefinition'],
 ): DashboardDataResponse[][] => {
   const { id } = dateMeasure
+
   const uniqueTimestamps = [...new Set(dashboardData.map(item => item[id].raw))]
+
   return uniqueTimestamps.map(ts => {
     return dashboardData.filter(d => d[id].raw === ts)
   })

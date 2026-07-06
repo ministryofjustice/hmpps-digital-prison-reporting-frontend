@@ -8,6 +8,7 @@ import customParse from 'dayjs/plugin/customParseFormat'
 import CardGroup from './components/card-group/clientClass'
 import BookmarkButton from './components/bookmark/clientClass'
 import ShowMore from './components/show-more/clientClass'
+import { dprTruncate } from './components/truncate/clientClass'
 
 // Catalogue
 import Search from './components/_catalogue/catalogue-search/clientClass'
@@ -71,7 +72,7 @@ function initAll() {
     BookmarkButton,
     DateInput,
     DateRange,
-    ShowMore,
+    dprTruncate,
     BarChartVisualisation,
     DoughnutChartVisualisation,
     LineChartVisualisation,

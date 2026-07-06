@@ -156,7 +156,7 @@ context('Dashboard visualisation: Mixed charts', () => {
 
       requestReportByNameAndDescription({
         name: 'Mixed - Historic - Partial dataset',
-        description: 'This dashboard represents example mixed visualisations using a partial historic dataset',
+        description: 'This dashboard represents example mixed visualisations using a partial historic',
       })
 
       cy.findByRole('heading', { level: 1, name: /Mixed - Historic - Partial dataset/ }).should('be.visible')

@@ -2,7 +2,7 @@
 const reportTemplateExampleParentChild = {
   id: 'report-template-parent-child-section',
   name: 'Parent-child-section',
-  description: 'Template: "parent-child-section". </br> A report with parent and child datasets in sections',
+  description: 'Template: "parent-child-section". <br> A report with parent and child datasets in sections',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
   printable: true,

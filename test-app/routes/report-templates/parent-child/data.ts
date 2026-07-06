@@ -114,7 +114,7 @@ const parentChildData = {
   bookmarked: false,
   reportName: 'Report templates',
   name: 'Parent-child',
-  description: 'Template: "parent-child".</br> A report with parent and child datasets',
+  description: 'Template: "parent-child".<br> A report with parent and child datasets',
   classification: 'OFFICIAL',
   printable: true,
   specification: {

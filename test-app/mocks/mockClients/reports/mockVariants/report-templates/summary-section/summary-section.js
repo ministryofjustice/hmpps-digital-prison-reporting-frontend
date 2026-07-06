@@ -2,7 +2,7 @@
 const reportTemplateExampleSummarySection = {
   id: 'report-template-example-summary-section-better',
   name: 'Summary-section',
-  description: 'template: "summary-section".</br> A report with summaries in sections',
+  description: 'template: "summary-section".<br> A report with summaries in sections',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
   printable: true,

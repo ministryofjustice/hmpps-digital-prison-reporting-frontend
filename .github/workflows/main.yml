@@ -116,12 +116,16 @@ jobs:
         run: npm run setup
         working-directory: ${{ github.workspace }}/../app
 
-      - name: Build lib and copy output into node_modules of mi-ui
+      - name: Build lib and create package tarball
         working-directory: ${{ github.workspace }}
         run: |
           npm run rpack
-          rm -rf ../app/node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend/*
-          cp -R dist/* ../app/node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend/
+          npm pack
+
+      - name: Install this branch into mi-ui
+        working-directory: ${{ github.workspace }}/../app
+        run: |
+          npm install --no-save ../hmpps-digital-prison-reporting-frontend/*.tgz
 
       - name: Build mi-ui
         run: npm run build

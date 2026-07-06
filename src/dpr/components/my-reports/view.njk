@@ -11,11 +11,9 @@
   {% set bookmarks = myReportsConfig.bookmarks %}
   {% set viewed = myReportsConfig.viewed %}
   {% set subscriptions = myReportsConfig.subscriptions %}
-  {% set removedReports = myReportsConfig.removedReports %}
+  {% set messages = myReportsConfig.messages %}
 
-  {% if removedReports %}
-    {{ dprMyReportsListNotification(removedReports) }}
-  {% endif %}
+  {{ dprMyReportsListNotification(messages) }}
 
   {% if bookmarks %}
     {% set bookmarksHtml %}

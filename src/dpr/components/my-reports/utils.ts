@@ -11,6 +11,7 @@ import {
   ListType,
   MappedBookmarks,
   MyReportsListTotals,
+  MyReportsMessages,
   MyReportsOptions,
   ViewAction,
 } from './types'
@@ -40,15 +41,37 @@ export const initMyReports = async (
   services: Services,
   options?: MyReportsOptions | undefined,
 ): Promise<DprMyReport | undefined> => {
-  const { bookmarkingEnabled } = LocalsHelper.getValues(res)
+  const { bookmarkingEnabled, subscriptionsEnabled } = LocalsHelper.getValues(res)
   await checkExpiredAndGetReports(res, services)
+
+  const messages = setMessages(res)
 
   return {
     ...(bookmarkingEnabled && { bookmarks: await initBookmarks(res, services) }),
+    ...(subscriptionsEnabled && { subscriptions: await initSubscribed(req, res, options) }),
     requested: await initRequested(req, res, options),
     viewed: await initViewed(req, res, options),
-    subscriptions: await initSubscribed(req, res, options),
-    removedReports: res.locals['removedReports'],
+    ...(messages && { messages }),
+  }
+}
+
+/**
+ * Sets the messages if any
+ *
+ * @param {Response} res
+ * @return {*}  {MyReportsMessages}
+ */
+const setMessages = (res: Response): MyReportsMessages => {
+  const subscriptionMessages = {
+    subscribedMessage: res.locals['subscribedMessage'] || [],
+    unsubscribedMessage: res.locals['unsubscribedMessage'] || [],
+  }
+
+  const { removedReports } = res.locals
+
+  return {
+    subscriptionMessages,
+    removedReports,
   }
 }
 

@@ -131,9 +131,19 @@ export type HeadingConfig = {
 export type DprMyReport = {
   requested: DprMyReportListConfig
   viewed: DprMyReportListConfig
-  subscriptions: DprMyReportListConfig
+  subscriptions?: DprMyReportListConfig
   bookmarks?: DprMyReportListConfig | undefined
+  messages?: MyReportsMessages | undefined
+}
+
+export type MyReportsMessages = {
   removedReports: string | undefined
+  subscriptionMessages?: SubscribedMessages | undefined
+}
+
+type SubscribedMessages = {
+  subscribedMessage?: string | undefined
+  unsubscribedMessage?: string | undefined
 }
 
 export type MappedBookmarks = {

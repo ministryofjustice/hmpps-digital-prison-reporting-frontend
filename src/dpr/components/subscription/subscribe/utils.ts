@@ -28,14 +28,14 @@ export const subscribe = async (req: Request, res: Response, services: Services)
   const { tableId } = await services.reportingService.subscribe(token, reportId, id)
 
   const subscriptionData = new SubscribedReportBuilder(req, res).withExecutionData({ tableId }).build()
-  const { schedule } = subscriptionData
+  const { schedule, reportName, name, type } = subscriptionData
 
   await addMyReport('subscriptions', subscriptionData, services, userId)
 
   req.flash(
     'DPR_SUBSCRIBED',
     JSON.stringify({
-      message: `You have subscribed to this report. This report refreshes ${schedule}`,
+      message: `<p>You have subscribed to <strong>${reportName} - ${name}</strong> ${type}.</p><p>This report refreshes <strong>${schedule}</strong></p>`,
     }),
   )
 

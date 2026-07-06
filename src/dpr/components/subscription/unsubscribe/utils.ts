@@ -25,16 +25,22 @@ export const unsubscribe = async (req: Request, res: Response, services: Service
   const { returnTo } = req.body
 
   // Unsubscribe API here
-  await services.reportingService.unsubscribe(token, reportId, id)
+  const subscriptionData = await services.subscriptionService.getSubscription(reportId, id, userId)
 
-  await removeMyReport('subscriptions', { reportId, id }, services, userId)
+  if (subscriptionData) {
+    const { reportName, name, type } = subscriptionData
 
-  req.flash(
-    'DPR_UNSUBSCRIBED',
-    JSON.stringify({
-      message: `You have unsubscribed to this report`,
-    }),
-  )
+    await services.reportingService.unsubscribe(token, reportId, id)
+
+    await removeMyReport('subscriptions', { reportId, id }, services, userId)
+
+    req.flash(
+      'DPR_UNSUBSCRIBED',
+      JSON.stringify({
+        message: `<p>You have unsubscribed from <strong>${reportName} - ${name}</strong> ${type}</p><p>You will no longer recieve refreshed versions of this report</p>`,
+      }),
+    )
+  }
 
   return {
     returnTo,

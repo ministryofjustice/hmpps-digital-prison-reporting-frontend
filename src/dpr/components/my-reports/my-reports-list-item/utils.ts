@@ -253,7 +253,7 @@ const buildRemoveAction = (data: StoredReportData, res: Response, req: Request, 
   }
 
   if (listType === ListType.SUBSCRIPTIONS) {
-    action = `${subscribePath}/${reportId}/${id}/list-unsubscribe`
+    action = `${subscribePath}/${reportId}/${id}/unsubscribe`
     text = 'Unsubscribe'
   }
 

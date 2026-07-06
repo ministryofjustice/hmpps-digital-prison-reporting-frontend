@@ -25,7 +25,10 @@
       {{
         dprButtonLink({
           text: "Show more",
-          classes: "js-show-more dpr-truncate-button " + classes
+          classes: "js-show-more dpr-truncate-button " + classes,
+          attributes: {
+            'aria-expanded': 'false'
+          }
         })
       }}
     {% endif %}

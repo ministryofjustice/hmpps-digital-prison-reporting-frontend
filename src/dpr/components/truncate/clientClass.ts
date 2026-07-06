@@ -28,9 +28,11 @@ export class dprTruncate extends DprClientClass {
       if (expanded) {
         content.innerHTML = truncatedHtml
         button.textContent = 'Show more'
+        button.setAttribute('aria-expanded', String(!expanded))
       } else {
         content.innerHTML = fullHtml
         button.textContent = 'Show less'
+        button.setAttribute('aria-expanded', String(!expanded))
       }
 
       container.dataset['expanded'] = String(!expanded)

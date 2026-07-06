@@ -156,6 +156,7 @@
     "redis": "^5.12.1",
     "sanitize-html": "2.17.5",
     "superagent": "^10.3.0",
+    "truncate-html": "1.2.2",
     "with-alpha-hex": "^1.0.6",
     "zod": "^4.1.11"
   },

@@ -842,8 +842,7 @@ context('Dashboard visualisation: bar chart', () => {
 
       requestReportByNameAndDescription({
         name: 'Bar - Invalid visualisation',
-        description:
-          'This dashboard represents example of invlaid bar visualisation definition using a partial dataset.',
+        description: 'This dashboard represents example of invlaid bar visualisation definition using',
       })
 
       cy.url().should('include', '/view-report')

@@ -2,10 +2,10 @@ import { Response, Request } from 'express'
 import { components } from '../../../types/api'
 import { Services } from '../../../types/Services'
 import { DefinitionData, LoadType, ReportType } from '../../../types/UserReports'
-import ShowMoreUtils from '../../show-more/utils'
 import { createListItemProductMin, createListActions, setInitialHref } from '../../../utils/reportListsHelper'
 import LocalsHelper from '../../../utils/localsHelper'
 import { renderSubscriptionToggleAsHtml } from '../../subscription/subscription-toggle/utils'
+import { renderTruncateAsHtml } from '../../truncate/utils'
 
 export const getReportsList = async (
   res: Response,
@@ -136,7 +136,7 @@ export const getReportsList = async (
       return [
         { html: `<p class="govuk-body-s">${reportName}</p>` },
         { html: createListItemProductMin(name, <ReportType>type, schedule) },
-        { html: ShowMoreUtils.createShowMoreHtml(desc) },
+        { html: renderTruncateAsHtml({ stringValue: desc, classes: 'govuk-body-s' }) },
         { html: createListActions(href, type, loadType, bookmarkHtml, subsHtml, authorised, isMissing) },
       ]
     }),

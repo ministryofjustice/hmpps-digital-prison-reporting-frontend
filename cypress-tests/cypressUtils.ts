@@ -31,7 +31,10 @@ export const startReportRequest = ({ name, description }: { name: string; descri
   cy.findByLabelText(/Reports catalogue.*/i).within(() => {
     cy.findAllByRole('row', {
       name: (_, element) => {
-        return Boolean(element?.textContent?.includes(name)) && Boolean(element?.textContent?.includes(description))
+        const nameText = element?.textContent?.includes(name)
+        const descText = element?.textContent?.includes(description)
+
+        return Boolean(nameText) && Boolean(descText)
       },
     })
       .first()

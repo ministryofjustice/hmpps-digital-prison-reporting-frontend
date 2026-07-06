@@ -19,7 +19,7 @@ context('Dashboard visualisation: Doughnut chart', () => {
 
       requestReportByNameAndDescription({
         name: 'Doughnut - Complete dataset',
-        description: 'This dashboard represents example Doughnut visualisations using a complete dataset.',
+        description: 'This dashboard represents example Doughnut visualisations using a complete',
       })
 
       cy.findByRole('heading', { level: 1, name: /Doughnut - Complete dataset/ }).should('be.visible')

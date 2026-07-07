@@ -1,5 +1,14 @@
 Below you can find the changes included in each release.
 
+## 7.1.0
+
+- Dashboards: Enable HTML rendering in descriptions, section descriptions and visualisation descriptions
+- Feature: Truncate component - replaces old show more component with better handling of HTML truncation and less bugs
+
+## 7.0.2
+
+- Bug fix: Better handling of undefined data in dashboard creation
+
 ## 7.0.0
 
 ### Upgrade to MoJ Frontend v9 and Gov UK Frontend v6

@@ -67,7 +67,7 @@ const summarySectionData = {
   bookmarked: false,
   reportName: 'Report templates',
   name: 'Summary-section',
-  description: 'template: "summary-section".</br> A report with summaries in sections',
+  description: 'template: "summary-section".<br> A report with summaries in sections',
   classification: 'OFFICIAL',
   printable: true,
   specification: {

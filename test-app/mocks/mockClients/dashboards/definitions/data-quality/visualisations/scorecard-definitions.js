@@ -1,5 +1,6 @@
 // @ts-nocheck
 const mockScorecardDefinitionMetricTwo = {
+  id: 'scorecard1',
   type: 'scorecard',
   display: 'No of prisoners with MetricTwo',
   options: {
@@ -20,6 +21,7 @@ const mockScorecardDefinitionMetricTwo = {
 }
 
 const mockScorecardDefinitionNoMetricTwo = {
+  id: 'scorecard2',
   type: 'scorecard',
   display: 'No of prisoners with no MetricTwo',
   columns: {
@@ -37,6 +39,7 @@ const mockScorecardDefinitionNoMetricTwo = {
 }
 
 const mockScorecardDefinitionMetricThree = {
+  id: 'scorecard3',
   type: 'scorecard',
   display: 'No of prisoners with MetricTwo',
   columns: {
@@ -54,6 +57,7 @@ const mockScorecardDefinitionMetricThree = {
 }
 
 const mockTargetScorecardDefinitionMetricThree = {
+  id: 'scorecard4',
   type: 'scorecard',
   display: 'No of prisoners with MetricThree in SLI',
   columns: {

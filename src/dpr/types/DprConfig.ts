@@ -48,4 +48,8 @@ export interface ServiceFeatureConfig {
    * - determines how frequently the definitions should be refreshed
    */
   checkDefinitionsInterval?: number
+
+  /** Enable/disable the ID migration service
+   */
+  migrationService?: boolean
 }

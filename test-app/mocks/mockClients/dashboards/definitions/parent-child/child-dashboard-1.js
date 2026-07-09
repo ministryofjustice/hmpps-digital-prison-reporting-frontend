@@ -1,7 +1,9 @@
 // @ts-nocheck
+const { lists } = require('../examples/visualisations')
+
 const childDashboard1 = {
   id: 'child-dashboard-one',
-  name: 'child two Dashboard',
+  name: 'Child one dashboard',
   description: 'Dashboard used for mocking child dashboards',
   sections: [
     {
@@ -12,6 +14,12 @@ const childDashboard1 = {
     },
     {
       id: 'child-one-section-2',
+      display: 'Child one - Section 2',
+      description: 'Child one - Section 2 - description',
+      visualisations: [],
+    },
+    {
+      id: 'parent-section-1',
       display: 'Child one - Section 2',
       description: 'Child one - Section 2 - description',
       visualisations: [],

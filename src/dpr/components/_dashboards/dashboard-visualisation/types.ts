@@ -133,3 +133,9 @@ export type ChartMeasure =
   | VisualisationDefinitionMeasure
 
 export type TimeseriesChartMeasure = LineTimeseriesDefinitionMeasure[] | BarTimeseriesDefinitionMeasure[]
+
+// TODO: Remove this an update referencese when the API type is up to date
+// - This field will be added the the schema in ticket https://dsdmoj.atlassian.net/browse/DPR2-2981
+export type DashboardDefintion = components['schemas']['DashboardDefinition'] & {
+  childVariants: components['schemas']['DashboardDefinition'][]
+}

@@ -2,6 +2,7 @@
 import { Request, Response, NextFunction } from 'express'
 
 // Utils
+import { buildMasterSections } from '../../../../components/_dashboards/dashboard-section/utils'
 import { buildFilterData, buildSortData } from '../../../../components/_async/async-filters-form/utils'
 import LocalsHelper from '../../../../utils/localsHelper'
 import { getRequestFilters } from '../../../../components/_filters/utils'
@@ -20,6 +21,7 @@ import { joinQueryStrings } from '../../../../utils/urlHelper'
 import { buildQuerySummary } from '../../../../components/_async/request-details/utils'
 import ReportQuery from '../../../../types/ReportQuery'
 import { RequestedReportBuilder } from '../../my-reports/requested-reports/builder'
+import { DashboardDefintion } from '../../../../components/_dashboards/dashboard-visualisation/types'
 
 // ----------------------------------------------------------------------
 // POST
@@ -127,37 +129,41 @@ const requestChildVariants = async (
   queryData?: SetQueryFromFiltersResult,
   dataProductDefinitionsPath?: string,
 ): Promise<Array<ChildReportExecutionData>> => {
-  let query: Record<string, string | string[]>
+  const query = queryData
+    ? Object.fromEntries(Object.entries(queryData.query).filter(([key]) => key !== 'sortColumn' && key !== 'sortedAsc'))
+    : {}
 
-  if (queryData) {
-    query = queryData.query
-    delete query['sortColumn']
-    delete query['sortedAsc']
-  }
-
-  const requestFunction =
-    reportType === ReportType.DASHBOARD
-      ? services.dashboardService.requestAsyncDashboard
-      : services.reportingService.requestAsyncReport
-
-  return Promise.all(
-    childVariants.map(childVariant =>
-      requestFunction(token, reportId, childVariant.id, {
-        ...(query && query),
+  const results: Array<ChildReportExecutionData | null> = await Promise.all(
+    childVariants.map(async childVariant => {
+      const queryParams = {
+        ...query,
         ...(dataProductDefinitionsPath && { dataProductDefinitionsPath }),
-      }).then(response => {
-        const { executionId, tableId } = response
-        if (!executionId || !tableId) {
-          throw new Error('requestChildReports: No execution of tableId in response')
-        }
-        return { executionId, tableId, variantId: childVariant.id }
-      }),
-    ),
-  )
-}
+      }
 
-type DashboardDefintion = components['schemas']['DashboardDefinition'] & {
-  childVariants: components['schemas']['DashboardDefinition'][]
+      const response =
+        reportType === ReportType.DASHBOARD
+          ? await services.dashboardService.requestAsyncDashboard(token, reportId, childVariant.id, queryParams)
+          : await services.reportingService.requestAsyncReport(token, reportId, childVariant.id, queryParams)
+
+      const { executionId, tableId } = response
+
+      if (!executionId || !tableId) {
+        if (reportType === ReportType.DASHBOARD) {
+          return null
+        }
+
+        throw new Error('requestChildVariants: No executionId or tableId in response')
+      }
+
+      return {
+        executionId,
+        tableId,
+        variantId: childVariant.id,
+      }
+    }),
+  )
+
+  return results.filter((result): result is ChildReportExecutionData => result !== null)
 }
 
 /**
@@ -175,6 +181,7 @@ const requestDashboard = async (req: Request, res: Response, token: string, serv
 
   const definition = await services.dashboardService.getDefinition(token, reportId, id, dataProductDefinitionsPath)
 
+  // TODO: Update this an type when the components['schemas']['DashboardDefinition'] is up to date
   const childVariants = (<DashboardDefintion>definition).childVariants ?? []
 
   const fields = getDashboardFields(definition)
@@ -460,7 +467,17 @@ const renderDashboardRequestData = async ({
   const productDefinition = productDefinitions.find(
     (def: components['schemas']['ReportDefinitionSummary']) => def.id === reportId,
   )
-  const { name, description, sections, filterFields: fields } = definition
+
+  // TODO: Update this an type when the components['schemas']['DashboardDefinition'] is up to date
+  const { childVariants } = definition as DashboardDefintion
+
+  const masterDefintion = definition
+  if (childVariants?.length) {
+    // TODO: Update this an type when the components['schemas']['DashboardDefinition'] is up to date
+    masterDefintion.sections = buildMasterSections(<DashboardDefintion>definition)
+  }
+
+  const { name, description, sections, filterFields: fields } = masterDefintion
 
   return {
     reportName: productDefinition?.name || '',

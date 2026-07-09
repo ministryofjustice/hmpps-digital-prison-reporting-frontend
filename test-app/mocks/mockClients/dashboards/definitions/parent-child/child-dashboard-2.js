@@ -1,7 +1,9 @@
 // @ts-nocheck
+const { lists } = require('../examples/visualisations')
+
 const childDashboard2 = {
   id: 'child-dashboard-two',
-  name: 'child two Dashboard',
+  name: 'Child two dashboard',
   description: 'Dashboard used for mocking child dashboards',
   sections: [
     {
@@ -17,6 +19,12 @@ const childDashboard2 = {
       visualisations: [],
     },
     {
+      id: 'parent-section-2',
+      display: 'Child one - Section 2',
+      description: 'Child one - Section 2 - description',
+      visualisations: [],
+    },
+    {
       id: 'all-data',
       display: 'All Data',
       description: '',
@@ -25,4 +33,4 @@ const childDashboard2 = {
   ],
 }
 
-module.exports = childDashboard1
+module.exports = childDashboard2

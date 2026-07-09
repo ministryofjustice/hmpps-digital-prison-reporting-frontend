@@ -158,6 +158,7 @@ const getData = (def, dashboardId, query) => {
       'chart-examples-data-quality-historic',
       'scorecard-examples-data-quality',
       'data-quality-dashboard-base',
+      'bar-chart-stacked-examples-dashboard',
     ].includes(dashboardId)
   ) {
     return DataQualityMetricsHelper.generateData(query)

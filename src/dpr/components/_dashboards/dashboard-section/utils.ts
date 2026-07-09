@@ -109,7 +109,7 @@ export const addVariantIdToSection = (
  * @return {*}  {components['schemas']['DashboardSectionDefinition'][]}
  */
 export const buildMasterSections = (
-  definition: DashboardDefintion, // TODO: Update this an type when the components['schemas']['DashboardDefinition'] is up to date
+  definition: DashboardDefintion, // TODO: Update this type to components['schemas']['DashboardDefinition'] when `childVariants` field is present
 ): components['schemas']['DashboardSectionDefinition'][] => {
   const parentSections = definition.sections.map(section => addVariantIdToSection(section, definition.id))
 

@@ -181,7 +181,7 @@ const requestDashboard = async (req: Request, res: Response, token: string, serv
 
   const definition = await services.dashboardService.getDefinition(token, reportId, id, dataProductDefinitionsPath)
 
-  // TODO: Update this an type when the components['schemas']['DashboardDefinition'] is up to date
+  // TODO: Update this type to components['schemas']['DashboardDefinition'] when `childVariants` field is present
   const childVariants = (<DashboardDefintion>definition).childVariants ?? []
 
   const fields = getDashboardFields(definition)
@@ -468,12 +468,12 @@ const renderDashboardRequestData = async ({
     (def: components['schemas']['ReportDefinitionSummary']) => def.id === reportId,
   )
 
-  // TODO: Update this an type when the components['schemas']['DashboardDefinition'] is up to date
+  // TODO: Remove the "as" when components['schemas']['DashboardDefinition'] includes the `childVariants` field
   const { childVariants } = definition as DashboardDefintion
 
   const masterDefintion = definition
   if (childVariants?.length) {
-    // TODO: Update this an type when the components['schemas']['DashboardDefinition'] is up to date
+    // TODO: Remove the casting of definition when components['schemas']['DashboardDefinition'] includes the `childVariants` field
     masterDefintion.sections = buildMasterSections(<DashboardDefintion>definition)
   }
 

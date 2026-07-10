@@ -1,16 +1,16 @@
 import z from 'zod'
 import { components } from '../../../types/api'
-import { Scorecard, ScorecardGroup } from '../scorecard/types'
-import { MatrixChartData } from '../../_charts/chart/heatmap/types'
 import { ChartDetails } from '../../../types/Charts'
-import DashboardVisualisationSchemas from './Validate'
-import { BarDefinitionMeasure } from '../../_charts/chart/bar/types'
-import { DoughnutDefinitionMeasure } from '../../_charts/chart/doughnut/types'
-import { LineDefinitionMeasure } from '../../_charts/chart/line/types'
-import { LineTimeseriesDefinitionMeasure } from '../../_charts/chart/line-timeseries/types'
 import { BarTimeseriesDefinitionMeasure } from '../../_charts/chart/bar-timeseries/types'
+import { BarDefinitionMeasure } from '../../_charts/chart/bar/types'
 import { ChartOptionsType } from '../../_charts/chart/chart-config'
+import { DoughnutDefinitionMeasure } from '../../_charts/chart/doughnut/types'
+import { MatrixChartData } from '../../_charts/chart/heatmap/types'
+import { LineTimeseriesDefinitionMeasure } from '../../_charts/chart/line-timeseries/types'
+import { LineDefinitionMeasure } from '../../_charts/chart/line/types'
 import { PartialDate } from '../../_filters/types'
+import { Scorecard, ScorecardGroup } from '../scorecard/types'
+import DashboardVisualisationSchemas from './Validate'
 
 export interface DashboardSection {
   id: string
@@ -29,12 +29,12 @@ export interface DashboardVisualisation {
     | Scorecard
     | Scorecard[]
     | ScorecardGroup[]
-    | DashboardVisualisatonCardData
+    | DashboardVisualisationCardData
     | DashboardVisualisationTable
     | undefined
 }
 
-export interface DashboardVisualisatonCardData {
+export interface DashboardVisualisationCardData {
   chart?: DashboardVisualisationData | undefined
   table?: MoJTable | undefined
   details?: ChartDetails | undefined

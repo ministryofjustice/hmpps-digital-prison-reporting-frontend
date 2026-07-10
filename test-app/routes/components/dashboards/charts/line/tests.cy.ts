@@ -34,7 +34,7 @@ context('Dashboard visualisation: line chart', () => {
       cy.visit(completeUrl)
     })
 
-    it('should should have the correct amount of sections', () => {
+    it('should have the correct amount of sections', () => {
       cy.findAllByRole('heading', { level: 2 })
         .should('have.length', 2)
         .each((section, index) => {
@@ -51,7 +51,7 @@ context('Dashboard visualisation: line chart', () => {
         })
     })
 
-    it('should should show the correct data for charts', () => {
+    it('should show the correct data for charts', () => {
       cy.findAllByLabelText(/Simple Line charts/).within(() => {
         cy.findAllByRole('heading', { level: 3 }).should('have.length', 2)
 
@@ -141,7 +141,7 @@ context('Dashboard visualisation: line chart', () => {
       cy.visit(partialUrl)
     })
 
-    it('should should have the correct amount of sections', () => {
+    it('should have the correct amount of sections', () => {
       cy.findAllByRole('heading', { level: 2 })
         .should('have.length', 2)
         .each((section, index) => {
@@ -158,7 +158,7 @@ context('Dashboard visualisation: line chart', () => {
         })
     })
 
-    it('should should show the correct data for charts', () => {
+    it('should show the correct data for charts', () => {
       cy.findAllByLabelText(/Simple Line charts/).within(() => {
         cy.findAllByRole('heading', { level: 3 }).should('have.length', 3)
 

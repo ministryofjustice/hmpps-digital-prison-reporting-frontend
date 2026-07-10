@@ -91,6 +91,7 @@ module.exports = {
     chartExamples.dataQuality,
     chartExamples.dataQualityHistoric,
     barExamples.barChartDashboard,
+    barExamples.barChartStackedDashboard,
     doughnutExamples.doughnutChartDashboard,
     lineExamples.lineChartDashboard,
   ],

@@ -480,7 +480,7 @@ You will then be able to get type inference on the injected `locals`.
 ## 4.29.1
 
 - Dashboards - Bugfix: Fix line-timeseries chart when multiple datasets provided with unequal datapoints.
-- Dahsboards: Bar Charts: remove extra space in horizonal bar chart.
+- Dashboards: Bar Charts: remove extra space in horizonal bar chart.
 - Dependency updates
 
 ## 4.29.0
@@ -717,7 +717,7 @@ You will then be able to get type inference on the injected `locals`.
 ## v4.16.0
 
 - Dashboard visualisations: Scorecards & scorecard groups + documentation
-- Dahsboard visualisatonss: Custom bucket defintion for data scoring + documentation
+- Dashboard visualisations: Custom bucket defintion for data scoring + documentation
 - Filter ordering
 
 ## v4.15.2

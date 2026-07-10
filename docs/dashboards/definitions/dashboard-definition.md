@@ -42,7 +42,7 @@ The dashboard definition is responsible for defining the structure and IA of a d
 ```js
 {
   id: 'dashboard-definition-example',
-  name: 'Dashboard Defintion Example',
+  name: 'Dashboard Definition Example',
   description:
     'A dashboard is made up of multiple sections. Each section can have a title, description, and multiple visualisation types',
   section: [

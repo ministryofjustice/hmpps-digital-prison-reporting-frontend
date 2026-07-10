@@ -717,7 +717,7 @@ You will then be able to get type inference on the injected `locals`.
 ## v4.16.0
 
 - Dashboard visualisations: Scorecards & scorecard groups + documentation
-- Dashboard visualisations: Custom bucket defintion for data scoring + documentation
+- Dashboard visualisations: Custom bucket definition for data scoring + documentation
 - Filter ordering
 
 ## v4.15.2

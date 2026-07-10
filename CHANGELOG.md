@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## 7.1.1
+
+- Update docs with example stacked bar chart
+
 ## 7.1.0
 
 - Dashboards: Enable HTML rendering in descriptions, section descriptions and visualisation descriptions

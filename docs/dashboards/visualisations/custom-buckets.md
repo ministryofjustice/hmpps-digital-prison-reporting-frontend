@@ -34,7 +34,7 @@ If custom buckets are defined in the visualisation definition values are binned 
 
 ## Definition
 
-Custom buckets are defined in the `options` field of the visualisaton definition
+Custom buckets are defined in the `options` field of the visualisation definition
 
 ```js
 option: {

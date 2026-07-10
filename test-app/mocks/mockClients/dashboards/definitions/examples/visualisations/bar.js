@@ -143,7 +143,7 @@ const verticalStackedBar = {
   display: 'Metrics by establishment (stacked vertically)',
   options: {
     horizontal: false,
-    xStacked: false,
+    xStacked: true,
     yStacked: true,
   },
   columns: {
@@ -173,7 +173,7 @@ const horizontalStackedBar = {
   options: {
     horizontal: true,
     xStacked: true,
-    yStacked: false,
+    yStacked: true,
   },
   columns: {
     keys: [

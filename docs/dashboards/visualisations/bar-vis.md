@@ -261,7 +261,7 @@ In this example we will define which dataset columns to use in the horizontal st
   options: {
     horizontal: true,
     xStacked: true,
-    yStacked: false,
+    yStacked: true,
   },
   columns: {
     keys: [

@@ -347,11 +347,16 @@ export const verticalStackedBarChart: components['schemas']['DashboardVisualisat
   display: 'Metrics by establishment (stacked vertically)',
   options: {
     horizontal: false,
-    xStacked: false,
+    xStacked: true,
     yStacked: true,
   },
   columns: {
     keys: [
+      {
+        id: 'ts',
+        display: 'Date',
+        type: 'timestamp',
+      },
       {
         id: 'establishment_id',
         display: 'Establishment ID',
@@ -377,10 +382,15 @@ export const horizontalStackedBarChart: components['schemas']['DashboardVisualis
   options: {
     horizontal: true,
     xStacked: true,
-    yStacked: false,
+    yStacked: true,
   },
   columns: {
     keys: [
+      {
+        id: 'ts',
+        display: 'Date',
+        type: 'timestamp',
+      },
       {
         id: 'establishment_id',
         display: 'Establishment ID',

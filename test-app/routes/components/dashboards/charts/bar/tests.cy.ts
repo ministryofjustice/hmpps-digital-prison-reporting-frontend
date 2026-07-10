@@ -34,9 +34,9 @@ context('Dashboard visualisation: bar chart', () => {
       cy.visit(completeDashboardUrl)
     })
 
-    it('should should have the correct amount of sections', () => {
+    it('should have the correct amount of sections', () => {
       cy.findAllByRole('heading', { level: 2 })
-        .should('have.length', 4)
+        .should('have.length', 5)
         .each((section, index) => {
           switch (index) {
             case 0:
@@ -49,6 +49,9 @@ context('Dashboard visualisation: bar chart', () => {
               cy.wrap(section).contains('Specified Unit type')
               break
             case 3:
+              cy.wrap(section).contains('Stacked bar charts')
+              break
+            case 4:
               cy.wrap(section).contains('Full Dataset')
               break
             default:

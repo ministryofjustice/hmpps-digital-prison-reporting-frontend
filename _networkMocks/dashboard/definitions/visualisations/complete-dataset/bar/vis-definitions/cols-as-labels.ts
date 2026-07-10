@@ -1,6 +1,6 @@
+import { DashboardVisualisationType } from '../../../../../../../src/dpr/components/_dashboards/dashboard-visualisation/types'
 import { UnitType } from '../../../../../../../src/dpr/components/_dashboards/dashboard-visualisation/Validate'
 import { components } from '../../../../../../../src/dpr/types/api'
-import { DashboardVisualisationType } from '../../../../../../../src/dpr/components/_dashboards/dashboard-visualisation/types'
 
 export const dataQualityMetricOneBar: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'bar-data-quality-has-MetricOne',
@@ -335,6 +335,65 @@ export const dataQualityAllBarWithUnitHorizontal: components['schemas']['Dashboa
         id: 'metric_one_is_missing',
         display: 'No MetricOne',
         unit: UnitType.PERCENTAGE,
+      },
+    ],
+    expectNulls: false,
+  },
+}
+
+export const verticalStackedBarChart: components['schemas']['DashboardVisualisationDefinition'] = {
+  id: 'bar-chart-stacked-vertical-visualisation',
+  type: DashboardVisualisationType.BAR,
+  display: 'Metrics by establishment (stacked vertically)',
+  options: {
+    horizontal: false,
+    xStacked: false,
+    yStacked: true,
+  },
+  columns: {
+    keys: [
+      {
+        id: 'establishment_id',
+        display: 'Establishment ID',
+      },
+    ],
+    measures: [
+      {
+        id: 'has_metric_one',
+        display: 'Has MetricOne',
+      },
+      {
+        id: 'has_metric_two',
+        display: 'Has MetricTwo',
+      },
+    ],
+    expectNulls: false,
+  },
+}
+export const horizontalStackedBarChart: components['schemas']['DashboardVisualisationDefinition'] = {
+  id: 'bar-chart-stacked-horizontal-visualisation',
+  type: DashboardVisualisationType.BAR,
+  display: 'Metrics by establishment (stacked horizontally)',
+  options: {
+    horizontal: true,
+    xStacked: true,
+    yStacked: false,
+  },
+  columns: {
+    keys: [
+      {
+        id: 'establishment_id',
+        display: 'Establishment ID',
+      },
+    ],
+    measures: [
+      {
+        id: 'has_metric_one',
+        display: 'Has MetricOne',
+      },
+      {
+        id: 'has_metric_two',
+        display: 'Has MetricTwo',
       },
     ],
     expectNulls: false,

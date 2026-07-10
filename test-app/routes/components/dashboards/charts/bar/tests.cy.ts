@@ -78,7 +78,7 @@ context('Dashboard visualisation: bar chart', () => {
       cy.get('#bar-data-quality-all-dash-section-visualisation').should('exist').and('be.visible')
     })
 
-    it('should should show the correct data for charts', () => {
+    it('should show the correct data for charts', () => {
       cy.findAllByLabelText(/Simple bar charts/).within(() => {
         cy.findAllByRole('heading', { level: 3 }).should('have.length', 4)
 
@@ -393,7 +393,7 @@ context('Dashboard visualisation: bar chart', () => {
       cy.visit(partialDashboardUrl)
     })
 
-    it('should should have the correct amount of sections', () => {
+    it('should have the correct amount of sections', () => {
       cy.findAllByRole('heading', { level: 2 })
         .should('have.length', 3)
         .each((section, index) => {
@@ -413,7 +413,7 @@ context('Dashboard visualisation: bar chart', () => {
         })
     })
 
-    it('should should show the correct data for charts', () => {
+    it('should show the correct data for charts', () => {
       cy.findAllByLabelText(/Bar charts from a list/).within(() => {
         cy.findAllByRole('heading', { level: 3 }).should('have.length', 4)
 

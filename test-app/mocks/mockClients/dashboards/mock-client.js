@@ -7,6 +7,7 @@ const { generateAgeBreakdownData } = require('./data/age-breakdown/data')
 const AgeBreakdownDataHelper = require('./data/age-breakdown/dataGenerator')
 const TestDataHelper = require('./data/test-data/dataGenerator')
 const DataQualityMetricsHelper = require('./data/data-quality-metrics/dataGenerator')
+const { da } = require('zod/v4/locales')
 
 class MockDashboardClient {
   constructor() {
@@ -14,6 +15,7 @@ class MockDashboardClient {
       ...dashboardDefinitions.requestExamples,
       ...dashboardDefinitions.visualisationExamples,
       ...dashboardDefinitions.mockDashboards,
+      ...dashboardDefinitions.parentChild
     ]
     this.requests = [{ executionId: `exId_1721738244284`, tableId: `tblId_1721738244284` }]
     this.statusResponses = mockStatusSequence

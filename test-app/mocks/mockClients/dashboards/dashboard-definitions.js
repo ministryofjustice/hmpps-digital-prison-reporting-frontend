@@ -12,6 +12,7 @@ const matrixExamples = require('./definitions/examples/matrix/definition')
 const scorecardExamples = require('./definitions/examples/scorecards')
 const chartExamples = require('./definitions/examples/charts')
 const testingDashboards = require('./definitions/test-dashboard')
+const parentChildDashboards = require('./definitions/parent-child')
 
 const successfulExecution = {
   id: 'test-dashboard-1',
@@ -100,4 +101,7 @@ module.exports = {
     lineExamples.lineChartDashboard,
     scorecardExamples.dataQualityScoreCards,
   ],
+  parentChild: [
+    ...parentChildDashboards
+  ]
 }

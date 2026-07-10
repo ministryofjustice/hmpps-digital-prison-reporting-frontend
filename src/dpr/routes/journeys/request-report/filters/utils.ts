@@ -2,25 +2,26 @@
 import { Request, Response, NextFunction } from 'express'
 
 // Utils
+import { buildMasterSections } from '../../../../components/_dashboards/dashboard-section/utils'
 import { buildFilterData, buildSortData } from '../../../../components/_async/async-filters-form/utils'
 import LocalsHelper from '../../../../utils/localsHelper'
 import { getRequestFilters } from '../../../../components/_filters/utils'
 
 // Types
-import type ReportingService from '../../../../services/reportingService'
 import { ReportType } from '../../../../types/UserReports'
 import type { ExecutionData, ChildReportExecutionData } from '../../../../types/ExecutionData'
 import type { AsyncReportUtilsParams, RequestDataResult, RequestReportData } from '../../../../types/AsyncReportUtils'
 import type { SetQueryFromFiltersResult } from '../../../../components/_async/async-filters-form/types'
 import type { components } from '../../../../types/api'
 import type { Services } from '../../../../types/Services'
-import { getDefinitionByType, getFields } from '../../../../utils/definitionUtils'
+import { getDashboardFields, getFields } from '../../../../utils/definitionUtils'
 import { getActiveJourneyValue, setActiveJourneySortSearch } from '../../../../utils/sessionHelper'
 import { formBodyToQueryObject } from '../../../../utils/queryMappers'
 import { joinQueryStrings } from '../../../../utils/urlHelper'
 import { buildQuerySummary } from '../../../../components/_async/request-details/utils'
 import ReportQuery from '../../../../types/ReportQuery'
 import { RequestedReportBuilder } from '../../my-reports/requested-reports/builder'
+import { DashboardDefintion } from '../../../../components/_dashboards/dashboard-visualisation/types'
 
 // ----------------------------------------------------------------------
 // POST
@@ -104,37 +105,207 @@ export const updateStore = async ({
   await services.recentlyViewedService.removeSupersededViewedReports(removedExecutionIds, dprUser.id)
 }
 
-const requestChildReports = async (
-  childVariants: Array<components['schemas']['ChildVariantDefinition']>,
-  reportingService: ReportingService,
+/**
+ * Request the child variants
+ *
+ * @param {(Array<components['schemas']['ChildVariantDefinition']>
+ *     | Array<components['schemas']['DashboardDefinition']>)} childVariants
+ * @param {Services} services
+ * @param {ReportType} reportType
+ * @param {string} token
+ * @param {string} reportId
+ * @param {SetQueryFromFiltersResult} [queryData]
+ * @param {string} [dataProductDefinitionsPath]
+ * @return {*}  {Promise<Array<ChildReportExecutionData>>}
+ */
+const requestChildVariants = async (
+  childVariants:
+    | Array<components['schemas']['ChildVariantDefinition']>
+    | Array<components['schemas']['DashboardDefinition']>,
+  services: Services,
+  reportType: ReportType,
   token: string,
   reportId: string,
   queryData?: SetQueryFromFiltersResult,
   dataProductDefinitionsPath?: string,
 ): Promise<Array<ChildReportExecutionData>> => {
-  let query: Record<string, string | string[]>
-  if (queryData) {
-    query = queryData.query
-    delete query['sortColumn']
-    delete query['sortedAsc']
+  const query = queryData
+    ? Object.fromEntries(Object.entries(queryData.query).filter(([key]) => key !== 'sortColumn' && key !== 'sortedAsc'))
+    : {}
+
+  const results: Array<ChildReportExecutionData | null> = await Promise.all(
+    childVariants.map(async childVariant => {
+      const queryParams = {
+        ...query,
+        ...(dataProductDefinitionsPath && { dataProductDefinitionsPath }),
+      }
+
+      const response =
+        reportType === ReportType.DASHBOARD
+          ? await services.dashboardService.requestAsyncDashboard(token, reportId, childVariant.id, queryParams)
+          : await services.reportingService.requestAsyncReport(token, reportId, childVariant.id, queryParams)
+
+      const { executionId, tableId } = response
+
+      if (!executionId || !tableId) {
+        if (reportType === ReportType.DASHBOARD) {
+          return null
+        }
+
+        throw new Error('requestChildVariants: No executionId or tableId in response')
+      }
+
+      return {
+        executionId,
+        tableId,
+        variantId: childVariant.id,
+      }
+    }),
+  )
+
+  return results.filter((result): result is ChildReportExecutionData => result !== null)
+}
+
+/**
+ * Request the dashboard - get the execution data
+ *
+ * @param {Request} req
+ * @param {Response} res
+ * @param {string} token
+ * @param {Services} services
+ * @return {*}
+ */
+const requestDashboard = async (req: Request, res: Response, token: string, services: Services) => {
+  const { definitionsPath: dataProductDefinitionsPath, dpdPathFromQuery } = LocalsHelper.getValues(res)
+  const { reportId, id } = req.body as { reportId: string; id: string }
+
+  const definition = await services.dashboardService.getDefinition(token, reportId, id, dataProductDefinitionsPath)
+
+  // TODO: Update this type to components['schemas']['DashboardDefinition'] when `childVariants` field is present
+  const childVariants = (<DashboardDefintion>definition).childVariants ?? []
+
+  const fields = getDashboardFields(definition)
+
+  const query = new ReportQuery({
+    fields,
+    queryParams: formBodyToQueryObject(req.body),
+    definitionsPath: <string>dataProductDefinitionsPath,
+    reportType: ReportType.DASHBOARD,
+  }).toRecordWithFilterPrefix(true) as Record<string, string>
+
+  const requestResponse = await services.dashboardService.requestAsyncDashboard(token, reportId, id, {
+    ...query,
+    dataProductDefinitionsPath,
+  })
+
+  const { executionId, tableId } = requestResponse
+
+  if (!executionId || !tableId) {
+    throw new Error('Execution of report request failed - no execution data returned')
   }
 
-  return Promise.all(
-    childVariants.map(childVariant =>
-      reportingService
-        .requestAsyncReport(token, reportId, childVariant.id, {
-          ...(query && query),
-          ...(dataProductDefinitionsPath && { dataProductDefinitionsPath }),
-        })
-        .then(response => {
-          const { executionId, tableId } = response
-          if (!executionId || !tableId) {
-            throw new Error('requestChildReports: No execution of tableId in response')
-          }
-          return { executionId, tableId, variantId: childVariant.id }
-        }),
-    ),
+  const executionData = {
+    executionId,
+    tableId,
+    ...(dpdPathFromQuery && { dataProductDefinitionsPath }),
+  }
+
+  const querySummary = buildQuerySummary(req.body, fields)
+  const filterData = buildFilterData(req.body)
+
+  const queryData = {
+    querySummary,
+    filterData,
+    query,
+  }
+
+  const childExecutionData = await requestChildVariants(
+    childVariants,
+    services,
+    ReportType.DASHBOARD,
+    token,
+    reportId,
+    queryData,
+    dataProductDefinitionsPath,
   )
+
+  return {
+    executionData,
+    childExecutionData,
+    queryData,
+  }
+}
+
+/**
+ * Request the report - get the execution data
+ *
+ * @param {Request} req
+ * @param {Response} res
+ * @param {string} token
+ * @param {Services} services
+ * @return {*}
+ */
+const requestReport = async (req: Request, res: Response, token: string, services: Services) => {
+  const { definitionsPath: dataProductDefinitionsPath, dpdPathFromQuery } = LocalsHelper.getValues(res)
+  const { reportId, id } = req.body as { reportId: string; id: string }
+
+  const definition = await services.reportingService.getDefinition(token, reportId, id, dataProductDefinitionsPath)
+
+  const childVariants = (<components['schemas']['SingleVariantReportDefinition']>definition).variant.childVariants ?? []
+
+  const fields = getFields(definition)
+
+  const query = new ReportQuery({
+    fields,
+    queryParams: formBodyToQueryObject(req.body),
+    definitionsPath: <string>dataProductDefinitionsPath,
+    reportType: ReportType.REPORT,
+  }).toRecordWithFilterPrefix(true) as Record<string, string>
+
+  const requestResponse = await services.reportingService.requestAsyncReport(token, reportId, id, {
+    ...query,
+    dataProductDefinitionsPath,
+  })
+  const { executionId, tableId } = requestResponse
+
+  if (!executionId || !tableId) {
+    throw new Error('Execution of report request failed - no execution data returned')
+  }
+
+  const executionData = {
+    executionId,
+    tableId,
+    ...(dpdPathFromQuery && { dataProductDefinitionsPath }),
+  }
+
+  const sortData = buildSortData(req.body)
+  setActiveJourneySortSearch(req, { reportId, id, tableId }, sortData)
+
+  const querySummary = buildQuerySummary(req.body, fields)
+  const filterData = buildFilterData(req.body)
+
+  const queryData = {
+    querySummary,
+    filterData,
+    query,
+    ...(sortData && { sortData }),
+  }
+
+  const childExecutionData = await requestChildVariants(
+    childVariants,
+    services,
+    ReportType.REPORT,
+    token,
+    reportId,
+    queryData,
+    dataProductDefinitionsPath,
+  )
+
+  return {
+    executionData,
+    childExecutionData,
+    queryData,
+  }
 }
 
 const requestProduct = async ({
@@ -152,72 +323,17 @@ const requestProduct = async ({
   childExecutionData: Array<ChildReportExecutionData>
   queryData?: SetQueryFromFiltersResult | undefined
 }> => {
-  const { definitionsPath: dataProductDefinitionsPath, dpdPathFromQuery } = LocalsHelper.getValues(res)
-  const { reportId, id, type } = req.body as { reportId: string; id: string; type: ReportType }
+  const { type } = req.body as { type: ReportType }
 
-  let executionId
-  let tableId
-  let childVariants: components['schemas']['ChildVariantDefinition'][] = []
-  let sortData: Record<string, string> | undefined
+  switch (type) {
+    case ReportType.REPORT:
+      return requestReport(req, res, token, services)
 
-  const { definition, fields } = await getDefinitionByType(type, services, token, reportId, id)
-  const query = new ReportQuery({
-    fields,
-    queryParams: formBodyToQueryObject(req.body),
-    definitionsPath: <string>dataProductDefinitionsPath,
-    reportType: type,
-  }).toRecordWithFilterPrefix(true) as Record<string, string>
+    case ReportType.DASHBOARD:
+      return requestDashboard(req, res, token, services)
 
-  if (type === ReportType.REPORT) {
-    const requestReportResponse = await services.reportingService.requestAsyncReport(token, reportId, id, {
-      ...query,
-      dataProductDefinitionsPath,
-    })
-    executionId = requestReportResponse['executionId']
-    tableId = requestReportResponse['tableId']
-    childVariants = (<components['schemas']['SingleVariantReportDefinition']>definition).variant.childVariants ?? []
-    sortData = buildSortData(req.body)
-    setActiveJourneySortSearch(req, { reportId, id, tableId }, sortData)
-  }
-
-  if (type === ReportType.DASHBOARD) {
-    const requestDashboardResponse = await services.dashboardService.requestAsyncDashboard(token, reportId, id, {
-      ...query,
-      dataProductDefinitionsPath,
-    })
-    executionId = requestDashboardResponse['executionId']
-    tableId = requestDashboardResponse['tableId']
-  }
-
-  const querySummary = buildQuerySummary(req.body, fields)
-  const filterData = buildFilterData(req.body)
-
-  const queryData = {
-    querySummary,
-    filterData,
-    query,
-    ...(sortData && { sortData }),
-  }
-
-  const childExecutionData = await requestChildReports(
-    childVariants,
-    services.reportingService,
-    token,
-    reportId,
-    queryData,
-    dataProductDefinitionsPath,
-  )
-
-  const executionData = {
-    executionId,
-    tableId,
-    ...(dpdPathFromQuery && { dataProductDefinitionsPath }),
-  }
-
-  return {
-    executionData,
-    childExecutionData,
-    queryData,
+    default:
+      throw new Error(`Unsupported report type: ${type}`)
   }
 }
 
@@ -351,7 +467,17 @@ const renderDashboardRequestData = async ({
   const productDefinition = productDefinitions.find(
     (def: components['schemas']['ReportDefinitionSummary']) => def.id === reportId,
   )
-  const { name, description, sections, filterFields: fields } = definition
+
+  // TODO: Remove the "as" when components['schemas']['DashboardDefinition'] includes the `childVariants` field
+  const { childVariants } = definition as DashboardDefintion
+
+  const masterDefintion = definition
+  if (childVariants?.length) {
+    // TODO: Remove the casting of definition when components['schemas']['DashboardDefinition'] includes the `childVariants` field
+    masterDefintion.sections = buildMasterSections(<DashboardDefintion>definition)
+  }
+
+  const { name, description, sections, filterFields: fields } = masterDefintion
 
   return {
     reportName: productDefinition?.name || '',

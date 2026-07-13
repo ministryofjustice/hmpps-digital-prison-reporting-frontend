@@ -1,0 +1,40 @@
+{% from "./catalogue-variant-rows/view.njk" import dprReportsCatalogueVariantRows %}
+{% from "./catalogue-product-row-navigation/view.njk" import dprReportsCatalogueProductRowNavigation %}
+{% from "./catalogue-product-row-totals/view.njk" import dprReportsCatalogueProductRowTotals %}
+
+{%- from "govuk/components/tag/macro.njk" import govukTag -%}
+
+{% macro dprReportsCatalogueProductRow(product, previousProduct, nextProduct) %}
+
+  {% set name = product.name %}
+  {% set variants = product.variants %}
+  {% set authorised = product.authorised %}
+  {% set missing = product.missing %}
+
+  <div
+    id="dpr-report-catalogue__product-{{ product.id }}"
+    class="dpr-report-catalogue__product-row"
+    data-authorised="{{ authorised }}">
+
+    <div class="dpr-report-catalogue__product-row__name">
+      <span class="govuk-caption-m">Product</span>
+      <h1 class="govuk-heading-m">{{ name }}</h1>
+
+      {% if not authorised %}
+        <div class="dpr-report-catalogue__product-unauthorised">
+          {{ govukTag({ text: "Unauthorised", classes: "govuk-tag--red" }) }}
+        </div>
+      {% endif %}
+
+      <div class="dpr-report-catalogue__product-row__meta" data-dpr-module="">
+        {{ dprReportsCatalogueProductRowTotals(variants.length) }}
+        {{ dprReportsCatalogueProductRowNavigation(previousProduct, nextProduct) }}
+      </div>
+
+    </div>
+
+    <div class="dpr-report-catalogue__product-row__variants">
+      {{ dprReportsCatalogueVariantRows(variants) }}
+    </div>
+  </div>
+{% endmacro %}

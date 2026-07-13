@@ -52,6 +52,14 @@ import MatrixChartVisualisation from './components/_charts/chart/heatmap/clientC
 // Dashboards
 import ScoreCard from './components/_dashboards/scorecard/clientClass'
 
+// ReportsCatalogue v2
+import { DprReportsCatalogueSearch } from './components/catalogue/catalogue-filters/catalogue-filters-search/clientClass'
+import { DprReportsCatalogueCollections } from './components/catalogue/catalogue-filters/catalogue-filters-collection/clientClass'
+import { DprReportsCatalogueTypeFilter } from './components/catalogue/catalogue-filters/catalogue-filters-type/clientClass'
+import { DprReportsCatalogueShowHide } from './components/catalogue/catalogue-filters/catalogue-filters-show-hide/clientClass'
+import { DprReportsCatalogueTotals } from './components/catalogue/catalogue-totals/clientClass'
+import { DprReportsCatalogueProductCounts } from './components/catalogue/catalogue-product-rows/catalogue-product-row/catalogue-product-row-totals/clientClass'
+
 /**
  * Initialise all components
  *
@@ -88,6 +96,12 @@ function initAll() {
     DprSelectedAsyncFilters,
     DprAppliedFilters,
     DprMyReports,
+    DprReportsCatalogueSearch,
+    DprReportsCatalogueCollections,
+    DprReportsCatalogueTypeFilter,
+    DprReportsCatalogueShowHide,
+    DprReportsCatalogueTotals,
+    DprReportsCatalogueProductCounts,
   ]
 
   dayjs.extend(customParse)

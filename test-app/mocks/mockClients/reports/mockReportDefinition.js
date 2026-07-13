@@ -64,7 +64,7 @@ module.exports = {
       authorised: true,
     },
     {
-      id: 'dashboard-visualisations',
+      id: 'data-quality',
       name: 'Data quality',
       description: 'Example dashboards using the data quality dataset',
       variants: [],
@@ -78,6 +78,41 @@ module.exports = {
       variants: [],
       dashboards: dashboardDefinitions.mockDashboards,
       authorised: true,
+    },
+    {
+      id: 'unauthorised',
+      name: 'Unauthorised product',
+      description: 'Example variants used for Unauthorised product',
+      variants: [
+        {
+          id: 'Unauthorised-1',
+          name: 'Unauthorised 1',
+          description: 'Description for Unauthorised report 1',
+          resourceName: 'reports/list',
+          classification: 'OFFICIAL',
+          printable: false,
+          isMissing: true,
+          specification: {
+            template: 'list',
+            fields: []
+          }
+        },
+        {
+          id: 'Unauthorised-2',
+          name: 'Unauthorised 2',
+          description: 'Description for Unauthorised report 2',
+          resourceName: 'reports/list',
+          classification: 'OFFICIAL',
+          printable: false,
+          isMissing: true,
+          specification: {
+            template: 'list',
+            fields: []
+          }
+        }
+      ],
+      dashboards: [],
+      authorised: false,
     },
   ],
 

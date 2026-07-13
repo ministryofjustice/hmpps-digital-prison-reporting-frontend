@@ -1,0 +1,11 @@
+{% macro dprReportsCatalogueProductRowNavigation( previousProduct, nextProduct) %}
+  <div class="dpr-report-catalogue__product-navigation">
+    {% if previousProduct %}
+      <a href="#dpr-report-catalogue__product-{{ previousProduct.id }} " class="govuk-link govuk-link--no-visited-state govuk-body-s">Previous product</a>
+    {% endif %}
+
+    {% if nextProduct %}
+      <a href="#dpr-report-catalogue__product-{{ nextProduct.id }}" class="govuk-link govuk-link--no-visited-state govuk-body-s govuk-!-margin-left-2">Next product</a>
+    {% endif %}
+  </div>
+{% endmacro %}

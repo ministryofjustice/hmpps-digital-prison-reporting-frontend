@@ -1,0 +1,45 @@
+{% from "govuk/components/details/macro.njk" import govukDetails %}
+
+{% from "./catalogue-filters-search/view.njk" import dprReportsCatalogueSearch %}
+{% from "./catalogue-filters-collection/view.njk" import dprReportsCatalogueCollections %}
+{% from "./catalogue-filters-show-hide/view.njk" import dprReportsCatalogueShowHide %}
+{% from "./catalogue-filters-type/view.njk" import dprReportsCatalogueReportTypeFilter %}
+
+{% macro dprReportsCatalogueFilters(config) %}
+
+  <div class="dpr-reports-catalogue-filters">
+    <div class="dpr-reports-catalogue-filters__search-container">
+      <div class="dpr-reports-catalogue-filters__search">
+        {{ dprReportsCatalogueSearch('reports-catalogue') }}
+      </div>
+      <div class="dpr-reports-catalogue-filters__collections">
+        {{ dprReportsCatalogueCollections(config.productCollectionConfig) }}
+      </div>
+    </div>
+
+    <div class="dpr-catalogue-filters--show-more-container">
+
+      {% set catalogueFiltersHtml %}
+        <div class="dpr-reports-catalogue-filters--content-filters">
+          <div class="dpr-reports-catalogue-filters__type-filter">
+            {{ dprReportsCatalogueReportTypeFilter() }}
+          </div>
+
+          <div class="dpr-reports-catalogue-filters__show-hide">
+            {{ dprReportsCatalogueShowHide() }}
+          </div>
+        </div>
+      {% endset %}
+
+      <div class="dpr-catalogue-filters--show-more-content">
+        {{
+          govukDetails({
+            summaryText: 'Show more filters',
+            html: catalogueFiltersHtml,
+            open: false
+          })
+        }}
+      </div>
+    </div>
+  </div>
+{% endmacro %}

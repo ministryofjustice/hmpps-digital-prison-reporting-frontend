@@ -1,0 +1,25 @@
+.dpr-reports-catalogue__actions-list {
+  list-style-type: none;
+  padding: 0;
+  padding-right: govuk-spacing(2);
+  margin-top: 0px;
+  font-size: 16px;
+  text-align: right;
+
+  li {
+    margin-bottom: govuk-spacing(1);
+  }
+
+  .dpr-button-link {
+    font-size: 16px;
+  }
+}
+
+.dpr-reports-catalogue__actions-unauthorised {
+  text-align: right;
+  padding-right: govuk-spacing(2);
+
+  .govuk-tag {
+    font-size: 16px;
+  }
+}

@@ -8,6 +8,7 @@ import UserReportsRoutes from './user-reports/routes'
 import FiltersRoutes from './filters/routes'
 import { ReportHeadingRoutes } from './report-heading/routes'
 import TruncateRoutes from './truncate/routes'
+import ReportsCatalogueRoutes from './reports-catalogue/routes'
 
 import ComponentsController from './controller'
 import { Services } from '../../../src/dpr/types/Services'
@@ -25,6 +26,7 @@ export function Routes(services: Services): Router {
   router.use(`/filters`, FiltersRoutes())
   router.use('/report-heading', ReportHeadingRoutes())
   router.use('/truncate', TruncateRoutes())
+  router.use('/reports-catalogue', ReportsCatalogueRoutes(services))
 
   return router
 }

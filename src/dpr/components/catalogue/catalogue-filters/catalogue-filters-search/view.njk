@@ -1,0 +1,21 @@
+{% from "govuk/components/input/macro.njk" import govukInput %}
+
+{% macro dprReportsCatalogueSearch(id) %}
+  <div class="dpr-reports-catalogue-search" data-dpr-module="dpr-report-catalogue-search">
+      {{
+        govukInput({
+          label: {
+            text: "Filter by key word",
+            classes: "govuk-!-font-weight-bold govuk-!-margin-bottom-2"
+          },
+          id: id + '_search_input',
+          name: 'search',
+          autocomplete: "off",
+          attributes: {
+            placeholder: "Type to filter reports",
+            "data-table-id": id
+          }
+        })
+      }}
+  </div>
+{% endmacro %}

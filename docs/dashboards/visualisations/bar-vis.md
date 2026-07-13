@@ -86,10 +86,11 @@ option: {
 
 - [Define dataset columns as bar labels](#define-dataset-columns-as-bar-labels)
 - [Dataset values as labels](#dataset-values-as-labels)
+- [Horizontal stacked bar chart](#horizontal-stacked-bar-chart)
 
 <hr class='dpr-docs-hr'/>
 
-# Define dataset columns as bar labels
+## Define dataset columns as bar labels
 
 In this example we will define which dataset columns to use in the bar chart as follows:
 
@@ -158,7 +159,7 @@ see [here](/dashboards/visualisations/visualisation-dataset) for more info on ta
 
 <hr class='dpr-docs-hr'/>
 
-# Dataset values as labels
+## Dataset values as labels
 
 In this example we will use values in a specific column for the bar labels, and use another column as the values for the bar.
 
@@ -230,3 +231,78 @@ see [here](/dashboards/visualisations/visualisation-dataset) for more info on ta
 ```
 
 ```
+
+## Horizontal stacked bar chart
+
+In this example we will define which dataset columns to use in the horizontal stacked bar chart as follows:
+
+- each column will be a new bar in the chart
+- the column value will be represented as the size of the bar
+- each row will be a new dataset in the chart and will represent a single section of each bar
+
+### Example Dataset
+
+```js
+| est_id | has_metric_one | metric_one_is_missing | has_metric_two | metric_two_is_missing |
+|--------|----------------|-----------------------|----------------|-----------------------|
+| ABC    | 93             | 13                    | 84             | 20                    |
+| GHI    | 92             | 74                    | 49             | 1                     |
+| DEF    | 10             | 13                    | 74             | 65                    |
+| JKL    | 52             | 85                    | 90             | 3                     |
+```
+
+### Definition
+
+```js
+{
+  id: 'bar-chart-stacked-horizontal-visualisation-example',
+  type: 'bar',
+  display: 'Metrics by establishment (stacked horizontally)',
+  options: {
+    horizontal: true,
+    xStacked: true,
+    yStacked: true,
+  },
+  columns: {
+    keys: [
+      {
+        id: 'establishment_id',
+        display: 'Establishment ID',
+      },
+    ],
+    measures: [
+      {
+        id: 'has_metric_one',
+        display: 'Has MetricOne',
+      },
+      {
+        id: 'has_metric_two',
+        display: 'Has MetricTwo',
+      },
+    ],
+  },
+}
+```
+
+### Visualisation dataset
+
+This definition will return the following dataset
+
+```js
+
+| est_id | has_metric_one | has_metric_two |
+|--------|----------------|----------------|
+| ABC    | 93             | 84             |
+| GHI    | 92             | 49             |
+| DEF    | 10             | 74             |
+| JKL    | 52             | 90             |
+
+```
+
+see [here](/dashboards/visualisations/visualisation-dataset) for more info on targeting data
+
+### Visualisation:
+
+<img src="/assets/images/charts/bar/stackedBar1.png" alt="stacked bar chart example" width="800"/>
+
+<hr class='dpr-docs-hr'/>

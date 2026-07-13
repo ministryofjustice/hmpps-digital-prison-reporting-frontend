@@ -2,7 +2,7 @@
 const requestExampleSuccess = {
   id: 'request-example-success',
   name: 'Successful Report',
-  description: 'this will succeed',
+  description: '<ul><li>this will succeed</li><li>this will succeed</li><li>this will succeed</li><li>this will succeed</li><li>this will succeed</li><li>this will succeed</li></ul>',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
   printable: true,

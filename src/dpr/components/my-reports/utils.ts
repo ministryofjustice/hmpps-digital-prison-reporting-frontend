@@ -25,6 +25,7 @@ import {
   shouldRunExpiryCheck,
 } from '../../utils/ReportStatus/getReportStatus'
 import { captureDprError } from '../../utils/captureError'
+import { renderTruncateAsHtml } from '../truncate/utils'
 
 /**
  * Initialises the "My Reports" component data
@@ -257,7 +258,7 @@ const buildBookmarkListItems = async (res: Response, services: Services): Promis
         reportName,
         reportType,
       },
-      description,
+      description: renderTruncateAsHtml({ stringValue: description, classes: 'govuk-body-s', charLength: 50 }),
       actions: buildBookmarkActionsCell(bookmark, res),
     }
   })

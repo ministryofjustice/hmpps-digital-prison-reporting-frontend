@@ -21,7 +21,7 @@ The visualisation definition is responsible for:
 
 - `list`
 - `bar`
-- `dougnhut`
+- `doughnut`
 - `line`
 - `scorecard`
 - `scorecard-group`

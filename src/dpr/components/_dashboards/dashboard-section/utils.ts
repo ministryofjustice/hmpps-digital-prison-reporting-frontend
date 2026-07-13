@@ -1,7 +1,12 @@
 import { DashboardDataResponse } from '../../../types/Metrics'
 import { components } from '../../../types/api'
 import { PartialDate } from '../../_filters/types'
-import { DashboardSection, DashboardVisualisation, DashboardVisualisationType } from '../dashboard-visualisation/types'
+import {
+  DashboardDefintion,
+  DashboardSection,
+  DashboardVisualisation,
+  DashboardVisualisationType,
+} from '../dashboard-visualisation/types'
 import ScorecardsUtils from '../scorecard/utils'
 import ScorecardVisualisation from '../scorecard/Scorecard'
 import ScorecardGroupVisualisation from '../scorecard-group/ScorecardGroup'
@@ -77,4 +82,77 @@ export const createDashboardSections = (
 
     return { id, title: title || '', description: description || '', visualisations }
   })
+}
+
+/**
+ * Add variant ID to section
+ *
+ * @param {components['schemas']['DashboardSectionDefinition']} section
+ * @param {string} variantId
+ * @return {*}  {components['schemas']['DashboardSectionDefinition']}
+ */
+export const addVariantIdToSection = (
+  section: components['schemas']['DashboardSectionDefinition'],
+  variantId: string,
+): components['schemas']['DashboardSectionDefinition'] => ({
+  ...section,
+  visualisations: section.visualisations.map(visualisation => ({
+    ...visualisation,
+    variantId,
+  })),
+})
+
+/**
+ * Builds a master section collection from a parent dashboard and its child variants.
+ *
+ * @param {DashboardDefintion} definition
+ * @return {*}  {components['schemas']['DashboardSectionDefinition'][]}
+ */
+export const buildMasterSections = (
+  definition: DashboardDefintion, // TODO: Update this type to components['schemas']['DashboardDefinition'] when `childVariants` field is present
+): components['schemas']['DashboardSectionDefinition'][] => {
+  const parentSections = definition.sections.map(section => addVariantIdToSection(section, definition.id))
+
+  return definition.childVariants.reduce(
+    (sections, childVariant) =>
+      childVariant.sections
+        .map(section => addVariantIdToSection(section, childVariant.id))
+        .reduce(mergeSection, sections),
+    parentSections,
+  )
+}
+
+/**
+ * Merges the sections
+ *
+ * Rules:
+ * - Parent sections are added first and retain their original order.
+ * - Child variants are processed in array order.
+ * - Child sections are processed in section order within each variant.
+ * - If a child section ID matches an existing section ID, its visualisations are appended to that section.
+ * - If a child section ID does not exist, the section is appended to the end of the collection.
+ * - Visualisation order is preserved as defined in the source section
+ *
+ * @param {components['schemas']['DashboardSectionDefinition'][]} sections
+ * @param {components['schemas']['DashboardSectionDefinition']} section
+ * @return {*}
+ */
+const mergeSection = (
+  sections: components['schemas']['DashboardSectionDefinition'][],
+  section: components['schemas']['DashboardSectionDefinition'],
+) => {
+  const existingIndex = sections.findIndex(existing => existing.id === section.id)
+
+  if (existingIndex === -1) {
+    return [...sections, section]
+  }
+
+  return sections.map((existing, index) =>
+    index === existingIndex
+      ? {
+          ...existing,
+          visualisations: [...existing.visualisations, ...section.visualisations],
+        }
+      : existing,
+  )
 }

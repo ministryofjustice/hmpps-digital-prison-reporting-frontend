@@ -114,6 +114,14 @@ module.exports = {
       dashboards: [],
       authorised: false,
     },
+    {
+      id: 'parent-child-dashboard',
+      name: 'Parent Child Dashboard',
+      description: 'Example of a dashboard with multiple children',
+      variants: [],
+      dashboards: dashboardDefinitions.parentChild,
+      authorised: true,
+    }
   ],
 
   // ORS Prisoner and Visitors Details Report

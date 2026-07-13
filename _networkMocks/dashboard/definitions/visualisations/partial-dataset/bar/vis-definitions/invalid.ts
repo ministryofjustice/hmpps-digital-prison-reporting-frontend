@@ -1,9 +1,9 @@
-import { components } from '../../../../../../../src/dpr/types/api'
 import { DashboardVisualisationType } from '../../../../../../../src/dpr/components/_dashboards/dashboard-visualisation/types'
+import { components } from '../../../../../../../src/dpr/types/api'
 
 // MISSING Y AXIS
 export const invalidAxisXBar: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'invalid-y-axis-defintion-bar',
+  id: 'invalid-y-axis-definition-bar',
   type: DashboardVisualisationType.BAR,
   display: 'Diet totals by establishment',
   description: '',
@@ -31,7 +31,7 @@ export const invalidAxisXBar: components['schemas']['DashboardVisualisationDefin
 
 // MISSING X AXIS
 export const invalidAxisYBar: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'invalid-x-axis-defintion-bar',
+  id: 'invalid-x-axis-definition-bar',
   type: DashboardVisualisationType.BAR,
   display: 'Diet totals by establishment',
   description: '',

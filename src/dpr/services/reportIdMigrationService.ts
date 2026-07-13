@@ -1,4 +1,5 @@
 import { RedisClient } from '../data/reportDataStore'
+import { ServiceFeatureConfig } from '../types/DprConfig'
 import { ReportStoreConfig } from '../types/ReportStore'
 import logger from '../utils/logger'
 
@@ -16,13 +17,21 @@ interface ConfigToMigrate {
  * all user configs have been successfully processed.
  */
 export class DprReportIdMigrationService {
+  enabled: boolean
+
   private static readonly MIGRATION_KEY = 'migration:dpr-report-ids:v1'
 
   private static readonly USER_CONFIG_PREFIX = 'dprReportStoreUser:'
 
   private static readonly MAX_RETRIES = 3
 
-  constructor(private readonly redisClient: RedisClient) {
+  constructor(
+    private readonly redisClient: RedisClient,
+    serviceFeatureConfig: ServiceFeatureConfig,
+  ) {
+    this.enabled = Boolean(serviceFeatureConfig.bookmarking)
+    if (!this.enabled) logger.info(`Bookmarking: disabled `)
+
     this.redisClient.on('error', error => {
       logger.error(error, 'Redis error')
     })
@@ -32,9 +41,14 @@ export class DprReportIdMigrationService {
    * Runs the migration if it has not already completed successfully.
    */
   public async migrate(): Promise<void> {
+    if (!this.enabled) {
+      logger.info('DPR report ID migration service is disabled')
+
+      return
+    }
+
     const migrationComplete = await this.redisClient.get(DprReportIdMigrationService.MIGRATION_KEY)
 
-    // Another startup or deployment has already completed the migration.
     if (migrationComplete) {
       logger.info('DPR report ID migration already completed')
 

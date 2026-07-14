@@ -1,5 +1,6 @@
 import truncate from 'truncate-html'
 import nunjucks from 'nunjucks'
+import { sanitiseHtml } from 'src/dpr/utils/sanitizeHtml'
 
 export interface TruncationOptions {
   stringValue: string
@@ -22,14 +23,16 @@ export const initialiseTruncation = ({
   showMore = true,
   classes,
 }: TruncationOptions): TruncationModel => {
-  const truncatedHtml = truncate(stringValue, {
+  const sanitizedHtml = sanitiseHtml(stringValue)
+
+  const truncatedHtml = truncate(sanitizedHtml, {
     length: charLength,
   })
 
-  const isTruncated = truncatedHtml !== stringValue
+  const isTruncated = truncatedHtml !== sanitizedHtml
 
   return {
-    fullHtml: stringValue,
+    fullHtml: sanitizedHtml,
     truncatedHtml,
     showMore,
     isTruncated,

@@ -20,6 +20,7 @@ import { ProductCollectionStoreService } from '../services/productCollection/pro
 import { ProductCollectionService } from '../services/productCollection/productCollectionService'
 import { ServiceFeatureConfig } from '../types/DprConfig'
 import { FeatureFlagService } from '../services/featureFlagService'
+import { ReportIdMigrationService } from '../services/reportIdMigrationService'
 
 export interface InitDPRServicesArgs {
   reportingClient: ReportingClient
@@ -28,6 +29,7 @@ export interface InitDPRServicesArgs {
   missingReportClient: MissingReportClient
   productCollectionClient: ProductCollectionClient
   featureFlagService: FeatureFlagService
+  reportIdMigrationService: ReportIdMigrationService
 }
 
 export interface dprServices {
@@ -42,6 +44,7 @@ export interface dprServices {
   defaultFilterValuesService: DefaultFilterValuesService
   productCollectionStoreService: ProductCollectionStoreService
   featureFlagService: FeatureFlagService
+  reportIdMigrationService: ReportIdMigrationService
 }
 
 export const createDprServices = (
@@ -58,6 +61,7 @@ export const createDprServices = (
   logger.info('Initialising DPR services...')
 
   const { reportingClient, dashboardClient, reportDataStore, missingReportClient, productCollectionClient } = clients
+
   const services: dprServices = {
     reportingService: new ReportingService(reportingClient),
     dashboardService: new DashboardService(dashboardClient),
@@ -73,6 +77,7 @@ export const createDprServices = (
     missingReportService: new MissingReportService(missingReportClient, serviceFeatureConfig),
     productCollectionService: new ProductCollectionService(productCollectionClient, serviceFeatureConfig),
     featureFlagService: clients.featureFlagService,
+    reportIdMigrationService: clients.reportIdMigrationService,
   }
 
   return services as Services

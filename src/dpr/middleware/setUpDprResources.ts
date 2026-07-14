@@ -308,6 +308,13 @@ const initialiseServices = async (services: Services, res: Response) => {
       logger.info(`Init service: missingReportService: ${res.app.locals['requestMissingEnabled']}`)
     }
 
+    // Missing reports
+    if (!res.app.locals['reportIdMigrationServiceEnabled']) {
+      res.app.locals['reportIdMigrationServiceEnabled'] = services.reportIdMigrationService.enabled
+
+      logger.info(`Init service: reportIdMigrationService: ${res.app.locals['reportIdMigrationServiceEnabled']}`)
+    }
+
     // Save defaults
     const enabled = isBooleanFlagEnabledOrMissing('saveDefaultsEnabled', res.app)
       ? services.defaultFilterValuesService.enabled

@@ -1,5 +1,5 @@
 import { RedisClient } from '../data/reportDataStore'
-import { ServiceFeatureConfig } from '../types/DprConfig'
+import { MigrationServiceConfig } from '../data/types'
 import { ReportStoreConfig } from '../types/ReportStore'
 import logger from '../utils/logger'
 
@@ -16,7 +16,7 @@ interface ConfigToMigrate {
  * The migration is idempotent and will only be marked as complete once
  * all user configs have been successfully processed.
  */
-export class DprReportIdMigrationService {
+export class ReportIdMigrationService {
   enabled: boolean
 
   private static readonly MIGRATION_KEY = 'migration:dpr-report-ids:v1'
@@ -27,10 +27,10 @@ export class DprReportIdMigrationService {
 
   constructor(
     private readonly redisClient: RedisClient,
-    serviceFeatureConfig: ServiceFeatureConfig,
+    migrationServiceConfig?: MigrationServiceConfig | undefined,
   ) {
-    this.enabled = Boolean(serviceFeatureConfig.bookmarking)
-    if (!this.enabled) logger.info(`Bookmarking: disabled `)
+    this.enabled = migrationServiceConfig ? Boolean(migrationServiceConfig.enabled) : false
+    if (!this.enabled) logger.info(`Migration service: disabled `)
 
     this.redisClient.on('error', error => {
       logger.error(error, 'Redis error')
@@ -38,7 +38,7 @@ export class DprReportIdMigrationService {
   }
 
   /**
-   * Runs the migration if it has not already completed successfully.
+   * Runs the migration.
    */
   public async migrate(): Promise<void> {
     if (!this.enabled) {
@@ -47,8 +47,9 @@ export class DprReportIdMigrationService {
       return
     }
 
-    const migrationComplete = await this.redisClient.get(DprReportIdMigrationService.MIGRATION_KEY)
+    await this.ensureConnected()
 
+    const migrationComplete = await this.redisClient.get(ReportIdMigrationService.MIGRATION_KEY)
     if (migrationComplete) {
       logger.info('DPR report ID migration already completed')
 
@@ -57,13 +58,16 @@ export class DprReportIdMigrationService {
 
     logger.info('Starting DPR report ID migration')
 
-    const configs = await this.getAllConfigs()
+    // 1. get all the user configs from redis
+    const configs: ConfigToMigrate[] = await this.getAllConfigs()
 
     let updatedConfigs = 0
 
     const initialFailures = await Promise.all(
+      // 2. Loop over user configs
       configs.map(async config => {
         try {
+          // 3. Migrate IDs for all a users sub configs
           const updated = await this.migrateSingleConfig(config)
 
           if (updated) {
@@ -73,17 +77,19 @@ export class DprReportIdMigrationService {
           return null
         } catch (error) {
           logger.error(error, `Failed to migrate config for key ${config.key}`)
-
+          // 4. return failed configs so can be retried
           return config
         }
       }),
     )
 
+    // 6. Retry any failed configs - max retries = 3
     const remainingFailures = await this.retryFailedConfigs(
       initialFailures.filter((config): config is ConfigToMigrate => config !== null),
     )
 
     if (remainingFailures.length > 0) {
+      // Dont mark as complete if there are any remaining failures
       logger.error(
         {
           failureCount: remainingFailures.length,
@@ -96,7 +102,8 @@ export class DprReportIdMigrationService {
       return
     }
 
-    await this.redisClient.set(DprReportIdMigrationService.MIGRATION_KEY, 'true')
+    // 7. DONE Successfully - Set the completed flag globally
+    await this.redisClient.set(ReportIdMigrationService.MIGRATION_KEY, 'true')
 
     logger.info(
       {
@@ -112,7 +119,7 @@ export class DprReportIdMigrationService {
    * of attempts.
    */
   private async retryFailedConfigs(failedConfigs: ConfigToMigrate[], attempt = 1): Promise<ConfigToMigrate[]> {
-    if (failedConfigs.length === 0 || attempt > DprReportIdMigrationService.MAX_RETRIES) {
+    if (failedConfigs.length === 0 || attempt > ReportIdMigrationService.MAX_RETRIES) {
       return failedConfigs
     }
 
@@ -203,7 +210,7 @@ export class DprReportIdMigrationService {
   private async getUserConfigKeys(): Promise<string[]> {
     const scan = async (cursor = '0', keys: string[] = []): Promise<string[]> => {
       const result = await this.redisClient.scan(cursor, {
-        MATCH: `${DprReportIdMigrationService.USER_CONFIG_PREFIX}*`,
+        MATCH: `${ReportIdMigrationService.USER_CONFIG_PREFIX}*`,
       })
 
       const nextKeys = [...keys, ...result.keys]
@@ -291,5 +298,11 @@ export class DprReportIdMigrationService {
   private getMigratedReportId(reportId: string): string {
     // Already migrated IDs are returned unchanged.
     return reportId.startsWith('dpr_') ? reportId : `dpr_${reportId}`
+  }
+
+  private async ensureConnected(): Promise<void> {
+    if (!this.redisClient.isOpen) {
+      await this.redisClient.connect()
+    }
   }
 }

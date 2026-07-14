@@ -308,7 +308,7 @@ const initialiseServices = async (services: Services, res: Response) => {
       logger.info(`Init service: missingReportService: ${res.app.locals['requestMissingEnabled']}`)
     }
 
-    // Missing reports
+    // Migration service
     if (!res.app.locals['reportIdMigrationServiceEnabled']) {
       res.app.locals['reportIdMigrationServiceEnabled'] = services.reportIdMigrationService.enabled
 

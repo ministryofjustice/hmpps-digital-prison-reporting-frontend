@@ -13,45 +13,6 @@ export class ViewAsyncReportController {
     this.layoutPath = layoutPath
     this.services = services
   }
-  //   try {
-  //     // Redirect the same path to attach query string
-  //     if (ViewReportUtils.redirectWithDefaults(res, req)) {
-  //       return
-  //     }
-
-  //     // Get the validation errors
-  //     const validationErrors = res.locals['validationErrors'] || []
-
-  //     // get the report config
-  //     const reportData = await renderReport({
-  //       req,
-  //       res,
-  //       services: this.services,
-  //       next,
-  //     })
-
-  //     // If report is expired redirect the the polling page to show expired status
-  //     if (reportData.expired) {
-  //       await updateStateToExpiredAndRedirect(req, res, this.services)
-  //       return
-  //     }
-
-  //     // Render the report
-  //     res.render(`dpr/routes/journeys/view-report/report`, {
-  //       layoutPath: this.layoutPath,
-  //       ...reportData,
-  //       validationErrors,
-  //     })
-  //   } catch (error) {
-  //     const dprError = new ErrorHandler(error).formatError()
-
-  //     req.body ??= {}
-  //     req.body.title = `Failed to retrieve report`
-  //     req.body.error = dprError
-
-  //     next(error)
-  //   }
-  // }
 
   // -----------------------------
   //  Filters

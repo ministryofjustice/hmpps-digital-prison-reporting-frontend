@@ -1,4 +1,5 @@
 import { Request, Response } from 'express'
+import { buildPollingAction } from 'src/dpr/components/my-reports/my-reports-list-item/my-reports-list-item-actions/utils'
 import {
   qsToQueryObject,
   normalizeQueryStringArray,
@@ -347,10 +348,11 @@ export const updateStateToExpiredAndRedirect = async (req: Request, res: Respons
 
   // get the updated report state
   const updatedReportState = await getMyReport({ tableId }, 'recentlyViewedReports', services, dprUser.id)
-  const pollingUrl = updatedReportState?.url?.polling?.fullUrl
+
+  const pollingUrl = updatedReportState ? buildPollingAction(res, req, updatedReportState).href : '/'
 
   // redirect to polling page, or safe fallback
-  res.redirect(pollingUrl ?? '/')
+  res.redirect(pollingUrl)
 }
 
 /**

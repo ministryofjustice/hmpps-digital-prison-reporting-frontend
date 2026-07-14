@@ -53,13 +53,13 @@ export const initServices = (featureConfig?: ServiceFeatureConfig) => {
     clients.reportingClient = new MockReportingClient() as unknown as ReportingClient
     clients.dashboardClient = new MockDashboardClient() as unknown as DashboardClient
     clients.reportDataStore = new MockUserStoreService() as unknown as ReportDataStore
-
-    migrationServiceEnabled = true
   } else {
     // 1. Init Data clients
     clients.reportingClient = new ReportingClient(clientConfig)
     clients.dashboardClient = new DashboardClient(clientConfig)
     clients.reportDataStore = new ReportDataStore(redisClient)
+
+    migrationServiceEnabled = true
   }
 
   clients.reportIdMigrationService = new ReportIdMigrationService(redisClient, { enabled: migrationServiceEnabled })

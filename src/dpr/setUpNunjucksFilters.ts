@@ -1,8 +1,8 @@
 import nunjucks from 'nunjucks'
 import nunjucksDate from 'nunjucks-date'
-import sanitizeHtml from 'sanitize-html'
 
 import { FilterOption } from './components/_filters/filter-input/types'
+import { sanitiseHtml } from './utils/sanitizeHtml'
 
 export const setUpNunjucksFilters = (env: nunjucks.Environment) => {
   env.addFilter('addRequiredAttributeToAll', addRequiredAttributeToAll)
@@ -46,42 +46,7 @@ const spacesToDash = (text: string) => {
 }
 
 const safe = (text: string) => {
-  const sanitized = sanitizeHtml(text, {
-    allowedTags: ['p', 'strong', 'em', 'ul', 'ol', 'li', 'a', 'br', 'div', 'h1', 'h2', 'h3', 'h4'],
-
-    allowedAttributes: {
-      '*': ['class'],
-      a: ['href', 'target', 'rel'],
-    },
-
-    allowedSchemes: ['https', 'mailto'],
-
-    allowProtocolRelative: false,
-
-    transformTags: {
-      a: (tagName, attribs) => {
-        const newAttribs = { ...attribs }
-
-        if (newAttribs['target'] && !['_blank', '_self'].includes(newAttribs['target'])) {
-          delete newAttribs['target']
-        }
-
-        if (newAttribs['target'] === '_blank') {
-          const rel = new Set((newAttribs['rel'] ?? '').split(/\s+/).filter(Boolean))
-
-          rel.add('noopener')
-          rel.add('noreferrer')
-
-          newAttribs['rel'] = [...rel].join(' ')
-        }
-
-        return {
-          tagName,
-          attribs: newAttribs,
-        }
-      },
-    },
-  })
+  const sanitized = sanitiseHtml(text)
 
   return new nunjucks.runtime.SafeString(sanitized)
 }

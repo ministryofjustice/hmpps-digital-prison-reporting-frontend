@@ -1,8 +1,8 @@
 .dpr-scorecard {
-  background-color: govuk-colour('light-grey');
+  background-color: govuk-colour('black', $variant: 'tint-95');
   padding: govuk-spacing(2);
   padding-bottom: govuk-spacing(7);
-  border-top: dotted 2px govuk-colour('mid-grey');
+  border-top: dotted 2px govuk-colour('black', $variant: 'tint-80');
   position: relative;
 
   .dpr-scorecard__value {

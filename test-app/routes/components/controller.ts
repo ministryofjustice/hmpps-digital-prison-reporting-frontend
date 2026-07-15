@@ -33,6 +33,11 @@ export default class ComponentsController {
           description: 'Dashboard components.',
           href: '/components/dashboards',
         },
+        {
+          text: 'Truncate',
+          description: 'Truncate functionality',
+          href: '/components/truncate',
+        },
       ],
     })
   }

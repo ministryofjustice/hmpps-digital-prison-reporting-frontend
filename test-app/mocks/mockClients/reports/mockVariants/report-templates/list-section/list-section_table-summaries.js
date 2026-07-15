@@ -2,7 +2,7 @@
 const reportTemplateExampleListSectionWithSummaries = {
   id: 'report-template-list-section-table-summaries',
   name: 'List-section - with table summaries',
-  description: 'Template: "list-section".</br> A sectioned report with table summaries',
+  description: 'Template: "list-section".<br> A sectioned report with table summaries',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
   printable: true,

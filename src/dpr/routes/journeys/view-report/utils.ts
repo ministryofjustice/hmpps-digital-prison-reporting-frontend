@@ -1,4 +1,5 @@
 import { Request, Response } from 'express'
+import { buildPollingAction } from 'src/dpr/components/my-reports/my-reports-list-item/my-reports-list-item-actions/utils'
 import {
   qsToQueryObject,
   normalizeQueryStringArray,
@@ -320,7 +321,7 @@ const createDefaultQueryString = (req: Request): string | undefined => {
  * @param {Request} req
  * @return {*}
  */
-const redirectWithDefaults = (res: Response, req: Request) => {
+export const redirectWithDefaults = (res: Response, req: Request) => {
   const finalQuery = createDefaultQueryString(req)
   if (finalQuery) {
     const baseUrl = req.originalUrl.split('?')[0].replace(/\/$/, '')
@@ -347,10 +348,11 @@ export const updateStateToExpiredAndRedirect = async (req: Request, res: Respons
 
   // get the updated report state
   const updatedReportState = await getMyReport({ tableId }, 'recentlyViewedReports', services, dprUser.id)
-  const pollingUrl = updatedReportState?.url?.polling?.fullUrl
+
+  const pollingUrl = updatedReportState ? buildPollingAction(res, req, updatedReportState).href : '/'
 
   // redirect to polling page, or safe fallback
-  res.redirect(pollingUrl ?? '/')
+  res.redirect(pollingUrl)
 }
 
 /**
@@ -377,7 +379,7 @@ export const updateLastViewedAsync = async (
 
   const filtersQuery = extractFiltersFromQuery(req.query)
   const interactiveQueryData: { query: Record<string, string | string[]>; querySummary: QuerySummaryItem[] } = {
-    query: <Record<string, string>>req.query,
+    query: <Record<string, string | string[]>>req.query,
     querySummary: buildQuerySummary(filtersQuery, fields),
   }
 

@@ -11,13 +11,6 @@
     <fieldset class="govuk-fieldset">
       <legend class="govuk-fieldset__legend govuk-label govuk-!-font-weight-bold">{{ data.text }}</legend>
 
-      {% set datepickerHtml %}
-        <div id="dpr-date-range" data-field-name="{{ data.name }}">
-          {{ dprStartEndDate(data, mandatory, validationErrors) }}
-        </div>
-      {% endset %}
-
-
       {% set relativeRangeHtml %}
         {{
           govukRadios({
@@ -43,8 +36,19 @@
       {% endset -%}
 
       {% if relativeOptions === undefined or relativeOptions.length === 0 %}
-        {{ datepickerHtml | safe }}
+
+        <div id="dpr-date-range" data-field-name="{{ data.name }}">
+          {{ dprStartEndDate(data, mandatory, validationErrors) }}
+        </div>
+
       {% else %}
+
+        {% set datepickerHtml %}
+          <div id="dpr-date-range" data-field-name="{{ data.name }}">
+            {{ dprStartEndDate(data, mandatory, validationErrors) }}
+          </div>
+        {% endset %}
+
         {{
           govukTabs({
             items: [

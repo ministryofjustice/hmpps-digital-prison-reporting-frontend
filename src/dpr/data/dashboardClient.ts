@@ -130,7 +130,7 @@ class DashboardClient {
 
   logInfo(title: string, args?: Dict<string>) {
     logger.info(`Dashboard client: ${title}:`)
-    if (args && Object.keys(args).length) logger.info(JSON.stringify(args, null, 2))
+    if (args && Object.keys(args).length) logger.info(JSON.stringify(args))
   }
 }
 

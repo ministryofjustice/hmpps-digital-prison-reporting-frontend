@@ -2,7 +2,7 @@
 const reportTemplateExampleListWithSummaries = {
   id: 'report-template-list-page-summaries',
   name: 'List - with page summaries',
-  description: 'Template: "list".</br> A report with summaries.',
+  description: 'Template: "list".<br> A report with summaries.',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
   printable: true,

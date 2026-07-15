@@ -1,6 +1,9 @@
-{% extends "govuk/template.njk" %}
+{% from "moj/components/header/macro.njk" import mojHeader %}
+{% extends "moj/template.njk" %}
 {% from "components/card-group/view.njk" import dprCardGroup %}
 {% set mainClasses = "app-container govuk-body" %}
+
+{% block pageTitle %}Test App{% endblock %}
 
 {% block head %}
   <link href="{{ '/assets/css/app.css' | assetMap }}" rel="stylesheet" />
@@ -16,7 +19,21 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
 {% endblock %}
 
-{% block pageTitle %}Test App{% endblock %}
+{% block header %}
+  {{
+    mojHeader({
+      organisationLabel: {
+        text: 'Digital Prison Services',
+        href: '/'
+      },
+      serviceLabel: {
+        text: 'Reporting Frontend',
+        href: '/'
+      },
+      containerClasses: "govuk-width-container"
+    })
+  }}
+{% endblock %}
 
 {% block bodyEnd %}
   <script type="module" src="{{ '/assets/js/app.js' | assetMap }}"></script>

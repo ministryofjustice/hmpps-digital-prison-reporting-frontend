@@ -15,7 +15,7 @@
 
       .moj-side-navigation__item:has(.dashboard-sidebar-nav-item) {
         padding-top: govuk-spacing(1);
-        border-top: solid 1px govuk-colour('light-grey');
+        border-top: solid 1px govuk-colour('black', $variant: 'tint-95');
         margin-top: govuk-spacing(3);
       }
 

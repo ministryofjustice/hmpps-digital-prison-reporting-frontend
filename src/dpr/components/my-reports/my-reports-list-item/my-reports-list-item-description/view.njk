@@ -2,6 +2,6 @@
 
 {% macro dprMyReportListItemDescription(description) %}
   <div class="dpr-my-reports__item-description">
-    <p class="govuk-body">{{ description }}</p>
+    {{ description | safe }}
   </div>
 {% endmacro %}

@@ -1,10 +1,10 @@
 .dpr-catalogue-filters {
-  border: Solid 1px govuk-colour('mid-grey');
+  border: Solid 1px govuk-colour('black', $variant: 'tint-80');
   margin-bottom: govuk-spacing(6);
 
   .dpr-catalogue-filters--heading {
     padding: govuk-spacing(4);
-    background-color: govuk-colour('light-grey');
+    background-color: govuk-colour('black', $variant: 'tint-95');
 
     h2 {
       margin: 0px;

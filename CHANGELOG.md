@@ -1,5 +1,55 @@
 Below you can find the changes included in each release.
 
+## 7.3.0
+
+- Render parent-child dashboards
+
+## 7.2.0
+
+- Addition of report ID migration service
+
+## 7.1.2
+
+- Bugfix: Render HTML correctly in bookmark descriptions
+
+## 7.1.1
+
+- Update docs with example stacked bar chart
+
+## 7.1.0
+
+- Dashboards: Enable HTML rendering in descriptions, section descriptions and visualisation descriptions
+- Feature: Truncate component - replaces old show more component with better handling of HTML truncation and less bugs
+
+## 7.0.2
+
+- Bug fix: Better handling of undefined data in dashboard creation
+
+## 7.0.0
+
+### Upgrade to MoJ Frontend v9 and Gov UK Frontend v6
+
+**This is a major release and contains breaking changes.**
+
+Largely, this involves updating to the new GOV.UK responsive type scale and colours.
+
+For more information, the relevant release notes can be found here:
+
+- https://github.com/ministryofjustice/moj-frontend/releases/tag/v9.0.0
+- https://github.com/alphagov/govuk-frontend/releases/tag/v6.0.0
+
+## 6.8.3
+
+- Bugfix: Fix My reports validation - sortData undefined
+
+## 6.8.2
+
+- Bugfix: Fixed remove action on viewed reports
+
+## 6.8.1
+
+- Improvements to error logging output for dashboard validation
+
 ## 6.8.0
 
 - Dashboards visualisation definition: Removed constraint requiring dataset column id of `ts` for timeseries charts. Instead reads the `type` field on the Dashboards visualisation column definition to identify the ts column ID where the type is `timestamp`.
@@ -446,7 +496,7 @@ You will then be able to get type inference on the injected `locals`.
 ## 4.29.1
 
 - Dashboards - Bugfix: Fix line-timeseries chart when multiple datasets provided with unequal datapoints.
-- Dahsboards: Bar Charts: remove extra space in horizonal bar chart.
+- Dashboards: Bar Charts: remove extra space in horizonal bar chart.
 - Dependency updates
 
 ## 4.29.0
@@ -683,7 +733,7 @@ You will then be able to get type inference on the injected `locals`.
 ## v4.16.0
 
 - Dashboard visualisations: Scorecards & scorecard groups + documentation
-- Dahsboard visualisatonss: Custom bucket defintion for data scoring + documentation
+- Dashboard visualisations: Custom bucket definition for data scoring + documentation
 - Filter ordering
 
 ## v4.15.2

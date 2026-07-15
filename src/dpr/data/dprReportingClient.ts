@@ -1,16 +1,18 @@
 import ReportingClient from './reportingClient'
 import DashboardClient from './dashboardClient'
 import ReportDataStore, { RedisClient } from './reportDataStore'
-import { ApiConfig, FeatureFlagConfig } from './types'
+import { ApiConfig, FeatureFlagConfig, MigrationServiceConfig } from './types'
 import { FeatureFlagService } from '../services/featureFlagService'
 import ProductCollectionClient from './productCollectionClient'
 import MissingReportClient from './missingReportClient'
+import { ReportIdMigrationService } from '../services/reportIdMigrationService'
 
 export const initDprReportingClients = (
   reportingApiConfig: ApiConfig,
   redisClient: RedisClient,
   storePrefix?: string,
   featureFlagConfig?: FeatureFlagConfig,
+  migrationServiceConfig?: MigrationServiceConfig,
 ) => {
   return {
     reportingClient: new ReportingClient(reportingApiConfig),
@@ -19,6 +21,7 @@ export const initDprReportingClients = (
     missingReportClient: new MissingReportClient(reportingApiConfig),
     productCollectionClient: new ProductCollectionClient(reportingApiConfig),
     featureFlagService: new FeatureFlagService(featureFlagConfig),
+    reportIdMigrationService: new ReportIdMigrationService(redisClient, migrationServiceConfig),
   }
 }
 

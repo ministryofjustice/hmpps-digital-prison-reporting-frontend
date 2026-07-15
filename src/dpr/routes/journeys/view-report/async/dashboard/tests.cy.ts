@@ -55,6 +55,9 @@ context('Viewing a dashboard', () => {
                   cy.findAllByRole('cell', { name: 'Test Dashboard used for testing' }).should('exist')
                   break
                 case 3:
+                  cy.findAllByRole('cell', { name: 'Requested at:' }).should('exist')
+                  break
+                case 4:
                   cy.findAllByRole('cell', { name: 'Applied Filters:' }).should('exist')
                   cy.findAllByRole('listitem').each((item, i) => {
                     switch (i) {
@@ -66,7 +69,7 @@ context('Viewing a dashboard', () => {
                     }
                   })
                   break
-                case 4:
+                case 5:
                   cy.findAllByRole('cell', { name: 'No of sections:' }).should('exist')
                   cy.findAllByRole('cell', { name: '1' }).should('exist')
                   break

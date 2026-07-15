@@ -10,6 +10,7 @@ const BarMeasureShema = z.object({
   display: z.string().optional(),
   unit: z.enum(UnitType).optional(),
   axis: z.enum(['x', 'y']).optional(),
+  type: z.string().optional(),
 })
 
 const BarOptionsSchema = z.object({

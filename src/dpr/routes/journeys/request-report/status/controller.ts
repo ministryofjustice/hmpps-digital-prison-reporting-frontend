@@ -22,8 +22,8 @@ class RequestStatusController {
     // Polling current status - render partial
     this.getCurrentStatus = createReportPollingHandler<RequestedReport, UpdatedResolution>(
       this.services,
-      (updated, resolution, _req, res) => {
-        const viewModel = buildCurrentStatusView(updated, resolution.newStatus, res)
+      (updated, resolution, req, res) => {
+        const viewModel = buildCurrentStatusView(updated, resolution.newStatus, res, req)
 
         return {
           template: 'dpr/components/_async/async-polling/current-status/view.njk',
@@ -48,7 +48,14 @@ class RequestStatusController {
       })
     } catch (error) {
       const message = 'Failed to retrieve report status'
-      captureDprError(error, message)
+
+      const { reportId, executionId, id, type } = req.params as {
+        reportId: string
+        executionId: string
+        id: string
+        type: string
+      }
+      captureDprError(error, message, { reportId, executionId, id, type })
 
       req.body ??= {}
       req.body.title = message

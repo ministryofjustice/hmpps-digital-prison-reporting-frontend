@@ -1,11 +1,12 @@
+import { DashboardVisualisationType } from '../../../../../../../src/dpr/components/_dashboards/dashboard-visualisation/types'
 import { UnitType } from '../../../../../../../src/dpr/components/_dashboards/dashboard-visualisation/Validate'
 import { components } from '../../../../../../../src/dpr/types/api'
-import { DashboardVisualisationType } from '../../../../../../../src/dpr/components/_dashboards/dashboard-visualisation/types'
 
 export const dataQualityMetricOneBar: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'bar-data-quality-has-MetricOne',
   type: DashboardVisualisationType.BAR,
   display: 'MetricOne values',
+  description: '',
   columns: {
     keys: [
       {
@@ -36,6 +37,7 @@ export const dataQualityMetricOneBarHorizontal: components['schemas']['Dashboard
   id: 'bar-data-quality-has-MetricOne-horizontal',
   type: DashboardVisualisationType.BAR,
   display: 'MetricOne values',
+  description: '',
   options: {
     horizontal: true,
   },
@@ -69,6 +71,7 @@ export const dataQualityMetricThreeBar: components['schemas']['DashboardVisualis
   id: 'bar-data-quality-has-MetricThree',
   type: DashboardVisualisationType.BAR,
   display: 'MetricThree values',
+  description: '',
   columns: {
     keys: [
       {
@@ -99,6 +102,7 @@ export const dataQualityMetricTwoBar: components['schemas']['DashboardVisualisat
   id: 'bar-data-quality-has-MetricTwo',
   type: DashboardVisualisationType.BAR,
   display: 'MetricTwo values',
+  description: '',
   columns: {
     keys: [
       {
@@ -129,6 +133,7 @@ export const dataQualityAllBar: components['schemas']['DashboardVisualisationDef
   id: 'bar-data-quality-all',
   type: DashboardVisualisationType.BAR,
   display: 'All metrics together',
+  description: '',
   options: {
     horizontal: false,
   },
@@ -178,6 +183,7 @@ export const dataQualityAllBarHorizontal: components['schemas']['DashboardVisual
   id: 'bar-data-quality-all-horizontal',
   type: DashboardVisualisationType.BAR,
   display: 'All metrics together',
+  description: '',
   options: {
     horizontal: true,
   },
@@ -227,6 +233,7 @@ export const dataQualityAllBarWithUnit: components['schemas']['DashboardVisualis
   id: 'bar-data-quality-all-with-unit',
   type: DashboardVisualisationType.BAR,
   display: 'All metrics together with unit',
+  description: '',
   options: {
     horizontal: false,
   },
@@ -282,6 +289,7 @@ export const dataQualityAllBarWithUnitHorizontal: components['schemas']['Dashboa
   id: 'bar-data-quality-all-with-unit-horizontal',
   type: DashboardVisualisationType.BAR,
   display: 'All metrics together horizontal with unit',
+  description: '',
   options: {
     horizontal: true,
   },
@@ -327,6 +335,75 @@ export const dataQualityAllBarWithUnitHorizontal: components['schemas']['Dashboa
         id: 'metric_one_is_missing',
         display: 'No MetricOne',
         unit: UnitType.PERCENTAGE,
+      },
+    ],
+    expectNulls: false,
+  },
+}
+
+export const verticalStackedBarChart: components['schemas']['DashboardVisualisationDefinition'] = {
+  id: 'bar-chart-stacked-vertical-visualisation',
+  type: DashboardVisualisationType.BAR,
+  display: 'Metrics by establishment (stacked vertically)',
+  options: {
+    horizontal: false,
+    xStacked: true,
+    yStacked: true,
+  },
+  columns: {
+    keys: [
+      {
+        id: 'ts',
+        display: 'Date',
+        type: 'timestamp',
+      },
+      {
+        id: 'establishment_id',
+        display: 'Establishment ID',
+      },
+    ],
+    measures: [
+      {
+        id: 'has_metric_one',
+        display: 'Has MetricOne',
+      },
+      {
+        id: 'has_metric_two',
+        display: 'Has MetricTwo',
+      },
+    ],
+    expectNulls: false,
+  },
+}
+export const horizontalStackedBarChart: components['schemas']['DashboardVisualisationDefinition'] = {
+  id: 'bar-chart-stacked-horizontal-visualisation',
+  type: DashboardVisualisationType.BAR,
+  display: 'Metrics by establishment (stacked horizontally)',
+  options: {
+    horizontal: true,
+    xStacked: true,
+    yStacked: true,
+  },
+  columns: {
+    keys: [
+      {
+        id: 'ts',
+        display: 'Date',
+        type: 'timestamp',
+      },
+      {
+        id: 'establishment_id',
+        display: 'Establishment ID',
+      },
+    ],
+    measures: [
+      {
+        id: 'has_metric_one',
+        display: 'Has MetricOne',
+      },
+      {
+        id: 'has_metric_two',
+        display: 'Has MetricTwo',
       },
     ],
     expectNulls: false,

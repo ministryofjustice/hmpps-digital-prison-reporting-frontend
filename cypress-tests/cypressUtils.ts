@@ -28,20 +28,13 @@ export const checkSelectedFilterValues = ({
 }
 
 export const startReportRequest = ({ name, description }: { name: string; description: string }) => {
-  cy.findByLabelText(/Reports catalogue.*/i)
-    .findAllByText((_, element) => {
-      const row = element?.closest('.dpr-report-catalogue__variant-row')
-
-      if (!row) {
-        return false
-      }
-
-      const text = row.textContent ?? ''
+  cy.get('.dpr-report-catalogue__variant-row')
+    .filter((_, element) => {
+      const text = element.textContent ?? ''
 
       return text.includes(name) && text.includes(description)
     })
     .first()
-    .closest('.dpr-report-catalogue__variant-row')
     .within(() => {
       cy.findByRole('link', {
         name: /Request (dashboard|report)/i,

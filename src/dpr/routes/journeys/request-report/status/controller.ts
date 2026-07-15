@@ -22,8 +22,8 @@ class RequestStatusController {
     // Polling current status - render partial
     this.getCurrentStatus = createReportPollingHandler<RequestedReport, UpdatedResolution>(
       this.services,
-      (updated, resolution, _req, res) => {
-        const viewModel = buildCurrentStatusView(updated, resolution.newStatus, res)
+      (updated, resolution, req, res) => {
+        const viewModel = buildCurrentStatusView(updated, resolution.newStatus, res, req)
 
         return {
           template: 'dpr/components/_async/async-polling/current-status/view.njk',

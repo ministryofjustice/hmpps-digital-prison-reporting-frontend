@@ -196,7 +196,13 @@ export default class DataPresentation {
     const downloadConfig = type === ReportType.REPORT ? setUpDownload(this.res, this.req) : undefined
 
     // Setup other actions
-    const actions = ReportActionsUtils.setActions(this.reportDetails, downloadConfig, this.extractedRequestData)
+    const actions = ReportActionsUtils.setActions(
+      this.res,
+      this.req,
+      this.reportDetails,
+      downloadConfig,
+      this.requestData,
+    )
 
     // Get the feedback submission path
     const sessionKey = this.loadType === LoadType.SYNC ? { id, reportId } : { id, reportId, tableId }

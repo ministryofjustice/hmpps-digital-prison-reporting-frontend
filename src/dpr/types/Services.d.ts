@@ -27,4 +27,5 @@ export interface UserStoreServices {
   bookmarkService: BookmarkService
   defaultFilterValuesService: DefaultFilterValuesService
   productCollectionStoreService: ProductCollectionStoreService
+  reportIdMigrationService: ReportIdMigrationService
 }

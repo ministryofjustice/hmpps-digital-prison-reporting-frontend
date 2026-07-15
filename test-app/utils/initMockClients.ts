@@ -13,8 +13,33 @@ import { MockUserStoreService } from '../mocks/mockClients/store/mockRedisStore'
 import MockDashboardClient from '../mocks/mockClients/dashboards/mock-client'
 import { ServiceFeatureConfig } from '../../src/dpr/types/DprConfig'
 import { FeatureFlagService } from '../../src/dpr/services/featureFlagService'
+import { ReportIdMigrationService } from 'src/dpr/services/reportIdMigrationService'
 
 export const initServices = (featureConfig?: ServiceFeatureConfig) => {
+  const clientConfig = {
+    agent: {
+      timeout: 1000,
+    },
+    url: 'http://localhost:9091',
+  }
+
+  const redisClient = createClient({
+    password: '',
+    socket: {
+      host: '127.0.0.1',
+      port: 6379,
+      tls: false,
+      reconnectStrategy: attempts => {
+        // Exponential back off: 20ms, 40ms, 80ms..., capped to retry every 30 seconds
+        const nextDelay = Math.min(2 ** attempts * 20, 30000)
+        console.log(`Retry Redis connection attempt: ${attempts}, next attempt in: ${nextDelay}ms`)
+        return nextDelay
+      },
+    },
+  })
+
+  let migrationServiceEnabled = false
+
   const clients: {
     reportingClient: any
     dashboardClient: any
@@ -22,6 +47,7 @@ export const initServices = (featureConfig?: ServiceFeatureConfig) => {
     missingReportClient: any
     productCollectionClient: ProductCollectionClient
     featureFlagService: FeatureFlagService
+    reportIdMigrationService: ReportIdMigrationService
   } = {} as typeof clients
   if (process.env['USE_MOCK_CLIENTS']) {
     clients.reportingClient = new MockReportingClient() as unknown as ReportingClient
@@ -29,47 +55,16 @@ export const initServices = (featureConfig?: ServiceFeatureConfig) => {
     clients.reportDataStore = new MockUserStoreService() as unknown as ReportDataStore
   } else {
     // 1. Init Data clients
-    clients.reportingClient = new ReportingClient({
-      agent: {
-        timeout: 1000,
-      },
-      url: 'http://localhost:9091',
-    })
-    clients.dashboardClient = new DashboardClient({
-      agent: {
-        timeout: 1000,
-      },
-      url: 'http://localhost:9091',
-    })
-    clients.reportDataStore = new ReportDataStore(
-      createClient({
-        password: '',
-        socket: {
-          host: '127.0.0.1',
-          port: 6379,
-          tls: false,
-          reconnectStrategy: attempts => {
-            // Exponential back off: 20ms, 40ms, 80ms..., capped to retry every 30 seconds
-            const nextDelay = Math.min(2 ** attempts * 20, 30000)
-            console.log(`Retry Redis connection attempt: ${attempts}, next attempt in: ${nextDelay}ms`)
-            return nextDelay
-          },
-        },
-      }),
-    )
+    clients.reportingClient = new ReportingClient(clientConfig)
+    clients.dashboardClient = new DashboardClient(clientConfig)
+    clients.reportDataStore = new ReportDataStore(redisClient)
+
+    migrationServiceEnabled = true
   }
-  clients.missingReportClient = new MissingReportClient({
-    agent: {
-      timeout: 1000,
-    },
-    url: `http://localhost:9091`,
-  })
-  clients.productCollectionClient = new ProductCollectionClient({
-    agent: {
-      timeout: 1000,
-    },
-    url: `http://localhost:9091`,
-  })
+
+  clients.reportIdMigrationService = new ReportIdMigrationService(redisClient, { enabled: migrationServiceEnabled })
+  clients.missingReportClient = new MissingReportClient(clientConfig)
+  clients.productCollectionClient = new ProductCollectionClient(clientConfig)
   clients.featureFlagService = new FeatureFlagService({
     token: 'bar',
     url: 'http://localhost:9091',
@@ -79,7 +74,7 @@ export const initServices = (featureConfig?: ServiceFeatureConfig) => {
   return createDprServices(clients, featureConfig)
 }
 
-export default function initMockClients(
+export default async function initMockClients(
   router: Router,
   env: Environment,
   featureConfig?: { bookmarking?: boolean; download?: boolean },

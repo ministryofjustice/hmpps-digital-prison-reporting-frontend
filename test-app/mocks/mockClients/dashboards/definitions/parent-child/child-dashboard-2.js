@@ -1,5 +1,5 @@
 // @ts-nocheck
-const { lists } = require('../examples/visualisations')
+const { lists, doughnut } = require('../examples/visualisations')
 
 const childDashboard2 = {
   id: 'child-dashboard-two',
@@ -10,19 +10,19 @@ const childDashboard2 = {
       id: 'child-two-section-1',
       display: 'Child two - Section 1',
       description: 'Child two - Section 1 description',
-      visualisations: [],
+      visualisations: [doughnut.dataQualityMetricTwoDoughnut],
     },
     {
       id: 'child-two-section-2',
       display: 'Child two - Section 2',
       description: 'Child two - Section 2 description',
-      visualisations: [],
+      visualisations: [doughnut.dataQualityMetricThreeDoughnut],
     },
     {
       id: 'parent-section-2',
       display: 'Child one - Section 2',
       description: 'Child one - Section 2 - description',
-      visualisations: [],
+      visualisations: [doughnut.dataQualityMetricOneDoughnut],
     },
     {
       id: 'all-data',

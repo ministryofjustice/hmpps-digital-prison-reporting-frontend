@@ -136,6 +136,6 @@ export type TimeseriesChartMeasure = LineTimeseriesDefinitionMeasure[] | BarTime
 
 // NOTE: This is a temporary type while to mock the new field which will be added the the schema in ticket https://dsdmoj.atlassian.net/browse/DPR2-2981
 // TODO: Remove this type and update all references to it when the components['schemas']['DashboardDefinition'] type is up to date
-export type DashboardDefintion = components['schemas']['DashboardDefinition'] & {
+export type DashboardDefinition = components['schemas']['DashboardDefinition'] & {
   childVariants: components['schemas']['DashboardDefinition'][]
 }

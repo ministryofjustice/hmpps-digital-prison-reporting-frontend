@@ -138,7 +138,7 @@ export type MappedBookmarks = {
   reportId: string
   name: string
   reportName: string
-  reportType: ReportType
+  type: ReportType
   description: string
   loadType: LoadType
 }

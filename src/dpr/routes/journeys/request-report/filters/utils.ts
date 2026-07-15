@@ -1,27 +1,27 @@
 /* eslint-disable no-param-reassign */
-import { Request, Response, NextFunction } from 'express'
+import { NextFunction, Request, Response } from 'express'
 
 // Utils
-import { buildMasterSections } from '../../../../components/_dashboards/dashboard-section/utils'
 import { buildFilterData, buildSortData } from '../../../../components/_async/async-filters-form/utils'
-import LocalsHelper from '../../../../utils/localsHelper'
+import { buildMasterSections } from '../../../../components/_dashboards/dashboard-section/utils'
 import { getRequestFilters } from '../../../../components/_filters/utils'
+import LocalsHelper from '../../../../utils/localsHelper'
 
 // Types
-import { ReportType } from '../../../../types/UserReports'
-import type { ExecutionData, ChildReportExecutionData } from '../../../../types/ExecutionData'
-import type { AsyncReportUtilsParams, RequestDataResult, RequestReportData } from '../../../../types/AsyncReportUtils'
 import type { SetQueryFromFiltersResult } from '../../../../components/_async/async-filters-form/types'
-import type { components } from '../../../../types/api'
-import type { Services } from '../../../../types/Services'
-import { getDashboardFields, getFields } from '../../../../utils/definitionUtils'
-import { getActiveJourneyValue, setActiveJourneySortSearch } from '../../../../utils/sessionHelper'
-import { formBodyToQueryObject } from '../../../../utils/queryMappers'
-import { joinQueryStrings } from '../../../../utils/urlHelper'
 import { buildQuerySummary } from '../../../../components/_async/request-details/utils'
+import { DashboardDefinition } from '../../../../components/_dashboards/dashboard-visualisation/types'
+import type { components } from '../../../../types/api'
+import type { AsyncReportUtilsParams, RequestDataResult, RequestReportData } from '../../../../types/AsyncReportUtils'
+import type { ChildReportExecutionData, ExecutionData } from '../../../../types/ExecutionData'
 import ReportQuery from '../../../../types/ReportQuery'
+import type { Services } from '../../../../types/Services'
+import { ReportType } from '../../../../types/UserReports'
+import { getDashboardFields, getFields } from '../../../../utils/definitionUtils'
+import { formBodyToQueryObject } from '../../../../utils/queryMappers'
+import { getActiveJourneyValue, setActiveJourneySortSearch } from '../../../../utils/sessionHelper'
+import { joinQueryStrings } from '../../../../utils/urlHelper'
 import { RequestedReportBuilder } from '../../my-reports/requested-reports/builder'
-import { DashboardDefintion } from '../../../../components/_dashboards/dashboard-visualisation/types'
 
 // ----------------------------------------------------------------------
 // POST
@@ -182,7 +182,7 @@ const requestDashboard = async (req: Request, res: Response, token: string, serv
   const definition = await services.dashboardService.getDefinition(token, reportId, id, dataProductDefinitionsPath)
 
   // TODO: Update this type to components['schemas']['DashboardDefinition'] when `childVariants` field is present
-  const childVariants = (<DashboardDefintion>definition).childVariants ?? []
+  const childVariants = (<DashboardDefinition>definition).childVariants ?? []
 
   const fields = getDashboardFields(definition)
 
@@ -469,15 +469,15 @@ const renderDashboardRequestData = async ({
   )
 
   // TODO: Remove the "as" when components['schemas']['DashboardDefinition'] includes the `childVariants` field
-  const { childVariants } = definition as DashboardDefintion
+  const { childVariants } = definition as DashboardDefinition
 
-  const masterDefintion = definition
+  const masterDefinition = definition
   if (childVariants?.length) {
     // TODO: Remove the casting of definition when components['schemas']['DashboardDefinition'] includes the `childVariants` field
-    masterDefintion.sections = buildMasterSections(<DashboardDefintion>definition)
+    masterDefinition.sections = buildMasterSections(<DashboardDefinition>definition)
   }
 
-  const { name, description, sections, filterFields: fields } = masterDefintion
+  const { name, description, sections, filterFields: fields } = masterDefinition
 
   return {
     reportName: productDefinition?.name || '',

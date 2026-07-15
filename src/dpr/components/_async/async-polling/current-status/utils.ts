@@ -1,5 +1,9 @@
-import { Response } from 'express'
+import { Response, Request } from 'express'
 import { getValues } from 'src/dpr/utils/localsHelper'
+import {
+  buildReportPageAction,
+  buildRequestAction,
+} from 'src/dpr/components/my-reports/my-reports-list-item/my-reports-list-item-actions/utils'
 import { RequestStatus, RequestedReport } from '../../../../types/UserReports'
 
 /**
@@ -10,11 +14,11 @@ import { RequestStatus, RequestedReport } from '../../../../types/UserReports'
  * @param {Response} res
  * @return {*}
  */
-export const buildCurrentStatusView = (data: RequestedReport, status: RequestStatus, res: Response) => {
+export const buildCurrentStatusView = (data: RequestedReport, status: RequestStatus, res: Response, req: Request) => {
   const { csrfToken } = getValues(res)
   const metaDetails = setMetaDetails(data)
   const requestDetails = setRequestDetails(data)
-  const statusDetails = setStatusDetails(status, data)
+  const statusDetails = setStatusDetails(status, data, res, req)
 
   return {
     csrfToken,
@@ -45,10 +49,11 @@ const setRequestDetails = (data: RequestedReport) => {
   }
 }
 
-const setStatusDetails = (status: string, data: RequestedReport) => {
-  const { url, type } = data
-  const reportUrl = url?.report?.fullUrl
-  const requestUrl = url?.request?.fullUrl
+const setStatusDetails = (status: string, data: RequestedReport, res: Response, req: Request) => {
+  const { type } = data
+
+  const reportPageAction = buildReportPageAction(res, req, data)
+  const requestPageAction = buildRequestAction(res, req, data)
 
   let descriptionText: string | undefined
   let altText: string[] | undefined
@@ -60,20 +65,20 @@ const setStatusDetails = (status: string, data: RequestedReport) => {
     case RequestStatus.ABORTED:
       descriptionText = 'Your request has been cancelled'
       buttonText = 'Return to request page'
-      buttonHref = requestUrl
+      buttonHref = requestPageAction?.href ?? '/'
       break
 
     case RequestStatus.FAILED:
       buttonText = 'Retry'
       descriptionText = 'Your report is no longer available and needs to be refreshed'
-      buttonHref = requestUrl
+      buttonHref = requestPageAction?.href ?? '/'
       errorMessage = setErrorMessage(data)
       break
 
     case RequestStatus.EXPIRED:
       descriptionText = 'Your report is no longer available and needs to be refreshed'
       buttonText = 'Refresh report'
-      buttonHref = requestUrl
+      buttonHref = requestPageAction?.href ?? '/'
       break
 
     case RequestStatus.STARTED:
@@ -92,9 +97,9 @@ const setStatusDetails = (status: string, data: RequestedReport) => {
       altText = [
         `Please wait, you are being redirected...`,
         `If you are not redirected within 10 seconds, please copy and paste this url into your browser and press enter:`,
-        `${requestUrl}`,
+        `${reportPageAction.href}`,
       ]
-      buttonHref = reportUrl
+      buttonHref = reportPageAction.href
       break
 
     default:

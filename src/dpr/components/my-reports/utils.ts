@@ -12,7 +12,6 @@ import {
   MappedBookmarks,
   MyReportsListTotals,
   MyReportsOptions,
-  ViewAction,
 } from './types'
 import LocalsHelper, { getRouteLocals } from '../../utils/localsHelper'
 import { BookmarkStoreData } from '../../types/Bookmark'
@@ -25,6 +24,8 @@ import {
   shouldRunExpiryCheck,
 } from '../../utils/ReportStatus/getReportStatus'
 import { captureDprError } from '../../utils/captureError'
+import { buildLoadRequestAction } from './my-reports-list-item/my-reports-list-item-actions/utils'
+import { renderTruncateAsHtml } from '../truncate/utils'
 
 /**
  * Initialises the "My Reports" component data
@@ -44,7 +45,7 @@ export const initMyReports = async (
   await checkExpiredAndGetReports(res, services)
 
   return {
-    ...(bookmarkingEnabled && { bookmarks: await initBookmarks(res, services) }),
+    ...(bookmarkingEnabled && { bookmarks: await initBookmarks(res, req, services) }),
     requested: await initRequested(req, res, options),
     viewed: await initViewed(req, res, options),
     removedReports: res.locals['removedReports'],
@@ -88,10 +89,11 @@ const checkExpiredAndGetReports = async (res: Response, services: Services) => {
  */
 const initBookmarks = async (
   res: Response,
+  req: Request,
   services: Services,
   options?: MyReportsOptions | undefined,
 ): Promise<DprMyReportListConfig> => {
-  const totalItems = await buildBookmarkListItems(res, services)
+  const totalItems = await buildBookmarkListItems(res, req, services)
   const totals = buildTotals(res, totalItems, ListType.BOOKMARKS, options)
   const items = cutItemsToSize(totalItems, options)
 
@@ -238,7 +240,7 @@ const buildTotals = (
  * @param {Services} services
  * @return {*}  {Promise<DprMyReportItem[]>}
  */
-const buildBookmarkListItems = async (res: Response, services: Services): Promise<DprMyReportItem[]> => {
+const buildBookmarkListItems = async (res: Response, req: Request, services: Services): Promise<DprMyReportItem[]> => {
   const { bookmarks } = LocalsHelper.getValues(res)
 
   // loop it
@@ -250,15 +252,15 @@ const buildBookmarkListItems = async (res: Response, services: Services): Promis
   const mappedBookmarks: MappedBookmarks[] = await mapBookmarks(bookmarks, services, res)
 
   return mappedBookmarks.map(bookmark => {
-    const { name, reportName, reportType, description } = bookmark
+    const { name, reportName, type, description } = bookmark
     return {
       title: {
         productName: name,
         reportName,
-        reportType,
+        reportType: type,
       },
-      description,
-      actions: buildBookmarkActionsCell(bookmark, res),
+      description: renderTruncateAsHtml({ stringValue: description, classes: 'govuk-body-s', charLength: 50 }),
+      actions: buildBookmarkActionsCell(bookmark, res, req),
     }
   })
 }
@@ -288,7 +290,7 @@ const mapBookmarks = async (
           reportId: bm.reportId,
           name: resolved.name,
           reportName: resolved.reportName,
-          reportType: resolved.reportType,
+          type: resolved.reportType,
           description: resolved.description,
           loadType: resolved.loadType,
         }
@@ -361,48 +363,14 @@ const resolveBookmarkDefinition = async (
  * @param {Response} res
  * @return {*}  {DprMyReportActions}
  */
-const buildBookmarkActionsCell = (data: MappedBookmarks, res: Response): DprMyReportActions => {
-  const { load, request } = buildLoadRequestAction(res, data)
+const buildBookmarkActionsCell = (data: MappedBookmarks, res: Response, req: Request): DprMyReportActions => {
+  const { load, request } = buildLoadRequestAction(res, req, data)
   const bookmark = buildBookmarkRemoveAction(res, data)
 
   return {
     ...(load && { load }),
     ...(request && { request }),
     bookmark,
-  }
-}
-
-/**
- * Build the load/request links config
- *
- * @param {Response} res
- * @param {MappedBookmarks} data
- * @return {*}
- */
-const buildLoadRequestAction = (res: Response, data: MappedBookmarks) => {
-  const { loadType, reportType, reportId, id } = data
-  const { requestReportPath, viewReportPath } = getRouteLocals(res)
-
-  let load: ViewAction | undefined
-  let request: ViewAction | undefined
-
-  if (loadType === LoadType.SYNC) {
-    const href = `${viewReportPath}/sync/${reportId}/${id}`
-    load = {
-      href,
-      reportType,
-    }
-  } else {
-    const href = `${requestReportPath}/${reportType}/${reportId}/${id}/filters`
-    request = {
-      href,
-      reportType,
-    }
-  }
-
-  return {
-    load,
-    request,
   }
 }
 
@@ -414,7 +382,7 @@ const buildLoadRequestAction = (res: Response, data: MappedBookmarks) => {
  * @return {*}
  */
 const buildBookmarkRemoveAction = (res: Response, data: MappedBookmarks): DprMyReportActionBookmark => {
-  const { reportId, id, reportType } = data
+  const { reportId, id, type: reportType } = data
   const { csrfToken } = LocalsHelper.getValues(res)
   const { bookmarkActionEndpoint } = LocalsHelper.getRouteLocals(res)
 

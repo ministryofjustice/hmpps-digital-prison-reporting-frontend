@@ -25,6 +25,7 @@ import {
 } from '../../utils/ReportStatus/getReportStatus'
 import { captureDprError } from '../../utils/captureError'
 import { buildLoadRequestAction } from './my-reports-list-item/my-reports-list-item-actions/utils'
+import { renderTruncateAsHtml } from '../truncate/utils'
 
 /**
  * Initialises the "My Reports" component data
@@ -258,7 +259,7 @@ const buildBookmarkListItems = async (res: Response, req: Request, services: Ser
         reportName,
         reportType: type,
       },
-      description,
+      description: renderTruncateAsHtml({ stringValue: description, classes: 'govuk-body-s', charLength: 50 }),
       actions: buildBookmarkActionsCell(bookmark, res, req),
     }
   })

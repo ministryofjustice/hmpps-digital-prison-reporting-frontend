@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## 7.1.2
+
+- Bugfix: Render HTML correctly in bookmark descriptions
+
 ## 7.1.1
 
 - Update docs with example stacked bar chart

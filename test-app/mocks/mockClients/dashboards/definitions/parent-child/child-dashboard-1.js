@@ -1,5 +1,5 @@
 // @ts-nocheck
-const { lists } = require('../examples/visualisations')
+const { lists, line } = require('../examples/visualisations')
 
 const childDashboard1 = {
   id: 'child-dashboard-one',
@@ -10,19 +10,19 @@ const childDashboard1 = {
       id: 'child-one-section-1',
       display: 'Child one - Section 1',
       description: 'Child one - Section 1 description',
-      visualisations: [],
+      visualisations: [line.dataQualityMetricTwoLine],
     },
     {
       id: 'child-one-section-2',
       display: 'Child one - Section 2',
       description: 'Child one - Section 2 - description',
-      visualisations: [],
+      visualisations: [line.dataQualityMetricThreeLine],
     },
     {
       id: 'parent-section-1',
       display: 'Child one - Section 2',
       description: 'Child one - Section 2 - description',
-      visualisations: [],
+      visualisations: [line.dataQualityLine],
     },
     {
       id: 'all-data',

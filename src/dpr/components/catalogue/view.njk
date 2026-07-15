@@ -4,7 +4,9 @@
 {% from "./catalogue-filters/view.njk" import dprReportsCatalogueFilters %}
 
 {% macro dprReportsCatalogue(config) %}
-  <h1>Reports Catalogue</h1>
+
+  <div id="dpr-reports-catalogue" aria-labelledby="dpr-reports-catalogue-heading">
+  <h1 id="dpr-reports-catalogue-heading">Reports Catalogue</h1>
 
   {% set filtersConfig = config.filtersConfig %}
 
@@ -13,10 +15,11 @@
   {% set products = catalogueConfig.products %}
   {% set totals = catalogueConfig.totals %}
 
-  <div class="dpr-reports-catalogue">
-    {{ dprReportsCatalogueFilters(filtersConfig) }}
-    {{ dprReportsCatalogueTotals(totals) }}
-    {{ dprReportsCatalogueHeadings(headings) }}
-    {{ dprReportsCatalogueProductRows(products) }}
+    <div class="dpr-reports-catalogue">
+      {{ dprReportsCatalogueFilters(filtersConfig) }}
+      {{ dprReportsCatalogueTotals(totals) }}
+      {{ dprReportsCatalogueHeadings(headings) }}
+      {{ dprReportsCatalogueProductRows(products) }}
+    </div>
   </div>
 {% endmacro %}

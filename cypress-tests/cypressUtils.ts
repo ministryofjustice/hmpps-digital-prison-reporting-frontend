@@ -28,12 +28,14 @@ export const checkSelectedFilterValues = ({
 }
 
 export const startReportRequest = ({ name, description }: { name: string; description: string }) => {
-  cy.get('.dpr-report-catalogue__variant-row')
+  cy.findByLabelText(/Reports Catalogue.*/i)
+    .find('.dpr-report-catalogue__variant-row')
     .filter((_, element) => {
-      const text = element.textContent ?? ''
+      const text = element.textContent?.trim() ?? ''
 
       return text.includes(name) && text.includes(description)
     })
+    .should('have.length.at.least', 1)
     .first()
     .within(() => {
       cy.findByRole('link', {

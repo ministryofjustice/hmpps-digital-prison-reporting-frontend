@@ -8,7 +8,10 @@ import { Services } from '../../types/Services'
 import { LoadType, ReportType, RequestedReport } from '../../types/UserReports'
 import { FilterType } from '../_filters/filter-input/enum'
 import { GranularDateRangeFilterValue, PartialDate } from '../_filters/types'
-import { DashboardSection } from './dashboard-visualisation/types'
+import {
+  DashboardDefinition as DashboardDefinitionWithChildVariants,
+  DashboardSection,
+} from './dashboard-visualisation/types'
 
 // Classes
 import ReportQuery from '../../types/ReportQuery'
@@ -26,8 +29,6 @@ export default class Dashboard extends DataPresentation {
   sections!: DashboardSection[]
 
   dashboardData!: DashboardDataResponse[]
-
-  variant!: components['schemas']['VariantDefinition']
 
   parentChildData: DashboardParentChildData[] = []
 
@@ -109,6 +110,7 @@ export default class Dashboard extends DataPresentation {
    */
   getDashboardData = async () => {
     this.dashboardData = this.loadType === LoadType.SYNC ? await this.getSyncData() : await this.getAsyncData()
+    await this.setParentChildData()
   }
 
   private getAsyncData = async () => {
@@ -116,13 +118,11 @@ export default class Dashboard extends DataPresentation {
 
     const dashboardResultData = await this.services.dashboardService.getAsyncDashboard(
       this.token,
-      this.id,
       this.reportId,
+      this.id,
       this.tableId,
       dashboardQueryRecord,
     )
-
-    await this.setParentChildData()
 
     return Array.isArray(dashboardResultData) ? dashboardResultData.flat().filter(Boolean) : []
   }
@@ -142,7 +142,8 @@ export default class Dashboard extends DataPresentation {
 
   setParentChildData = async () => {
     // Get the child data, if applicable
-    const childVariants = this.variant?.childVariants
+    const childVariants = (this.definition as DashboardDefinitionWithChildVariants)?.childVariants
+
     this.parentChildData = !childVariants
       ? []
       : await this.getParentChildData(childVariants, this.services, this.token, this.req, this.res, this.requestData)
@@ -154,7 +155,7 @@ export default class Dashboard extends DataPresentation {
    *
    */
   getParentChildData = async (
-    childVariants: components['schemas']['ChildVariantDefinition'][],
+    childVariants: DashboardDefinition[],
     services: Services,
     token: string,
     req: Request,
@@ -171,14 +172,8 @@ export default class Dashboard extends DataPresentation {
 
     const allChildData = await Promise.all(
       childVariants.map(async childVariant => {
-        const { specification } = childVariant
-        if (!specification) {
-          throw new Error('getParentChildData: No specification found in child variant definition')
-        }
-
-        // is this the correct report query?
         const query = new ReportQuery({
-          fields: specification?.fields || [],
+          fields: this.fields || [],
           template: 'parent-child',
           queryParams: req.query,
           definitionsPath: dataProductDefinitionsPath,
@@ -205,7 +200,7 @@ export default class Dashboard extends DataPresentation {
       }),
     )
 
-    const parentData = { id: this.variant.id, data: this.dashboardData }
+    const parentData = { id: this.definition.id, data: this.dashboardData }
 
     return [parentData, ...allChildData]
   }

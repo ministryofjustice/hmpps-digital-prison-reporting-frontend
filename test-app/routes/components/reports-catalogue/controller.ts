@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express'
 import { Services } from '../../../../src/dpr/types/Services'
-import { initCatalogue } from 'src/dpr/components/catalogue/utils'
+import { initCatalogue } from '../../../../src/dpr/components/catalogue/utils'
 
 export default class ReportsCatalogueController {
   layoutPath = ''

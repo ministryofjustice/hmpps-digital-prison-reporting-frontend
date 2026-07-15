@@ -1,6 +1,6 @@
 {% extends "views/page.njk" %}
 {% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
-{% from "components/_catalogue/catalogue/view.njk" import dprCatalogue %}
+{% from "components/catalogue/view.njk" import dprReportsCatalogue %}
 {% from "components/my-reports/view.njk" import dprMyReports %}
 
 {% block content %}
@@ -30,7 +30,9 @@
     {% endif %}
 
     <h1 class="govuk-heading-l">{{ title }}</h1>
+
     {{ dprMyReports(myReportsData) }}
-    {{ dprCatalogue(catalogue) }}
+
+    {{ dprReportsCatalogue(catalogue) }}
   </div>
 {% endblock %}

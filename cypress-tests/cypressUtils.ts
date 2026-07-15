@@ -28,20 +28,25 @@ export const checkSelectedFilterValues = ({
 }
 
 export const startReportRequest = ({ name, description }: { name: string; description: string }) => {
-  cy.findByLabelText(/Reports catalogue.*/i).within(() => {
-    cy.findAllByRole('row', {
-      name: (_, element) => {
-        const nameText = element?.textContent?.includes(name)
-        const descText = element?.textContent?.includes(description)
+  cy.findByLabelText(/Reports catalogue.*/i)
+    .findAllByText((_, element) => {
+      const row = element?.closest('.dpr-report-catalogue__variant-row')
 
-        return Boolean(nameText) && Boolean(descText)
-      },
+      if (!row) {
+        return false
+      }
+
+      const text = row.textContent ?? ''
+
+      return text.includes(name) && text.includes(description)
     })
-      .first()
-      .within(() => {
-        cy.findByRole('link', { name: /Request/ }).click()
-      })
-  })
+    .first()
+    .closest('.dpr-report-catalogue__variant-row')
+    .within(() => {
+      cy.findByRole('link', {
+        name: /Request (dashboard|report)/i,
+      }).click()
+    })
 }
 
 export const requestReportByNameAndDescription = ({ name, description }: { name: string; description: string }) => {

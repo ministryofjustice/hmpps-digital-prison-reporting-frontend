@@ -1,61 +1,17 @@
 import { featureTestingEmptyQuery } from '@networkMocks/report/mockVariants/feature-testing/emptyQuery'
 import { featureTestingUnprintable } from '@networkMocks/report/mockVariants/feature-testing/unprintable'
 import {
+  addBookmark,
+  addBookmarkExists,
   expectMyReportRowCountInTab,
   getMyReportRow,
   getMyReportRowCell,
+  removeBookmark,
+  removeBookmarkExists,
   startReportRequest,
   stubBaseTasks,
   stubDefinitionsTasks,
 } from '../../../../../../cypress-tests/cypressUtils'
-
-const addBookmark = (name: string) => {
-  cy.findByLabelText(/Reports Catalogue.*/i)
-    .find('.dpr-report-catalogue__variant-row')
-    .filter((_, element) => {
-      return Boolean(element.textContent?.includes(name))
-    })
-    .first()
-    .within(() => {
-      cy.findByRole('link', { name: /Add bookmark/i }).click()
-    })
-}
-
-const addBookmarkExists = (name: string) => {
-  cy.findByLabelText(/Reports Catalogue.*/i)
-    .find('.dpr-report-catalogue__variant-row')
-    .filter((_, element) => {
-      return Boolean(element.textContent?.includes(name))
-    })
-    .first()
-    .within(() => {
-      cy.findByRole('link', { name: /Add bookmark/i }).should('exist')
-    })
-}
-
-const removeBookmarkExists = (name: string) => {
-  cy.findByLabelText(/Reports Catalogue.*/i)
-    .find('.dpr-report-catalogue__variant-row')
-    .filter((_, element) => {
-      return Boolean(element.textContent?.includes(name))
-    })
-    .first()
-    .within(() => {
-      cy.findByRole('link', { name: /Remove bookmark/i }).should('exist')
-    })
-}
-
-const removeBookmark = (name: string) => {
-  cy.findByLabelText(/Reports Catalogue.*/i)
-    .find('.dpr-report-catalogue__variant-row')
-    .filter((_, element) => {
-      return Boolean(element.textContent?.includes(name))
-    })
-    .first()
-    .within(() => {
-      cy.findByRole('link', { name: /Remove bookmark/i }).click()
-    })
-}
 
 context('Bookmarks list', () => {
   const paths = ['/', '/embedded/platform', '/embedded/platform/dpr']

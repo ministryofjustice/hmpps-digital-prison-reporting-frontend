@@ -1,4 +1,9 @@
-import { checkA11y, stubBaseTasks, stubDefinitionsTasks } from '../../../../../cypress-tests/cypressUtils'
+import {
+  checkA11y,
+  startReportRequest,
+  stubBaseTasks,
+  stubDefinitionsTasks,
+} from '../../../../../cypress-tests/cypressUtils'
 
 context('Request missing report', () => {
   const path = '/embedded/platform'
@@ -17,6 +22,7 @@ context('Request missing report', () => {
         cy.findByRole('link', { name: 'Request report' }).click()
       })
     })
+    startReportRequest({ name: 'Missing Report 1', description: 'Description for missing report 1' })
     checkA11y()
   })
 

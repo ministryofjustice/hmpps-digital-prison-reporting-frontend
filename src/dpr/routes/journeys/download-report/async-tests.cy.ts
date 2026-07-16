@@ -1,5 +1,5 @@
 import { resetFeatureFlags, updateRedisState } from 'test-app/routes/integrationTests/appStateUtils'
-import { checkA11y, executeReportStubs } from '../../../../../cypress-tests/cypressUtils'
+import { checkA11y, executeReportStubs, startReportRequest } from '../../../../../cypress-tests/cypressUtils'
 
 context('Download report', () => {
   const paths = ['/', '/embedded/platform', '/embedded/platform/dpr']
@@ -14,18 +14,7 @@ context('Download report', () => {
         cy.task('stubRequestSuccessResult20')
         cy.task('stubRequestSuccessResult100')
         cy.visit(path)
-        cy.findByLabelText(/Reports catalogue.*/i).within(() => {
-          cy.findByRole('row', {
-            name: (_, element) => {
-              return (
-                Boolean(element.textContent?.includes('Successful Report')) &&
-                Boolean(element.textContent?.includes('this will succeed'))
-              )
-            },
-          }).within(() => {
-            cy.findByRole('link', { name: 'Request report' }).click()
-          })
-        })
+        startReportRequest({ name: 'Successful Report', description: 'this will succeed' })
         checkA11y()
         cy.findByRole('button', { name: /Request/ }).click()
         checkA11y()

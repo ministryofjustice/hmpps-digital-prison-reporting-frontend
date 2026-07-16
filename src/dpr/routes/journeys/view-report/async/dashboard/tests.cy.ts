@@ -1,5 +1,5 @@
 import { resetFeatureFlags } from 'test-app/routes/integrationTests/appStateUtils'
-import { checkA11y, executeDashboardStubs } from '../../../../../../../cypress-tests/cypressUtils'
+import { checkA11y, executeDashboardStubs, startReportRequest } from '../../../../../../../cypress-tests/cypressUtils'
 
 context('Viewing a dashboard', () => {
   const path = '/'
@@ -17,18 +17,9 @@ context('Viewing a dashboard', () => {
 
       // Request and run a report so we can go back to it for each test
       cy.visit(path)
-      cy.findByLabelText(/Reports catalogue.*/i).within(() => {
-        cy.findByRole('row', {
-          name: (_, element) => {
-            return (
-              Boolean(element.textContent?.includes('Test Dashboard')) &&
-              Boolean(element.textContent?.includes('Test Dashboard used for testing'))
-            )
-          },
-        }).within(() => {
-          cy.findByRole('link', { name: 'Request dashboard' }).click()
-        })
-      })
+
+      startReportRequest({ name: 'Test Dashboard', description: 'Test Dashboard used for testing' })
+
       checkA11y()
       cy.findByRole('button', { name: /Request/ }).click()
 
@@ -88,18 +79,7 @@ context('Viewing a dashboard', () => {
       cy.visit(path)
       cy.findByRole('tab', { name: /Viewed \(1\)/ }).should('be.visible')
       checkA11y()
-      cy.findByLabelText(/Reports catalogue.*/i).within(() => {
-        cy.findByRole('row', {
-          name: (_, element) => {
-            return (
-              Boolean(element.textContent?.includes('Test Dashboard')) &&
-              Boolean(element.textContent?.includes('Test Dashboard used for testing'))
-            )
-          },
-        }).within(() => {
-          cy.findByRole('link', { name: 'Request dashboard' }).click()
-        })
-      })
+      startReportRequest({ name: 'Test Dashboard', description: 'Test Dashboard used for testing' })
       checkA11y()
       cy.findByRole('button', { name: /Request/ }).click()
       checkA11y()
@@ -118,18 +98,7 @@ context('Viewing a dashboard', () => {
       resetFeatureFlags()
       // Request and run a report so we can go back to it for each test
       cy.visit(path)
-      cy.findByLabelText(/Reports catalogue.*/i).within(() => {
-        cy.findByRole('row', {
-          name: (_, element) => {
-            return (
-              Boolean(element.textContent?.includes('Test Dashboard')) &&
-              Boolean(element.textContent?.includes('Test Dashboard used for testing'))
-            )
-          },
-        }).within(() => {
-          cy.findByRole('link', { name: 'Request dashboard' }).click()
-        })
-      })
+      startReportRequest({ name: 'Test Dashboard', description: 'Test Dashboard used for testing' })
       checkA11y()
       cy.findByRole('button', { name: /Request/ }).click()
       checkA11y()
@@ -150,18 +119,7 @@ context('Viewing a dashboard', () => {
       cy.task('stubDashboardResultUndefinedData')
       // Request and run a report so we can go back to it for each test
       cy.visit(path)
-      cy.findByLabelText(/Reports catalogue.*/i).within(() => {
-        cy.findByRole('row', {
-          name: (_, element) => {
-            return (
-              Boolean(element.textContent?.includes('Test Dashboard')) &&
-              Boolean(element.textContent?.includes('Test Dashboard used for testing'))
-            )
-          },
-        }).within(() => {
-          cy.findByRole('link', { name: 'Request dashboard' }).click()
-        })
-      })
+      startReportRequest({ name: 'Test Dashboard', description: 'Test Dashboard used for testing' })
       checkA11y()
       cy.findByRole('button', { name: /Request/ }).click()
       checkA11y()
@@ -173,18 +131,7 @@ context('Viewing a dashboard', () => {
       cy.task('stubDashboardResultEmptyData')
       // Request and run a report so we can go back to it for each test
       cy.visit(path)
-      cy.findByLabelText(/Reports catalogue.*/i).within(() => {
-        cy.findByRole('row', {
-          name: (_, element) => {
-            return (
-              Boolean(element.textContent?.includes('Test Dashboard')) &&
-              Boolean(element.textContent?.includes('Test Dashboard used for testing'))
-            )
-          },
-        }).within(() => {
-          cy.findByRole('link', { name: 'Request dashboard' }).click()
-        })
-      })
+      startReportRequest({ name: 'Test Dashboard', description: 'Test Dashboard used for testing' })
       checkA11y()
       cy.findByRole('button', { name: /Request/ }).click()
       checkA11y()
@@ -196,18 +143,7 @@ context('Viewing a dashboard', () => {
       cy.task('stubDashboardResultMissingFirstRowDataSync')
       // Request and run a report so we can go back to it for each test
       cy.visit(path)
-      cy.findByLabelText(/Reports catalogue.*/i).within(() => {
-        cy.findByRole('row', {
-          name: (_, element) => {
-            return (
-              Boolean(element.textContent?.includes('Test Dashboard')) &&
-              Boolean(element.textContent?.includes('Test Dashboard used for testing'))
-            )
-          },
-        }).within(() => {
-          cy.findByRole('link', { name: 'Request dashboard' }).click()
-        })
-      })
+      startReportRequest({ name: 'Test Dashboard', description: 'Test Dashboard used for testing' })
       checkA11y()
       cy.findByRole('button', { name: /Request/ }).click()
       checkA11y()
@@ -221,18 +157,7 @@ context('Viewing a dashboard', () => {
 
     before(() => {
       cy.visit(path)
-      cy.findByLabelText(/Reports catalogue.*/i).within(() => {
-        cy.findByRole('row', {
-          name: (_, element) => {
-            return (
-              Boolean(element.textContent?.includes('Test Dashboard')) &&
-              Boolean(element.textContent?.includes('Test Dashboard used for testing'))
-            )
-          },
-        }).within(() => {
-          cy.findByRole('link', { name: 'Request dashboard' }).click()
-        })
-      })
+      startReportRequest({ name: 'Test Dashboard', description: 'Test Dashboard used for testing' })
       cy.findByRole('button', { name: /Request/ }).click()
       cy.findByRole('heading', { level: 1, name: /Test Dashboard/ }).should('be.visible')
       cy.url().then(url => {

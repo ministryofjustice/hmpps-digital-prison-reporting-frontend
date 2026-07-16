@@ -1,5 +1,5 @@
 import { summaries } from '@networkMocks/definitionSummaries'
-import { executeReportStubs } from 'cypress-tests/cypressUtils'
+import { addBookmark, executeReportStubs } from 'cypress-tests/cypressUtils'
 
 context('Catalogue collections', () => {
   const paths = ['/', '/embedded/platform', '/embedded/platform/dpr']
@@ -31,15 +31,7 @@ context('Catalogue collections', () => {
             new RegExp(`Showing ${totalReports} of ${totalReports} reports`).test(el?.textContent || ''),
           ).should('be.visible')
 
-          cy.findByLabelText(/Reports catalogue.*/i).within(() => {
-            cy.findByRole('row', {
-              name: (_, element) => {
-                return Boolean(element.textContent?.includes('Interactive Report with async filters'))
-              },
-            }).within(() => {
-              cy.findByRole('link', { name: /Add bookmark/ }).click()
-            })
-          })
+          addBookmark('Interactive Report with async filters')
 
           cy.findByRole('combobox', { name: /Your collections/ }).select('My Starter Pack')
           const totalReportsStarterPack = [summaries[0], summaries[1]].reduce(

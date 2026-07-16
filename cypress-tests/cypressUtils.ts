@@ -44,6 +44,23 @@ export const startReportRequest = ({ name, description }: { name: string; descri
     })
 }
 
+export const startReportLoad = ({ name, description }: { name: string; description: string }) => {
+  cy.findByLabelText(/Reports Catalogue.*/i)
+    .find('.dpr-report-catalogue__variant-row')
+    .filter((_, element) => {
+      const text = element.textContent?.trim() ?? ''
+
+      return text.includes(name) && text.includes(description)
+    })
+    .should('have.length.at.least', 1)
+    .first()
+    .within(() => {
+      cy.findByRole('link', {
+        name: /Load (dashboard|report)/i,
+      }).click()
+    })
+}
+
 export const requestReportByNameAndDescription = ({ name, description }: { name: string; description: string }) => {
   startReportRequest({ name, description })
   checkA11y()
@@ -147,4 +164,54 @@ export const expectMyReportRowCountInTab = ({ tabName, count }: { tabName: strin
   cy.findByLabelText(tabName).within(() => {
     cy.findAllByRole('heading', { level: 2 }).should('have.length', count)
   })
+}
+
+// BOOKMARK HELPERS
+
+export const addBookmark = (name: string) => {
+  cy.findByLabelText(/Reports Catalogue.*/i)
+    .find('.dpr-report-catalogue__variant-row')
+    .filter((_, element) => {
+      return Boolean(element.textContent?.includes(name))
+    })
+    .first()
+    .within(() => {
+      cy.findByRole('link', { name: /Add bookmark/i }).click()
+    })
+}
+
+export const addBookmarkExists = (name: string) => {
+  cy.findByLabelText(/Reports Catalogue.*/i)
+    .find('.dpr-report-catalogue__variant-row')
+    .filter((_, element) => {
+      return Boolean(element.textContent?.includes(name))
+    })
+    .first()
+    .within(() => {
+      cy.findByRole('link', { name: /Add bookmark/i }).should('exist')
+    })
+}
+
+export const removeBookmarkExists = (name: string) => {
+  cy.findByLabelText(/Reports Catalogue.*/i)
+    .find('.dpr-report-catalogue__variant-row')
+    .filter((_, element) => {
+      return Boolean(element.textContent?.includes(name))
+    })
+    .first()
+    .within(() => {
+      cy.findByRole('link', { name: /Remove bookmark/i }).should('exist')
+    })
+}
+
+export const removeBookmark = (name: string) => {
+  cy.findByLabelText(/Reports Catalogue.*/i)
+    .find('.dpr-report-catalogue__variant-row')
+    .filter((_, element) => {
+      return Boolean(element.textContent?.includes(name))
+    })
+    .first()
+    .within(() => {
+      cy.findByRole('link', { name: /Remove bookmark/i }).click()
+    })
 }

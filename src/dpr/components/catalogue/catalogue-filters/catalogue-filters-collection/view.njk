@@ -14,6 +14,7 @@
         <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
         <input type="hidden" name="returnTo" value="{{ currentUrl }}" />
 
+        {{ selectedProductCollection | json }}
         {{
           govukSelect({
             id: 'productCollection',

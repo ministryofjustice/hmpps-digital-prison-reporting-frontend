@@ -3,6 +3,8 @@ import { featureTestingUnprintable } from '@networkMocks/report/mockVariants/fea
 import {
   addBookmark,
   addBookmarkExists,
+  addBookmarkNotExist,
+  executeDashboardStubs,
   expectMyReportRowCountInTab,
   getMyReportRow,
   getMyReportRowCell,
@@ -116,16 +118,7 @@ context('Bookmarks list', () => {
           describe('missing report', () => {
             it('should not be able to be bookmarked', () => {
               cy.findByRole('tab', { name: /Bookmarks/ }).click()
-              cy.findByLabelText(/Reports Catalogue.*/i).within(() => {
-                cy.findByRole('row', {
-                  name: (_, element) => {
-                    return Boolean(element.textContent?.includes('Description for missing report 1'))
-                  },
-                }).within(() => {
-                  cy.findByRole('link', { name: /Add bookmark/ }).should('not.exist')
-                  cy.findByRole('link', { name: /Request report/ }).should('be.visible')
-                })
-              })
+              addBookmarkNotExist('Missing Report 1')
             })
           })
         })
@@ -162,18 +155,9 @@ context('Bookmarks list', () => {
             cy.task('stubRequestSuccessReportTablesCount')
 
             cy.visit(path)
-            cy.findByLabelText(/Reports catalogue.*/i).within(() => {
-              cy.findByRole('row', {
-                name: (_, element) => {
-                  return (
-                    Boolean(element.textContent?.includes('Feature testing')) &&
-                    Boolean(element.textContent?.includes('Missing variant description')) &&
-                    Boolean(element.textContent?.includes('Example variants used for feature testing'))
-                  )
-                },
-              }).within(() => {
-                cy.findByRole('link', { name: 'Request report' }).click()
-              })
+            startReportRequest({
+              name: 'Missing variant description',
+              description: 'Example variants used for feature testing',
             })
             cy.findByRole('combobox', { name: /Field 2/ }).select('Value 2.1')
             cy.findByRole('button', { name: /Request report/ }).click()
@@ -211,25 +195,28 @@ context('Bookmarks list', () => {
         })
 
         describe('Bookmarking via the dashboard', () => {
-          let viewReportUrl: string
+          let viewDashboardUrl: string
 
           before(() => {
+            executeDashboardStubs()
             cy.task('stubTestDashboard8')
-            cy.task('stubMockDashboardsStatusFinished')
-            cy.task('stubViewAsyncResults')
             cy.task('stubDashboardResultCompleteData')
 
             cy.visit(path)
+
             startReportRequest({ name: 'Test Dashboard', description: 'Test Dashboard used for testing' })
+
             cy.findByRole('button', { name: /Request dashboard/ }).click()
 
+            cy.findAllByRole('group').contains('Dashboard details').should('be.visible').click()
+
             cy.url().then(url => {
-              viewReportUrl = url
+              viewDashboardUrl = url
             })
           })
 
           it('should add a bookmark', () => {
-            cy.visit(viewReportUrl)
+            cy.visit(viewDashboardUrl)
             cy.findByRole('link', { name: /Add bookmark/ })
               .click()
               .contains('Remove bookmark')
@@ -243,7 +230,7 @@ context('Bookmarks list', () => {
 
             expectMyReportRowCountInTab({ tabName: /Bookmarks.*/i, count: 3 })
 
-            cy.visit(viewReportUrl)
+            cy.visit(viewDashboardUrl)
             cy.findByRole('link', { name: /Remove bookmark/ })
               .click()
               .contains('Add bookmark')

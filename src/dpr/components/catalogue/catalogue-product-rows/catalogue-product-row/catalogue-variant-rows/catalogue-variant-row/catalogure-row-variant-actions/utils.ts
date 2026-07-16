@@ -11,7 +11,7 @@ import {
 import { setUpBookmark } from '../../../../../../bookmark/utils'
 import { Services } from '../../../../../../../types/Services'
 
-export const intitialiseCatalogueActions = (
+export const intitialiseCatalogueActions = async (
   res: Response,
   req: Request,
   services: Services,
@@ -19,7 +19,7 @@ export const intitialiseCatalogueActions = (
   variant: components['schemas']['VariantDefinitionSummary'] | components['schemas']['DashboardDefinitionSummary'],
   reportType: ReportType,
   authorised: boolean,
-): CatalogueVariantRowActions => {
+): Promise<CatalogueVariantRowActions> => {
   if (!authorised) {
     return {
       authorised,
@@ -35,7 +35,10 @@ export const intitialiseCatalogueActions = (
   let bookmark
   if (!missing) {
     request = setRequestAction(res, productId, variant, reportType)
-    bookmark = setBookmark(res, req, services, productId, variant.id, reportType)
+
+    if (services.bookmarkService.enabled) {
+      bookmark = await setBookmark(res, req, services, productId, variant.id, reportType)
+    }
   }
 
   return {
@@ -104,16 +107,19 @@ const setHref = (
   return loadType && loadType === LoadType.SYNC ? syncPath : asyncPath
 }
 
-const setBookmark = (
+const setBookmark = async (
   res: Response,
   req: Request,
   services: Services,
   productId: string,
   id: string,
   reportType: ReportType,
-): CatalogueVariantRowActionBookmark => {
-  const { csrfToken } = localsHelper.getValues(res)
-  const bookmarkConfig = setUpBookmark(res, req, services.bookmarkService)
+): Promise<CatalogueVariantRowActionBookmark> => {
+  const { csrfToken, dprUser } = localsHelper.getValues(res)
+
+  const reportIsBookmarked = await services.bookmarkService.isBookmarked(id, productId, dprUser.id)
+
+  const bookmarkConfig = setUpBookmark(res, req, services.bookmarkService, reportIsBookmarked)
 
   return {
     reportId: productId,

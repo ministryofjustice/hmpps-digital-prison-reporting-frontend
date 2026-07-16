@@ -25,7 +25,7 @@ export const initCatalogue = async (res: Response, req: Request, services: Servi
   const sortedDefinitions = sortDefinitionSummaries(definitions)
 
   // transform
-  const catalogueConfig = mapCatalogue(sortedDefinitions, res, req, services)
+  const catalogueConfig = await mapCatalogue(sortedDefinitions, res, req, services)
 
   // filters config
   const filtersConfig = await initCatalogueFilters(req, res, services)
@@ -62,30 +62,34 @@ const sortDefinitionSummaries = (
  * @param {components['schemas']['ReportDefinitionSummary'][]} definitions
  * @return {*}  {Catalogue}
  */
-const mapCatalogue = (
+const mapCatalogue = async (
   definitions: components['schemas']['ReportDefinitionSummary'][],
   res: Response,
   req: Request,
   services: Services,
-): Catalogue => {
-  const products: CatalogueProduct[] = definitions.map(definition => {
-    const { id, name, authorised } = definition
+): Promise<Catalogue> => {
+  const products: CatalogueProduct[] = await Promise.all(
+    definitions.map(async definition => {
+      const { id, name, authorised } = definition
 
-    const variants = (definition.variants ?? []).map(variant => {
-      return mapVariantRow(variant, id, res, req, services, authorised)
-    })
+      const variants = await Promise.all(
+        (definition.variants ?? []).map(variant => mapVariantRow(variant, definition, res, req, services, authorised)),
+      )
 
-    const dashboards = (definition.dashboards ?? []).map(dashboard => {
-      return mapDashboardRow(dashboard, id, res, req, services, authorised)
-    })
+      const dashboards = await Promise.all(
+        (definition.dashboards ?? []).map(dashboard =>
+          mapDashboardRow(dashboard, definition, res, req, services, authorised),
+        ),
+      )
 
-    return {
-      id,
-      name,
-      authorised,
-      variants: [...variants, ...dashboards],
-    }
-  })
+      return {
+        id,
+        name,
+        authorised,
+        variants: [...variants, ...dashboards],
+      }
+    }),
+  )
 
   return {
     headings: mapHeadings(),
@@ -100,21 +104,23 @@ const mapCatalogue = (
  * @param {components['schemas']['VariantDefinitionSummary']} variant
  * @return {*}  {CatalogueVariantRow}
  */
-const mapVariantRow = (
+const mapVariantRow = async (
   variant: components['schemas']['VariantDefinitionSummary'],
-  productId: string,
+  definition: components['schemas']['ReportDefinitionSummary'],
   res: Response,
   req: Request,
   services: Services,
   authorised: boolean,
-): CatalogueVariantRow => {
+): Promise<CatalogueVariantRow> => {
   const { id, name, description, isMissing } = variant
+  const { id: productId, description: productDescription } = definition
+  const desc = description || productDescription
 
-  const trucatedDescription = initialiseTruncation({ stringValue: description ?? '', classes: 'govuk-body-s' })
+  const trucatedDescription = initialiseTruncation({ stringValue: desc ?? '', classes: 'govuk-body-s' })
 
   let actions
   if (authorised) {
-    actions = intitialiseCatalogueActions(res, req, services, productId, variant, ReportType.REPORT, authorised)
+    actions = await intitialiseCatalogueActions(res, req, services, productId, variant, ReportType.REPORT, authorised)
   }
 
   return {
@@ -135,21 +141,31 @@ const mapVariantRow = (
  * @param {components['schemas']['DashboardDefinitionSummary']} dashboard
  * @return {*}  {CatalogueVariantRow}
  */
-const mapDashboardRow = (
+const mapDashboardRow = async (
   dashboard: components['schemas']['DashboardDefinitionSummary'],
-  productId: string,
+  definition: components['schemas']['ReportDefinitionSummary'],
   res: Response,
   req: Request,
   services: Services,
   authorised: boolean,
-): CatalogueVariantRow => {
+): Promise<CatalogueVariantRow> => {
   const { id, name, description } = dashboard
+  const { id: productId, description: productDescription } = definition
 
-  const trucatedDescription = initialiseTruncation({ stringValue: description ?? '', classes: 'govuk-body-s' })
+  const desc = description || productDescription
+  const trucatedDescription = initialiseTruncation({ stringValue: desc ?? '', classes: 'govuk-body-s' })
 
   let actions
   if (authorised) {
-    actions = intitialiseCatalogueActions(res, req, services, productId, dashboard, ReportType.DASHBOARD, authorised)
+    actions = await intitialiseCatalogueActions(
+      res,
+      req,
+      services,
+      productId,
+      dashboard,
+      ReportType.DASHBOARD,
+      authorised,
+    )
   }
 
   return {

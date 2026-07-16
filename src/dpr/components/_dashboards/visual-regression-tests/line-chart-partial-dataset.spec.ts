@@ -1,14 +1,12 @@
 import { test, expect } from '@playwright/test'
+import { getCatalogueVariant } from './vrtHelpers'
 
 test('Line chart partial dataset', async ({ page }) => {
   await page.goto('/embedded/platform')
 
   page.getByLabel(/Reports catalogue.*/i)
-  await page
-    .getByLabel(/Reports catalogue.*/i)
-    .locator(page.getByRole('row').filter({ hasText: /Line - Partial dataset/ }))
-    .locator(page.getByRole('link', { name: /Request dashboard/ }))
-    .click()
+
+  getCatalogueVariant(page, /Line - Partial dataset/)
 
   await page.getByRole('button', { name: /Request dashboard/ }).click()
 

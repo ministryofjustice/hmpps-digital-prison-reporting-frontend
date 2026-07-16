@@ -11,7 +11,7 @@
   {% set actions = variant.actions %}
   {% set missing = variant.missing %}
 
-  <div class="dpr-report-catalogue__variant-row" data-live="{{ not missing }}" data-report-type="{{ type }}">
+  <div class="dpr-report-catalogue__variant-row" data-live="{{ not missing }}" data-report-type="{{ type }}" role="listitem">
     <div class="dpr-report-catalogue__variant-row__cell dpr-report-catalogue__variant-row__heading">
       {{ dprReportsCatalogueVariantRowHeading(heading) }}
     </div>

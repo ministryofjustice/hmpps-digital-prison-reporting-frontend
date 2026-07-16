@@ -17,18 +17,7 @@ context('Recently viewed list', () => {
     cy.findByRole('button', { name: /Enable download/ }).should('be.visible')
 
     cy.visit(path)
-    cy.findByLabelText(/Reports catalogue.*/i).within(() => {
-      cy.findByRole('row', {
-        name: (_, element) => {
-          return (
-            Boolean(element.textContent?.includes('Interactive Report')) &&
-            Boolean(element.textContent?.includes('this is an interactive report'))
-          )
-        },
-      }).within(() => {
-        cy.findByRole('link', { name: 'Request report' }).click()
-      })
-    })
+    startReportRequest({ name: 'Interactive Report', description: 'this is an interactive report' })
     cy.findByRole('button', { name: 'Request report' }).click()
     cy.findByRole('button', { name: /Enable download/ }).should('be.visible')
 

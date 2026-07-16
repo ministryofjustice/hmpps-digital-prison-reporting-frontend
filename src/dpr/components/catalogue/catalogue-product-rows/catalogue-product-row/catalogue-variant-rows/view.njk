@@ -1,7 +1,7 @@
 {% from "./catalogue-variant-row/view.njk" import dprReportsCatalogueVariantRow %}
 
 {% macro dprReportsCatalogueVariantRows(variants) %}
-  <div class="dpr-report-catalogue__variant-rows">
+  <div class="dpr-report-catalogue__variant-rows" role="list">
     {% for variant in variants %}
       {{ dprReportsCatalogueVariantRow(variant) }}
     {% endfor %}

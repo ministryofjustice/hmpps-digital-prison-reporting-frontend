@@ -29,7 +29,7 @@ export const checkSelectedFilterValues = ({
 
 export const startReportRequest = ({ name, description }: { name: string; description: string }) => {
   cy.findByLabelText(/Reports Catalogue.*/i)
-    .find('.dpr-report-catalogue__variant-row')
+    .findAllByRole('listitem')
     .filter((_, element) => {
       const text = element.textContent?.trim() ?? ''
 
@@ -46,7 +46,7 @@ export const startReportRequest = ({ name, description }: { name: string; descri
 
 export const startReportLoad = ({ name, description }: { name: string; description: string }) => {
   cy.findByLabelText(/Reports Catalogue.*/i)
-    .find('.dpr-report-catalogue__variant-row')
+    .findAllByRole('listitem')
     .filter((_, element) => {
       const text = element.textContent?.trim() ?? ''
 
@@ -170,7 +170,7 @@ export const expectMyReportRowCountInTab = ({ tabName, count }: { tabName: strin
 
 export const addBookmark = (name: string) => {
   cy.findByLabelText(/Reports Catalogue.*/i)
-    .find('.dpr-report-catalogue__variant-row')
+    .findAllByRole('listitem')
     .filter((_, element) => {
       return Boolean(element.textContent?.includes(name))
     })
@@ -182,7 +182,7 @@ export const addBookmark = (name: string) => {
 
 export const addBookmarkExists = (name: string) => {
   cy.findByLabelText(/Reports Catalogue.*/i)
-    .find('.dpr-report-catalogue__variant-row')
+    .findAllByRole('listitem')
     .filter((_, element) => {
       return Boolean(element.textContent?.includes(name))
     })
@@ -192,9 +192,21 @@ export const addBookmarkExists = (name: string) => {
     })
 }
 
+export const addBookmarkNotExist = (name: string) => {
+  cy.findByLabelText(/Reports Catalogue.*/i)
+    .findAllByRole('listitem')
+    .filter((_, element) => {
+      return Boolean(element.textContent?.includes(name))
+    })
+    .first()
+    .within(() => {
+      cy.findByRole('link', { name: /Add bookmark/i }).should('not.exist')
+    })
+}
+
 export const removeBookmarkExists = (name: string) => {
   cy.findByLabelText(/Reports Catalogue.*/i)
-    .find('.dpr-report-catalogue__variant-row')
+    .findAllByRole('listitem')
     .filter((_, element) => {
       return Boolean(element.textContent?.includes(name))
     })
@@ -206,7 +218,7 @@ export const removeBookmarkExists = (name: string) => {
 
 export const removeBookmark = (name: string) => {
   cy.findByLabelText(/Reports Catalogue.*/i)
-    .find('.dpr-report-catalogue__variant-row')
+    .findAllByRole('listitem')
     .filter((_, element) => {
       return Boolean(element.textContent?.includes(name))
     })

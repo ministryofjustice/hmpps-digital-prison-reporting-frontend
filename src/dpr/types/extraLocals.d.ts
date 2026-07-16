@@ -27,9 +27,6 @@ export interface ExtraLocals {
     flags: Record<string, boolean>
   }
   isProbationService: boolean
-  applicationName: string
-  reportingServiceName: string
-  digitalServicesName: string
 
   bookmarkingEnabled: boolean
   downloadingEnabled: boolean

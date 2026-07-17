@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## 7.3.2
+
+- Removed debug logging to migration service. Updated prefix
+
 ## 7.3.1
 
 - Added debug logging to migration service

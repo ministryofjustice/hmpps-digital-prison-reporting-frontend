@@ -11,6 +11,7 @@ import {
   ListType,
   MappedBookmarks,
   MyReportsListTotals,
+  MyReportsMessages,
   MyReportsOptions,
 } from './types'
 import LocalsHelper, { getRouteLocals } from '../../utils/localsHelper'
@@ -41,14 +42,37 @@ export const initMyReports = async (
   services: Services,
   options?: MyReportsOptions | undefined,
 ): Promise<DprMyReport | undefined> => {
-  const { bookmarkingEnabled } = LocalsHelper.getValues(res)
+  const { bookmarkingEnabled, subscriptionsEnabled } = LocalsHelper.getValues(res)
   await checkExpiredAndGetReports(res, services)
 
+  const messages = setMessages(res)
+
   return {
+    ...(subscriptionsEnabled && { subscriptions: await initSubscribed(req, res, options) }),
     ...(bookmarkingEnabled && { bookmarks: await initBookmarks(res, req, services) }),
     requested: await initRequested(req, res, options),
     viewed: await initViewed(req, res, options),
-    removedReports: res.locals['removedReports'],
+    ...(messages && { messages }),
+  }
+}
+
+/**
+ * Sets the messages if any
+ *
+ * @param {Response} res
+ * @return {*}  {MyReportsMessages}
+ */
+const setMessages = (res: Response): MyReportsMessages => {
+  const subscriptionMessages = {
+    subscribedMessage: res.locals['subscribedMessage'] || [],
+    unsubscribedMessage: res.locals['unsubscribedMessage'] || [],
+  }
+
+  const { removedReports } = res.locals
+
+  return {
+    subscriptionMessages,
+    removedReports,
   }
 }
 
@@ -147,6 +171,22 @@ export const initViewed = async (req: Request, res: Response, options?: MyReport
     listType: ListType.VIEWED,
     csrfToken,
     headings: buildHeadings(ListType.VIEWED),
+    items,
+    totals,
+  }
+}
+
+export const initSubscribed = async (req: Request, res: Response, options?: MyReportsOptions | undefined) => {
+  const { csrfToken } = LocalsHelper.getValues(res)
+  const totalItems = await buildListItems(req, res, ListType.SUBSCRIPTIONS)
+  const totals = buildTotals(res, totalItems, ListType.SUBSCRIPTIONS, options)
+  const items = cutItemsToSize(totalItems, options)
+
+  return {
+    title: 'Subscriptions',
+    listType: ListType.SUBSCRIPTIONS,
+    csrfToken,
+    headings: buildHeadings(ListType.SUBSCRIPTIONS),
     items,
     totals,
   }
@@ -405,7 +445,7 @@ const buildBookmarkRemoveAction = (res: Response, data: MappedBookmarks): DprMyR
  * @return {*}  {(StoredReportData[] | undefined)}
  */
 const getDataForList = async (res: Response, listType: ListType): Promise<StoredReportData[] | undefined> => {
-  const { requestedReports, recentlyViewedReports } = LocalsHelper.getValues(res)
+  const { requestedReports, recentlyViewedReports, subscriptions } = LocalsHelper.getValues(res)
 
   switch (listType) {
     case ListType.REQUESTED:
@@ -413,6 +453,7 @@ const getDataForList = async (res: Response, listType: ListType): Promise<Stored
       return requestedReports.filter(report => {
         return report.timestamp ? !report.timestamp.lastViewed : false
       })
+
     case ListType.VIEWED:
       // Only show READY or EXPIRED reports
       return recentlyViewedReports.filter(report => {
@@ -421,6 +462,10 @@ const getDataForList = async (res: Response, listType: ListType): Promise<Stored
           Boolean(report.executionId?.length && report.status === RequestStatus.EXPIRED),
         )
       })
+
+    case ListType.SUBSCRIPTIONS:
+      return subscriptions
+
     default:
       return undefined
   }
@@ -445,13 +490,13 @@ const ALL_HEADINGS: HeadingConfig[] = [
     key: 'title',
     name: 'Product',
     classes: 'dpr-my-reports__cell--title',
-    showIn: [ListType.BOOKMARKS, ListType.REQUESTED, ListType.VIEWED],
+    showIn: [ListType.BOOKMARKS, ListType.REQUESTED, ListType.VIEWED, ListType.SUBSCRIPTIONS],
   },
   {
     key: 'description',
     name: 'Description',
     classes: 'dpr-my-reports__cell--description',
-    showIn: [ListType.BOOKMARKS],
+    showIn: [ListType.BOOKMARKS, ListType.SUBSCRIPTIONS],
   },
   {
     key: 'filters',
@@ -466,10 +511,16 @@ const ALL_HEADINGS: HeadingConfig[] = [
     showIn: [ListType.REQUESTED, ListType.VIEWED],
   },
   {
+    key: 'schedule',
+    name: 'Schedule',
+    classes: 'dpr-my-reports__cell--status',
+    showIn: [ListType.SUBSCRIPTIONS],
+  },
+  {
     key: 'actions',
     name: 'Actions',
     classes: 'dpr-my-reports__cell--actions',
-    showIn: [ListType.BOOKMARKS, ListType.REQUESTED, ListType.VIEWED],
+    showIn: [ListType.BOOKMARKS, ListType.REQUESTED, ListType.VIEWED, ListType.SUBSCRIPTIONS],
   },
 ]
 

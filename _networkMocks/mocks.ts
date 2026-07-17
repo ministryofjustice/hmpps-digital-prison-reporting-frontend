@@ -98,6 +98,28 @@ export const expiredEndpoint = generateNetworkMock({
   },
 })
 
+export const getSubscriptionsEndpoint = generateNetworkMock({
+  ...defaultMockRequest,
+  request: {
+    ...defaultMockRequest.request,
+    method: 'GET',
+    urlPathPattern: `/user/subscriptions`,
+  },
+  response: {
+    ...defaultMockRequest.response,
+    jsonBody: [
+      {
+        tableId: 'tblId_1729766362362',
+        createAt: new Date().toISOString(),
+      },
+      {
+        tableId: 'tblId_1729765628165',
+        createAt: new Date().toISOString(),
+      },
+    ],
+  },
+})
+
 export const generateIndividualDefinitionSummaries = summaries.map(summary =>
   generateNetworkMock({
     ...defaultMockRequest,

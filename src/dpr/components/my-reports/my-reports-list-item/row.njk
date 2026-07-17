@@ -1,5 +1,6 @@
 {% from "./my-reports-list-item-title/view.njk" import dprMyReportListItemTitle %}
 {% from "./my-reports-list-item-description/view.njk" import dprMyReportListItemDescription %}
+{% from "./my-reports-list-item-schedule/view.njk" import dprMyReportListItemSchedule %}
 {% from "./my-reports-list-item-filters/view.njk" import dprMyReportListItemFilters %}
 {% from "./my-reports-list-item-status/view.njk" import dprMyReportListItemStatus %}
 {% from "./my-reports-list-item-actions/view.njk" import dprMyReportListItemActions %}
@@ -9,6 +10,7 @@
 {% set actions = item.actions %}
 {% set filters = item.filters %}
 {% set status = item.status %}
+{% set schedule = item.schedule %}
 
 {% set meta = item.meta %}
 {% set tableId = meta.tableId %}
@@ -43,6 +45,10 @@
 
   {% if status %}
     <div class="dpr-my-reports__cell dpr-my-reports__cell--status">{{ dprMyReportListItemStatus(status) }}</div>
+  {% endif %}
+
+  {% if schedule %}
+    <div class="dpr-my-reports__cell dpr-my-reports__cell--schedule">{{ dprMyReportListItemSchedule(schedule) }}</div>
   {% endif %}
 
   <div class="dpr-my-reports__cell dpr-my-reports__cell--actions">{{ dprMyReportListItemActions(actions) }}</div>

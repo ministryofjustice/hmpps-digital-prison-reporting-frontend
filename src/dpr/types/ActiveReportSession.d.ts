@@ -31,6 +31,10 @@ export interface ActiveReportSessionData {
   // Saved defaults
   savedRequestDefaultsSearch?: string | undefined
   savedInteractiveDefaultsSearch?: string | undefined
+
+  // Subscriptions
+  subscribed: boolean | undefined
+  subscriptionUrl: string | undefined
 }
 
 export interface ActiveReportSession {

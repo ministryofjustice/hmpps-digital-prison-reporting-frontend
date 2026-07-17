@@ -9,6 +9,7 @@ async function start(): Promise<void> {
     collections: true,
     missingReports: true,
     feedbackOnDownload: true,
+    subscriptions: true,
   })
 
   if (services.reportIdMigrationService.enabled) {

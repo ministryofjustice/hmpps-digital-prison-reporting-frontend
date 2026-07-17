@@ -95,6 +95,7 @@ const requestExampleSuccess = {
             { name: 'Princess Buttercup', display: 'Princess Buttercup' },
             { name: 'Westley', display: 'Westley' },
           ],
+          defaultValue: 'PrHu',
           mandatory: false,
         },
       },

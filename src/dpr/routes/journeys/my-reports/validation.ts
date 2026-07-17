@@ -91,6 +91,8 @@ export const StoredReportDataObjectSchema = z.object({
   variantName: z.string().optional(),
   name: z.string().optional(),
 
+  schedule: z.string().optional(),
+
   description: z.string(),
 
   status: RequestStatusSchema.optional(),

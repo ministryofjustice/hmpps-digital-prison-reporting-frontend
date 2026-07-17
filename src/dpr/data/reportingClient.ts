@@ -297,51 +297,41 @@ class ReportingClient {
       .then(response => <components['schemas']['ResultTableExpiryState'][]>response)
   }
 
-  // TODO: update with correct endpoint
-  subscribe(
-    token: string,
-    reportId: string,
-    id: string,
-    dataProductDefinitionsPath?: string | undefined,
-  ): Promise<{ tableId: string }> {
+  subscribe(token: string, reportId: string, id: string): Promise<{ tableId: string }> {
     return this.restClient
-      .get({
-        path: `/reports/${reportId}/${id}/subscribe`,
-        token,
-        query: {
-          dataProductDefinitionsPath,
+      .post(
+        {
+          path: `/user/subscribe`,
+          data: { reportId, id },
         },
-      })
+        token,
+      )
       .then(response => <{ tableId: string }>response)
   }
 
-  // TODO: update with correct endpoint
-  unsubscribe(token: string, reportId: string, id: string, dataProductDefinitionsPath?: string | undefined) {
+  unsubscribe(token: string, reportId: string, id: string): Promise<{ success: boolean }> {
     return this.restClient
-      .delete({
-        path: `/reports/${reportId}/${id}/unsubscribe`,
-        token,
-        query: {
-          dataProductDefinitionsPath,
+      .post(
+        {
+          path: `/user/unsubscribe`,
+          data: { reportId, id },
         },
-      })
-      .then(response => response)
+        token,
+      )
+      .then(response => <{ success: boolean }>response)
   }
 
-  // TODO: update with correct endpoint
   getSubscriptions(
     token: string,
-    tableIds: string[],
-  ): Promise<{ tableId: string; createdAt: string; addedAt: string }[]> {
+  ): Promise<{ reportId: string; id: string; tableId: string; createdAt: string; addedAt: string }[]> {
     return this.restClient
       .get({
-        path: `/reports/subscriptions`,
+        path: `/user/subscriptions`,
         token,
-        query: {
-          tableIds,
-        },
       })
-      .then(response => <{ tableId: string; createdAt: string; addedAt: string }[]>response)
+      .then(
+        response => <{ reportId: string; id: string; tableId: string; createdAt: string; addedAt: string }[]>response,
+      )
   }
 
   logInfo(title: string, args?: Dict<string>) {

@@ -49,12 +49,11 @@ export class ReportIdMigrationService {
 
     await this.ensureConnected()
 
-    // TEMPORARILY DISABLE DURING TESTING
-    // const migrationComplete = await this.redisClient.get(ReportIdMigrationService.MIGRATION_KEY)
-    // if (migrationComplete) {
-    //   logger.info('DPR report ID migration already completed')
-    //   return
-    // }
+    const migrationComplete = await this.redisClient.get(ReportIdMigrationService.MIGRATION_KEY)
+    if (migrationComplete) {
+      logger.info('DPR report ID migration already completed')
+      return
+    }
 
     logger.info('Starting DPR report ID migration')
 

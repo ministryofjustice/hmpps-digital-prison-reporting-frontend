@@ -1,19 +1,11 @@
 import { Request, Response } from 'express'
 
 import { RequestStatus, StoredReportData } from '../../../types/UserReports'
-import {
-  DprMyReportActions,
-  DprMyReportFilters,
-  DprMyReportTitle,
-  LinkAction,
-  ListType,
-  NameValuePair,
-  RemoveAction,
-  ViewAction,
-} from '../types'
+import { DprMyReportFilters, DprMyReportTitle, ListType, NameValuePair } from '../types'
 import { apiTimestampToUiDateTime, todayAsUiDateTime } from '../../../utils/dateHelper'
 import { getRouteLocals } from '../../../utils/localsHelper'
 import { getReportTitleData } from '../../../utils/reportStoreHelper'
+import { buildActionsCell } from './my-reports-list-item-actions/utils'
 
 /**
  * Builds the row
@@ -152,116 +144,6 @@ const buildFiltersCell = (data: StoredReportData): DprMyReportFilters => {
   return {
     ...(prerequest && { prerequest }),
     ...(interactive && { interactive }),
-  }
-}
-
-/**
- * Builds the action cell data
- *
- * @param {StoredReportData} data
- * @param {Response} res
- * @return {*}  {DprMyReportActions}
- */
-const buildActionsCell = (
-  data: StoredReportData,
-  res: Response,
-  req: Request,
-  listType: ListType,
-): DprMyReportActions => {
-  const { status, type, url } = data
-
-  let retry: LinkAction | undefined
-  let refresh: LinkAction | undefined
-  let polling: LinkAction | undefined
-  let view: ViewAction | undefined
-  let remove: RemoveAction | undefined
-
-  const pollingPageUrl = url?.polling?.fullUrl || ''
-  const requestPageUrl = url?.request?.fullUrl || ''
-  const reportPageUrl = url?.report?.fullUrl || ''
-
-  switch (status) {
-    case RequestStatus.FAILED:
-      retry = { href: pollingPageUrl }
-      remove = buildRemoveAction(data, res, req, listType)
-      break
-
-    case RequestStatus.EXPIRED:
-      refresh = { href: requestPageUrl }
-      remove = buildRemoveAction(data, res, req, listType)
-      break
-
-    case RequestStatus.ABORTED:
-      retry = { href: requestPageUrl }
-      remove = buildRemoveAction(data, res, req, listType)
-      break
-
-    case RequestStatus.READY:
-    case RequestStatus.FINISHED:
-      view = {
-        href: reportPageUrl,
-        reportType: type,
-      }
-      remove = buildRemoveAction(data, res, req, listType)
-      break
-
-    case RequestStatus.PICKED:
-    case RequestStatus.SUBMITTED:
-    case RequestStatus.STARTED:
-      polling = { href: pollingPageUrl }
-      break
-    default:
-      break
-  }
-
-  return {
-    ...(retry && { retry }),
-    ...(refresh && { refresh }),
-    ...(remove && { remove }),
-    ...(view && { view }),
-    ...(polling && { polling }),
-  }
-}
-
-/**
- * Builds the remove action
- *
- * @param {StoredReportData} data
- * @param {Response} res
- * @return {*}
- */
-const buildRemoveAction = (data: StoredReportData, res: Response, req: Request, listType: ListType): RemoveAction => {
-  const { reportId, id, executionId, tableId } = data
-  const { requestedListPath, recentlyViewedListPath, subscribePath } = getRouteLocals(res)
-
-  let action = ''
-  let text = 'Remove'
-
-  if (listType === ListType.REQUESTED) {
-    // ASYNC report - only executionId is needed
-    action = `${requestedListPath}/remove-item/${executionId}`
-  }
-
-  if (listType === ListType.VIEWED) {
-    if (tableId && executionId) {
-      // ASYNC report - tableId and executionId needed
-      action = `${recentlyViewedListPath}/remove-item/${executionId}/table-id/${tableId}`
-    } else {
-      // SYNC report - reportId and Id needed
-      action = `${recentlyViewedListPath}/remove-item/report-id/${reportId}/id/${id}`
-    }
-  }
-
-  if (listType === ListType.SUBSCRIPTIONS) {
-    action = `${subscribePath}/${reportId}/${id}/unsubscribe`
-    text = 'Unsubscribe'
-  }
-
-  return {
-    action,
-    csrfToken: res.locals.csrfToken,
-    returnTo: req.originalUrl,
-    text,
   }
 }
 

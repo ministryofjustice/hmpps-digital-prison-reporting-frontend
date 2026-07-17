@@ -3,7 +3,7 @@ const variant20 = {
   id: 'variantId-20',
   name: 'By Person ID and Visit Detail',
   description:
-    'Visitor and Prisoner details for those Visitors who have visits within a date range specified, along with the number of Prisoners visited and the Visitor details. This identification will facilitate multi-agency work as well as assist Establishments with their Data Cleansing.</br>VIS0019 - v0.1 Last Modified: 08 /09 / 2017',
+    'Visitor and Prisoner details for those Visitors who have visits within a date range specified, along with the number of Prisoners visited and the Visitor details. This identification will facilitate multi-agency work as well as assist Establishments with their Data Cleansing.<br>VIS0019 - v0.1 Last Modified: 08 /09 / 2017',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
   printable: false,

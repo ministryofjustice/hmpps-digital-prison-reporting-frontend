@@ -5,7 +5,7 @@ const reportTemplateListWithSummaries: components['schemas']['VariantDefinition'
   loadType: LoadType.ASYNC,
   id: 'report-template-list-summaries',
   name: 'List - with summaries',
-  description: 'Template: "list".</br> A report with summaries.',
+  description: 'Template: "list".<br> A report with summaries.',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
   printable: true,

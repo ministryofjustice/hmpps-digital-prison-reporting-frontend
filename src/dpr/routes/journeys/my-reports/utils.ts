@@ -169,7 +169,7 @@ export const addMyReport = async (
       break
 
     case 'subscriptions':
-      await services.subscriptionService.addReport(userId, result.data)
+      await services.subscriptionStoreService.addReport(userId, result.data)
       break
 
     default:
@@ -203,7 +203,7 @@ export const removeMyReport = async (
   }
 
   if (type === 'subscriptions' && reportId && id) {
-    return services.subscriptionService.removeReport(userId, reportId, id)
+    return services.subscriptionStoreService.removeReport(userId, reportId, id)
   }
 
   return undefined
@@ -253,7 +253,7 @@ const getService = (type: 'requestedReports' | 'recentlyViewedReports' | 'subscr
   const serviceMap = {
     requestedReports: services.requestedReportService,
     recentlyViewedReports: services.recentlyViewedService,
-    subscriptions: services.subscriptionService,
+    subscriptions: services.subscriptionStoreService,
   } as const
 
   return serviceMap[type]

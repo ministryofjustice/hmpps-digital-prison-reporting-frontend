@@ -88,7 +88,7 @@ const listWithSummariesData = {
   bookmarked: false,
   reportName: 'Report templates',
   name: 'List - with summaries',
-  description: 'Template: "list".</br> A report with summaries.',
+  description: 'Template: "list".<br> A report with summaries.',
   classification: 'OFFICIAL',
   printable: true,
   specification: {

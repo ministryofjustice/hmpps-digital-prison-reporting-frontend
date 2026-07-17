@@ -137,10 +137,70 @@ const dataQualityListBar = {
   },
 }
 
+const verticalStackedBar = {
+  id: 'bar-chart-stacked-vertical-visualisation',
+  type: 'bar',
+  display: 'Metrics by establishment (stacked vertically)',
+  options: {
+    horizontal: false,
+    xStacked: true,
+    yStacked: true,
+  },
+  columns: {
+    keys: [
+      {
+        id: 'establishment_id',
+        display: 'Establishment ID',
+      },
+    ],
+    measures: [
+      {
+        id: 'has_metric_one',
+        display: 'Has MetricOne',
+      },
+      {
+        id: 'has_metric_two',
+        display: 'Has MetricTwo',
+      },
+    ],
+  },
+}
+
+const horizontalStackedBar = {
+  id: 'bar-chart-stacked-horizontal-visualisation',
+  type: 'bar',
+  display: 'Metrics by establishment (stacked horizontally)',
+  options: {
+    horizontal: true,
+    xStacked: true,
+    yStacked: true,
+  },
+  columns: {
+    keys: [
+      {
+        id: 'establishment_id',
+        display: 'Establishment ID',
+      },
+    ],
+    measures: [
+      {
+        id: 'has_metric_one',
+        display: 'Has MetricOne',
+      },
+      {
+        id: 'has_metric_two',
+        display: 'Has MetricTwo',
+      },
+    ],
+  },
+}
+
 module.exports = {
   dataQualityMetricOneBar,
   dataQualityMetricThreeBar,
   dataQualityMetricTwoBar,
   dataQualityAllBar,
   dataQualityListBar,
+  verticalStackedBar,
+  horizontalStackedBar,
 }

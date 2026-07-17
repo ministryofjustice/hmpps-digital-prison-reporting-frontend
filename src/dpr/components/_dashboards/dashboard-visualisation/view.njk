@@ -22,7 +22,7 @@
     {% endif %}
 
     {% if description %}
-      <p class="govuk-body">{{ description }}</p>
+      <p class="govuk-body">{{ description | dpr.safe }}</p>
     {% endif %}
 
     {% if not isEnabled %}

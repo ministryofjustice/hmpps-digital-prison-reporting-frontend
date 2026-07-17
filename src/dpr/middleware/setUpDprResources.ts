@@ -310,9 +310,9 @@ const initialiseServices = async (services: Services, res: Response) => {
 
     // Subscriptions
     if (!res.app.locals['subscriptionsEnabled']) {
-      res.app.locals['subscriptionsEnabled'] = services.subscriptionService.enabled
+      res.app.locals['subscriptionsEnabled'] = services.subscriptionStoreService.enabled
 
-      logger.info(`Init service: subscriptionService: ${res.app.locals['subscriptionsEnabled']}`)
+      logger.info(`Init service: subscriptionStoreService: ${res.app.locals['subscriptionsEnabled']}`)
     }
 
     // Collections
@@ -327,6 +327,13 @@ const initialiseServices = async (services: Services, res: Response) => {
       res.app.locals['requestMissingEnabled'] = services.missingReportService.enabled
 
       logger.info(`Init service: missingReportService: ${res.app.locals['requestMissingEnabled']}`)
+    }
+
+    // Migration service
+    if (!res.app.locals['reportIdMigrationServiceEnabled']) {
+      res.app.locals['reportIdMigrationServiceEnabled'] = services.reportIdMigrationService.enabled
+
+      logger.info(`Init service: reportIdMigrationService: ${res.app.locals['reportIdMigrationServiceEnabled']}`)
     }
 
     // Save defaults

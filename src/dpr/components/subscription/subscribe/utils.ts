@@ -25,9 +25,16 @@ export const subscribe = async (req: Request, res: Response, services: Services)
   const { reportId, id } = req.params as { reportId: string; id: string }
   const { returnTo } = req.body
 
-  const { tableId } = await services.reportingService.subscribe(token, reportId, id)
+  const subscribeResponse = await services.subscriptionService.subscribe(token, reportId, id)
+  if (!subscribeResponse) {
+    return {
+      returnTo,
+    }
+  }
 
-  const subscriptionData = new SubscribedReportBuilder(req, res).withExecutionData({ tableId }).build()
+  const subscriptionData = new SubscribedReportBuilder(req, res)
+    .withExecutionData({ tableId: subscribeResponse.tableId })
+    .build()
   const { schedule, reportName, name, type } = subscriptionData
 
   await addMyReport('subscriptions', subscriptionData, services, userId)

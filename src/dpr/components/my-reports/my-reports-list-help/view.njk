@@ -151,33 +151,33 @@
 
   {% if type === 'bookmark' %}
     {% set helpHtml %}
-      {{ mainBookmarkHelpHtml | safe }}
+      {{ mainBookmarkHelpHtml | dpr.safe }}
       <h3>Table details</h3>
-      {{ productHelpHtml | safe }}
-      {{ descriptionHelpHtml | safe }}
-      {{ actionsHelpBMHtml | safe }}
+      {{ productHelpHtml | dpr.safe }}
+      {{ descriptionHelpHtml | dpr.safe }}
+      {{ actionsHelpBMHtml | dpr.safe }}
     {% endset -%}
   {% endif %}
 
   {% if type === 'requested' %}
     {% set helpHtml %}
-      {{ mainRequestedHelpHtml | safe }}
+      {{ mainRequestedHelpHtml | dpr.safe }}
       <h3>Table details</h3>
-      {{ productHelpHtml | safe }}
-      {{ filtersHelpHtml | safe }}
-      {{ statusHelpHtml | safe }}
-      {{ actionsHelpHtml | safe }}
+      {{ productHelpHtml | dpr.safe }}
+      {{ filtersHelpHtml | dpr.safe }}
+      {{ statusHelpHtml | dpr.safe }}
+      {{ actionsHelpHtml | dpr.safe }}
     {% endset -%}
   {% endif %}
 
   {% if type === 'viewed' %}
     {% set helpHtml %}
-      {{ mainViewedHelpHtml | safe }}
+      {{ mainViewedHelpHtml | dpr.safe }}
       <h3>Table details</h3>
-      {{ productHelpHtml | safe }}
-      {{ filtersViewedHelpHtml | safe }}
-      {{ statusViewedHelpHtml | safe }}
-      {{ actionsViewedHelpHtml | safe }}
+      {{ productHelpHtml | dpr.safe }}
+      {{ filtersViewedHelpHtml | dpr.safe }}
+      {{ statusViewedHelpHtml | dpr.safe }}
+      {{ actionsViewedHelpHtml | dpr.safe }}
     {% endset -%}
   {% endif %}
 

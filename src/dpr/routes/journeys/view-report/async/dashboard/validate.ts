@@ -1,11 +1,11 @@
 import { z } from 'zod'
-import VisualisatonSchemas from '../../../../../components/_dashboards/dashboard-visualisation/Validate'
+import VisualisationSchemas from '../../../../../components/_dashboards/dashboard-visualisation/Validate'
 
 const DashboardSectionSchema = z.object({
   id: z.string(),
   display: z.string(),
   description: z.string().optional(),
-  visualisations: z.array(VisualisatonSchemas.DashboardVisualisationSchema),
+  visualisations: z.array(VisualisationSchemas.DashboardVisualisationSchema),
 })
 
 const DashboardSchema = z.object({

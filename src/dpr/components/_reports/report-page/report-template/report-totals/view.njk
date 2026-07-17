@@ -1,5 +1,6 @@
 {% macro dprReportTotals(totals) %}
   <div class="dpr-report-totals">
-    <p class="govuk-body">{{ totals | safe }}</p>
+    <p class="govuk-body">{{ totals | dpr.safe }}</p>
   </div>
 {% endmacro %}
+xw

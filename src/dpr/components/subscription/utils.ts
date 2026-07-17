@@ -26,9 +26,9 @@ export const setupSubscriptionConfig = async (
   let subscribed = false
   let subscriptionUrl
 
-  subscribed = (await services.subscriptionService.isSubscribed(reportId, id, dprUser.id)) || false
+  subscribed = (await services.subscriptionStoreService.isSubscribed(reportId, id, dprUser.id)) || false
   if (subscribed) {
-    const subscribedReport = await services.subscriptionService.getSubscription(reportId, id, dprUser.id)
+    const subscribedReport = await services.subscriptionStoreService.getSubscription(reportId, id, dprUser.id)
     subscriptionUrl = subscribedReport?.url?.report?.fullUrl
   }
 

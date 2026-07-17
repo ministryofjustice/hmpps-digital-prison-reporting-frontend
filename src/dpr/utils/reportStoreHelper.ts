@@ -73,9 +73,9 @@ const getSubscriptions = async (res: Response, services: Services, dprUserId: st
       .map(sub => sub.tableId)
       .filter((tableId): tableId is string => tableId !== undefined)
 
-    const timestampData = await services.reportingService.getDatasetTimestamps(token, subsTableIds)
+    const timestampData = await services.subscriptionService.getSubscriptions(token, subsTableIds)
 
-    subscriptions = await services.subscriptionService.updateTimestamps(timestampData, dprUser.id)
+    subscriptions = await services.subscriptionStoreService.updateTimestamps(timestampData, dprUser.id)
   }
 
   return subscriptions

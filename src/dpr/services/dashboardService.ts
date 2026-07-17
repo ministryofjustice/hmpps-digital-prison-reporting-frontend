@@ -64,8 +64,8 @@ class DashboardService {
 
   async getAsyncDashboard(
     token: string,
-    dashboardId: string,
     reportId: string,
+    dashboardId: string,
     tableId: string,
     query: Record<string, string | string[]>,
   ): Promise<DashboardDataResponse[][]> {

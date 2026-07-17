@@ -2,7 +2,7 @@
 const reportTemplateExampleListSection = {
   id: 'report-template-list-section',
   name: 'List-section',
-  description: 'Template: "list-section",</br> A sectioned report.',
+  description: 'Template: "list-section",<br> A sectioned report.',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
   printable: true,

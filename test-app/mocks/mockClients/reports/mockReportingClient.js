@@ -308,7 +308,7 @@ MockReportingClient: ${functionName}`)
     return undefined
   }
 
-  getDatasetTimestamps(token, tableIds) {
+  getSubscriptions(token, tableIds) {
     const createdAt = new Date().toISOString();
     const addedAt = new Date().toISOString();
 

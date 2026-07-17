@@ -16,7 +16,7 @@ import {
 import { FiltersType } from '../components/_filters/filtersTypeEnum'
 import { createQsFromSavedDefaults } from '../utils/Personalisation/personalisationUtils'
 import { components } from '../types/api'
-import SubscriptionService from '../routes/journeys/my-reports/subscriptions/service'
+import SubscriptionStoreService from '../routes/journeys/my-reports/subscriptions/service'
 
 interface ActiveSessionArgs {
   services: Services
@@ -104,7 +104,7 @@ const buildDataConfiguration = async (req: Request, res: Response, services: Ser
   // -------------- Fetch Dynamic Values -------------------
   // values that are subject to change during the journey
   const reportIsBookmarked = await setUpBookmark(req, res, services.bookmarkService)
-  const subscriptionData = await setUpSubsrcription(req, res, services.subscriptionService)
+  const subscriptionData = await setUpSubsrcription(req, res, services.subscriptionStoreService)
   const downloadEnabled = await setUpDownloadConfig(req, res, services.downloadPermissionService)
   const feedbackSubmissionFormPath = setupDownloadFeedbackPaths(req, res)
   const reportUrls = setUpReportUrls(req)
@@ -265,10 +265,10 @@ const setUpBookmark = async (req: Request, res: Response, service: BookmarkServi
  *
  * @param {Request} req
  * @param {Response} res
- * @param {SubscriptionService} service
+ * @param {SubscriptionStoreService} service
  * @return {*}
  */
-const setUpSubsrcription = async (req: Request, res: Response, service: SubscriptionService) => {
+const setUpSubsrcription = async (req: Request, res: Response, service: SubscriptionStoreService) => {
   const { reportId, id } = <{ id: string; reportId: string }>req.params
   const userId = res.locals['dprUser'].id
 

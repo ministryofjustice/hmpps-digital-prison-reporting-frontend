@@ -5,26 +5,32 @@ import { StoredReportData, SubscribedReport } from '../../../../types/UserReport
 import logger from '../../../../utils/logger'
 import { ServiceFeatureConfig } from '../../../../types/DprConfig'
 
-class SubscriptionService extends ReportStoreService {
+class SubscriptionStoreService extends ReportStoreService {
   enabled: boolean
 
   constructor(userDataStore: UserDataStore, serviceFeatureConfig: ServiceFeatureConfig) {
     super(userDataStore)
 
     this.enabled = Boolean(serviceFeatureConfig.subscriptions)
-    if (!this.enabled) logger.info(`Subsriptions: disabled `)
+    if (!this.enabled) logger.info(`Subsriptions Store Service: disabled `)
   }
 
   private getSubscriptionsState(userConfig: ReportStoreConfig) {
+    if (!this.enabled) return []
+
     return userConfig.subscriptions ?? []
   }
 
   async getAllReports(userId: string): Promise<SubscribedReport[]> {
+    if (!this.enabled) return []
+
     const userConfig = await this.getState(userId)
     return this.getSubscriptionsState(userConfig)
   }
 
   async getReportByExecutionId(id: string, userId: string) {
+    if (!this.enabled) return undefined
+
     const userConfig = await this.getState(userId)
 
     const subscriptions = this.getSubscriptionsState(userConfig)
@@ -33,6 +39,8 @@ class SubscriptionService extends ReportStoreService {
   }
 
   async getReportByTableId(id: string, userId: string) {
+    if (!this.enabled) return undefined
+
     const userConfig = await this.getState(userId)
 
     const subscriptions = this.getSubscriptionsState(userConfig)
@@ -41,6 +49,8 @@ class SubscriptionService extends ReportStoreService {
   }
 
   async addReport(userId: string, reportStateData: SubscribedReport) {
+    if (!this.enabled) return
+
     const userConfig = await this.getState(userId)
 
     const subscriptions = this.getSubscriptionsState(userConfig)
@@ -55,6 +65,8 @@ class SubscriptionService extends ReportStoreService {
   }
 
   async removeReport(userId: string, reportId: string, id: string) {
+    if (!this.enabled) return
+
     const userConfig = await this.getState(userId)
 
     const subscriptions = this.getSubscriptionsState(userConfig)
@@ -91,6 +103,8 @@ class SubscriptionService extends ReportStoreService {
   }
 
   async updateTimestamps(tsDataArray: { tableId: string; createdAt: string; addedAt: string }[], userId: string) {
+    if (!this.enabled) return []
+
     const userConfig = await this.getState(userId)
 
     const subscriptions = tsDataArray.reduce(
@@ -109,6 +123,8 @@ class SubscriptionService extends ReportStoreService {
     tsData: { tableId: string; createdAt: string; addedAt: string },
     subscriptions: StoredReportData[],
   ): StoredReportData[] {
+    if (!this.enabled) return []
+
     const { tableId, createdAt } = tsData
     const createdAtDate = new Date(createdAt)
 
@@ -134,5 +150,5 @@ class SubscriptionService extends ReportStoreService {
   }
 }
 
-export { SubscriptionService }
-export default SubscriptionService
+export { SubscriptionStoreService }
+export default SubscriptionStoreService

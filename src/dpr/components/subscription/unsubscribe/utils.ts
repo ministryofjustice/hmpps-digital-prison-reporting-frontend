@@ -25,12 +25,12 @@ export const unsubscribe = async (req: Request, res: Response, services: Service
   const { returnTo } = req.body
 
   // Unsubscribe API here
-  const subscriptionData = await services.subscriptionService.getSubscription(reportId, id, userId)
+  const subscriptionData = await services.subscriptionStoreService.getSubscription(reportId, id, userId)
 
   if (subscriptionData) {
     const { reportName, name, type } = subscriptionData
 
-    await services.reportingService.unsubscribe(token, reportId, id)
+    await services.subscriptionService.unsubscribe(token, reportId, id)
 
     await removeMyReport('subscriptions', { reportId, id }, services, userId)
 

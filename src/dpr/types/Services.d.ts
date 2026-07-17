@@ -11,11 +11,13 @@ import ReportingService from '../services/reportingService'
 import DashboardService from '../services/dashboardService'
 import { ProductCollectionService } from '../services/productCollection/productCollectionService'
 import { FeatureFlagService } from '../services/featureFlagService'
-import SubscriptionService from '../routes/journeys/my-reports/subscriptions/service'
+import SubscriptionStoreService from '../routes/journeys/my-reports/subscriptions/service'
+import SubscriptionService from '../services/subscriptionService'
 
 export type Services = UserStoreServices & {
   reportingService: ReportingService
   dashboardService: DashboardService
+  subscriptionService: SubscriptionService
   missingReportService: MissingReportService
   productCollectionService: ProductCollectionService
   featureFlagService: FeatureFlagService
@@ -25,8 +27,9 @@ export interface UserStoreServices {
   downloadPermissionService: DownloadPermissionService
   requestedReportService: RequestedReportService
   recentlyViewedService: RecentlyViewedStoreService
-  subscriptionService: SubscriptionService
+  subscriptionStoreService: SubscriptionStoreService
   bookmarkService: BookmarkService
   defaultFilterValuesService: DefaultFilterValuesService
   productCollectionStoreService: ProductCollectionStoreService
+  reportIdMigrationService: ReportIdMigrationService
 }

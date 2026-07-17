@@ -1,6 +1,6 @@
 {% from "../../../../button-link/view.njk" import dprButtonLink %}
 
-{% macro dprMyReportListItemRemoveAction(remove) %}
+{% macro dprMyReportListItemFormAction(formConfig) %}
   {% set action = remove.action %}
   {% set csrfToken = remove.csrfToken %}
   {% set returnTo = remove.returnTo %}

@@ -329,13 +329,13 @@ class ReportingClient {
   }
 
   // TODO: update with correct endpoint
-  getDatasetTimestamps(
+  getSubscriptions(
     token: string,
     tableIds: string[],
   ): Promise<{ tableId: string; createdAt: string; addedAt: string }[]> {
     return this.restClient
       .get({
-        path: `/reports/timestamps`,
+        path: `/reports/subscriptions`,
         token,
         query: {
           tableIds,

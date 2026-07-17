@@ -51,7 +51,7 @@
               <p class="govuk-body-m dpr-request-details__table-heading_name">Description:</p>
             </td>
             <td>
-              <p class="govuk-body-m govuk-!-margin-bottom-0">{{ description | safe }}</p>
+              <p class="govuk-body-m govuk-!-margin-bottom-0">{{ description | dpr.safe }}</p>
             </td>
           </tr>
         {% endif %}
@@ -94,7 +94,7 @@
             <td class="dpr-request-details__table-heading">
               <p class="govuk-body-m dpr-request-details__table-heading_name">Applied Filters:</p>
             </td>
-            <td>{{ filtersHtml | safe }}</td>
+            <td>{{ filtersHtml | dpr.safe }}</td>
           </tr>
         {% endif %}
 

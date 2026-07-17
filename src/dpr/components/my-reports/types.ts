@@ -42,7 +42,7 @@ export type DprMyReportFilters = {
    Actions
    ========================================================================== */
 
-export type RemoveAction = {
+export type MyReportsFormAction = {
   action: string
   csrfToken: string
   returnTo: string
@@ -59,7 +59,8 @@ export type ViewAction = {
 }
 
 export type DprMyReportActions = {
-  remove?: RemoveAction
+  remove?: MyReportsFormAction
+  subscribe?: MyReportsFormAction
   refresh?: LinkAction
   retry?: LinkAction
   view?: ViewAction
@@ -151,7 +152,7 @@ export type MappedBookmarks = {
   reportId: string
   name: string
   reportName: string
-  reportType: ReportType
+  type: ReportType
   description: string
   loadType: LoadType
 }

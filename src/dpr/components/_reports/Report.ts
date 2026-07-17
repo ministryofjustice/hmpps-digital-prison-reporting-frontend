@@ -26,6 +26,7 @@ import LocalsHelper from '../../utils/localsHelper'
 import ErrorHandler from '../../utils/ErrorHandler/ErrorHandler'
 import logger from '../../utils/logger'
 import DataPresentation from '../_dashboards/DataPresentation'
+import { VariantDefinitionWithSchedule } from '../../types/Subscriptions'
 
 type ReportDefinition = components['schemas']['SingleVariantReportDefinition']
 
@@ -284,7 +285,8 @@ export default class Report extends DataPresentation {
    */
   buildReportDetails = () => {
     const { name: reportName, description: reportDescription } = this.definition
-    const { classification, printable, name, description, schedule } = this.variant
+    // TODO: remove casting `VariantDefinitionWithSchedule` type when type includes "schedule"
+    const { classification, printable, name, description, schedule } = <VariantDefinitionWithSchedule>this.variant
     const { template, fields } = this.specification
 
     this.reportDetails = {

@@ -6,6 +6,7 @@ import { createListItemProductMin, createListActions, setInitialHref } from '../
 import LocalsHelper from '../../../utils/localsHelper'
 import { renderSubscriptionToggleAsHtml } from '../../subscription/subscription-toggle/utils'
 import { renderTruncateAsHtml } from '../../truncate/utils'
+import { VariantDefinitionSummaryWithSchedule } from '../../../types/Subscriptions'
 
 export const getReportsList = async (
   res: Response,
@@ -37,7 +38,8 @@ export const getReportsList = async (
     let variantsArray: DefinitionData[] = []
     if (variants) {
       variantsArray = variants.map((variant: components['schemas']['VariantDefinitionSummary']) => {
-        const { id, name, description, isMissing, loadType, schedule } = variant
+        // TODO: remove casting `VariantDefinitionSummaryWithSchedule` type when type includes "schedule"
+        const { id, name, description, isMissing, loadType, schedule } = <VariantDefinitionSummaryWithSchedule>variant
 
         return {
           ...productBase,

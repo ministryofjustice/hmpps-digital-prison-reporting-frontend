@@ -27,6 +27,16 @@ export default class SubscriptionService {
     return this.reportingClient.unsubscribe(token, reportId, id)
   }
 
+  async getSubscription(
+    token: string,
+    reportId: string,
+    id: string,
+  ): Promise<{ reportId: string; id: string; tableId: string; createdAt: string; addedAt: string }[]> {
+    if (!this.enabled) return []
+
+    return this.reportingClient.getSubscription(token, reportId, id)
+  }
+
   async getSubscriptions(
     token: string,
   ): Promise<{ reportId: string; id: string; tableId: string; createdAt: string; addedAt: string }[]> {

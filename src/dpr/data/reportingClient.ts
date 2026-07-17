@@ -297,6 +297,15 @@ class ReportingClient {
       .then(response => <components['schemas']['ResultTableExpiryState'][]>response)
   }
 
+  /**
+   * Subscribe to a scheduled report
+   *
+   * @param {string} token
+   * @param {string} reportId
+   * @param {string} id
+   * @return {*}  {Promise<{ tableId: string }>}
+   * @memberof ReportingClient
+   */
   subscribe(token: string, reportId: string, id: string): Promise<{ tableId: string }> {
     return this.restClient
       .post(
@@ -309,6 +318,15 @@ class ReportingClient {
       .then(response => <{ tableId: string }>response)
   }
 
+  /**
+   * Unsubscribe from a scheduled report
+   *
+   * @param {string} token
+   * @param {string} reportId
+   * @param {string} id
+   * @return {*}  {Promise<{ success: boolean }>}
+   * @memberof ReportingClient
+   */
   unsubscribe(token: string, reportId: string, id: string): Promise<{ success: boolean }> {
     return this.restClient
       .post(
@@ -321,6 +339,37 @@ class ReportingClient {
       .then(response => <{ success: boolean }>response)
   }
 
+  /**
+   * Get a single subscription data
+   *
+   * @param {string} token
+   * @param {string} reportId
+   * @param {string} id
+   * @return {*}  {Promise<{ reportId: string; id: string; tableId: string; createdAt: string; addedAt: string }[]>}
+   * @memberof ReportingClient
+   */
+  getSubscription(
+    token: string,
+    reportId: string,
+    id: string,
+  ): Promise<{ reportId: string; id: string; tableId: string; createdAt: string; addedAt: string }[]> {
+    return this.restClient
+      .get({
+        path: `/user/subscription/${reportId}/${id}`,
+        token,
+      })
+      .then(
+        response => <{ reportId: string; id: string; tableId: string; createdAt: string; addedAt: string }[]>response,
+      )
+  }
+
+  /**
+   * Get all a user subscriptions data
+   *
+   * @param {string} token
+   * @return {*}  {Promise<{ reportId: string; id: string; tableId: string; createdAt: string; addedAt: string }[]>}
+   * @memberof ReportingClient
+   */
   getSubscriptions(
     token: string,
   ): Promise<{ reportId: string; id: string; tableId: string; createdAt: string; addedAt: string }[]> {

@@ -3,6 +3,7 @@ import { NextFunction, Request, Response } from 'express'
 
 // Utils
 import { setupSubscriptionConfig } from 'src/dpr/components/subscription/utils'
+import { VariantDefinitionWithSchedule } from 'src/dpr/types/Subscriptions'
 import { buildFilterData, buildSortData } from '../../../../components/_async/async-filters-form/utils'
 import { buildMasterSections } from '../../../../components/_dashboards/dashboard-section/utils'
 import { getRequestFilters } from '../../../../components/_filters/utils'
@@ -497,16 +498,19 @@ const renderDashboardRequestData = async ({
 
 const renderReportRequestData = async (definition: components['schemas']['SingleVariantReportDefinition']) => {
   const fields = getFields(definition)
-  const { variant } = definition
+  const { variant, description: productDescription } = definition
+
+  // TODO: remove casting `VariantDefinitionWithSchedule` type when type includes "schedule"
+  const { name, schedule, specification, description } = <VariantDefinitionWithSchedule>variant
 
   return {
     definition,
     reportName: definition.name,
-    name: variant.name,
-    description: variant.description || definition.description || '',
-    template: variant.specification,
+    name,
+    description: description || productDescription || '',
+    template: specification?.template,
     fields,
-    schedule: variant.schedule,
+    schedule,
   }
 }
 

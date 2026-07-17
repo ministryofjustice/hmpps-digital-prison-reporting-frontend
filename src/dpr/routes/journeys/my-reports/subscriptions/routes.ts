@@ -7,8 +7,6 @@ export function routes({ layoutPath, services }: { layoutPath: string; services:
   const router = Router({ mergeParams: true })
   const controller = new RequestedReportsController(services)
 
-  // router.post('/:reportId/:id/list-unsubscribe', controller.POST)
-
   router.post('/:reportId/:id/subscribe', controller.Subscribe)
 
   router.post('/:reportId/:id/unsubscribe', controller.Unsubscribe)

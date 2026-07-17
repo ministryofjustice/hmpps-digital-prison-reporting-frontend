@@ -5,7 +5,7 @@ import { StoredReportData, SubscribedReport } from '../../../../types/UserReport
 import logger from '../../../../utils/logger'
 import { ServiceFeatureConfig } from '../../../../types/DprConfig'
 
-class SubscriptionStoreService extends ReportStoreService {
+export default class SubscriptionStoreService extends ReportStoreService {
   enabled: boolean
 
   constructor(userDataStore: UserDataStore, serviceFeatureConfig: ServiceFeatureConfig) {
@@ -149,6 +149,3 @@ class SubscriptionStoreService extends ReportStoreService {
     })
   }
 }
-
-export { SubscriptionStoreService }
-export default SubscriptionStoreService

@@ -98,12 +98,12 @@ export const expiredEndpoint = generateNetworkMock({
   },
 })
 
-export const timestampsEndpoint = generateNetworkMock({
+export const getSubscriptionsEndpoint = generateNetworkMock({
   ...defaultMockRequest,
   request: {
     ...defaultMockRequest.request,
     method: 'GET',
-    urlPathPattern: `/reports/timestamps`,
+    urlPathPattern: `/user/subscriptions`,
   },
   response: {
     ...defaultMockRequest.response,

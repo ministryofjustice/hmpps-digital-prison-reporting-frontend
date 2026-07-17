@@ -17,6 +17,7 @@ import { FiltersType } from '../components/_filters/filtersTypeEnum'
 import { createQsFromSavedDefaults } from '../utils/Personalisation/personalisationUtils'
 import { components } from '../types/api'
 import SubscriptionStoreService from '../routes/journeys/my-reports/subscriptions/service'
+import { buildReportPageAction } from '../components/my-reports/my-reports-list-item/my-reports-list-item-actions/utils'
 
 interface ActiveSessionArgs {
   services: Services
@@ -279,7 +280,7 @@ const setUpSubsrcription = async (req: Request, res: Response, service: Subscrip
     subscribed = (await service.isSubscribed(reportId, id, userId)) || false
     if (subscribed) {
       const subscribedReport = await service.getSubscription(reportId, id, userId)
-      subscriptionUrl = subscribedReport?.url?.report?.fullUrl
+      subscriptionUrl = subscribedReport ? buildReportPageAction(res, req, subscribedReport).href : '/'
     }
   }
 

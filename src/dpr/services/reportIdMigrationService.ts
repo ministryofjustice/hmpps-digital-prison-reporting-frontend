@@ -49,14 +49,16 @@ export class ReportIdMigrationService {
 
     await this.ensureConnected()
 
-    const migrationComplete = await this.redisClient.get(ReportIdMigrationService.MIGRATION_KEY)
-    if (migrationComplete) {
-      logger.info('DPR report ID migration already completed')
-
-      return
-    }
+    // TEMPORARILY DISABLE DURING TESTING
+    // const migrationComplete = await this.redisClient.get(ReportIdMigrationService.MIGRATION_KEY)
+    // if (migrationComplete) {
+    //   logger.info('DPR report ID migration already completed')
+    //   return
+    // }
 
     logger.info('Starting DPR report ID migration')
+
+    await this.debugLogs()
 
     // 1. get all the user configs from redis
     const configs: ConfigToMigrate[] = await this.getAllConfigs()
@@ -304,5 +306,38 @@ export class ReportIdMigrationService {
     if (!this.redisClient.isOpen) {
       await this.redisClient.connect()
     }
+  }
+
+  private async debugLogs() {
+    const matchAllResults = await this.redisClient.scan('0', {
+      MATCH: '*',
+      COUNT: 100,
+    })
+
+    logger.info(
+      'MIGRATION_DEBUG: matchAllResults',
+      JSON.stringify({
+        cursor: matchAllResults.cursor,
+        keyCount: matchAllResults.keys.length,
+        keys: matchAllResults.keys.slice(0, 20),
+      }),
+    )
+
+    const matchPrefixResults = await this.redisClient.scan('0', {
+      MATCH: 'dprReportStoreUser:*',
+      COUNT: 100,
+    })
+
+    logger.info('MIGRATION_DEBUG: matchPrefixResults', JSON.stringify({ matchPrefixResults }))
+
+    const userKeysResults = await this.getUserConfigKeys()
+
+    logger.info(
+      'MIGRATION_DEBUG: userKeysResults',
+      JSON.stringify({
+        keyCount: userKeysResults.length,
+        sampleKeys: userKeysResults.slice(0, 10),
+      }),
+    )
   }
 }

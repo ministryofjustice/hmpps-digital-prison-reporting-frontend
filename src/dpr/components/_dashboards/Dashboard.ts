@@ -1,23 +1,27 @@
 import { Request, Response } from 'express'
 
 // Types
+import { DashboardParentChildData } from 'src/dpr/utils/TemplateBuilder/ParentChildDataBuilder/types'
 import { components } from '../../types/api'
+import { DashboardDataResponse } from '../../types/Metrics'
 import { Services } from '../../types/Services'
 import { LoadType, ReportType, RequestedReport } from '../../types/UserReports'
-import { DashboardDataResponse } from '../../types/Metrics'
-import { GranularDateRangeFilterValue, PartialDate } from '../_filters/types'
-import { DashboardSection } from './dashboard-visualisation/types'
 import { FilterType } from '../_filters/filter-input/enum'
+import { GranularDateRangeFilterValue, PartialDate } from '../_filters/types'
+import {
+  DashboardDefinition as DashboardDefinitionWithChildVariants,
+  DashboardSection,
+} from './dashboard-visualisation/types'
 
 // Classes
 import ReportQuery from '../../types/ReportQuery'
 
 // Helpers
-import LocalsHelper from '../../utils/localsHelper'
-import ErrorHandler from '../../utils/ErrorHandler/ErrorHandler'
-import DataPresentation from './DataPresentation'
-import { createDashboardSections } from './dashboard-section/utils'
 import DefinitionUtils from '../../utils/definitionUtils'
+import ErrorHandler from '../../utils/ErrorHandler/ErrorHandler'
+import LocalsHelper from '../../utils/localsHelper'
+import { createDashboardSections } from './dashboard-section/utils'
+import DataPresentation from './DataPresentation'
 
 type DashboardDefinition = components['schemas']['DashboardDefinition']
 
@@ -25,6 +29,8 @@ export default class Dashboard extends DataPresentation {
   sections!: DashboardSection[]
 
   dashboardData!: DashboardDataResponse[]
+
+  parentChildData: DashboardParentChildData[] = []
 
   partialDate!: PartialDate | undefined
 
@@ -103,16 +109,17 @@ export default class Dashboard extends DataPresentation {
    * Gets the dashboard data
    */
   getDashboardData = async () => {
-    this.dashboardData = this.loadType === LoadType.SYNC ? await this.getSyncData() : await this.getAysncData()
+    this.dashboardData = this.loadType === LoadType.SYNC ? await this.getSyncData() : await this.getAsyncData()
+    await this.setParentChildData()
   }
 
-  private getAysncData = async () => {
+  private getAsyncData = async () => {
     const dashboardQueryRecord = this.reportQuery.toRecordWithFilterPrefix(true)
 
     const dashboardResultData = await this.services.dashboardService.getAsyncDashboard(
       this.token,
-      this.id,
       this.reportId,
+      this.id,
       this.tableId,
       dashboardQueryRecord,
     )
@@ -131,6 +138,71 @@ export default class Dashboard extends DataPresentation {
     )
 
     return Array.isArray(dashboardData) ? dashboardData.flat().filter(Boolean) : []
+  }
+
+  setParentChildData = async () => {
+    // Get the child data, if applicable
+    const childVariants = (this.definition as DashboardDefinitionWithChildVariants)?.childVariants
+
+    this.parentChildData = !childVariants
+      ? []
+      : await this.getParentChildData(childVariants, this.services, this.token, this.req, this.res, this.requestData)
+  }
+
+  /**
+   * Gets the parent and child data for a parent child dashboard, returns in a single array with the parent data first, followed by the child data
+   * NOTE: Only available for Async
+   *
+   */
+  getParentChildData = async (
+    childVariants: DashboardDefinition[],
+    services: Services,
+    token: string,
+    req: Request,
+    res: Response,
+    requestData?: RequestedReport,
+  ): Promise<DashboardParentChildData[]> => {
+    const { definitionsPath: dataProductDefinitionsPath } = LocalsHelper.getValues(res)
+    const { reportId } = <{ reportId: string }>req.params
+    const childExecutionData = requestData?.childExecutionData
+
+    if (!childExecutionData) {
+      throw new Error('getParentChildData: No execution data found for child variants')
+    }
+
+    const allChildData = await Promise.all(
+      childVariants.map(async childVariant => {
+        const query = new ReportQuery({
+          fields: this.fields || [],
+          template: 'parent-child',
+          queryParams: req.query,
+          definitionsPath: dataProductDefinitionsPath,
+        }).toRecordWithFilterPrefix(true)
+
+        const childData = childExecutionData.find(e => e.variantId === childVariant.id)
+        if (!childData || !childData.tableId) {
+          throw new Error('getParentChildData: No matching child execution data found')
+        }
+        const { tableId: childTableId } = childData
+
+        const childDashboard = await services.dashboardService.getAsyncDashboard(
+          token,
+          reportId,
+          childVariant.id,
+          childTableId,
+          query,
+        )
+
+        return {
+          id: childVariant.id,
+          data: childDashboard.flat().filter(Boolean),
+        }
+      }),
+    )
+
+    const parentData = { id: this.definition.id, data: this.dashboardData }
+
+    return [parentData, ...allChildData]
   }
 
   /**
@@ -164,6 +236,7 @@ export default class Dashboard extends DataPresentation {
     this.sections = createDashboardSections(
       this.definition as DashboardDefinition,
       this.dashboardData,
+      this.parentChildData,
       this.reportQuery.toRecordWithFilterPrefix(true),
       this.dashboardFeatureFlags,
       this.partialDate,

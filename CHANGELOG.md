@@ -1,5 +1,13 @@
 Below you can find the changes included in each release.
 
+## 7.3.0
+
+- Render parent-child dashboards
+
+## 7.2.0
+
+- Addition of report ID migration service
+
 ## 7.1.2
 
 - Bugfix: Render HTML correctly in bookmark descriptions

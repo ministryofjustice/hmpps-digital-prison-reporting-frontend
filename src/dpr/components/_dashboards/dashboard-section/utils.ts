@@ -1,22 +1,24 @@
+import { DashboardParentChildData } from 'src/dpr/utils/TemplateBuilder/ParentChildDataBuilder/types'
 import { DashboardDataResponse } from '../../../types/Metrics'
 import { components } from '../../../types/api'
+import ChartUtils from '../../_charts/utils'
 import { PartialDate } from '../../_filters/types'
+import DashboardListUtils from '../dashboard-list/utils'
 import {
-  DashboardDefintion,
+  DashboardDefinition,
   DashboardSection,
   DashboardVisualisation,
   DashboardVisualisationType,
 } from '../dashboard-visualisation/types'
-import ScorecardsUtils from '../scorecard/utils'
-import ScorecardVisualisation from '../scorecard/Scorecard'
-import ScorecardGroupVisualisation from '../scorecard-group/ScorecardGroup'
-import DashboardListUtils from '../dashboard-list/utils'
-import ChartUtils from '../../_charts/utils'
 import { getFeatureFlagVisTypeMap } from '../dashboard-visualisation/utils'
+import ScorecardGroupVisualisation from '../scorecard-group/ScorecardGroup'
+import ScorecardVisualisation from '../scorecard/Scorecard'
+import ScorecardsUtils from '../scorecard/utils'
 
 export const createDashboardSections = (
   dashboardDefinition: components['schemas']['DashboardDefinition'],
   dashboardData: DashboardDataResponse[],
+  parentChildData: DashboardParentChildData[],
   query: Record<string, string | string[]>,
   dashboardFeatureFlags: Record<string, boolean>,
   partialDate?: PartialDate,
@@ -28,35 +30,39 @@ export const createDashboardSections = (
     let hasScorecard = false
     const visualisations: DashboardVisualisation[] = section.visualisations.map(
       (visDefinition: components['schemas']['DashboardVisualisationDefinition']) => {
-        const { type, display, description: visDescription, id: visId } = visDefinition
+        const { type, variantId, display, description: visDescription, id: visId } = visDefinition
         const isEnabled = featureFlagVisTypeMap[type]
 
-        let data: DashboardVisualisation['data'] | undefined
+        const dashboardDataForVis = parentChildData.find(data => data.id === variantId)?.data || dashboardData
+        let chartData: DashboardVisualisation['data']
 
         switch (type) {
           case DashboardVisualisationType.LIST:
-            data = DashboardListUtils.createList(visDefinition, dashboardData)
+            chartData = DashboardListUtils.createList(visDefinition, dashboardDataForVis)
             break
 
           case DashboardVisualisationType.SCORECARD:
             hasScorecard = true
-            data = new ScorecardVisualisation().withDefinition(visDefinition).withData(dashboardData).build()
+            chartData = new ScorecardVisualisation().withDefinition(visDefinition).withData(dashboardDataForVis).build()
             break
 
           case DashboardVisualisationType.SCORECARD_GROUP:
-            data = new ScorecardGroupVisualisation().withDefinition(visDefinition).withData(dashboardData).build()
+            chartData = new ScorecardGroupVisualisation()
+              .withDefinition(visDefinition)
+              .withData(dashboardDataForVis)
+              .build()
             break
 
           case DashboardVisualisationType.BAR:
           case DashboardVisualisationType.LINE:
           case DashboardVisualisationType.DONUT: {
-            data = ChartUtils.createChart(visDefinition, dashboardData, type)
+            chartData = ChartUtils.createChart(visDefinition, dashboardDataForVis, type)
             break
           }
           case DashboardVisualisationType.MATRIX_TIMESERIES:
           case DashboardVisualisationType.BAR_TIMESERIES:
           case DashboardVisualisationType.LINE_TIMESERIES: {
-            data = ChartUtils.createTimeseriesCharts(visDefinition, dashboardData, type, query, partialDate)
+            chartData = ChartUtils.createTimeseriesCharts(visDefinition, dashboardDataForVis, type, query, partialDate)
             break
           }
           default:
@@ -68,7 +74,7 @@ export const createDashboardSections = (
           title: display || '',
           description: visDescription || '',
           type,
-          data,
+          data: chartData,
           isEnabled: isEnabled ?? true,
         }
       },
@@ -105,11 +111,11 @@ export const addVariantIdToSection = (
 /**
  * Builds a master section collection from a parent dashboard and its child variants.
  *
- * @param {DashboardDefintion} definition
+ * @param {DashboardDefinition} definition
  * @return {*}  {components['schemas']['DashboardSectionDefinition'][]}
  */
 export const buildMasterSections = (
-  definition: DashboardDefintion, // TODO: Update this type to components['schemas']['DashboardDefinition'] when `childVariants` field is present
+  definition: DashboardDefinition, // TODO: Update this type to components['schemas']['DashboardDefinition'] when `childVariants` field is present
 ): components['schemas']['DashboardSectionDefinition'][] => {
   const parentSections = definition.sections.map(section => addVariantIdToSection(section, definition.id))
 

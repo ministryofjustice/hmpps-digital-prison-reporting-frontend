@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## 7.4.0
+
+- Subscription mechanics and services
+
 ## 7.3.3
 
 - Reinstate migration complete flag

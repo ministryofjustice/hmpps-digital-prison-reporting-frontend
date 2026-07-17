@@ -6,10 +6,11 @@
   {% set csrfToken = formConfig.csrfToken %}
   {% set returnTo = formConfig.returnTo %}
   {% set text = formConfig.text %}
+  {% set type = formConfig.type %}
 
   {% set classes = 'dpr-button-link govuk-link govuk-link--no-visited-state' %}
 
-  <form method="post" action="{{ action }}" data-remove-report-form>
+  <form method="post" action="{{ action }}" {% if type == 'remove' %}data-remove-report-form {% endif %}>
     <input type="hidden" name="returnTo" value="{{ returnTo }}" />
     <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
 

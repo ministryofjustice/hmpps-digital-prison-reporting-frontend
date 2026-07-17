@@ -47,6 +47,7 @@ export type MyReportsFormAction = {
   csrfToken: string
   returnTo: string
   text: string
+  type: 'remove' | 'subscription'
 }
 
 export type LinkAction = {

@@ -108,6 +108,7 @@ const buildRemoveAction = (
     csrfToken: res.locals.csrfToken,
     returnTo: req.originalUrl,
     text: 'Remove',
+    type: 'remove',
   }
 }
 
@@ -140,6 +141,7 @@ const buildSubscriptionAction = (
     csrfToken: res.locals.csrfToken,
     returnTo: req.originalUrl,
     text: 'Unsubscribe',
+    type: 'subscription',
   }
 }
 

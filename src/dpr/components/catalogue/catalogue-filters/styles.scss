@@ -1,0 +1,33 @@
+.dpr-reports-catalogue-filters__search-container {
+  display: grid;
+  grid-template-columns: 2fr 220px;
+  gap: 1rem;
+
+  .dpr-reports-catalogue-collection,
+  .dpr-reports-catalogue-search {
+    .govuk-form-group {
+      margin-bottom: govuk-spacing(3);
+    }
+  }
+}
+
+.dpr-reports-catalogue-filters--content-filters {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.dpr-catalogue-filters--show-more-content {
+  .govuk-details {
+    margin-bottom: govuk-spacing(3);
+  }
+}
+
+.dpr-reports-catalogue-product-hide,
+.dpr-reports-catalogue-type-hide,
+.dpr-reports-catalogue-unauthorised-hide,
+.dpr-reports-catalogue-live-hide,
+.dpr-reports-catalogue-missing-hide,
+.dpr-reports-catalogue-search-hide {
+  display: none !important;
+}

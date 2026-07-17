@@ -1,0 +1,41 @@
+.dpr-report-catalogue__product-row {
+  width: 100%;
+
+  .dpr-report-catalogue__product-row__name {
+    h1 {
+      margin: 0px;
+      margin-bottom: govuk-spacing(1);
+      padding: 0px;
+    }
+
+    p {
+      margin: 0px;
+      padding: 0px;
+    }
+
+    position: sticky;
+    top: 0;
+
+    background: #fff;
+    z-index: 1;
+
+    padding-top: govuk-spacing(4);
+    padding-bottom: govuk-spacing(4);
+
+    border-bottom: solid 2px govuk-functional-colour('brand');
+  }
+
+  .dpr-report-catalogue__product-unauthorised {
+    margin-bottom: govuk-spacing(2);
+  }
+
+  .dpr-report-catalogue__product-row__meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    p {
+      margin: 0;
+    }
+  }
+}

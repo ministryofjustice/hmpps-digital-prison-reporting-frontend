@@ -201,6 +201,8 @@ const setProductCollection = async (services: Services, req: Request, res: Respo
       }
     }
 
+    req.session['currentCollection'] = undefined
+
     res.locals['definitions'] = allDefs ?? []
   }
 }

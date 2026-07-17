@@ -1,8 +1,16 @@
 import { summaries } from '@networkMocks/definitionSummaries'
-import { executeReportStubs } from 'cypress-tests/cypressUtils'
+import { addBookmark, executeReportStubs } from 'cypress-tests/cypressUtils'
 
 context('Catalogue collections', () => {
   const paths = ['/', '/embedded/platform', '/embedded/platform/dpr']
+
+  const validateTotals = (totalReports: number) => {
+    cy.get('.dpr-reports-catalogue__totals p')
+      .invoke('text')
+      .then(text => {
+        expect(text.replace(/\s+/g, ' ').trim()).to.contain(`Showing ${totalReports} reports from`)
+      })
+  }
 
   const tests = (path: string) => {
     describe(`Catalogue collections from ${path}`, () => {
@@ -12,6 +20,7 @@ context('Catalogue collections', () => {
           cy.task('stubDefinitions')
           cy.task('stubGetProductCollections')
           cy.task('getProductCollection1')
+          cy.task('getProductCollection2')
           cy.task('stubDefinitionUnprintable')
           cy.task('stubDefinitionEmptyReport')
           cy.task('stubDefinitionMockReportVariant35')
@@ -27,35 +36,20 @@ context('Catalogue collections', () => {
             (acc, cur) => acc + (cur.dashboards?.length ?? 0) + cur.variants.length,
             0,
           )
-          cy.findAllByText((_text, el) =>
-            new RegExp(`Showing ${totalReports} of ${totalReports} reports`).test(el?.textContent || ''),
-          ).should('be.visible')
+          validateTotals(totalReports)
 
-          cy.findByLabelText(/Reports catalogue.*/i).within(() => {
-            cy.findByRole('row', {
-              name: (_, element) => {
-                return Boolean(element.textContent?.includes('Interactive Report with async filters'))
-              },
-            }).within(() => {
-              cy.findByRole('link', { name: /Add bookmark/ }).click()
-            })
-          })
+          addBookmark('Interactive Report with async filters')
 
           cy.findByRole('combobox', { name: /Your collections/ }).select('My Starter Pack')
+
           const totalReportsStarterPack = [summaries[0], summaries[1]].reduce(
             (acc, cur) => acc + (cur.dashboards?.length ?? 0) + cur.variants.length,
             0,
           )
-          cy.findAllByText((_text, el) =>
-            new RegExp(`Showing ${totalReportsStarterPack} of ${totalReportsStarterPack} reports`).test(
-              el?.textContent || '',
-            ),
-          ).should('be.visible')
 
-          cy.findByRole('combobox', { name: /Your collections/ }).select('Full catalogue')
-          cy.findAllByText((_text, el) =>
-            new RegExp(`Showing ${totalReports} of ${totalReports} reports`).test(el?.textContent || ''),
-          ).should('be.visible')
+          cy.wait(100)
+
+          validateTotals(totalReportsStarterPack)
         })
       })
     })

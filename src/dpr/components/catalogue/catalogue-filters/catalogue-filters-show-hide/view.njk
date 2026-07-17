@@ -1,0 +1,55 @@
+    {# {% set showMissing = { text:"Show missing reports", value:"show-missing", id: "show-missing" } %}
+    {% set hideLive = { text:"Hide live reports", value:"hide-live", id: "hide-live" } %} #}
+
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+
+{% macro dprReportsCatalogueShowHide() %}
+  <div class="dpr-reports-catalogue-show-hide-filter" data-dpr-module="dpr-report-catalogue-show-hide">
+    {% set name = 'Show unauthorised reports' %}
+
+    {% set showUnauthorised = {
+      text:"Show unauthorised reports",
+      value:"true",
+      id: "show-unauthorised",
+      attributes: {
+        "data-filter": "unauthorised"
+      }
+    } %}
+
+    {% set showMissing = {
+      text:"Hide missing reports",
+      value:"true",
+      id: "show-missing",
+      attributes: {
+        "data-filter": "missing"
+      }
+    } %}
+
+    {% set hideLive = {
+      text:"Hide live reports",
+      value:"true",
+      id: "hide-live",
+      attributes: {
+        "data-filter": "live"
+      }
+    } %}
+
+    {{
+      govukCheckboxes({
+        name: name,
+        classes: "dpr-show-unauthorised-checkbox govuk-checkboxes--small",
+        fieldset: {
+          legend: {
+            text: 'Visibility filters',
+            classes: "govuk-label govuk-!-font-weight-bold"
+          }
+        },
+        items: [
+          showUnauthorised,
+          showMissing,
+          hideLive
+        ]
+      })
+    }}
+  </div>
+{% endmacro %}

@@ -1,0 +1,5 @@
+{% macro dprReportsCatalogueProductRowTotals(count) %}
+  <div class="dpr-report-catalogue__product-row__meta-totals" data-dpr-module="dpr-report-catalogue-product-counts">
+    <p class="govuk-body-s" data-product-variants-total>({{ count }} report{{ 's' if count != 1 }})</p>
+  </div>
+{% endmacro %}

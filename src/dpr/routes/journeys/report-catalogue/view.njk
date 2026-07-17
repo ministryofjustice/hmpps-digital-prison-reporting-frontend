@@ -1,6 +1,8 @@
 {% extends layoutPath %}
-{% from "../../../components/_catalogue/catalogue/view.njk" import dprCatalogue %}
+{% from "../../../components/catalogue/view.njk" import dprReportsCatalogue %}
 
 {% block content %}
-  <div class="govuk-width-container">{{ dprCatalogue(catalogue) }}</div>
+  <div class="govuk-width-container">
+    {{ dprReportsCatalogue(catalogue) }}
+  </div>
 {% endblock %}

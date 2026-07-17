@@ -2,6 +2,7 @@ import {
   executeReportStubs,
   getMyReportRowCell,
   requestReportByNameAndDescription,
+  startReportRequest,
 } from '../../../../../cypress-tests/cypressUtils'
 
 context('Requesting a report', () => {
@@ -31,18 +32,7 @@ context('Requesting a report', () => {
         })
 
         it('should succesfully request and load a report', () => {
-          cy.findByLabelText(/Reports catalogue.*/i).within(() => {
-            cy.findByRole('row', {
-              name: (_, element) => {
-                return (
-                  Boolean(element.textContent?.includes('Successful Report')) &&
-                  Boolean(element.textContent?.includes('this will succeed'))
-                )
-              },
-            }).within(() => {
-              cy.findByRole('link', { name: 'Request report' }).click()
-            })
-          })
+          startReportRequest({ name: 'Successful Report', description: 'this will succeed' })
           cy.url().should(
             'have.string',
             `${basePath}/dpr/request-report/report/request-examples/request-example-success/filters`,
@@ -102,18 +92,7 @@ context('Requesting a report', () => {
 
         const testFilterPersistence = () => {
           cy.task('stubReportsFailedStatus')
-          cy.findByLabelText(/Reports catalogue.*/i).within(() => {
-            cy.findByRole('row', {
-              name: (_, element) => {
-                return (
-                  Boolean(element.textContent?.includes('Successful Report')) &&
-                  Boolean(element.textContent?.includes('this will succeed'))
-                )
-              },
-            }).within(() => {
-              cy.findByRole('link', { name: 'Request report' }).click()
-            })
-          })
+          startReportRequest({ name: 'Successful Report', description: 'this will succeed' })
           cy.findByRole('group', { name: /Field 1/ })
             .findByRole('radio', { checked: true })
             .invoke('val')
@@ -260,18 +239,7 @@ context('Requesting a report', () => {
         })
 
         it('should be able to abort the request', () => {
-          cy.findByLabelText(/Reports catalogue.*/i).within(() => {
-            cy.findByRole('row', {
-              name: (_, element) => {
-                return (
-                  Boolean(element.textContent?.includes('Successful Report')) &&
-                  Boolean(element.textContent?.includes('this will succeed'))
-                )
-              },
-            }).within(() => {
-              cy.findByRole('link', { name: 'Request report' }).click()
-            })
-          })
+          startReportRequest({ name: 'Successful Report', description: 'this will succeed' })
           cy.url().should(
             'have.string',
             `${basePath}/dpr/request-report/report/request-examples/request-example-success/filters`,

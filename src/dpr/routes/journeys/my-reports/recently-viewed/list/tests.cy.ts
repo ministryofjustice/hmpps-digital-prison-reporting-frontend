@@ -1,4 +1,4 @@
-import { executeReportStubs } from '../../../../../../../cypress-tests/cypressUtils'
+import { executeReportStubs, startReportRequest } from '../../../../../../../cypress-tests/cypressUtils'
 
 context('Recently viewed list', () => {
   const path = '/embedded/platform'
@@ -12,34 +12,12 @@ context('Recently viewed list', () => {
   })
 
   it('should ensure it most the most recently viewed at the top of the list, even when its a duplicate run', () => {
-    cy.findByLabelText(/Reports catalogue.*/i).within(() => {
-      cy.findByRole('row', {
-        name: (_, element) => {
-          return (
-            Boolean(element.textContent?.includes('Successful Report')) &&
-            Boolean(element.textContent?.includes('this will succeed'))
-          )
-        },
-      }).within(() => {
-        cy.findByRole('link', { name: 'Request report' }).click()
-      })
-    })
+    startReportRequest({ name: 'Successful Report', description: 'this will succeed' })
     cy.findByRole('button', { name: 'Request report' }).click()
     cy.findByRole('button', { name: /Enable download/ }).should('be.visible')
 
     cy.visit(path)
-    cy.findByLabelText(/Reports catalogue.*/i).within(() => {
-      cy.findByRole('row', {
-        name: (_, element) => {
-          return (
-            Boolean(element.textContent?.includes('Interactive Report')) &&
-            Boolean(element.textContent?.includes('this is an interactive report'))
-          )
-        },
-      }).within(() => {
-        cy.findByRole('link', { name: 'Request report' }).click()
-      })
-    })
+    startReportRequest({ name: 'Interactive Report', description: 'this is an interactive report' })
     cy.findByRole('button', { name: 'Request report' }).click()
     cy.findByRole('button', { name: /Enable download/ }).should('be.visible')
 
@@ -52,18 +30,7 @@ context('Recently viewed list', () => {
       }).should('exist')
     })
 
-    cy.findByLabelText(/Reports catalogue.*/i).within(() => {
-      cy.findByRole('row', {
-        name: (_, element) => {
-          return (
-            Boolean(element.textContent?.includes('Successful Report')) &&
-            Boolean(element.textContent?.includes('this will succeed'))
-          )
-        },
-      }).within(() => {
-        cy.findByRole('link', { name: 'Request report' }).click()
-      })
-    })
+    startReportRequest({ name: 'Successful Report', description: 'this will succeed' })
     cy.findByRole('button', { name: 'Request report' }).click()
     cy.findByRole('button', { name: /Enable download/ }).should('be.visible')
 

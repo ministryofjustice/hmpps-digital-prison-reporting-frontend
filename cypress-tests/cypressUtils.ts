@@ -28,20 +28,37 @@ export const checkSelectedFilterValues = ({
 }
 
 export const startReportRequest = ({ name, description }: { name: string; description: string }) => {
-  cy.findByLabelText(/Reports catalogue.*/i).within(() => {
-    cy.findAllByRole('row', {
-      name: (_, element) => {
-        const nameText = element?.textContent?.includes(name)
-        const descText = element?.textContent?.includes(description)
+  cy.findByLabelText(/Reports Catalogue.*/i)
+    .findAllByRole('listitem')
+    .filter((_, element) => {
+      const text = element.textContent?.trim() ?? ''
 
-        return Boolean(nameText) && Boolean(descText)
-      },
+      return text.includes(name) && text.includes(description)
     })
-      .first()
-      .within(() => {
-        cy.findByRole('link', { name: /Request/ }).click()
-      })
-  })
+    .should('have.length.at.least', 1)
+    .first()
+    .within(() => {
+      cy.findByRole('link', {
+        name: /Request (dashboard|report)/i,
+      }).click()
+    })
+}
+
+export const startReportLoad = ({ name, description }: { name: string; description: string }) => {
+  cy.findByLabelText(/Reports Catalogue.*/i)
+    .findAllByRole('listitem')
+    .filter((_, element) => {
+      const text = element.textContent?.trim() ?? ''
+
+      return text.includes(name) && text.includes(description)
+    })
+    .should('have.length.at.least', 1)
+    .first()
+    .within(() => {
+      cy.findByRole('link', {
+        name: /Load (dashboard|report)/i,
+      }).click()
+    })
 }
 
 export const requestReportByNameAndDescription = ({ name, description }: { name: string; description: string }) => {
@@ -147,4 +164,66 @@ export const expectMyReportRowCountInTab = ({ tabName, count }: { tabName: strin
   cy.findByLabelText(tabName).within(() => {
     cy.findAllByRole('heading', { level: 2 }).should('have.length', count)
   })
+}
+
+// BOOKMARK HELPERS
+
+export const addBookmark = (name: string) => {
+  cy.findByLabelText(/Reports Catalogue.*/i)
+    .findAllByRole('listitem')
+    .filter((_, element) => {
+      return Boolean(element.textContent?.includes(name))
+    })
+    .first()
+    .within(() => {
+      cy.findByRole('link', { name: /Add bookmark/i }).click()
+    })
+}
+
+export const addBookmarkExists = (name: string) => {
+  cy.findByLabelText(/Reports Catalogue.*/i)
+    .findAllByRole('listitem')
+    .filter((_, element) => {
+      return Boolean(element.textContent?.includes(name))
+    })
+    .first()
+    .within(() => {
+      cy.findByRole('link', { name: /Add bookmark/i }).should('exist')
+    })
+}
+
+export const addBookmarkNotExist = (name: string) => {
+  cy.findByLabelText(/Reports Catalogue.*/i)
+    .findAllByRole('listitem')
+    .filter((_, element) => {
+      return Boolean(element.textContent?.includes(name))
+    })
+    .first()
+    .within(() => {
+      cy.findByRole('link', { name: /Add bookmark/i }).should('not.exist')
+    })
+}
+
+export const removeBookmarkExists = (name: string) => {
+  cy.findByLabelText(/Reports Catalogue.*/i)
+    .findAllByRole('listitem')
+    .filter((_, element) => {
+      return Boolean(element.textContent?.includes(name))
+    })
+    .first()
+    .within(() => {
+      cy.findByRole('link', { name: /Remove bookmark/i }).should('exist')
+    })
+}
+
+export const removeBookmark = (name: string) => {
+  cy.findByLabelText(/Reports Catalogue.*/i)
+    .findAllByRole('listitem')
+    .filter((_, element) => {
+      return Boolean(element.textContent?.includes(name))
+    })
+    .first()
+    .within(() => {
+      cy.findByRole('link', { name: /Remove bookmark/i }).click()
+    })
 }

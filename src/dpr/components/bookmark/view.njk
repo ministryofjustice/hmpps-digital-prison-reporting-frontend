@@ -1,5 +1,5 @@
 {% macro dprBookmarkButton(reportId, id, reportType, csrfToken, config) %}
-  {% set reportType %}{{ type if type else 'report' }}{% endset %}
+  {% set reportType %}{{ reportType if reportType else 'report' }}{% endset %}
   {% set linkId = reportId + '-' + id + '-' + reportType %}
 
   <a

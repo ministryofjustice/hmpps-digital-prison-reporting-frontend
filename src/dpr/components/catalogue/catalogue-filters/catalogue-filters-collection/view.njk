@@ -1,0 +1,33 @@
+{% from "govuk/components/select/macro.njk" import govukSelect %}
+
+{% macro dprReportsCatalogueCollections(collectionsConfig) %}
+
+  {% set csrfToken = collectionsConfig.csrfToken %}
+  {% set currentUrl = collectionsConfig.currentUrl %}
+  {% set productCollections = collectionsConfig.productCollections %}
+  {% set selectedProductCollection = collectionsConfig.selectedProductCollection %}
+  {% set formAction = collectionsConfig.formAction %}
+
+  {% if productCollections.length > 0 %}
+    <div class="dpr-reports-catalogue-collection" data-dpr-module="dpr-reports-catalogue-collections">
+      <form method="post" action="{{ formAction }}">
+        <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
+        <input type="hidden" name="returnTo" value="{{ currentUrl }}" />
+
+        {{ selectedProductCollection | json }}
+        {{
+          govukSelect({
+            id: 'productCollection',
+            name: 'productCollection',
+            value: selectedProductCollection.id,
+            items: productCollections,
+            label: {
+              text: 'Your collections',
+              classes: "govuk-label govuk-!-font-weight-bold govuk-!-margin-bottom-2"
+            }
+          })
+        }}
+      </form>
+    </div>
+  {% endif %}
+{% endmacro %}

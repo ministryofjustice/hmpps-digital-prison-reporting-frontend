@@ -38,6 +38,11 @@ export default class ComponentsController {
           description: 'Truncate functionality',
           href: '/components/truncate',
         },
+        {
+          text: 'Reports Catalogue V2',
+          description: 'HTML catalogue',
+          href: '/components/reports-catalogue',
+        },
       ],
     })
   }

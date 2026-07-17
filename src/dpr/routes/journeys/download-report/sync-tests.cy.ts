@@ -1,5 +1,5 @@
 import { resetFeatureFlags, updateRedisState } from 'test-app/routes/integrationTests/appStateUtils'
-import { executeReportStubs } from '../../../../../cypress-tests/cypressUtils'
+import { executeReportStubs, startReportLoad } from '../../../../../cypress-tests/cypressUtils'
 
 context('Platform sync download tests', () => {
   const paths = ['/']
@@ -14,15 +14,7 @@ context('Platform sync download tests', () => {
         cy.task('stubSyncRequestDataSuccess')
         cy.task('stubSyncRequestDataSuccessCount')
         cy.visit(path)
-        cy.findByLabelText(/Reports catalogue.*/i).within(() => {
-          cy.findByRole('row', {
-            name: (_, element) => {
-              return Boolean(element.textContent?.includes('This is an sync report'))
-            },
-          }).within(() => {
-            cy.findByRole('link', { name: /Load report/ }).click()
-          })
-        })
+        startReportLoad({ name: 'Sync report', description: 'This is an sync report' })
         cy.findByRole('heading', { name: /Sync report/, level: 1 }).should('be.visible')
         cy.url().then(url => {
           viewReportUrl = url.replace('load-', '')

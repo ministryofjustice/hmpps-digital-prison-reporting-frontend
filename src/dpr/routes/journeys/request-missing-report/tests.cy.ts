@@ -13,15 +13,6 @@ context('Request missing report', () => {
     stubDefinitionsTasks()
     cy.task('stubGetFeatureTestingMissing')
     cy.visit(path)
-    cy.findByLabelText(/Reports catalogue.*/i).within(() => {
-      cy.findByRole('row', {
-        name: (_, element) => {
-          return Boolean(element.textContent?.includes('Missing Report 1'))
-        },
-      }).within(() => {
-        cy.findByRole('link', { name: 'Request report' }).click()
-      })
-    })
     startReportRequest({ name: 'Missing Report 1', description: 'Description for missing report 1' })
     checkA11y()
   })

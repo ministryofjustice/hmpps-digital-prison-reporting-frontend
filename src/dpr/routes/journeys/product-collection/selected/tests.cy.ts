@@ -2,16 +2,13 @@ import { summaries } from '@networkMocks/definitionSummaries'
 import { addBookmark, executeReportStubs } from 'cypress-tests/cypressUtils'
 
 context('Catalogue collections', () => {
-  const paths = [
-    '/',
-    // '/embedded/platform', '/embedded/platform/dpr'
-  ]
+  const paths = ['/', '/embedded/platform', '/embedded/platform/dpr']
 
   const validateTotals = (totalReports: number) => {
     cy.get('.dpr-reports-catalogue__totals p')
       .invoke('text')
       .then(text => {
-        expect(text.replace(/\s+/g, ' ').trim()).to.contain(`Showing ${totalReports} variants from`)
+        expect(text.replace(/\s+/g, ' ').trim()).to.contain(`Showing ${totalReports} reports from`)
       })
   }
 

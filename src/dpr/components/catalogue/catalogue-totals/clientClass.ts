@@ -35,7 +35,7 @@ export class DprReportsCatalogueTotals extends DprClientClass {
     }
 
     const variantCount = this.getVisibleVariants().length
-    this.variantsTotal.innerHTML = `<strong>${variantCount}</strong> ${this.pluralise(variantCount, 'variant', 'variants')}`
+    this.variantsTotal.innerHTML = `<strong>${variantCount}</strong> ${this.pluralise(variantCount, 'report', 'reports')}`
 
     const productCount = this.getVisibleProducts().length
     this.productsTotal.innerHTML = `<strong>${productCount}</strong> ${this.pluralise(productCount, 'product', 'products')}`

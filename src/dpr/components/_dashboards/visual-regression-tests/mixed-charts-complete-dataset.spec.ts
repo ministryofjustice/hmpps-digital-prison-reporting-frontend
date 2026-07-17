@@ -1,12 +1,12 @@
 import { test, expect } from '@playwright/test'
-import { getCatalogueVariant } from './vrtHelpers'
+import { requestCatalogueVariant } from './vrtHelpers'
 
 test('Mixed chart complete dataset', async ({ page }) => {
   await page.goto('/embedded/platform')
 
   page.getByLabel(/Reports catalogue.*/i)
 
-  getCatalogueVariant(page, /Mixed - Complete dataset/)
+  requestCatalogueVariant(page, /Mixed - Complete dataset/)
 
   await page.getByRole('button', { name: /Request dashboard/ }).click()
 

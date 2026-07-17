@@ -24,7 +24,6 @@ export const unsubscribe = async (req: Request, res: Response, services: Service
   const { reportId, id } = req.params as { reportId: string; id: string }
   const { returnTo } = req.body
 
-  // Unsubscribe API here
   const subscriptionData = await services.subscriptionStoreService.getSubscription(reportId, id, userId)
 
   if (subscriptionData) {

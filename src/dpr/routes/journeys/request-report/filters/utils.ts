@@ -2,6 +2,8 @@
 import { NextFunction, Request, Response } from 'express'
 
 // Utils
+import { setupSubscriptionConfig } from 'src/dpr/components/subscription/utils'
+import { VariantDefinitionWithSchedule } from 'src/dpr/types/Subscriptions'
 import { buildFilterData, buildSortData } from '../../../../components/_async/async-filters-form/utils'
 import { buildMasterSections } from '../../../../components/_dashboards/dashboard-section/utils'
 import { getRequestFilters } from '../../../../components/_filters/utils'
@@ -380,13 +382,16 @@ export const renderRequest = async ({
       dprUser,
       saveDefaultsEnabled,
     } = LocalsHelper.getValues(res)
-    const { definition } = res.locals
+    const definition = res.locals['definition'] as
+      | components['schemas']['SingleVariantReportDefinition']
+      | components['schemas']['DashboardDefinition']
 
     let name: string = ''
     let reportName: string = ''
     let description: string = ''
     let fields: components['schemas']['FieldDefinition'][] = []
     let sections: components['schemas']['DashboardDefinition']['sections'] = []
+    let subscriptionConfig
 
     if (type === ReportType.REPORT) {
       const reportData = await renderReportRequestData(
@@ -397,6 +402,8 @@ export const renderRequest = async ({
       reportName = reportData.reportName
       description = reportData.description
       fields = reportData.fields
+
+      subscriptionConfig = await setupSubscriptionConfig(req, res, reportId, id, reportData.schedule, services)
     }
 
     if (type === ReportType.DASHBOARD) {
@@ -439,6 +446,7 @@ export const renderRequest = async ({
       filtersDescription: `Customise your ${type} using the filters below and submit your request.`,
       filtersData,
       reportData,
+      subscriptionConfig,
     }
   } catch (error) {
     next(error)
@@ -490,13 +498,19 @@ const renderDashboardRequestData = async ({
 
 const renderReportRequestData = async (definition: components['schemas']['SingleVariantReportDefinition']) => {
   const fields = getFields(definition)
+  const { variant, description: productDescription } = definition
+
+  // TODO: remove casting `VariantDefinitionWithSchedule` type when type includes "schedule"
+  const { name, schedule, specification, description } = <VariantDefinitionWithSchedule>variant
+
   return {
     definition,
     reportName: definition.name,
-    name: definition.variant.name,
-    description: definition.variant.description || definition.description || '',
-    template: definition.variant.specification,
+    name,
+    description: description || productDescription || '',
+    template: specification?.template,
     fields,
+    schedule,
   }
 }
 

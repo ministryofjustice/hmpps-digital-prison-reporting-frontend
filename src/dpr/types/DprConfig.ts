@@ -48,4 +48,10 @@ export interface ServiceFeatureConfig {
    * - determines how frequently the definitions should be refreshed
    */
   checkDefinitionsInterval?: number
+
+  /** Enable/disable subscriptions
+   *  - Subscription links/buttons will be hidden
+   *  - Subscription service will be disabled
+   */
+  subscriptions?: boolean
 }

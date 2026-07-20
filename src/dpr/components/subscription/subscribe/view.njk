@@ -1,0 +1,10 @@
+{% from "./subscribe-text/view.njk" import dprSubscribeText %}
+{% from "./subscribe-form/view.njk" import dprSubscribeForm %}
+
+{% macro dprSubscribe(subscriptionConfig, reportConfig, link = false) %}
+
+  {{ dprSubscribeText(subscriptionConfig.schedule) }}
+
+  {{ dprSubscribeForm(subscriptionConfig, reportConfig, link) }}
+
+{% endmacro %}

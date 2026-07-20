@@ -6,6 +6,7 @@ import { RequestedReport, RecentlyViewedReport } from './UserReports'
 export interface ReportStoreConfig {
   requestedReports: RequestedReport[]
   recentlyViewedReports: RecentlyViewedReport[]
+  subscriptions: RecentlyViewedReport[]
   bookmarks: BookmarkStoreData[]
   downloadPermissions?: DownloadPermissionConfig[]
   defaultFilters?: defaultFilterConfig[]

@@ -14,6 +14,20 @@ import * as MyReportsUtils from '../routes/journeys/my-reports/utils'
  * @return {*}
  */
 export const getAllMyReports = async (res: Response, services: Services, dprUserId: string) => {
+  const recentlyViewedReports = await getRecentlyViewedReports(res, services, dprUserId)
+
+  const requestedReports = await getRequestedReports(res, services, dprUserId)
+
+  const subscriptions = await getSubscriptions(res, services, dprUserId)
+
+  return {
+    requestedReports,
+    recentlyViewedReports,
+    subscriptions,
+  }
+}
+
+const getRecentlyViewedReports = async (res: Response, services: Services, dprUserId: string) => {
   const { definitions, definitionsPath } = res.locals
 
   // 1. Get the recently viewed reports
@@ -28,6 +42,11 @@ export const getAllMyReports = async (res: Response, services: Services, dprUser
   // 2. Clean and get requested reports
   await services.requestedReportService.cleanList(dprUserId, recentlyViewedReports)
 
+  return recentlyViewedReports
+}
+
+const getRequestedReports = async (res: Response, services: Services, dprUserId: string) => {
+  const { definitions, definitionsPath } = res.locals
   let requestedReports = await MyReportsUtils.getAllMyReports('requestedReports', services, dprUserId)
 
   requestedReports = !definitionsPath
@@ -36,10 +55,26 @@ export const getAllMyReports = async (res: Response, services: Services, dprUser
         return getCurrentVariantDefinition(definitions, report.reportId, report.id)
       })
 
-  return {
-    requestedReports,
-    recentlyViewedReports,
+  return requestedReports
+}
+
+const getSubscriptions = async (res: Response, services: Services, dprUserId: string) => {
+  const { definitions, definitionsPath, token, dprUser } = res.locals
+  let subscriptions = await MyReportsUtils.getAllMyReports('subscriptions', services, dprUserId)
+
+  if (subscriptions.length) {
+    subscriptions = !definitionsPath
+      ? subscriptions
+      : subscriptions.filter((report: RequestedReport) => {
+          return getCurrentVariantDefinition(definitions, report.reportId, report.id)
+        })
+
+    const timestampData = await services.subscriptionService.getSubscriptions(token)
+
+    subscriptions = await services.subscriptionStoreService.updateTimestamps(timestampData, dprUser.id)
   }
+
+  return subscriptions
 }
 
 /**

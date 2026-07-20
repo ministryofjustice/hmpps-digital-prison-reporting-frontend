@@ -7,20 +7,19 @@ ul.dpr-my-reports__item-filters-list {
 li.dpr-my-reports__item-filters-list-item {
   float: left;
   margin-bottom: 0;
-  padding: govuk-spacing(1);
-  padding-left: 8px;
-  padding-right: 8px;
+  padding: govuk-spacing(2);
   margin-bottom: govuk-spacing(1);
   margin-right: govuk-spacing(1);
   font-size: 16px;
 }
 
 li.dpr-my-reports__item-filters-list-item--pre {
-  background-color: govuk-colour('black', $variant: 'tint-95');
+  background-color: white;
+  border: solid 1px govuk-functional-colour('border');
 }
 
 li.dpr-my-reports__item-filters-list-item--int {
-  background-color: lighten(govuk-colour('blue', $variant: 'tint-25'), 36%);
+  // background-color: lighten(govuk-colour('blue', $variant: 'tint-25'), 36%);
 }
 
 li:last-child {

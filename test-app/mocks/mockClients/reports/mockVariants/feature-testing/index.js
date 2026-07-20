@@ -13,6 +13,7 @@ const userDefinedDefaults = require('./userDefinedDefaults')
 const validation = require('./validation')
 const bigReport = require('./bigReport')
 const orderFilters = require('./orderFilters')
+const scheduledReport = require('./sheduledReport')
 
 module.exports = [
   emptyQuery,
@@ -29,4 +30,5 @@ module.exports = [
   validation,
   bigReport,
   orderFilters,
+  scheduledReport,
 ]

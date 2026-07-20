@@ -31,6 +31,8 @@ export const setupResources = (
   return async (req, res, next) => {
     populateValidationErrors(req, res)
 
+    populateSubsMessages(req, res)
+
     try {
       // 1. Initialise our feature flags to app.locals
       await setFeatureFlags(res, services.featureFlagService)
@@ -98,6 +100,18 @@ const populateValidationErrors = (req: Request, res: Response) => {
   const errors = req.flash(`DPR_ERRORS`)
   if (errors && errors[0]) {
     res.locals['validationErrors'] = JSON.parse(errors[0])
+  }
+}
+
+const populateSubsMessages = (req: Request, res: Response) => {
+  const subscribedMessage = req.flash(`DPR_SUBSCRIBED`)
+  if (subscribedMessage && subscribedMessage[0]) {
+    res.locals['subscribedMessage'] = JSON.parse(subscribedMessage[0])
+  }
+
+  const unsubscribedMessage = req.flash(`DPR_UNSUBSCRIBED`)
+  if (unsubscribedMessage && unsubscribedMessage[0]) {
+    res.locals['unsubscribedMessage'] = JSON.parse(unsubscribedMessage[0])
   }
 }
 
@@ -294,6 +308,13 @@ const initialiseServices = async (services: Services, res: Response) => {
       logger.info(`Init service: bookmarkService: ${res.app.locals['bookmarkingEnabled']}`)
     }
 
+    // Subscriptions
+    if (!res.app.locals['subscriptionsEnabled']) {
+      res.app.locals['subscriptionsEnabled'] = services.subscriptionStoreService.enabled
+
+      logger.info(`Init service: subscriptionStoreService: ${res.app.locals['subscriptionsEnabled']}`)
+    }
+
     // Collections
     if (!res.app.locals['collectionsEnabled']) {
       res.app.locals['collectionsEnabled'] = services.productCollectionService.enabled
@@ -349,7 +370,11 @@ const populateRequestedReports = async (services: Services, res: Response, req: 
     )
 
     res.locals['requestedReports'] = requestedReports
+
     res.locals['recentlyViewedReports'] = recentlyViewedReports
+
+    res.locals['subscriptions'] = myReports.subscriptions
+
     if (res.app.locals['bookmarkingEnabled']) {
       res.locals['bookmarks'] = await getAllMyBookmarks(res, services, dprUser.id)
     }
@@ -375,6 +400,7 @@ const setUpDprPaths = (res: Response) => {
     bookmarkListPath: '/dpr/my-reports/bookmarks',
     requestedListPath: '/dpr/my-reports/requested-reports',
     recentlyViewedListPath: '/dpr/my-reports/recently-viewed',
+    subscribePath: '/dpr/my-reports/subscriptions',
     reportsCatalogue: '/dpr/report-catalogue',
     userReportsList: '/dpr/my-reports',
     requestReportPath: '/dpr/request-report',

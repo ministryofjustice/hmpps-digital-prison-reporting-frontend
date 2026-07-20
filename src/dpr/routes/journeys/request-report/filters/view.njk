@@ -2,6 +2,7 @@
 {% from "../../../../components/_async/async-filters-form/view.njk" import dprAsyncFiltersForm %}
 {% from "../../../../components/_filters/filters-help/view.njk" import dprFiltersHelp %}
 {% from "../../../../components/_async/request-details/view.njk" import dprRequestDetails %}
+{% from "../../../../components/subscription/view.njk" import dprSubscription %}
 {% from "govuk/components/details/macro.njk" import govukDetails %}
 
 {% set mainClasses = "app-container govuk-body" %}
@@ -20,7 +21,7 @@
 
   {{
     govukDetails({
-      summaryText: 'Details for "' + reportData.reportName + ': ' + reportData.name + '"',
+      summaryText: 'Details',
       html: reportDetailsHtml,
       classes: 'dpr-meta-data-details',
       open: (filtersData.filters.length == null or filtersData.filters.length == 0)
@@ -28,6 +29,8 @@
   }}
 
   {{ dprFiltersHelp(saveDefaultsEnabled) }}
+
+  {{ dprSubscription(subscriptionConfig, reportData) }}
 
   {{
     dprAsyncFiltersForm({

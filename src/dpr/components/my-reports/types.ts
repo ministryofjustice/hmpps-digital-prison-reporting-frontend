@@ -42,10 +42,12 @@ export type DprMyReportFilters = {
    Actions
    ========================================================================== */
 
-export type RemoveAction = {
+export type MyReportsFormAction = {
   action: string
   csrfToken: string
   returnTo: string
+  text: string
+  type: 'remove' | 'subscription'
 }
 
 export type LinkAction = {
@@ -58,7 +60,8 @@ export type ViewAction = {
 }
 
 export type DprMyReportActions = {
-  remove?: RemoveAction
+  remove?: MyReportsFormAction
+  subscribe?: MyReportsFormAction
   refresh?: LinkAction
   retry?: LinkAction
   view?: ViewAction
@@ -113,11 +116,12 @@ export enum ListType {
   REQUESTED = 'requested',
   BOOKMARKS = 'bookmarks',
   VIEWED = 'viewed',
+  SUBSCRIPTIONS = 'subscriptions',
 }
 
 // HEADINGS
 
-type HeadingKey = 'title' | 'description' | 'filters' | 'status' | 'actions'
+type HeadingKey = 'title' | 'description' | 'filters' | 'status' | 'schedule' | 'actions'
 
 export type HeadingConfig = {
   key: HeadingKey
@@ -129,8 +133,19 @@ export type HeadingConfig = {
 export type DprMyReport = {
   requested: DprMyReportListConfig
   viewed: DprMyReportListConfig
+  subscriptions?: DprMyReportListConfig
   bookmarks?: DprMyReportListConfig | undefined
+  messages?: MyReportsMessages | undefined
+}
+
+export type MyReportsMessages = {
   removedReports: string | undefined
+  subscriptionMessages?: SubscribedMessages | undefined
+}
+
+type SubscribedMessages = {
+  subscribedMessage?: string | undefined
+  unsubscribedMessage?: string | undefined
 }
 
 export type MappedBookmarks = {

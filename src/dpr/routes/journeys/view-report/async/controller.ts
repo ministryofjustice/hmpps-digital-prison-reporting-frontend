@@ -47,6 +47,11 @@ export class ViewAsyncController {
         // Get the validation errors
         const validationErrors = res.locals['validationErrors'] || []
 
+        const subscriptionMessages = {
+          subscribedMessage: res.locals['subscribedMessage'] || [],
+          unsubscribedMessage: res.locals['unsubscribedMessage'] || [],
+        }
+
         // get the render config
         const data = await renderFunction({
           req,
@@ -66,6 +71,7 @@ export class ViewAsyncController {
           layoutPath: this.layoutPath,
           ...data,
           validationErrors,
+          subscriptionMessages,
         })
       } catch (error) {
         const dprError = new ErrorHandler(error).formatError()

@@ -1,16 +1,19 @@
-import { Response } from 'express'
+import { Response, Request } from 'express'
 import { components } from '../../../types/api'
 import { Services } from '../../../types/Services'
 import { DefinitionData, LoadType, ReportType } from '../../../types/UserReports'
 import { createListItemProductMin, createListActions, setInitialHref } from '../../../utils/reportListsHelper'
 import LocalsHelper from '../../../utils/localsHelper'
+import { renderSubscriptionToggleAsHtml } from '../../subscription/subscription-toggle/utils'
 import { renderTruncateAsHtml } from '../../truncate/utils'
+import { VariantDefinitionSummaryWithSchedule } from '../../../types/Subscriptions'
 
 export const getReportsList = async (
   res: Response,
+  req: Request,
   services: Services,
 ): Promise<{ head: { text: string }[]; rows: { text?: string; html?: string }[][]; id: string }> => {
-  const { definitions, csrfToken, bookmarkingEnabled, dprUser } = LocalsHelper.getValues(res)
+  const { definitions, csrfToken, bookmarkingEnabled, subscriptionsEnabled, dprUser } = LocalsHelper.getValues(res)
 
   // Sort report Definitions by product name
   const sortedDefinitions = definitions.sort(
@@ -35,7 +38,8 @@ export const getReportsList = async (
     let variantsArray: DefinitionData[] = []
     if (variants) {
       variantsArray = variants.map((variant: components['schemas']['VariantDefinitionSummary']) => {
-        const { id, name, description, isMissing, loadType } = variant
+        // TODO: remove casting `VariantDefinitionSummaryWithSchedule` type when type includes "schedule"
+        const { id, name, description, isMissing, loadType, schedule } = <VariantDefinitionSummaryWithSchedule>variant
 
         return {
           ...productBase,
@@ -45,6 +49,7 @@ export const getReportsList = async (
           name,
           description: description || '',
           isMissing,
+          schedule,
         }
       })
     }
@@ -80,8 +85,19 @@ export const getReportsList = async (
   const userConfig = await services.bookmarkService.getState(dprUser.id)
   const rows = await Promise.all(
     sortedVariants.map(async (v: DefinitionData) => {
-      const { id, name, description, reportName, reportId, reportDescription, type, loadType, authorised, isMissing } =
-        v
+      const {
+        id,
+        name,
+        description,
+        reportName,
+        reportId,
+        reportDescription,
+        type,
+        loadType,
+        authorised,
+        isMissing,
+        schedule,
+      } = v
       const desc = description || reportDescription || ''
 
       const href = setInitialHref(loadType, type, reportId, id, res, isMissing)
@@ -101,11 +117,29 @@ export const getReportsList = async (
         })
       }
 
+      let subsHtml
+      if (subscriptionsEnabled && schedule) {
+        subsHtml = await renderSubscriptionToggleAsHtml(
+          req,
+          res,
+          schedule,
+          {
+            reportId,
+            id,
+            name,
+            reportName,
+            description: desc,
+            type,
+          },
+          services,
+        )
+      }
+
       return [
         { html: `<p class="govuk-body-s">${reportName}</p>` },
-        { html: createListItemProductMin(name, <ReportType>type) },
+        { html: createListItemProductMin(name, <ReportType>type, schedule) },
         { html: renderTruncateAsHtml({ stringValue: desc, classes: 'govuk-body-s' }) },
-        { html: createListActions(href, type, loadType, bookmarkHtml, authorised, isMissing) },
+        { html: createListActions(href, type, loadType, bookmarkHtml, subsHtml, authorised, isMissing) },
       ]
     }),
   )

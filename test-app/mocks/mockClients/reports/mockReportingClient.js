@@ -9,6 +9,7 @@ const mockListSection = require('./mockVariants/data/list-section')
 const mockParentChildSection = require('./mockVariants/data/parent-child-section')
 
 const { mockStatusSequence, mockStatusHelper } = require('../mockStatusHelper')
+const { randomUUID } = require('crypto')
 
 class MockReportingClient {
   constructor() {
@@ -298,6 +299,28 @@ MockReportingClient: ${functionName}`)
       console.log(JSON.stringify(query, null, 2))
     }
   }
+
+  subscribe(token, reportId, id) {
+    return { tableId: randomUUID() }
+  }
+
+  unsubscribe(token, reportId, id) {
+    return undefined
+  }
+
+  getSubscriptions(token, tableIds) {
+    const createdAt = new Date().toISOString();
+    const addedAt = new Date().toISOString();
+
+    return tableIds.map((tableId) => {
+      return {
+        tableId,
+        createdAt,
+        addedAt,
+      }
+    })
+  }
+
 }
 
 module.exports = MockReportingClient

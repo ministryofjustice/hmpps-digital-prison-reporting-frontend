@@ -26,6 +26,7 @@ context('Bookmarks list', () => {
       ],
       downloadPermissions: [{ reportId: 'request-examples', id: 'request-example-success' }],
       defaultFilters: [],
+      subscriptions: [],
     })
     cy.visit(path)
     checkA11y()

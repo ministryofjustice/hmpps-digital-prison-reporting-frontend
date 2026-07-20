@@ -23,7 +23,7 @@ class DprMyReports extends PollingClientClass {
     this.listType = element.dataset['listType'] ?? `my-reports-${ListType.REQUESTED}`
 
     // Only set csrf and remove action on requested and viewed list types
-    if (this.listType === `my-reports-${ListType.REQUESTED}` || `my-reports-${ListType.VIEWED}`) {
+    if (this.listType === `my-reports-${ListType.REQUESTED}` || this.listType === `my-reports-${ListType.VIEWED}`) {
       this.csrfToken = DprHtmlClient.getCsrfToken(element)
 
       this.initRemoveAction()
@@ -194,6 +194,8 @@ class DprMyReports extends PollingClientClass {
       label = 'Requested'
     } else if (this.listType === `my-reports-${ListType.VIEWED}`) {
       label = 'Viewed'
+    } else if (this.listType === `my-reports-${ListType.SUBSCRIPTIONS}`) {
+      label = 'Subscriptions'
     }
 
     const tabs = document.querySelectorAll<HTMLAnchorElement>('.govuk-tabs__tab')

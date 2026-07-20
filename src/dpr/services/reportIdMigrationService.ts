@@ -21,7 +21,7 @@ export class ReportIdMigrationService {
 
   private static readonly MIGRATION_KEY = 'migration:dpr-report-ids:v1'
 
-  private static readonly USER_CONFIG_PREFIX = 'dprReportStoreUser:'
+  private static readonly USER_CONFIG_PREFIX = 'userConfig:'
 
   private static readonly MAX_RETRIES = 3
 
@@ -52,7 +52,6 @@ export class ReportIdMigrationService {
     const migrationComplete = await this.redisClient.get(ReportIdMigrationService.MIGRATION_KEY)
     if (migrationComplete) {
       logger.info('DPR report ID migration already completed')
-
       return
     }
 

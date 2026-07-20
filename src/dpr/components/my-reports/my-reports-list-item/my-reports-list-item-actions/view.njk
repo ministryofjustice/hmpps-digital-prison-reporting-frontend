@@ -1,4 +1,4 @@
-{% from "./remove-action/view.njk" import dprMyReportListItemRemoveAction %}
+{% from "./my-reports-list-item-form-action/view.njk" import dprMyReportListItemFormAction %}
 {% from "../../../bookmark/view.njk" import dprBookmarkButton %}
 
 {% macro dprMyReportListItemActions(actions) %}
@@ -10,6 +10,7 @@
   {% set bookmark = actions.bookmark %}
   {% set view = actions.view %}
   {% set polling = actions.polling %}
+  {% set subscribe = actions.subscribe %}
 
   <ul class="dpr-my-reports__actions-list">
     {% if refresh %}
@@ -37,7 +38,11 @@
     {% endif %}
 
     {% if remove %}
-      <li>{{ dprMyReportListItemRemoveAction(remove) }}</li>
+      <li>{{ dprMyReportListItemFormAction(remove) }}</li>
+    {% endif %}
+
+    {% if subscribe %}
+      <li>{{ dprMyReportListItemFormAction(subscribe) }}</li>
     {% endif %}
 
     {% if load %}

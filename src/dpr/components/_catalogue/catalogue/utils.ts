@@ -3,8 +3,9 @@ import CatalogueListUtils from '../catalogue-list/utils'
 import { Services } from '../../../types/Services'
 import LocalsHelper from '../../../utils/localsHelper'
 
-export const initCatalogue = async ({ res, services, req }: { res: Response; services: Services; req?: Request }) => {
-  const data = await CatalogueListUtils.getReportsList(res, services)
+export const initCatalogue = async ({ res, services, req }: { res: Response; services: Services; req: Request }) => {
+  const data = await CatalogueListUtils.getReportsList(res, req, services)
+
   const currentUrl = req?.originalUrl || '/'
   const { token, bookmarkingEnabled, dprUser, csrfToken } = LocalsHelper.getValues(res)
   const productCollections = (await services.productCollectionService.getProductCollections(token))?.map(

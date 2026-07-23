@@ -12,7 +12,6 @@ import LocalsHelper from '../../../../utils/localsHelper'
 // Types
 import type { SetQueryFromFiltersResult } from '../../../../components/_async/async-filters-form/types'
 import { buildQuerySummary } from '../../../../components/_async/request-details/utils'
-import { DashboardDefinition } from '../../../../components/_dashboards/dashboard-visualisation/types'
 import type { components } from '../../../../types/api'
 import type { AsyncReportUtilsParams, RequestDataResult, RequestReportData } from '../../../../types/AsyncReportUtils'
 import type { ChildReportExecutionData, ExecutionData } from '../../../../types/ExecutionData'
@@ -183,8 +182,7 @@ const requestDashboard = async (req: Request, res: Response, token: string, serv
 
   const definition = await services.dashboardService.getDefinition(token, reportId, id, dataProductDefinitionsPath)
 
-  // TODO: Update this type to components['schemas']['DashboardDefinition'] when `childVariants` field is present
-  const childVariants = (<DashboardDefinition>definition).childVariants ?? []
+  const childVariants = definition.childVariants ?? []
 
   const fields = getDashboardFields(definition)
 
@@ -476,13 +474,11 @@ const renderDashboardRequestData = async ({
     (def: components['schemas']['ReportDefinitionSummary']) => def.id === reportId,
   )
 
-  // TODO: Remove the "as" when components['schemas']['DashboardDefinition'] includes the `childVariants` field
-  const { childVariants } = definition as DashboardDefinition
+  const { childVariants } = definition
 
   const masterDefinition = definition
   if (childVariants?.length) {
-    // TODO: Remove the casting of definition when components['schemas']['DashboardDefinition'] includes the `childVariants` field
-    masterDefinition.sections = buildMasterSections(<DashboardDefinition>definition)
+    masterDefinition.sections = buildMasterSections(definition)
   }
 
   const { name, description, sections, filterFields: fields } = masterDefinition

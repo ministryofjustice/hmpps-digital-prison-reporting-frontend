@@ -704,6 +704,7 @@ export interface components {
       description?: string | null
       sections: components['schemas']['DashboardSectionDefinition'][]
       filterFields?: components['schemas']['FieldDefinition'][] | null
+      childVariants?: components['schemas']['DashboardDefinition'][] | null
     }
     DashboardOptionDefinition: {
       useRagColour?: boolean | null

@@ -6,11 +6,11 @@ import type { components } from '../../../../../types/api'
 
 import Dashboard from '../../../../../components/_dashboards/Dashboard'
 
-import LocalsHelper from '../../../../../utils/localsHelper'
-import { updateLastViewedAsync } from '../../utils'
-import { getMyReport } from '../../../my-reports/utils'
-import DashboardSchema from './validate'
 import { validateDashboardVisualisations } from '../../../../../components/_dashboards/dashboard-visualisation/utils'
+import LocalsHelper from '../../../../../utils/localsHelper'
+import { getMyReport } from '../../../my-reports/utils'
+import { updateLastViewedAsync } from '../../utils'
+import DashboardSchema from './validate'
 
 export const renderDashboard = async ({ req, res, services }: AsyncReportUtilsParams) => {
   const { token, dprUser, definitionsPath } = LocalsHelper.getValues(res)

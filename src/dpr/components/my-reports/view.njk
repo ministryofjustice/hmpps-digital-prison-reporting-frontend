@@ -10,11 +10,10 @@
   {% set requested = myReportsConfig.requested %}
   {% set bookmarks = myReportsConfig.bookmarks %}
   {% set viewed = myReportsConfig.viewed %}
-  {% set removedReports = myReportsConfig.removedReports %}
+  {% set subscriptions = myReportsConfig.subscriptions %}
+  {% set messages = myReportsConfig.messages %}
 
-  {% if removedReports %}
-    {{ dprMyReportsListNotification(removedReports) }}
-  {% endif %}
+  {{ dprMyReportsListNotification(messages) }}
 
   {% if bookmarks %}
     {% set bookmarksHtml %}
@@ -53,6 +52,20 @@
       set items = (items.push({
         label: "Viewed (" + viewed.totals.total + ")",
         id: "recently-viewed-tab",
+        panel: { html: viewedHtml }
+      }), items)
+    %}
+  {% endif %}
+
+  {% if subscriptions %}
+    {% set viewedHtml %}
+      {{ dprMyReportList(subscriptions) }}
+    {% endset -%}
+
+    {%
+      set items = (items.push({
+        label: "Subscriptions (" + subscriptions.totals.total + ")",
+        id: "subscriptions-tab",
         panel: { html: viewedHtml }
       }), items)
     %}

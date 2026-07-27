@@ -11,8 +11,8 @@ import {
   ListType,
   MappedBookmarks,
   MyReportsListTotals,
+  MyReportsMessages,
   MyReportsOptions,
-  ViewAction,
 } from './types'
 import LocalsHelper, { getRouteLocals } from '../../utils/localsHelper'
 import { BookmarkStoreData } from '../../types/Bookmark'
@@ -25,6 +25,8 @@ import {
   shouldRunExpiryCheck,
 } from '../../utils/ReportStatus/getReportStatus'
 import { captureDprError } from '../../utils/captureError'
+import { buildLoadRequestAction } from './my-reports-list-item/my-reports-list-item-actions/utils'
+import { renderTruncateAsHtml } from '../truncate/utils'
 
 /**
  * Initialises the "My Reports" component data
@@ -40,14 +42,37 @@ export const initMyReports = async (
   services: Services,
   options?: MyReportsOptions | undefined,
 ): Promise<DprMyReport | undefined> => {
-  const { bookmarkingEnabled } = LocalsHelper.getValues(res)
+  const { bookmarkingEnabled, subscriptionsEnabled } = LocalsHelper.getValues(res)
   await checkExpiredAndGetReports(res, services)
 
+  const messages = setMessages(res)
+
   return {
-    ...(bookmarkingEnabled && { bookmarks: await initBookmarks(res, services) }),
+    ...(subscriptionsEnabled && { subscriptions: await initSubscribed(req, res, options) }),
+    ...(bookmarkingEnabled && { bookmarks: await initBookmarks(res, req, services) }),
     requested: await initRequested(req, res, options),
     viewed: await initViewed(req, res, options),
-    removedReports: res.locals['removedReports'],
+    ...(messages && { messages }),
+  }
+}
+
+/**
+ * Sets the messages if any
+ *
+ * @param {Response} res
+ * @return {*}  {MyReportsMessages}
+ */
+const setMessages = (res: Response): MyReportsMessages => {
+  const subscriptionMessages = {
+    subscribedMessage: res.locals['subscribedMessage'] || [],
+    unsubscribedMessage: res.locals['unsubscribedMessage'] || [],
+  }
+
+  const { removedReports } = res.locals
+
+  return {
+    subscriptionMessages,
+    removedReports,
   }
 }
 
@@ -88,10 +113,11 @@ const checkExpiredAndGetReports = async (res: Response, services: Services) => {
  */
 const initBookmarks = async (
   res: Response,
+  req: Request,
   services: Services,
   options?: MyReportsOptions | undefined,
 ): Promise<DprMyReportListConfig> => {
-  const totalItems = await buildBookmarkListItems(res, services)
+  const totalItems = await buildBookmarkListItems(res, req, services)
   const totals = buildTotals(res, totalItems, ListType.BOOKMARKS, options)
   const items = cutItemsToSize(totalItems, options)
 
@@ -145,6 +171,22 @@ export const initViewed = async (req: Request, res: Response, options?: MyReport
     listType: ListType.VIEWED,
     csrfToken,
     headings: buildHeadings(ListType.VIEWED),
+    items,
+    totals,
+  }
+}
+
+export const initSubscribed = async (req: Request, res: Response, options?: MyReportsOptions | undefined) => {
+  const { csrfToken } = LocalsHelper.getValues(res)
+  const totalItems = await buildListItems(req, res, ListType.SUBSCRIPTIONS)
+  const totals = buildTotals(res, totalItems, ListType.SUBSCRIPTIONS, options)
+  const items = cutItemsToSize(totalItems, options)
+
+  return {
+    title: 'Subscriptions',
+    listType: ListType.SUBSCRIPTIONS,
+    csrfToken,
+    headings: buildHeadings(ListType.SUBSCRIPTIONS),
     items,
     totals,
   }
@@ -238,7 +280,7 @@ const buildTotals = (
  * @param {Services} services
  * @return {*}  {Promise<DprMyReportItem[]>}
  */
-const buildBookmarkListItems = async (res: Response, services: Services): Promise<DprMyReportItem[]> => {
+const buildBookmarkListItems = async (res: Response, req: Request, services: Services): Promise<DprMyReportItem[]> => {
   const { bookmarks } = LocalsHelper.getValues(res)
 
   // loop it
@@ -250,15 +292,15 @@ const buildBookmarkListItems = async (res: Response, services: Services): Promis
   const mappedBookmarks: MappedBookmarks[] = await mapBookmarks(bookmarks, services, res)
 
   return mappedBookmarks.map(bookmark => {
-    const { name, reportName, reportType, description } = bookmark
+    const { name, reportName, type, description } = bookmark
     return {
       title: {
         productName: name,
         reportName,
-        reportType,
+        reportType: type,
       },
-      description,
-      actions: buildBookmarkActionsCell(bookmark, res),
+      description: renderTruncateAsHtml({ stringValue: description, classes: 'govuk-body-s', charLength: 50 }),
+      actions: buildBookmarkActionsCell(bookmark, res, req),
     }
   })
 }
@@ -288,7 +330,7 @@ const mapBookmarks = async (
           reportId: bm.reportId,
           name: resolved.name,
           reportName: resolved.reportName,
-          reportType: resolved.reportType,
+          type: resolved.reportType,
           description: resolved.description,
           loadType: resolved.loadType,
         }
@@ -361,48 +403,14 @@ const resolveBookmarkDefinition = async (
  * @param {Response} res
  * @return {*}  {DprMyReportActions}
  */
-const buildBookmarkActionsCell = (data: MappedBookmarks, res: Response): DprMyReportActions => {
-  const { load, request } = buildLoadRequestAction(res, data)
+const buildBookmarkActionsCell = (data: MappedBookmarks, res: Response, req: Request): DprMyReportActions => {
+  const { load, request } = buildLoadRequestAction(res, req, data)
   const bookmark = buildBookmarkRemoveAction(res, data)
 
   return {
     ...(load && { load }),
     ...(request && { request }),
     bookmark,
-  }
-}
-
-/**
- * Build the load/request links config
- *
- * @param {Response} res
- * @param {MappedBookmarks} data
- * @return {*}
- */
-const buildLoadRequestAction = (res: Response, data: MappedBookmarks) => {
-  const { loadType, reportType, reportId, id } = data
-  const { requestReportPath, viewReportPath } = getRouteLocals(res)
-
-  let load: ViewAction | undefined
-  let request: ViewAction | undefined
-
-  if (loadType === LoadType.SYNC) {
-    const href = `${viewReportPath}/sync/${reportId}/${id}`
-    load = {
-      href,
-      reportType,
-    }
-  } else {
-    const href = `${requestReportPath}/${reportType}/${reportId}/${id}/filters`
-    request = {
-      href,
-      reportType,
-    }
-  }
-
-  return {
-    load,
-    request,
   }
 }
 
@@ -414,7 +422,7 @@ const buildLoadRequestAction = (res: Response, data: MappedBookmarks) => {
  * @return {*}
  */
 const buildBookmarkRemoveAction = (res: Response, data: MappedBookmarks): DprMyReportActionBookmark => {
-  const { reportId, id, reportType } = data
+  const { reportId, id, type: reportType } = data
   const { csrfToken } = LocalsHelper.getValues(res)
   const { bookmarkActionEndpoint } = LocalsHelper.getRouteLocals(res)
 
@@ -437,7 +445,7 @@ const buildBookmarkRemoveAction = (res: Response, data: MappedBookmarks): DprMyR
  * @return {*}  {(StoredReportData[] | undefined)}
  */
 const getDataForList = async (res: Response, listType: ListType): Promise<StoredReportData[] | undefined> => {
-  const { requestedReports, recentlyViewedReports } = LocalsHelper.getValues(res)
+  const { requestedReports, recentlyViewedReports, subscriptions } = LocalsHelper.getValues(res)
 
   switch (listType) {
     case ListType.REQUESTED:
@@ -445,6 +453,7 @@ const getDataForList = async (res: Response, listType: ListType): Promise<Stored
       return requestedReports.filter(report => {
         return report.timestamp ? !report.timestamp.lastViewed : false
       })
+
     case ListType.VIEWED:
       // Only show READY or EXPIRED reports
       return recentlyViewedReports.filter(report => {
@@ -453,6 +462,10 @@ const getDataForList = async (res: Response, listType: ListType): Promise<Stored
           Boolean(report.executionId?.length && report.status === RequestStatus.EXPIRED),
         )
       })
+
+    case ListType.SUBSCRIPTIONS:
+      return subscriptions
+
     default:
       return undefined
   }
@@ -477,13 +490,13 @@ const ALL_HEADINGS: HeadingConfig[] = [
     key: 'title',
     name: 'Product',
     classes: 'dpr-my-reports__cell--title',
-    showIn: [ListType.BOOKMARKS, ListType.REQUESTED, ListType.VIEWED],
+    showIn: [ListType.BOOKMARKS, ListType.REQUESTED, ListType.VIEWED, ListType.SUBSCRIPTIONS],
   },
   {
     key: 'description',
     name: 'Description',
     classes: 'dpr-my-reports__cell--description',
-    showIn: [ListType.BOOKMARKS],
+    showIn: [ListType.BOOKMARKS, ListType.SUBSCRIPTIONS],
   },
   {
     key: 'filters',
@@ -498,10 +511,16 @@ const ALL_HEADINGS: HeadingConfig[] = [
     showIn: [ListType.REQUESTED, ListType.VIEWED],
   },
   {
+    key: 'schedule',
+    name: 'Schedule',
+    classes: 'dpr-my-reports__cell--status',
+    showIn: [ListType.SUBSCRIPTIONS],
+  },
+  {
     key: 'actions',
     name: 'Actions',
     classes: 'dpr-my-reports__cell--actions',
-    showIn: [ListType.BOOKMARKS, ListType.REQUESTED, ListType.VIEWED],
+    showIn: [ListType.BOOKMARKS, ListType.REQUESTED, ListType.VIEWED, ListType.SUBSCRIPTIONS],
   },
 ]
 

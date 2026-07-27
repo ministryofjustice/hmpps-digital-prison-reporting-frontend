@@ -16,6 +16,8 @@ import {
 import { FiltersType } from '../components/_filters/filtersTypeEnum'
 import { createQsFromSavedDefaults } from '../utils/Personalisation/personalisationUtils'
 import { components } from '../types/api'
+import SubscriptionStoreService from '../routes/journeys/my-reports/subscriptions/service'
+import { buildReportPageAction } from '../components/my-reports/my-reports-list-item/my-reports-list-item-actions/utils'
 
 interface ActiveSessionArgs {
   services: Services
@@ -103,6 +105,7 @@ const buildDataConfiguration = async (req: Request, res: Response, services: Ser
   // -------------- Fetch Dynamic Values -------------------
   // values that are subject to change during the journey
   const reportIsBookmarked = await setUpBookmark(req, res, services.bookmarkService)
+  const subscriptionData = await setUpSubsrcription(req, res, services.subscriptionStoreService)
   const downloadEnabled = await setUpDownloadConfig(req, res, services.downloadPermissionService)
   const feedbackSubmissionFormPath = setupDownloadFeedbackPaths(req, res)
   const reportUrls = setUpReportUrls(req)
@@ -118,6 +121,7 @@ const buildDataConfiguration = async (req: Request, res: Response, services: Ser
     loadType,
     ...definitionDefaults,
     ...savedDefaults,
+    ...subscriptionData,
   }
 
   // Sync: these values never change → store them under baseKey
@@ -255,6 +259,35 @@ const setUpBookmark = async (req: Request, res: Response, service: BookmarkServi
   }
 
   return reportIsBookmarked
+}
+
+/**
+ * Sets up the subscription config for the active report
+ *
+ * @param {Request} req
+ * @param {Response} res
+ * @param {SubscriptionStoreService} service
+ * @return {*}
+ */
+const setUpSubsrcription = async (req: Request, res: Response, service: SubscriptionStoreService) => {
+  const { reportId, id } = <{ id: string; reportId: string }>req.params
+  const userId = res.locals['dprUser'].id
+
+  let subscribed = false
+  let subscriptionUrl
+
+  if (reportId && id && userId) {
+    subscribed = (await service.isSubscribed(reportId, id, userId)) || false
+    if (subscribed) {
+      const subscribedReport = await service.getSubscription(reportId, id, userId)
+      subscriptionUrl = subscribedReport ? buildReportPageAction(res, req, subscribedReport).href : '/'
+    }
+  }
+
+  return {
+    subscribed,
+    subscriptionUrl,
+  }
 }
 
 /**

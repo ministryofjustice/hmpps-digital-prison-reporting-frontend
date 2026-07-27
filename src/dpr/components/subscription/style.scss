@@ -1,0 +1,14 @@
+.dpr-subscribe-action-content {
+  margin-top: govuk-spacing(4);
+  padding: govuk-spacing(6);
+  border: solid 1px govuk-functional-colour('border');
+  background-color: govuk-functional-colour('surface-background');
+
+  h2 {
+    margin-top: 0px;
+  }
+
+  .govuk-button {
+    margin-bottom: 0px;
+  }
+}

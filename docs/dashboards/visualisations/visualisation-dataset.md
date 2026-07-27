@@ -245,7 +245,7 @@ This definition will return the following dataset:
 | 2025/02/25 | ABC      | north | cell5 |             | 42    |
 ```
 
-Note that rows with `cell` values were also returned here also, as the defintion returns all rows where the `keys` and `measures` are defined.
+Note that rows with `cell` values were also returned here also, as the definition returns all rows where the `keys` and `measures` are defined.
 
 ## expectNull
 
@@ -411,7 +411,7 @@ This definition will return the following dataset:
 | 2025/02/25 | ABC      | north | cell5 |             | 42    |
 ```
 
-Note that rows with `cell` values were also returned here also, as the defintion returns all rows where the `keys` and `measures` are defined.
+Note that rows with `cell` values were also returned here also, as the definition returns all rows where the `keys` and `measures` are defined.
 
 ## Filter by null values
 

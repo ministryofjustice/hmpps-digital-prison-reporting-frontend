@@ -37,6 +37,7 @@ describe('My Reports', () => {
           bookmarks: [],
           recentlyViewedReports: [viewedReady, viewedDashboard, expiredDashboard],
           requestedReports: [requestedReady, requestedAborted, requestedExpired, requestedFailed],
+          subscriptions: [],
         })
 
         cy.task('stubExpiredEndpoint')
@@ -89,6 +90,7 @@ describe('My Reports', () => {
           bookmarks: [],
           recentlyViewedReports: [viewedReady, viewedDashboard, staleViewedExpiredDashboard],
           requestedReports: [requestedReady, staleRequestedAborted, staleRequestedExpired, staleRequestedFailed],
+          subscriptions: [],
         })
 
         resetStaleReportsCheck()
@@ -153,6 +155,7 @@ describe('My Reports', () => {
           bookmarks: [],
           recentlyViewedReports: [],
           requestedReports: [invalidViewedReport as RequestedReport],
+          subscriptions: [],
         })
 
         cy.visit(path)

@@ -16,7 +16,7 @@ export const initPollingView = async ({ req, res, services }: AsyncReportUtilsPa
   if (!requestReportData) return {}
 
   const title = `${type.charAt(0).toUpperCase() + type.substring(1).toLowerCase()} request status`
-  const data = buildCurrentStatusView(requestReportData, requestReportData.status || RequestStatus.SUBMITTED, res)
+  const data = buildCurrentStatusView(requestReportData, requestReportData.status || RequestStatus.SUBMITTED, res, req)
 
   const config = {
     title,

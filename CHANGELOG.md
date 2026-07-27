@@ -1,4 +1,48 @@
 Below you can find the changes included in each release.
+## 7.5.0
+
+- Template handling to not show prisons service url if probation deployment
+
+## 7.4.0
+
+- Subscription mechanics and services
+
+## 7.3.3
+
+- Reinstate migration complete flag
+
+## 7.3.2
+
+- Removed debug logging to migration service. Updated prefix
+
+## 7.3.1
+
+- Added debug logging to migration service
+
+## 7.3.0
+
+- Render parent-child dashboards
+
+## 7.2.0
+
+- Addition of report ID migration service
+
+## 7.1.2
+
+- Bugfix: Render HTML correctly in bookmark descriptions
+
+## 7.1.1
+
+- Update docs with example stacked bar chart
+
+## 7.1.0
+
+- Dashboards: Enable HTML rendering in descriptions, section descriptions and visualisation descriptions
+- Feature: Truncate component - replaces old show more component with better handling of HTML truncation and less bugs
+
+## 7.0.2
+
+- Bug fix: Better handling of undefined data in dashboard creation
 
 ## 7.0.0
 
@@ -471,7 +515,7 @@ You will then be able to get type inference on the injected `locals`.
 ## 4.29.1
 
 - Dashboards - Bugfix: Fix line-timeseries chart when multiple datasets provided with unequal datapoints.
-- Dahsboards: Bar Charts: remove extra space in horizonal bar chart.
+- Dashboards: Bar Charts: remove extra space in horizonal bar chart.
 - Dependency updates
 
 ## 4.29.0
@@ -708,7 +752,7 @@ You will then be able to get type inference on the injected `locals`.
 ## v4.16.0
 
 - Dashboard visualisations: Scorecards & scorecard groups + documentation
-- Dahsboard visualisatonss: Custom bucket defintion for data scoring + documentation
+- Dashboard visualisations: Custom bucket definition for data scoring + documentation
 - Filter ordering
 
 ## v4.15.2

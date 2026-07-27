@@ -13,7 +13,7 @@
   {% set csrfToken = listConfig.csrfToken %}
   {% set maxRows = totals.maxRows %}
 
-  {% set classes = 'dpr-my-reports__table--requests' %}
+  {% set classes = 'dpr-my-reports__table--' + listType %}
   {% set hasItems = items | length > 0 %}
 
   {% if listType == 'bookmarks' %}

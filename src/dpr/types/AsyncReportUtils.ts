@@ -41,4 +41,16 @@ export interface RequestDataResult {
   filtersDescription: string
   filtersData?: RenderFiltersReturnValue | undefined
   reportData: RequestReportData
+  subscriptionConfig: SubscriptionActionConfig | undefined
+}
+
+export interface SubscriptionActionConfig {
+  schedule: string
+  subscribeAction: string
+  unsubscribeAction: string
+  subscribed: boolean
+  subscriptionsEnabled: boolean
+  currentUrl: string
+  csrfToken: string
+  subscriptionUrl: string | undefined
 }

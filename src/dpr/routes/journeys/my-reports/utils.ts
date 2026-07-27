@@ -33,7 +33,7 @@ export const getMyReport = async (
     return undefined
   }
 
-  const schema = type === 'requestedReports' ? RequestedReportSchema : ViewedReportSchema
+  const schema = getSchema(type)
 
   const result = schema.safeParse(rawReport)
 
@@ -70,25 +70,14 @@ export const getMyReport = async (
  * @return {*}  {(Promise<(RequestedReport | RecentlyViewedReport)[]>)}
  */
 export const getAllMyReports = async (
-  type: 'requestedReports' | 'recentlyViewedReports',
+  type: 'requestedReports' | 'recentlyViewedReports' | 'subscriptions',
   services: Services,
   userId: string,
 ): Promise<(RequestedReport | RecentlyViewedReport)[]> => {
-  const serviceMap = {
-    requestedReports: services.requestedReportService,
-    recentlyViewedReports: services.recentlyViewedService,
-  } as const
+  const service = getService(type, services)
+  const schema = getSchema(type)
 
-  const schemaMap = {
-    requestedReports: RequestedReportSchema,
-    recentlyViewedReports: ViewedReportSchema,
-  } as const
-
-  const service = serviceMap[type]
-  const schema = schemaMap[type]
-
-  const reports: StoredReportData[] =
-    type === 'requestedReports' ? await service.getAllReports(userId) : await service.getAllReports(userId)
+  const reports: StoredReportData[] = await service.getAllReports(userId)
 
   const results = await Promise.all(
     reports.map(async rawReport => {
@@ -155,12 +144,12 @@ export const getAllMyReports = async (
  * @param {string} userId
  */
 export const addMyReport = async (
-  type: 'requestedReports' | 'recentlyViewedReports',
+  type: 'requestedReports' | 'recentlyViewedReports' | 'subscriptions',
   reportData: RequestedReport | RecentlyViewedReport,
   services: Services,
   userId: string,
 ) => {
-  const schema = type === 'requestedReports' ? RequestedReportSchema : ViewedReportSchema
+  const schema = getSchema(type)
 
   const result = schema.safeParse(reportData)
 
@@ -179,6 +168,10 @@ export const addMyReport = async (
       await services.recentlyViewedService.setRecentlyViewed(result.data, userId)
       break
 
+    case 'subscriptions':
+      await services.subscriptionStoreService.addReport(userId, result.data)
+      break
+
     default:
       break
   }
@@ -194,7 +187,7 @@ export const addMyReport = async (
  * @return {*}  {Promise<void>}
  */
 export const removeMyReport = async (
-  type: 'requestedReports' | 'recentlyViewedReports',
+  type: 'requestedReports' | 'recentlyViewedReports' | 'subscriptions',
   reportData: GetRemoveMyReportData,
   services: Services,
   userId: string,
@@ -207,6 +200,10 @@ export const removeMyReport = async (
 
   if (type === 'recentlyViewedReports') {
     return services.recentlyViewedService.removeReport(userId, reportId, id, tableId)
+  }
+
+  if (type === 'subscriptions' && reportId && id) {
+    return services.subscriptionStoreService.removeReport(userId, reportId, id)
   }
 
   return undefined
@@ -229,18 +226,35 @@ const fetchReport = async (
 ): Promise<RequestedReport | RecentlyViewedReport | undefined> => {
   const { executionId, tableId } = reportData
 
-  const serviceMap = {
-    requestedReports: services.requestedReportService,
-    recentlyViewedReports: services.recentlyViewedService,
-  } as const
+  const service = getService(type, services)
 
   if (executionId) {
-    return serviceMap[type].getReportByExecutionId(executionId, userId)
+    return service.getReportByExecutionId(executionId, userId)
   }
 
   if (tableId) {
-    return serviceMap[type].getReportByTableId(tableId, userId)
+    return service.getReportByTableId(tableId, userId)
   }
 
   return undefined
+}
+
+const getSchema = (type: 'requestedReports' | 'recentlyViewedReports' | 'subscriptions') => {
+  const schemaMap = {
+    requestedReports: RequestedReportSchema,
+    recentlyViewedReports: ViewedReportSchema,
+    subscriptions: ViewedReportSchema,
+  } as const
+
+  return schemaMap[type]
+}
+
+const getService = (type: 'requestedReports' | 'recentlyViewedReports' | 'subscriptions', services: Services) => {
+  const serviceMap = {
+    requestedReports: services.requestedReportService,
+    recentlyViewedReports: services.recentlyViewedService,
+    subscriptions: services.subscriptionStoreService,
+  } as const
+
+  return serviceMap[type]
 }

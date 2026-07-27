@@ -32,6 +32,12 @@ export const definition: components['schemas']['DashboardDefinition'] = {
       visualisations: [BarChart.dataQualityAllBarWithUnit, BarChart.dataQualityAllBarWithUnitHorizontal],
     },
     {
+      id: 'section-3',
+      display: 'Stacked bar charts',
+      description: 'Examples of stacked bar charts',
+      visualisations: [BarChart.verticalStackedBarChart, BarChart.horizontalStackedBarChart],
+    },
+    {
       id: 'totals-breakdown',
       display: 'Full Dataset',
       visualisations: [fullDataset],

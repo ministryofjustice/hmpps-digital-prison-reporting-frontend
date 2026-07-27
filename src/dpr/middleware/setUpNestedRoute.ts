@@ -38,6 +38,7 @@ export const setupNestedRoute = (): RequestHandler => {
       locals.nestedBaseUrl = base
 
       locals.bookmarkActionEndpoint = setNestedPath(original.bookmarkActionEndpoint, base)
+      locals.subscribePath = setNestedPath(original.subscribePath, base)
       locals.downloadActionEndpoint = setNestedPath(original.downloadActionEndpoint, base)
       locals.productCollectionEndpoint = setNestedPath(original.productCollectionEndpoint, base)
       locals.bookmarkListPath = setNestedPath(original.bookmarkListPath, base)

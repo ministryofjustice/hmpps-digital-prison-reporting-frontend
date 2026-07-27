@@ -4,16 +4,16 @@ import { components } from '../../types/api'
 import { ChartDetails, ChartMetaData } from '../../types/Charts'
 import { DashboardDataResponse } from '../../types/Metrics'
 import DatasetHelper, {
+  getDateValue,
   getTimestampColumn,
   getTimestampMeasure,
-  getDateValue,
 } from '../../utils/Dashboards/VisualisationDatasetHelper'
 import { mapUnitToSymbol } from '../../utils/Dashboards/VisualisationUnitHelper'
 import DashboardListUtils from '../_dashboards/dashboard-list/utils'
 import {
+  DashboardVisualisationCardData,
   DashboardVisualisationData,
   DashboardVisualisationType,
-  DashboardVisualisatonCardData,
   MoJTable,
 } from '../_dashboards/dashboard-visualisation/types'
 import { UnitType } from '../_dashboards/dashboard-visualisation/Validate'
@@ -32,7 +32,7 @@ export const createChart = (
   chartDefinition: components['schemas']['DashboardVisualisationDefinition'],
   rawData: DashboardDataResponse[],
   type: components['schemas']['DashboardVisualisationDefinition']['type'],
-): DashboardVisualisatonCardData | undefined => {
+): DashboardVisualisationCardData | undefined => {
   let table: MoJTable | undefined
   let chart: DashboardVisualisationData | undefined
   let details: ChartDetails | undefined

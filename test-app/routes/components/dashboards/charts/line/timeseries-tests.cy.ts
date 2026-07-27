@@ -19,7 +19,7 @@ context('Dashboard visualisation: line timeseries chart', () => {
 
       requestReportByNameAndDescription({
         name: 'Line-timeseries - Complete dataset',
-        description: 'This dashboard represents example line-timeseries visualisations using a complete dataset.',
+        description: 'This dashboard represents example line-timeseries visualisations using a',
       })
 
       cy.findByRole('heading', { level: 1, name: /Line-timeseries - Complete dataset/ }).should('be.visible')
@@ -656,7 +656,7 @@ context('Dashboard visualisation: line timeseries chart', () => {
 
       requestReportByNameAndDescription({
         name: 'Line-timeseries - Partial dataset',
-        description: 'This dashboard represents example line-timeseries visualisations using a partial dataset.',
+        description: 'This dashboard represents example line-timeseries visualisations using a partial',
       })
 
       cy.findByRole('heading', { level: 1, name: /Line-timeseries - Partial dataset/ }).should('be.visible')

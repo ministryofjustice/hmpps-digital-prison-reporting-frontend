@@ -2,7 +2,7 @@
 const reportTemplateExampleSummariesComplex = {
   id: 'report-template-example-summaries-complex',
   name: 'Summary - with complex titles',
-  description: 'Template: "summary".</br> A report with titled summaries',
+  description: 'Template: "summary".<br> A report with titled summaries',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
   printable: true,

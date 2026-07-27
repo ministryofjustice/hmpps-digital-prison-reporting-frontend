@@ -261,7 +261,7 @@ context('Dashboard visualisation: List', () => {
 
       requestReportByNameAndDescription({
         name: 'List - Complete dataset - Historic',
-        description: 'This dashboard represents example list visualidations using a complete dataset of historic data.',
+        description: 'This dashboard represents example list visualidations using a complete dataset',
       })
 
       cy.findByRole('heading', { level: 1, name: /List - Complete dataset - Historic/ }).should('be.visible')

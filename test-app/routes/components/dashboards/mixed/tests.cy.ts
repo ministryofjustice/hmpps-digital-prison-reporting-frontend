@@ -34,7 +34,7 @@ context('Dashboard visualisation: Mixed charts', () => {
       cy.visit(completeDashboardUrl)
     })
 
-    it('should should have the correct amount of sections', () => {
+    it('should have the correct amount of sections', () => {
       cy.findAllByRole('heading', { level: 2 })
         .should('have.length', 6)
         .each((section, index) => {
@@ -63,7 +63,7 @@ context('Dashboard visualisation: Mixed charts', () => {
         })
     })
 
-    it('should should show the correct data for charts', () => {
+    it('should show the correct data for charts', () => {
       cy.findAllByLabelText(/Bar charts/).within(() => {
         cy.findAllByRole('heading', { level: 3 }).should('have.length', 3)
       })
@@ -113,7 +113,7 @@ context('Dashboard visualisation: Mixed charts', () => {
       cy.visit(partialDashboardUrl)
     })
 
-    it('should should have the correct amount of sections', () => {
+    it('should have the correct amount of sections', () => {
       cy.findAllByRole('heading', { level: 2 })
         .should('have.length', 3)
         .each((section, index) => {
@@ -133,7 +133,7 @@ context('Dashboard visualisation: Mixed charts', () => {
         })
     })
 
-    it('should should show the correct data for charts', () => {
+    it('should show the correct data for charts', () => {
       cy.findAllByLabelText(/Bar charts/).within(() => {
         cy.findAllByRole('heading', { level: 3 }).should('have.length', 3)
       })
@@ -156,7 +156,7 @@ context('Dashboard visualisation: Mixed charts', () => {
 
       requestReportByNameAndDescription({
         name: 'Mixed - Historic - Partial dataset',
-        description: 'This dashboard represents example mixed visualisations using a partial historic dataset',
+        description: 'This dashboard represents example mixed visualisations using a partial historic',
       })
 
       cy.findByRole('heading', { level: 1, name: /Mixed - Historic - Partial dataset/ }).should('be.visible')
@@ -171,7 +171,7 @@ context('Dashboard visualisation: Mixed charts', () => {
       cy.visit(partialDashboardUrl)
     })
 
-    it('should should have the correct amount of sections', () => {
+    it('should have the correct amount of sections', () => {
       cy.findAllByRole('heading', { level: 2 })
         .should('have.length', 3)
         .each((section, index) => {
@@ -191,7 +191,7 @@ context('Dashboard visualisation: Mixed charts', () => {
         })
     })
 
-    it('should should show the correct data for charts', () => {
+    it('should show the correct data for charts', () => {
       cy.findAllByLabelText(/Line timeseries charts/).within(() => {
         cy.findAllByRole('heading', { level: 3 }).should('have.length', 3)
       })

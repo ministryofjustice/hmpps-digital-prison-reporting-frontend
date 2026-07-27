@@ -28,24 +28,19 @@ class RequestedReportService extends ReportStoreService {
 
   async getReportByExecutionId(id: string, userId: string) {
     const userConfig = await this.getState(userId)
+
     return userConfig.requestedReports.find(report => report.executionId === id)
   }
 
   async getReportByTableId(id: string, userId: string) {
     const userConfig = await this.getState(userId)
+
     return userConfig.requestedReports.find(report => report.tableId === id)
   }
 
   async getAllReports(userId: string): Promise<RequestedReport[]> {
     const userConfig = await this.getState(userId)
     return userConfig.requestedReports
-  }
-
-  async getAllReportsById(id: string, userId: string) {
-    const userConfig = await this.getState(userId)
-    return userConfig.requestedReports.filter(requested => {
-      return (requested.id && requested.id === id) || (requested.variantId && requested.variantId === id)
-    })
   }
 
   async updateLastViewed(id: string, userId: string) {

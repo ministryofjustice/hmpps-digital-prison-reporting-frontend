@@ -5,6 +5,11 @@ export interface ChildData {
   data: Array<Record<string, string>>
 }
 
+export interface DashboardParentChildData {
+  id: string
+  data: DashboardDataResponse[]
+}
+
 export interface ParentChildTableData {
   parent: {
     head: Cell[] | null

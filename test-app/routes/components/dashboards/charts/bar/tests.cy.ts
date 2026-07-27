@@ -34,9 +34,9 @@ context('Dashboard visualisation: bar chart', () => {
       cy.visit(completeDashboardUrl)
     })
 
-    it('should should have the correct amount of sections', () => {
+    it('should have the correct amount of sections', () => {
       cy.findAllByRole('heading', { level: 2 })
-        .should('have.length', 4)
+        .should('have.length', 5)
         .each((section, index) => {
           switch (index) {
             case 0:
@@ -49,6 +49,9 @@ context('Dashboard visualisation: bar chart', () => {
               cy.wrap(section).contains('Specified Unit type')
               break
             case 3:
+              cy.wrap(section).contains('Stacked bar charts')
+              break
+            case 4:
               cy.wrap(section).contains('Full Dataset')
               break
             default:
@@ -75,7 +78,7 @@ context('Dashboard visualisation: bar chart', () => {
       cy.get('#bar-data-quality-all-dash-section-visualisation').should('exist').and('be.visible')
     })
 
-    it('should should show the correct data for charts', () => {
+    it('should show the correct data for charts', () => {
       cy.findAllByLabelText(/Simple bar charts/).within(() => {
         cy.findAllByRole('heading', { level: 3 }).should('have.length', 4)
 
@@ -390,7 +393,7 @@ context('Dashboard visualisation: bar chart', () => {
       cy.visit(partialDashboardUrl)
     })
 
-    it('should should have the correct amount of sections', () => {
+    it('should have the correct amount of sections', () => {
       cy.findAllByRole('heading', { level: 2 })
         .should('have.length', 3)
         .each((section, index) => {
@@ -410,7 +413,7 @@ context('Dashboard visualisation: bar chart', () => {
         })
     })
 
-    it('should should show the correct data for charts', () => {
+    it('should show the correct data for charts', () => {
       cy.findAllByLabelText(/Bar charts from a list/).within(() => {
         cy.findAllByRole('heading', { level: 3 }).should('have.length', 4)
 
@@ -842,8 +845,7 @@ context('Dashboard visualisation: bar chart', () => {
 
       requestReportByNameAndDescription({
         name: 'Bar - Invalid visualisation',
-        description:
-          'This dashboard represents example of invlaid bar visualisation definition using a partial dataset.',
+        description: 'This dashboard represents example of invlaid bar visualisation definition using',
       })
 
       cy.url().should('include', '/view-report')
@@ -864,10 +866,10 @@ context('Dashboard visualisation: bar chart', () => {
         .contains('Error: Schema validation: Dashboard Visualisation validation failed:')
       cy.findAllByRole('paragraph')
         .eq(2)
-        .contains("Type: 'bar'. ID: 'invalid-y-axis-defintion-bar'. Issues: X and Y axis must be defined in measure")
+        .contains("Type: 'bar'. ID: 'invalid-y-axis-definition-bar'. Issues: X and Y axis must be defined in measure")
       cy.findAllByRole('paragraph')
         .eq(3)
-        .contains("Type: 'bar'. ID: 'invalid-x-axis-defintion-bar'. Issues: X and Y axis must be defined in measure")
+        .contains("Type: 'bar'. ID: 'invalid-x-axis-definition-bar'. Issues: X and Y axis must be defined in measure")
     })
   })
 })

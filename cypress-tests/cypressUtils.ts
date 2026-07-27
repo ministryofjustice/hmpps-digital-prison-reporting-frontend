@@ -31,7 +31,10 @@ export const startReportRequest = ({ name, description }: { name: string; descri
   cy.findByLabelText(/Reports catalogue.*/i).within(() => {
     cy.findAllByRole('row', {
       name: (_, element) => {
-        return Boolean(element?.textContent?.includes(name)) && Boolean(element?.textContent?.includes(description))
+        const nameText = element?.textContent?.includes(name)
+        const descText = element?.textContent?.includes(description)
+
+        return Boolean(nameText) && Boolean(descText)
       },
     })
       .first()
@@ -106,6 +109,7 @@ export const stubBaseTasks = (resetRedis: boolean = true) => {
     cy.task('resetRedis')
   }
   cy.task('stubFeatureFlags')
+  cy.task('stubGetSubscriptionsEndpoint')
 }
 
 export const stubBookmarks = () => {

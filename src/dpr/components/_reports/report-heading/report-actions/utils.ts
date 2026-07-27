@@ -1,7 +1,7 @@
-import {
-  ExtractedDefinitionData,
-  ExtractedRequestData,
-} from '../../../../routes/journeys/view-report/async/report/types'
+import { Request, Response } from 'express'
+import { RequestedReport } from 'src/dpr/types/UserReports'
+import { buildRequestAction } from 'src/dpr/components/my-reports/my-reports-list-item/my-reports-list-item-actions/utils'
+import { ExtractedDefinitionData } from '../../../../routes/journeys/view-report/async/report/types'
 import {
   ActionTemplate,
   CopyActionParams,
@@ -98,28 +98,32 @@ const setPrintAction = (template: ActionTemplate, data: PrintActionParams) => {
 }
 
 const setActions = (
+  res: Response,
+  req: Request,
   definitionData: ExtractedDefinitionData,
   downloadConfig?: DownloadActionParams,
-  requestData?: ExtractedRequestData,
+  requestData?: RequestedReport | undefined,
 ) => {
   const { reportName, name, printable } = definitionData
+  const requestAction = buildRequestAction(res, req, requestData)
+
   let shareConfig
   let copyConfig
-  if (requestData?.requestUrl?.fullUrl) {
+  if (requestAction) {
     shareConfig = {
       reportName,
       name,
-      url: requestData.requestUrl.fullUrl,
+      url: requestAction.href,
     }
     copyConfig = {
-      url: requestData.requestUrl.fullUrl,
+      url: requestAction.href,
     }
   }
 
   let refreshConfig
-  if (requestData?.executionId && requestData?.requestUrl?.fullUrl) {
+  if (requestData?.executionId && requestAction) {
     refreshConfig = {
-      url: requestData.requestUrl.fullUrl,
+      url: requestAction.href,
       executionId: requestData.executionId,
     }
   }

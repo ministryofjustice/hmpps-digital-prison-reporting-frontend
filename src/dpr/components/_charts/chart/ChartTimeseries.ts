@@ -92,12 +92,20 @@ class TimeseriesChart {
 
   buildDatasets = () => {
     this.chartColoursHelper = new ChartColoursHelper()
+
     for (let index = 0; index < this.datasetCount; index += 1) {
       const data = this.timeBlockData.map(timeperiod => {
-        const valueId = this.measures[1].id
-        const period = timeperiod[index]
-        return period && period[valueId].raw ? Number(period[valueId].raw) : 0
+        const valueId = this.measures[1]?.id
+        const value = timeperiod[index]?.[valueId]?.raw
+
+        if (value == null || valueId == null) {
+          return 0
+        }
+
+        const numericValue = Number(value)
+        return Number.isNaN(numericValue) ? 0 : numericValue
       })
+
       const total = data.reduce((a, c) => a + c, 0)
       const label = this.chartLabelsHelper.getDatasetLabel(this.keys, this.timeBlockData[0][index])
 

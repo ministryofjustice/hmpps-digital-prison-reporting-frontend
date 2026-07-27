@@ -39,4 +39,4 @@ A visualisation definition can be one of the following types:
 
 A dashboard is always backed by a **single** master dataset.
 
-[Visualisaton datasets](/dashboards/visualisations/visualisation-dataset) are defined from the master dataset. See [Visualisaton dataset](/dashboards/visualisations/visualisation-dataset) for details on how to create this.
+[Visualisation datasets](/dashboards/visualisations/visualisation-dataset) are defined from the master dataset. See [Visualisation dataset](/dashboards/visualisations/visualisation-dataset) for details on how to create this.

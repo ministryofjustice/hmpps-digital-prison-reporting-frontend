@@ -136,7 +136,14 @@ class Chart {
   private createDatasetValues = (measures: ChartMeasure[], row: DashboardDataResponse) => {
     return measures.map(column => {
       const rowId = column.id
-      return row[rowId] && row[rowId].raw ? Number(row[rowId].raw) : 0
+      const value = row[rowId]?.raw
+
+      if (!rowId || !value) {
+        return 0
+      }
+
+      const numericValue = Number(value)
+      return Number.isNaN(numericValue) ? 0 : numericValue
     })
   }
 

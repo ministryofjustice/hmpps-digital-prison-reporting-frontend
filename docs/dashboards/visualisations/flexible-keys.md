@@ -7,7 +7,7 @@ title: Flexible keys and Grouping
 
 Flexible keys:
 
-- enable your visualisatons to react to dataset changes from interactive filtering.
+- enable your visualisations to react to dataset changes from interactive filtering.
 - allow you visualisations to be less rigid and become multipurpose.
 
 **contents**

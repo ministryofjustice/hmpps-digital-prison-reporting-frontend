@@ -15,7 +15,7 @@
     <h2 id="{{ sectionLabelId }}" class="govuk-heading-l">{{ title }}</h2>
 
     {% if description %}
-      <p class="govuk-body">{{ description }}</p>
+      <p class="govuk-body">{{ description | dpr.safe }}</p>
     {% endif %}
 
     <div class="dashboard-section-container">

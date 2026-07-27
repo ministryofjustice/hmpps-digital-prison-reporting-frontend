@@ -7,7 +7,7 @@ const reportTemplateExampleListSectionWithSummaries: components['schemas']['Vari
   loadType: LoadType.ASYNC,
   id: 'report-template-list-section-summaries',
   name: 'List-section - with Summaries',
-  description: 'Template: "list-section".</br> A sectioned report with all summaries',
+  description: 'Template: "list-section".<br> A sectioned report with all summaries',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
   printable: true,

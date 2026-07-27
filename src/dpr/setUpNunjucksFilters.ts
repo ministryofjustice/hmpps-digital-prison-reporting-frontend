@@ -1,14 +1,19 @@
 import nunjucks from 'nunjucks'
 import nunjucksDate from 'nunjucks-date'
+
 import { FilterOption } from './components/_filters/filter-input/types'
+import { sanitiseHtml } from './utils/sanitizeHtml'
 
 export const setUpNunjucksFilters = (env: nunjucks.Environment) => {
   env.addFilter('addRequiredAttributeToAll', addRequiredAttributeToAll)
   env.addFilter('json', stringifyJson)
   env.addFilter('capitaliseSentence', capitaliseSentence)
+
   // Namespace our own filters
   env.addFilter('dpr.findError', findError)
   env.addFilter('dpr.spacesToDash', spacesToDash)
+  env.addFilter('dpr.safe', safe)
+
   nunjucksDate.setDefaultFormat('DD/MM/YYYY')
   nunjucksDate.install(env, 'dprDate')
 }
@@ -38,6 +43,12 @@ const addRequiredAttributeToAll = (items: Array<FilterOption>) => {
 
 const spacesToDash = (text: string) => {
   return text?.replace(/ /g, '-') ?? ''
+}
+
+const safe = (text: string) => {
+  const sanitized = sanitiseHtml(text)
+
+  return new nunjucks.runtime.SafeString(sanitized)
 }
 
 export default setUpNunjucksFilters

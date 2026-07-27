@@ -23,9 +23,9 @@ const mockDataItem = {
   field6: '<a href="#" target="_blank">Value 6</a>',
   field7: '2003-02-01T01:00',
   field8:
-    'The awesome yellow planet of Tatooine emerges from a total eclipse, her two moons glowing against the darkness.',
+    ' Tatooine emerges from a total eclipse, her two moons glowing against the darkness.',
   field9:
-    'The awesome yellow planet of Tatooine emerges from a total eclipse, her two moons glowing against the darkness.',
+    'The awesome yellow planet of Tatooine emerges from a total eclipse, her two moons glowing against the darkness. The awesome yellow planet of Tatooine emerges from a total eclipse, her two moons glowing against the darkness. The awesome yellow planet of Tatooine emerges from a total eclipse, her two moons glowing against the darkness.',
   field10:
     'The awesome yellow planet of Tatooine emerges from a total eclipse, her two moons glowing against the darkness.',
   field11:

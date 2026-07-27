@@ -26,9 +26,22 @@ import setUpMockSyncApis from './mocks/mockSyncData/mockSyncApis'
 export default function createApp(services: Services): express.Application {
   const app = express()
   const env = nunjucksSetup(app, path)
+  app.locals['digitalPrisonServicesUrl'] = 'https://digital-prison-services.example.com'
   app.use(express.json())
   app.use(express.urlencoded({ extended: true }))
   app.set('query parser', 'extended')
+
+  // Test helper: must run before setUpDprResources so it still works when API stubs are failing
+  app.post('/embedded/platform/setIsProbationService', (req, res) => {
+    const { isProbationService } = req.body as { isProbationService?: boolean }
+    if (isProbationService === undefined) {
+      delete app.locals['isProbationService']
+    } else {
+      app.locals['isProbationService'] = isProbationService
+    }
+    res.sendStatus(200)
+  })
+
   app.use(setUpWebSession())
   app.use(flash())
   app.use(setUpStaticResources())

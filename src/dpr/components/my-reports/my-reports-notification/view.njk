@@ -1,43 +1,19 @@
-{%- from "moj/components/alert/macro.njk" import mojAlert -%}
-{% from "govuk/components/details/macro.njk" import govukDetails %}
+{% from './removed-reports/view.njk' import dprMyReportsListNotificationRemoved %}
+{% from "../../subscription/subscription-flash/view.njk" import dprSubscriptionFlash %}
 
-{% macro dprMyReportsListNotification(removedReports) %}
-  {% set message = removedReports.message %}
-  {% set details = removedReports.details %}
+{% macro dprMyReportsListNotification(messages) %}
+  {% set removedReports = messages.removedReports %}
+  {% set subscriptionMessages = messages.subscriptionMessages %}
 
   <div class="dpr-my-reports-notification">
-    {% set detailsHtml %}
-    {% set detailsListHtml = '' %}
-      {% for detail in details %}
-        {% set detailsListHtml = detailsListHtml + '<li>' + detail + '</li>' %}
-      {% endfor %}
-      <p class="govuk-body">
-        Reports that are in an EXPIRED, FAILED or ABORTED state are removed automatically after two weeks.
-      </p>
-      <p class="govuk-body">The following reports were removed:</p>
-      <ul>
-        {{ detailsListHtml | safe }}
-      </ul>
-    {% endset %}
 
+    {% if removedReports %}
+      {{ dprMyReportsListNotificationRemoved(removedReports) }}
+    {% endif %}
 
-    {% set alertHtml %}
-      {{ message }}
-
-      {{
-        govukDetails({
-          summaryText: 'Details',
-          html: detailsHtml
-        })
-      }}
-    {% endset %}
-
-    {{
-      mojAlert({
-        variant: "information",
-        dismissible: true,
-        html: alertHtml
-      })
-    }}
+    {% if subscriptionMessages %}
+      {{ dprSubscriptionFlash(subscriptionMessages) }}
+    {% endif %}
   </div>
+
 {% endmacro %}

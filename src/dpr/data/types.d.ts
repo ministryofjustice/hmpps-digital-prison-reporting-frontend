@@ -15,6 +15,10 @@ export interface FeatureFlagConfig {
   updateInterval?: number
 }
 
+export interface MigrationServiceConfig {
+  enabled: boolean
+}
+
 export interface ApiConfig {
   url: string
   agent: AgentConfig

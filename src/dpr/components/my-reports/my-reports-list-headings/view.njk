@@ -5,7 +5,9 @@
       {% set name = head.name %}
 
       <div class="dpr-my-reports__cell dpr-my-reports__cell--head {{ classes }}">
-        <p class="govuk-heading-s">{{ name }}</p>
+        <div class="dpr-my-reports__cell--head-content">
+          <p class="govuk-heading-s">{{ name }}</p>
+        </div>
       </div>
     {% endfor %}
   </div>

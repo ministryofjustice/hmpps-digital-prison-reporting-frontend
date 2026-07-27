@@ -20,6 +20,9 @@ import { ProductCollectionStoreService } from '../services/productCollection/pro
 import { ProductCollectionService } from '../services/productCollection/productCollectionService'
 import { ServiceFeatureConfig } from '../types/DprConfig'
 import { FeatureFlagService } from '../services/featureFlagService'
+import SubscriptionStoreService from '../routes/journeys/my-reports/subscriptions/service'
+import { ReportIdMigrationService } from '../services/reportIdMigrationService'
+import SubscriptionService from '../services/subscriptionService'
 
 export interface InitDPRServicesArgs {
   reportingClient: ReportingClient
@@ -28,6 +31,7 @@ export interface InitDPRServicesArgs {
   missingReportClient: MissingReportClient
   productCollectionClient: ProductCollectionClient
   featureFlagService: FeatureFlagService
+  reportIdMigrationService: ReportIdMigrationService
 }
 
 export interface dprServices {
@@ -38,10 +42,13 @@ export interface dprServices {
   missingReportService: MissingReportService
   recentlyViewedService: RecentlyViewedStoreService
   bookmarkService: BookmarkService
+  subscriptionService: SubscriptionService
+  subscriptionStoreService: SubscriptionStoreService
   downloadPermissionService: DownloadPermissionService
   defaultFilterValuesService: DefaultFilterValuesService
   productCollectionStoreService: ProductCollectionStoreService
   featureFlagService: FeatureFlagService
+  reportIdMigrationService: ReportIdMigrationService
 }
 
 export const createDprServices = (
@@ -53,18 +60,22 @@ export const createDprServices = (
     missingReports: false,
     saveDefaults: false,
     feedbackOnDownload: false,
+    subscriptions: false,
   },
 ): Services => {
   logger.info('Initialising DPR services...')
 
   const { reportingClient, dashboardClient, reportDataStore, missingReportClient, productCollectionClient } = clients
+
   const services: dprServices = {
     reportingService: new ReportingService(reportingClient),
     dashboardService: new DashboardService(dashboardClient),
+    subscriptionService: new SubscriptionService(reportingClient, serviceFeatureConfig),
 
     requestedReportService: new RequestedReportService(reportDataStore),
     recentlyViewedService: new RecentlyViewedStoreService(reportDataStore),
     bookmarkService: new BookmarkService(reportDataStore, serviceFeatureConfig),
+    subscriptionStoreService: new SubscriptionStoreService(reportDataStore, serviceFeatureConfig),
 
     defaultFilterValuesService: new DefaultFilterValuesService(reportDataStore, serviceFeatureConfig),
     productCollectionStoreService: new ProductCollectionStoreService(reportDataStore, serviceFeatureConfig),
@@ -73,6 +84,7 @@ export const createDprServices = (
     missingReportService: new MissingReportService(missingReportClient, serviceFeatureConfig),
     productCollectionService: new ProductCollectionService(productCollectionClient, serviceFeatureConfig),
     featureFlagService: clients.featureFlagService,
+    reportIdMigrationService: clients.reportIdMigrationService,
   }
 
   return services as Services

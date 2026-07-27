@@ -10,6 +10,7 @@ export interface ReportData {
   description: string
   id: string
   name: string
+  schedule?: string
 }
 
 export class StoreItemBuilder {
@@ -53,15 +54,17 @@ export class StoreItemBuilder {
 
   // Builders
   buildReportMetaData = (reportData: ReportData | RequestFormData) => {
-    this.reportType = reportData.type as ReportType
+    const { reportId, id, reportName, name, description, schedule, type } = reportData
+    this.reportType = type as ReportType
 
     return {
       type: this.reportType,
-      reportId: reportData.reportId,
-      reportName: reportData.reportName,
-      description: reportData.description,
-      id: reportData.id,
-      name: reportData.name,
+      reportId,
+      reportName,
+      description,
+      id,
+      name,
+      ...(schedule && { schedule }),
     }
   }
 

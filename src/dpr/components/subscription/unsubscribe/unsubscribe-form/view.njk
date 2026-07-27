@@ -1,0 +1,29 @@
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "../../../button-link/view.njk" import dprButtonLink %}
+
+{% macro dprUnsubscribeForm(subscriptionConfig, link = false) %}
+
+  {% set csrfToken = subscriptionConfig.csrfToken %}
+  {% set currentUrl = subscriptionConfig.currentUrl %}
+  {% set unsubscribeAction = subscriptionConfig.unsubscribeAction %}
+
+  <form class="dpr-subscription-form" method="POST"  action="{{ unsubscribeAction }}">
+
+    <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
+    <input type="hidden" name="returnTo" value="{{ currentUrl }}" />
+
+    {% if link %}
+      {{
+        dprButtonLink({
+          text: "Unsubscribe",
+          attributes: {
+            type: "submit"
+          }
+        })
+      }}
+    {% else %}
+      {{ govukButton({ text: "Unsubscribe" })}}
+    {% endif %}
+  </form>
+
+{% endmacro %}

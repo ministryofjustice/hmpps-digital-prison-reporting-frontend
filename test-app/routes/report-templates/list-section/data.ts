@@ -108,7 +108,7 @@ const listSectionData = {
   bookmarked: false,
   reportName: 'Report templates',
   name: 'List-section',
-  description: 'Template: "list-section",</br> A sectioned report.',
+  description: 'Template: "list-section",<br> A sectioned report.',
   classification: 'OFFICIAL',
   printable: true,
   specification: {

@@ -744,6 +744,7 @@ export interface components {
     }
     DashboardVisualisationDefinition: {
       id: string
+      variantId?: string
       /** @enum {string} */
       type:
         | 'list'

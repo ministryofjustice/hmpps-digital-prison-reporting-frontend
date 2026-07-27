@@ -36,7 +36,7 @@ Use this visualisation type when:
 
 # When not to use
 
-If you want to display a group of scorecards using a single visualisaton definition you should use [Scorecard group](/dashboards/visualisations/scorecard-group)
+If you want to display a group of scorecards using a single visualisation definition you should use [Scorecard group](/dashboards/visualisations/scorecard-group)
 
 Use [Scorecard group](/dashboards/visualisations/scorecard-group) when:
 

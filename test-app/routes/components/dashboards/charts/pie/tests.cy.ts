@@ -19,7 +19,7 @@ context('Dashboard visualisation: Doughnut chart', () => {
 
       requestReportByNameAndDescription({
         name: 'Doughnut - Complete dataset',
-        description: 'This dashboard represents example Doughnut visualisations using a complete dataset.',
+        description: 'This dashboard represents example Doughnut visualisations using a complete',
       })
 
       cy.findByRole('heading', { level: 1, name: /Doughnut - Complete dataset/ }).should('be.visible')
@@ -34,7 +34,7 @@ context('Dashboard visualisation: Doughnut chart', () => {
       cy.visit(completeDashboardUrl)
     })
 
-    it('should should have the correct amount of sections', () => {
+    it('should have the correct amount of sections', () => {
       cy.findAllByRole('heading', { level: 2 })
         .should('have.length', 4)
         .each((section, index) => {
@@ -57,7 +57,7 @@ context('Dashboard visualisation: Doughnut chart', () => {
         })
     })
 
-    it('should should show the correct data for charts', () => {
+    it('should show the correct data for charts', () => {
       cy.findAllByLabelText(/Simple Doughnut charts/).within(() => {
         cy.findAllByRole('heading', { level: 3 }).should('have.length', 4)
 

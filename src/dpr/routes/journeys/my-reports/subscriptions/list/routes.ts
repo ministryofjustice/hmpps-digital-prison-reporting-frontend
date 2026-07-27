@@ -1,0 +1,16 @@
+/* eslint-disable no-param-reassign */
+import { Router } from 'express'
+import SubscribedListController from './controller'
+import { Services } from '../../../../../types/Services'
+
+export function routes({ layoutPath, services }: { layoutPath: string; services: Services }): Router {
+  const router = Router({ mergeParams: true })
+
+  const controller = new SubscribedListController(layoutPath, services)
+
+  router.get(`/`, controller.GET)
+
+  return router
+}
+
+export default routes

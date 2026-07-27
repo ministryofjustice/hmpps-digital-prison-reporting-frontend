@@ -1,0 +1,12 @@
+{% macro dprUnsubscribeText(subscriptionConfig) %}
+
+  {% set schedule = subscriptionConfig.schedule %}
+  {% set subscriptionUrl = subscriptionConfig.subscriptionUrl %}
+
+  <h2>You are subscribed to this report</h2>
+
+  <p>Scheduled to run:  <strong>{{ schedule }}</strong></p>
+
+  <p><a href="{{ subscriptionUrl}}">View the report now</a>, or request the report to see latest data</p>
+
+{% endmacro %}

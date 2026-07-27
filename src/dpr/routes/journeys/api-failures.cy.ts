@@ -4,13 +4,15 @@ import {
   stubBaseTasks,
   stubDefinitionsTasks,
 } from 'cypress-tests/cypressUtils'
-import { resetDefinitionsCheck } from 'test-app/routes/integrationTests/appStateUtils'
+import { resetDefinitionsCheck, setIsProbationService } from 'test-app/routes/integrationTests/appStateUtils'
 
 context('Try to run the app with failing and broken api endpoints', () => {
   const path = '/embedded/platform'
+  const homePageLink = 'Go to digital services home page'
 
   beforeEach(() => {
     stubBaseTasks()
+    setIsProbationService()
   })
 
   describe('erroring endpoints - reports', () => {
@@ -24,6 +26,21 @@ context('Try to run the app with failing and broken api endpoints', () => {
       cy.visit(path)
 
       cy.findByRole('heading', { name: /Sorry, there is a problem with the service/ }).should('be.visible')
+      cy.findByRole('link', { name: homePageLink }).should('be.visible')
+    })
+
+    it('should hide the digital services home page link on service errors for probation services', () => {
+      setIsProbationService(true)
+      executeReportStubs()
+      cy.task('stubDefinitionRequestExamplesSuccess')
+      cy.task('stubRequestSuccessResult20')
+      cy.task('getDefinitionSummariesFailure')
+      resetDefinitionsCheck()
+
+      cy.visit(path)
+
+      cy.findByRole('heading', { name: /Sorry, there is a problem with the service/ }).should('be.visible')
+      cy.findByRole('link', { name: homePageLink }).should('not.exist')
     })
 
     it('should cope with definitions list being unauthd', () => {
@@ -38,6 +55,23 @@ context('Try to run the app with failing and broken api endpoints', () => {
       cy.findByRole('heading', { name: /Sorry, there is a problem with authenticating your request/ }).should(
         'be.visible',
       )
+      cy.findByRole('link', { name: homePageLink }).should('be.visible')
+    })
+
+    it('should hide the digital services home page link on auth errors for probation services', () => {
+      setIsProbationService(true)
+      executeReportStubs()
+      cy.task('stubDefinitionRequestExamplesSuccess')
+      cy.task('stubRequestSuccessResult20')
+      cy.task('getDefinitionSummariesUnauthenticatedFailure')
+      resetDefinitionsCheck()
+
+      cy.visit(path)
+
+      cy.findByRole('heading', { name: /Sorry, there is a problem with authenticating your request/ }).should(
+        'be.visible',
+      )
+      cy.findByRole('link', { name: homePageLink }).should('not.exist')
     })
 
     it('should cope with single definition endpoint failing', () => {

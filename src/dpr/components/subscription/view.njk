@@ -1,0 +1,14 @@
+{% from "./subscribe/view.njk" import dprSubscribe %}
+{% from "./unsubscribe/view.njk" import dprUnsubscribe %}
+
+{% macro dprSubscription(subscriptionConfig, reportConfig) %}
+  {% if subscriptionConfig.schedule %}
+    <div class="dpr-subscribe-action-content">
+      {% if not subscriptionConfig.subscribed %}
+        {{ dprSubscribe(subscriptionConfig, reportConfig, true) }}
+      {% else %}
+        {{ dprUnsubscribe(subscriptionConfig, true) }}
+      {% endif %}
+    </div>
+  {% endif %}
+{% endmacro %}

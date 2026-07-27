@@ -1,0 +1,44 @@
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "../../../button-link/view.njk" import dprButtonLink %}
+
+{% macro dprSubscribeForm(subscriptionConfig, reportConfig, link = false) %}
+
+  {% set reportId = reportConfig.reportId %}
+  {% set id = reportConfig.id %}
+  {% set name = reportConfig.name %}
+  {% set description = reportConfig.description %}
+  {% set reportName = reportConfig.reportName %}
+  {% set type = reportConfig.type %}
+
+  {% set schedule = subscriptionConfig.schedule %}
+  {% set csrfToken = subscriptionConfig.csrfToken %}
+  {% set currentUrl = subscriptionConfig.currentUrl %}
+  {% set subscribeAction = subscriptionConfig.subscribeAction %}
+
+  <form class="dpr-subscription-form" method="POST"  action="{{ subscribeAction }}">
+
+    <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
+    <input type="hidden" name="returnTo" value="{{ currentUrl }}" />
+    <input type="hidden" name="reportId" value="{{ reportId }}" />
+    <input type="hidden" name="id" value="{{ id }}" />
+    <input type="hidden" name="name" value="{{ name }}" />
+    <input type="hidden" name="reportName" value="{{ reportName }}" />
+    <input type="hidden" name="description" value="{{ description }}" />
+    <input type="hidden" name="schedule" value="{{ schedule }}" />
+    <input type="hidden" name="type" value="{{ type }}" />
+
+    {% if link %}
+      {{
+        dprButtonLink({
+          text: "Subscribe",
+          attributes: {
+            type: "submit"
+          }
+        })
+      }}
+    {% else %}
+      {{ govukButton({ text: "Subscribe" })}}
+     {% endif %}
+  </form>
+
+{% endmacro %}

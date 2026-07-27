@@ -2,7 +2,7 @@ import { Request, Response } from 'express'
 
 import { StoredReportData, RequestStatus, LoadType } from '../../../../types/UserReports'
 import { getRouteLocals } from '../../../../utils/localsHelper'
-import { ListType, DprMyReportActions, LinkAction, ViewAction, RemoveAction, MappedBookmarks } from '../../types'
+import { ListType, DprMyReportActions, LinkAction, ViewAction, MappedBookmarks, MyReportsFormAction } from '../../types'
 
 /**
  * Builds the action cell data
@@ -23,7 +23,8 @@ export const buildActionsCell = (
   let refresh: LinkAction | undefined
   let polling: LinkAction | undefined
   let view: ViewAction | undefined
-  let remove: RemoveAction | undefined
+  let remove: MyReportsFormAction | undefined
+  let subscribe: MyReportsFormAction | undefined
 
   const { request } = buildLoadRequestAction(res, req, data)
 
@@ -47,6 +48,7 @@ export const buildActionsCell = (
     case RequestStatus.FINISHED:
       view = buildReportPageAction(res, req, data)
       remove = buildRemoveAction(data, res, req, listType)
+      subscribe = buildSubscriptionAction(data, res, req, listType)
       break
 
     case RequestStatus.PICKED:
@@ -64,6 +66,7 @@ export const buildActionsCell = (
     ...(remove && { remove }),
     ...(view && { view }),
     ...(polling && { polling }),
+    ...(subscribe && { subscribe }),
   }
 }
 
@@ -74,7 +77,12 @@ export const buildActionsCell = (
  * @param {Response} res
  * @return {*}
  */
-const buildRemoveAction = (data: StoredReportData, res: Response, req: Request, listType: ListType): RemoveAction => {
+const buildRemoveAction = (
+  data: StoredReportData,
+  res: Response,
+  req: Request,
+  listType: ListType,
+): MyReportsFormAction => {
   const { reportId, id, executionId, tableId } = data
   const { requestedListPath, recentlyViewedListPath } = getRouteLocals(res)
 
@@ -83,18 +91,57 @@ const buildRemoveAction = (data: StoredReportData, res: Response, req: Request, 
   if (listType === ListType.REQUESTED) {
     // ASYNC report - only executionId is needed
     action = `${requestedListPath}/remove-item/${executionId}`
-  } else if (tableId && executionId) {
-    // ASYNC report - tableId and executionId needed
-    action = `${recentlyViewedListPath}/remove-item/${executionId}/table-id/${tableId}`
-  } else {
-    // SYNC report - reportId and Id needed
-    action = `${recentlyViewedListPath}/remove-item/report-id/${reportId}/id/${id}`
+  }
+
+  if (listType === ListType.VIEWED) {
+    if (tableId && executionId) {
+      // ASYNC report - tableId and executionId needed
+      action = `${recentlyViewedListPath}/remove-item/${executionId}/table-id/${tableId}`
+    } else {
+      // SYNC report - reportId and Id needed
+      action = `${recentlyViewedListPath}/remove-item/report-id/${reportId}/id/${id}`
+    }
   }
 
   return {
     action,
     csrfToken: res.locals.csrfToken,
     returnTo: req.originalUrl,
+    text: 'Remove',
+    type: 'remove',
+  }
+}
+
+/**
+ * Builds the unsubscribe action
+ *
+ * @param {StoredReportData} data
+ * @param {Response} res
+ * @param {Request} req
+ * @param {ListType} listType
+ * @return {*}  {MyReportsFormAction}
+ */
+const buildSubscriptionAction = (
+  data: StoredReportData,
+  res: Response,
+  req: Request,
+  listType: ListType,
+): MyReportsFormAction => {
+  const { reportId, id } = data
+  const { subscribePath } = getRouteLocals(res)
+
+  let action = ''
+
+  if (listType === ListType.SUBSCRIPTIONS) {
+    action = `${subscribePath}/${reportId}/${id}/unsubscribe`
+  }
+
+  return {
+    action,
+    csrfToken: res.locals.csrfToken,
+    returnTo: req.originalUrl,
+    text: 'Unsubscribe',
+    type: 'subscription',
   }
 }
 

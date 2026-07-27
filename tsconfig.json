@@ -35,7 +35,7 @@
     "sourceRoot": "/"
   },
   "exclude": ["node_modules", "dist", "dist-test-app", "package", "esbuild", "dist-docs"],
-  "include": ["**/*.ts"],
+  "include": ["**/*.ts", "test-app/mocks/mockClients/reports/mockVariants/feature-testing/sheduledReport.js"],
   "ts-node": {
     "require": ["tsconfig-paths/register"]
   }

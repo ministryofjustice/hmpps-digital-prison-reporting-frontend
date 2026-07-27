@@ -26,6 +26,7 @@ export interface ExtraLocals {
     lastUpdated?: number | undefined
     flags: Record<string, boolean>
   }
+  isProbationService?: boolean
 
   bookmarkingEnabled: boolean
   downloadingEnabled: boolean

@@ -259,6 +259,7 @@ context('Inputs: Relative date range', () => {
         recentlyViewedReports: [],
         bookmarks: [],
         downloadPermissions: [],
+        subscriptions: [],
         defaultFilters: [
           {
             reportId: 'filter-inputs',
@@ -303,6 +304,7 @@ context('Inputs: Relative date range', () => {
         recentlyViewedReports: [],
         bookmarks: [],
         downloadPermissions: [],
+        subscriptions: [],
         defaultFilters: [
           {
             reportId: 'filter-inputs',
@@ -351,6 +353,7 @@ context('Inputs: Relative date range', () => {
         recentlyViewedReports: [],
         bookmarks: [],
         downloadPermissions: [],
+        subscriptions: [],
         defaultFilters: [
           {
             reportId: 'filter-inputs',

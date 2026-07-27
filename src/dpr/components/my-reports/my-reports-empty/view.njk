@@ -1,8 +1,8 @@
 {% macro dprMyReportsEmpty(listType) %}
   <div class="dpr-my-reports__empty-state">
-    <p class="govuk-body govuk-!-margin-bottom-0"><strong>You have 0 {{ listType }} reports</strong></p>
 
     {% if listType == 'bookmarks' %}
+      <p class="govuk-body govuk-!-margin-bottom-0"><strong>You have 0 {{ listType }} reports</strong></p>
       <p class="govuk-body govuk-!-margin-top-3">
         Bookmarking allows you curate a shortlist of your most used reports for easy access.
       </p>
@@ -10,9 +10,23 @@
         Add bookmarks by clicking the <strong>"Add bookmark"</strong> link next to a report in the catalogue, or in the
         report view.
       </p>
-    {% elif  listType == 'requested' %}
+    {% endif %}
+
+    {% if  listType == 'requested' %}
+      <p class="govuk-body govuk-!-margin-bottom-0"><strong>You have 0 {{ listType }} reports</strong></p>
       <p class="govuk-body govuk-!-margin-top-3 govuk-!-margin-bottom-0">
         To request a report click the <strong>"Request report"</strong> link next to a report in the catalogue
+      </p>
+    {% endif %}
+
+    {% if  listType == 'viewed' %}
+      <p class="govuk-body govuk-!-margin-bottom-0"><strong>You have 0 {{ listType }} reports</strong></p>
+    {% endif %}
+
+    {% if  listType == 'subscriptions' %}
+      <p class="govuk-body govuk-!-margin-bottom-0"><strong>You have 0 {{ listType }}</strong></p>
+      <p class="govuk-body govuk-!-margin-top-3 govuk-!-margin-bottom-0">
+        Subscribe to a scheduled report to receive the latest report automatically after each scheduled refresh
       </p>
     {% endif %}
   </div>

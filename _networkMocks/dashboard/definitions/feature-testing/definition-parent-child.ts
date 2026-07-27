@@ -3,7 +3,7 @@ import * as BarCharts from '../visualisations/complete-dataset/bar/vis-definitio
 import * as DoughnutCharts from '../visualisations/complete-dataset/doughnut/vis-definitions/definitions'
 import * as LineCharts from '../visualisations/complete-dataset/line/vis-definitions/cols-as-labels'
 
-const childDashboard1 = {
+export const childDashboardOneDefinition = {
   id: 'test-child-dashboard-1',
   name: 'Child one dashboard',
   description: 'Dashboard used for mocking child 1 dashboard',
@@ -12,24 +12,24 @@ const childDashboard1 = {
       id: 'child-one-section-1',
       display: 'Child one - Section 1',
       description: 'Child one - Section 1 description',
-      visualisations: [LineCharts.dataQualityMetricTwoLine],
+      visualisations: [LineCharts.dataQualityMetricOneLine],
     },
     {
       id: 'child-one-section-2',
       display: 'Child one - Section 2',
       description: 'Child one - Section 2 - description',
-      visualisations: [LineCharts.dataQualityMetricThreeLine],
+      visualisations: [LineCharts.dataQualityMetricTwoLine],
     },
     {
       id: 'parent-section-1', // should merge to parent-section-1 in the parent dashboard
       display: 'Child one - Section 2',
       description: 'Child one - Section 2 - description',
-      visualisations: [LineCharts.dataQualityMetricOneMetricTwoLine],
+      visualisations: [LineCharts.dataQualityMetricThreeLine],
     },
   ],
 }
 
-const childDashboard2 = {
+export const childDashboardTwoDefinition = {
   id: 'test-child-dashboard-2',
   name: 'Child two dashboard',
   description: 'Dashboard used for mocking child 2 dashboard',
@@ -38,29 +38,29 @@ const childDashboard2 = {
       id: 'child-two-section-1',
       display: 'Child two - Section 1',
       description: 'Child two - Section 1 description',
-      visualisations: [DoughnutCharts.dataQualityMetricTwoDoughnut],
+      visualisations: [DoughnutCharts.dataQualityMetricOneDoughnut],
     },
     {
       id: 'child-two-section-2',
       display: 'Child two - Section 2',
       description: 'Child two - Section 2 description',
-      visualisations: [DoughnutCharts.dataQualityMetricThreeDoughnut],
+      visualisations: [DoughnutCharts.dataQualityMetricTwoDoughnut],
     },
     {
       id: 'parent-section-2', // should merge to parent-section-2 in the parent dashboard
       display: 'Child one - Section 2',
       description: 'Child one - Section 2 - description',
-      visualisations: [DoughnutCharts.dataQualityMetricOneDoughnut],
+      visualisations: [DoughnutCharts.dataQualityMetricThreeDoughnut],
     },
   ],
 }
 
 // Parent dashboard with child variants
-export const definition: components['schemas']['DashboardDefinition'] = {
+export const parentChildDashboardDefinition: components['schemas']['DashboardDefinition'] = {
   id: 'test-parent-dashboard',
   name: 'Test Parent Dashboard',
   description: 'Dashboard used for mocking parent-child dashboards',
-  childVariants: [childDashboard1, childDashboard2],
+  childVariants: [childDashboardOneDefinition, childDashboardTwoDefinition],
   sections: [
     {
       id: 'parent-section-1',

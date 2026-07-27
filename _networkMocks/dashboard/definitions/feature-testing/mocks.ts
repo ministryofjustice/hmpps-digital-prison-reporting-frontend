@@ -2,7 +2,11 @@ import { setupSimpleMock } from '@networkMocks/generateNetworkMock'
 
 import { definition as definitionFeatureFlag } from './definition-feature-flag'
 import { definition as definitionWithLinks } from './definition-links'
-import { definition as definitionParentChild } from './definition-parent-child'
+import {
+  childDashboardOneDefinition,
+  childDashboardTwoDefinition,
+  parentChildDashboardDefinition,
+} from './definition-parent-child'
 import { definition as syncDefinition } from './definition-sync'
 
 const productId = 'feature-testing'
@@ -23,8 +27,25 @@ export const dashboardWithLinksMock = setupSimpleMock(
 )
 
 export const dashboardWithParentChildMock = setupSimpleMock(
-  `/definitions/${productId}/dashboards/${definitionParentChild.id}`,
-  definitionParentChild,
+  `/definitions/${productId}/dashboards/${parentChildDashboardDefinition.id}`,
+  parentChildDashboardDefinition,
 )
 
-export const mocks = [syncDashboardMock, featureFlagDashboardMock, dashboardWithLinksMock, dashboardWithParentChildMock]
+export const dashboardWithChildOneMock = setupSimpleMock(
+  `/definitions/${productId}/dashboards/${childDashboardOneDefinition.id}`,
+  childDashboardOneDefinition,
+)
+
+export const dashboardWithChildTwoMock = setupSimpleMock(
+  `/definitions/${productId}/dashboards/${childDashboardTwoDefinition.id}`,
+  childDashboardTwoDefinition,
+)
+
+export const mocks = [
+  syncDashboardMock,
+  featureFlagDashboardMock,
+  dashboardWithLinksMock,
+  dashboardWithParentChildMock,
+  dashboardWithChildOneMock,
+  dashboardWithChildTwoMock,
+]

@@ -22,6 +22,8 @@ import {
 } from '@networkMocks/dashboard/definitions/visualisations/mocks'
 
 import {
+  dashboardWithChildOneMock,
+  dashboardWithChildTwoMock,
   dashboardWithLinksMock,
   dashboardWithParentChildMock,
   featureFlagDashboardMock,
@@ -97,6 +99,8 @@ const definitionStubs = {
   stubTestDashboard8: () => stubFor(featureFlagDashboardMock),
   stubTestDashboardWithLink: () => stubFor(dashboardWithLinksMock),
   stubTestDashboardWithParentChild: () => stubFor(dashboardWithParentChildMock),
+  stubTestDashboardWithChildOne: () => stubFor(dashboardWithChildOneMock),
+  stubTestDashboardWithChildTwo: () => stubFor(dashboardWithChildTwoMock),
   stubDefinitionSyncDashboard: () => stubFor(syncDashboardMock),
   ...scorecardDefinitionStubs,
   ...listDefinitionStubs,

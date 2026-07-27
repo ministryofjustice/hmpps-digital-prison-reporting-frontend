@@ -1,4 +1,7 @@
 Below you can find the changes included in each release.
+## 7.5.0
+
+- Template handling to not show prisons service url if probation deployment
 
 ## 7.4.0
 

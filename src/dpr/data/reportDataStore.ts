@@ -1,5 +1,6 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { createClient } from 'redis'
+import type { RedisClientType } from 'redis'
 import logger from '../utils/logger'
 import { ReportStoreConfig } from '../types/ReportStore'
 
@@ -9,7 +10,7 @@ class ReportDataStore {
   prefix: string
 
   constructor(
-    private readonly redisClient: RedisClient,
+    private readonly redisClient: RedisClientType,
     prefix = 'dprReportStoreUser:',
   ) {
     redisClient.on('error', error => {

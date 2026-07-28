@@ -3,7 +3,7 @@ const dataQualityMetricOneBar = {
   type: 'bar',
   display: 'MetricOne values',
   options: {
-    horizontal: true,
+    horizontal: false,
   },
   columns: {
     keys: [

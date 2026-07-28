@@ -8,7 +8,7 @@
   {% set metrics = reportData.metrics %}
   {% set lists = reportData.lists %}
   {% set sections = reportData.sections %}
-
+  {% set schedule = reportData.schedule %}
 
   {% set filtersHtml %}
     {% if querySummary.length > 0 %}
@@ -63,6 +63,17 @@
             </td>
             <td>
               <p class="govuk-body-m govuk-!-margin-bottom-0">{{ classification }}</p>
+            </td>
+          </tr>
+        {% endif %}
+
+        {% if schedule %}
+          <tr>
+            <td class="dpr-request-details__table-heading">
+              <p class="govuk-body-m dpr-request-details__table-heading_name">Schedule:</p>
+            </td>
+            <td>
+              <p class="govuk-body-m govuk-!-margin-bottom-0">This report is scheduled to refresh: <strong>{{ schedule }}</strong>. Subscribe to receive the latest report automatically after each scheduled refresh.</p>
             </td>
           </tr>
         {% endif %}

@@ -1,0 +1,10 @@
+{% from "./unsubscribe-text/view.njk" import dprUnsubscribeText %}
+{% from "./unsubscribe-form/view.njk" import dprUnsubscribeForm %}
+
+{% macro dprUnsubscribe(subscriptionConfig, link = false) %}
+
+  {{ dprUnsubscribeText(subscriptionConfig) }}
+
+  {{ dprUnsubscribeForm(subscriptionConfig, link) }}
+
+{% endmacro %}

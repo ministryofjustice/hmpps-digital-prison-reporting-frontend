@@ -7,15 +7,21 @@ import UserReportsController from './controller'
 import bookmarkRoutes from './bookmarks/routes'
 import recentlyViewedRoutes from './recently-viewed/routes'
 import requestedReportsRoutes from './requested-reports/routes'
+import subscribedReportsRoutes from './subscriptions/routes'
 
 export function Routes({ layoutPath, services }: { services: Services; layoutPath: string }): Router {
   const router = Router({ mergeParams: true })
   const userReportsController = new UserReportsController(layoutPath, services)
 
   router.get(`/`, userReportsController.GET)
+
   router.use(`/bookmarks`, bookmarkRoutes({ layoutPath, services }))
+
   router.use(`/recently-viewed`, recentlyViewedRoutes({ layoutPath, services }))
+
   router.use(`/requested-reports`, requestedReportsRoutes({ layoutPath, services }))
+
+  router.use(`/subscriptions`, subscribedReportsRoutes({ layoutPath, services }))
 
   return router
 }

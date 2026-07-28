@@ -24,12 +24,21 @@ export const buildMyReportListRow = (
   res: Response,
   listType: ListType,
 ) => {
+  if (listType !== ListType.SUBSCRIPTIONS) {
+    return {
+      title: buildTitleCell(data),
+      filters: buildFiltersCell(data),
+      status,
+      actions: buildActionsCell(data, res, req, listType),
+      meta: buildMeta(data, res, listType),
+    }
+  }
+
   return {
     title: buildTitleCell(data),
-    filters: buildFiltersCell(data),
-    status,
+    description: buildDescriptionCell(data),
+    schedule: buildScheduleCell(data),
     actions: buildActionsCell(data, res, req, listType),
-    meta: buildMeta(data, res, listType),
   }
 }
 
@@ -45,6 +54,18 @@ const buildTitleCell = (data: StoredReportData): DprMyReportTitle => {
     reportType: data.type,
     timestamp: buildTimestamp(data),
   }
+}
+
+const buildDescriptionCell = (data: StoredReportData) => {
+  const { description } = data
+
+  return description
+}
+
+const buildScheduleCell = (data: StoredReportData) => {
+  const { schedule } = data
+
+  return schedule
 }
 
 /**
@@ -83,7 +104,13 @@ const buildTimestamp = (data: StoredReportData) => {
     }
 
     case RequestStatus.READY: {
-      const { lastViewed } = timestamp
+      const { lastViewed, refresh } = timestamp
+
+      if (refresh) {
+        const ts = refresh ? apiTimestampToUiDateTime(refresh) : now
+        return `Refreshed at ${ts}`
+      }
+
       const ts = lastViewed ? apiTimestampToUiDateTime(lastViewed) : now
       return `Last viewed at ${ts}`
     }

@@ -6,6 +6,7 @@ import Dict = NodeJS.Dict
 import { components, operations } from '../types/api'
 import { ApiConfig, Count, ListWithWarnings } from './types'
 import type { ResultWithHeaders } from './restClient'
+import { DEFAULT_DOWNLOAD_FORMAT, DownloadFormat, downloadPathSuffix } from '../types/Download'
 
 class ReportingClient {
   restClient: RestClient
@@ -156,11 +157,12 @@ class ReportingClient {
     tableId: string,
     query: Record<string, string | string[]>,
     res: Response,
+    format: DownloadFormat = DEFAULT_DOWNLOAD_FORMAT,
   ): Promise<void> {
-    this.logInfo('Streaming download data', { reportId, variantId, tableId })
+    this.logInfo('Streaming download data', { reportId, variantId, tableId, format })
     return this.restClient.getStream(
       {
-        path: `/reports/${reportId}/${variantId}/tables/${tableId}/download`,
+        path: `/reports/${reportId}/${variantId}/tables/${tableId}/download${downloadPathSuffix(format)}`,
         query,
         token,
       },
@@ -173,12 +175,13 @@ class ReportingClient {
     resourceName: string,
     query: Record<string, string | string[]>,
     res: Response,
+    format: DownloadFormat = DEFAULT_DOWNLOAD_FORMAT,
   ): Promise<void> {
-    this.logInfo('Streaming download data', { resourceName })
+    this.logInfo('Streaming download data', { resourceName, format })
 
     return this.restClient.getStream(
       {
-        path: `/${resourceName}/download`,
+        path: `/${resourceName}/download${downloadPathSuffix(format)}`,
         query,
         token,
       },

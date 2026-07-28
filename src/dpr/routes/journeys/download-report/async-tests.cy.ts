@@ -109,11 +109,16 @@ context('Download report', () => {
           )
           cy.findByRole('link', { name: /Return to report to download/ }).click()
           cy.findAllByRole('heading').contains('Successful Report').should('exist')
-          cy.findByRole('button', { name: /Download/ }).should('be.visible')
+          cy.findByRole('button', { name: /Download CSV/ }).should('be.visible')
+          cy.findByRole('button', { name: /Download Excel/ }).should('be.visible')
 
           cy.task('stubAsyncReportDownload')
-          cy.findByRole('button', { name: /Download/ }).click()
+          cy.findByRole('button', { name: /Download CSV/ }).click()
           cy.task('checkCsvDownload4RowsValid').should('equal', true)
+
+          cy.task('stubAsyncReportXlsxDownload')
+          cy.findByRole('button', { name: /Download Excel/ }).click()
+          cy.task('checkXlsxDownloadValid').should('equal', true)
         })
 
         it('should redirect on trying to download after having the permission to download removed', () => {

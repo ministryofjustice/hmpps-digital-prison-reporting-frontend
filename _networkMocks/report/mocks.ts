@@ -10,6 +10,7 @@ import { RequestStatus } from '../../src/dpr/types/UserReports'
 import { requestExampleVariants } from './mockVariants/request-examples'
 import { reportTemplates } from './mockVariants/report-templates'
 import { mockReportVariants } from './mockVariants/mock-report'
+import { xlsxReportBase64 } from './xlsxFixture'
 import { filterInputExamplesVariants } from './mockVariants/filter-input-examples'
 import { featureTestingVariants } from './mockVariants/feature-testing'
 
@@ -119,6 +120,34 @@ export const getSyncReportDownloadMock = {
 3,mno,pqr
 `,
   },
+}
+
+// urlPathPattern matches the whole path, so these do not collide with the csv stubs above.
+const xlsxDownloadResponse = {
+  status: 200,
+  headers: {
+    'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    'Content-Disposition': 'attachment; filename="report.xlsx"',
+  },
+  base64Body: xlsxReportBase64,
+}
+
+export const getAsyncReportXlsxDownloadMock = {
+  priority: 1,
+  request: {
+    method: 'GET',
+    urlPathPattern: `${downloadPathPattern}/xlsx`,
+  },
+  response: xlsxDownloadResponse,
+}
+
+export const getSyncReportXlsxDownloadMock = {
+  priority: 1,
+  request: {
+    method: 'GET',
+    urlPathPattern: '/reports/[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+/download/xlsx',
+  },
+  response: xlsxDownloadResponse,
 }
 
 export const reportsFinishedStatusMock = setupSimpleMock(

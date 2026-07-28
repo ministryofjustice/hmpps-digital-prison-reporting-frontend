@@ -26,6 +26,22 @@ export const actionTemplates: ActionTemplates = {
     text: 'Copy report link',
     ariaLabelText: 'Copy report link',
   },
+  // Excel first: it is what most report users open downloads with, and unlike csv it does
+  // not let Excel reinterpret values such as room numbers as dates.
+  downloadableXlsx: {
+    id: 'dpr-button-downloadable-xlsx',
+    disabled: false,
+    text: 'Download Excel',
+    ariaLabelText: 'Download report as Excel',
+  },
+  downloadableCsv: {
+    id: 'dpr-button-downloadable-csv',
+    disabled: false,
+    text: 'Download CSV',
+    ariaLabelText: 'Download report as CSV',
+  },
+  // Shown in place of the format buttons while downloading is still gated behind the
+  // feedback request form.
   downloadable: {
     id: 'dpr-button-downloadable',
     disabled: false,

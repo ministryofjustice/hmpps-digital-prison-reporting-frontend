@@ -51,6 +51,20 @@ const config: Cypress.ConfigOptions = {
             contents.every(row => row.length > 0)
           )
         },
+        checkXlsxDownloadValid() {
+          const files = globSync(`${cfg.downloadsFolder}/*.xlsx`)
+          if (files.length === 0) return false
+
+          const mostRecentReportPath = files
+            .map(name => ({ name, ctime: fs.statSync(name).ctime }))
+            .sort((a, b) => b.ctime.getTime() - a.ctime.getTime())[0].name
+
+          // An xlsx is a zip container, so a valid one starts with the zip magic bytes.
+          // Catches a truncated or mis-encoded stream, which is the realistic failure here.
+          const contents = fs.readFileSync(mostRecentReportPath)
+
+          return contents.length > 1000 && contents.subarray(0, 2).toString() === 'PK'
+        },
         async checkFilesIncremented(beforeCount) {
           for (let i = 3; i > 0; i -= 1) {
             // eslint-disable-next-line no-await-in-loop

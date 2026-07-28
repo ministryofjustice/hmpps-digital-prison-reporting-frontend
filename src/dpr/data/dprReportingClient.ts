@@ -1,6 +1,7 @@
+import type { RedisClientType } from 'redis'
 import ReportingClient from './reportingClient'
 import DashboardClient from './dashboardClient'
-import ReportDataStore, { RedisClient } from './reportDataStore'
+import ReportDataStore from './reportDataStore'
 import { ApiConfig, FeatureFlagConfig, MigrationServiceConfig } from './types'
 import { FeatureFlagService } from '../services/featureFlagService'
 import ProductCollectionClient from './productCollectionClient'
@@ -9,7 +10,7 @@ import { ReportIdMigrationService } from '../services/reportIdMigrationService'
 
 export const initDprReportingClients = (
   reportingApiConfig: ApiConfig,
-  redisClient: RedisClient,
+  redisClient: RedisClientType,
   storePrefix?: string,
   featureFlagConfig?: FeatureFlagConfig,
   migrationServiceConfig?: MigrationServiceConfig,

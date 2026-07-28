@@ -1,6 +1,6 @@
 Below you can find the changes included in each release.
 
-## 7.6.0
+## 7.8.0
 
 - Feature: Reports can now be downloaded as Excel (xlsx) as well as csv. The report actions bar offers `Download Excel` and `Download CSV` buttons in place of the single `Download` button.
 - Excel type-guesses every value in a csv when the file is opened, so values such as a room number `1.5.2` become dates and `007` loses its leading zeros. Quoting csv fields does not prevent this. The xlsx download gives every cell an explicit type, so text stays text.
@@ -8,6 +8,14 @@ Below you can find the changes included in each release.
 - `reportingService.downloadSyncReport` / `downloadAsyncReport` and the equivalent `reportingClient` methods take an optional trailing `format` argument, defaulting to `csv`. Existing callers are unaffected.
 - The download button id `dpr-button-downloadable` becomes `dpr-button-downloadable-xlsx` and `dpr-button-downloadable-csv` once downloading is permitted. It is unchanged while downloading is still gated behind the request form.
 - Jest now resolves the repo's absolute `src/...` imports, matching the `baseUrl` already set in `tsconfig.json`. Without this, any test touching a module that uses one fails to run.
+
+## 7.7.0
+
+- Reverted Redis version to 5.12.1 as infra cant yet support 6.1.0
+
+## 7.6.0
+
+- Bumped Redis version to 6.1.0
 
 ## 7.5.0
 

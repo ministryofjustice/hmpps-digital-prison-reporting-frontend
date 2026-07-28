@@ -476,7 +476,7 @@ const renderDashboardRequestData = async ({
 
   const { childVariants } = definition
 
-  const masterDefinition = definition
+  const masterDefinition = { ...definition }
   if (childVariants?.length) {
     masterDefinition.sections = buildMasterSections(definition)
   }

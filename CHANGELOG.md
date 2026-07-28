@@ -1,4 +1,13 @@
 Below you can find the changes included in each release.
+
+## 7.7.0
+
+- Reverted Redis version to 5.12.1 as infra cant yet support 6.1.0
+
+## 7.6.0
+
+- Bumped Redis version to 6.1.0
+
 ## 7.5.0
 
 - Template handling to not show prisons service url if probation deployment

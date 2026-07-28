@@ -102,11 +102,16 @@ export const getInteractiveReportDownloadMock = {
   },
 }
 
+// A sync download path is `/{resourceName}/download`, and resourceName itself contains a
+// slash (`reports/list`), so the pattern has to allow one. It is given a lower priority
+// than the async stubs because it would otherwise also match their longer paths.
+const syncDownloadPathPattern = '/reports/[a-zA-Z0-9-_/]+/download'
+
 export const getSyncReportDownloadMock = {
-  priority: 1,
+  priority: 5,
   request: {
     method: 'GET',
-    urlPathPattern: '/reports/[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+/download',
+    urlPathPattern: syncDownloadPathPattern,
   },
   response: {
     status: 200,
@@ -122,7 +127,8 @@ export const getSyncReportDownloadMock = {
   },
 }
 
-// urlPathPattern matches the whole path, so these do not collide with the csv stubs above.
+// urlPathPattern is matched against the whole path, so the `/xlsx` stubs below never
+// collide with the csv stubs above.
 const xlsxDownloadResponse = {
   status: 200,
   headers: {
@@ -142,10 +148,10 @@ export const getAsyncReportXlsxDownloadMock = {
 }
 
 export const getSyncReportXlsxDownloadMock = {
-  priority: 1,
+  priority: 5,
   request: {
     method: 'GET',
-    urlPathPattern: '/reports/[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+/download/xlsx',
+    urlPathPattern: `${syncDownloadPathPattern}/xlsx`,
   },
   response: xlsxDownloadResponse,
 }

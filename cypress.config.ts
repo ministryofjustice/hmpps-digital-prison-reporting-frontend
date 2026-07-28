@@ -55,13 +55,17 @@ const config: Cypress.ConfigOptions = {
           const files = globSync(`${cfg.downloadsFolder}/*.xlsx`)
           if (files.length === 0) return false
 
-          const mostRecentReportPath = files
+          const mostRecent = files
             .map(name => ({ name, ctime: fs.statSync(name).ctime }))
-            .sort((a, b) => b.ctime.getTime() - a.ctime.getTime())[0].name
+            .sort((a, b) => b.ctime.getTime() - a.ctime.getTime())[0]
+
+          // The downloads folder is shared across specs, so require the file to be recent.
+          // Without this the assertion passes on a file an earlier spec left behind.
+          if (Date.now() - mostRecent.ctime.getTime() > 30_000) return false
 
           // An xlsx is a zip container, so a valid one starts with the zip magic bytes.
           // Catches a truncated or mis-encoded stream, which is the realistic failure here.
-          const contents = fs.readFileSync(mostRecentReportPath)
+          const contents = fs.readFileSync(mostRecent.name)
 
           return contents.length > 1000 && contents.subarray(0, 2).toString() === 'PK'
         },

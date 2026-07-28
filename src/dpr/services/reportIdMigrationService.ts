@@ -1,4 +1,4 @@
-import type { RedisClientType } from 'redis'
+import { RedisClient } from '../data/reportDataStore'
 import { MigrationServiceConfig } from '../data/types'
 import { ReportStoreConfig } from '../types/ReportStore'
 import logger from '../utils/logger'
@@ -26,7 +26,7 @@ export class ReportIdMigrationService {
   private static readonly MAX_RETRIES = 3
 
   constructor(
-    private readonly redisClient: RedisClientType,
+    private readonly redisClient: RedisClient,
     migrationServiceConfig?: MigrationServiceConfig | undefined,
   ) {
     this.enabled = migrationServiceConfig ? Boolean(migrationServiceConfig.enabled) : false

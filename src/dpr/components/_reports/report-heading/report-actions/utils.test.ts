@@ -31,11 +31,13 @@ describe('getActions - download buttons', () => {
     actions.forEach(action => expect(action.attributes?.formAction).toEqual(download.formAction))
   })
 
-  it('gives each format its own accessible name', () => {
-    expect(downloadActions().map(action => action.ariaLabelText)).toEqual([
-      'Download report as Excel',
-      'Download report as CSV',
-    ])
+  // WCAG 2.5.3: the accessible name must contain the visible label, so a speech-input
+  // user can activate the button by saying what they can see.
+  it('gives each format an accessible name containing its visible label', () => {
+    const actions = downloadActions()
+
+    expect(actions.map(action => action.ariaLabelText)).toEqual(['Download Excel report', 'Download CSV report'])
+    actions.forEach(action => expect(action.ariaLabelText).toContain(action.text))
   })
 
   // Before the feedback request is submitted there is nothing to choose between yet, so
@@ -54,8 +56,8 @@ describe('getActions - download buttons', () => {
 
     expect(actions.map(action => action.disabled)).toEqual([true, true])
     expect(actions.map(action => action.ariaLabelText)).toEqual([
-      'Download report as Excel, disabled',
-      'Download report as CSV, disabled',
+      'Download Excel report, disabled',
+      'Download CSV report, disabled',
     ])
   })
 

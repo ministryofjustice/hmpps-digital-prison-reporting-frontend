@@ -23,7 +23,9 @@ context('Search component', () => {
       expect(clipboard).to.equal('/copyme')
     })
 
-    cy.findByRole('button', { name: /Download/ })
+    // One button per download format, both posting the same form.
+    cy.findByRole('button', { name: /Download Excel/ }).should('be.visible')
+    cy.findByRole('button', { name: /Download CSV/ })
       .should('be.visible')
       .click()
     cy.url().should('have.string', '/downloadme')

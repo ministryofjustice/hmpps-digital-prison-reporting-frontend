@@ -1,6 +1,7 @@
 import { Response, Request, NextFunction, Router } from 'express'
+import type { RedisClientType } from 'redis'
 import { Services } from './Services'
-import UserDataStore, { RedisClient } from '../data/reportDataStore'
+import UserDataStore from '../data/reportDataStore'
 
 export interface EmbeddedReportUtilsParams {
   req?: Request
@@ -36,7 +37,7 @@ export interface EmbeddedReportFeatures {
 
 export interface EmbeddedReportFeaturesConfig {
   userId?: string
-  redisClient?: RedisClient
+  redisClient?: RedisClientType
   userDataStore?: UserDataStore
 }
 

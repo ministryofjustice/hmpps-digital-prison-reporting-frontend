@@ -22,8 +22,8 @@ export const childDashboardOneDefinition = {
     },
     {
       id: 'parent-section-1', // should merge to parent-section-1 in the parent dashboard
-      display: 'Child one - Section 2',
-      description: 'Child one - Section 2 - description',
+      display: 'Child one - Section 3',
+      description: 'Child one - Section 3 - description',
       visualisations: [LineCharts.dataQualityMetricThreeLine],
     },
   ],
@@ -48,8 +48,8 @@ export const childDashboardTwoDefinition = {
     },
     {
       id: 'parent-section-2', // should merge to parent-section-2 in the parent dashboard
-      display: 'Child one - Section 2',
-      description: 'Child one - Section 2 - description',
+      display: 'Child two - Section 3',
+      description: 'Child two - Section 3 - description',
       visualisations: [DoughnutCharts.dataQualityMetricThreeDoughnut],
     },
   ],

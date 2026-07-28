@@ -20,8 +20,8 @@ const childDashboard1 = {
     },
     {
       id: 'parent-section-1',
-      display: 'Child one - Section 2',
-      description: 'Child one - Section 2 - description',
+      display: 'Child one - Section 3',
+      description: 'Child one - Section 3 - description',
       visualisations: [line.dataQualityLine],
     },
     {

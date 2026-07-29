@@ -7,6 +7,7 @@ import logger from '../../../utils/logger'
 import { getActiveJourneyValue } from '../../../utils/sessionHelper'
 import { qsToQueryObject } from '../../../utils/queryMappers'
 import { getField, getFields, validateDefinition } from '../../../utils/definitionUtils'
+import { DownloadFormat, toDownloadFormat } from '../../../types/Download'
 
 /**
  * Streams the download for an Async repoort
@@ -30,10 +31,11 @@ const streamDownloadAsyncData = async (args: {
   id: string
   queryParams: Record<string, string | string[]>
   res: Response
+  format: DownloadFormat
 }) => {
-  const { token, services, tableId, reportId, id, queryParams, res } = args
+  const { token, services, tableId, reportId, id, queryParams, res, format } = args
 
-  return services.reportingService.downloadAsyncReport(token, reportId, id, tableId, queryParams, res)
+  return services.reportingService.downloadAsyncReport(token, reportId, id, tableId, queryParams, res, format)
 }
 
 /**
@@ -54,12 +56,13 @@ const streamDownloadSyncData = async (args: {
   token: string
   queryParams: Record<string, string | string[]>
   res: Response
+  format: DownloadFormat
 }) => {
-  const { token, services, queryParams, definition, res } = args
+  const { token, services, queryParams, definition, res, format } = args
   const { variant } = validateDefinition(definition)
   const { resourceName } = variant
 
-  return services.reportingService.downloadSyncReport(token, resourceName, queryParams, res)
+  return services.reportingService.downloadSyncReport(token, resourceName, queryParams, res, format)
 }
 
 /**
@@ -81,10 +84,14 @@ export const downloadReport = async ({ req, services, res }: { req: Request; ser
   const { reportId, id, tableId } = req.params as { reportId: string; id: string; tableId?: string }
   const { token, definitionsPath: dataProductDefinitionsPath } = LocalsHelper.getValues(res)
 
+  // Sent by the format button the user pressed. Narrowed to a known format because it
+  // ends up in the outbound API path.
+  const format = toDownloadFormat(req.body?.format)
+
   const definition = await services.reportingService.getDefinition(token, reportId, id, dataProductDefinitionsPath)
   const queryParams = setQueryForDownload(req, definition, dataProductDefinitionsPath)
 
-  logger.info(`Initiating streaming...`)
+  logger.info(`Initiating streaming as ${format}...`)
 
   if (!tableId) {
     await streamDownloadSyncData({
@@ -93,6 +100,7 @@ export const downloadReport = async ({ req, services, res }: { req: Request; ser
       token,
       queryParams,
       res,
+      format,
     })
   } else {
     await streamDownloadAsyncData({
@@ -103,6 +111,7 @@ export const downloadReport = async ({ req, services, res }: { req: Request; ser
       tableId,
       queryParams,
       res,
+      format,
     })
   }
 }

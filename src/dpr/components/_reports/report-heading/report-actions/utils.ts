@@ -13,6 +13,7 @@ import {
   ShareActionParams,
 } from './types'
 import { actionTemplates } from './actionsTemplate'
+import { DownloadFormat } from '../../../../types/Download'
 
 export const getActions = ({ refresh, print, share, copy, download }: GetActionsParams): ReportAction[] => {
   const actions: ReportAction[] = []
@@ -34,7 +35,7 @@ export const getActions = ({ refresh, print, share, copy, download }: GetActions
   }
 
   if (download) {
-    actions.push(setDownloadAction(actionTemplates.downloadable, download))
+    actions.push(...setDownloadActions(download))
   }
 
   return actions
@@ -68,7 +69,34 @@ const setCopyAction = (template: ActionTemplate, data: CopyActionParams) => {
   }
 }
 
-const setDownloadAction = (template: ActionTemplate, data: DownloadActionParams) => {
+/**
+ * Builds the download buttons.
+ *
+ * Once downloading is permitted the user picks a format, so we render one button per
+ * format. Each is a submit button on the shared download form carrying `format`, which is
+ * how the server learns which one was pressed.
+ *
+ * While downloading is still gated behind the feedback request form there is nothing to
+ * choose between yet, so a single "Enable download" button is rendered instead.
+ */
+const setDownloadActions = (data: DownloadActionParams): ReportAction[] => {
+  const { canDownload } = data
+
+  if (!canDownload) {
+    return [setDownloadAction(actionTemplates.downloadable, data)]
+  }
+
+  return [
+    setDownloadAction(actionTemplates.downloadableXlsx, data, 'xlsx'),
+    setDownloadAction(actionTemplates.downloadableCsv, data, 'csv'),
+  ]
+}
+
+const setDownloadAction = (
+  template: ActionTemplate,
+  data: DownloadActionParams,
+  format?: DownloadFormat,
+): ReportAction => {
   const { canDownload, enabled } = data
   const { text, ariaLabelText } = template
 
@@ -78,6 +106,7 @@ const setDownloadAction = (template: ActionTemplate, data: DownloadActionParams)
     ...template,
     text: canDownload ? text : 'Enable download',
     disabled: !enabled,
+    ...(format && { name: 'format', value: format }),
     attributes: {
       ...data,
     },

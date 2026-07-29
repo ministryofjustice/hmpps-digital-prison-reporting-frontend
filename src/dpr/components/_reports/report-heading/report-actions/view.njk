@@ -3,12 +3,32 @@
 
 {% macro dprReportActions(buttonList) %}
 
+  {#
+    There can be more than one download button - one per file format - but they all submit
+    the same form, so collect them first and render the form once outside the loop.
+    Duplicating it would produce several elements sharing the download-report-form id.
+  #}
+  {% set downloadButtons = [] %}
+  {% for button in buttonList %}
+    {% if 'dpr-button-downloadable' in button.id and not button.disabled %}
+      {% set downloadButtons = (downloadButtons.push(button), downloadButtons) %}
+    {% endif %}
+  {% endfor %}
+
+  {% if downloadButtons.length %}
+    <form id="download-report-form" action="{{ downloadButtons[0].attributes.formAction }}" method="post">
+      <input type="hidden" name="_csrf" value="{{ downloadButtons[0].attributes.csrfToken }}" />
+    </form>
+  {% endif %}
+
   {% set items = [] %}
   {% for button in buttonList %}
-    {% if button.id === 'dpr-button-downloadable' %}
+    {% if 'dpr-button-downloadable' in button.id %}
       {%
         set item = {
           text: button.text,
+          name: button.name,
+          value: button.value,
           attributes: {
             id: button.id,
             disabled: button.disabled,
@@ -22,12 +42,6 @@
           classes: '{{ button.id }} govuk-button--secondary'
         }
       %}
-
-      {% if not button.disabled %}
-        <form id="download-report-form" action="{{ button.attributes.formAction }}" method="post">
-          <input type="hidden" name="_csrf" value="{{ button.attributes.csrfToken }}" />
-        </form>
-      {% endif %}
     {% else %}
       {%
         set item = {

@@ -90,11 +90,16 @@ context('Platform sync download tests', () => {
           )
           cy.findByRole('link', { name: /Return to report to download/ }).click()
           cy.findAllByRole('heading').contains('Sync report').should('exist')
-          cy.findByRole('button', { name: /Download/ }).should('be.visible')
+          cy.findByRole('button', { name: /Download CSV/ }).should('be.visible')
+          cy.findByRole('button', { name: /Download Excel/ }).should('be.visible')
 
           cy.task('stubSyncReportDownload')
-          cy.findByRole('button', { name: /Download/ }).click()
+          cy.findByRole('button', { name: /Download CSV/ }).click()
           cy.task('checkCsvDownload4RowsValid').should('equal', true)
+
+          cy.task('stubSyncReportXlsxDownload')
+          cy.findByRole('button', { name: /Download Excel/ }).click()
+          cy.task('checkXlsxDownloadValid').should('equal', true)
         })
 
         it('should redirect on trying to download after having the permission to download removed', () => {

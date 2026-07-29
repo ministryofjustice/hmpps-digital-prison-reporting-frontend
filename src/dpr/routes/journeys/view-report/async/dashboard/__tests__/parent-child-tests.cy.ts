@@ -85,6 +85,21 @@ context('Viewing a parent-child dashboard', () => {
             'Child two - Section 2',
           ])
         })
+
+        // check parent sections have the correct parent and child visualisations
+        cy.findAllByLabelText(/Parent - Section 1/).within(() => {
+          cy.findAllByRole('heading', { level: 3 }).should('have.length', 2)
+
+          cy.findByLabelText(/MetricOne values/).should('exist')
+          cy.findByLabelText(/MetricThree values/).should('exist')
+        })
+
+        cy.findAllByLabelText(/Parent - Section 2/).within(() => {
+          cy.findAllByRole('heading', { level: 3 }).should('have.length', 2)
+
+          cy.findByLabelText(/MetricTwo values/).should('exist')
+          cy.findByLabelText(/MetricThree values/).should('exist')
+        })
       })
     })
 

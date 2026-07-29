@@ -218,7 +218,7 @@
     "playwright": "1.61.0",
     "prettier": "3.8.4",
     "prettier-plugin-jinja-template": "2.2.0",
-    "rollup": "4.61.1",
+    "rollup": "4.62.2",
     "rollup-plugin-copy": "3.5.0",
     "rollup-plugin-dts": "6.4.1",
     "sass": "^1.66.1",

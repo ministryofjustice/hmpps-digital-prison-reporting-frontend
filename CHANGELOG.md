@@ -1,5 +1,8 @@
 Below you can find the changes included in each release.
 
+## 7.7.1
+- Add E2Es and VRT tests for parent-child dashboards
+
 ## 7.7.0
 
 - Reverted Redis version to 5.12.1 as infra cant yet support 6.1.0

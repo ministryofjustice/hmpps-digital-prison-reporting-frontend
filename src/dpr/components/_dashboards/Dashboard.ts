@@ -8,10 +8,7 @@ import { Services } from '../../types/Services'
 import { LoadType, ReportType, RequestedReport } from '../../types/UserReports'
 import { FilterType } from '../_filters/filter-input/enum'
 import { GranularDateRangeFilterValue, PartialDate } from '../_filters/types'
-import {
-  DashboardDefinition as DashboardDefinitionWithChildVariants,
-  DashboardSection,
-} from './dashboard-visualisation/types'
+import { DashboardSection } from './dashboard-visualisation/types'
 
 // Classes
 import ReportQuery from '../../types/ReportQuery'
@@ -142,7 +139,7 @@ export default class Dashboard extends DataPresentation {
 
   setParentChildData = async () => {
     // Get the child data, if applicable
-    const childVariants = (this.definition as DashboardDefinitionWithChildVariants)?.childVariants
+    const childVariants = (this.definition as DashboardDefinition)?.childVariants
 
     this.parentChildData = !childVariants
       ? []

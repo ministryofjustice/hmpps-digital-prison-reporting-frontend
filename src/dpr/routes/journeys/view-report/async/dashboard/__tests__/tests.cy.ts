@@ -1,5 +1,9 @@
 import { resetFeatureFlags } from 'test-app/routes/integrationTests/appStateUtils'
-import { checkA11y, executeDashboardStubs, startReportRequest } from '../../../../../../../cypress-tests/cypressUtils'
+import {
+  checkA11y,
+  executeDashboardStubs,
+  startReportRequest,
+} from '../../../../../../../../cypress-tests/cypressUtils'
 
 context('Viewing a dashboard', () => {
   const path = '/'

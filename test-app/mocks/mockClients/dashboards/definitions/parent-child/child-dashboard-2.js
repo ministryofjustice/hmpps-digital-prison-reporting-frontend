@@ -20,8 +20,8 @@ const childDashboard2 = {
     },
     {
       id: 'parent-section-2',
-      display: 'Child one - Section 2',
-      description: 'Child one - Section 2 - description',
+      display: 'Child two - Section 3',
+      description: 'Child two - Section 3 - description',
       visualisations: [doughnut.dataQualityMetricOneDoughnut],
     },
     {

@@ -1,21 +1,21 @@
 import { getMyReport } from 'src/dpr/routes/journeys/my-reports/utils'
-import {
-  RequestStatus,
-  UpstreamSignal,
-  StatusResolution,
-  FailureInfo,
-  EvaluateAndUpdateReportStatusOptions,
-  GetReportStatusOptions,
-  TERMINAL_STATUSES,
-  FIFTEEN_MINUTES_MS,
-  ExpireFinishedReportsOptions,
-} from './types'
-import ErrorHandler, { DprErrorMessage } from '../ErrorHandler/ErrorHandler'
+import { components } from '../../types/api'
 import { Services } from '../../types/Services'
-import { StoredReportData, ReportType, RequestedReport } from '../../types/UserReports'
+import { ReportType, RequestedReport, StoredReportData } from '../../types/UserReports'
+import ErrorHandler, { DprErrorMessage } from '../ErrorHandler/ErrorHandler'
 import { getValues } from '../localsHelper'
 import { getAllMyReports } from '../reportStoreHelper'
-import { components } from '../../types/api'
+import {
+  EvaluateAndUpdateReportStatusOptions,
+  ExpireFinishedReportsOptions,
+  FailureInfo,
+  FIFTEEN_MINUTES_MS,
+  GetReportStatusOptions,
+  RequestStatus,
+  StatusResolution,
+  TERMINAL_STATUSES,
+  UpstreamSignal,
+} from './types'
 
 /**
  * ------------------------------------------------------------
@@ -49,6 +49,7 @@ async function getStatusByType({
   tableId,
 }: GetReportStatusOptions): Promise<UpstreamSignal> {
   try {
+    // fix
     const response =
       reportType === ReportType.DASHBOARD
         ? await services.dashboardService.getAsyncStatus(token, reportId, id, executionId, tableId, definitionsPath)
@@ -129,7 +130,7 @@ async function getStatus({
   parentSignal: UpstreamSignal
   childSignals: UpstreamSignal[]
 }> {
-  const { reportId, id, tableId, executionId, dataProductDefinitionsPath } = stored
+  const { reportId, id, tableId, executionId, dataProductDefinitionsPath, type } = stored
   const definitionsPath = dataProductDefinitionsPath || ''
 
   if (!executionId || !tableId) {
@@ -137,7 +138,7 @@ async function getStatus({
   }
 
   const parentSignal = await getStatusByType({
-    reportType: stored.type,
+    reportType: type,
     services,
     token,
     reportId,
@@ -158,7 +159,7 @@ async function getStatus({
 
           return getStatusByType({
             services,
-            reportType: ReportType.REPORT,
+            reportType: type,
             token,
             reportId,
             id,

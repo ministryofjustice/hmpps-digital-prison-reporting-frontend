@@ -4,12 +4,7 @@ import { components } from '../../../types/api'
 import ChartUtils from '../../_charts/utils'
 import { PartialDate } from '../../_filters/types'
 import DashboardListUtils from '../dashboard-list/utils'
-import {
-  DashboardDefinition,
-  DashboardSection,
-  DashboardVisualisation,
-  DashboardVisualisationType,
-} from '../dashboard-visualisation/types'
+import { DashboardSection, DashboardVisualisation, DashboardVisualisationType } from '../dashboard-visualisation/types'
 import { getFeatureFlagVisTypeMap } from '../dashboard-visualisation/utils'
 import ScorecardGroupVisualisation from '../scorecard-group/ScorecardGroup'
 import ScorecardVisualisation from '../scorecard/Scorecard'
@@ -111,15 +106,19 @@ export const addVariantIdToSection = (
 /**
  * Builds a master section collection from a parent dashboard and its child variants.
  *
- * @param {DashboardDefinition} definition
+ * @param {components['schemas']['DashboardDefinition']} definition
  * @return {*}  {components['schemas']['DashboardSectionDefinition'][]}
  */
 export const buildMasterSections = (
-  definition: DashboardDefinition, // TODO: Update this type to components['schemas']['DashboardDefinition'] when `childVariants` field is present
+  definition: components['schemas']['DashboardDefinition'],
 ): components['schemas']['DashboardSectionDefinition'][] => {
   const parentSections = definition.sections.map(section => addVariantIdToSection(section, definition.id))
 
-  return definition.childVariants.reduce(
+  if (!definition.childVariants || definition.childVariants.length === 0) {
+    return parentSections
+  }
+
+  return definition.childVariants?.reduce(
     (sections, childVariant) =>
       childVariant.sections
         .map(section => addVariantIdToSection(section, childVariant.id))

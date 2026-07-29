@@ -1,30 +1,33 @@
 import {
-  listCompleteDatasetMock,
-  listCompleteDatasetHistoricMock,
-  listPartialDatasetMock,
-  listPartialDatasetHistoricMock,
-  scorecardsCompleteDatasetMock,
-  scorecardsBucketCompleteDatasetMock,
-  scorecardGroupCompleteDatasetMock,
   barCompleteDatasetMock,
+  barInvalidMock,
   barPartialDatasetMock,
   doughnutCompleteDatasetMock,
-  lineTimeseriesCompleteDatasetMock,
-  lineTimeseriesPartialDatasetMock,
-  barInvalidMock,
-  listInvalidDefMock,
-  listInvalidVisDefMock,
   lineCompleteDatasetMock,
   linePartialDatasetMock,
+  lineTimeseriesCompleteDatasetMock,
+  lineTimeseriesPartialDatasetMock,
+  listCompleteDatasetHistoricMock,
+  listCompleteDatasetMock,
+  listInvalidDefMock,
+  listInvalidVisDefMock,
+  listPartialDatasetHistoricMock,
+  listPartialDatasetMock,
   mixedCompleteDatasetMock,
-  mixedPartialDatasetMock,
   mixedPartialDatasetHistoricMock,
+  mixedPartialDatasetMock,
+  scorecardGroupCompleteDatasetMock,
+  scorecardsBucketCompleteDatasetMock,
+  scorecardsCompleteDatasetMock,
 } from '@networkMocks/dashboard/definitions/visualisations/mocks'
 
 import {
-  syncDashboardMock,
-  featureFlagDashboardMock,
+  dashboardWithChildOneMock,
+  dashboardWithChildTwoMock,
   dashboardWithLinksMock,
+  dashboardWithParentChildMock,
+  featureFlagDashboardMock,
+  syncDashboardMock,
 } from '@networkMocks/dashboard/definitions/feature-testing/mocks'
 
 // DATA
@@ -37,18 +40,18 @@ import {
   dashboardResultPartialDataMock,
 } from '@networkMocks/dashboard/data/partial-data/mocks'
 
-import { stubFor } from '@networkMocks/generateNetworkMock'
-import {
-  getDashboardStatusFinishedMock,
-  getDashboardStatusStartedMock,
-  requestAsyncDashboardMock,
-} from '@networkMocks/dashboard/mocks'
-import { dashboardFailureStubs } from './failures'
 import {
   dashboardResultEmptyDataSyncMock,
   dashboardResultMissingFirstRowDataSyncMock,
   dashboardResultUndefinedMock,
 } from '@networkMocks/dashboard/data/empty-data/mocks'
+import {
+  getDashboardStatusFinishedMock,
+  getDashboardStatusStartedMock,
+  requestAsyncDashboardMock,
+} from '@networkMocks/dashboard/mocks'
+import { stubFor } from '@networkMocks/generateNetworkMock'
+import { dashboardFailureStubs } from './failures'
 
 // DEFINITIONS
 const listDefinitionStubs = {
@@ -95,6 +98,9 @@ const mixedChartsDefinitionStubs = {
 const definitionStubs = {
   stubTestDashboard8: () => stubFor(featureFlagDashboardMock),
   stubTestDashboardWithLink: () => stubFor(dashboardWithLinksMock),
+  stubTestDashboardWithParentChild: () => stubFor(dashboardWithParentChildMock),
+  stubTestDashboardWithChildOne: () => stubFor(dashboardWithChildOneMock),
+  stubTestDashboardWithChildTwo: () => stubFor(dashboardWithChildTwoMock),
   stubDefinitionSyncDashboard: () => stubFor(syncDashboardMock),
   ...scorecardDefinitionStubs,
   ...listDefinitionStubs,

@@ -9,6 +9,9 @@ Below you can find the changes included in each release.
 - The download button id `dpr-button-downloadable` becomes `dpr-button-downloadable-xlsx` and `dpr-button-downloadable-csv` once downloading is permitted. It is unchanged while downloading is still gated behind the request form.
 - Jest now resolves the repo's absolute `src/...` imports, matching the `baseUrl` already set in `tsconfig.json`. Without this, any test touching a module that uses one fails to run.
 
+## 7.7.1
+- Add E2Es and VRT tests for parent-child dashboards
+
 ## 7.7.0
 
 - Reverted Redis version to 5.12.1 as infra cant yet support 6.1.0

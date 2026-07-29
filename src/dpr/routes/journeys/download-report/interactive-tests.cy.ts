@@ -36,7 +36,7 @@ context('Download Interactive report', () => {
 
       // Passes if matches the mock - if not the test will fail
       it('should send the correct query to the download endpoint', () => {
-        cy.findByRole('button', { name: /Download/ }).click()
+        cy.findByRole('button', { name: /Download CSV/ }).click()
         cy.contains(/Request was not matched/i).should('not.exist')
       })
     })

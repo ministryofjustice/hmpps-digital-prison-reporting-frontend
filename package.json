@@ -119,6 +119,10 @@
       "json",
       "node",
       "ts"
+    ],
+    "moduleDirectories": [
+      "node_modules",
+      "<rootDir>"
     ]
   },
   "nodemonConfig": {

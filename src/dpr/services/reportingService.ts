@@ -4,6 +4,7 @@ import type ReportingClient from '../data/reportingClient'
 import ReportQuery from '../types/ReportQuery'
 import Dict = NodeJS.Dict
 import { ListWithWarnings } from '../data/types'
+import { DEFAULT_DOWNLOAD_FORMAT, DownloadFormat } from '../types/Download'
 
 class ReportingService {
   constructor(private readonly reportingClient: ReportingClient) {
@@ -73,8 +74,9 @@ class ReportingService {
     tableId: string,
     query: Record<string, string | string[]>,
     res: Response,
+    format: DownloadFormat = DEFAULT_DOWNLOAD_FORMAT,
   ): Promise<void> {
-    return this.reportingClient.downloadAsyncReport(token, reportId, variantId, tableId, query, res)
+    return this.reportingClient.downloadAsyncReport(token, reportId, variantId, tableId, query, res, format)
   }
 
   async downloadSyncReport(
@@ -82,8 +84,9 @@ class ReportingService {
     resourceName: string,
     query: Record<string, string | string[]>,
     res: Response,
+    format: DownloadFormat = DEFAULT_DOWNLOAD_FORMAT,
   ): Promise<void> {
-    return this.reportingClient.downloadSyncReport(token, resourceName, query, res)
+    return this.reportingClient.downloadSyncReport(token, resourceName, query, res, format)
   }
 
   async getAsyncReport(

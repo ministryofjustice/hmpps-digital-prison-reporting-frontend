@@ -14,7 +14,9 @@ import {
   getAsyncInteractiveCountMock,
   getAsyncReportResultMock,
   getAsyncReportDownloadMock,
+  getAsyncReportXlsxDownloadMock,
   getSyncReportDownloadMock,
+  getSyncReportXlsxDownloadMock,
   getReportResultCountMock,
   reportsAbortedStatusMock,
   reportsExpiredStatusMock,
@@ -706,8 +708,10 @@ export const stubs = {
   stubMissingRequestSubmitSuccess: () => stubFor(missingReportSubmitSuccessMock),
   stubMissingRequestSubmitFail: () => stubFor(missingReportSubmitFailMock),
   stubAsyncReportDownload: () => stubFor(getAsyncReportDownloadMock),
+  stubAsyncReportXlsxDownload: () => stubFor(getAsyncReportXlsxDownloadMock),
   stubAsyncInteractiveReportDownload: () => stubFor(getInteractiveReportDownloadMock),
   stubSyncReportDownload: () => stubFor(getSyncReportDownloadMock),
+  stubSyncReportXlsxDownload: () => stubFor(getSyncReportXlsxDownloadMock),
   stubDefinitionUnprintable: () =>
     stubFor(setupSimpleReportDefinitionResponseMock(`feature-testing`, featureTestingUnprintable)),
   stubDefinitionEmptyReport: () =>

@@ -44,6 +44,8 @@ export interface ActionTemplates {
   printable: ActionTemplate
   sharable: ActionTemplate
   copy: ActionTemplate
+  downloadableXlsx: ActionTemplate
+  downloadableCsv: ActionTemplate
   downloadable: ActionTemplate
 }
 
@@ -53,6 +55,9 @@ export interface ReportAction {
   text: string
   ariaLabelText: string
   href?: string
+  /** Submitted with the download form so the server knows which format was chosen. */
+  name?: string
+  value?: string
   attributes?: {
     formAction?: string
     csrfToken?: string

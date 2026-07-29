@@ -10,6 +10,7 @@ import { RequestStatus } from '../../src/dpr/types/UserReports'
 import { requestExampleVariants } from './mockVariants/request-examples'
 import { reportTemplates } from './mockVariants/report-templates'
 import { mockReportVariants } from './mockVariants/mock-report'
+import { xlsxReportBase64 } from './xlsxFixture'
 import { filterInputExamplesVariants } from './mockVariants/filter-input-examples'
 import { featureTestingVariants } from './mockVariants/feature-testing'
 
@@ -101,11 +102,16 @@ export const getInteractiveReportDownloadMock = {
   },
 }
 
+// A sync download path is `/{resourceName}/download`, and resourceName itself contains a
+// slash (`reports/list`), so the pattern has to allow one. It is given a lower priority
+// than the async stubs because it would otherwise also match their longer paths.
+const syncDownloadPathPattern = '/reports/[a-zA-Z0-9-_/]+/download'
+
 export const getSyncReportDownloadMock = {
-  priority: 1,
+  priority: 5,
   request: {
     method: 'GET',
-    urlPathPattern: '/reports/[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+/download',
+    urlPathPattern: syncDownloadPathPattern,
   },
   response: {
     status: 200,
@@ -119,6 +125,35 @@ export const getSyncReportDownloadMock = {
 3,mno,pqr
 `,
   },
+}
+
+// urlPathPattern is matched against the whole path, so the `/xlsx` stubs below never
+// collide with the csv stubs above.
+const xlsxDownloadResponse = {
+  status: 200,
+  headers: {
+    'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    'Content-Disposition': 'attachment; filename="report.xlsx"',
+  },
+  base64Body: xlsxReportBase64,
+}
+
+export const getAsyncReportXlsxDownloadMock = {
+  priority: 1,
+  request: {
+    method: 'GET',
+    urlPathPattern: `${downloadPathPattern}/xlsx`,
+  },
+  response: xlsxDownloadResponse,
+}
+
+export const getSyncReportXlsxDownloadMock = {
+  priority: 5,
+  request: {
+    method: 'GET',
+    urlPathPattern: `${syncDownloadPathPattern}/xlsx`,
+  },
+  response: xlsxDownloadResponse,
 }
 
 export const reportsFinishedStatusMock = setupSimpleMock(

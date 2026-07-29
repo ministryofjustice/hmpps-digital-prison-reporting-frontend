@@ -1,3 +1,4 @@
+import { buildMasterSections } from 'src/dpr/components/_dashboards/dashboard-section/utils'
 import type { AsyncReportUtilsParams } from '../../../../../types/AsyncReportUtils'
 
 import type { RequestedReport } from '../../../../../types/UserReports'
@@ -33,11 +34,20 @@ export const renderDashboard = async ({ req, res, services }: AsyncReportUtilsPa
 
   // Validate definition
   DashboardSchema.DashboardSchema.parse(definition)
+
+  // build master definition
+  const { childVariants } = definition
+  const masterDefinition = { ...definition }
+
+  if (childVariants?.length) {
+    masterDefinition.sections = buildMasterSections(definition)
+  }
+
   // validate visualisations
-  await validateDashboardVisualisations(definition)
+  await validateDashboardVisualisations(masterDefinition)
 
   // Create the report config
-  const reportConfig = await new Dashboard(services, res, req, definition, LoadType.ASYNC, requestData).build()
+  const reportConfig = await new Dashboard(services, res, req, masterDefinition, LoadType.ASYNC, requestData).build()
   const { dashboardData } = reportConfig
 
   if (dashboardData && dashboardData.sections?.length && requestData && Object.keys(requestData).length) {

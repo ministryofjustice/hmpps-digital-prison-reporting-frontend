@@ -70,7 +70,7 @@ const mapCatalogue = async (
 ): Promise<Catalogue> => {
   const products: CatalogueProduct[] = await Promise.all(
     definitions.map(async definition => {
-      const { id, name, authorised } = definition
+      const { id, name, authorised, description } = definition
 
       const variants = await Promise.all(
         (definition.variants ?? []).map(variant => mapVariantRow(variant, definition, res, req, services, authorised)),
@@ -82,9 +82,12 @@ const mapCatalogue = async (
         ),
       )
 
+      const trucatedDescription = initialiseTruncation({ stringValue: description ?? '', classes: 'govuk-body-s' })
+
       return {
         id,
         name,
+        description: trucatedDescription,
         authorised,
         variants: [...variants, ...dashboards],
       }

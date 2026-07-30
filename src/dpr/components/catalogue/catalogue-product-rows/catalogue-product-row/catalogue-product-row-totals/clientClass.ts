@@ -26,7 +26,7 @@ export class DprReportsCatalogueProductCounts extends DprClientClass {
   }
 
   private getVariantLabel(count: number): string {
-    return `${count} variant${count === 1 ? '' : 's'}`
+    return `${count} report${count === 1 ? '' : 's'}`
   }
 
   private getVisibleVariantCount(product: HTMLElement): number {

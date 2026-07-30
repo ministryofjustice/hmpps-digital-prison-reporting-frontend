@@ -152,7 +152,7 @@
     "dayjs": "^1.11.21",
     "express": "^5.2.1",
     "express-session": "^1.19.0",
-    "govuk-frontend": "6.2.0",
+    "govuk-frontend": "6.4.0",
     "nocache": "^4.0.0",
     "nunjucks": "^3.2.4",
     "nunjucks-date": "^1.5.0",

@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test'
 import { requestCatalogueVariant } from './vrtHelpers'
 
-test('Bar chart complete dataset', async ({ page }) => {
+test('Parent-child dashboard', async ({ page }) => {
   await page.goto('/embedded/platform')
 
   page.getByLabel(/Reports catalogue.*/i)

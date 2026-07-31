@@ -1,5 +1,9 @@
 import { resetFeatureFlags } from 'test-app/routes/integrationTests/appStateUtils'
-import { checkA11y, executeDashboardStubs } from '../../../../../../../../cypress-tests/cypressUtils'
+import {
+  checkA11y,
+  executeDashboardStubs,
+  startReportRequest,
+} from '../../../../../../../../cypress-tests/cypressUtils'
 
 context('Viewing a parent-child dashboard', () => {
   const path = '/'
@@ -20,18 +24,12 @@ context('Viewing a parent-child dashboard', () => {
 
         // Request and run a report so we can go back to it for each test
         cy.visit(path)
-        cy.findByLabelText(/Reports catalogue.*/i).within(() => {
-          cy.findByRole('row', {
-            name: (_, element) => {
-              return (
-                Boolean(element.textContent?.includes('Test Parent Dashboard')) &&
-                Boolean(element.textContent?.includes('Dashboard used for mocking parent-child dashboards'))
-              )
-            },
-          }).within(() => {
-            cy.findByRole('link', { name: 'Request dashboard' }).click()
-          })
+
+        startReportRequest({
+          name: 'Test Parent Dashboard',
+          description: 'Dashboard used for mocking parent-child dashboards',
         })
+
         checkA11y()
         cy.findByRole('button', { name: /Request/ }).click()
 
@@ -110,18 +108,9 @@ context('Viewing a parent-child dashboard', () => {
 
         // Request and run a report so we can go back to it for each test
         cy.visit(path)
-        cy.findByLabelText(/Reports catalogue.*/i).within(() => {
-          cy.findByRole('row', {
-            name: (_, element) => {
-              return (
-                Boolean(element.textContent?.includes('Child one dashboard')) &&
-                Boolean(element.textContent?.includes('Dashboard used for mocking child 1 dashboard'))
-              )
-            },
-          }).within(() => {
-            cy.findByRole('link', { name: 'Request dashboard' }).click()
-          })
-        })
+
+        startReportRequest({ name: 'Child one dashboard', description: 'Dashboard used for mocking child 1 dashboard' })
+
         checkA11y()
         cy.findByRole('button', { name: /Request/ }).click()
 
@@ -180,18 +169,9 @@ context('Viewing a parent-child dashboard', () => {
 
         // Request and run a report so we can go back to it for each test
         cy.visit(path)
-        cy.findByLabelText(/Reports catalogue.*/i).within(() => {
-          cy.findByRole('row', {
-            name: (_, element) => {
-              return (
-                Boolean(element.textContent?.includes('Child two dashboard')) &&
-                Boolean(element.textContent?.includes('Dashboard used for mocking child 2 dashboard'))
-              )
-            },
-          }).within(() => {
-            cy.findByRole('link', { name: 'Request dashboard' }).click()
-          })
-        })
+
+        startReportRequest({ name: 'Child two dashboard', description: 'Dashboard used for mocking child 2 dashboard' })
+
         checkA11y()
         cy.findByRole('button', { name: /Request/ }).click()
 

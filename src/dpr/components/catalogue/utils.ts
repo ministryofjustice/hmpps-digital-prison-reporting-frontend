@@ -207,3 +207,7 @@ const mapTotals = (products: CatalogueProduct[]) => ({
   products: products.length,
   variants: products.reduce((total, product) => total + product.variants.length, 0),
 })
+
+export default {
+  initCatalogue,
+}

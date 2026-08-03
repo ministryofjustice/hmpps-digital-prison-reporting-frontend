@@ -98,6 +98,36 @@ export const expiredEndpoint = generateNetworkMock({
   },
 })
 
+export const subscribeEndpoint = generateNetworkMock({
+  ...defaultMockRequest,
+  request: {
+    ...defaultMockRequest.request,
+    method: 'POST',
+    urlPathPattern: `/user/subscribe`,
+  },
+  response: {
+    ...defaultMockRequest.response,
+    jsonBody: {
+      tableId: 'tblId_1729766362362',
+    },
+  },
+})
+
+export const unsubscribeEndpoint = generateNetworkMock({
+  ...defaultMockRequest,
+  request: {
+    ...defaultMockRequest.request,
+    method: 'POST',
+    urlPathPattern: `/user/unsubscribe`,
+  },
+  response: {
+    ...defaultMockRequest.response,
+    jsonBody: {
+      tableId: 'tblId_1729766362362',
+    },
+  },
+})
+
 export const getSubscriptionsEndpoint = generateNetworkMock({
   ...defaultMockRequest,
   request: {

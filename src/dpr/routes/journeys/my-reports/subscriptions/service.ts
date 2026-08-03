@@ -1,4 +1,5 @@
 import { ReportStoreConfig } from 'src/dpr/types/ReportStore'
+import { GetSubscriptionResponse } from 'src/dpr/types/Subscriptions'
 import ReportStoreService from '../../../../services/reportStoreService'
 import UserDataStore from '../../../../data/reportDataStore'
 import { StoredReportData, SubscribedReport } from '../../../../types/UserReports'
@@ -102,7 +103,7 @@ export default class SubscriptionStoreService extends ReportStoreService {
     return index > -1 ? userConfig.subscriptions[index] : undefined
   }
 
-  async updateTimestamps(tsDataArray: { tableId: string; createdAt: string; addedAt: string }[], userId: string) {
+  async updateTimestamps(tsDataArray: GetSubscriptionResponse[], userId: string) {
     if (!this.enabled) return []
 
     const userConfig = await this.getState(userId)
@@ -119,14 +120,11 @@ export default class SubscriptionStoreService extends ReportStoreService {
     return subscriptions
   }
 
-  updateRefreshedTimestamp(
-    tsData: { tableId: string; createdAt: string; addedAt: string },
-    subscriptions: StoredReportData[],
-  ): StoredReportData[] {
+  updateRefreshedTimestamp(tsData: GetSubscriptionResponse, subscriptions: StoredReportData[]): StoredReportData[] {
     if (!this.enabled) return []
 
-    const { tableId, createdAt } = tsData
-    const createdAtDate = new Date(createdAt)
+    const { tableId, reportUpdatedTime } = tsData
+    const createdAtDate = new Date(reportUpdatedTime)
 
     return subscriptions.map(subscription => {
       if (subscription.tableId !== tableId) {

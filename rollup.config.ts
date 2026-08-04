@@ -28,6 +28,11 @@ const publishPkg = {
       types: './dpr/types/extraLocals.d.ts',
     },
     './catalogueUtils': {
+      types: './dpr/components/_catalogue/catalogue/utils.d.ts',
+      require: './cjs/dpr/components/_catalogue/catalogue/utils.js',
+      import: './dpr/components/_catalogue/catalogue/utils.js',
+    },
+    './reportCatalogueUtils': {
       types: './dpr/components/catalogue/utils.d.ts',
       require: './cjs/dpr/components/catalogue/utils.js',
       import: './dpr/components/catalogue/utils.js',

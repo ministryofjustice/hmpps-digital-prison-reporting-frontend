@@ -9,19 +9,14 @@ export default class ComponentsController {
       caption: 'HMPPS Data Hub frontend test site',
       cards: [
         {
-          text: 'Catalogue',
-          description: 'Catalogue component.',
-          href: '/components/catalogue',
+          text: 'Reports Catalogue',
+          description: 'The reports catalogue',
+          href: '/components/reports-catalogue',
         },
         {
           text: 'User reports',
           description: 'User reports component.',
           href: '/components/user-reports',
-        },
-        {
-          text: 'Search',
-          description: 'Search component.',
-          href: '/components/search',
         },
         {
           text: 'Filter inputs',

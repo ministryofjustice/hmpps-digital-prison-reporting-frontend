@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express'
 import { Services } from '../../../types/Services'
-import { initCatalogue } from '../../../components/_catalogue/catalogue/utils'
+import { initCatalogue } from '../../../components/catalogue/utils'
 
 class ReportCatalogueController {
   layoutPath: string
@@ -13,7 +13,7 @@ class ReportCatalogueController {
   }
 
   GET: RequestHandler = async (req, res) => {
-    const catalogue = await initCatalogue({ res, req, services: this.services })
+    const catalogue = await initCatalogue(res, req, this.services)
 
     res.render(`dpr/routes/journeys/report-catalogue/view`, {
       layoutPath: this.layoutPath,

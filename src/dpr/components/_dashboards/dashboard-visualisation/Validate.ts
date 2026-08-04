@@ -73,6 +73,7 @@ export const DashboardVisualisationSchema = z.object({
   ]),
   display: z.string(),
   description: z.string().optional(),
+  variantId: z.string().optional(),
   options: z.object(dashboardOptions.shape).optional(),
   columns: z.object(DashboardColumns.shape),
 })

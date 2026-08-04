@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express'
 import { Services } from '../../../types/Services'
-import { initCatalogue } from '../../../components/_catalogue/catalogue/utils'
+import { initCatalogue } from '../../../components/catalogue/utils'
 import { initMyReports } from '../../../components/my-reports/utils'
 
 class MyReportsCatalogueController {
@@ -14,8 +14,8 @@ class MyReportsCatalogueController {
   }
 
   GET: RequestHandler = async (req, res) => {
-    const args = { res, req, services: this.services }
-    const catalogue = await initCatalogue(args)
+    const catalogue = await initCatalogue(res, req, this.services)
+
     const myReportsData = await initMyReports(req, res, this.services, { maxRows: 10 })
 
     res.render(`dpr/routes/journeys/my-reports-catalogue/view`, {

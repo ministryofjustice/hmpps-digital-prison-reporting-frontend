@@ -1,6 +1,7 @@
 import {
   executeDashboardStubs,
   executeReportStubs,
+  startReportRequest,
   stubBaseTasks,
   stubDefinitionsTasks,
 } from 'cypress-tests/cypressUtils'
@@ -81,18 +82,7 @@ context('Try to run the app with failing and broken api endpoints', () => {
       cy.task('getSingleDefinitionFailure')
 
       cy.visit(path)
-      cy.findByLabelText(/Reports catalogue.*/i).within(() => {
-        cy.findByRole('row', {
-          name: (_, element) => {
-            return (
-              Boolean(element?.textContent?.includes('Successful Report')) &&
-              Boolean(element?.textContent?.includes('this will succeed'))
-            )
-          },
-        }).within(() => {
-          cy.findByRole('link', { name: 'Request report' }).click()
-        })
-      })
+      startReportRequest({ name: 'Successful Report', description: 'this will succeed' })
 
       cy.findByRole('heading', { name: /Your report has failed to generate/ }).should('be.visible')
     })
@@ -104,18 +94,7 @@ context('Try to run the app with failing and broken api endpoints', () => {
       cy.task('getSingleDefinitionFailure')
 
       cy.visit(path)
-      cy.findByLabelText(/Reports catalogue.*/i).within(() => {
-        cy.findByRole('row', {
-          name: (_, element) => {
-            return (
-              Boolean(element?.textContent?.includes('Successful Report')) &&
-              Boolean(element?.textContent?.includes('this will succeed'))
-            )
-          },
-        }).within(() => {
-          cy.findByRole('link', { name: 'Request report' }).click()
-        })
-      })
+      startReportRequest({ name: 'Successful Report', description: 'this will succeed' })
 
       cy.findByRole('heading', { name: /Your report has failed to generate/ }).should('be.visible')
     })
@@ -127,18 +106,7 @@ context('Try to run the app with failing and broken api endpoints', () => {
       cy.task('getSingleDefinitionVariantFailure')
 
       cy.visit(path)
-      cy.findByLabelText(/Reports catalogue.*/i).within(() => {
-        cy.findByRole('row', {
-          name: (_, element) => {
-            return (
-              Boolean(element?.textContent?.includes('Successful Report')) &&
-              Boolean(element?.textContent?.includes('this will succeed'))
-            )
-          },
-        }).within(() => {
-          cy.findByRole('link', { name: 'Request report' }).click()
-        })
-      })
+      startReportRequest({ name: 'Successful Report', description: 'this will succeed' })
 
       cy.findByRole('heading', { name: /Your report has failed to generate/ }).should('be.visible')
     })
@@ -150,18 +118,7 @@ context('Try to run the app with failing and broken api endpoints', () => {
       cy.task('getAsyncCountFailure')
 
       cy.visit(path)
-      cy.findByLabelText(/Reports catalogue.*/i).within(() => {
-        cy.findByRole('row', {
-          name: (_, element) => {
-            return (
-              Boolean(element?.textContent?.includes('Successful Report')) &&
-              Boolean(element?.textContent?.includes('this will succeed'))
-            )
-          },
-        }).within(() => {
-          cy.findByRole('link', { name: 'Request report' }).click()
-        })
-      })
+      startReportRequest({ name: 'Successful Report', description: 'this will succeed' })
       cy.findByRole('button', { name: /Request/ }).click()
 
       cy.findByRole('heading', { name: /Your report has failed to generate/ }).should('be.visible')
@@ -174,18 +131,7 @@ context('Try to run the app with failing and broken api endpoints', () => {
       cy.task('requestAsyncReportFailure')
 
       cy.visit(path)
-      cy.findByLabelText(/Reports catalogue.*/i).within(() => {
-        cy.findByRole('row', {
-          name: (_, element) => {
-            return (
-              Boolean(element?.textContent?.includes('Successful Report')) &&
-              Boolean(element?.textContent?.includes('this will succeed'))
-            )
-          },
-        }).within(() => {
-          cy.findByRole('link', { name: 'Request report' }).click()
-        })
-      })
+      startReportRequest({ name: 'Successful Report', description: 'this will succeed' })
       cy.findByRole('button', { name: /Request/ }).click()
 
       cy.findByRole('heading', { name: /Your report has failed to generate/ }).should('be.visible')
@@ -202,18 +148,7 @@ context('Try to run the app with failing and broken api endpoints', () => {
       cy.task('cancelAsyncRequestFailure')
 
       cy.visit(path)
-      cy.findByLabelText(/Reports catalogue.*/i).within(() => {
-        cy.findByRole('row', {
-          name: (_, element) => {
-            return (
-              Boolean(element?.textContent?.includes('Successful Report')) &&
-              Boolean(element?.textContent?.includes('this will succeed'))
-            )
-          },
-        }).within(() => {
-          cy.findByRole('link', { name: 'Request report' }).click()
-        })
-      })
+      startReportRequest({ name: 'Successful Report', description: 'this will succeed' })
       cy.findByRole('button', { name: /Request/ }).click()
 
       cy.findByRole('button', { name: /Cancel request/ }).click()
@@ -228,18 +163,7 @@ context('Try to run the app with failing and broken api endpoints', () => {
       cy.task('getAsyncReportFailure')
 
       cy.visit(path)
-      cy.findByLabelText(/Reports catalogue.*/i).within(() => {
-        cy.findByRole('row', {
-          name: (_, element) => {
-            return (
-              Boolean(element?.textContent?.includes('Successful Report')) &&
-              Boolean(element?.textContent?.includes('this will succeed'))
-            )
-          },
-        }).within(() => {
-          cy.findByRole('link', { name: 'Request report' }).click()
-        })
-      })
+      startReportRequest({ name: 'Successful Report', description: 'this will succeed' })
       cy.findByRole('button', { name: /Request/ }).click()
 
       cy.findByRole('heading', { name: /Your report has failed to generate/ }).should('be.visible')
@@ -252,18 +176,7 @@ context('Try to run the app with failing and broken api endpoints', () => {
       cy.task('getAsyncSummaryReportFailure')
 
       cy.visit(path)
-      cy.findByLabelText(/Reports catalogue.*/i).within(() => {
-        cy.findByRole('row', {
-          name: (_, element) => {
-            return (
-              Boolean(element?.textContent?.includes('Successful Report')) &&
-              Boolean(element?.textContent?.includes('this will succeed'))
-            )
-          },
-        }).within(() => {
-          cy.findByRole('link', { name: 'Request report' }).click()
-        })
-      })
+      startReportRequest({ name: 'Successful Report', description: 'this will succeed' })
       cy.findByRole('button', { name: /Request/ }).click()
 
       cy.findByRole('heading', { name: /Your report has failed to generate/ }).should('be.visible')
@@ -275,18 +188,7 @@ context('Try to run the app with failing and broken api endpoints', () => {
       cy.task('getAsyncReportStatusFailure')
 
       cy.visit(path)
-      cy.findByLabelText(/Reports catalogue.*/i).within(() => {
-        cy.findByRole('row', {
-          name: (_, element) => {
-            return (
-              Boolean(element?.textContent?.includes('Successful Report')) &&
-              Boolean(element?.textContent?.includes('this will succeed'))
-            )
-          },
-        }).within(() => {
-          cy.findByRole('link', { name: 'Request report' }).click()
-        })
-      })
+      startReportRequest({ name: 'Successful Report', description: 'this will succeed' })
       cy.findByRole('button', { name: /Request/ }).click()
 
       cy.findByRole('heading', { name: /Your report has failed to generate/ }).should('be.visible')
@@ -302,15 +204,7 @@ context('Try to run the app with failing and broken api endpoints', () => {
       cy.task('getSingleDashboardFailure')
 
       cy.visit(path)
-      cy.findByLabelText(/Reports catalogue.*/i).within(() => {
-        cy.findByRole('row', {
-          name: (_, element) => {
-            return Boolean(element.textContent?.includes('Test Dashboard used for testing'))
-          },
-        }).within(() => {
-          cy.findByRole('link', { name: 'Request dashboard' }).click()
-        })
-      })
+      startReportRequest({ name: 'Test Dashboard', description: 'Test Dashboard used for testing' })
 
       cy.findByRole('heading', { name: /Your report has failed to generate/ }).should('be.visible')
     })
@@ -323,15 +217,7 @@ context('Try to run the app with failing and broken api endpoints', () => {
       cy.task('requestAsyncDashboardFailure')
 
       cy.visit(path)
-      cy.findByLabelText(/Reports catalogue.*/i).within(() => {
-        cy.findByRole('row', {
-          name: (_, element) => {
-            return Boolean(element.textContent?.includes('Test Dashboard used for testing'))
-          },
-        }).within(() => {
-          cy.findByRole('link', { name: 'Request dashboard' }).click()
-        })
-      })
+      startReportRequest({ name: 'Test Dashboard', description: 'Test Dashboard used for testing' })
       cy.findByRole('button', { name: 'Request dashboard' }).click()
 
       cy.findByRole('heading', { name: /Your report has failed to generate/ }).should('be.visible')
@@ -345,15 +231,7 @@ context('Try to run the app with failing and broken api endpoints', () => {
       cy.task('getAsyncDashboardFailure')
 
       cy.visit(path)
-      cy.findByLabelText(/Reports catalogue.*/i).within(() => {
-        cy.findByRole('row', {
-          name: (_, element) => {
-            return Boolean(element.textContent?.includes('Test Dashboard used for testing'))
-          },
-        }).within(() => {
-          cy.findByRole('link', { name: 'Request dashboard' }).click()
-        })
-      })
+      startReportRequest({ name: 'Test Dashboard', description: 'Test Dashboard used for testing' })
       cy.findByRole('button', { name: 'Request dashboard' }).click()
 
       cy.findByRole('heading', { name: /Your report has failed to generate/ }).should('be.visible')
@@ -369,15 +247,7 @@ context('Try to run the app with failing and broken api endpoints', () => {
       cy.task('getAsyncDashboardStatusFailure')
 
       cy.visit(path)
-      cy.findByLabelText(/Reports catalogue.*/i).within(() => {
-        cy.findByRole('row', {
-          name: (_, element) => {
-            return Boolean(element.textContent?.includes('Test Dashboard used for testing'))
-          },
-        }).within(() => {
-          cy.findByRole('link', { name: 'Request dashboard' }).click()
-        })
-      })
+      startReportRequest({ name: 'Test Dashboard', description: 'Test Dashboard used for testing' })
       cy.findByRole('button', { name: 'Request dashboard' }).click()
 
       cy.findByRole('heading', { name: /Your report has failed to generate/ }).should('be.visible')
@@ -395,15 +265,7 @@ context('Try to run the app with failing and broken api endpoints', () => {
       cy.task('cancelAsyncRequestDashboardFailure')
 
       cy.visit(path)
-      cy.findByLabelText(/Reports catalogue.*/i).within(() => {
-        cy.findByRole('row', {
-          name: (_, element) => {
-            return Boolean(element.textContent?.includes('Test Dashboard used for testing'))
-          },
-        }).within(() => {
-          cy.findByRole('link', { name: 'Request dashboard' }).click()
-        })
-      })
+      startReportRequest({ name: 'Test Dashboard', description: 'Test Dashboard used for testing' })
       cy.findByRole('button', { name: /Request/ }).click()
 
       cy.findByRole('button', { name: /Cancel request/ }).click()

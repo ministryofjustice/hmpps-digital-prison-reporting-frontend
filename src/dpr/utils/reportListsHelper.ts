@@ -1,20 +1,7 @@
 import { Response } from 'express'
-import { LoadType, ReportType, RequestStatus } from '../types/UserReports'
+import { LoadType, ReportType } from '../types/UserReports'
 import localsHelper, { getRouteLocals } from './localsHelper'
 import { setNestedPath } from './urlHelper'
-
-export const itemActionsHtml = (
-  retryHref: string,
-  executionId: string,
-  type: 'requested' | 'viewed',
-  status: RequestStatus,
-) => {
-  const text = status === RequestStatus.EXPIRED ? 'Refresh' : 'Retry'
-  return `<div class="dpr-icon-wrapper__item-actions">
-      <a class='govuk-link dpr-user-list-action govuk-link--no-visited-state govuk-!-margin-bottom-1' href="${retryHref}">${text}</a>
-      <a class="govuk-link dpr-user-list-action govuk-link--no-visited-state dpr-remove-${type}-report-button"" href="#" data-execution-id='${executionId}'>Remove</a>
-    </div>`
-}
 
 const getTypeTagColor = (type: ReportType) => {
   let tagColourClass = ''

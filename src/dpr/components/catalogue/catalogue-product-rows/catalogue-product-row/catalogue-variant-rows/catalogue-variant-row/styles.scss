@@ -1,0 +1,27 @@
+.dpr-report-catalogue__variant-row {
+  h2,
+  h3 {
+    margin: 0px;
+    padding: 0px;
+  }
+
+  width: 100%;
+  border-bottom: solid 1px govuk-functional-colour('border');
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  display: grid;
+  grid-template-columns: 3fr 5fr 2fr;
+  gap: 1rem;
+
+  .dpr-report-catalogue__variant-row__cell {
+    padding-top: govuk-spacing(4);
+    padding-bottom: govuk-spacing(4);
+  }
+}
+
+.dpr-report-catalogue__variant-row:nth-child(even) {
+  background-color: govuk-functional-colour('template-background');
+}

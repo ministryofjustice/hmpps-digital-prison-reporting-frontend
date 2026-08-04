@@ -301,7 +301,12 @@ export function recordDefinitionsCheck(session: { lastDefinitionsCheck?: number 
  */
 const initialiseServices = async (services: Services, res: Response) => {
   const { dprUser } = localsHelper.getValues(res)
+
+  logger.info('SAVE_DEFAULTS_DEBUG', JSON.stringify({ dprUser }))
+
   if (dprUser.id) {
+    logger.info('SAVE_DEFAULTS_DEBUG initialising services')
+
     // Downloading
     if (!res.app.locals['downloadingEnabled']) {
       res.app.locals['downloadingEnabled'] = services.downloadPermissionService.enabled
@@ -362,6 +367,8 @@ const initialiseServices = async (services: Services, res: Response) => {
 
       logger.info(`Init service: defaultFilterValuesService: ${res.app.locals['saveDefaultsEnabled']}`)
     }
+  } else {
+    logger.info('SAVE_DEFAULTS_DEBUG No DPR User ID')
   }
 }
 

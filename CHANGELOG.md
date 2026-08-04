@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## 8.1.2
+
+- More debugging logs for save defaults feature flag
+
 ## 8.1.1
 
 - Improved debugging logs for save defaults feature flag

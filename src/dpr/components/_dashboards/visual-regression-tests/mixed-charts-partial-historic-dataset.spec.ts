@@ -1,14 +1,12 @@
 import { test, expect } from '@playwright/test'
+import { requestCatalogueVariant } from './vrtHelpers'
 
 test('Mixed chart partial historic dataset', async ({ page }) => {
   await page.goto('/embedded/platform')
 
   page.getByLabel(/Reports catalogue.*/i)
-  await page
-    .getByLabel(/Reports catalogue.*/i)
-    .locator(page.getByRole('row').filter({ hasText: /Mixed - Historic - Partial dataset/ }))
-    .locator(page.getByRole('link', { name: /Request dashboard/ }))
-    .click()
+
+  requestCatalogueVariant(page, /Mixed - Historic - Partial dataset/)
 
   await page.getByRole('button', { name: /Request dashboard/ }).click()
 

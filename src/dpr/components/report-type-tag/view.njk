@@ -1,0 +1,16 @@
+{%- from "govuk/components/tag/macro.njk" import govukTag -%}
+
+{% macro dprReportTypeTag(reportType) %}
+  {% set classes = 'govuk-tag--blue' %}
+
+  {% if reportType === 'dashboard' %}
+    {% set classes = 'govuk-tag--purple' %}
+  {% endif %}
+
+  <div class="dpr-report-type-tag">
+    {{ govukTag({
+      text: reportType | capitaliseSentence,
+      classes: classes
+    }) }}
+  </div>
+{% endmacro %}

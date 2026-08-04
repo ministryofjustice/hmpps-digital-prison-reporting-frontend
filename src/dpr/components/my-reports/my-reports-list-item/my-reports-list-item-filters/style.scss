@@ -19,7 +19,8 @@ li.dpr-my-reports__item-filters-list-item--pre {
 }
 
 li.dpr-my-reports__item-filters-list-item--int {
-  // background-color: lighten(govuk-colour('blue', $variant: 'tint-25'), 36%);
+  background-color: white;
+  border: solid 1px govuk-functional-colour('border');
 }
 
 li:last-child {

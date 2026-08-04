@@ -11,7 +11,19 @@ import {
 import { setUpBookmark } from '../../../../../../bookmark/utils'
 import { Services } from '../../../../../../../types/Services'
 
-export const intitialiseCatalogueActions = async (
+/**
+ * Initialises the actions for a row
+ *
+ * @param {Response} res
+ * @param {Request} req
+ * @param {Services} services
+ * @param {string} productId
+ * @param {(components['schemas']['VariantDefinitionSummary'] | components['schemas']['DashboardDefinitionSummary'])} variant
+ * @param {ReportType} reportType
+ * @param {boolean} authorised
+ * @return {*}  {Promise<CatalogueVariantRowActions>}
+ */
+export const intitialiseCatalogueRowActions = async (
   res: Response,
   req: Request,
   services: Services,
@@ -49,13 +61,22 @@ export const intitialiseCatalogueActions = async (
   }
 }
 
+/**
+ * Sets the request action href and label
+ *
+ * @param {Response} res
+ * @param {string} productId
+ * @param {(components['schemas']['VariantDefinitionSummary'] | components['schemas']['DashboardDefinitionSummary'])} variant
+ * @param {ReportType} reportType
+ * @return {*}  {CatalogueVariantRowActionRequestLoad}
+ */
 const setRequestAction = (
   res: Response,
   productId: string,
   variant: components['schemas']['VariantDefinitionSummary'] | components['schemas']['DashboardDefinitionSummary'],
   reportType: ReportType,
 ): CatalogueVariantRowActionRequestLoad => {
-  const href = setHref(res, productId, variant, reportType)
+  const href = setRequestHref(res, productId, variant, reportType)
 
   const label = variant.loadType === 'sync' ? `Load ${reportType}` : `Request ${reportType}`
 
@@ -65,6 +86,43 @@ const setRequestAction = (
   }
 }
 
+/**
+ * Sets the request href
+ *
+ * @param {Response} res
+ * @param {string} productId
+ * @param {(components['schemas']['VariantDefinitionSummary'] | components['schemas']['DashboardDefinitionSummary'])} variant
+ * @param {ReportType} reportType
+ * @return {*}
+ */
+const setRequestHref = (
+  res: Response,
+  productId: string,
+  variant: components['schemas']['VariantDefinitionSummary'] | components['schemas']['DashboardDefinitionSummary'],
+  reportType: ReportType,
+) => {
+  const { pathSuffix, dpdPathFromQuery } = localsHelper.getValues(res)
+  const { nestedBaseUrl } = getRouteLocals(res)
+  const rootPath = setNestedPath(`/dpr`, nestedBaseUrl)
+
+  const { id, loadType } = variant
+
+  const dpdPathQueryParam = dpdPathFromQuery ? pathSuffix : ''
+
+  const syncPath = `${rootPath}/view-report/sync/${reportType}/${productId}/${id}/load-report${dpdPathQueryParam}`
+  const asyncPath = `${rootPath}/request-report/${reportType}/${productId}/${id}/filters${dpdPathQueryParam}`
+
+  return loadType && loadType === LoadType.SYNC ? syncPath : asyncPath
+}
+
+/**
+ * Sets the missing action href and label
+ *
+ * @param {Response} res
+ * @param {string} productId
+ * @param {components['schemas']['VariantDefinitionSummary']} variant
+ * @return {*}  {(CatalogueVariantRowActionRequestLoad | undefined)}
+ */
 const setMissingAction = (
   res: Response,
   productId: string,
@@ -87,26 +145,17 @@ const setMissingAction = (
   return undefined
 }
 
-const setHref = (
-  res: Response,
-  productId: string,
-  variant: components['schemas']['VariantDefinitionSummary'] | components['schemas']['DashboardDefinitionSummary'],
-  reportType: ReportType,
-) => {
-  const { pathSuffix, dpdPathFromQuery } = localsHelper.getValues(res)
-  const { nestedBaseUrl } = getRouteLocals(res)
-  const rootPath = setNestedPath(`/dpr`, nestedBaseUrl)
-
-  const { id, loadType } = variant
-
-  const dpdPathQueryParam = dpdPathFromQuery ? pathSuffix : ''
-
-  const syncPath = `${rootPath}/view-report/sync/${reportType}/${productId}/${id}/load-report${dpdPathQueryParam}`
-  const asyncPath = `${rootPath}/request-report/${reportType}/${productId}/${id}/filters${dpdPathQueryParam}`
-
-  return loadType && loadType === LoadType.SYNC ? syncPath : asyncPath
-}
-
+/**
+ * Set bookmark action
+ *
+ * @param {Response} res
+ * @param {Request} req
+ * @param {Services} services
+ * @param {string} productId
+ * @param {string} id
+ * @param {ReportType} reportType
+ * @return {*}  {Promise<CatalogueVariantRowActionBookmark>}
+ */
 const setBookmark = async (
   res: Response,
   req: Request,

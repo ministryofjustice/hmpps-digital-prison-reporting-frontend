@@ -7,7 +7,7 @@ import { CatalogueVariantRow } from './catalogue-product-rows/catalogue-product-
 import { Catalogue } from './types'
 import { CatalogueProduct } from './catalogue-product-rows/types'
 import { initialiseTruncation } from '../truncate/utils'
-import { intitialiseCatalogueActions } from './catalogue-product-rows/catalogue-product-row/catalogue-variant-rows/catalogue-variant-row/catalogure-row-variant-actions/utils'
+import { intitialiseCatalogueRowActions } from './catalogue-product-rows/catalogue-product-row/catalogue-variant-rows/catalogue-variant-row/catalogure-row-variant-actions/utils'
 import { initCatalogueFilters } from './catalogue-filters/utilts'
 
 const sortByName = (a: { name: string }, b: { name: string }): number => a.name.localeCompare(b.name)
@@ -123,7 +123,15 @@ const mapVariantRow = async (
 
   let actions
   if (authorised) {
-    actions = await intitialiseCatalogueActions(res, req, services, productId, variant, ReportType.REPORT, authorised)
+    actions = await intitialiseCatalogueRowActions(
+      res,
+      req,
+      services,
+      productId,
+      variant,
+      ReportType.REPORT,
+      authorised,
+    )
   }
 
   return {
@@ -160,7 +168,7 @@ const mapDashboardRow = async (
 
   let actions
   if (authorised) {
-    actions = await intitialiseCatalogueActions(
+    actions = await intitialiseCatalogueRowActions(
       res,
       req,
       services,

@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## 8.0.1
+
+- Bugfix: Unsubscribe action was showing in the actions list for requested and viewed reports. This has been removed
+
 ## 8.0.0
 
 - Feature: Reports can now be downloaded as Excel (xlsx) as well as csv. The report actions bar offers `Download Excel` and `Download CSV` buttons in place of the single `Download` button.

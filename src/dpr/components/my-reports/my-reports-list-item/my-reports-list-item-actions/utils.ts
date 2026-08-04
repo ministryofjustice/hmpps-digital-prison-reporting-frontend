@@ -82,7 +82,11 @@ const buildRemoveAction = (
   res: Response,
   req: Request,
   listType: ListType,
-): MyReportsFormAction => {
+): MyReportsFormAction | undefined => {
+  if (listType === ListType.SUBSCRIPTIONS) {
+    return undefined
+  }
+
   const { reportId, id, executionId, tableId } = data
   const { requestedListPath, recentlyViewedListPath } = getRouteLocals(res)
 

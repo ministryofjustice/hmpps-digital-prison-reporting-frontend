@@ -308,17 +308,19 @@ MockReportingClient: ${functionName}`)
     return undefined
   }
 
-  getSubscriptions(token, tableIds) {
-    const createdAt = new Date().toISOString();
-    const addedAt = new Date().toISOString();
+  getSubscriptions(token) {
+    const reportUpdatedTime = new Date('2026-08-03').toISOString();
 
-    return tableIds.map((tableId) => {
-      return {
-        tableId,
-        createdAt,
-        addedAt,
-      }
-    })
+    return [
+      {
+        tableId: 'tblId_1729766362362',
+        reportUpdatedTime
+      },
+      {
+        tableId: 'tblId_1730302242487',
+        reportUpdatedTime
+      },
+    ]
   }
 
 }

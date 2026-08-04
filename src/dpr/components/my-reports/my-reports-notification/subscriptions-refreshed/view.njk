@@ -1,20 +1,20 @@
 {%- from "moj/components/alert/macro.njk" import mojAlert -%}
 {% from "govuk/components/details/macro.njk" import govukDetails %}
 
-{% macro dprMyReportsListNotificationRemoved(removedReports) %}
-  {% set message = removedReports.message %}
-  {% set details = removedReports.details %}
+{% macro dprMyReportsSubscriptionsRefreshed(refreshedSubs) %}
+  {% set message = refreshedSubs.message %}
+  {% set details = refreshedSubs.details %}
 
-  <div class="dpr-my-reports-notification--removed-reports">
+  <div class="dpr-my-reports-notification--refreshed-subscriptions">
     {% set detailsHtml %}
       {% set detailsListHtml = '' %}
+
       {% for detail in details %}
         {% set detailsListHtml = detailsListHtml + '<li>' + detail + '</li>' %}
       {% endfor %}
-      <p class="govuk-body">
-        Reports that are in an EXPIRED, FAILED or ABORTED state are removed automatically after two weeks.
-      </p>
-      <p class="govuk-body">The following reports were removed:</p>
+
+      <p class="govuk-body">The following subscriptions were refreshed and are available with new data:</p>
+
       <ul>
         {{ detailsListHtml | safe }}
       </ul>
@@ -22,7 +22,7 @@
 
 
     {% set alertHtml %}
-      {{ message }}
+      {{ message | dpr.safe }}
 
       {{
         govukDetails({

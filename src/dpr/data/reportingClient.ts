@@ -7,6 +7,7 @@ import { components, operations } from '../types/api'
 import { ApiConfig, Count, ListWithWarnings } from './types'
 import type { ResultWithHeaders } from './restClient'
 import { DEFAULT_DOWNLOAD_FORMAT, DownloadFormat, downloadPathSuffix } from '../types/Download'
+import { GetSubscriptionResponse } from '../types/Subscriptions'
 
 class ReportingClient {
   restClient: RestClient
@@ -348,42 +349,32 @@ class ReportingClient {
    * @param {string} token
    * @param {string} reportId
    * @param {string} id
-   * @return {*}  {Promise<{ reportId: string; id: string; tableId: string; createdAt: string; addedAt: string }[]>}
+   * @return {*}  {Promise<GetSubscriptionResponse>}
    * @memberof ReportingClient
    */
-  getSubscription(
-    token: string,
-    reportId: string,
-    id: string,
-  ): Promise<{ reportId: string; id: string; tableId: string; createdAt: string; addedAt: string }[]> {
+  getSubscription(token: string, reportId: string, id: string): Promise<GetSubscriptionResponse> {
     return this.restClient
       .get({
         path: `/user/subscription/${reportId}/${id}`,
         token,
       })
-      .then(
-        response => <{ reportId: string; id: string; tableId: string; createdAt: string; addedAt: string }[]>response,
-      )
+      .then(response => <GetSubscriptionResponse>response)
   }
 
   /**
    * Get all a user subscriptions data
    *
    * @param {string} token
-   * @return {*}  {Promise<{ reportId: string; id: string; tableId: string; createdAt: string; addedAt: string }[]>}
+   * @return {*}  {Promise<GetSubscriptionResponse[]>}
    * @memberof ReportingClient
    */
-  getSubscriptions(
-    token: string,
-  ): Promise<{ reportId: string; id: string; tableId: string; createdAt: string; addedAt: string }[]> {
+  getSubscriptions(token: string): Promise<GetSubscriptionResponse[]> {
     return this.restClient
       .get({
         path: `/user/subscriptions`,
         token,
       })
-      .then(
-        response => <{ reportId: string; id: string; tableId: string; createdAt: string; addedAt: string }[]>response,
-      )
+      .then(response => <GetSubscriptionResponse[]>response)
   }
 
   logInfo(title: string, args?: Dict<string>) {

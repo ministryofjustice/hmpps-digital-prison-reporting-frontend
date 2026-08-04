@@ -1,4 +1,8 @@
-import { executeReportStubs, executeDashboardStubs } from '../../../../../../cypress-tests/cypressUtils'
+import {
+  executeReportStubs,
+  executeDashboardStubs,
+  startReportLoad,
+} from '../../../../../../cypress-tests/cypressUtils'
 
 context('Platform sync tests', () => {
   const path = '/embedded/platform'
@@ -18,15 +22,7 @@ context('Platform sync tests', () => {
     it('should load a sync report', () => {
       cy.visit(path)
 
-      cy.findByLabelText(/Reports catalogue.*/i).within(() => {
-        cy.findByRole('row', {
-          name: (_, element) => {
-            return Boolean(element.textContent?.includes('This is an sync report'))
-          },
-        }).within(() => {
-          cy.findByRole('link', { name: /Load report/ }).click()
-        })
-      })
+      startReportLoad({ name: 'Sync report', description: 'This is an sync report' })
 
       cy.findByRole('heading', { name: /Sync report/, level: 1 }).should('be.visible')
     })
@@ -34,15 +30,7 @@ context('Platform sync tests', () => {
     it('should load a sync dashboard', () => {
       cy.visit(path)
 
-      cy.findByLabelText(/Reports catalogue.*/i).within(() => {
-        cy.findByRole('row', {
-          name: (_, element) => {
-            return Boolean(element.textContent?.includes('Sync Dashboard used for testing'))
-          },
-        }).within(() => {
-          cy.findByRole('link', { name: /Load dashboard/ }).click()
-        })
-      })
+      startReportLoad({ name: 'Sync Dashboard', description: 'Sync Dashboard used for testing' })
 
       cy.findByRole('heading', { name: /Sync Dashboard/, level: 1 }).should('be.visible')
     })

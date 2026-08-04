@@ -130,15 +130,15 @@ const buildSubscriptionAction = (
   res: Response,
   req: Request,
   listType: ListType,
-): MyReportsFormAction => {
+): MyReportsFormAction | undefined => {
+  if (listType !== ListType.SUBSCRIPTIONS) {
+    return undefined
+  }
+
   const { reportId, id } = data
   const { subscribePath } = getRouteLocals(res)
 
-  let action = ''
-
-  if (listType === ListType.SUBSCRIPTIONS) {
-    action = `${subscribePath}/${reportId}/${id}/unsubscribe`
-  }
+  const action = `${subscribePath}/${reportId}/${id}/unsubscribe`
 
   return {
     action,

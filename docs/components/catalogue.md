@@ -3,8 +3,6 @@ layout: layouts/component.njk
 title: Catalogue
 subsection: DPR Platform components
 ---
-{% example "catalogue/default", 800, 'default' %}
-
 ## Overview
 
 The catalogue component is used to:
@@ -46,7 +44,7 @@ export function routes(services: Services): Router {
   ...
 
   router.get('/path/to/catalogue', (req, res) => {
-    const catalogue = await initCatalogue({ res, services })
+    const catalogue = await initCatalogue(res, req, services)
     res.render('reports-catalogue.njk', {
       catalogue
     })
@@ -61,18 +59,3 @@ This will give you the arguments to simply apply as components arguments in the 
 ```js
 { dprCatalogue(catalogue) }
 ```
-
-## Configure features
-
-The following features can be disabled using the `features` configuration:
-
-- How to use section
-- Filtering
-- Toggle unauthorised.
-- Bookmarking
-
-This example demonstrates how to disable all default catalogue features.
-
-**NOTE**: Bookmarking must be disabled via javascript using the catalogue utility helper.
-
-{% example "catalogue/features", 650, 'features' %}

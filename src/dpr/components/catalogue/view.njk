@@ -1,0 +1,25 @@
+{% from "./catalogue-headings/view.njk" import dprReportsCatalogueHeadings %}
+{% from "./catalogue-product-rows/view.njk" import dprReportsCatalogueProductRows %}
+{% from "./catalogue-totals/view.njk" import dprReportsCatalogueTotals %}
+{% from "./catalogue-filters/view.njk" import dprReportsCatalogueFilters %}
+
+{% macro dprReportsCatalogue(config) %}
+
+  <div id="dpr-reports-catalogue" aria-labelledby="dpr-reports-catalogue-heading">
+  <h1 id="dpr-reports-catalogue-heading">Reports Catalogue</h1>
+
+  {% set filtersConfig = config.filtersConfig %}
+
+  {% set catalogueConfig = config.catalogueConfig %}
+  {% set headings = catalogueConfig.headings %}
+  {% set products = catalogueConfig.products %}
+  {% set totals = catalogueConfig.totals %}
+
+    <div class="dpr-reports-catalogue">
+      {{ dprReportsCatalogueFilters(filtersConfig) }}
+      {{ dprReportsCatalogueTotals(totals) }}
+      {{ dprReportsCatalogueHeadings(headings) }}
+      {{ dprReportsCatalogueProductRows(products) }}
+    </div>
+  </div>
+{% endmacro %}

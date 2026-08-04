@@ -37,21 +37,6 @@
     <p class="govuk-body">The filters that have been applied to the report as a request filter</p>
   {% endset -%}
 
-
-  {% set filtersViewedHelpHtml %}
-    <h3 class="govuk-heading-s govuk-!-margin-bottom-1">Filters</h3>
-    <p class="govuk-body">
-      The filters that have been applied to the report as a request filter (in grey), and as an interactive filter (in
-      blue):
-    </p>
-    <ul class="dpr-card-group__item__filters-list">
-      <li class="govuk-body-s dpr-query-summary"><strong>Pre request filter:</strong> Value</li>
-      <li class="govuk-body-s dpr-interactive-query-summary"><strong>Interactive filter:</strong> Value</li>
-    </ul>
-    <br /><br />
-  {% endset -%}
-
-
   {% set statusHelpHtml %}
     <h3 class="govuk-heading-s govuk-!-margin-bottom-1">Status</h3>
     <p class="govuk-body">The current status of a report:</p>
@@ -175,7 +160,7 @@
       {{ mainViewedHelpHtml | dpr.safe }}
       <h3>Table details</h3>
       {{ productHelpHtml | dpr.safe }}
-      {{ filtersViewedHelpHtml | dpr.safe }}
+      {{ filtersHelpHtml | dpr.safe }}
       {{ statusViewedHelpHtml | dpr.safe }}
       {{ actionsViewedHelpHtml | dpr.safe }}
     {% endset -%}

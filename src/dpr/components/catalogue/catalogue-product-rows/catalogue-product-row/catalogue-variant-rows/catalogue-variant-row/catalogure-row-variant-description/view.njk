@@ -1,0 +1,7 @@
+{% from "../../../../../../truncate/view.njk" import dprTruncate %}
+
+{% macro dprReportsCatalogueVariantRowDescription(description) %}
+  <div class="dpr-reports-catalogue__description">
+    {{ dprTruncate(description) }}
+  </div>
+{% endmacro %}

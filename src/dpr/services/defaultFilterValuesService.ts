@@ -13,6 +13,7 @@ class DefaultFilterValuesService extends ReportStoreService {
   constructor(reportDataStore: ReportDataStore, serviceFeatureConfig: ServiceFeatureConfig) {
     super(reportDataStore)
     this.enabled = Boolean(serviceFeatureConfig.saveDefaults)
+    logger.info(`SAVE_DEFAULTS_DEBUG set: ${this.enabled}`)
     if (!this.enabled) logger.info(`saveDefaultsFilters: disabled`)
   }
 

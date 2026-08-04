@@ -80,9 +80,14 @@ const setFeatureFlags = async (res: Response, featureFlagService: FeatureFlagSer
 
   const currentFlags = res.app.locals['featureFlags'].flags
   logger.info('SAVE_DEFAULTS_DEBUG currentFlags', JSON.stringify(currentFlags))
+
   const newFlags = await featureFlagService.evaluateBooleanFlags(FEATURE_FLAGS, subject)
 
+  logger.info('SAVE_DEFAULTS_DEBUG newFlags', JSON.stringify(newFlags))
+
   const hasChanged = JSON.stringify(currentFlags) !== JSON.stringify(newFlags)
+
+  logger.info('SAVE_DEFAULTS_DEBUG hasChanged', hasChanged)
 
   if (hasChanged) {
     res.app.locals['featureFlags'].flags = newFlags

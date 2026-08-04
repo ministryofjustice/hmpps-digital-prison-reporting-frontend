@@ -1,4 +1,5 @@
 {% from './removed-reports/view.njk' import dprMyReportsListNotificationRemoved %}
+{% from './subscriptions-refreshed/view.njk' import dprMyReportsSubscriptionsRefreshed %}
 {% from "../../subscription/subscription-flash/view.njk" import dprSubscriptionFlash %}
 
 {% macro dprMyReportsListNotification(messages) %}
@@ -13,7 +14,12 @@
 
     {% if subscriptionMessages %}
       {{ dprSubscriptionFlash(subscriptionMessages) }}
+
+      {% if subscriptionMessages.refreshedSubscriptionsMessage.message %}
+        {{ dprMyReportsSubscriptionsRefreshed( subscriptionMessages.refreshedSubscriptionsMessage) }}
+      {% endif %}
     {% endif %}
+
   </div>
 
 {% endmacro %}

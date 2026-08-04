@@ -32,21 +32,21 @@ export const setupResources = (
     populateValidationErrors(req, res)
 
     try {
-      // 1. Initialise our feature flags to app.locals
+      setUpDprPaths(res)
+
+      // Initialise our feature flags to app.locals
       await setFeatureFlags(res, services.featureFlagService)
 
-      // 2. Initialise definitions, collections and definitions path
+      // Initialise definitions, collections and definitions path
       await populateDefinitions(services, req, res, config)
 
-      // 3. Initialise enabled service flags to app.locals
+      // Initialise enabled service flags to app.locals
       await initialiseServices(services, res)
 
-      // 4. Populate user reports state with up to date list
+      // Populate user reports state with up to date list
       await populateLocalsFromUserReportStore(services, res, req)
 
       populateSubsMessages(req, res)
-
-      setUpDprPaths(res)
 
       setupRequestAwareNunjucks(env, res)
 
@@ -115,8 +115,9 @@ const populateSubsMessages = (req: Request, res: Response) => {
   }
 
   const refreshedSubscriptionsMessage = req.flash(`DPR_REFRESHED_SUBSCRIPTIONS`)
-  if (unsubscribedMessage && unsubscribedMessage[0]) {
-    res.locals['refreshedSubscriptionsMessage'] = JSON.parse(refreshedSubscriptionsMessage[0])
+  if (refreshedSubscriptionsMessage && refreshedSubscriptionsMessage[0]) {
+    const [first] = refreshedSubscriptionsMessage
+    res.locals['refreshedSubscriptionsMessage'] = JSON.parse(first)
   }
 }
 

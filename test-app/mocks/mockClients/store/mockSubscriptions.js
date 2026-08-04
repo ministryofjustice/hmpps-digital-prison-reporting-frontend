@@ -3,11 +3,12 @@ const subscribedReport = {
   reportId: 'request-examples',
   id: 'request-example-success',
   tableId: 'tblId_1729766362362',
-  reportName: 'Request examples',
-  name: 'Viewed report',
+  reportName: 'Scheduled reports mock',
+  name: 'Mocked scheduled report in state',
   description: 'this will succeed',
   type: 'report',
   status: 'READY',
+  schedule: "Weekly at 9:00am",
   url: {
     origin: 'http://localhost:3010',
     report: {
@@ -26,11 +27,12 @@ const subscribedDashboard = {
   reportId: 'mock-dashboards',
   id: 'Mock dashboards',
   tableId: 'tblId_1730302242487',
-  reportName: 'Mock dashboards',
-  name: 'Viewed dashboard',
+  reportName: 'Scheduled dashboard mock',
+  name: 'Mocked scheduled dashboard in state',
   description: 'Async Dashboard Testing',
   type: 'dashboard',
   status: 'READY',
+  schedule: "Weekly at 9:00am",
   url: {
     origin: 'http://localhost:3010',
     report: {
@@ -41,7 +43,7 @@ const subscribedDashboard = {
     },
   },
   timestamp: {
-    refresh: '2024-10-30T15:30:46.136Z',
+    refresh: '2022-10-30T15:30:46.136Z',
   },
 }
 

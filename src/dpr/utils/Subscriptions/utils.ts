@@ -1,4 +1,5 @@
 import { type Response } from 'express'
+import { buildReportPageAction } from 'src/dpr/components/my-reports/my-reports-list-item/my-reports-list-item-actions/utils'
 import { Services } from '../../types/Services'
 import { StoredReportData } from '../../types/UserReports'
 
@@ -39,12 +40,18 @@ export const getRefreshedSubscriptionsAndUpdateTimestamp = async (
       return wasSubscribedReportRefreshed(subData.reportUpdatedTime, sub.timestamp.refresh)
     })
     .map(sub => {
-      const { tableId, reportName, name } = sub
+      const { reportName, name } = sub
+      const { href, reportType } = buildReportPageAction(res, res.req, sub)
+
       return {
         reportName,
         name,
-        tableId: tableId ?? '',
+        href,
+        reportType,
       }
+    })
+    .map(sub => {
+      return `${sub.reportName} - ${sub.name}. <a href="${sub.href}" target="_blank" class="govuk-link govuk-link--no-visited-state">View ${sub.reportType}</a>`
     })
 
   // If there are refreshed timestamps then show an in-app notification
@@ -58,7 +65,7 @@ export const getRefreshedSubscriptionsAndUpdateTimestamp = async (
     req?.flash(
       'DPR_REFRESHED_SUBSCRIPTIONS',
       JSON.stringify({
-        message,
+        message: `<p>${message}</p>`,
         details: refreshedSubscriptions,
       }),
     )

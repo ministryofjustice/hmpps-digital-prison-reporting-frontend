@@ -1,8 +1,12 @@
 Below you can find the changes included in each release.
 
-## 8.0.2
+## 8.1.1
 
 - Improved debugging logs for save defaults feature flag
+
+## 8.1.0
+
+- New reports catalogue component
 
 ## 8.0.1
 

@@ -1,4 +1,10 @@
-import { checkA11y, executeReportStubs, getMyReportRow, getMyReportRowCell } from 'cypress-tests/cypressUtils'
+import {
+  checkA11y,
+  executeReportStubs,
+  getMyReportRow,
+  getMyReportRowCell,
+  startReportRequest,
+} from 'cypress-tests/cypressUtils'
 import dayjs from 'dayjs'
 import { getRedisState, setRedisState } from 'test-app/routes/integrationTests/appStateUtils'
 
@@ -16,18 +22,7 @@ context('Request status', () => {
 
     it('should show the status pages', () => {
       cy.visit(path)
-      cy.findByLabelText(/Reports catalogue.*/i).within(() => {
-        cy.findByRole('row', {
-          name: (_, element) => {
-            return (
-              Boolean(element.textContent?.includes('Successful Report')) &&
-              Boolean(element.textContent?.includes('this will succeed'))
-            )
-          },
-        }).within(() => {
-          cy.findByRole('link', { name: 'Request report' }).click()
-        })
-      })
+      startReportRequest({ name: 'Successful Report', description: 'this will succeed' })
       cy.task('stubReportsSubmittedStatus')
       cy.findByRole('button', { name: /Request/ }).click()
       checkA11y()
@@ -43,18 +38,7 @@ context('Request status', () => {
 
     it('should timeout', () => {
       cy.visit(path)
-      cy.findByLabelText(/Reports catalogue.*/i).within(() => {
-        cy.findByRole('row', {
-          name: (_, element) => {
-            return (
-              Boolean(element.textContent?.includes('Successful Report')) &&
-              Boolean(element.textContent?.includes('this will succeed'))
-            )
-          },
-        }).within(() => {
-          cy.findByRole('link', { name: 'Request report' }).click()
-        })
-      })
+      startReportRequest({ name: 'Successful Report', description: 'this will succeed' })
       cy.task('stubReportsSubmittedStatus')
       cy.findByRole('button', { name: /Request/ }).click()
       checkA11y()
@@ -80,18 +64,7 @@ context('Request status', () => {
         cy.task('resetRedis')
         cy.task('stubReportsPickedStatus')
         cy.visit(path)
-        cy.findByLabelText(/Reports catalogue.*/i).within(() => {
-          cy.findByRole('row', {
-            name: (_, element) => {
-              return (
-                Boolean(element.textContent?.includes('Successful Report')) &&
-                Boolean(element.textContent?.includes('this will succeed'))
-              )
-            },
-          }).within(() => {
-            cy.findByRole('link', { name: 'Request report' }).click()
-          })
-        })
+        startReportRequest({ name: 'Successful Report', description: 'this will succeed' })
         cy.findByRole('button', { name: /Request/ }).click()
         cy.findByText(/submitted/i).should('be.visible')
         cy.findByText(/picked/i).should('be.visible')

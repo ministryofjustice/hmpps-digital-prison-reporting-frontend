@@ -47,8 +47,8 @@ export const getProductCollection2 = generateNetworkMock({
   response: {
     ...defaultMockRequest.response,
     jsonBody: {
-      id: 'cata-id-123',
-      name: 'My Starter Pack',
+      id: 'cata-id-456',
+      name: 'Other collection',
       products: [{ productId: summaries[2].id }, { productId: summaries[3].id }],
     },
   },

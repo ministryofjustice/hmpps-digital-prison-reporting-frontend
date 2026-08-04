@@ -1,0 +1,49 @@
+{%- from "govuk/components/tag/macro.njk" import govukTag -%}
+{%- from "../../../../../../bookmark/view.njk" import dprBookmarkButton -%}
+
+{% macro dprReportsCatalogueVariantRowActions(actions) %}
+
+  {% set request = actions.request %}
+  {% set bookmark = actions.bookmark %}
+  {% set authorised = actions.authorised %}
+  {% set missing = actions.missing %}
+
+  <div class="dpr-reports-catalogue__actions">
+    {% if not authorised %}
+      <div class="dpr-reports-catalogue__actions-unauthorised">
+        {{ govukTag({ text: "Unauthorised", classes: "govuk-tag--red" }) }}
+      </div>
+    {% else %}
+      <ul class="dpr-reports-catalogue__actions-list">
+        {% if request %}
+          {% set href = request.href %}
+          {% set label = request.label %}
+          <li>
+            <a href="{{ href }}" class="govuk-link govuk-link--no-visited-state">
+              {{ label }}
+            </a>
+          </li>
+        {% endif %}
+
+        {% if missing %}
+          {% set href = missing.href %}
+          {% set label = missing.label %}
+          <li>
+            <a href="{{ href }}" class="govuk-link govuk-link--no-visited-state">
+              {{ label }}
+            </a>
+          </li>
+        {% endif %}
+
+        {% if bookmark %}
+          {% set reportId = bookmark.reportId %}
+          {% set id = bookmark.id %}
+          {% set reportType = bookmark.reportType %}
+          {% set csrfToken = bookmark.csrfToken %}
+
+          <li>{{ dprBookmarkButton(reportId, id, reportType, csrfToken, bookmark) }}</li>
+        {% endif %}
+      </ul>
+    {% endif %}
+  </div>
+{% endmacro %}

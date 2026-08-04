@@ -1,4 +1,4 @@
-import { executeReportStubs } from 'cypress-tests/cypressUtils'
+import { executeReportStubs, startReportRequest } from 'cypress-tests/cypressUtils'
 import { resetFeatureFlags, toggleBookmarking } from 'test-app/routes/integrationTests/appStateUtils'
 
 context('Viewing a report', () => {
@@ -30,19 +30,7 @@ context('Viewing a report', () => {
       cy.task('stubFeatureFlags')
       resetFeatureFlags()
       cy.visit(path)
-      cy.findByLabelText(/Reports catalogue.*/i).within(() => {
-        cy.findByRole('row', {
-          name: (_, element) => {
-            return (
-              Boolean(element?.textContent?.includes('Successful Report')) &&
-              Boolean(element?.textContent?.includes('this will succeed'))
-            )
-          },
-        }).within(() => {
-          cy.findByRole('link', { name: 'Request report' }).click()
-        })
-      })
-
+      startReportRequest({ name: 'Successful Report', description: 'this will succeed' })
       cy.findByRole('button', { name: /Save current filter values as defaults/ }).should('be.visible')
       const helpSummary = cy.contains('summary', /Help/)
       helpSummary.click()
@@ -54,19 +42,7 @@ context('Viewing a report', () => {
       cy.task('stubFeatureFlagsEmpty')
       resetFeatureFlags()
       cy.visit(path)
-      cy.findByLabelText(/Reports catalogue.*/i).within(() => {
-        cy.findByRole('row', {
-          name: (_, element) => {
-            return (
-              Boolean(element?.textContent?.includes('Successful Report')) &&
-              Boolean(element?.textContent?.includes('this will succeed'))
-            )
-          },
-        }).within(() => {
-          cy.findByRole('link', { name: 'Request report' }).click()
-        })
-      })
-
+      startReportRequest({ name: 'Successful Report', description: 'this will succeed' })
       cy.findByRole('button', { name: /Save current filter values as defaults/ }).should('be.visible')
       const helpSummary = cy.contains('summary', /Help/)
       helpSummary.click()
@@ -78,19 +54,7 @@ context('Viewing a report', () => {
       cy.task('stubFeatureFlagsDisabled')
       resetFeatureFlags()
       cy.visit(path)
-      cy.findByLabelText(/Reports catalogue.*/i).within(() => {
-        cy.findByRole('row', {
-          name: (_, element) => {
-            return (
-              Boolean(element?.textContent?.includes('Successful Report')) &&
-              Boolean(element?.textContent?.includes('this will succeed'))
-            )
-          },
-        }).within(() => {
-          cy.findByRole('link', { name: 'Request report' }).click()
-        })
-      })
-
+      startReportRequest({ name: 'Successful Report', description: 'this will succeed' })
       cy.findByRole('button', { name: /Save current filter values as defaults/ }).should('not.exist')
       const helpSummary = cy.contains('summary', /Help/)
       helpSummary.click()

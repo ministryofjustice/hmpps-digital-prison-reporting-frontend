@@ -1,0 +1,9 @@
+{% macro dprReportsCatalogueTotals(totals) %}
+  <div class="dpr-reports-catalogue__totals" data-dpr-module="dpr-report-catalogue-totals">
+    <p>Showing
+      <span data-products-variants>{{ totals.variants | dpr.safe }}</span>
+      from
+      <span data-products-total>{{ totals.products | dpr.safe }}</span>
+    </p>
+  </div>
+{% endmacro %}

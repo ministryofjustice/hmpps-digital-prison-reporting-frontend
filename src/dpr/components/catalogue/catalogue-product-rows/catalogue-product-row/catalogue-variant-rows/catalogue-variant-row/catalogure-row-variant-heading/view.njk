@@ -1,0 +1,14 @@
+{%  from "../../../../../../report-type-tag/view.njk" import dprReportTypeTag %}
+
+{% macro dprReportsCatalogueVariantRowHeading(heading) %}
+  {% set name = heading.name %}
+  {% set type = heading.type %}
+
+  <div class="dpr-reports-catalogue__heading">
+    <h2 class="govuk-body-s">{{ name }}</h2>
+
+    <div class="dpr-reports-catalogue__heading__report-type">
+      {{ dprReportTypeTag(type) }}
+    </div>
+  </div>
+{% endmacro %}

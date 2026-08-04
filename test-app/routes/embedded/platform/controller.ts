@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express'
 import { Services } from '../../../../src/dpr/types/Services'
-import CatalogueUtils from '../../../../src/dpr/components/_catalogue/catalogue/utils'
+import { initCatalogue } from '../../../../src/dpr/components/catalogue/utils'
 import { initMyReports } from '../../../../src/dpr/components/my-reports/utils'
 
 export default class PlatformController {
@@ -13,8 +13,8 @@ export default class PlatformController {
   GET: RequestHandler = async (req, res) => {
     res.locals['csrfToken'] = 'csrfToken'
 
-    const args = { res, req, services: this.services }
-    const catalogue = await CatalogueUtils.initCatalogue(args)
+    const catalogue = await initCatalogue(res, req, this.services)
+
     const myReportsData = await initMyReports(req, res, this.services, { maxRows: 10 })
 
     res.render('views/pages/platform/view.njk', {

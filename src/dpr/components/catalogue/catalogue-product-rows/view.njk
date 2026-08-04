@@ -1,0 +1,14 @@
+
+{% from "./catalogue-product-row/view.njk" import dprReportsCatalogueProductRow %}
+
+{% macro dprReportsCatalogueProductRows(products) %}
+  <div class="dpr-report-catalogue__product-rows">
+    {% for product in products %}
+
+      {% set previousProduct = not loop.first and products[loop.index0 - 1] %}
+      {% set nextProduct = not loop.last and products[loop.index0 + 1] %}
+
+      {{ dprReportsCatalogueProductRow(product, previousProduct, nextProduct) }}
+    {% endfor %}
+  </div>
+{% endmacro %}

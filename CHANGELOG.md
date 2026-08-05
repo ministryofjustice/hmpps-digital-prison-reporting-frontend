@@ -1,6 +1,6 @@
 Below you can find the changes included in each release.
 
-## 8.1.3
+## 8.1.3, 8.1.4
 
 - Reports catalogue rollup config
 

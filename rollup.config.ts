@@ -128,6 +128,7 @@ const options = [
   {
     input: [
       path.join(cwd, 'src/dpr/components/_catalogue/catalogue/utils.ts'),
+      path.join(cwd, 'src/dpr/components/catalogue/utils.ts'),
       path.join(cwd, 'src/dpr/components/my-reports/utils.ts'),
       path.join(cwd, 'src/dpr/data/dprReportingClient.ts'),
       path.join(cwd, 'src/dpr/utils/CreateDprServices.ts'),
@@ -181,6 +182,7 @@ const options = [
   {
     input: [
       path.join(cwd, 'src/dpr/components/_catalogue/catalogue/utils.ts'),
+      path.join(cwd, 'src/dpr/components/catalogue/utils.ts'),
       path.join(cwd, 'src/dpr/components/my-reports/utils.ts'),
       path.join(cwd, 'src/dpr/data/dprReportingClient.ts'),
       path.join(cwd, 'src/dpr/utils/CreateDprServices.ts'),
@@ -226,6 +228,7 @@ const options = [
   {
     input: {
       'dpr/components/_catalogue/catalogue/utils': path.join(cwd, 'src/dpr/components/_catalogue/catalogue/utils.ts'),
+      'dpr/components/catalogue/utils': path.join(cwd, 'src/dpr/components/catalogue/utils.ts'),
       'dpr/components/my-reports/utils': path.join(cwd, 'src/dpr/components/my-reports/utils.ts'),
       'dpr/data/dprReportingClient': path.join(cwd, 'src/dpr/data/dprReportingClient.ts'),
       'dpr/utils/CreateDprServices': path.join(cwd, 'src/dpr/utils/CreateDprServices.ts'),

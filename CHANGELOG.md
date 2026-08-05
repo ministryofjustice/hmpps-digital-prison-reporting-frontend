@@ -2,6 +2,7 @@ Below you can find the changes included in each release.
 
 ## 8.1.5
 
+- Bugfix: Client side js error related to product collections
 - Remove extra logs for save defaults feature flag
 
 ## 8.1.3, 8.1.4

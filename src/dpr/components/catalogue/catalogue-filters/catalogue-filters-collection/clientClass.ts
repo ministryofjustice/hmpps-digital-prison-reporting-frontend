@@ -10,16 +10,19 @@ export class DprReportsCatalogueCollections extends DprClientClass {
   }
 
   initProductCollectionSelect() {
-    const productCollections = this.getElement().querySelector('#productCollection')
-    if (productCollections) {
-      productCollections.addEventListener('change', e => {
-        e.preventDefault()
-        const form = productCollections.closest('form')
+    const element = this.getElement()
+    if (element) {
+      const productCollections = element.querySelector('#productCollection')
+      if (productCollections) {
+        productCollections.addEventListener('change', e => {
+          e.preventDefault()
+          const form = productCollections.closest('form')
 
-        if (!form) return
+          if (!form) return
 
-        form.submit()
-      })
+          form.submit()
+        })
+      }
     }
   }
 }

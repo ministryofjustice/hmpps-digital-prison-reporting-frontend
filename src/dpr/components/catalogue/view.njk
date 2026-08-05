@@ -6,14 +6,16 @@
 {% macro dprReportsCatalogue(config) %}
 
   <div id="dpr-reports-catalogue" aria-labelledby="dpr-reports-catalogue-heading">
-  <h1 id="dpr-reports-catalogue-heading">Reports Catalogue</h1>
+    <h1 id="dpr-reports-catalogue-heading">Reports Catalogue</h1>
 
-  {% set filtersConfig = config.filtersConfig %}
+    {% set filtersConfig = config.filtersConfig %}
 
-  {% set catalogueConfig = config.catalogueConfig %}
-  {% set headings = catalogueConfig.headings %}
-  {% set products = catalogueConfig.products %}
-  {% set totals = catalogueConfig.totals %}
+    {% set catalogueConfig = config.catalogueConfig %}
+    {% set headings = catalogueConfig.headings %}
+    {% set products = catalogueConfig.products %}
+    {% set totals = catalogueConfig.totals %}
+
+    {{ catalogueConfig | json }}
 
     <div class="dpr-reports-catalogue">
       {{ dprReportsCatalogueFilters(filtersConfig) }}

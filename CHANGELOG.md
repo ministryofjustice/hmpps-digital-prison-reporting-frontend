@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## 8.1.5
+
+- Remove extra logs for save defaults feature flag
+
 ## 8.1.3, 8.1.4
 
 - Reports catalogue rollup config

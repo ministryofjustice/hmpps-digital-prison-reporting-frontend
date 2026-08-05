@@ -32,6 +32,11 @@ const publishPkg = {
       require: './cjs/dpr/components/_catalogue/catalogue/utils.js',
       import: './dpr/components/_catalogue/catalogue/utils.js',
     },
+    './reportCatalogueUtils': {
+      types: './dpr/components/catalogue/utils.d.ts',
+      require: './cjs/dpr/components/catalogue/utils.js',
+      import: './dpr/components/catalogue/utils.js',
+    },
     './myReportsListUtils': {
       types: './dpr/components/my-reports/utils.d.ts',
       require: './cjs/dpr/components/my-reports/utils.js',

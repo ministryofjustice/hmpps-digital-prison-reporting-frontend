@@ -15,8 +15,6 @@
     {% set products = catalogueConfig.products %}
     {% set totals = catalogueConfig.totals %}
 
-    {{ catalogueConfig | json }}
-
     <div class="dpr-reports-catalogue">
       {{ dprReportsCatalogueFilters(filtersConfig) }}
       {{ dprReportsCatalogueTotals(totals) }}

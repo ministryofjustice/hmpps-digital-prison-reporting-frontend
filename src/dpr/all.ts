@@ -54,6 +54,7 @@ import { DprReportsCatalogueTypeFilter } from './components/catalogue/catalogue-
 import { DprReportsCatalogueShowHide } from './components/catalogue/catalogue-filters/catalogue-filters-show-hide/clientClass'
 import { DprReportsCatalogueTotals } from './components/catalogue/catalogue-totals/clientClass'
 import { DprReportsCatalogueProductCounts } from './components/catalogue/catalogue-product-rows/catalogue-product-row/catalogue-product-row-totals/clientClass'
+import { DprReportsCatalogueNavigation } from './components/catalogue/catalogue-product-rows/catalogue-product-row/catalogue-product-row-navigation/clientClass'
 
 /**
  * Initialise all components
@@ -69,9 +70,6 @@ function initAll() {
     Pagination,
     DataTable,
     DprReportStatus,
-    Search,
-    UnauthorisedReportsFilter,
-    ReportTypeFilter,
     BookmarkButton,
     DateInput,
     DateRange,
@@ -97,6 +95,7 @@ function initAll() {
     DprReportsCatalogueShowHide,
     DprReportsCatalogueTotals,
     DprReportsCatalogueProductCounts,
+    DprReportsCatalogueNavigation,
   ]
 
   dayjs.extend(customParse)

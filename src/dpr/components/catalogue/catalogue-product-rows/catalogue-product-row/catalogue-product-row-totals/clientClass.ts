@@ -1,6 +1,6 @@
-import { DprClientClass } from '../../../../../DprClientClass'
+import { DprReportsCatalogueFiltersClass } from '../../../catalogue-filters/clientClass'
 
-export class DprReportsCatalogueProductCounts extends DprClientClass {
+export class DprReportsCatalogueProductCounts extends DprReportsCatalogueFiltersClass {
   static override getModuleName() {
     return 'dpr-report-catalogue-product-counts'
   }
@@ -30,12 +30,12 @@ export class DprReportsCatalogueProductCounts extends DprClientClass {
   }
 
   private getVisibleVariantCount(product: HTMLElement): number {
-    return [...product.querySelectorAll<HTMLElement>('.dpr-report-catalogue__variant-row')].filter(
-      row => row.offsetParent !== null,
-    ).length
-  }
+    if (!this.isVisibleProduct(product)) {
+      return 0
+    }
 
-  private getProducts(): HTMLElement[] {
-    return [...document.querySelectorAll<HTMLElement>('.dpr-report-catalogue__product-row')]
+    return [...product.querySelectorAll<HTMLElement>('.dpr-report-catalogue__variant-row')].filter(row =>
+      this.isVisibleVariant(row),
+    ).length
   }
 }

@@ -88,12 +88,12 @@ Initialise the component with the required data using the component utility help
 
 ```js
 // server/routes/index.ts
-import { initCatalogue } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/catalogueUtils'
+import { initMyReports } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/myReportsListUtils'
 
 export function routes(services: Services): Router {
   ...
   router.get('/path/to/catalogue', (req, res) => {
-    const catalogue = await initCatalogue({ res, services })
+    const catalogue = await initCatalogue(res, req, services)
     res.render('reports-catalogue.njk', {
       catalogue
     })
@@ -106,9 +106,9 @@ export default routes
 
 ```js
 // reports-catalogue.njk
-{ from "components/_catalogue/catalogue/view.njk" import dprCatalogue }
+{ from "components/catalogue/view.njk" import dprReportsCatalogue }
 
-{ dprCatalogue(catalogue) }
+{ dprReportsCatalogue(catalogue) }
 ```
 
 See [Catalogue](/components/catalogue) component for usage and examples.

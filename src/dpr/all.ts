@@ -10,11 +10,6 @@ import BookmarkButton from './components/bookmark/clientClass'
 import ShowMore from './components/show-more/clientClass'
 import { dprTruncate } from './components/truncate/clientClass'
 
-// Catalogue
-import Search from './components/_catalogue/catalogue-search/clientClass'
-import UnauthorisedReportsFilter from './components/_catalogue/catalogue-unauthorised-toggle/clientClass'
-import ReportTypeFilter from './components/_catalogue/catalogue-filter-by-type/clientClass'
-
 // Reports
 import Pagination from './components/_reports/report-page/report-template/report-pagination/clientClass'
 import ReportActions from './components/_reports/report-heading/report-actions/clientClass'

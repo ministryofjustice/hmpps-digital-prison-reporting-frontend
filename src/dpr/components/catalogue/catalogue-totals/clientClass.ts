@@ -1,11 +1,11 @@
-import { DprClientClass } from '../../../DprClientClass'
+import { DprReportsCatalogueFiltersClass } from '../catalogue-filters/clientClass'
 
 /**
  * Updates catalogue totals whenever filters change.
  *
  * Counts only visible products and variants.
  */
-export class DprReportsCatalogueTotals extends DprClientClass {
+export class DprReportsCatalogueTotals extends DprReportsCatalogueFiltersClass {
   private productsTotal!: HTMLElement | null
 
   private variantsTotal!: HTMLElement | null
@@ -35,35 +35,34 @@ export class DprReportsCatalogueTotals extends DprClientClass {
     }
 
     const variantCount = this.getVisibleVariants().length
-    this.variantsTotal.innerHTML = `<strong>${variantCount}</strong> ${this.pluralise(variantCount, 'report', 'reports')}`
+
+    this.variantsTotal.innerHTML = `<strong>${variantCount}</strong> ${this.pluralise(
+      variantCount,
+      'report',
+      'reports',
+    )}`
 
     const productCount = this.getVisibleProducts().length
-    this.productsTotal.innerHTML = `<strong>${productCount}</strong> ${this.pluralise(productCount, 'product', 'products')}`
+
+    this.productsTotal.innerHTML = `<strong>${productCount}</strong> ${this.pluralise(
+      productCount,
+      'product',
+      'products',
+    )}`
   }
 
   /**
    * Returns all visible products.
    */
   private getVisibleProducts(): HTMLElement[] {
-    return [...document.querySelectorAll<HTMLElement>('.dpr-report-catalogue__product-row')].filter(product =>
-      this.isVisible(product),
-    )
+    return this.getProducts().filter(product => this.isVisibleProduct(product))
   }
 
   /**
    * Returns all visible variants.
    */
   private getVisibleVariants(): HTMLElement[] {
-    return [...document.querySelectorAll<HTMLElement>('.dpr-report-catalogue__variant-row')].filter(variant =>
-      this.isVisible(variant),
-    )
-  }
-
-  /**
-   * Determines whether an element is currently visible.
-   */
-  private isVisible(element: HTMLElement): boolean {
-    return element.offsetParent !== null
+    return this.getVariants().filter(variant => this.isVisibleVariant(variant))
   }
 
   private pluralise(count: number, singular: string, plural: string): string {

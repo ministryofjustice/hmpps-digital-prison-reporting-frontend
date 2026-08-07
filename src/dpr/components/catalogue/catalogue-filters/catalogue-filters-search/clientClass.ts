@@ -1,4 +1,4 @@
-import { DprClientClass } from '../../../../DprClientClass'
+import { DprReportsCatalogueFiltersClass } from '../clientClass'
 
 /**
  * Client-side search for the reports catalogue.
@@ -10,10 +10,12 @@ import { DprClientClass } from '../../../../DprClientClass'
  * Search state is persisted in the URL query string so that refreshes and
  * shared links retain the current search term.
  */
-export class DprReportsCatalogueSearch extends DprClientClass {
+export class DprReportsCatalogueSearch extends DprReportsCatalogueFiltersClass {
   private searchInput!: HTMLInputElement | null
 
   private showHideClassName: string = 'dpr-reports-catalogue-search-hide'
+
+  private searchTimeout?: number
 
   static override getModuleName() {
     return 'dpr-report-catalogue-search'
@@ -34,10 +36,14 @@ export class DprReportsCatalogueSearch extends DprClientClass {
     }
 
     this.searchInput.addEventListener('input', () => {
-      const search = this.searchInput?.value ?? ''
+      window.clearTimeout(this.searchTimeout)
 
-      this.applySearch(search)
-      this.updateQueryString(search)
+      this.searchTimeout = window.setTimeout(() => {
+        const search = this.searchInput?.value ?? ''
+
+        this.applySearch(search)
+        this.updateQueryString(search)
+      }, 150)
     })
   }
 
@@ -84,8 +90,8 @@ export class DprReportsCatalogueSearch extends DprClientClass {
    * Returns the number of matching child rows.
    */
   private filterVariants(product: HTMLElement, searchTerm: string, productMatches: boolean): number {
-    return this.getVariants(product).filter(variant => {
-      const variantMatches = this.matchesSearch(variant.textContent, searchTerm)
+    return this.getProductVariants(product).filter(variant => {
+      const variantMatches = this.matchesSearch(variant, searchTerm)
 
       const showVariant = productMatches || variantMatches
 
@@ -99,20 +105,17 @@ export class DprReportsCatalogueSearch extends DprClientClass {
    * Determines whether a product heading matches the search term.
    */
   private productMatches(product: HTMLElement, searchTerm: string): boolean {
-    const heading = product.querySelector('.dpr-report-catalogue__product-row__name')
+    const heading = product.querySelector<HTMLElement>('.dpr-report-catalogue__product-row__name')
 
-    return this.matchesSearch(heading?.textContent, searchTerm)
+    return heading ? this.matchesSearch(heading, searchTerm) : false
   }
 
-  /**
-   * Performs a case-insensitive text match.
-   */
-  private matchesSearch(value: string | null | undefined, searchTerm: string): boolean {
+  private matchesSearch(element: HTMLElement, searchTerm: string): boolean {
     if (searchTerm === '') {
       return true
     }
 
-    return (value ?? '').toLowerCase().includes(searchTerm)
+    return this.getSearchText(element).includes(searchTerm)
   }
 
   /**
@@ -159,19 +162,5 @@ export class DprReportsCatalogueSearch extends DprClientClass {
       '',
       queryString ? `${window.location.pathname}?${queryString}` : window.location.pathname,
     )
-  }
-
-  /**
-   * Returns all product rows in the catalogue.
-   */
-  private getProducts(): HTMLElement[] {
-    return [...document.querySelectorAll<HTMLElement>('.dpr-report-catalogue__product-row')]
-  }
-
-  /**
-   * Returns all variant and dashboard rows belonging to a product.
-   */
-  private getVariants(product: HTMLElement): HTMLElement[] {
-    return [...product.querySelectorAll<HTMLElement>('.dpr-report-catalogue__variant-row')]
   }
 }

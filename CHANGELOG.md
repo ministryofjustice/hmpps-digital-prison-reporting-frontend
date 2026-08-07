@@ -1,5 +1,13 @@
 Below you can find the changes included in each release.
 
+## 8.2.0
+
+### Report Catalogue updates
+
+- Performance improvements to speed up and optimise client side js when filtering/searching rows
+- Product navigation buttons show and hide correctly, and ignore hidden rows
+- Removed old catalogue component and references.
+
 ## 8.1.5
 
 - Bugfix: Client side js error related to product collections

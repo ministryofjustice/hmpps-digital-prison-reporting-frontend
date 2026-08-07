@@ -1,4 +1,4 @@
-import { DprClientClass } from '../../../../DprClientClass'
+import { DprReportsCatalogueFiltersClass } from '../clientClass'
 
 /**
  * Controls catalogue visibility filters.
@@ -8,7 +8,7 @@ import { DprClientClass } from '../../../../DprClientClass'
  * - Show missing variants
  * - Hide live variants
  */
-export class DprReportsCatalogueShowHide extends DprClientClass {
+export class DprReportsCatalogueShowHide extends DprReportsCatalogueFiltersClass {
   private showHideCheckboxes!: NodeListOf<HTMLInputElement>
 
   private showHideClassPrefix = 'dpr-reports-catalogue-'
@@ -70,7 +70,7 @@ export class DprReportsCatalogueShowHide extends DprClientClass {
   private applyHideMissingFilter(): void {
     const hideMissing = this.isFilterEnabled('missing')
 
-    this.getVariantRows().forEach(row => {
+    this.getVariants().forEach(row => {
       const isLive = row.dataset['live'] === 'true'
 
       row.classList.toggle(this.showHideClassPrefix + 'missing-hide', hideMissing && !isLive)
@@ -83,7 +83,7 @@ export class DprReportsCatalogueShowHide extends DprClientClass {
   private applyHideLiveFilter(): void {
     const hideLive = this.isFilterEnabled('live')
 
-    this.getVariantRows().forEach(row => {
+    this.getVariants().forEach(row => {
       const isLive = row.dataset['live'] === 'true'
 
       row.classList.toggle(this.showHideClassPrefix + 'live-hide', hideLive && isLive)
@@ -156,13 +156,5 @@ export class DprReportsCatalogueShowHide extends DprClientClass {
 
       product.classList.toggle(this.showHideClassPrefix + 'product-hide', visibleVariants.length === 0)
     })
-  }
-
-  private getProducts(): HTMLElement[] {
-    return [...document.querySelectorAll<HTMLElement>('.dpr-report-catalogue__product-row')]
-  }
-
-  private getVariantRows(): HTMLElement[] {
-    return [...document.querySelectorAll<HTMLElement>('.dpr-report-catalogue__variant-row')]
   }
 }

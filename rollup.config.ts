@@ -27,11 +27,6 @@ const publishPkg = {
     './extraLocals': {
       types: './dpr/types/extraLocals.d.ts',
     },
-    './catalogueUtils': {
-      types: './dpr/components/_catalogue/catalogue/utils.d.ts',
-      require: './cjs/dpr/components/_catalogue/catalogue/utils.js',
-      import: './dpr/components/_catalogue/catalogue/utils.js',
-    },
     './reportCatalogueUtils': {
       types: './dpr/components/catalogue/utils.d.ts',
       require: './cjs/dpr/components/catalogue/utils.js',
@@ -127,7 +122,6 @@ sourceMapFiles.forEach(filePath => {
 const options = [
   {
     input: [
-      path.join(cwd, 'src/dpr/components/_catalogue/catalogue/utils.ts'),
       path.join(cwd, 'src/dpr/components/catalogue/utils.ts'),
       path.join(cwd, 'src/dpr/components/my-reports/utils.ts'),
       path.join(cwd, 'src/dpr/data/dprReportingClient.ts'),
@@ -181,7 +175,6 @@ const options = [
   },
   {
     input: [
-      path.join(cwd, 'src/dpr/components/_catalogue/catalogue/utils.ts'),
       path.join(cwd, 'src/dpr/components/catalogue/utils.ts'),
       path.join(cwd, 'src/dpr/components/my-reports/utils.ts'),
       path.join(cwd, 'src/dpr/data/dprReportingClient.ts'),
@@ -227,7 +220,6 @@ const options = [
   },
   {
     input: {
-      'dpr/components/_catalogue/catalogue/utils': path.join(cwd, 'src/dpr/components/_catalogue/catalogue/utils.ts'),
       'dpr/components/catalogue/utils': path.join(cwd, 'src/dpr/components/catalogue/utils.ts'),
       'dpr/components/my-reports/utils': path.join(cwd, 'src/dpr/components/my-reports/utils.ts'),
       'dpr/data/dprReportingClient': path.join(cwd, 'src/dpr/data/dprReportingClient.ts'),

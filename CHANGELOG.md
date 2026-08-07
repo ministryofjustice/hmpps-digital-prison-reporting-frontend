@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## 8.2.1
+
+- Save defaults debug logs
+
 ## 8.2.0
 
 ### Report Catalogue updates

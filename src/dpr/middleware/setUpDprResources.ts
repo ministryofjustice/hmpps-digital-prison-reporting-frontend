@@ -338,12 +338,20 @@ const initialiseServices = async (services: Services, res: Response) => {
     }
 
     const serviceEnabled = services.defaultFilterValuesService.enabled
+    logger.info('SAVE_DEFAULTS_DEBUG:', JSON.stringify({ serviceEnabled }))
+
     const flagEnabled = isBooleanFlagEnabledOrMissing('saveDefaultsEnabled', res.app)
+    logger.info('SAVE_DEFAULTS_DEBUG:', JSON.stringify({ flagEnabled }))
+
     const enabled = flagEnabled ? serviceEnabled : false
+    logger.info('SAVE_DEFAULTS_DEBUG:', JSON.stringify({ masterEnabled: enabled }))
 
     const current = res.app.locals['saveDefaultsEnabled']
+    logger.info('SAVE_DEFAULTS_DEBUG:', JSON.stringify({ currentLocal: current }))
+
     if (current !== enabled) {
       res.app.locals['saveDefaultsEnabled'] = enabled
+      logger.info('SAVE_DEFAULTS_DEBUG:', JSON.stringify({ setLocal: res.app.locals['saveDefaultsEnabled'] }))
 
       logger.info(`Init service: defaultFilterValuesService: ${res.app.locals['saveDefaultsEnabled']}`)
     }

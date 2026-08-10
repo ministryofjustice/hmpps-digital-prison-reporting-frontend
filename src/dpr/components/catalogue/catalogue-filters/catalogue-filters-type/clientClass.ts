@@ -1,4 +1,4 @@
-import { DprClientClass } from '../../../../DprClientClass'
+import { DprReportsCatalogueFiltersClass } from '../clientClass'
 
 /**
  * Client-side report type filter for the reports catalogue.
@@ -10,7 +10,7 @@ import { DprClientClass } from '../../../../DprClientClass'
  * The selected filter is persisted in the URL query string
  * so that refreshes and shared links retain the current state.
  */
-export class DprReportsCatalogueTypeFilter extends DprClientClass {
+export class DprReportsCatalogueTypeFilter extends DprReportsCatalogueFiltersClass {
   private reportTypeRadios!: HTMLInputElement[]
 
   private showHideClassName: string = 'dpr-reports-catalogue-type-hide'
@@ -60,7 +60,7 @@ export class DprReportsCatalogueTypeFilter extends DprClientClass {
    * whether the product itself should remain visible.
    */
   private filterProduct(product: HTMLElement, reportType: string): void {
-    const visibleRows = this.getVariantRows(product).filter(row => {
+    const visibleRows = this.getProductVariants(product).filter(row => {
       const rowType = row.dataset['reportType']
 
       const showRow = reportType === '' || reportType === 'all' || rowType === reportType
@@ -102,19 +102,5 @@ export class DprReportsCatalogueTypeFilter extends DprClientClass {
       '',
       queryString ? `${window.location.pathname}?${queryString}` : window.location.pathname,
     )
-  }
-
-  /**
-   * Returns all product rows in the catalogue.
-   */
-  private getProducts(): HTMLElement[] {
-    return [...document.querySelectorAll<HTMLElement>('.dpr-report-catalogue__product-row')]
-  }
-
-  /**
-   * Returns all variant and dashboard rows belonging to a product.
-   */
-  private getVariantRows(product: HTMLElement): HTMLElement[] {
-    return [...product.querySelectorAll<HTMLElement>('.dpr-report-catalogue__variant-row')]
   }
 }

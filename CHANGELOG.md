@@ -1,5 +1,38 @@
 Below you can find the changes included in each release.
 
+## 8.2.1
+
+- Save defaults debug logs
+
+## 8.2.0
+
+### Report Catalogue updates
+
+- Performance improvements to speed up and optimise client side js when filtering/searching rows
+- Product navigation buttons show and hide correctly, and ignore hidden rows
+- Removed old catalogue component and references.
+
+## 8.1.5
+
+- Bugfix: Client side js error related to product collections
+- Remove extra logs for save defaults feature flag
+
+## 8.1.3, 8.1.4
+
+- Reports catalogue rollup config
+
+## 8.1.2
+
+- More debugging logs for save defaults feature flag
+
+## 8.1.1
+
+- Improved debugging logs for save defaults feature flag
+
+## 8.1.0
+
+- New reports catalogue component
+
 ## 8.0.1
 
 - Debugging logs for save defaults feature flag

@@ -79,14 +79,12 @@ const setFeatureFlags = async (res: Response, featureFlagService: FeatureFlagSer
   const subject = getFeatureFlagEvaluationSubject(res)
 
   const currentFlags = res.app.locals['featureFlags'].flags
-  logger.info(`CURRENT_FEATURE_FLAGS: ${currentFlags}`)
   const newFlags = await featureFlagService.evaluateBooleanFlags(FEATURE_FLAGS, subject)
 
   const hasChanged = JSON.stringify(currentFlags) !== JSON.stringify(newFlags)
 
   if (hasChanged) {
     res.app.locals['featureFlags'].flags = newFlags
-
     logger.info(`FEATURE FLAGS UPDATED: ${JSON.stringify(newFlags)}`)
   }
 }
@@ -345,15 +343,21 @@ const initialiseServices = async (services: Services, res: Response) => {
       logger.info(`Init service: reportIdMigrationService: ${res.app.locals['reportIdMigrationServiceEnabled']}`)
     }
 
-    // Save defaults
-    const enabled = isBooleanFlagEnabledOrMissing('saveDefaultsEnabled', res.app)
-      ? services.defaultFilterValuesService.enabled
-      : false
+    const serviceEnabled = services.defaultFilterValuesService.enabled
+    logger.info('SAVE_DEFAULTS_DEBUG:', JSON.stringify({ serviceEnabled }))
+
+    const flagEnabled = isBooleanFlagEnabledOrMissing('saveDefaultsEnabled', res.app)
+    logger.info('SAVE_DEFAULTS_DEBUG:', JSON.stringify({ flagEnabled }))
+
+    const enabled = flagEnabled ? serviceEnabled : false
+    logger.info('SAVE_DEFAULTS_DEBUG:', JSON.stringify({ masterEnabled: enabled }))
 
     const current = res.app.locals['saveDefaultsEnabled']
-    logger.info(`SAVE_DEFAULTS_DEBUG set: ${current}`)
+    logger.info('SAVE_DEFAULTS_DEBUG:', JSON.stringify({ currentLocal: current }))
+
     if (current !== enabled) {
       res.app.locals['saveDefaultsEnabled'] = enabled
+      logger.info('SAVE_DEFAULTS_DEBUG:', JSON.stringify({ setLocal: res.app.locals['saveDefaultsEnabled'] }))
 
       logger.info(`Init service: defaultFilterValuesService: ${res.app.locals['saveDefaultsEnabled']}`)
     }

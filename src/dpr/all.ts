@@ -10,11 +10,6 @@ import BookmarkButton from './components/bookmark/clientClass'
 import ShowMore from './components/show-more/clientClass'
 import { dprTruncate } from './components/truncate/clientClass'
 
-// Catalogue
-import Search from './components/_catalogue/catalogue-search/clientClass'
-import UnauthorisedReportsFilter from './components/_catalogue/catalogue-unauthorised-toggle/clientClass'
-import ReportTypeFilter from './components/_catalogue/catalogue-filter-by-type/clientClass'
-
 // Reports
 import Pagination from './components/_reports/report-page/report-template/report-pagination/clientClass'
 import ReportActions from './components/_reports/report-heading/report-actions/clientClass'
@@ -59,6 +54,7 @@ import { DprReportsCatalogueTypeFilter } from './components/catalogue/catalogue-
 import { DprReportsCatalogueShowHide } from './components/catalogue/catalogue-filters/catalogue-filters-show-hide/clientClass'
 import { DprReportsCatalogueTotals } from './components/catalogue/catalogue-totals/clientClass'
 import { DprReportsCatalogueProductCounts } from './components/catalogue/catalogue-product-rows/catalogue-product-row/catalogue-product-row-totals/clientClass'
+import { DprReportsCatalogueNavigation } from './components/catalogue/catalogue-product-rows/catalogue-product-row/catalogue-product-row-navigation/clientClass'
 
 /**
  * Initialise all components
@@ -74,9 +70,6 @@ function initAll() {
     Pagination,
     DataTable,
     DprReportStatus,
-    Search,
-    UnauthorisedReportsFilter,
-    ReportTypeFilter,
     BookmarkButton,
     DateInput,
     DateRange,
@@ -102,6 +95,7 @@ function initAll() {
     DprReportsCatalogueShowHide,
     DprReportsCatalogueTotals,
     DprReportsCatalogueProductCounts,
+    DprReportsCatalogueNavigation,
   ]
 
   dayjs.extend(customParse)

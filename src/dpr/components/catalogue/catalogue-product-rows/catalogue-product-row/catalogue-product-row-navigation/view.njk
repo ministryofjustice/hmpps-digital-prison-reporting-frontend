@@ -1,11 +1,19 @@
 {% macro dprReportsCatalogueProductRowNavigation( previousProduct, nextProduct) %}
-  <div class="dpr-report-catalogue__product-navigation">
-    {% if previousProduct %}
-      <a href="#dpr-report-catalogue__product-{{ previousProduct.id }} " class="govuk-link govuk-link--no-visited-state govuk-body-s">Previous product</a>
-    {% endif %}
+  <div class="dpr-report-catalogue__product-navigation" data-dpr-module="dpr-report-catalogue-navigation">
+    <a
+      data-previous-product
+      class="govuk-link govuk-link--no-visited-state govuk-body-s"
+      hidden
+    >
+      Previous product
+    </a>
 
-    {% if nextProduct %}
-      <a href="#dpr-report-catalogue__product-{{ nextProduct.id }}" class="govuk-link govuk-link--no-visited-state govuk-body-s govuk-!-margin-left-2">Next product</a>
-    {% endif %}
+    <a
+      data-next-product
+      class="govuk-link govuk-link--no-visited-state govuk-body-s govuk-!-margin-left-2"
+      hidden
+    >
+      Next product
+    </a>
   </div>
 {% endmacro %}

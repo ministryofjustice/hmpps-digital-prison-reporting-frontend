@@ -167,6 +167,32 @@ export const expectMyReportRowCountInTab = ({ tabName, count }: { tabName: strin
   })
 }
 
+// CATALOGUE HELPERS
+
+export const findCatalogueRowAndInitAction = (reportName: string, actionName: string) => {
+  cy.findByLabelText(/Reports Catalogue.*/i)
+    .findAllByRole('listitem')
+    .filter((_, element) => {
+      return Boolean(element.textContent?.includes(reportName))
+    })
+    .first()
+    .within(() => {
+      cy.findByRole('link', { name: new RegExp(actionName, 'i') }).click()
+    })
+}
+
+export const findCatalogueRowAndConfirmActionExists = (reportName: string, actionName: string) => {
+  cy.findByLabelText(/Reports Catalogue.*/i)
+    .findAllByRole('listitem')
+    .filter((_, element) => {
+      return Boolean(element.textContent?.includes(reportName))
+    })
+    .first()
+    .within(() => {
+      cy.findByRole('link', { name: new RegExp(actionName, 'i') }).should('exist')
+    })
+}
+
 // BOOKMARK HELPERS
 
 export const addBookmark = (name: string) => {

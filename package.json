@@ -214,7 +214,7 @@
     "jest": "^30.4.2",
     "jest-html-reporter": "^4.1.0",
     "jest-junit": "^17.0.0",
-    "js-beautify": "^1.15.4",
+    "js-beautify": "^2.0.3",
     "markdown-it": "^15.0.0",
     "markdown-it-anchor": "^9.2.0",
     "npm-run-all": "^4.1.5",

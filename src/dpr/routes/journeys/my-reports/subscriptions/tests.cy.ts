@@ -8,6 +8,13 @@ import {
   requestReport,
   startReportRequest,
 } from 'cypress-tests/cypressUtils'
+import { setRedisState } from 'test-app/routes/integrationTests/appStateUtils'
+
+import {
+  subscribedReport1,
+  subscribedReport2,
+  subscribedReport3,
+} from '@networkMocks/report/mockVariants/mockSubscriptions'
 
 describe('Subscriptions', () => {
   const reportName = 'Scheduled Report'
@@ -27,6 +34,8 @@ describe('Subscriptions', () => {
   before(() => {
     executeReportStubs()
     cy.task('stubDefinitionFeatureTestingScheduled')
+    cy.task('stubDefinitionFeatureTestingScheduled2')
+    cy.task('stubDefinitionFeatureTestingScheduled3')
     cy.task('stubSubscribeEndpoint')
     cy.task('stubUnsubscribeEndpoint')
     cy.task('stubGetSubscriptionsEndpoint')
@@ -247,11 +256,48 @@ describe('Subscriptions', () => {
       })
     })
 
-    // describe('Notifications', () => {
-    //   describe('Refreshed subscription notification', () => {
-    //     it('should show an in-app notification when a subscription has been refreshed', () => {})
-    //   })
-    // })
+    describe(`Notifications from ${path}`, () => {
+      describe('Refreshed subscription notification', () => {
+        after(() => {
+          cy.task('resetRedis')
+        })
+
+        beforeEach(() => {
+          setRedisState({
+            bookmarks: [],
+            recentlyViewedReports: [],
+            requestedReports: [],
+            subscriptions: [subscribedReport1, subscribedReport2, subscribedReport3],
+          })
+          cy.visit(path)
+        })
+
+        it('should show an in-app notification when a subscription has been refreshed', () => {
+          cy.findByRole('tab', { name: /Subscriptions/ }).click()
+          expectMyReportRowCountInTab({ tabName: /Subscriptions.*/i, count: 3 })
+
+          cy.get('.moj-alert__content').within(() => {
+            cy.findAllByRole('paragraph').contains('2 of your subscribed reports were refreshed')
+
+            cy.findAllByRole('group')
+              .contains(/Details/)
+              .click()
+
+            cy.findAllByRole('group')
+              .contains(/Details/)
+              .parent()
+              .parent()
+              .within(() => {
+                cy.findAllByRole('paragraph').contains(
+                  'The following subscriptions were refreshed and are available with new data:',
+                )
+                cy.findAllByRole('list').contains('Feature testing - Scheduled Report 2.')
+                cy.findAllByRole('list').contains('Feature testing - Scheduled Report 3.')
+              })
+          })
+        })
+      })
+    })
   }
 
   paths.forEach(route => sharedTests(route))

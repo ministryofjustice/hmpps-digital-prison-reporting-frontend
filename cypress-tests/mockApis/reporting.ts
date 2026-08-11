@@ -66,8 +66,8 @@ import { getFlagsMockDisabled, getFlagsMockEmpty, getFlagsMockEnabled } from '@n
 import { listSectionData } from '@networkMocks/report/mockVariants/data/list-section'
 import { featureTestingInteractiveDownload } from '@networkMocks/report/mockVariants/feature-testing/download'
 import { featureTestingScheduled } from '@networkMocks/report/mockVariants/feature-testing/scheduled-reports/scheduled-1'
-// import { featureTestingScheduled2 } from '@networkMocks/report/mockVariants/feature-testing/scheduled-reports/scheduled-2'
-// import { featureTestingScheduled3 } from '@networkMocks/report/mockVariants/feature-testing/scheduled-reports/scheduled-3'
+import { featureTestingScheduled2 } from '@networkMocks/report/mockVariants/feature-testing/scheduled-reports/scheduled-2'
+import { featureTestingScheduled3 } from '@networkMocks/report/mockVariants/feature-testing/scheduled-reports/scheduled-3'
 
 export const stubs = {
   stubGetFeatureTestingMissing: () =>
@@ -153,6 +153,10 @@ export const stubs = {
     stubFor(setupSimpleReportDefinitionResponseMock('feature-testing', featureTestingMissingDescription)),
   stubDefinitionFeatureTestingScheduled: () =>
     stubFor(setupSimpleReportDefinitionResponseMock('feature-testing', featureTestingScheduled)),
+  stubDefinitionFeatureTestingScheduled2: () =>
+    stubFor(setupSimpleReportDefinitionResponseMock('feature-testing', featureTestingScheduled2)),
+  stubDefinitionFeatureTestingScheduled3: () =>
+    stubFor(setupSimpleReportDefinitionResponseMock('feature-testing', featureTestingScheduled3)),
   stubDefinitionMockReportVariant35: () =>
     stubFor(setupSimpleReportDefinitionResponseMock('mock-report', variant35Interactive)),
   stubReportsFinishedStatus: () => stubFor(reportsFinishedStatusMock),

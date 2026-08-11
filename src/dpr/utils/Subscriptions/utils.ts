@@ -24,6 +24,8 @@ export const getRefreshedSubscriptionsAndUpdateTimestamp = async (
   // Get the users subscriptions data from the BE
   const timestampData = await services.subscriptionService.getSubscriptions(token)
 
+  console.log(JSON.stringify({ timestampData }, null, 2))
+
   const refreshedSubscriptions = subscriptions
     .filter(sub => {
       if (!sub.tableId) {
@@ -35,6 +37,8 @@ export const getRefreshedSubscriptionsAndUpdateTimestamp = async (
       if (!subData || !sub.timestamp.refresh) {
         return false
       }
+
+      console.log(JSON.stringify({ subData }, null, 2))
 
       // Compare the timestamps to see if the data has been refreshed
       return wasSubscribedReportRefreshed(subData.reportUpdatedTime, sub.timestamp.refresh)
@@ -53,6 +57,8 @@ export const getRefreshedSubscriptionsAndUpdateTimestamp = async (
     .map(sub => {
       return `${sub.reportName} - ${sub.name}. <a href="${sub.href}" target="_blank" class="govuk-link govuk-link--no-visited-state">View ${sub.reportType}</a>`
     })
+
+  console.log(JSON.stringify({ refreshedSubscriptions }, null, 2))
 
   // If there are refreshed timestamps then show an in-app notification
   // and update the timestamps in redis

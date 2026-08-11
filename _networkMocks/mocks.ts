@@ -139,12 +139,16 @@ export const getSubscriptionsEndpoint = generateNetworkMock({
     ...defaultMockRequest.response,
     jsonBody: [
       {
-        tableId: 'tblId_1729766362362',
-        createAt: new Date().toISOString(),
+        tableId: 'tblId_1729766362361',
+        reportUpdatedTime: new Date().toISOString(),
       },
       {
-        tableId: 'tblId_1729765628165',
-        createAt: new Date().toISOString(),
+        tableId: 'tblId_1729766362362',
+        reportUpdatedTime: new Date().toISOString(),
+      },
+      {
+        tableId: 'tblId_1729766362363',
+        reportUpdatedTime: new Date().toISOString(),
       },
     ],
   },

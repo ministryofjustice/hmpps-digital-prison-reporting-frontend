@@ -65,6 +65,9 @@ import autoMultiselectMinMaxExample from '@networkMocks/report/mockVariants/filt
 import { getFlagsMockDisabled, getFlagsMockEmpty, getFlagsMockEnabled } from '@networkMocks/featureFlags/mocks'
 import { listSectionData } from '@networkMocks/report/mockVariants/data/list-section'
 import { featureTestingInteractiveDownload } from '@networkMocks/report/mockVariants/feature-testing/download'
+import { featureTestingScheduled } from '@networkMocks/report/mockVariants/feature-testing/scheduled-reports/scheduled-1'
+// import { featureTestingScheduled2 } from '@networkMocks/report/mockVariants/feature-testing/scheduled-reports/scheduled-2'
+// import { featureTestingScheduled3 } from '@networkMocks/report/mockVariants/feature-testing/scheduled-reports/scheduled-3'
 
 export const stubs = {
   stubGetFeatureTestingMissing: () =>
@@ -148,6 +151,8 @@ export const stubs = {
     stubFor(setupSimpleReportDefinitionResponseMock('feature-testing', featureTestingInteractiveDownload)),
   stubDefinitionFeatureTestingMissingDesc: () =>
     stubFor(setupSimpleReportDefinitionResponseMock('feature-testing', featureTestingMissingDescription)),
+  stubDefinitionFeatureTestingScheduled: () =>
+    stubFor(setupSimpleReportDefinitionResponseMock('feature-testing', featureTestingScheduled)),
   stubDefinitionMockReportVariant35: () =>
     stubFor(setupSimpleReportDefinitionResponseMock('mock-report', variant35Interactive)),
   stubReportsFinishedStatus: () => stubFor(reportsFinishedStatusMock),

@@ -169,7 +169,7 @@ export const expectMyReportRowCountInTab = ({ tabName, count }: { tabName: strin
 
 // CATALOGUE HELPERS
 
-export const findCatalogueRowAndInitAction = (reportName: string, actionName: string) => {
+export const findCatalogueRowAndInitAction = (reportName: string, actionName: string, actionRole = 'link') => {
   cy.findByLabelText(/Reports Catalogue.*/i)
     .findAllByRole('listitem')
     .filter((_, element) => {
@@ -177,11 +177,11 @@ export const findCatalogueRowAndInitAction = (reportName: string, actionName: st
     })
     .first()
     .within(() => {
-      cy.findByRole('link', { name: new RegExp(actionName, 'i') }).click()
+      cy.findByRole(actionRole, { name: new RegExp(actionName, 'i') }).click()
     })
 }
 
-export const findCatalogueRowAndConfirmActionExists = (reportName: string, actionName: string) => {
+export const findCatalogueRowAndConfirmActionExists = (reportName: string, actionName: string, actionRole = 'link') => {
   cy.findByLabelText(/Reports Catalogue.*/i)
     .findAllByRole('listitem')
     .filter((_, element) => {
@@ -189,7 +189,7 @@ export const findCatalogueRowAndConfirmActionExists = (reportName: string, actio
     })
     .first()
     .within(() => {
-      cy.findByRole('link', { name: new RegExp(actionName, 'i') }).should('exist')
+      cy.findByRole(actionRole, { name: new RegExp(actionName, 'i') }).should('exist')
     })
 }
 

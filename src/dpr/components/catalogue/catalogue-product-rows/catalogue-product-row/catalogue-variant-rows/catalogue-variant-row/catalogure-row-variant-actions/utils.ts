@@ -1,6 +1,6 @@
 import { Response, Request } from 'express'
 import { setupSubscriptionConfig } from 'src/dpr/components/subscription/utils'
-import { TempVariantDefinitionSummary } from 'src/dpr/components/catalogue/types'
+import { VariantDefinitionSummaryWithSchedule } from 'src/dpr/types/Subscriptions'
 import { LoadType, ReportType } from '../../../../../../../types/UserReports'
 import localsHelper, { getRouteLocals } from '../../../../../../../utils/localsHelper'
 import { setNestedPath } from '../../../../../../../utils/urlHelper'
@@ -34,7 +34,7 @@ export const intitialiseCatalogueRowActions = async (
   variant:
     | components['schemas']['VariantDefinitionSummary']
     | components['schemas']['DashboardDefinitionSummary']
-    | TempVariantDefinitionSummary,
+    | VariantDefinitionSummaryWithSchedule,
   reportType: ReportType,
   authorised: boolean,
 ): Promise<CatalogueVariantRowActions> => {
@@ -59,8 +59,15 @@ export const intitialiseCatalogueRowActions = async (
       bookmark = await setBookmark(res, req, services, definition.id, variant.id, reportType)
     }
 
-    if (services.subscriptionService.enabled && variant.schedule) {
-      subscription = await setSubscriptionAction(res, req, services, definition, variant, reportType)
+    // TODO: Subs: remove this casting when API is ready
+    if (services.subscriptionService.enabled && (<VariantDefinitionSummaryWithSchedule>variant).schedule) {
+      subscription = await setSubscriptionAction(
+        res,
+        req,
+        services,
+        definition,
+        <VariantDefinitionSummaryWithSchedule>variant,
+      )
     }
   }
 
@@ -196,10 +203,16 @@ const setSubscriptionAction = async (
   req: Request,
   services: Services,
   definition: components['schemas']['ReportDefinitionSummary'],
-  variant: components['schemas']['VariantDefinitionSummary'] | components['schemas']['DashboardDefinitionSummary'],
-  schedule: string | undefined,
+  variant: VariantDefinitionSummaryWithSchedule,
 ): Promise<CatalogueVariantRowActionSubscription> => {
-  const subscriptionConfig = await setupSubscriptionConfig(req, res, definition.id, variant.id, schedule, services)
+  const subscriptionConfig = await setupSubscriptionConfig(
+    req,
+    res,
+    definition.id,
+    variant.id,
+    variant.schedule,
+    services,
+  )
 
   const reportConfig = {
     reportId: definition.id,

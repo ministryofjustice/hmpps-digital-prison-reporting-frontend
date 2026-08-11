@@ -4,11 +4,12 @@ import { Services } from 'src/dpr/types/Services'
 import LocalsHelper from '../../utils/localsHelper'
 import { components } from '../../types/api'
 import { CatalogueVariantRow } from './catalogue-product-rows/catalogue-product-row/catalogue-variant-rows/types'
-import { Catalogue, TempVariantDefinitionSummary } from './types'
+import { Catalogue } from './types'
 import { CatalogueProduct } from './catalogue-product-rows/types'
 import { initialiseTruncation } from '../truncate/utils'
 import { intitialiseCatalogueRowActions } from './catalogue-product-rows/catalogue-product-row/catalogue-variant-rows/catalogue-variant-row/catalogure-row-variant-actions/utils'
 import { initCatalogueFilters } from './catalogue-filters/utilts'
+import { VariantDefinitionSummaryWithSchedule } from '../../types/Subscriptions'
 
 const sortByName = (a: { name: string }, b: { name: string }): number => a.name.localeCompare(b.name)
 
@@ -108,7 +109,7 @@ const mapCatalogue = async (
  * @return {*}  {CatalogueVariantRow}
  */
 const mapVariantRow = async (
-  variant: TempVariantDefinitionSummary,
+  variant: VariantDefinitionSummaryWithSchedule,
   definition: components['schemas']['ReportDefinitionSummary'],
   res: Response,
   req: Request,
@@ -134,6 +135,9 @@ const mapVariantRow = async (
     )
   }
 
+  if (name === 'Scheduled Report') {
+    console.log(JSON.stringify({ variant }, null, 2))
+  }
   return {
     id,
     heading: {

@@ -108,6 +108,11 @@ const populateSubsMessages = (req: Request, res: Response) => {
     res.locals['subscribedMessage'] = JSON.parse(subscribedMessage[0])
   }
 
+  const subscriptionErrorMessage = req.flash(`DPR_SUBSCRIPTION_ERROR`)
+  if (subscriptionErrorMessage && subscriptionErrorMessage[0]) {
+    res.locals['subscriptionErrorMessage'] = JSON.parse(subscriptionErrorMessage[0])
+  }
+
   const unsubscribedMessage = req.flash(`DPR_UNSUBSCRIBED`)
   if (unsubscribedMessage && unsubscribedMessage[0]) {
     res.locals['unsubscribedMessage'] = JSON.parse(unsubscribedMessage[0])

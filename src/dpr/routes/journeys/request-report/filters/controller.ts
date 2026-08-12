@@ -33,12 +33,18 @@ class RequestReportController {
 
       // Get the validation errors
       const validationErrors = res.locals['validationErrors'] || []
+      const subscriptionMessages = {
+        subscribedMessage: res.locals['subscribedMessage'] || [],
+        unsubscribedMessage: res.locals['unsubscribedMessage'] || [],
+        subscriptionErrorMessage: res.locals['subscriptionErrorMessage'] || [],
+      }
 
       // Render the filters view
       res.render('dpr/routes/journeys/request-report/filters/view', {
         layoutPath: this.layoutPath,
         ...requestRenderData,
         validationErrors,
+        subscriptionMessages,
       })
     } catch (error) {
       req.body ??= {}

@@ -1,7 +1,7 @@
 import { type Response } from 'express'
 import { buildReportPageAction } from 'src/dpr/components/my-reports/my-reports-list-item/my-reports-list-item-actions/utils'
 import { Services } from '../../types/Services'
-import { StoredReportData } from '../../types/UserReports'
+import { AsyncReportsTimestamp, StoredReportData } from '../../types/UserReports'
 
 /**
  * Gets the subscriptions data from the BE and checks if the data has been refreshed
@@ -22,26 +22,22 @@ export const getRefreshedSubscriptionsAndUpdateTimestamp = async (
   const { token, dprUser } = res.locals
 
   // Get the users subscriptions data from the BE
-  const timestampData = await services.subscriptionService.getSubscriptions(token)
-
-  console.log(JSON.stringify({ timestampData }, null, 2))
+  const subscriptionsStatus = await services.subscriptionService.getSubscriptions(token)
 
   const refreshedSubscriptions = subscriptions
     .filter(sub => {
-      if (!sub.tableId) {
+      const { reportId, id } = sub
+
+      const subStatusData = subscriptionsStatus.find(
+        subData => subData.reportId === reportId && subData.reportVariantId === id,
+      )
+
+      if (!subStatusData || !subStatusData.reportUpdatedTime) {
         return false
       }
-
-      const subData = timestampData.find(tsData => tsData.tableId === sub.tableId)
-
-      if (!subData || !sub.timestamp.refresh) {
-        return false
-      }
-
-      console.log(JSON.stringify({ subData }, null, 2))
 
       // Compare the timestamps to see if the data has been refreshed
-      return wasSubscribedReportRefreshed(subData.reportUpdatedTime, sub.timestamp.refresh)
+      return wasSubscribedReportRefreshed(subStatusData.reportUpdatedTime, sub.timestamp)
     })
     .map(sub => {
       const { reportName, name } = sub
@@ -57,8 +53,6 @@ export const getRefreshedSubscriptionsAndUpdateTimestamp = async (
     .map(sub => {
       return `${sub.reportName} - ${sub.name}. <a href="${sub.href}" target="_blank" class="govuk-link govuk-link--no-visited-state">View ${sub.reportType}</a>`
     })
-
-  console.log(JSON.stringify({ refreshedSubscriptions }, null, 2))
 
   // If there are refreshed timestamps then show an in-app notification
   // and update the timestamps in redis
@@ -76,7 +70,7 @@ export const getRefreshedSubscriptionsAndUpdateTimestamp = async (
       }),
     )
 
-    return services.subscriptionStoreService.updateTimestamps(timestampData, dprUser.id)
+    return services.subscriptionStoreService.updateTimestamps(subscriptionsStatus, dprUser.id)
   }
 
   // Otherwise return the subscriptions unchanged
@@ -91,9 +85,16 @@ export const getRefreshedSubscriptionsAndUpdateTimestamp = async (
  * @param {(string | Date)} storedTimestamp
  * @return {*}  {boolean}
  */
-const wasSubscribedReportRefreshed = (apiTimestamp: string | Date, storedTimestamp: string | Date): boolean => {
+const wasSubscribedReportRefreshed = (apiTimestamp: string | Date, storedTimestamp: AsyncReportsTimestamp): boolean => {
+  const { refresh } = storedTimestamp
+
+  if (!refresh) {
+    return true
+  }
+
+  // storedTimestamp: string | Date
   const apiTime = Date.parse(String(apiTimestamp))
-  const storedTime = Date.parse(String(storedTimestamp))
+  const storedTime = Date.parse(String(refresh))
 
   return !Number.isNaN(apiTime) && !Number.isNaN(storedTime) && apiTime > storedTime
 }

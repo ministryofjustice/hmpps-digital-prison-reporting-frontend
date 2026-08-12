@@ -135,9 +135,6 @@ const mapVariantRow = async (
     )
   }
 
-  if (name === 'Scheduled Report') {
-    console.log(JSON.stringify({ variant }, null, 2))
-  }
   return {
     id,
     heading: {

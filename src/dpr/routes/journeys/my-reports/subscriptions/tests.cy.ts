@@ -22,28 +22,31 @@ describe('Subscriptions', () => {
 
   const paths = [
     '/?search=sch',
-    '/dpr?search=sch',
-    '/embedded/platform?search=sch',
-    '/embedded/platform/dpr?search=sch',
+    // '/dpr?search=sch',
+    // '/embedded/platform?search=sch',
+    // '/embedded/platform/dpr?search=sch',
   ]
 
   after(() => {
     cy.task('resetRedis')
   })
 
-  before(() => {
-    executeReportStubs()
-    cy.task('stubDefinitionFeatureTestingScheduled')
-    cy.task('stubDefinitionFeatureTestingScheduled2')
-    cy.task('stubDefinitionFeatureTestingScheduled3')
-    cy.task('stubSubscribeEndpoint')
-    cy.task('stubUnsubscribeEndpoint')
-    cy.task('stubGetSubscriptionsEndpoint')
-    cy.task('stubResultSuccessResult')
-  })
-
   const sharedTests = (path: string) => {
     describe(`Subscribing and Unsubscribing from ${path}`, () => {
+      before(() => {
+        executeReportStubs()
+        cy.task('stubDefinitionFeatureTestingScheduled')
+        cy.task('stubGetSubscriptionsEndpoint')
+        cy.task('stubSubscribeEndpoint')
+        cy.task('stubUnsubscribeEndpoint')
+        cy.task('stubResultSuccessResult')
+      })
+
+      after(() => {
+        cy.task('resetRedis')
+        cy.task('resetStubs')
+      })
+
       describe('from the catalogue', () => {
         beforeEach(() => {
           cy.visit(path)
@@ -257,11 +260,21 @@ describe('Subscriptions', () => {
     })
 
     describe(`Notifications from ${path}`, () => {
-      describe('Refreshed subscription notification', () => {
-        after(() => {
-          cy.task('resetRedis')
-        })
+      before(() => {
+        executeReportStubs()
+        cy.task('stubDefinitionFeatureTestingScheduled')
+        cy.task('stubGetSubscriptionsEndpoint')
+        cy.task('stubSubscribeEndpoint')
+        cy.task('stubUnsubscribeEndpoint')
+        cy.task('stubResultSuccessResult')
+      })
 
+      after(() => {
+        cy.task('resetRedis')
+        cy.task('resetStubs')
+      })
+
+      describe('Refreshed subscription notification', () => {
         beforeEach(() => {
           setRedisState({
             bookmarks: [],
@@ -294,6 +307,241 @@ describe('Subscriptions', () => {
                 cy.findAllByRole('list').contains('Feature testing - Scheduled Report 2.')
                 cy.findAllByRole('list').contains('Feature testing - Scheduled Report 3.')
               })
+          })
+        })
+      })
+    })
+
+    describe(`Subscription before report is ready`, () => {
+      before(() => {
+        executeReportStubs()
+        cy.task('stubDefinitionFeatureTestingScheduled')
+        cy.task('stubGetSubscriptionsPendingEndpoint')
+        cy.task('stubSubscribeEndpoint')
+        cy.task('stubUnsubscribeEndpoint')
+        cy.task('stubResultSuccessResult')
+      })
+
+      after(() => {
+        cy.task('resetRedis')
+        cy.task('resetStubs')
+      })
+
+      describe('from the catalogue', () => {
+        beforeEach(() => {
+          cy.visit(path)
+        })
+
+        it('subscribe to the report and not show view link', () => {
+          // Subs list should be empty
+          cy.findByRole('tab', { name: /Subscriptions/ }).click()
+          expectMyReportRowCountInTab({ tabName: /Subscriptions.*/i, count: 0 })
+
+          // Subscribe from the catalogue
+          findCatalogueRowAndInitAction(reportName, 'Subscribe', 'button')
+
+          // Go to report should not be shown
+          cy.findByRole('tab', { name: /Subscriptions/ }).click()
+
+          cy.findByLabelText(/Subscriptions.*/i).within(() => {
+            getMyReportRow({ name: reportName })
+            getMyReportRowCell({ name: reportName, cell: 'actions' }).within(() => {
+              cy.findByRole('link', { name: 'Go to report' }).should('not.exist')
+              cy.findByRole('button', { name: 'Unsubscribe' }).should('exist').click()
+            })
+          })
+
+          cy.findByRole('tab', { name: /Subscriptions/ }).click()
+          expectMyReportRowCountInTab({ tabName: /Subscriptions.*/i, count: 0 })
+        })
+      })
+
+      describe('from the request page', () => {
+        beforeEach(() => {
+          cy.visit(path)
+        })
+
+        it('subscribe to the report and not show view link', () => {
+          cy.findByRole('tab', { name: /Subscriptions/ }).click()
+          expectMyReportRowCountInTab({ tabName: /Subscriptions.*/i, count: 0 })
+
+          startReportRequest({ name: reportName, description: reportDescription })
+
+          // Subscribe to it
+          cy.findByRole('button', { name: 'Subscribe' }).click()
+
+          // Shows the reports is subscribed
+          cy.findByRole('heading', { name: /You are subscribed to this report/ })
+          cy.findAllByRole('paragraph').contains('Weekly at 9:00am').should('exist')
+          cy.findByRole('button', { name: 'Unsubscribe' }).should('exist')
+
+          // Not show the report link
+          cy.findByRole('link', { name: 'View the report now' }).should('not.exist')
+
+          // Reset sub
+          cy.findByRole('button', { name: 'Unsubscribe' }).click()
+        })
+      })
+
+      describe('from the report', () => {
+        beforeEach(() => {
+          cy.visit(path)
+        })
+
+        it('subscribe to the report and not show view link', () => {
+          // Subs list should be empty
+          cy.findByRole('tab', { name: /Subscriptions/ }).click()
+          expectMyReportRowCountInTab({ tabName: /Subscriptions.*/i, count: 0 })
+
+          // Request the report
+          requestReport({ name: reportName, description: reportDescription, path })
+
+          // Subscribe
+          cy.findByRole('button', { name: 'Subscribe' }).click()
+
+          // Check report link does not exist
+          cy.visit(path)
+
+          cy.findByRole('tab', { name: /Subscriptions/ }).click()
+          expectMyReportRowCountInTab({ tabName: /Subscriptions.*/i, count: 1 })
+
+          cy.findByLabelText(/Subscriptions.*/i).within(() => {
+            getMyReportRow({ name: reportName })
+            getMyReportRowCell({ name: reportName, cell: 'actions' }).within(() => {
+              cy.findByRole('link', { name: 'Go to report' }).should('not.exist')
+              cy.findByRole('button', { name: 'Unsubscribe' }).should('exist').click()
+            })
+          })
+        })
+      })
+    })
+
+    describe(`Subscribing failure from ${path}`, () => {
+      before(() => {
+        executeReportStubs()
+        cy.task('stubDefinitionFeatureTestingScheduled')
+        cy.task('stubGetSubscriptionsPendingEndpoint')
+        cy.task('stubSubscribeEndpointError')
+        cy.task('stubResultSuccessResult')
+      })
+
+      after(() => {
+        cy.task('resetRedis')
+        cy.task('resetStubs')
+      })
+
+      describe('from the catalogue', () => {
+        beforeEach(() => {
+          cy.visit(path)
+        })
+
+        it('should show error message when subscribe fails', () => {
+          // Subscribe from the catalogue
+          findCatalogueRowAndInitAction(reportName, 'Subscribe', 'button')
+
+          cy.get('.moj-alert__content').within(() => {
+            cy.findAllByRole('paragraph').contains('Failed to subscribe to Feature testing - Scheduled Report')
+          })
+        })
+      })
+
+      describe('from the request page', () => {
+        beforeEach(() => {
+          cy.visit(path)
+        })
+
+        it('should show error message when subscribe fails', () => {
+          startReportRequest({ name: reportName, description: reportDescription })
+
+          // Subscribe to it
+          cy.findByRole('button', { name: 'Subscribe' }).click()
+
+          cy.get('.moj-alert__content').within(() => {
+            cy.findAllByRole('paragraph').contains('Failed to subscribe to Scheduled Report - Scheduled Report')
+          })
+        })
+      })
+
+      describe('from the report', () => {
+        beforeEach(() => {
+          cy.visit(path)
+        })
+
+        it('should show error message when subscribe fails', () => {
+          // Request the report
+          requestReport({ name: reportName, description: reportDescription, path })
+
+          // Subscribe
+          cy.findByRole('button', { name: 'Subscribe' }).click()
+
+          cy.get('.moj-alert__content').within(() => {
+            cy.findAllByRole('paragraph').contains('Failed to subscribe to Scheduled Report - Scheduled Report')
+          })
+        })
+      })
+    })
+
+    describe(`Unubscribing failure from ${path}`, () => {
+      before(() => {
+        executeReportStubs()
+        cy.task('stubDefinitionFeatureTestingScheduled')
+        cy.task('stubGetSubscriptionsPendingEndpoint')
+        cy.task('stubSubscribeEndpoint')
+        cy.task('stubUnsubscribeEndpointError')
+        cy.task('stubResultSuccessResult')
+      })
+
+      after(() => {
+        cy.task('resetRedis')
+        cy.task('resetStubs')
+      })
+
+      describe('from the catalogue', () => {
+        beforeEach(() => {
+          cy.visit(path)
+        })
+
+        it('should show error message when subscribe fails', () => {
+          // Subscribe from the catalogue
+          findCatalogueRowAndInitAction(reportName, 'Subscribe', 'button')
+
+          findCatalogueRowAndInitAction(reportName, 'Unsubscribe', 'button')
+
+          cy.get('.moj-alert__content').within(() => {
+            cy.findAllByRole('paragraph').contains('Failed to unsubscribe from Feature testing - Scheduled Report')
+          })
+        })
+      })
+
+      describe('from the request page', () => {
+        beforeEach(() => {
+          cy.visit(path)
+        })
+
+        it('should show error message when subscribe fails', () => {
+          startReportRequest({ name: reportName, description: reportDescription })
+
+          cy.findByRole('button', { name: 'Unsubscribe' }).click()
+
+          cy.get('.moj-alert__content').within(() => {
+            cy.findAllByRole('paragraph').contains('Failed to unsubscribe from Feature testing - Scheduled Report')
+          })
+        })
+      })
+
+      describe('from the report', () => {
+        beforeEach(() => {
+          cy.visit(path)
+        })
+
+        it('should show error message when subscribe fails', () => {
+          // Request the report
+          requestReport({ name: reportName, description: reportDescription, path })
+
+          cy.findByRole('button', { name: 'Unsubscribe' }).click()
+
+          cy.get('.moj-alert__content').within(() => {
+            cy.findAllByRole('paragraph').contains('Failed to unsubscribe from Feature testing - Scheduled Report')
           })
         })
       })

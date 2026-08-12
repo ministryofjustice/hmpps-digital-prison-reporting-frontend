@@ -103,13 +103,13 @@ export default class SubscriptionStoreService extends ReportStoreService {
     return index > -1 ? userConfig.subscriptions[index] : undefined
   }
 
-  async updateTimestamps(tsDataArray: GetSubscriptionResponse[], userId: string) {
+  async updateTimestamps(subsStatus: GetSubscriptionResponse[], userId: string) {
     if (!this.enabled) return []
 
     const userConfig = await this.getState(userId)
 
-    const subscriptions = tsDataArray.reduce(
-      (updatedSubscriptions, tsData) => this.updateRefreshedTimestamp(tsData, updatedSubscriptions),
+    const subscriptions = subsStatus.reduce(
+      (updatedSubscriptions, subStatusData) => this.updateRefreshedTimestamp(subStatusData, updatedSubscriptions),
       this.getSubscriptionsState(userConfig),
     )
 
@@ -120,11 +120,28 @@ export default class SubscriptionStoreService extends ReportStoreService {
     return subscriptions
   }
 
-  updateRefreshedTimestamp(tsData: GetSubscriptionResponse, subscriptions: StoredReportData[]): StoredReportData[] {
+  /**
+   * Only update the stored refresh timestamp when it has actually changed.
+   * If both timestamps are undefined, keep the existing subscription.
+   * If the existing refresh timestamp matches the API timestamp, no update is needed.
+   * Otherwise update the stored refresh value, including when:
+   *   - refresh is undefined and the API provides a timestamp
+   *   - refresh differs from the API timestamp
+   *   - refresh exists but the API timestamp is now undefined
+   *
+   * @param {GetSubscriptionResponse} subStatusData
+   * @param {StoredReportData[]} subscriptions
+   * @return {*}  {StoredReportData[]}
+   * @memberof SubscriptionStoreService
+   */
+  updateRefreshedTimestamp(
+    subStatusData: GetSubscriptionResponse,
+    subscriptions: StoredReportData[],
+  ): StoredReportData[] {
     if (!this.enabled) return []
 
-    const { tableId, reportUpdatedTime } = tsData
-    const createdAtDate = new Date(reportUpdatedTime)
+    const { tableId, reportUpdatedTime } = subStatusData
+    const createdAtDate = reportUpdatedTime ? new Date(reportUpdatedTime) : undefined
 
     return subscriptions.map(subscription => {
       if (subscription.tableId !== tableId) {
@@ -133,10 +150,20 @@ export default class SubscriptionStoreService extends ReportStoreService {
 
       const { refresh } = subscription.timestamp
 
-      if (refresh && +refresh === +createdAtDate) {
+      // No change required
+      if (!refresh && !createdAtDate) {
         return subscription
       }
 
+      // No change required
+      if (refresh && createdAtDate && +refresh === +createdAtDate) {
+        return subscription
+      }
+
+      // Update when:
+      // - refresh is undefined and createdAtDate is defined
+      // - refresh differs from createdAtDate
+      // - refresh is defined and createdAtDate is undefined
       return {
         ...subscription,
         timestamp: {

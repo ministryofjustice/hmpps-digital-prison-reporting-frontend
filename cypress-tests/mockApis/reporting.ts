@@ -37,9 +37,12 @@ import {
   getDefinitionSummaries,
   pollingEndpoint,
   expiredEndpoint,
-  getSubscriptionsEndpoint,
+  getSubscriptionsStatusEndpoint,
   subscribeEndpoint,
   unsubscribeEndpoint,
+  getSubscriptionsStatusPendingEndpoint,
+  subscribeEndpointError,
+  unsubscribeEndpointError,
 } from '@networkMocks/mocks'
 import { generateNetworkMock, stubFor } from '@networkMocks/generateNetworkMock'
 import { missingReportSubmitFailMock, missingReportSubmitSuccessMock } from '@networkMocks/report/missingReport/mocks'
@@ -137,9 +140,12 @@ export const stubs = {
   stubDefinitions: () => stubFor(getDefinitionSummaries),
   stubPollingReportEndpoint: () => stubFor(pollingEndpoint),
   stubExpiredEndpoint: () => stubFor(expiredEndpoint),
-  stubGetSubscriptionsEndpoint: () => stubFor(getSubscriptionsEndpoint),
+  stubGetSubscriptionsEndpoint: () => stubFor(getSubscriptionsStatusEndpoint),
+  stubGetSubscriptionsPendingEndpoint: () => stubFor(getSubscriptionsStatusPendingEndpoint),
   stubSubscribeEndpoint: () => stubFor(subscribeEndpoint),
+  stubSubscribeEndpointError: () => stubFor(subscribeEndpointError),
   stubUnsubscribeEndpoint: () => stubFor(unsubscribeEndpoint),
+  stubUnsubscribeEndpointError: () => stubFor(unsubscribeEndpointError),
   stubCancelAsyncRequest: () => stubFor(cancelAsyncRequestMock),
   stubDefinitionRequestExamplesSuccess: () =>
     stubFor(setupSimpleReportDefinitionResponseMock(`request-examples`, requestExampleSuccess)),

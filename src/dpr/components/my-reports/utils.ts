@@ -66,6 +66,7 @@ const setMessages = (res: Response): MyReportsMessages => {
   const subscriptionMessages = {
     subscribedMessage: res.locals['subscribedMessage'] || [],
     unsubscribedMessage: res.locals['unsubscribedMessage'] || [],
+    subscriptionErrorMessage: res.locals['subscriptionErrorMessage'] || [],
     refreshedSubscriptionsMessage: res.locals['refreshedSubscriptionsMessage'] || [],
   }
 

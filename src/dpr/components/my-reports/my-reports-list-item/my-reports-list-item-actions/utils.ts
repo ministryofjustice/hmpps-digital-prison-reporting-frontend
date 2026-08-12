@@ -51,6 +51,10 @@ export const buildActionsCell = (
       subscribe = buildSubscriptionAction(data, res, req, listType)
       break
 
+    case RequestStatus.PENDING:
+      subscribe = buildSubscriptionAction(data, res, req, listType)
+      break
+
     case RequestStatus.PICKED:
     case RequestStatus.SUBMITTED:
     case RequestStatus.STARTED:

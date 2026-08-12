@@ -50,6 +50,7 @@ export class ViewAsyncController {
         const subscriptionMessages = {
           subscribedMessage: res.locals['subscribedMessage'] || [],
           unsubscribedMessage: res.locals['unsubscribedMessage'] || [],
+          subscriptionErrorMessage: res.locals['subscriptionErrorMessage'] || [],
         }
 
         // get the render config

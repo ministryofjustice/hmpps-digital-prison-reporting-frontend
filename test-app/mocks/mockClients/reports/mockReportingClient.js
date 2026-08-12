@@ -301,7 +301,10 @@ MockReportingClient: ${functionName}`)
   }
 
   subscribe(token, reportId, id) {
-    return { tableId: randomUUID() }
+    return new Promise((resolve, reject) => {
+      reject(mockBadQueryRequest)
+    })
+    // return { tableId: randomUUID() }
   }
 
   unsubscribe(token, reportId, id) {
@@ -314,6 +317,8 @@ MockReportingClient: ${functionName}`)
     return [
       {
         tableId: 'tblId_1729766362362',
+        reportVariantId: 'scheduled-report-example',
+        reportId: 'feature-testing',
         reportUpdatedTime
       },
       {

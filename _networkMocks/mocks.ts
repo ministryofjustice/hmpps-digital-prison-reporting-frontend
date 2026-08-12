@@ -107,11 +107,11 @@ export const subscribeEndpoint = generateNetworkMock({
   },
   response: {
     ...defaultMockRequest.response,
-    jsonBody: {
-      tableId: 'tblId_1729766362362',
-    },
+    jsonBody: {},
   },
 })
+
+export const subscribeEndpointError = setupSimpleFailedMock(`/user/subscribe`)
 
 export const unsubscribeEndpoint = generateNetworkMock({
   ...defaultMockRequest,
@@ -122,13 +122,13 @@ export const unsubscribeEndpoint = generateNetworkMock({
   },
   response: {
     ...defaultMockRequest.response,
-    jsonBody: {
-      tableId: 'tblId_1729766362362',
-    },
+    jsonBody: {},
   },
 })
 
-export const getSubscriptionsEndpoint = generateNetworkMock({
+export const unsubscribeEndpointError = setupSimpleFailedMock(`/user/unsubscribe`)
+
+export const getSubscriptionsStatusEndpoint = generateNetworkMock({
   ...defaultMockRequest,
   request: {
     ...defaultMockRequest.request,
@@ -139,16 +139,41 @@ export const getSubscriptionsEndpoint = generateNetworkMock({
     ...defaultMockRequest.response,
     jsonBody: [
       {
+        reportId: 'feature-testing',
+        reportVariantId: 'feature-testing-scheduled',
         tableId: 'tblId_1729766362361',
-        reportUpdatedTime: new Date().toISOString(),
+        reportUpdatedTime: new Date('2026-08-03').toISOString(),
       },
       {
+        reportId: 'feature-testing',
+        reportVariantId: 'feature-testing-scheduled-2',
         tableId: 'tblId_1729766362362',
         reportUpdatedTime: new Date().toISOString(),
       },
       {
+        reportId: 'feature-testing',
+        reportVariantId: 'feature-testing-scheduled-3',
         tableId: 'tblId_1729766362363',
         reportUpdatedTime: new Date().toISOString(),
+      },
+    ],
+  },
+})
+
+export const getSubscriptionsStatusPendingEndpoint = generateNetworkMock({
+  ...defaultMockRequest,
+  request: {
+    ...defaultMockRequest.request,
+    method: 'GET',
+    urlPathPattern: `/user/subscriptions`,
+  },
+  response: {
+    ...defaultMockRequest.response,
+    jsonBody: [
+      {
+        reportId: 'feature-testing',
+        reportVariantId: 'feature-testing-scheduled',
+        tableId: '',
       },
     ],
   },

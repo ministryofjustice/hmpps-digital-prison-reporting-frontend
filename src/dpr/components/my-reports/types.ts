@@ -146,6 +146,7 @@ export type MyReportsMessages = {
 type SubscribedMessages = {
   subscribedMessage?: string | undefined
   unsubscribedMessage?: string | undefined
+  subscriptionErrorMessage?: string | undefined
 }
 
 export type MappedBookmarks = {

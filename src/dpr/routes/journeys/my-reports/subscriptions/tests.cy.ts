@@ -22,9 +22,9 @@ describe('Subscriptions', () => {
 
   const paths = [
     '/?search=sch',
-    // '/dpr?search=sch',
-    // '/embedded/platform?search=sch',
-    // '/embedded/platform/dpr?search=sch',
+    '/dpr?search=sch',
+    '/embedded/platform?search=sch',
+    '/embedded/platform/dpr?search=sch',
   ]
 
   after(() => {
@@ -345,6 +345,9 @@ describe('Subscriptions', () => {
 
           cy.findByLabelText(/Subscriptions.*/i).within(() => {
             getMyReportRow({ name: reportName })
+            getMyReportRowCell({ name: reportName, cell: 'status' }).within(() => {
+              cy.findByRole('strong').contains('PENDING')
+            })
             getMyReportRowCell({ name: reportName, cell: 'actions' }).within(() => {
               cy.findByRole('link', { name: 'Go to report' }).should('not.exist')
               cy.findByRole('button', { name: 'Unsubscribe' }).should('exist').click()
@@ -407,6 +410,9 @@ describe('Subscriptions', () => {
 
           cy.findByLabelText(/Subscriptions.*/i).within(() => {
             getMyReportRow({ name: reportName })
+            getMyReportRowCell({ name: reportName, cell: 'status' }).within(() => {
+              cy.findByRole('strong').contains('PENDING')
+            })
             getMyReportRowCell({ name: reportName, cell: 'actions' }).within(() => {
               cy.findByRole('link', { name: 'Go to report' }).should('not.exist')
               cy.findByRole('button', { name: 'Unsubscribe' }).should('exist').click()

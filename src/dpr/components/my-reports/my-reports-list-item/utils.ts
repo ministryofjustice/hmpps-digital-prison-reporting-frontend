@@ -39,6 +39,7 @@ export const buildMyReportListRow = (
     title: buildTitleCell(data),
     description: buildDescriptionCell(data),
     schedule: buildScheduleCell(data),
+    status,
     actions: buildActionsCell(data, res, req, listType),
   }
 }

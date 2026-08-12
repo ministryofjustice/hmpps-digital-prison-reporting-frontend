@@ -510,12 +510,12 @@ const ALL_HEADINGS: HeadingConfig[] = [
     key: 'status',
     name: 'Status',
     classes: 'dpr-my-reports__cell--status',
-    showIn: [ListType.REQUESTED, ListType.VIEWED],
+    showIn: [ListType.REQUESTED, ListType.VIEWED, ListType.SUBSCRIPTIONS],
   },
   {
     key: 'schedule',
     name: 'Schedule',
-    classes: 'dpr-my-reports__cell--status',
+    classes: 'dpr-my-reports__cell--schedule',
     showIn: [ListType.SUBSCRIPTIONS],
   },
   {

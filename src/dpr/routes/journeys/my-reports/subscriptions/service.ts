@@ -2,7 +2,7 @@ import { ReportStoreConfig } from 'src/dpr/types/ReportStore'
 import { GetSubscriptionResponse } from 'src/dpr/types/Subscriptions'
 import ReportStoreService from '../../../../services/reportStoreService'
 import UserDataStore from '../../../../data/reportDataStore'
-import { StoredReportData, SubscribedReport } from '../../../../types/UserReports'
+import { RequestStatus, StoredReportData, SubscribedReport } from '../../../../types/UserReports'
 import logger from '../../../../utils/logger'
 import { ServiceFeatureConfig } from '../../../../types/DprConfig'
 
@@ -103,15 +103,16 @@ export default class SubscriptionStoreService extends ReportStoreService {
     return index > -1 ? userConfig.subscriptions[index] : undefined
   }
 
-  async updateTimestamps(subsStatus: GetSubscriptionResponse[], userId: string) {
+  async updateSubscriptions(subsStatus: GetSubscriptionResponse[], userId: string) {
     if (!this.enabled) return []
 
     const userConfig = await this.getState(userId)
 
-    const subscriptions = subsStatus.reduce(
-      (updatedSubscriptions, subStatusData) => this.updateRefreshedTimestamp(subStatusData, updatedSubscriptions),
-      this.getSubscriptionsState(userConfig),
-    )
+    const subscriptions = subsStatus.reduce((updatedSubscriptions, subStatusData) => {
+      const withUpdatedTimestamp = this.updateRefreshedTimestamp(subStatusData, updatedSubscriptions)
+
+      return this.updateStatus(subStatusData, withUpdatedTimestamp)
+    }, this.getSubscriptionsState(userConfig))
 
     userConfig.subscriptions = subscriptions
 
@@ -170,6 +171,35 @@ export default class SubscriptionStoreService extends ReportStoreService {
           ...subscription.timestamp,
           refresh: createdAtDate,
         },
+      }
+    })
+  }
+
+  /**
+   * Update the stored status when it differs from the API status.
+   *
+   * @param {GetSubscriptionResponse} subStatusData
+   * @param {StoredReportData[]} subscriptions
+   * @return {*} {StoredReportData[]}
+   * @memberof SubscriptionStoreService
+   */
+  updateStatus(subStatusData: GetSubscriptionResponse, subscriptions: StoredReportData[]): StoredReportData[] {
+    if (!this.enabled) return []
+
+    const { reportId, reportVariantId, reportStatus } = subStatusData
+
+    return subscriptions.map(subscription => {
+      if (subscription.reportId !== reportId || subscription.id !== reportVariantId) {
+        return subscription
+      }
+
+      if (!reportStatus || subscription.status === reportStatus) {
+        return subscription
+      }
+
+      return {
+        ...subscription,
+        status: reportStatus as RequestStatus,
       }
     })
   }

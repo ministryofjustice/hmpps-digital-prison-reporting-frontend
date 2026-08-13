@@ -30,8 +30,9 @@ export const buildActionsCell = (
 
   switch (status) {
     case RequestStatus.FAILED:
-      retry = buildPollingAction(res, req, data)
+      retry = buildPollingAction(res, req, data, listType)
       remove = buildRemoveAction(data, res, req, listType)
+      subscribe = buildSubscriptionAction(data, res, req, listType)
       break
 
     case RequestStatus.EXPIRED:
@@ -51,6 +52,11 @@ export const buildActionsCell = (
       subscribe = buildSubscriptionAction(data, res, req, listType)
       break
 
+    case RequestStatus.STALE:
+      view = buildReportPageAction(res, req, data)
+      subscribe = buildSubscriptionAction(data, res, req, listType)
+      break
+
     case RequestStatus.PENDING:
       subscribe = buildSubscriptionAction(data, res, req, listType)
       break
@@ -58,7 +64,7 @@ export const buildActionsCell = (
     case RequestStatus.PICKED:
     case RequestStatus.SUBMITTED:
     case RequestStatus.STARTED:
-      polling = buildPollingAction(res, req, data)
+      polling = buildPollingAction(res, req, data, listType)
       break
     default:
       break
@@ -240,7 +246,16 @@ export const buildLoadAction = (res: Response, req: Request, data: MappedBookmar
  * @param {StoredReportData} data
  * @return {*}
  */
-export const buildPollingAction = (res: Response, req: Request, data: StoredReportData) => {
+export const buildPollingAction = (
+  res: Response,
+  req: Request,
+  data: StoredReportData,
+  listType?: ListType | undefined,
+) => {
+  if (listType && listType === ListType.SUBSCRIPTIONS) {
+    return undefined
+  }
+
   const { type: reportType, reportId, id, executionId } = data
   const { requestReportPath } = getRouteLocals(res)
 

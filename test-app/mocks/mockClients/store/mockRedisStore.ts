@@ -35,7 +35,13 @@ export const startData = {
     { reportId: 'request-examples', variantId: 'request-example-success' },
     { reportId: 'mock-dashboards', id: 'test-dashboard-8', type: 'dashboard' },
   ],
-  subscriptions: [subscriptions.subscribedReport, subscriptions.subscribedDashboard],
+  subscriptions: [
+    subscriptions.subscribedReport1,
+    subscriptions.subscribedReport2,
+    subscriptions.subscribedReport3,
+    subscriptions.subscribedReport4,
+    subscriptions.subscribedReport5,
+  ],
   downloads: <string[]>[],
 }
 

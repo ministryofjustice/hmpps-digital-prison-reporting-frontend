@@ -4,22 +4,56 @@
 {% macro dprMyReportsSubscriptionsRefreshed(refreshedSubs) %}
   {% set message = refreshedSubs.message %}
   {% set details = refreshedSubs.details %}
+  {% set refreshed = details.refreshed %}
+  {% set failed = details.failed %}
+  {% set stale = details.stale %}
 
   <div class="dpr-my-reports-notification--refreshed-subscriptions">
     {% set detailsHtml %}
-      {% set detailsListHtml = '' %}
 
-      {% for detail in details %}
-        {% set detailsListHtml = detailsListHtml + '<li>' + detail + '</li>' %}
-      {% endfor %}
+      {% if refreshed.length %}
+        <h1 class="govuk-heading-s">Refreshed reports</h1>
 
-      <p class="govuk-body">The following subscriptions were refreshed and are available with new data:</p>
+        <p class="govuk-body">
+          The following reports were refreshed and are available with new data:
+        </p>
 
-      <ul>
-        {{ detailsListHtml | safe }}
-      </ul>
+        <ul>
+          {% for refresh in refreshed %}
+            <li>{{ refresh | safe }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+
+      {% if stale.length %}
+        <h1 class="govuk-heading-s">Stale reports</h1>
+
+        <p class="govuk-body">
+          The following reports were not refreshed but can still be viewed with old data:
+        </p>
+
+        <ul>
+          {% for item in stale %}
+            <li>{{ item | safe }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+
+      {% if failed.length %}
+        <h1 class="govuk-heading-s">Failed reports</h1>
+
+        <p class="govuk-body">
+          The following reports failed to run:
+        </p>
+
+        <ul>
+          {% for item in failed %}
+            <li>{{ item | safe }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+
     {% endset %}
-
 
     {% set alertHtml %}
       {{ message | dpr.safe }}

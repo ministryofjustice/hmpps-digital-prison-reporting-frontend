@@ -14,6 +14,8 @@ import {
   subscribedReport1,
   subscribedReport2,
   subscribedReport3,
+  subscribedReport4,
+  subscribedReport5,
 } from '@networkMocks/report/mockVariants/mockSubscriptions'
 
 describe('Subscriptions', () => {
@@ -32,7 +34,7 @@ describe('Subscriptions', () => {
   })
 
   const sharedTests = (path: string) => {
-    describe(`Subscribing and Unsubscribing from ${path}`, () => {
+    describe(`Subscribing and Unsubscribing, from ${path}`, () => {
       before(() => {
         executeReportStubs()
         cy.task('stubDefinitionFeatureTestingScheduled')
@@ -259,7 +261,7 @@ describe('Subscriptions', () => {
       })
     })
 
-    describe(`Notifications from ${path}`, () => {
+    describe(`Notifications, from ${path}`, () => {
       before(() => {
         executeReportStubs()
         cy.task('stubDefinitionFeatureTestingScheduled')
@@ -280,17 +282,23 @@ describe('Subscriptions', () => {
             bookmarks: [],
             recentlyViewedReports: [],
             requestedReports: [],
-            subscriptions: [subscribedReport1, subscribedReport2, subscribedReport3],
+            subscriptions: [
+              subscribedReport1,
+              subscribedReport2,
+              subscribedReport3,
+              subscribedReport4,
+              subscribedReport5,
+            ],
           })
           cy.visit(path)
         })
 
         it('should show an in-app notification when a subscription has been refreshed', () => {
           cy.findByRole('tab', { name: /Subscriptions/ }).click()
-          expectMyReportRowCountInTab({ tabName: /Subscriptions.*/i, count: 3 })
+          expectMyReportRowCountInTab({ tabName: /Subscriptions.*/i, count: 5 })
 
           cy.get('.moj-alert__content').within(() => {
-            cy.findAllByRole('paragraph').contains('2 of your subscribed reports were refreshed')
+            cy.findAllByRole('paragraph').contains('4 of your subscribed reports were updated')
 
             cy.findAllByRole('group')
               .contains(/Details/)
@@ -302,10 +310,18 @@ describe('Subscriptions', () => {
               .parent()
               .within(() => {
                 cy.findAllByRole('paragraph').contains(
-                  'The following subscriptions were refreshed and are available with new data:',
+                  'The following reports were refreshed and are available with new data:',
                 )
-                cy.findAllByRole('list').contains('Feature testing - Scheduled Report 2.')
-                cy.findAllByRole('list').contains('Feature testing - Scheduled Report 3.')
+                cy.findAllByRole('list').contains('Scheduled report mock - Scheduled report - ready')
+                cy.findAllByRole('list').contains('Scheduled reports mock - Scheduled report - pending to ready')
+
+                cy.findAllByRole('paragraph').contains(
+                  'The following reports were not refreshed but can still be viewed with old data:',
+                )
+                cy.findAllByRole('list').contains('Scheduled report mock - Scheduled report - ready to stale.')
+
+                cy.findAllByRole('paragraph').contains('The following reports failed to run:')
+                cy.findAllByRole('list').contains('Scheduled reports mock - Scheduled report - pending to Failed.')
               })
           })
         })
@@ -422,7 +438,7 @@ describe('Subscriptions', () => {
       })
     })
 
-    describe(`Subscribing failure from ${path}`, () => {
+    describe(`Subscribing failure, from ${path}`, () => {
       before(() => {
         executeReportStubs()
         cy.task('stubDefinitionFeatureTestingScheduled')
@@ -487,7 +503,7 @@ describe('Subscriptions', () => {
       })
     })
 
-    describe(`Unubscribing failure from ${path}`, () => {
+    describe(`Unubscribing failure, from ${path}`, () => {
       before(() => {
         executeReportStubs()
         cy.task('stubDefinitionFeatureTestingScheduled')

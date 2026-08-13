@@ -349,10 +349,10 @@ export const updateStateToExpiredAndRedirect = async (req: Request, res: Respons
   // get the updated report state
   const updatedReportState = await getMyReport({ tableId }, 'recentlyViewedReports', services, dprUser.id)
 
-  const pollingUrl = updatedReportState ? buildPollingAction(res, req, updatedReportState).href : '/'
+  const pollingUrl = updatedReportState ? buildPollingAction(res, req, updatedReportState)?.href : '/'
 
   // redirect to polling page, or safe fallback
-  res.redirect(pollingUrl)
+  res.redirect(pollingUrl ?? '/')
 }
 
 /**

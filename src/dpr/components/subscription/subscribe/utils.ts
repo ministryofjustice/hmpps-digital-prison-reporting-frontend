@@ -1,4 +1,5 @@
 import { Request, Response } from 'express'
+import { RequestStatus } from 'src/dpr/types/UserReports'
 import { SubscribedReportBuilder } from '../../../routes/journeys/my-reports/subscriptions/builder'
 import { addMyReport } from '../../../routes/journeys/my-reports/utils'
 import { Services } from '../../../types/Services'
@@ -108,10 +109,12 @@ const addToSubscriptionsList = async (
 ) => {
   let tableId: string | undefined
   let refresh: string | undefined
+  let status: string | undefined
 
   if (subscriptionStatus) {
     tableId = subscriptionStatus.tableId
     refresh = subscriptionStatus.reportUpdatedTime
+    status = subscriptionStatus.reportStatus
   }
 
   let subscriptionBuilder = new SubscribedReportBuilder(req, res)
@@ -123,9 +126,13 @@ const addToSubscriptionsList = async (
   }
 
   if (refresh) {
-    subscriptionBuilder.withTimestamp({
+    subscriptionBuilder = subscriptionBuilder.withTimestamp({
       refresh: new Date(refresh.toString()),
     })
+  }
+
+  if (status) {
+    subscriptionBuilder = subscriptionBuilder.withStatus(<RequestStatus>status)
   }
 
   const subscriptionData = subscriptionBuilder.build()

@@ -11,6 +11,7 @@ const RequestStatusSchema = z.enum([
   RequestStatus.FAILED,
   RequestStatus.ABORTED,
   RequestStatus.PENDING,
+  RequestStatus.STALE,
   RequestStatus.ALL,
 ])
 

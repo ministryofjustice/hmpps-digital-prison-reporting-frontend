@@ -1,12 +1,12 @@
 import { type Response } from 'express'
 import { buildReportPageAction } from 'src/dpr/components/my-reports/my-reports-list-item/my-reports-list-item-actions/utils'
 import { Services } from '../../types/Services'
-import { AsyncReportsTimestamp, StoredReportData } from '../../types/UserReports'
+import { AsyncReportsTimestamp, RequestStatus, StoredReportData } from '../../types/UserReports'
 
 /**
- * Gets the subscriptions data from the BE and checks if the data has been refreshed
- * - Sets a flash message for all refreshed subscriptions
- * - Updates the subscriptions timestamps in redis
+ * Gets the subscriptions data from the BE and checks if the data has updated
+ * - Sets a flash message if any updates
+ * - Updates the subscriptions timestamps and status in redis
  * - Return the updated subscriptions
  *
  * @param {Response} res
@@ -21,59 +21,94 @@ export const getRefreshedSubscriptionsAndUpdateTimestamp = async (
 ) => {
   const { token, dprUser } = res.locals
 
-  // Get the users subscriptions data from the BE
   const subscriptionsStatus = await services.subscriptionService.getSubscriptions(token)
 
-  const refreshedSubscriptions = subscriptions
-    .filter(sub => {
-      const { reportId, id } = sub
+  const statusLookup = new Map(
+    subscriptionsStatus.map(subscription => [`${subscription.reportId}-${subscription.reportVariantId}`, subscription]),
+  )
 
-      const subStatusData = subscriptionsStatus.find(
-        subData => subData.reportId === reportId && subData.reportVariantId === id,
-      )
+  let stateHasChanged = false
 
-      if (!subStatusData || !subStatusData.reportUpdatedTime) {
-        return false
+  const { refreshed, failed, stale } = subscriptions.reduce(
+    (result, sub) => {
+      const subStatusData = statusLookup.get(`${sub.reportId}-${sub.id}`)
+
+      if (!subStatusData) {
+        return result
       }
 
-      // Compare the timestamps to see if the data has been refreshed
-      return wasSubscribedReportRefreshed(subStatusData.reportUpdatedTime, sub.timestamp)
-    })
-    .map(sub => {
-      const { reportName, name } = sub
-      const { href, reportType } = buildReportPageAction(res, res.req, sub)
-
-      return {
-        reportName,
-        name,
-        href,
-        reportType,
+      if (hasStatusChanged(sub.status, subStatusData.reportStatus)) {
+        stateHasChanged = true
       }
-    })
-    .map(sub => {
-      return `${sub.reportName} - ${sub.name}. <a href="${sub.href}" target="_blank" class="govuk-link govuk-link--no-visited-state">View ${sub.reportType}</a>`
-    })
 
-  // If there are refreshed timestamps then show an in-app notification
-  // and update the timestamps in redis
-  if (refreshedSubscriptions.length) {
-    const count = refreshedSubscriptions.length
+      switch (subStatusData.reportStatus) {
+        case 'READY': {
+          const hasRefreshed =
+            subStatusData.reportUpdatedTime &&
+            wasSubscribedReportRefreshed(subStatusData.reportUpdatedTime, sub.timestamp)
+
+          if (hasRefreshed) {
+            const { href, reportType } = buildReportPageAction(res, res.req, sub)
+            const htmlLink = `<a href="${href}" target="_blank" class="govuk-link govuk-link--no-visited-state">View ${reportType}</a>`
+            const reportMessage = `${sub.reportName} - ${sub.name}. ${htmlLink}`
+
+            result.refreshed.push(reportMessage)
+            stateHasChanged = true
+          }
+
+          break
+        }
+
+        case 'FAILED': {
+          const reportFailedMessage = `${sub.reportName} - ${sub.name}.`
+          result.failed.push(reportFailedMessage)
+          break
+        }
+
+        case 'STALE': {
+          const { href, reportType } = buildReportPageAction(res, res.req, sub)
+          const htmlLink = `<a href="${href}" target="_blank" class="govuk-link govuk-link--no-visited-state">View ${reportType}</a>`
+          const reportStaleMessage = `${sub.reportName} - ${sub.name}. ${htmlLink}`
+          result.stale.push(reportStaleMessage)
+          break
+        }
+
+        case 'PENDING':
+        default:
+          break
+      }
+
+      return result
+    },
+    {
+      refreshed: [] as string[],
+      failed: [] as string[],
+      stale: [] as string[],
+    },
+  )
+
+  if (refreshed.length || failed.length || stale.length) {
+    const count = refreshed.length + failed.length + stale.length
     const message =
-      count === 1 ? '1 of your subscribed reports was refreshed' : `${count} of your subscribed reports were refreshed`
+      count === 1 ? '1 of your subscribed reports has updated' : `${count} of your subscribed reports were updated`
 
-    const { req } = res
-    req?.flash(
-      'DPR_REFRESHED_SUBSCRIPTIONS',
+    res.req?.flash(
+      'DPR_SUBSCRIPTION_STATUS',
       JSON.stringify({
         message: `<p>${message}</p>`,
-        details: refreshedSubscriptions,
+        details: {
+          refreshed,
+          failed,
+          stale,
+        },
       }),
     )
-
-    return services.subscriptionStoreService.updateTimestamps(subscriptionsStatus, dprUser.id)
   }
 
-  // Otherwise return the subscriptions unchanged
+  if (stateHasChanged) {
+    return services.subscriptionStoreService.updateSubscriptions(subscriptionsStatus, dprUser.id)
+  }
+
   return subscriptions
 }
 
@@ -97,4 +132,13 @@ const wasSubscribedReportRefreshed = (apiTimestamp: string | Date, storedTimesta
   const storedTime = Date.parse(String(refresh))
 
   return !Number.isNaN(apiTime) && !Number.isNaN(storedTime) && apiTime > storedTime
+}
+
+const hasStatusChanged = (currentStatus: RequestStatus | undefined, apiStatus: string | undefined): boolean => {
+  // Undefined from the API means "no status update"
+  if (!apiStatus) {
+    return false
+  }
+
+  return currentStatus !== apiStatus
 }

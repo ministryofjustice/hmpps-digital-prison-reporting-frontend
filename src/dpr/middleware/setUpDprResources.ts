@@ -118,7 +118,7 @@ const populateSubsMessages = (req: Request, res: Response) => {
     res.locals['unsubscribedMessage'] = JSON.parse(unsubscribedMessage[0])
   }
 
-  const refreshedSubscriptionsMessage = req.flash(`DPR_REFRESHED_SUBSCRIPTIONS`)
+  const refreshedSubscriptionsMessage = req.flash(`DPR_SUBSCRIPTION_STATUS`)
   if (refreshedSubscriptionsMessage && refreshedSubscriptionsMessage[0]) {
     const [first] = refreshedSubscriptionsMessage
     res.locals['refreshedSubscriptionsMessage'] = JSON.parse(first)

@@ -214,6 +214,7 @@ const buildListItems = async (req: Request, res: Response, listType: ListType): 
 
   return listData.map((data: StoredReportData) => {
     const status = data.status as RequestStatus
+
     return buildMyReportListRow(data, status, req, res, listType)
   })
 }

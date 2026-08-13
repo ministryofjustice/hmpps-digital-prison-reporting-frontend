@@ -80,6 +80,7 @@ export enum RequestStatus {
   EXPIRED = 'EXPIRED',
   READY = 'READY',
   PENDING = 'PENDING',
+  STALE = 'STALE',
   ALL = 'ALL',
 }
 

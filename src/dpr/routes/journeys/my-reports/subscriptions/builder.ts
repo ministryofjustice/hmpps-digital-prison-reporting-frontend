@@ -8,6 +8,8 @@ export class SubscribedReportBuilder extends StoreItemBuilder {
 
   timestamp!: AsyncReportsTimestamp
 
+  status: RequestStatus = RequestStatus.PENDING
+
   constructor(
     readonly req: Request,
     res: Response,
@@ -17,6 +19,12 @@ export class SubscribedReportBuilder extends StoreItemBuilder {
 
   withTimestamp = (timestamp: AsyncReportsTimestamp) => {
     this.timestamp = timestamp
+
+    return this
+  }
+
+  withStatus = (status: RequestStatus) => {
+    this.status = status
 
     return this
   }
@@ -62,18 +70,10 @@ export class SubscribedReportBuilder extends StoreItemBuilder {
     }
   }
 
-  private buildStatus = () => {
-    if (!this.executionData) {
-      return RequestStatus.PENDING
-    }
-
-    return RequestStatus.READY
-  }
-
   build = (): SubscribedReport => {
     this.buildReportData()
     const url = this.buildUrls()
-    const status = this.buildStatus()
+    const { status } = this
     const definitionsPath = this.buidDefinitionsPath()
 
     const subscribedReportData: SubscribedReport = {

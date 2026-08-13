@@ -319,11 +319,40 @@ MockReportingClient: ${functionName}`)
         tableId: 'tblId_1729766362362',
         reportVariantId: 'scheduled-report-example',
         reportId: 'feature-testing',
+        reportStatus: 'READY',
         reportUpdatedTime
       },
       {
-        tableId: 'tblId_1730302242487',
+        tableId: 'tblId_1729766362364',
+        reportVariantId: 'scheduled-report-ready',
+        reportId: 'feature-testing',
+        reportStatus: 'READY',
         reportUpdatedTime
+      },
+      {
+        tableId: 'tblId_1729766362365',
+        reportVariantId: 'scheduled-report-ready-to-stale',
+        reportId: 'feature-testing',
+        reportStatus: 'STALE',
+      },
+      {
+        tableId: 'tblId_1729766362366',
+        reportVariantId: 'scheduled-report-pending-to-ready',
+        reportId: 'feature-testing',
+        reportStatus: 'READY',
+        reportUpdatedTime
+      },
+      {
+        tableId: '',
+        reportVariantId: 'scheduled-report-pending-to-failed',
+        reportId: 'feature-testing',
+        reportStatus: 'FAILED',
+      },
+      {
+        tableId: '',
+        reportVariantId: 'scheduled-report-pending-to-pending',
+        reportId: 'feature-testing',
+        reportStatus: 'PENDING',
       },
     ]
   }

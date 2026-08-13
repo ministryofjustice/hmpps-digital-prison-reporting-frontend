@@ -15,7 +15,8 @@ export const reportingApiFailures = {
   getDefinitionSummariesUnauthorizedFailure: setupSimpleFailedMock('/definitions', 403),
   getSingleDefinitionFailure: setupSimpleFailedMock(`/definitions/${reportIdRegex}`),
   getSingleDefinitionVariantFailure: setupSimpleFailedMock(`/definitions/${reportIdRegex}/${reportIdRegex}`),
-  requestAsyncReportFailure: setupSimpleFailedMock(`/async/reports/${reportIdRegex}/${reportIdRegex}`),
+  requestAsyncReportFailure500: setupSimpleFailedMock(`/async/reports/${reportIdRegex}/${reportIdRegex}`, 500),
+  requestAsyncReportFailure403: setupSimpleFailedMock(`/async/reports/${reportIdRegex}/${reportIdRegex}`, 403),
   getAsyncReportStatusFailure: setupSimpleFailedMock(
     `/reports/${reportIdRegex}/${reportIdRegex}/statements/exId_[0-9]+/status`,
   ),

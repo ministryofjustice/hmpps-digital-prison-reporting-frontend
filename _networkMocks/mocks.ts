@@ -196,7 +196,7 @@ export const getSubscriptionsStatusPendingEndpoint = generateNetworkMock({
         reportId: 'feature-testing',
         reportVariantId: 'feature-testing-scheduled',
         tableId: '',
-        // reportStatus: 'PENDING',
+        reportStatus: 'PENDING',
       },
     ],
   },

@@ -15,6 +15,3 @@ type CatalogueTotals = {
   products: number
   variants: number
 }
-
-// TODO:
-export type TempVariantDefinitionSummary = components['schemas']['VariantDefinitionSummary'] & { schedule: string }

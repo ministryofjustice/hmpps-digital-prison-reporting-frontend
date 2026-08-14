@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## 8.2.2
+
+- Render different error message when receiving 403 upon requesting a report
+
 ## 8.2.1
 
 - Save defaults debug logs

@@ -7,6 +7,7 @@
   {% set id = meta.variantId %}
   {% set executionId = meta.executionId %}
   {% set tableId = meta.tableId %}
+  {% set mainErrorMessage = 'Please take note of the following meta data and use in any correspondence with the support team to help speed up your request:' %}
 
   {% set errorList = [] %}
   {%
@@ -29,13 +30,14 @@
     %}
   {% endif %}
 
+  {% if error.status === 403 %}
+    {% set mainErrorMessage = 'Ensure you have the correct user role to access this report. If you need assistance, please contact the service desk, providing them with the following meta data to help speed up your request:' %}
+  {% endif %}
+
 
   {% set metaHtml %}
     <div id="request-error_request-details" class="govuk-!-margin-top-3">
-      <p class="govuk-body-s">
-        Please take note of the following meta data and use in any correspondence with the support team to help speed up
-        your request:
-      </p>
+      <p class="govuk-body-s">{{ mainErrorMessage }}</p>
       <ul class="govuk-list govuk-body-s">
         {% if reportId %}<li><strong>Report ID: </strong> {{ reportId }}</li>{% endif %}
         {% if id %}<li><strong>ID: </strong> {{ id }}</li>{% endif %}

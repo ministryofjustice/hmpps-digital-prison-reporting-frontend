@@ -7,7 +7,7 @@
   "sass": "dpr/all.scss",
   "engines": {
     "node": "^22 || ^24",
-    "npm": ">=10 <12"
+    "npm": ">=10"
   },
   "repository": {
     "type": "git",

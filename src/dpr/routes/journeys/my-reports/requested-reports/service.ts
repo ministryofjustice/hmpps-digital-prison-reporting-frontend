@@ -81,7 +81,7 @@ class RequestedReportService extends ReportStoreService {
   async setToExpiredByTableId(id: string, userId: string) {
     const userConfig = await this.getState(userId)
 
-    const index = this.findIndexByTableId(id, userConfig.recentlyViewedReports)
+    const index = this.findIndexByTableId(id, userConfig.requestedReports)
     if (index !== -1) {
       await this.saveExpiredState(userConfig, index, userId)
     } else {

@@ -12,19 +12,34 @@ export const childDashboardOneDefinition = {
       id: 'child-one-section-1',
       display: 'Child one - Section 1',
       description: 'Child one - Section 1 description',
-      visualisations: [LineCharts.dataQualityMetricOneLine],
+      visualisations: [
+        {
+          ...LineCharts.dataQualityMetricOneLine,
+          description: 'Child 1 line chart',
+        },
+      ],
     },
     {
       id: 'child-one-section-2',
       display: 'Child one - Section 2',
       description: 'Child one - Section 2 - description',
-      visualisations: [LineCharts.dataQualityMetricTwoLine],
+      visualisations: [
+        {
+          ...LineCharts.dataQualityMetricTwoLine,
+          description: 'Child 1 line chart 2',
+        },
+      ],
     },
     {
       id: 'parent-section-1', // should merge to parent-section-1 in the parent dashboard
       display: 'Child one - Section 3',
       description: 'Child one - Section 3 - description',
-      visualisations: [LineCharts.dataQualityMetricThreeLine],
+      visualisations: [
+        {
+          ...LineCharts.dataQualityMetricThreeLine,
+          description: 'Child 1 line chart 3',
+        },
+      ],
     },
   ],
 }
@@ -38,19 +53,34 @@ export const childDashboardTwoDefinition = {
       id: 'child-two-section-1',
       display: 'Child two - Section 1',
       description: 'Child two - Section 1 description',
-      visualisations: [DoughnutCharts.dataQualityMetricOneDoughnut],
+      visualisations: [
+        {
+          ...DoughnutCharts.dataQualityMetricOneDoughnut,
+          description: 'Child 2 dounut chart 1',
+        },
+      ],
     },
     {
       id: 'child-two-section-2',
       display: 'Child two - Section 2',
       description: 'Child two - Section 2 description',
-      visualisations: [DoughnutCharts.dataQualityMetricTwoDoughnut],
+      visualisations: [
+        {
+          ...DoughnutCharts.dataQualityMetricTwoDoughnut,
+          description: 'Child 2 dounut chart 2',
+        },
+      ],
     },
     {
       id: 'parent-section-2', // should merge to parent-section-2 in the parent dashboard
       display: 'Child two - Section 3',
       description: 'Child two - Section 3 - description',
-      visualisations: [DoughnutCharts.dataQualityMetricThreeDoughnut],
+      visualisations: [
+        {
+          ...DoughnutCharts.dataQualityMetricThreeDoughnut,
+          description: 'Child 2 dounut chart 3',
+        },
+      ],
     },
   ],
 }
@@ -66,13 +96,23 @@ export const parentChildDashboardDefinition: components['schemas']['DashboardDef
       id: 'parent-section-1',
       display: 'Parent - Section 1',
       description: 'Parent Section 1 description',
-      visualisations: [BarCharts.dataQualityMetricOneBar],
+      visualisations: [
+        {
+          ...BarCharts.dataQualityMetricOneBar,
+          description: 'parent bar chart 1',
+        },
+      ],
     },
     {
       id: 'parent-section-2',
       display: 'Parent - Section 2',
       description: 'Parent Section 2 description',
-      visualisations: [BarCharts.dataQualityMetricTwoBar],
+      visualisations: [
+        {
+          ...BarCharts.dataQualityMetricTwoBar,
+          description: 'parent bar chart 2',
+        },
+      ],
     },
   ],
 }

@@ -151,9 +151,9 @@ async function getStatus({
   const childSignals = stored.childExecutionData
     ? await Promise.all(
         stored.childExecutionData.map(child => {
-          const { tableId: childTableId, executionId: childExecutionId } = child
+          const { tableId: childTableId, executionId: childExecutionId, variantId } = child
 
-          if (!childExecutionId || !childTableId) {
+          if (!childExecutionId || !childTableId || !id) {
             throw new Error('Stored child report missing executionId or tableId')
           }
 
@@ -162,7 +162,7 @@ async function getStatus({
             reportType: type,
             token,
             reportId,
-            id,
+            id: variantId,
             executionId: childExecutionId,
             definitionsPath,
             tableId: childTableId,
@@ -266,7 +266,6 @@ function resolveReportStatus({
    * ------------------------------------------------------------
    * TERMINAL GUARD
    * ------------------------------------------------------------
-   * Once a report is terminal, it never changes again.
    */
   if (isTerminal(currentStatus)) {
     return { type: 'NO_CHANGE' }
@@ -276,11 +275,12 @@ function resolveReportStatus({
    * ------------------------------------------------------------
    * TIMEOUT
    * ------------------------------------------------------------
-   * If polling exceeds 15 minutes, we decide it has failed.
    */
   const requestedAt = stored.timestamp?.requested
+
   if (requestedAt) {
     const requestedTime = new Date(requestedAt).getTime()
+
     if (now - requestedTime >= FIFTEEN_MINUTES_MS) {
       return {
         type: 'UPDATE',
@@ -295,13 +295,61 @@ function resolveReportStatus({
 
   /**
    * ------------------------------------------------------------
+   * DASHBOARD AGGREGATION
+   * ------------------------------------------------------------
+   *
+   * Parent-child dashboards support partial data.
+   *
+   * Rules:
+   * - Wait until all executions are terminal.
+   * - FAILED and ERROR both count as failures.
+   * - If every execution failed => FAILED.
+   * - Otherwise => FINISHED.
+   */
+  const isParentChildDashboard = stored.type === ReportType.DASHBOARD && childSignals.length > 0
+
+  if (isParentChildDashboard) {
+    const signals = [parentSignal, ...childSignals]
+
+    const allTerminal = signals.every(signal => {
+      if (signal.kind === 'ERROR') {
+        return true
+      }
+
+      if (signal.kind === 'STATUS') {
+        return isTerminal(signal.status)
+      }
+
+      return false
+    })
+
+    if (allTerminal) {
+      const allFailed = signals.every(signal => {
+        if (signal.kind === 'ERROR') {
+          return true
+        }
+
+        return signal.kind === 'STATUS' && signal.status === RequestStatus.FAILED
+      })
+
+      return {
+        type: 'UPDATE',
+        newStatus: allFailed ? RequestStatus.FAILED : RequestStatus.FINISHED,
+      }
+    }
+  }
+
+  /**
+   * ------------------------------------------------------------
    * API ERROR
    * ------------------------------------------------------------
-   * The API failed.
+   * Standard reports fail immediately on API errors.
    */
   if (parentSignal.kind === 'ERROR' || childSignals.some(signal => signal.kind === 'ERROR')) {
     const failure =
-      parentSignal.kind === 'ERROR' ? parentSignal.failure : childSignals.find(s => s.kind === 'ERROR')!.failure
+      parentSignal.kind === 'ERROR'
+        ? parentSignal.failure
+        : childSignals.find(signal => signal.kind === 'ERROR')!.failure
 
     return {
       type: 'UPDATE',
@@ -312,12 +360,10 @@ function resolveReportStatus({
 
   /**
    * ------------------------------------------------------------
-   * CHILD AGGREGATION
+   * STANDARD REPORT CHILD AGGREGATION
    * ------------------------------------------------------------
-   * Execution identity comes from stored.childExecutionData,
-   * execution truth comes from childSignals.
    */
-  const childStatuses = childSignals.filter(s => s.kind === 'STATUS').map(s => s.status)
+  const childStatuses = childSignals.filter(signal => signal.kind === 'STATUS').map(signal => signal.status)
 
   if (childStatuses.some(status => status === RequestStatus.FAILED)) {
     return {
@@ -337,7 +383,6 @@ function resolveReportStatus({
    * ------------------------------------------------------------
    * NORMAL STATUS TRANSITION
    * ------------------------------------------------------------
-   * Parent progressed (SUBMITTED → STARTED → PICKED → FINISHED)
    */
   if (parentSignal.kind === 'STATUS' && parentSignal.status !== currentStatus) {
     return {
@@ -346,11 +391,6 @@ function resolveReportStatus({
     }
   }
 
-  /**
-   * ------------------------------------------------------------
-   * NOTHING CHANGED
-   * ------------------------------------------------------------
-   */
   return { type: 'NO_CHANGE' }
 }
 

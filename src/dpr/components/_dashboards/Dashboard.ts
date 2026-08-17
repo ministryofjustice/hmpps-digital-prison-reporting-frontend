@@ -27,6 +27,8 @@ export default class Dashboard extends DataPresentation {
 
   dashboardData!: DashboardDataResponse[]
 
+  parentDataNotFound = false
+
   parentChildData: DashboardParentChildData[] = []
 
   partialDate!: PartialDate | undefined
@@ -90,8 +92,22 @@ export default class Dashboard extends DataPresentation {
    *
    */
   getData = async () => {
+    const childVariants = (this.definition as DashboardDefinition)?.childVariants
+
+    if (childVariants) {
+      await this.getParentChildData()
+    } else {
+      await this.getDashboardData()
+    }
+  }
+
+  /**
+   * Gets the dashboard data
+   */
+  getDashboardData = async () => {
     try {
       await this.getDashboardData()
+      this.dashboardData = this.loadType === LoadType.SYNC ? await this.getSyncData() : await this.getAsyncData()
     } catch (error) {
       const dprError = new ErrorHandler(error).formatError()
       if (dprError.status === 404) {
@@ -100,14 +116,6 @@ export default class Dashboard extends DataPresentation {
         throw error
       }
     }
-  }
-
-  /**
-   * Gets the dashboard data
-   */
-  getDashboardData = async () => {
-    this.dashboardData = this.loadType === LoadType.SYNC ? await this.getSyncData() : await this.getAsyncData()
-    await this.setParentChildData()
   }
 
   private getAsyncData = async () => {
@@ -137,13 +145,22 @@ export default class Dashboard extends DataPresentation {
     return Array.isArray(dashboardData) ? dashboardData.flat().filter(Boolean) : []
   }
 
-  setParentChildData = async () => {
-    // Get the child data, if applicable
+  getParentChildData = async () => {
+    try {
+      this.dashboardData = this.loadType === LoadType.SYNC ? await this.getSyncData() : await this.getAsyncData()
+    } catch (error) {
+      const dprError = new ErrorHandler(error).formatError()
+      if (dprError.status === 404) this.parentDataNotFound = true
+      this.dashboardData = []
+    }
+
     const childVariants = (this.definition as DashboardDefinition)?.childVariants
 
     this.parentChildData = !childVariants
       ? []
-      : await this.getParentChildData(childVariants, this.services, this.token, this.req, this.res, this.requestData)
+      : await this.getChildData(childVariants, this.services, this.token, this.req, this.res, this.requestData)
+
+    this.expired = this.parentChildData.length > 0 && this.parentChildData.every(item => item.notFound)
   }
 
   /**
@@ -151,7 +168,7 @@ export default class Dashboard extends DataPresentation {
    * NOTE: Only available for Async
    *
    */
-  getParentChildData = async (
+  getChildData = async (
     childVariants: DashboardDefinition[],
     services: Services,
     token: string,
@@ -182,22 +199,35 @@ export default class Dashboard extends DataPresentation {
         }
         const { tableId: childTableId } = childData
 
-        const childDashboard = await services.dashboardService.getAsyncDashboard(
-          token,
-          reportId,
-          childVariant.id,
-          childTableId,
-          query,
-        )
+        try {
+          const childDashboard = await services.dashboardService.getAsyncDashboard(
+            token,
+            reportId,
+            childVariant.id,
+            childTableId,
+            query,
+          )
 
-        return {
-          id: childVariant.id,
-          data: childDashboard.flat().filter(Boolean),
+          return {
+            id: childVariant.id,
+            data: childDashboard.flat().filter(Boolean),
+            notFound: false,
+          }
+        } catch (error) {
+          const dprError = new ErrorHandler(error).formatError()
+          let notFound = false
+          if (dprError.status === 404) notFound = true
+
+          return {
+            id: childVariant.id,
+            data: [],
+            notFound,
+          }
         }
       }),
     )
 
-    const parentData = { id: this.definition.id, data: this.dashboardData }
+    const parentData = { id: this.definition.id, data: this.dashboardData, notFound: this.parentDataNotFound }
 
     return [parentData, ...allChildData]
   }

@@ -1,8 +1,8 @@
 import { ErrorRequestHandler, RequestHandler } from 'express'
 import { Services } from '../../../types/Services'
+import { captureDprError } from '../../../utils/captureError'
 import ErrorHandler from '../../../utils/ErrorHandler/ErrorHandler'
 import { cancelRequest } from './utils'
-import { captureDprError } from '../../../utils/captureError'
 
 class RequestReportController {
   layoutPath: string
@@ -21,7 +21,7 @@ class RequestReportController {
       layoutPath: this.layoutPath,
       ...(req.body && { ...req.body }),
       ...req.params,
-      error: req.body?.error,
+      error: req.body?.error || error,
       params: req?.params,
     })
   }

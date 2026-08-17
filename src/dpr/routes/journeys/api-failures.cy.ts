@@ -109,6 +109,22 @@ context('Try to run the app with failing and broken api endpoints', () => {
       startReportRequest({ name: 'Successful Report', description: 'this will succeed' })
 
       cy.findByRole('heading', { name: /Your report has failed to generate/ }).should('be.visible')
+      cy.findByText(
+        /Please take note of the following meta data and use in any correspondence with the support team to help speed up your request:/,
+      ).should('be.visible')
+    })
+
+    it('should cope with single definition variant failing with a 403 error', () => {
+      executeReportStubs()
+      cy.task('getSingleDefinitionVariantUnauthorizedFailure')
+
+      cy.visit(path)
+      startReportRequest({ name: 'Successful Report', description: 'this will succeed' })
+
+      cy.findByRole('heading', { name: /Your report has failed to generate/ }).should('be.visible')
+      cy.findByText(
+        /Ensure you have the correct user role to access this report. If you need assistance, please contact the service desk, providing them with the following meta data to help speed up your request:/,
+      ).should('be.visible')
     })
 
     it('should cope with count failing', () => {

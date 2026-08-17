@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## 8.3.1
+
+- Render different error message when receiving 403 upon requesting a definition
+
 ## 8.3.0
 
 - Removing npm package engine constraint to allow using library with npm 12

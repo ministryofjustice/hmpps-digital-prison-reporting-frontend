@@ -390,6 +390,7 @@ export const renderRequest = async ({
     let fields: components['schemas']['FieldDefinition'][] = []
     let sections: components['schemas']['DashboardDefinition']['sections'] = []
     let subscriptionConfig
+    let children: Array<string> = []
 
     if (type === ReportType.REPORT) {
       const reportData = await renderReportRequestData(
@@ -419,6 +420,7 @@ export const renderRequest = async ({
       description = dashboardData.description
       fields = dashboardData.fields
       sections = dashboardData.sections
+      children = dashboardData.children
     }
 
     const filtersData = await getRequestFilters(req, res, fields)
@@ -437,6 +439,7 @@ export const renderRequest = async ({
       hasDefaults,
       type,
       saveDefaultsEnabled,
+      children,
     }
 
     return {
@@ -476,9 +479,11 @@ const renderDashboardRequestData = async ({
 
   const { childVariants } = definition
 
+  let children = <Array<string>>[]
   const masterDefinition = { ...definition }
   if (childVariants?.length) {
     masterDefinition.sections = buildMasterSections(definition)
+    children = childVariants.map(child => child.name)
   }
 
   const { name, description, sections, filterFields: fields } = masterDefinition
@@ -489,6 +494,7 @@ const renderDashboardRequestData = async ({
     description: description || productDefinition?.description || '',
     sections: sections || [],
     fields: fields || [],
+    children,
   }
 }
 

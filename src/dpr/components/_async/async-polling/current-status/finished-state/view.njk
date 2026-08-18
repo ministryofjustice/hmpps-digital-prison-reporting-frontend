@@ -1,6 +1,7 @@
 {% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "../../../request-details/view.njk" import dprRequestDetails %}
+{% from "../../../child-request-status/view.njk" import dprChildRequestStatus %}
 
 {% macro dprPollingFinishedState(data) %}
 
@@ -9,11 +10,14 @@
   {% set altText = statusDetails.altText %}
   {% set buttonHref = statusDetails.buttonHref %}
   {% set requestDetails = data.requestDetails %}
+  {% set childStatusDetails = data.childStatusDetails %}
 
   <div class="dpr-poling-state__finished">
     <p class="govuk-!-margin-top-4 govuk-!-margin-bottom-6">{{ descriptionText }}</p>
 
     {{ dprRequestDetails(requestDetails) }}
+
+    {{ dprChildRequestStatus(childStatusDetails) }}
 
     {% for text in altText %}
       <p class="govuk-body govuk-!-margin-top-4 govuk-!-margin-bottom-6">{{ text }}</p>

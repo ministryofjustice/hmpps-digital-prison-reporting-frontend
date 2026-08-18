@@ -346,6 +346,10 @@ function resolveReportStatus({
         childStatuses: toChildStatuses(childSignals),
       }
     }
+
+    // Parent-child dashboards stay in their current
+    // state until all executions are terminal.
+    return { type: 'NO_CHANGE' }
   }
 
   /**
@@ -484,14 +488,16 @@ export async function evaluateAndUpdateReportStatus({
   await services.requestedReportService.updateStatus(executionId, dprUser.id, resolution.newStatus, errorMessage)
 
   if (resolution.childStatuses?.length) {
-    resolution.childStatuses.forEach(async childStatus => {
-      await services.requestedReportService.updateChildStatus(
+    await resolution.childStatuses.reduce(async (previous, childStatus) => {
+      await previous
+
+      return services.requestedReportService.updateChildStatus(
         executionId,
         dprUser.id,
         childStatus.status,
         childStatus.tableId,
       )
-    })
+    }, Promise.resolve())
   }
 
   // Get the updated stored state

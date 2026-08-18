@@ -9,6 +9,7 @@
   {% set lists = reportData.lists %}
   {% set sections = reportData.sections %}
   {% set schedule = reportData.schedule %}
+  {% set children = reportData.children %}
 
   {% set filtersHtml %}
     {% if querySummary.length > 0 %}
@@ -120,6 +121,21 @@
               </td>
             </tr>
           {% endif %}
+        {% endif %}
+
+        {% if children %}
+          <tr>
+            <td class="dpr-request-details__table-heading">
+              <p class="govuk-body-m dpr-request-details__table-heading_name">Child dashboards:</p>
+            </td>
+            <td>
+              <ul class="govuk-list govuk-list--bullet">
+                {% for child in children %}
+                  <li>{{ child }}</li>
+                {% endfor %}
+              </ul>
+            </td>
+          </tr>
         {% endif %}
 
         {% if sections.length %}

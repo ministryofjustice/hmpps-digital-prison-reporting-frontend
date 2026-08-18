@@ -28,7 +28,9 @@ export const createDashboardSections = (
         const { type, variantId, display, description: visDescription, id: visId } = visDefinition
         const isEnabled = featureFlagVisTypeMap[type]
 
-        const dashboardDataForVis = parentChildData.find(data => data.id === variantId)?.data || dashboardData
+        const parentChildDetails = parentChildData.find(data => data.id === variantId)
+        const dashboardDataForVis = parentChildDetails?.data || dashboardData
+
         let chartData: DashboardVisualisation['data']
 
         switch (type) {
@@ -71,6 +73,7 @@ export const createDashboardSections = (
           type,
           data: chartData,
           isEnabled: isEnabled ?? true,
+          notFound: parentChildDetails?.notFound,
         }
       },
     )

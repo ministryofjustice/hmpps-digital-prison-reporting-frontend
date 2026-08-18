@@ -56,11 +56,14 @@ import {
   parentChildStatusChild2FinishedMock,
   getAsyncReportResultMockParentChildParentMock,
   getAsyncReportResultMockParentChildChild1Mock,
+  getAsyncReportResultMockParentChildChild1NoDataMock,
   getAsyncReportResultMockParentChildChild2Mock,
   getAsyncReportResultMockParentChildChild2404Mock,
   getAsyncReportResultMockParentChildParent404Mock,
   getAsyncReportResultMockParentChildChild1404Mock,
   parentChildStatusChild1FailedMock,
+  getAsyncReportResultMockParentChildChild2NoDataMock,
+  getAsyncReportResultMockParentChildParentNoDataMock,
 } from '@networkMocks/dashboard/mocks'
 import { stubFor } from '@networkMocks/generateNetworkMock'
 import { dashboardFailureStubs } from './failures'
@@ -147,10 +150,13 @@ const resultsStubs = {
   stubDashboardResultEmptyData: () => stubFor(dashboardResultEmptyDataSyncMock),
   stubDashboardResultMissingFirstRowDataSync: () => stubFor(dashboardResultMissingFirstRowDataSyncMock),
   stubDashboardResultParentChildParent: () => stubFor(getAsyncReportResultMockParentChildParentMock),
+  stubDashboardResultParentChildParentNoData: () => stubFor(getAsyncReportResultMockParentChildParentNoDataMock),
   stubDashboardResultParentChildParent404: () => stubFor(getAsyncReportResultMockParentChildParent404Mock),
   stubDashboardResultParentChildChild1: () => stubFor(getAsyncReportResultMockParentChildChild1Mock),
+  stubDashboardResultParentChildChild1NoData: () => stubFor(getAsyncReportResultMockParentChildChild1NoDataMock),
   stubDashboardResultParentChildChild1404: () => stubFor(getAsyncReportResultMockParentChildChild1404Mock),
   stubDashboardResultParentChildChild2: () => stubFor(getAsyncReportResultMockParentChildChild2Mock),
+  stubDashboardResultParentChildChild2NoData: () => stubFor(getAsyncReportResultMockParentChildChild2NoDataMock),
   stubDashboardResultParentChildChild2404: () => stubFor(getAsyncReportResultMockParentChildChild2404Mock),
 }
 

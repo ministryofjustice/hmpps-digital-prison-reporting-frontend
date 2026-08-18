@@ -67,6 +67,32 @@ class RequestedReportService extends ReportStoreService {
     await this.saveState(userId, userConfig)
   }
 
+  async updateChildStatus(id: string, userId: string, status: RequestStatus, tableId: string) {
+    const userConfig = await this.getState(userId)
+
+    const index = this.findIndexByExecutionId(id, userConfig.requestedReports)
+    if (index === -1) {
+      return
+    }
+
+    const report: RequestedReport = userConfig.requestedReports[index]
+
+    const { childExecutionData } = report
+    if (!childExecutionData || !childExecutionData.length) {
+      return
+    }
+
+    const childExeData = childExecutionData.find(chEx => chEx.tableId === tableId)
+    if (!childExeData) {
+      return
+    }
+
+    childExeData.status = status
+
+    userConfig.requestedReports[index] = report
+    await this.saveState(userId, userConfig)
+  }
+
   async setToExpired(id: string, userId: string) {
     const userConfig = await this.getState(userId)
 

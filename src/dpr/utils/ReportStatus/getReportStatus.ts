@@ -6,6 +6,8 @@ import ErrorHandler, { DprErrorMessage } from '../ErrorHandler/ErrorHandler'
 import { getValues } from '../localsHelper'
 import { getAllMyReports } from '../reportStoreHelper'
 import {
+  ChildResolution,
+  ChildStatusSignal,
   EvaluateAndUpdateReportStatusOptions,
   ExpireFinishedReportsOptions,
   FailureInfo,
@@ -128,9 +130,10 @@ async function getStatus({
   token: string
 }): Promise<{
   parentSignal: UpstreamSignal
-  childSignals: UpstreamSignal[]
+  childSignals: ChildStatusSignal[]
 }> {
   const { reportId, id, tableId, executionId, dataProductDefinitionsPath, type } = stored
+
   const definitionsPath = dataProductDefinitionsPath || ''
 
   if (!executionId || !tableId) {
@@ -150,14 +153,14 @@ async function getStatus({
 
   const childSignals = stored.childExecutionData
     ? await Promise.all(
-        stored.childExecutionData.map(child => {
+        stored.childExecutionData.map(async child => {
           const { tableId: childTableId, executionId: childExecutionId, variantId } = child
 
-          if (!childExecutionId || !childTableId || !id) {
-            throw new Error('Stored child report missing executionId or tableId')
+          if (!childExecutionId || !childTableId || !variantId) {
+            throw new Error('Stored child report missing executionId, tableId or variantId')
           }
 
-          return getStatusByType({
+          const signal = await getStatusByType({
             services,
             reportType: type,
             token,
@@ -167,6 +170,13 @@ async function getStatus({
             definitionsPath,
             tableId: childTableId,
           })
+
+          return {
+            tableId: childTableId,
+            executionId: childExecutionId,
+            variantId,
+            signal,
+          }
         }),
       )
     : []
@@ -257,7 +267,7 @@ function resolveReportStatus({
 }: {
   stored: StoredReportData
   parentSignal: UpstreamSignal
-  childSignals: UpstreamSignal[]
+  childSignals: ChildStatusSignal[]
   now: number
 }): StatusResolution {
   const currentStatus = stored.status ?? RequestStatus.SUBMITTED
@@ -297,21 +307,19 @@ function resolveReportStatus({
    * ------------------------------------------------------------
    * DASHBOARD AGGREGATION
    * ------------------------------------------------------------
-   *
-   * Parent-child dashboards support partial data.
-   *
-   * Rules:
-   * - Wait until all executions are terminal.
-   * - FAILED and ERROR both count as failures.
-   * - If every execution failed => FAILED.
-   * - Otherwise => FINISHED.
    */
   const isParentChildDashboard = stored.type === ReportType.DASHBOARD && childSignals.length > 0
 
   if (isParentChildDashboard) {
-    const signals = [parentSignal, ...childSignals]
+    const signals = [
+      {
+        tableId: stored.tableId!,
+        signal: parentSignal,
+      },
+      ...childSignals,
+    ]
 
-    const allTerminal = signals.every(signal => {
+    const allTerminal = signals.every(({ signal }) => {
       if (signal.kind === 'ERROR') {
         return true
       }
@@ -324,7 +332,7 @@ function resolveReportStatus({
     })
 
     if (allTerminal) {
-      const allFailed = signals.every(signal => {
+      const allFailed = signals.every(({ signal }) => {
         if (signal.kind === 'ERROR') {
           return true
         }
@@ -335,6 +343,7 @@ function resolveReportStatus({
       return {
         type: 'UPDATE',
         newStatus: allFailed ? RequestStatus.FAILED : RequestStatus.FINISHED,
+        childStatuses: toChildStatuses(childSignals),
       }
     }
   }
@@ -343,18 +352,23 @@ function resolveReportStatus({
    * ------------------------------------------------------------
    * API ERROR
    * ------------------------------------------------------------
-   * Standard reports fail immediately on API errors.
    */
-  if (parentSignal.kind === 'ERROR' || childSignals.some(signal => signal.kind === 'ERROR')) {
-    const failure =
-      parentSignal.kind === 'ERROR'
-        ? parentSignal.failure
-        : childSignals.find(signal => signal.kind === 'ERROR')!.failure
+  if (parentSignal.kind === 'ERROR' || childSignals.some(child => child.signal.kind === 'ERROR')) {
+    const erroredChild = childSignals.find(child => child.signal.kind === 'ERROR')
+
+    let failure: FailureInfo | undefined
+
+    if (parentSignal.kind === 'ERROR') {
+      failure = parentSignal.failure
+    } else if (erroredChild?.signal.kind === 'ERROR') {
+      failure = erroredChild.signal.failure
+    }
 
     return {
       type: 'UPDATE',
       newStatus: RequestStatus.FAILED,
-      failureInfo: failure,
+      ...(failure && { failureInfo: failure }),
+      childStatuses: toChildStatuses(childSignals),
     }
   }
 
@@ -363,12 +377,13 @@ function resolveReportStatus({
    * STANDARD REPORT CHILD AGGREGATION
    * ------------------------------------------------------------
    */
-  const childStatuses = childSignals.filter(signal => signal.kind === 'STATUS').map(signal => signal.status)
+  const childStatuses = childSignals.flatMap(child => (child.signal.kind === 'STATUS' ? [child.signal.status] : []))
 
   if (childStatuses.some(status => status === RequestStatus.FAILED)) {
     return {
       type: 'UPDATE',
       newStatus: RequestStatus.FAILED,
+      childStatuses: toChildStatuses(childSignals),
     }
   }
 
@@ -376,6 +391,7 @@ function resolveReportStatus({
     return {
       type: 'UPDATE',
       newStatus: RequestStatus.FINISHED,
+      childStatuses: toChildStatuses(childSignals),
     }
   }
 
@@ -466,6 +482,17 @@ export async function evaluateAndUpdateReportStatus({
 
   // Update the status
   await services.requestedReportService.updateStatus(executionId, dprUser.id, resolution.newStatus, errorMessage)
+
+  if (resolution.childStatuses?.length) {
+    resolution.childStatuses.forEach(async childStatus => {
+      await services.requestedReportService.updateChildStatus(
+        executionId,
+        dprUser.id,
+        childStatus.status,
+        childStatus.tableId,
+      )
+    })
+  }
 
   // Get the updated stored state
   const updated = await getMyReport({ executionId }, 'requestedReports', services, dprUser.id)
@@ -601,4 +628,33 @@ export function shouldRunExpiryCheck(session: { lastExpiredReportsCheckAt?: numb
 export function recordExpiryCheck(session: { lastExpiredReportsCheckAt?: number }) {
   // eslint-disable-next-line no-param-reassign
   session.lastExpiredReportsCheckAt = Date.now()
+}
+
+function toChildStatuses(childSignals: ChildStatusSignal[]): ChildResolution[] {
+  return childSignals.map(child => ({
+    tableId: child.tableId,
+    executionId: child.executionId,
+
+    status: child.signal.kind === 'ERROR' ? RequestStatus.FAILED : toRequestStatus(child.signal),
+
+    ...(child.signal.kind === 'ERROR' && {
+      failureInfo: child.signal.failure,
+    }),
+  }))
+}
+
+function toRequestStatus(signal: UpstreamSignal): RequestStatus {
+  switch (signal.kind) {
+    case 'ERROR':
+      return RequestStatus.FAILED
+
+    case 'STATUS':
+      return signal.status
+
+    case 'EMPTY':
+      return RequestStatus.SUBMITTED
+
+    default:
+      return RequestStatus.SUBMITTED
+  }
 }

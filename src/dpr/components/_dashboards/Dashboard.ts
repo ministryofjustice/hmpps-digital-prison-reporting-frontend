@@ -106,7 +106,6 @@ export default class Dashboard extends DataPresentation {
    */
   getDashboardData = async () => {
     try {
-      await this.getDashboardData()
       this.dashboardData = this.loadType === LoadType.SYNC ? await this.getSyncData() : await this.getAsyncData()
     } catch (error) {
       const dprError = new ErrorHandler(error).formatError()

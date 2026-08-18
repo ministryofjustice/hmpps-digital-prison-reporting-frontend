@@ -1,11 +1,11 @@
 import { RequestHandler } from 'express'
-import { Services } from '../../../../types/Services'
-import { RequestDataResult } from '../../../../types/AsyncReportUtils'
-import AysncRequestUtils, { redirectWithDefaults, setDefaultQueryString } from './utils'
-import PersonalisationUtils from '../../../../utils/Personalisation/personalisationUtils'
 import { FiltersType } from '../../../../components/_filters/filtersTypeEnum'
+import { RequestDataResult } from '../../../../types/AsyncReportUtils'
+import { Services } from '../../../../types/Services'
 import ErrorHandler from '../../../../utils/ErrorHandler/ErrorHandler'
+import PersonalisationUtils from '../../../../utils/Personalisation/personalisationUtils'
 import { getActiveJourneyValue } from '../../../../utils/sessionHelper'
+import AsyncRequestUtils, { redirectWithDefaults, setDefaultQueryString } from './utils'
 
 class RequestReportController {
   layoutPath: string
@@ -24,7 +24,7 @@ class RequestReportController {
       }
 
       // Get config to render the filters
-      const requestRenderData = (await AysncRequestUtils.renderRequest({
+      const requestRenderData = (await AsyncRequestUtils.renderRequest({
         req,
         res,
         services: this.services,
@@ -58,7 +58,7 @@ class RequestReportController {
 
   POST: RequestHandler = async (req, res, next) => {
     try {
-      const executionData = await AysncRequestUtils.request({
+      const executionData = await AsyncRequestUtils.request({
         req,
         res,
         services: this.services,
@@ -75,7 +75,7 @@ class RequestReportController {
         res.end()
       }
     } catch (error) {
-      const filters = AysncRequestUtils.getFiltersFromReqBody(req)
+      const filters = AsyncRequestUtils.getFiltersFromReqBody(req)
 
       req.body = {
         title: 'Request Failed',

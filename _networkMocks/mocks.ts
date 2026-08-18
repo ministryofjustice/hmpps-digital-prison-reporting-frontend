@@ -1,3 +1,4 @@
+import { summaries } from './definitionSummaries'
 import {
   defaultMockRequest,
   generateNetworkMock,
@@ -5,7 +6,6 @@ import {
   setupSimpleFailedMock,
   setupSimpleMock,
 } from './generateNetworkMock'
-import { summaries } from './definitionSummaries'
 
 export const getDefinitionSummaries = setupSimpleMock('/definitions', summaries)
 
@@ -14,7 +14,11 @@ export const reportingApiFailures = {
   getDefinitionSummariesUnauthenticatedFailure: setupSimpleFailedMock('/definitions', 401),
   getDefinitionSummariesUnauthorizedFailure: setupSimpleFailedMock('/definitions', 403),
   getSingleDefinitionFailure: setupSimpleFailedMock(`/definitions/${reportIdRegex}`),
-  getSingleDefinitionVariantFailure: setupSimpleFailedMock(`/definitions/${reportIdRegex}/${reportIdRegex}`),
+  getSingleDefinitionVariantFailure: setupSimpleFailedMock(`/definitions/${reportIdRegex}/${reportIdRegex}`, 500),
+  getSingleDefinitionVariantUnauthorizedFailure: setupSimpleFailedMock(
+    `/definitions/${reportIdRegex}/${reportIdRegex}`,
+    403,
+  ),
   requestAsyncReportFailure500: setupSimpleFailedMock(`/async/reports/${reportIdRegex}/${reportIdRegex}`, 500),
   requestAsyncReportFailure403: setupSimpleFailedMock(`/async/reports/${reportIdRegex}/${reportIdRegex}`, 403),
   getAsyncReportStatusFailure: setupSimpleFailedMock(

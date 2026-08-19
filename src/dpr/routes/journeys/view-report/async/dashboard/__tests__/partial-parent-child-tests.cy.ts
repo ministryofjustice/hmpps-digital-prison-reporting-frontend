@@ -201,7 +201,9 @@ context('Viewing a partial parent-child dashboard', () => {
 
       cy.findByRole('button', { name: /Request/ }).click()
 
-      // TODO: write expect statement
+      cy.findByText(/Child one dashboard/i).should('be.visible')
+      cy.findByText(/Child two dashboard/i).should('be.visible')
+      cy.findAllByText(/failed/i).should('have.length', 3)
     })
   })
 

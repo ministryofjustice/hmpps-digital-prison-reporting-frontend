@@ -127,7 +127,6 @@ const wasSubscribedReportRefreshed = (apiTimestamp: string | Date, storedTimesta
     return true
   }
 
-  // storedTimestamp: string | Date
   const apiTime = Date.parse(String(apiTimestamp))
   const storedTime = Date.parse(String(refresh))
 

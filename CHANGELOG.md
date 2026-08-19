@@ -1,5 +1,11 @@
 Below you can find the changes included in each release.
 
+## 8.4.0
+
+- Subscriptions: In-app notifications
+  - Notify when a subscription has succeeded/failed
+  - Notify when a subscribed report has refreshed/not refreshed/failed
+
 ## 8.3.1
 
 - Render different error message when receiving 403 upon requesting a definition

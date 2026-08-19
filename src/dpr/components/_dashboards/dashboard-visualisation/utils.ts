@@ -18,7 +18,7 @@ const schemaMap: Record<string, ZodType<unknown>> = {
   bar: BarChartSchemas.BarSchema,
   'bar-timeseries': barTimeseriesChartSchemas.BarTimeseriesSchema,
   'line-timeseries': lineTimeseriesChartSchemas.LineTimeseriesSchema,
-  doughnut: DoughnutChartSchemas.DounutMeasureSchema,
+  doughnut: DoughnutChartSchemas.DoughnutMeasureSchema,
   'matrix-timeseries': HeatmapTimeseriesChartSchemas,
   line: lineChartSchemas.LineSchema,
   scorecard: ScorecardChartSchemas.ScorecardSchema,

@@ -56,7 +56,7 @@ export const childDashboardTwoDefinition = {
       visualisations: [
         {
           ...DoughnutCharts.dataQualityMetricOneDoughnut,
-          description: 'Child 2 dounut chart 1',
+          description: 'Child 2 donut chart 1',
         },
       ],
     },
@@ -67,7 +67,7 @@ export const childDashboardTwoDefinition = {
       visualisations: [
         {
           ...DoughnutCharts.dataQualityMetricTwoDoughnut,
-          description: 'Child 2 dounut chart 2',
+          description: 'Child 2 donut chart 2',
         },
       ],
     },
@@ -78,7 +78,7 @@ export const childDashboardTwoDefinition = {
       visualisations: [
         {
           ...DoughnutCharts.dataQualityMetricThreeDoughnut,
-          description: 'Child 2 dounut chart 3',
+          description: 'Child 2 donut chart 3',
         },
       ],
     },

@@ -5,7 +5,7 @@ import {
   UnitType,
 } from '../../../_dashboards/dashboard-visualisation/Validate'
 
-const DounutMeasureSchema = z.object({
+const DoughnutMeasureSchema = z.object({
   id: z.string(),
   display: z.string().optional(),
   unit: z.enum(UnitType).optional(),
@@ -23,13 +23,13 @@ const DoughnutSchema = z.object({
   options: z.object(DonutOptions.shape).optional(),
   columns: z.object({
     ...DashboardColumns.shape,
-    measures: z.array(DounutMeasureSchema).min(2, 'Measure must contain 2 items'),
+    measures: z.array(DoughnutMeasureSchema).min(2, 'Measure must contain 2 items'),
   }),
 })
 
 const DoughnutChartSchemas = {
   DoughnutSchema,
-  DounutMeasureSchema,
+  DoughnutMeasureSchema,
 }
 
 export default DoughnutChartSchemas

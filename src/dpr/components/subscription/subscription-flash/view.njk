@@ -1,8 +1,10 @@
 {%- from "moj/components/alert/macro.njk" import mojAlert -%}
+{% from "govuk/components/details/macro.njk" import govukDetails %}
 
 {% macro dprSubscriptionFlash(subscriptionMessages) %}
     {% set subscribedMessage = subscriptionMessages.subscribedMessage %}
     {% set unsubscribedMessage = subscriptionMessages.unsubscribedMessage %}
+    {% set subscriptionErrorMessage = subscriptionMessages.subscriptionErrorMessage %}
 
     {% if subscribedMessage.message %}
       {{
@@ -20,6 +22,27 @@
           variant: "success",
           dismissible: true,
           html: unsubscribedMessage.message
+        })
+      }}
+    {% endif %}
+
+    {% if subscriptionErrorMessage.message %}
+      {% set errorHtml %}
+        {{ subscriptionErrorMessage.message | dpr.safe }}
+        {{
+          govukDetails({
+            summaryText: 'Details',
+            text: subscriptionErrorMessage.details,
+            open: true
+          })
+        }}
+      {% endset %}
+
+      {{
+        mojAlert({
+          variant: "error",
+          dismissible: true,
+          html: errorHtml
         })
       }}
     {% endif %}

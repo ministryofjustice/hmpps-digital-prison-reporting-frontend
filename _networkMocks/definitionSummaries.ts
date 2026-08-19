@@ -68,12 +68,13 @@ export const summaries: components['schemas']['ReportDefinitionSummary'][] = [
     id: 'feature-testing',
     name: 'Feature testing',
     description: 'Example variants used for feature testing',
-    variants: featureTestingVariants.map(({ id, name, description }) => ({
+    variants: featureTestingVariants.map(({ id, name, description, schedule }) => ({
       id,
       name,
       description: description || '',
       isMissing: /feature-testing-missing-[1-3]/.test(id),
       ...(id === 'feature-testing-sync' && { loadType: LoadType.SYNC }),
+      ...(schedule && { schedule }),
     })),
     dashboards: (<components['schemas']['DashboardDefinitionSummary'][]>features).map(
       ({ id, name, description, loadType }) => {

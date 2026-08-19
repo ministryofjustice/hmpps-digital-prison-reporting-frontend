@@ -14,8 +14,14 @@ import { featureTesting } from './bigReport'
 import { featureTestingOrderFilters } from './orderFilters'
 import { featureTestingLongHeadings } from './longHeadings'
 import { featureTestingInteractiveDownload } from './download'
+import { featureTestingScheduled } from './scheduled-reports/scheduled-1'
+import { featureTestingScheduled2 } from './scheduled-reports/scheduled-2'
+import { featureTestingScheduled3 } from './scheduled-reports/scheduled-3'
+import { components } from '../../../../src/dpr/types/api'
 
-export const featureTestingVariants = [
+export const featureTestingVariants: Array<
+  components['schemas']['VariantDefinition'] & { schedule?: string | undefined }
+> = [
   featureTestingEmptyQuery,
   featureTestingInteractive,
   featureTestingMissing1,
@@ -32,4 +38,7 @@ export const featureTestingVariants = [
   featureTestingOrderFilters,
   featureTestingLongHeadings,
   featureTestingInteractiveDownload,
+  featureTestingScheduled,
+  featureTestingScheduled2,
+  featureTestingScheduled3,
 ]

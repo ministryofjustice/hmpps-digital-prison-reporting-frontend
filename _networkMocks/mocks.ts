@@ -103,7 +103,37 @@ export const expiredEndpoint = generateNetworkMock({
   },
 })
 
-export const getSubscriptionsEndpoint = generateNetworkMock({
+export const subscribeEndpoint = generateNetworkMock({
+  ...defaultMockRequest,
+  request: {
+    ...defaultMockRequest.request,
+    method: 'POST',
+    urlPathPattern: `/user/subscribe`,
+  },
+  response: {
+    ...defaultMockRequest.response,
+    jsonBody: {},
+  },
+})
+
+export const subscribeEndpointError = setupSimpleFailedMock(`/user/subscribe`)
+
+export const unsubscribeEndpoint = generateNetworkMock({
+  ...defaultMockRequest,
+  request: {
+    ...defaultMockRequest.request,
+    method: 'POST',
+    urlPathPattern: `/user/unsubscribe`,
+  },
+  response: {
+    ...defaultMockRequest.response,
+    jsonBody: {},
+  },
+})
+
+export const unsubscribeEndpointError = setupSimpleFailedMock(`/user/unsubscribe`)
+
+export const getSubscriptionsStatusEndpoint = generateNetworkMock({
   ...defaultMockRequest,
   request: {
     ...defaultMockRequest.request,
@@ -114,12 +144,63 @@ export const getSubscriptionsEndpoint = generateNetworkMock({
     ...defaultMockRequest.response,
     jsonBody: [
       {
-        tableId: 'tblId_1729766362362',
-        createAt: new Date().toISOString(),
+        reportId: 'feature-testing',
+        reportVariantId: 'feature-testing-scheduled',
+        tableId: 'tblId_1729766362361',
+        reportStatus: 'READY',
+        reportUpdatedTime: new Date('2026-08-03').toISOString(),
       },
       {
-        tableId: 'tblId_1729765628165',
-        createAt: new Date().toISOString(),
+        tableId: 'tblId_1729766362364',
+        reportVariantId: 'scheduled-report-ready',
+        reportId: 'feature-testing',
+        reportStatus: 'READY',
+        reportUpdatedTime: new Date().toISOString(),
+      },
+      {
+        tableId: 'tblId_1729766362365',
+        reportVariantId: 'scheduled-report-ready-to-stale',
+        reportId: 'feature-testing',
+        reportStatus: 'STALE',
+      },
+      {
+        tableId: 'tblId_1729766362366',
+        reportVariantId: 'scheduled-report-pending-to-ready',
+        reportId: 'feature-testing',
+        reportStatus: 'READY',
+        reportUpdatedTime: new Date().toISOString(),
+      },
+      {
+        tableId: '',
+        reportVariantId: 'scheduled-report-pending-to-failed',
+        reportId: 'feature-testing',
+        reportStatus: 'FAILED',
+      },
+      {
+        tableId: '',
+        reportVariantId: 'scheduled-report-pending-to-pending',
+        reportId: 'feature-testing',
+        reportStatus: 'PENDING',
+      },
+    ],
+  },
+})
+
+export const getSubscriptionsStatusPendingEndpoint = generateNetworkMock({
+  ...defaultMockRequest,
+  request: {
+    ...defaultMockRequest.request,
+    method: 'GET',
+    urlPathPattern: `/user/subscriptions`,
+  },
+  response: {
+    ...defaultMockRequest.response,
+    jsonBody: [
+      {
+        reportId: 'feature-testing',
+        reportVariantId: 'feature-testing-scheduled',
+        tableId: '',
+        reportStatus: 'PENDING',
       },
     ],
   },

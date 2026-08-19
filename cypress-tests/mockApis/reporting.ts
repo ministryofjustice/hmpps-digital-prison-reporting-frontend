@@ -37,7 +37,12 @@ import {
   getDefinitionSummaries,
   pollingEndpoint,
   expiredEndpoint,
-  getSubscriptionsEndpoint,
+  getSubscriptionsStatusEndpoint,
+  subscribeEndpoint,
+  unsubscribeEndpoint,
+  getSubscriptionsStatusPendingEndpoint,
+  subscribeEndpointError,
+  unsubscribeEndpointError,
 } from '@networkMocks/mocks'
 import { generateNetworkMock, stubFor } from '@networkMocks/generateNetworkMock'
 import { missingReportSubmitFailMock, missingReportSubmitSuccessMock } from '@networkMocks/report/missingReport/mocks'
@@ -63,6 +68,9 @@ import autoMultiselectMinMaxExample from '@networkMocks/report/mockVariants/filt
 import { getFlagsMockDisabled, getFlagsMockEmpty, getFlagsMockEnabled } from '@networkMocks/featureFlags/mocks'
 import { listSectionData } from '@networkMocks/report/mockVariants/data/list-section'
 import { featureTestingInteractiveDownload } from '@networkMocks/report/mockVariants/feature-testing/download'
+import { featureTestingScheduled } from '@networkMocks/report/mockVariants/feature-testing/scheduled-reports/scheduled-1'
+import { featureTestingScheduled2 } from '@networkMocks/report/mockVariants/feature-testing/scheduled-reports/scheduled-2'
+import { featureTestingScheduled3 } from '@networkMocks/report/mockVariants/feature-testing/scheduled-reports/scheduled-3'
 
 export const stubs = {
   stubGetFeatureTestingMissing: () =>
@@ -132,7 +140,12 @@ export const stubs = {
   stubDefinitions: () => stubFor(getDefinitionSummaries),
   stubPollingReportEndpoint: () => stubFor(pollingEndpoint),
   stubExpiredEndpoint: () => stubFor(expiredEndpoint),
-  stubGetSubscriptionsEndpoint: () => stubFor(getSubscriptionsEndpoint),
+  stubGetSubscriptionsEndpoint: () => stubFor(getSubscriptionsStatusEndpoint),
+  stubGetSubscriptionsPendingEndpoint: () => stubFor(getSubscriptionsStatusPendingEndpoint),
+  stubSubscribeEndpoint: () => stubFor(subscribeEndpoint),
+  stubSubscribeEndpointError: () => stubFor(subscribeEndpointError),
+  stubUnsubscribeEndpoint: () => stubFor(unsubscribeEndpoint),
+  stubUnsubscribeEndpointError: () => stubFor(unsubscribeEndpointError),
   stubCancelAsyncRequest: () => stubFor(cancelAsyncRequestMock),
   stubDefinitionRequestExamplesSuccess: () =>
     stubFor(setupSimpleReportDefinitionResponseMock(`request-examples`, requestExampleSuccess)),
@@ -144,6 +157,12 @@ export const stubs = {
     stubFor(setupSimpleReportDefinitionResponseMock('feature-testing', featureTestingInteractiveDownload)),
   stubDefinitionFeatureTestingMissingDesc: () =>
     stubFor(setupSimpleReportDefinitionResponseMock('feature-testing', featureTestingMissingDescription)),
+  stubDefinitionFeatureTestingScheduled: () =>
+    stubFor(setupSimpleReportDefinitionResponseMock('feature-testing', featureTestingScheduled)),
+  stubDefinitionFeatureTestingScheduled2: () =>
+    stubFor(setupSimpleReportDefinitionResponseMock('feature-testing', featureTestingScheduled2)),
+  stubDefinitionFeatureTestingScheduled3: () =>
+    stubFor(setupSimpleReportDefinitionResponseMock('feature-testing', featureTestingScheduled3)),
   stubDefinitionMockReportVariant35: () =>
     stubFor(setupSimpleReportDefinitionResponseMock('mock-report', variant35Interactive)),
   stubReportsFinishedStatus: () => stubFor(reportsFinishedStatusMock),

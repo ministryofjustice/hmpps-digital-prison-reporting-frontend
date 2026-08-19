@@ -66,6 +66,8 @@ const setMessages = (res: Response): MyReportsMessages => {
   const subscriptionMessages = {
     subscribedMessage: res.locals['subscribedMessage'] || [],
     unsubscribedMessage: res.locals['unsubscribedMessage'] || [],
+    subscriptionErrorMessage: res.locals['subscriptionErrorMessage'] || [],
+    refreshedSubscriptionsMessage: res.locals['refreshedSubscriptionsMessage'] || [],
   }
 
   const { removedReports } = res.locals
@@ -212,6 +214,7 @@ const buildListItems = async (req: Request, res: Response, listType: ListType): 
 
   return listData.map((data: StoredReportData) => {
     const status = data.status as RequestStatus
+
     return buildMyReportListRow(data, status, req, res, listType)
   })
 }
@@ -508,12 +511,12 @@ const ALL_HEADINGS: HeadingConfig[] = [
     key: 'status',
     name: 'Status',
     classes: 'dpr-my-reports__cell--status',
-    showIn: [ListType.REQUESTED, ListType.VIEWED],
+    showIn: [ListType.REQUESTED, ListType.VIEWED, ListType.SUBSCRIPTIONS],
   },
   {
     key: 'schedule',
     name: 'Schedule',
-    classes: 'dpr-my-reports__cell--status',
+    classes: 'dpr-my-reports__cell--schedule',
     showIn: [ListType.SUBSCRIPTIONS],
   },
   {

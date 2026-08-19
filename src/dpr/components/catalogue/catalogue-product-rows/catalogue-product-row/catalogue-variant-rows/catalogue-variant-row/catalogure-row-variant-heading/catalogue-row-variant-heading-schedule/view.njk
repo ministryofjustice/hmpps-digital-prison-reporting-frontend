@@ -1,0 +1,12 @@
+{%- from "govuk/components/tag/macro.njk" import govukTag -%}
+
+{% macro dprReportScheduleTag(schedule) %}
+  {% set displayText = "Schedule: " + schedule %}
+
+  <div class="dpr-report-schedule-tag">
+    {{ govukTag({
+      text: displayText,
+      classes: 'govuk-tag--teal'
+    }) }}
+  </div>
+{% endmacro %}

@@ -1,5 +1,6 @@
 import type ReportingClient from '../data/reportingClient'
 import { ServiceFeatureConfig } from '../types/DprConfig'
+import { GetSubscriptionResponse } from '../types/Subscriptions'
 import logger from '../utils/logger'
 
 export default class SubscriptionService {
@@ -27,19 +28,13 @@ export default class SubscriptionService {
     return this.reportingClient.unsubscribe(token, reportId, id)
   }
 
-  async getSubscription(
-    token: string,
-    reportId: string,
-    id: string,
-  ): Promise<{ reportId: string; id: string; tableId: string; createdAt: string; addedAt: string }[]> {
-    if (!this.enabled) return []
+  async getSubscription(token: string, reportId: string, id: string): Promise<GetSubscriptionResponse | undefined> {
+    if (!this.enabled) return undefined
 
     return this.reportingClient.getSubscription(token, reportId, id)
   }
 
-  async getSubscriptions(
-    token: string,
-  ): Promise<{ reportId: string; id: string; tableId: string; createdAt: string; addedAt: string }[]> {
+  async getSubscriptions(token: string): Promise<GetSubscriptionResponse[]> {
     if (!this.enabled) return []
 
     return this.reportingClient.getSubscriptions(token)

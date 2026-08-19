@@ -11,6 +11,8 @@ export enum RequestStatus {
   ABORTED = 'ABORTED',
   EXPIRED = 'EXPIRED',
   READY = 'READY',
+  PENDING = 'PENDING',
+  STALE = 'STALE',
   ALL = 'ALL',
 }
 

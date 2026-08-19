@@ -1,8 +1,11 @@
 {%  from "../../../../../../report-type-tag/view.njk" import dprReportTypeTag %}
+{%  from "./catalogue-row-variant-heading-schedule/view.njk" import dprReportScheduleTag %}
+{%- from "govuk/components/tag/macro.njk" import govukTag -%}
 
 {% macro dprReportsCatalogueVariantRowHeading(heading) %}
   {% set name = heading.name %}
   {% set type = heading.type %}
+  {% set schedule = heading.schedule %}
 
   <div class="dpr-reports-catalogue__heading">
     <h2 class="govuk-body-s">{{ name }}</h2>
@@ -10,5 +13,11 @@
     <div class="dpr-reports-catalogue__heading__report-type">
       {{ dprReportTypeTag(type) }}
     </div>
+
+    {% if schedule %}
+      <div class="dpr-reports-catalogue__heading__schedule">
+        {{ dprReportScheduleTag(schedule) }}
+      </div>
+    {% endif %}
   </div>
 {% endmacro %}

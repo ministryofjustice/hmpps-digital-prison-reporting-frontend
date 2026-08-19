@@ -35,17 +35,18 @@
 .dpr-my-reports__table--requested,
 .dpr-my-reports__table--viewed {
   grid-template-columns:
-    4fr /* title */
-    7fr /* filters */
-    1fr /* status */
+    5fr /* title */
+    8fr /* filters */
+    2fr /* status */
     2fr; /* actions */
 }
 
 .dpr-my-reports__table--subscriptions {
   grid-template-columns:
     4fr /* title */
-    7fr /* Description */
-    1fr /* status */
+    5fr /* Description */
+    2fr /* Schedule */
+    2fr /* status */
     2fr; /* actions */
 }
 
@@ -81,27 +82,15 @@
    -------------------------------------------------------------------------- */
 
 .dpr-my-reports__cell--title {
-  grid-column: 1;
   border-left: solid 1px govuk-functional-colour('border');
   padding-left: govuk-spacing(3);
 }
 
-.dpr-my-reports__cell--description {
-  grid-column: 2;
-}
-
 .dpr-my-reports__cell--filters {
-  grid-column: 2;
   padding-right: govuk-spacing(2);
 }
 
-.dpr-my-reports__cell--schedule,
-.dpr-my-reports__cell--status {
-  grid-column: 3;
-}
-
 .dpr-my-reports__cell--actions {
-  grid-column: 4; /* last column */
   white-space: nowrap;
   border-right: solid 1px govuk-functional-colour('border');
   padding-right: govuk-spacing(3);
@@ -110,6 +99,40 @@
   }
   a {
     text-align: right;
+  }
+}
+
+.dpr-my-reports__table--subscriptions {
+  .dpr-my-reports__cell--title {
+    grid-column: 1;
+  }
+  .dpr-my-reports__cell--description {
+    grid-column: 2;
+  }
+  .dpr-my-reports__cell--status {
+    grid-column: 3;
+  }
+  .dpr-my-reports__cell--schedule {
+    grid-column: 4;
+  }
+  .dpr-my-reports__cell--actions {
+    grid-column: 5;
+  }
+}
+
+.dpr-my-reports__table--requested,
+.dpr-my-reports__table--viewed {
+  .dpr-my-reports__cell--title {
+    grid-column: 1;
+  }
+  .dpr-my-reports__cell--filters {
+    grid-column: 2;
+  }
+  .dpr-my-reports__cell--status {
+    grid-column: 3;
+  }
+  .dpr-my-reports__cell--actions {
+    grid-column: 4;
   }
 }
 

@@ -1,6 +1,7 @@
 // TODO: integration tests with this mocked data also
 const mockRequested = require('./mockRequestedUserListData')
 const mockViewed = require('./mockViewedUserListData')
+const subscriptions = require('./mockSubscriptions')
 
 export const startData = {
   requestedReports: [
@@ -35,8 +36,11 @@ export const startData = {
     { reportId: 'mock-dashboards', id: 'test-dashboard-8', type: 'dashboard' },
   ],
   subscriptions: [
-    // subscriptions.subscribedReport,
-    // subscriptions.subscribedDashboard
+    subscriptions.subscribedReport1,
+    subscriptions.subscribedReport2,
+    subscriptions.subscribedReport3,
+    subscriptions.subscribedReport4,
+    subscriptions.subscribedReport5,
   ],
   downloads: <string[]>[],
 }

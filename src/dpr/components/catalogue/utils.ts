@@ -9,6 +9,7 @@ import { CatalogueProduct } from './catalogue-product-rows/types'
 import { initialiseTruncation } from '../truncate/utils'
 import { intitialiseCatalogueRowActions } from './catalogue-product-rows/catalogue-product-row/catalogue-variant-rows/catalogue-variant-row/catalogure-row-variant-actions/utils'
 import { initCatalogueFilters } from './catalogue-filters/utilts'
+import { VariantDefinitionSummaryWithSchedule } from '../../types/Subscriptions'
 
 const sortByName = (a: { name: string }, b: { name: string }): number => a.name.localeCompare(b.name)
 
@@ -108,15 +109,15 @@ const mapCatalogue = async (
  * @return {*}  {CatalogueVariantRow}
  */
 const mapVariantRow = async (
-  variant: components['schemas']['VariantDefinitionSummary'],
+  variant: VariantDefinitionSummaryWithSchedule,
   definition: components['schemas']['ReportDefinitionSummary'],
   res: Response,
   req: Request,
   services: Services,
   authorised: boolean,
 ): Promise<CatalogueVariantRow> => {
-  const { id, name, description, isMissing } = variant
-  const { id: productId, description: productDescription } = definition
+  const { id, name, description, isMissing, schedule } = variant
+  const { description: productDescription } = definition
   const desc = description || productDescription
 
   const trucatedDescription = initialiseTruncation({ stringValue: desc ?? '', classes: 'govuk-body-s' })
@@ -127,7 +128,7 @@ const mapVariantRow = async (
       res,
       req,
       services,
-      productId,
+      definition,
       variant,
       ReportType.REPORT,
       authorised,
@@ -139,6 +140,7 @@ const mapVariantRow = async (
     heading: {
       name,
       type: ReportType.REPORT,
+      schedule,
     },
     description: trucatedDescription,
     missing: Boolean(isMissing),
@@ -161,7 +163,7 @@ const mapDashboardRow = async (
   authorised: boolean,
 ): Promise<CatalogueVariantRow> => {
   const { id, name, description } = dashboard
-  const { id: productId, description: productDescription } = definition
+  const { description: productDescription } = definition
 
   const desc = description || productDescription
   const trucatedDescription = initialiseTruncation({ stringValue: desc ?? '', classes: 'govuk-body-s' })
@@ -172,7 +174,7 @@ const mapDashboardRow = async (
       res,
       req,
       services,
-      productId,
+      definition,
       dashboard,
       ReportType.DASHBOARD,
       authorised,

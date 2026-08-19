@@ -7,7 +7,7 @@ import { FeatureFlagService, isBooleanFlagEnabledOrMissing } from '../services/f
 import { FEATURE_FLAGS, getFeatureFlagEvaluationSubject } from '../utils/featureFlagsHelper'
 import setUpNunjucksFilters from '../setUpNunjucksFilters'
 import { errorRequestHandler } from '../routes'
-import { getAllMyBookmarks, getAllMyReports } from '../utils/reportStoreHelper'
+import { AllReportsFromState, getAllMyReports } from '../utils/reportStoreHelper'
 import logger from '../utils/logger'
 import { getDefinitionsPath } from '../utils/definitionUtils'
 import { cleanupReports } from '../utils/cleanupMyReports'
@@ -31,22 +31,22 @@ export const setupResources = (
   return async (req, res, next) => {
     populateValidationErrors(req, res)
 
-    populateSubsMessages(req, res)
-
     try {
-      // 1. Initialise our feature flags to app.locals
+      setUpDprPaths(res)
+
+      // Initialise our feature flags to app.locals
       await setFeatureFlags(res, services.featureFlagService)
 
-      // 2. Initialise definitions, collections and definitions path
+      // Initialise definitions, collections and definitions path
       await populateDefinitions(services, req, res, config)
 
-      // 3. Initialise enabled service flags to app.locals
+      // Initialise enabled service flags to app.locals
       await initialiseServices(services, res)
 
-      // 4. Populate user reports state with up to date list
-      await populateRequestedReports(services, res, req)
+      // Populate user reports state with up to date list
+      await populateLocalsFromUserReportStore(services, res, req)
 
-      setUpDprPaths(res)
+      populateSubsMessages(req, res)
 
       setupRequestAwareNunjucks(env, res)
 
@@ -108,9 +108,20 @@ const populateSubsMessages = (req: Request, res: Response) => {
     res.locals['subscribedMessage'] = JSON.parse(subscribedMessage[0])
   }
 
+  const subscriptionErrorMessage = req.flash(`DPR_SUBSCRIPTION_ERROR`)
+  if (subscriptionErrorMessage && subscriptionErrorMessage[0]) {
+    res.locals['subscriptionErrorMessage'] = JSON.parse(subscriptionErrorMessage[0])
+  }
+
   const unsubscribedMessage = req.flash(`DPR_UNSUBSCRIBED`)
   if (unsubscribedMessage && unsubscribedMessage[0]) {
     res.locals['unsubscribedMessage'] = JSON.parse(unsubscribedMessage[0])
+  }
+
+  const refreshedSubscriptionsMessage = req.flash(`DPR_SUBSCRIPTION_STATUS`)
+  if (refreshedSubscriptionsMessage && refreshedSubscriptionsMessage[0]) {
+    const [first] = refreshedSubscriptionsMessage
+    res.locals['refreshedSubscriptionsMessage'] = JSON.parse(first)
   }
 }
 
@@ -364,34 +375,56 @@ const initialiseServices = async (services: Services, res: Response) => {
  * @param {Services} services
  * @param {Response} res
  */
-const populateRequestedReports = async (services: Services, res: Response, req: Request) => {
+const populateLocalsFromUserReportStore = async (services: Services, res: Response, req: Request) => {
   const { dprUser } = localsHelper.getValues(res)
   if (dprUser.id) {
+    // Get all reports from state
     const myReports = await getAllMyReports(res, services, dprUser.id)
 
-    const { requestedReports, recentlyViewedReports } = await cleanupReports(
-      services,
-      dprUser.id,
-      myReports.requestedReports,
-      myReports.recentlyViewedReports,
-      res,
-    )
+    await populateRequestedAndViewedReports(services, res, req, myReports, dprUser.id)
 
-    res.locals['requestedReports'] = requestedReports
+    await populateSubscriptions(res, myReports)
 
-    res.locals['recentlyViewedReports'] = recentlyViewedReports
+    populateBookmarks(res, myReports)
+  }
+}
 
+const populateRequestedAndViewedReports = async (
+  services: Services,
+  res: Response,
+  req: Request,
+  myReports: AllReportsFromState,
+  dprUserId: string,
+) => {
+  const { requestedReports, recentlyViewedReports } = await cleanupReports(
+    services,
+    dprUserId,
+    myReports.requestedReports,
+    myReports.recentlyViewedReports,
+    res,
+  )
+
+  const removedReports = req.flash('DPR_REMOVED_REPORTS')
+
+  if (removedReports && removedReports[0]) {
+    const [firstRemovedReport] = removedReports
+    res.locals['removedReports'] = JSON.parse(firstRemovedReport)
+  }
+
+  res.locals['requestedReports'] = requestedReports
+
+  res.locals['recentlyViewedReports'] = recentlyViewedReports
+}
+
+const populateSubscriptions = async (res: Response, myReports: AllReportsFromState) => {
+  if (res.app.locals['subscriptionsEnabled']) {
     res.locals['subscriptions'] = myReports.subscriptions
+  }
+}
 
-    if (res.app.locals['bookmarkingEnabled']) {
-      res.locals['bookmarks'] = await getAllMyBookmarks(res, services, dprUser.id)
-    }
-
-    const removedReports = req.flash('DPR_REMOVED_REPORTS')
-    if (removedReports && removedReports[0]) {
-      const [firstRemovedReport] = removedReports
-      res.locals['removedReports'] = JSON.parse(firstRemovedReport)
-    }
+const populateBookmarks = async (res: Response, myReports: AllReportsFromState) => {
+  if (res.app.locals['bookmarkingEnabled']) {
+    res.locals['bookmarks'] = await myReports.bookmarks
   }
 }
 

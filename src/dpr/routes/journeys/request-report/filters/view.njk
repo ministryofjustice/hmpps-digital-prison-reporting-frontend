@@ -2,12 +2,15 @@
 {% from "../../../../components/_async/async-filters-form/view.njk" import dprAsyncFiltersForm %}
 {% from "../../../../components/_filters/filters-help/view.njk" import dprFiltersHelp %}
 {% from "../../../../components/_async/request-details/view.njk" import dprRequestDetails %}
+{% from "../../../../components/subscription/subscription-flash/view.njk" import dprSubscriptionFlash %}
 {% from "../../../../components/subscription/view.njk" import dprSubscription %}
 {% from "govuk/components/details/macro.njk" import govukDetails %}
 
 {% set mainClasses = "app-container govuk-body" %}
 
 {% block content %}
+  {{ dprSubscriptionFlash(subscriptionMessages) }}
+
   <h1>{{ title }}</h1>
 
   {% if filters %}

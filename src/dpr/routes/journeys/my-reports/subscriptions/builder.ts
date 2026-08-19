@@ -1,16 +1,32 @@
 import type { Request, Response } from 'express'
-import { ReportType, RequestFormData, SubscribedReport } from '../../../../types/UserReports'
+import { AsyncReportsTimestamp, ReportType, RequestFormData, SubscribedReport } from '../../../../types/UserReports'
 import { StoreItemBuilder, ReportData } from '../builder'
 import { RequestStatus } from '../../../../utils/ReportStatus/types'
 
 export class SubscribedReportBuilder extends StoreItemBuilder {
   reportData!: ReportData
 
+  timestamp!: AsyncReportsTimestamp
+
+  status: RequestStatus = RequestStatus.PENDING
+
   constructor(
     readonly req: Request,
     res: Response,
   ) {
     super(res)
+  }
+
+  withTimestamp = (timestamp: AsyncReportsTimestamp) => {
+    this.timestamp = timestamp
+
+    return this
+  }
+
+  withStatus = (status: RequestStatus) => {
+    this.status = status
+
+    return this
   }
 
   // Builder methods
@@ -24,6 +40,8 @@ export class SubscribedReportBuilder extends StoreItemBuilder {
   }
 
   private buildUrls = () => {
+    if (!this.executionData) return undefined
+
     const origin = this.req.get('host') || ''
     const report = this.buildReportUrls()
 
@@ -52,14 +70,10 @@ export class SubscribedReportBuilder extends StoreItemBuilder {
     }
   }
 
-  private buildStatus = () => {
-    return RequestStatus.READY
-  }
-
   build = (): SubscribedReport => {
     this.buildReportData()
     const url = this.buildUrls()
-    const status = this.buildStatus()
+    const { status } = this
     const definitionsPath = this.buidDefinitionsPath()
 
     const subscribedReportData: SubscribedReport = {
@@ -68,7 +82,7 @@ export class SubscribedReportBuilder extends StoreItemBuilder {
       ...(definitionsPath && definitionsPath),
       url,
       status,
-      timestamp: {},
+      timestamp: this.timestamp ?? {},
     }
 
     return subscribedReportData

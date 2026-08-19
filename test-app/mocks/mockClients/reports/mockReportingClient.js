@@ -301,24 +301,60 @@ MockReportingClient: ${functionName}`)
   }
 
   subscribe(token, reportId, id) {
-    return { tableId: randomUUID() }
+    return new Promise((resolve, reject) => {
+      reject(mockBadQueryRequest)
+    })
+    // return { tableId: randomUUID() }
   }
 
   unsubscribe(token, reportId, id) {
     return undefined
   }
 
-  getSubscriptions(token, tableIds) {
-    const createdAt = new Date().toISOString();
-    const addedAt = new Date().toISOString();
+  getSubscriptions(token) {
+    const reportUpdatedTime = new Date('2026-08-03').toISOString();
 
-    return tableIds.map((tableId) => {
-      return {
-        tableId,
-        createdAt,
-        addedAt,
-      }
-    })
+    return [
+      {
+        tableId: 'tblId_1729766362362',
+        reportVariantId: 'scheduled-report-example',
+        reportId: 'feature-testing',
+        reportStatus: 'READY',
+        reportUpdatedTime
+      },
+      {
+        tableId: 'tblId_1729766362364',
+        reportVariantId: 'scheduled-report-ready',
+        reportId: 'feature-testing',
+        reportStatus: 'READY',
+        reportUpdatedTime
+      },
+      {
+        tableId: 'tblId_1729766362365',
+        reportVariantId: 'scheduled-report-ready-to-stale',
+        reportId: 'feature-testing',
+        reportStatus: 'STALE',
+      },
+      {
+        tableId: 'tblId_1729766362366',
+        reportVariantId: 'scheduled-report-pending-to-ready',
+        reportId: 'feature-testing',
+        reportStatus: 'READY',
+        reportUpdatedTime
+      },
+      {
+        tableId: '',
+        reportVariantId: 'scheduled-report-pending-to-failed',
+        reportId: 'feature-testing',
+        reportStatus: 'FAILED',
+      },
+      {
+        tableId: '',
+        reportVariantId: 'scheduled-report-pending-to-pending',
+        reportId: 'feature-testing',
+        reportStatus: 'PENDING',
+      },
+    ]
   }
 
 }

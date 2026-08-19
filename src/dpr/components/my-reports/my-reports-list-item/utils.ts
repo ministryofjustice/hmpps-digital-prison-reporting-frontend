@@ -6,6 +6,7 @@ import { apiTimestampToUiDateTime, todayAsUiDateTime } from '../../../utils/date
 import { getRouteLocals } from '../../../utils/localsHelper'
 import { getReportTitleData } from '../../../utils/reportStoreHelper'
 import { buildActionsCell } from './my-reports-list-item-actions/utils'
+import { renderTruncateAsHtml } from '../../truncate/utils'
 
 /**
  * Builds the row
@@ -38,6 +39,7 @@ export const buildMyReportListRow = (
     title: buildTitleCell(data),
     description: buildDescriptionCell(data),
     schedule: buildScheduleCell(data),
+    status,
     actions: buildActionsCell(data, res, req, listType),
   }
 }
@@ -59,7 +61,7 @@ const buildTitleCell = (data: StoredReportData): DprMyReportTitle => {
 const buildDescriptionCell = (data: StoredReportData) => {
   const { description } = data
 
-  return description
+  return renderTruncateAsHtml({ stringValue: description, classes: 'govuk-body-s', charLength: 50 })
 }
 
 const buildScheduleCell = (data: StoredReportData) => {

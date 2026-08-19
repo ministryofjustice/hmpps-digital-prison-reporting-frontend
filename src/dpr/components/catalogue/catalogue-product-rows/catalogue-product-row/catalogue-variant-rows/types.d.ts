@@ -11,4 +11,5 @@ export type CatalogueVariantRow = {
 type CatalogueVariantRowHeading = {
   name: string
   type: ReportType
+  schedule?: string | undefined
 }

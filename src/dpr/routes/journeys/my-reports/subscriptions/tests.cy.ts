@@ -220,7 +220,7 @@ describe('Subscriptions', () => {
           // Subscribe
           cy.findByRole('button', { name: 'Subscribe' }).click()
 
-          // TODO: Notification
+          // Check notification
           cy.get('.moj-alert__content').within(() => {
             cy.findAllByRole('paragraph').contains('You have subscribed to Scheduled Report - Scheduled Report report.')
             cy.findAllByRole('paragraph').contains('This report refreshes Weekly at 9:00am')
@@ -246,7 +246,7 @@ describe('Subscriptions', () => {
           // Subscribe
           cy.findByRole('button', { name: 'Unsubscribe' }).click()
 
-          // TODO: Notification
+          // Check notification
           cy.get('.moj-alert__content').within(() => {
             cy.findAllByRole('paragraph').contains(
               'You have unsubscribed from Scheduled Report - Scheduled Report report',

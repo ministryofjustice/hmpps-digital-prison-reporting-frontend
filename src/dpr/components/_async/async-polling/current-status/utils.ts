@@ -4,7 +4,7 @@ import {
   buildReportPageAction,
   buildRequestAction,
 } from 'src/dpr/components/my-reports/my-reports-list-item/my-reports-list-item-actions/utils'
-import { RequestStatus, RequestedReport } from '../../../../types/UserReports'
+import { ReportType, RequestStatus, RequestedReport } from '../../../../types/UserReports'
 
 /**
  * Public api for building out the congfig for a current status component
@@ -19,12 +19,14 @@ export const buildCurrentStatusView = (data: RequestedReport, status: RequestSta
   const metaDetails = setMetaDetails(data)
   const requestDetails = setRequestDetails(data)
   const statusDetails = setStatusDetails(status, data, res, req)
+  const childStatusDetails = setChildStatusDetails(data, res)
 
   return {
     csrfToken,
     metaDetails,
     requestDetails,
     statusDetails,
+    childStatusDetails,
   }
 }
 
@@ -114,6 +116,42 @@ const setStatusDetails = (status: string, data: RequestedReport, res: Response, 
     buttonHref,
     errorMessage,
   }
+}
+
+const setChildStatusDetails = (data: RequestedReport, res: Response) => {
+  if (data.type !== ReportType.DASHBOARD) return []
+
+  const { definitions } = res.locals
+  const { childExecutionData, reportId } = data
+
+  return childExecutionData
+    ?.map(executionData => {
+      const definition = definitions.find(def => def.id === reportId)
+
+      if (!definition) {
+        return undefined
+      }
+
+      const dashboardVariant = definition.dashboards?.find(variant => variant.id === executionData.variantId)
+      if (!dashboardVariant) {
+        return undefined
+      }
+
+      const childStatus = {
+        name: dashboardVariant.name,
+        status: executionData.status,
+      }
+
+      return childStatus
+    })
+    .filter(
+      (
+        childStatus,
+      ): childStatus is {
+        name: string
+        status: RequestStatus | undefined
+      } => Boolean(childStatus),
+    )
 }
 
 const setErrorMessage = (data: RequestedReport) => {

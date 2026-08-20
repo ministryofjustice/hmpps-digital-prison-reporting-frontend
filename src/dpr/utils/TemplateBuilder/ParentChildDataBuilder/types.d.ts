@@ -8,6 +8,7 @@ export interface ChildData {
 export interface DashboardParentChildData {
   id: string
   data: DashboardDataResponse[]
+  notFound?: boolean
 }
 
 export interface ParentChildTableData {

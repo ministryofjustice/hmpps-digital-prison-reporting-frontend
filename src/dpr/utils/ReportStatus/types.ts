@@ -31,6 +31,20 @@ export type FailureInfo = {
   errorCode?: number
 }
 
+export type ChildStatusSignal = {
+  tableId: string
+  executionId: string
+  variantId: string
+  signal: UpstreamSignal
+}
+
+export type ChildResolution = {
+  tableId: string
+  executionId: string
+  status: RequestStatus
+  failureInfo?: FailureInfo
+}
+
 export type UpstreamSignal =
   | { kind: 'STATUS'; status: RequestStatus }
   | { kind: 'ERROR'; failure: FailureInfo }
@@ -42,6 +56,7 @@ export type StatusResolution =
       type: 'UPDATE'
       newStatus: RequestStatus
       failureInfo?: FailureInfo
+      childStatuses?: ChildResolution[]
     }
 
 export type UpdatedResolution = {

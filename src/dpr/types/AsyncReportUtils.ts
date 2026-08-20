@@ -34,6 +34,7 @@ export interface RequestReportData {
   hasDefaults: boolean
   defaultsSaved?: string
   saveDefaultsEnabled: boolean
+  children: string[]
 }
 
 export interface RequestDataResult {

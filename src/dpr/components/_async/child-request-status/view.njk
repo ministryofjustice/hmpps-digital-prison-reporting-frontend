@@ -1,0 +1,12 @@
+{% from "../request-status-tag/view.njk" import dprRequestStatusTag %}
+
+{% macro dprChildRequestStatus(childStatusDetails) %}
+  {% if childStatusDetails.length %}
+    <p><strong>Child statuses</strong></p>
+    <ul class="govuk-list govuk-list--bullet">
+      {% for childStatus in childStatusDetails %}
+        <li class="govuk-!-margin-bottom-2">{{ childStatus.name }}: {{ dprRequestStatusTag(childStatus.status) }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endmacro %}

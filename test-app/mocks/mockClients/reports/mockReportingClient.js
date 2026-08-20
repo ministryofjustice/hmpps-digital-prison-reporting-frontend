@@ -304,7 +304,6 @@ MockReportingClient: ${functionName}`)
     return new Promise((resolve, reject) => {
       reject(mockBadQueryRequest)
     })
-    // return { tableId: randomUUID() }
   }
 
   unsubscribe(token, reportId, id) {

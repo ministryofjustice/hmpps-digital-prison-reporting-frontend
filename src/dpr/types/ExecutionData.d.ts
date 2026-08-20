@@ -6,4 +6,5 @@ export interface ExecutionData {
 
 export interface ChildReportExecutionData extends ExecutionData {
   variantId: string
+  status?: RequestStatus
 }

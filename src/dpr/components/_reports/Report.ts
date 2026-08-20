@@ -24,11 +24,13 @@ import ReportQuery from '../../types/ReportQuery'
 // Helpers
 import LocalsHelper from '../../utils/localsHelper'
 import ErrorHandler from '../../utils/ErrorHandler/ErrorHandler'
-import logger from '../../utils/logger'
 import DataPresentation from '../_dashboards/DataPresentation'
 import { VariantDefinitionWithSchedule } from '../../types/Subscriptions'
 
 type ReportDefinition = components['schemas']['SingleVariantReportDefinition']
+
+// TODO: Remove this temp type when API generates the correct type for SummaryField that includes the defaultSort
+type TempSummaryFieldType = components['schemas']['SummaryField'] & { defaultSort: boolean }
 
 export default class Report extends DataPresentation {
   variant!: components['schemas']['VariantDefinition']
@@ -178,15 +180,27 @@ export default class Report extends DataPresentation {
       ? []
       : await Promise.all(
           this.variant.summaries.map(async summary => {
+            const { id, fields } = summary
+            const sortColumn: string = fields
+              .filter(field => {
+                // TODO: remove this temp type and revert back to inferred type
+                return (<TempSummaryFieldType>field).defaultSort
+              })
+              .map(field => field.name)
+              .join(',')
+
+            const query = {
+              dataProductDefinitionsPath,
+              sortColumn,
+            }
+
             const summaryReport = await this.services.reportingService.getAsyncSummaryReport(
               this.token,
               this.reportId,
               this.id,
               this.tableId,
-              summary.id,
-              {
-                dataProductDefinitionsPath,
-              },
+              id,
+              query,
             )
 
             return {
@@ -195,8 +209,6 @@ export default class Report extends DataPresentation {
             }
           }),
         )
-
-    logger.info('SUMMARY_SORT_BUG', JSON.stringify({ apiSummaries: this.summariesData }))
   }
 
   /**

@@ -1,5 +1,12 @@
 Below you can find the changes included in each release.
 
+## 8.5.0
+
+Parent-child Dashboards: View partial dashboards
+
+- If any single dashboard request from a parent-child dashboard request succeeds then the dashboard can still be viewed with partial data.
+- Visualisations belonging to the failed execution(s) will be blank, with an explanation message.
+
 ## 8.4.0
 
 - Subscriptions: In-app notifications

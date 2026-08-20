@@ -1,5 +1,11 @@
 Below you can find the changes included in each release.
 
+## 8.6.0
+
+Sorting summary tables:
+
+- Pass the sort options from the DPD summary field defintion to the summary data api as a query parameter. As part of work required to return a sorted summary table
+
 ## 8.5.0
 
 Parent-child Dashboards: View partial dashboards

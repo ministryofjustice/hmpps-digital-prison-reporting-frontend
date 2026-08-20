@@ -13,7 +13,7 @@ export default class SubscriptionService {
     this.reportingClient = reportingClient
 
     this.enabled = Boolean(serviceFeatureConfig.subscriptions)
-    if (!this.enabled) logger.info(`Subsriptions Service: disabled `)
+    if (!this.enabled) logger.info(`Subscriptions Service: disabled`)
   }
 
   async subscribe(token: string, reportId: string, id: string): Promise<{ tableId: string } | undefined> {

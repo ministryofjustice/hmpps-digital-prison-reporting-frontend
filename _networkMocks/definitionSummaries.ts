@@ -52,6 +52,19 @@ export const summaries: components['schemas']['ReportDefinitionSummary'][] = [
     authorised: true,
   },
   {
+    id: 'unauthorised-report',
+    name: 'Unauthorised report',
+    description: 'unauthorised reports',
+    variants: mockReportVariants.map(({ id, name, description }) => ({
+      id,
+      name,
+      description: description || '',
+      isMissing: false,
+    })),
+    dashboards: [],
+    authorised: false,
+  },
+  {
     id: 'filter-inputs',
     name: 'Filter input testing',
     description: 'Example variants used for input testing',

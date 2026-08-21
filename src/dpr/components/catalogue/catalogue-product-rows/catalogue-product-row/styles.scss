@@ -46,6 +46,10 @@
 
   .dpr-report-catalogue__product-unauthorised {
     margin-bottom: govuk-spacing(2);
+
+    a {
+      margin-left: govuk-spacing(2);
+    }
   }
 
   .dpr-report-catalogue__product-row__meta {

@@ -4,6 +4,7 @@ import { Services } from '../../types/Services'
 
 // Routes
 import { RequestMissingReportRoutes } from './request-missing-report/routes'
+import { RequestReportAccessRoutes } from './request-report-access/routes'
 import { DownloadReportRoutes } from './download-report/routes'
 import { MyReportsRoutes } from './my-reports/routes'
 import { ViewReportRoutes } from './view-report/routes'
@@ -23,6 +24,7 @@ export function DprRoutes({ layoutPath, services }: { services: Services; layout
   router.use('/', RequestReportRoutes({ path: '/request-report', layoutPath, services }))
   router.use('/', ProductCollectionRoutes({ path: '/product-collection', layoutPath, services }))
   router.use('/', ReportCatalogueRoutes({ path: '/report-catalogue', layoutPath, services }))
+  router.use('/', RequestReportAccessRoutes({ path: '/request-report-access', layoutPath, services }))
   router.use('/', MyReportsCatalogueRoutes({ layoutPath, services }))
 
   return router

@@ -12,6 +12,7 @@
   {% set variants = product.variants %}
   {% set authorised = product.authorised %}
   {% set missing = product.missing %}
+  {% set requestAccessAction = product.requestAccessAction %}
 
   <div
     id="dpr-report-catalogue__product-{{ product.id }}"
@@ -26,6 +27,7 @@
         {% if not authorised %}
           <div class="dpr-report-catalogue__product-unauthorised">
             {{ govukTag({ text: "Unauthorised", classes: "govuk-tag--red" }) }}
+            <a class="govuk-link govuk-link--no-visited-state govuk-body-s" href='{{ requestAccessAction.href }}'>{{ requestAccessAction.label }}</a>
           </div>
         {% endif %}
 
@@ -34,7 +36,7 @@
         </div>
       </div>
 
-      <div class="dpr-reports-catalogue__description govuk-!-padding-top-2">
+      <div class="dpr-reports-catalogue__description">
         {{ dprTruncate(description) }}
       </div>
 

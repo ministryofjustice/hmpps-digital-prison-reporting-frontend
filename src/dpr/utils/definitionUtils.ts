@@ -15,7 +15,6 @@ import { Services } from '../types/Services'
 import { Template } from '../types/Templates'
 import { ReportType } from '../types/UserReports'
 import logger from './logger'
-import { getQueryParamAsString } from './queryMappers'
 import Dict = NodeJS.Dict
 
 /**
@@ -26,7 +25,6 @@ import Dict = NodeJS.Dict
  * @param {string} token
  * @param {string} reportId
  * @param {string} id
- * @param {string} [definitionsPath]
  */
 export const getDefinitionByType = async (
   reportType: ReportType,
@@ -34,7 +32,6 @@ export const getDefinitionByType = async (
   token: string,
   reportId: string,
   id: string,
-  definitionsPath?: string,
   queryData?: Dict<string | string[]>,
 ): Promise<{
   definition: components['schemas']['SingleVariantReportDefinition'] | components['schemas']['DashboardDefinition']
@@ -44,10 +41,10 @@ export const getDefinitionByType = async (
   let fields: components['schemas']['FieldDefinition'][]
 
   if (reportType === ReportType.REPORT) {
-    definition = await services.reportingService.getDefinition(token, reportId, id, definitionsPath, queryData)
+    definition = await services.reportingService.getDefinition(token, reportId, id, queryData)
     fields = getFields(definition)
   } else {
-    definition = await services.dashboardService.getDefinition(token, reportId, id, definitionsPath, queryData)
+    definition = await services.dashboardService.getDefinition(token, reportId, id, queryData)
     fields = getDashboardFields(definition)
   }
 
@@ -275,12 +272,8 @@ export const hasInteractiveFilters = (fields: components['schemas']['FieldDefini
   return filters.some(filter => filter.interactive)
 }
 
-export const getReportSummary = (
-  reportId: string,
-  reportingService: ReportingService,
-  token: string,
-  definitionPath: string,
-) => reportingService.getDefinitionSummary(token, reportId, definitionPath)
+export const getReportSummary = (reportId: string, reportingService: ReportingService, token: string) =>
+  reportingService.getDefinitionSummary(token, reportId)
 
 // --------------------------------------------------------
 // DEFAULT FILTERS & COLUMNS
@@ -417,14 +410,6 @@ export const getDefaultColumnsQueryString = (fields: components['schemas']['Fiel
 
   return buildQueryString(params)
 }
-
-/**
- * Get the definition path from the query
- *
- * @param {Record<string, unknown>} query
- */
-export const getDefinitionsPath = (query: Record<string, unknown>) =>
-  getQueryParamAsString(query, 'dataProductDefinitionsPath')
 
 export default {
   getCurrentVariantDefinition,

@@ -16,7 +16,6 @@ import ReportQuery from '../../types/ReportQuery'
 // Helpers
 import DefinitionUtils from '../../utils/definitionUtils'
 import ErrorHandler from '../../utils/ErrorHandler/ErrorHandler'
-import LocalsHelper from '../../utils/localsHelper'
 import { createDashboardSections } from './dashboard-section/utils'
 import DataPresentation from './DataPresentation'
 
@@ -157,7 +156,7 @@ export default class Dashboard extends DataPresentation {
 
     this.parentChildData = !childVariants
       ? []
-      : await this.getChildData(childVariants, this.services, this.token, this.req, this.res, this.requestData)
+      : await this.getChildData(childVariants, this.services, this.token, this.req, this.requestData)
 
     this.expired = this.parentChildData.length > 0 && this.parentChildData.every(item => item.notFound)
   }
@@ -172,10 +171,8 @@ export default class Dashboard extends DataPresentation {
     services: Services,
     token: string,
     req: Request,
-    res: Response,
     requestData?: RequestedReport,
   ): Promise<DashboardParentChildData[]> => {
-    const { definitionsPath: dataProductDefinitionsPath } = LocalsHelper.getValues(res)
     const { reportId } = <{ reportId: string }>req.params
     const childExecutionData = requestData?.childExecutionData
 
@@ -189,7 +186,6 @@ export default class Dashboard extends DataPresentation {
           fields: this.fields || [],
           template: 'parent-child',
           queryParams: req.query,
-          definitionsPath: dataProductDefinitionsPath,
         }).toRecordWithFilterPrefix(true)
 
         const childData = childExecutionData.find(e => e.variantId === childVariant.id)
@@ -236,16 +232,9 @@ export default class Dashboard extends DataPresentation {
    *
    */
   buildDashboardDetails = async () => {
-    const { definitionsPath } = LocalsHelper.getValues(this.res)
-
     const reportDefinition =
       this.res.locals['reportDefinitionSummary'] ??
-      (await DefinitionUtils.getReportSummary(
-        this.reportId,
-        this.services.reportingService,
-        this.token,
-        definitionsPath,
-      ))
+      (await DefinitionUtils.getReportSummary(this.reportId, this.services.reportingService, this.token))
 
     const { name, description } = this.definition
 
@@ -284,8 +273,6 @@ export default class Dashboard extends DataPresentation {
    * Builds the report query
    */
   buildReportQuery = () => {
-    const { definitionsPath } = LocalsHelper.getValues(this.res)
-
     const queryParams = {
       ...this.getCurrentQuery(),
     }
@@ -293,7 +280,6 @@ export default class Dashboard extends DataPresentation {
     this.reportQuery = new ReportQuery({
       fields: this.fields ?? [],
       queryParams,
-      definitionsPath,
       reportType: ReportType.DASHBOARD,
     })
   }

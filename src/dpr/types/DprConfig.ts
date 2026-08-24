@@ -1,6 +1,5 @@
 export interface DprConfig {
   routePrefix?: string
-  dataProductDefinitionsPath?: string
 
   /** Interval value in ms
    * - determines how frequently the definitions should be refreshed

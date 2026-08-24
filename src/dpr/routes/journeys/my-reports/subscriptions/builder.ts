@@ -74,12 +74,10 @@ export class SubscribedReportBuilder extends StoreItemBuilder {
     this.buildReportData()
     const url = this.buildUrls()
     const { status } = this
-    const definitionsPath = this.buidDefinitionsPath()
 
     const subscribedReportData: SubscribedReport = {
       ...this.reportData,
       ...this.executionData,
-      ...(definitionsPath && definitionsPath),
       url,
       status,
       timestamp: this.timestamp ?? {},

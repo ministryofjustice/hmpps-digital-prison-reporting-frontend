@@ -8,7 +8,7 @@ import { getMyReport } from '../routes/journeys/my-reports/utils'
 
 export const setupCurrentDefinition = (services: Services): RequestHandler => {
   return async (req, res, next) => {
-    const { token, dprUser, definitionsPath } = LocalsHelper.getValues(res)
+    const { token, dprUser } = LocalsHelper.getValues(res)
     const { reportId, id, type, tableId } = req.params as {
       reportId: string
       id: string
@@ -18,11 +18,7 @@ export const setupCurrentDefinition = (services: Services): RequestHandler => {
 
     if (!token || !dprUser) return next()
 
-    const definitionSummary = await services.reportingService.getDefinitionSummary(
-      token,
-      reportId as string,
-      definitionsPath,
-    )
+    const definitionSummary = await services.reportingService.getDefinitionSummary(token, reportId as string)
 
     res.locals['reportDefinitionSummary'] = definitionSummary
 
@@ -37,15 +33,7 @@ export const setupCurrentDefinition = (services: Services): RequestHandler => {
       queryData = requestData?.query?.data
     }
 
-    const { fields, definition } = await getDefinitionByType(
-      type,
-      services,
-      token,
-      reportId,
-      id,
-      definitionsPath,
-      queryData,
-    )
+    const { fields, definition } = await getDefinitionByType(type, services, token, reportId, id, queryData)
 
     res.locals['fields'] = fields ?? []
 

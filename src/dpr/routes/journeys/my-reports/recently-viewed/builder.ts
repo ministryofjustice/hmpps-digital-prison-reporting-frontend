@@ -133,13 +133,11 @@ export class ViewedReportBuilder extends StoreItemBuilder {
     const url = this.buildUrls()
     const status = this.buildStatus()
     const timestamp = this.buildTimestamp()
-    const definitionsPath = this.buidDefinitionsPath()
     const interactiveQuery = this.buildInteractiveQuery()
 
     const viewedReportData: RecentlyViewedReport = {
       ...reportData,
       ...this.executionData,
-      ...(definitionsPath && definitionsPath),
       ...(this.asyncQueryData && { query: this.asyncQueryData }),
       ...(interactiveQuery && { interactiveQuery }),
       url,

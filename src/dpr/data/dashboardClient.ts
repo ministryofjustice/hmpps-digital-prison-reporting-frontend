@@ -16,12 +16,10 @@ class DashboardClient {
     token: string,
     dashboardId: string,
     dpdId: string,
-    definitionsPath?: string,
     queryData?: Dict<string | string[]> | undefined,
   ): Promise<components['schemas']['DashboardDefinition']> {
     const query = {
       ...queryData,
-      dataProductDefinitionsPath: definitionsPath,
     }
     this.logInfo('Get definition:', { dpdId, dashboardId, ...query })
 
@@ -75,7 +73,6 @@ class DashboardClient {
     dashboardId: string,
     executionId: string,
     tableId?: string,
-    dataProductDefinitionsPath?: string,
   ): Promise<components['schemas']['StatementExecutionStatus']> {
     this.logInfo('Get status:', { reportId, dashboardId, executionId, tableId })
 
@@ -84,29 +81,19 @@ class DashboardClient {
         path: `/reports/${reportId}/dashboards/${dashboardId}/statements/${executionId}/status`,
         token,
         query: {
-          dataProductDefinitionsPath,
           tableId,
         },
       })
       .then(response => <components['schemas']['StatementExecutionStatus']>response)
   }
 
-  cancelAsyncRequest(
-    token: string,
-    reportId: string,
-    dashboardId: string,
-    executionId: string,
-    dataProductDefinitionsPath?: string,
-  ): Promise<Dict<string>> {
+  cancelAsyncRequest(token: string, reportId: string, dashboardId: string, executionId: string): Promise<Dict<string>> {
     this.logInfo('Cancel request:', { reportId, dashboardId, executionId })
 
     return this.restClient
       .delete({
         path: `/reports/${reportId}/dashboards/${dashboardId}/statements/${executionId}`,
         token,
-        query: {
-          dataProductDefinitionsPath,
-        },
       })
       .then(response => <Dict<string>>response)
   }

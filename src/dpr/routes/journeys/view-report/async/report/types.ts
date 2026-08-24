@@ -31,5 +31,4 @@ export interface ExtractedRequestData {
   queryData?: Dict<string | string[]> | undefined
   requestUrl?: AsyncReportUrlItemData | undefined
   defaultQuery?: string | undefined
-  dataProductDefinitionsPath?: string | undefined
 }

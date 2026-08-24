@@ -13,10 +13,9 @@ class DashboardService {
     token: string,
     dpdId: string,
     id: string,
-    dataProductDefinitionsPath?: string,
     query?: Dict<string | string[]> | undefined,
   ): Promise<components['schemas']['DashboardDefinition']> {
-    return this.dashboardClient.getDefinition(token, id, dpdId, dataProductDefinitionsPath, query)
+    return this.dashboardClient.getDefinition(token, id, dpdId, query)
   }
 
   async requestAsyncDashboard(
@@ -33,15 +32,8 @@ class DashboardService {
     reportId: string,
     dashboardId: string,
     executionId: string,
-    dataProductDefinitionsPath?: string,
   ): Promise<Dict<string>> {
-    return this.dashboardClient.cancelAsyncRequest(
-      token,
-      reportId,
-      dashboardId,
-      executionId,
-      dataProductDefinitionsPath,
-    )
+    return this.dashboardClient.cancelAsyncRequest(token, reportId, dashboardId, executionId)
   }
 
   async getAsyncStatus(
@@ -50,16 +42,8 @@ class DashboardService {
     dashboardId: string,
     executionId: string,
     tableId?: string,
-    dataProductDefinitionsPath?: string,
   ): Promise<components['schemas']['StatementExecutionStatus']> {
-    return this.dashboardClient.getAsyncStatus(
-      token,
-      reportId,
-      dashboardId,
-      executionId,
-      tableId,
-      dataProductDefinitionsPath,
-    )
+    return this.dashboardClient.getAsyncStatus(token, reportId, dashboardId, executionId, tableId)
   }
 
   async getAsyncDashboard(

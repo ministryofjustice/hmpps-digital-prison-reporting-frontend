@@ -38,12 +38,12 @@ export const applyReportInteractiveQuery = async (
   loadType: LoadType,
 ) => {
   const { reportId, id } = <{ id: string; reportId: string }>req.params
-  const { token, definitionsPath } = LocalsHelper.getValues(res)
+  const { token } = LocalsHelper.getValues(res)
 
   // Get the definition
   const definition =
     (res.locals['definition'] as components['schemas']['SingleVariantReportDefinition']) ??
-    (await services.reportingService.getDefinition(token, reportId, id, definitionsPath))
+    (await services.reportingService.getDefinition(token, reportId, id))
 
   const fields = getFields(definition) || []
 

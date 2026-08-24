@@ -36,16 +36,16 @@ const getDefaultValues = async (
   services: Services,
   filtersType: FiltersType,
 ): Promise<defaultFilterValue[]> => {
-  const { token, definitionsPath } = localsHelper.getValues(res)
+  const { token } = localsHelper.getValues(res)
   const { reportId, id, type } = <{ id: string; type: string; reportId: string }>req.params
 
   let definition: components['schemas']['SingleVariantReportDefinition'] | components['schemas']['DashboardDefinition']
   let fields = []
   if (type === ReportType.REPORT) {
-    definition = await services.reportingService.getDefinition(token, reportId, id, definitionsPath)
+    definition = await services.reportingService.getDefinition(token, reportId, id)
     fields = definition.variant.specification?.fields || []
   } else {
-    definition = await services.dashboardService.getDefinition(token, reportId, id, definitionsPath)
+    definition = await services.dashboardService.getDefinition(token, reportId, id)
     fields = definition.filterFields || []
   }
 

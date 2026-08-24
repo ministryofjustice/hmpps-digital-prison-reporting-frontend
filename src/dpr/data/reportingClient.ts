@@ -51,35 +51,22 @@ class ReportingClient {
       }))
   }
 
-  getDefinitionSummary(
-    token: string,
-    reportId: string,
-    definitionsPath?: string,
-  ): Promise<components['schemas']['ReportDefinitionSummary']> {
+  getDefinitionSummary(token: string, reportId: string): Promise<components['schemas']['ReportDefinitionSummary']> {
     this.logInfo('Get definition summary', { reportId })
-
-    const queryParams: operations['definitionSummary']['parameters']['query'] = {
-      ...(definitionsPath && { dataProductDefinitionsPath: definitionsPath }),
-    }
 
     return this.restClient
       .get({
         path: `/definitions/${reportId}`,
-        query: queryParams,
         token,
       })
       .then(response => <components['schemas']['ReportDefinitionSummary']>response)
   }
 
-  getDefinitions(
-    token: string,
-    definitionsPath?: string,
-  ): Promise<Array<components['schemas']['ReportDefinitionSummary']>> {
+  getDefinitions(token: string): Promise<Array<components['schemas']['ReportDefinitionSummary']>> {
     this.logInfo('Get definitions')
 
     const queryParams: operations['definitions']['parameters']['query'] = {
       renderMethod: 'HTML',
-      ...(definitionsPath && { dataProductDefinitionsPath: definitionsPath }),
     }
 
     return this.restClient
@@ -95,12 +82,10 @@ class ReportingClient {
     token: string,
     reportId: string,
     variantId: string,
-    definitionsPath?: string,
     queryData?: Dict<string | string[]>,
   ): Promise<components['schemas']['SingleVariantReportDefinition']> {
     const query = {
       ...queryData,
-      dataProductDefinitionsPath: definitionsPath,
     }
 
     this.logInfo('Get definition', { reportId, variantId, ...query })
@@ -131,22 +116,13 @@ class ReportingClient {
       .then(response => <Dict<string>>response)
   }
 
-  cancelAsyncRequest(
-    token: string,
-    reportId: string,
-    variantId: string,
-    executionId: string,
-    dataProductDefinitionsPath?: string,
-  ): Promise<Dict<string>> {
+  cancelAsyncRequest(token: string, reportId: string, variantId: string, executionId: string): Promise<Dict<string>> {
     this.logInfo('Cancel Request', { reportId, variantId, executionId })
 
     return this.restClient
       .delete({
         path: `/reports/${reportId}/${variantId}/statements/${executionId}`,
         token,
-        query: {
-          dataProductDefinitionsPath,
-        },
       })
       .then(response => <Dict<string>>response)
   }
@@ -232,7 +208,6 @@ class ReportingClient {
     reportId: string,
     variantId: string,
     executionId: string,
-    dataProductDefinitionsPath?: string,
     tableId?: string,
   ): Promise<components['schemas']['StatementExecutionStatus']> {
     this.logInfo('Get status', { reportId, variantId, tableId, executionId })
@@ -242,23 +217,19 @@ class ReportingClient {
         path: `/reports/${reportId}/${variantId}/statements/${executionId}/status`,
         token,
         query: {
-          dataProductDefinitionsPath,
           tableId,
         },
       })
       .then(response => <components['schemas']['StatementExecutionStatus']>response)
   }
 
-  getAsyncCount(token: string, tableId: string, dataProductDefinitionsPath?: string): Promise<number> {
+  getAsyncCount(token: string, tableId: string): Promise<number> {
     this.logInfo('Get count', { tableId })
 
     return this.restClient
       .get({
         path: `/report/tables/${tableId}/count`,
         token,
-        query: {
-          dataProductDefinitionsPath,
-        },
       })
       .then(response => (<Count>response).count)
   }

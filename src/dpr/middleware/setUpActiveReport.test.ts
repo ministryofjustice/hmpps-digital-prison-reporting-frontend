@@ -78,7 +78,6 @@ describe('setUpActiveReport', () => {
     beforeEach(() => {
       jest.clearAllMocks()
       ;(LocalsHelper.getValues as jest.Mock).mockReturnValue({
-        definitionsPath: '/defs',
         dprUser: { token: 'token-123' },
       })
       ;(LocalsHelper.getRouteLocals as jest.Mock).mockReturnValue({
@@ -224,7 +223,6 @@ describe('setUpActiveReport', () => {
     beforeEach(() => {
       jest.clearAllMocks()
       ;(LocalsHelper.getValues as jest.Mock).mockReturnValue({
-        definitionsPath: '/defs',
         dprUser: { token: 'token-123' },
       })
       ;(LocalsHelper.getRouteLocals as jest.Mock).mockReturnValue({
@@ -345,7 +343,6 @@ describe('setUpActiveReport', () => {
     beforeEach(() => {
       jest.clearAllMocks()
       ;(LocalsHelper.getValues as jest.Mock).mockReturnValue({
-        definitionsPath: '/defs',
         dprUser: { token: 'token-123' },
       })
       ;(LocalsHelper.getRouteLocals as jest.Mock).mockReturnValue({
@@ -490,7 +487,6 @@ describe('setUpActiveReport', () => {
     beforeEach(() => {
       jest.clearAllMocks()
       ;(LocalsHelper.getValues as jest.Mock).mockReturnValue({
-        definitionsPath: '/defs',
         dprUser: { token: 'token-123' },
       })
       ;(LocalsHelper.getRouteLocals as jest.Mock).mockReturnValue({

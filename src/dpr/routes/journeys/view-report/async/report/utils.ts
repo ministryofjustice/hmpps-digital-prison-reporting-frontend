@@ -7,7 +7,7 @@ import { updateLastViewedAsync } from '../../utils'
 import { getMyReport } from '../../../my-reports/utils'
 
 export const renderReport = async ({ req, res, services }: AsyncReportUtilsParams) => {
-  const { token, dprUser, definitionsPath } = LocalsHelper.getValues(res)
+  const { token, dprUser } = LocalsHelper.getValues(res)
   const { id, tableId, reportId } = <{ id: string; tableId: string; reportId: string }>req.params
 
   const requestData: RequestedReport | undefined = await getMyReport(
@@ -23,7 +23,7 @@ export const renderReport = async ({ req, res, services }: AsyncReportUtilsParam
   // Get the definition
   const definition =
     (res.locals['definition'] as components['schemas']['SingleVariantReportDefinition']) ??
-    (await services.reportingService.getDefinition(token, reportId, id, definitionsPath, queryData))
+    (await services.reportingService.getDefinition(token, reportId, id, queryData))
 
   // Create the report config
   const reportConfig = await new Report(services, res, req, definition, LoadType.ASYNC, requestData).build()

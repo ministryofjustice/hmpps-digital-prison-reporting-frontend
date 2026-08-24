@@ -43,13 +43,11 @@ export interface FieldValuesRequest {
   variantName: string
   fieldName: string
   prefix: string
-  definitionsPath?: string
 }
 
 export interface AsyncRequestQuery {
   sortColumn: string
   sortedAsc: boolean
-  dataProductDefinitionsPath: string
   [key: string]: string | boolean
 }
 

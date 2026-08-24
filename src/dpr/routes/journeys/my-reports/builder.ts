@@ -67,15 +67,4 @@ export class StoreItemBuilder {
       ...(schedule && { schedule }),
     }
   }
-
-  buidDefinitionsPath = () => {
-    const { definitionsPath, dpdPathFromQuery } = this.res.locals
-
-    if (!definitionsPath) return undefined
-
-    return {
-      dataProductDefinitionsPath: definitionsPath,
-      dpdPathFromQuery,
-    }
-  }
 }

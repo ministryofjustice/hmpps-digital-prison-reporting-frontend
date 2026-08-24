@@ -1,4 +1,4 @@
-import type { Response, Request } from 'express'
+import type { Response } from 'express'
 import { RequestedReport, StoredReportData } from '../types/UserReports'
 import { BookmarkStoreData } from '../types/Bookmark'
 
@@ -10,7 +10,6 @@ export const getValues = (res: Response) => {
     token: dprUser.token,
     dprUser,
     ...setUserReports(res),
-    ...setDpdPaths(res),
     ...setFeatures(res),
     ...setDefinitions(res),
     csrfToken,
@@ -49,16 +48,6 @@ const setUserReports = (res: Response) => {
   }
 }
 
-const setDpdPaths = (res: Response) => {
-  const { definitionsPath, dpdPathFromQuery, dpdPathFromConfig, pathSuffix } = res.locals
-  return {
-    definitionsPath,
-    dpdPathFromQuery,
-    dpdPathFromConfig,
-    pathSuffix: pathSuffix || '',
-  }
-}
-
 const setDprUserContext = (res: Response) => {
   const { dprUser } = res.locals
   const id = dprUser?.id
@@ -76,17 +65,6 @@ const setDprUserContext = (res: Response) => {
     email,
     displayName,
   }
-}
-
-export const setDdpPathToReqQuery = (req: Request, value: string) => {
-  if (value) {
-    req.query = {
-      ...req.query,
-      dataProductDefinitionsPath: value,
-    }
-  }
-
-  return req.query
 }
 
 export interface DprAppLocals {
@@ -118,5 +96,4 @@ export const getRouteLocals = (res: Response): DprAppLocals => {
 export default {
   getValues,
   getRouteLocals,
-  setDdpPathToReqQuery,
 }

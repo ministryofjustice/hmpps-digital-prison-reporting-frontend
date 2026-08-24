@@ -12,9 +12,6 @@ export interface ExtraLocals {
   reportDefinitionSummary?: components['schemas']['ReportDefinitionSummary']
   fields?: components['schemas']['FieldDefinition'][]
   saveDefaultsEnabled: boolean
-  dpdPathFromQuery: boolean
-  dpdPathFromConfig: boolean
-  definitionsPath: string
   requestedReports?: RequestedReport[]
   recentlyViewedReports?: StoredReportData[]
   bookmarks?: BookmarkStoreData[]

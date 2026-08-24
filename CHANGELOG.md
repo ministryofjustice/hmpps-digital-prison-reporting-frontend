@@ -1,5 +1,11 @@
 Below you can find the changes included in each release.
 
+## 8.7.0
+
+Request access to unauthorised reports:
+
+- If a user is unauthorised to view a product they can "Request access" which will provide information about how to become authorised
+
 ## 8.6.0
 
 Sorting summary tables:

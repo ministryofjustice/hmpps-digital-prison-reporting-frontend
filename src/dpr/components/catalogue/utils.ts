@@ -1,7 +1,8 @@
 import { Response, Request } from 'express'
 import { ReportType } from 'src/dpr/types/UserReports'
 import { Services } from 'src/dpr/types/Services'
-import LocalsHelper from '../../utils/localsHelper'
+import { setNestedPath } from 'src/dpr/utils/urlHelper'
+import LocalsHelper, { getRouteLocals } from '../../utils/localsHelper'
 import { components } from '../../types/api'
 import { CatalogueVariantRow } from './catalogue-product-rows/catalogue-product-row/catalogue-variant-rows/types'
 import { Catalogue } from './types'
@@ -83,6 +84,8 @@ const mapCatalogue = async (
         ),
       )
 
+      const requestAccessAction = setRequestAccessAction(res, id, authorised)
+
       const trucatedDescription = initialiseTruncation({ stringValue: description ?? '', classes: 'govuk-body-s' })
 
       return {
@@ -90,6 +93,7 @@ const mapCatalogue = async (
         name,
         description: trucatedDescription,
         authorised,
+        ...(!authorised && { requestAccessAction }),
         variants: [...variants, ...dashboards],
       }
     }),
@@ -217,6 +221,23 @@ const mapTotals = (products: CatalogueProduct[]) => ({
   products: products.length,
   variants: products.reduce((total, product) => total + product.variants.length, 0),
 })
+
+const setRequestAccessAction = (res: Response, productId: string, authorised: boolean) => {
+  const { nestedBaseUrl } = getRouteLocals(res)
+  const rootPath = setNestedPath(`/dpr`, nestedBaseUrl)
+
+  let href
+  if (!authorised) {
+    href = `${rootPath}/request-report-access/${productId}`
+
+    return {
+      href,
+      label: 'Request access',
+    }
+  }
+
+  return undefined
+}
 
 export default {
   initCatalogue,

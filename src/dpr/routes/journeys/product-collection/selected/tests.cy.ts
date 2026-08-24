@@ -32,11 +32,21 @@ context('Catalogue collections', () => {
             .within(() => cy.findAllByRole('option').should('have.length', 3))
           cy.findByDisplayValue(/Full catalogue/).should('be.visible')
 
-          const totalReports = summaries.reduce(
+          const totalReports = summaries
+            .filter(rep => rep.authorised)
+            .reduce((acc, cur) => acc + (cur.dashboards?.length ?? 0) + cur.variants.length, 0)
+
+          validateTotals(totalReports)
+
+          const totalWithUnauthorisedReports = summaries.reduce(
             (acc, cur) => acc + (cur.dashboards?.length ?? 0) + cur.variants.length,
             0,
           )
-          validateTotals(totalReports)
+
+          cy.findAllByRole('group').contains('Show more filters').should('be.visible').click()
+          cy.findByRole('checkbox', { name: 'Show unauthorised reports' }).check()
+
+          validateTotals(totalWithUnauthorisedReports)
 
           addBookmark('Interactive Report with async filters')
 

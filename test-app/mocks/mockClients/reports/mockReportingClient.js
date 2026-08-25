@@ -32,13 +32,12 @@ class MockReportingClient {
     })
   }
 
-  async getAsyncReportStatus(token, reportId, variantId, executionId, definitionsPath, tableId) {
+  async getAsyncReportStatus(token, reportId, variantId, executionId, tableId) {
     this.logInfo('getAsyncReportStatus', {
       token,
       reportId,
       variantId,
       executionId,
-      definitionsPath,
       tableId,
     })
 
@@ -46,8 +45,8 @@ class MockReportingClient {
     return mockStatusHelper(this.mockRequests, statuses, executionId)
   }
 
-  async getDefinition(token, reportId, variantId, definitionsPath, query) {
-    this.logInfo('getDefinition', { token, reportId, variantId, definitionsPath, ...query })
+  async getDefinition(token, reportId, variantId, query) {
+    this.logInfo('getDefinition', { token, reportId, variantId, ...query })
 
     const report = defs.reports.find(r => r.id === reportId)
     const variant = report.variants.filter(v => v.id === variantId)
@@ -58,14 +57,14 @@ class MockReportingClient {
     return Promise.resolve(reportClone)
   }
 
-  async getDefinitionSummary(token, reportId, definitionsPath) {
-    this.logInfo('getDefinitions', { token, definitionsPath })
+  async getDefinitionSummary(token, reportId) {
+    this.logInfo('getDefinitions', { token })
     const report = defs.reports.find(r => r.id === reportId)
     return Promise.resolve(report)
   }
 
-  async getDefinitions(token, definitionsPath) {
-    this.logInfo('getDefinitions', { token, definitionsPath })
+  async getDefinitions(token) {
+    this.logInfo('getDefinitions', { token })
 
     return Promise.resolve(defs.reports)
   }
@@ -137,8 +136,8 @@ class MockReportingClient {
     })
   }
 
-  async cancelAsyncRequest(token, reportId, variantId, executionId, definitionsPath) {
-    this.logInfo('cancelAsyncRequest', { token, reportId, variantId, executionId, definitionsPath })
+  async cancelAsyncRequest(token, reportId, variantId, executionId) {
+    this.logInfo('cancelAsyncRequest', { token, reportId, variantId, executionId })
 
     return new Promise(resolve => {
       resolve({
@@ -147,8 +146,8 @@ class MockReportingClient {
     })
   }
 
-  async getAsyncCount(token, tableId, definitionsPath) {
-    this.logInfo('getAsyncCount', { token, tableId, definitionsPath })
+  async getAsyncCount(token, tableId) {
+    this.logInfo('getAsyncCount', { token, tableId })
 
     return Promise.resolve(this.RESULT_COUNT)
   }

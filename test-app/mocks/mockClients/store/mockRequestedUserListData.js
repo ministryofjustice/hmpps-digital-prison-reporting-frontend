@@ -1,6 +1,5 @@
 // @ts-nocheck
 const requestedReady = {
-  dataProductDefinitionsPath: '',
   type: 'report',
   reportId: 'request-examples',
   reportName: 'Request examples',
@@ -104,7 +103,6 @@ const requestedReady = {
 }
 
 const requestedExpired = {
-  dataProductDefinitionsPath: '',
   type: 'report',
   reportId: 'request-examples',
   reportName: 'Request examples',
@@ -195,7 +193,6 @@ const requestedExpired = {
 }
 
 const requestedAborted = {
-  dataProductDefinitionsPath: '',
   type: 'report',
   reportId: 'request-examples',
   reportName: 'Request examples',
@@ -293,7 +290,6 @@ const requestedAborted = {
 }
 
 const requestedFailed = {
-  dataProductDefinitionsPath: '',
   type: 'report',
   reportId: 'request-examples',
   reportName: 'Request examples',
@@ -388,7 +384,6 @@ const requestedFailed = {
 }
 
 const requestedSubmitted = {
-  dataProductDefinitionsPath: '',
   type: 'report',
   reportId: 'request-examples',
   reportName: 'Request examples',

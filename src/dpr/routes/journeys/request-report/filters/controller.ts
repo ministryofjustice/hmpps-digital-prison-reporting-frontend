@@ -65,11 +65,9 @@ class RequestReportController {
         next,
       })
 
-      const { executionId, dataProductDefinitionsPath } = executionData
+      const { executionId } = executionData
       if (executionId) {
-        const redirect = dataProductDefinitionsPath
-          ? `${executionId}/status?dataProductDefinitionsPath=${dataProductDefinitionsPath}`
-          : `${executionId}/status`
+        const redirect = `${executionId}/status`
         res.redirect(redirect)
       } else {
         res.end()

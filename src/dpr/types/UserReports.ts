@@ -17,8 +17,6 @@ export interface StoredReportData {
   schedule?: string | undefined
   status?: RequestStatus | undefined
   timestamp: AsyncReportsTimestamp
-  dataProductDefinitionsPath?: string | undefined
-  dpdPathFromQuery?: boolean | undefined
   query?: AsyncReportQueryData | undefined
   interactiveQuery?: AsyncReportQueryData | undefined
   url?: AsyncReportUrlData | undefined
@@ -145,14 +143,12 @@ export interface meta {
   status?: string | undefined
   type: ReportType
   requestedAt?: Date | undefined
-  dataProductDefinitionsPath?: string | undefined
   pollingUrl?: string | undefined
   reportUrl?: string | undefined
   endpoint?: string
 }
 
 export interface RequestFormData {
-  dataProductDefinitionsPath: string
   _csrf: string
   reportId: string
   name: string

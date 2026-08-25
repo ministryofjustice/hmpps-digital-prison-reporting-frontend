@@ -15,7 +15,6 @@ interface Query {
   sortColumn: string
   sortedAsc: boolean
   filters: filter[]
-  dataProductDefinitionsPath: string
 }
 
 interface filter {

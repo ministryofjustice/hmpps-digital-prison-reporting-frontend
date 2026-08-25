@@ -2,7 +2,6 @@
 import UserDataStore from '../../../../data/reportDataStore'
 import { RequestedReport, RequestStatus, StoredReportData } from '../../../../types/UserReports'
 import ReportStoreService from '../../../../services/reportStoreService'
-import { getDpdPathSuffix } from '../../../../utils/urlHelper'
 import logger from '../../../../utils/logger'
 import { ReportStoreConfig } from '../../../../types/ReportStore'
 
@@ -170,7 +169,7 @@ class RequestedReportService extends ReportStoreService {
   }
 
   setReportUrl(report: RequestedReport) {
-    const { tableId, url, dpdPathFromQuery, dataProductDefinitionsPath, type } = report
+    const { tableId, url, type } = report
 
     let pathname
     let fullUrl
@@ -183,10 +182,7 @@ class RequestedReportService extends ReportStoreService {
       const reportUrl = reportUrlArr.join('/')
 
       const search = url.report?.search ? url.report.search : ''
-      const dpdPath =
-        dataProductDefinitionsPath && dpdPathFromQuery ? `${getDpdPathSuffix(dataProductDefinitionsPath)}` : ''
-      const searchPath = search || dpdPath
-      pathname = `${reportUrl}${searchPath}`
+      pathname = `${reportUrl}${search}`
       fullUrl = `${url.origin}${pathname}`
     }
 

@@ -22,7 +22,6 @@ import { ChildData } from '../../utils/TemplateBuilder/ParentChildDataBuilder/ty
 import ReportQuery from '../../types/ReportQuery'
 
 // Helpers
-import LocalsHelper from '../../utils/localsHelper'
 import ErrorHandler from '../../utils/ErrorHandler/ErrorHandler'
 import DataPresentation from '../_dashboards/DataPresentation'
 import { VariantDefinitionWithSchedule } from '../../types/Subscriptions'
@@ -175,7 +174,6 @@ export default class Report extends DataPresentation {
    * @return {*}
    */
   getSummariesData = async () => {
-    const { definitionsPath: dataProductDefinitionsPath } = LocalsHelper.getValues(this.res)
     this.summariesData = !this.variant.summaries
       ? []
       : await Promise.all(
@@ -190,7 +188,6 @@ export default class Report extends DataPresentation {
               .join(',')
 
             const query = {
-              dataProductDefinitionsPath,
               sortColumn,
             }
 
@@ -221,7 +218,7 @@ export default class Report extends DataPresentation {
     const { childVariants } = this.variant
     this.childData = !childVariants
       ? []
-      : await this.getChildData(childVariants, this.services, this.token, this.req, this.res, this.requestData)
+      : await this.getChildData(childVariants, this.services, this.token, this.req, this.requestData)
   }
 
   getChildData = async (
@@ -229,10 +226,8 @@ export default class Report extends DataPresentation {
     services: Services,
     token: string,
     req: Request,
-    res: Response,
     requestData?: RequestedReport,
   ): Promise<ChildData[]> => {
-    const { definitionsPath: dataProductDefinitionsPath } = LocalsHelper.getValues(res)
     const { reportId } = <{ reportId: string }>req.params
     const childExecutionData = requestData?.childExecutionData
 
@@ -251,7 +246,6 @@ export default class Report extends DataPresentation {
           fields: specification?.fields || [],
           template: 'parent-child',
           queryParams: req.query,
-          definitionsPath: dataProductDefinitionsPath,
         }).toRecordWithFilterPrefix(true)
 
         const childData = childExecutionData.find(e => e.variantId === childVariant.id)
@@ -379,7 +373,6 @@ export default class Report extends DataPresentation {
    *
    */
   buildReportQuery = () => {
-    const { definitionsPath } = LocalsHelper.getValues(this.res)
     const template = getTemplate(this.definition as ReportDefinition)
 
     // Sort
@@ -406,7 +399,6 @@ export default class Report extends DataPresentation {
       fields: this.fields ?? [],
       template,
       queryParams,
-      definitionsPath,
     })
   }
 }

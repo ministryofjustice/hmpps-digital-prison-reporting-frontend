@@ -35,7 +35,6 @@ import {
  *   reportId,
  *   id,
  *   executionId,
- *   definitionsPath,
  *   tableId,
  * }
  * @return {*}  {Promise<UpstreamSignal>}
@@ -47,22 +46,14 @@ async function getStatusByType({
   reportId,
   id,
   executionId,
-  definitionsPath,
   tableId,
 }: GetReportStatusOptions): Promise<UpstreamSignal> {
   try {
     // fix
     const response =
       reportType === ReportType.DASHBOARD
-        ? await services.dashboardService.getAsyncStatus(token, reportId, id, executionId, tableId, definitionsPath)
-        : await services.reportingService.getAsyncReportStatus(
-            token,
-            reportId,
-            id,
-            executionId,
-            definitionsPath,
-            tableId,
-          )
+        ? await services.dashboardService.getAsyncStatus(token, reportId, id, executionId, tableId)
+        : await services.reportingService.getAsyncReportStatus(token, reportId, id, executionId, tableId)
 
     const data = response as {
       status?: string
@@ -132,9 +123,7 @@ async function getStatus({
   parentSignal: UpstreamSignal
   childSignals: ChildStatusSignal[]
 }> {
-  const { reportId, id, tableId, executionId, dataProductDefinitionsPath, type } = stored
-
-  const definitionsPath = dataProductDefinitionsPath || ''
+  const { reportId, id, tableId, executionId, type } = stored
 
   if (!executionId || !tableId) {
     throw new Error('Stored report missing executionId or tableId')
@@ -147,7 +136,6 @@ async function getStatus({
     reportId,
     id,
     executionId,
-    definitionsPath,
     tableId,
   })
 
@@ -167,7 +155,6 @@ async function getStatus({
             reportId,
             id: variantId,
             executionId: childExecutionId,
-            definitionsPath,
             tableId: childTableId,
           })
 

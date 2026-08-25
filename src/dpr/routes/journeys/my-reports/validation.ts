@@ -101,9 +101,6 @@ export const StoredReportDataObjectSchema = z.object({
 
   timestamp: AsyncReportsTimestampSchema,
 
-  dataProductDefinitionsPath: z.string().optional(),
-  dpdPathFromQuery: z.boolean().optional(),
-
   query: AsyncReportQueryDataSchema.optional(),
   interactiveQuery: AsyncReportQueryDataSchema.optional(),
 

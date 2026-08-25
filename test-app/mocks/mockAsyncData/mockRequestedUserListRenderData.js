@@ -279,7 +279,6 @@ const requestedUserListData = {
       executionId: 'exId_1724943092549',
       status: 'FINISHED',
       type: 'report',
-      dataProductDefinitionsPath: '',
     },
     {
       reportId: 'test-report-2',
@@ -287,7 +286,6 @@ const requestedUserListData = {
       executionId: 'exId_1721738244285',
       status: 'FAILED',
       type: 'report',
-      dataProductDefinitionsPath: '',
     },
     {
       reportId: 'test-report-3',
@@ -295,7 +293,6 @@ const requestedUserListData = {
       executionId: 'exId_1721738244290',
       status: 'EXPIRED',
       type: 'report',
-      dataProductDefinitionsPath: '',
     },
     {
       reportId: 'test-report-1',
@@ -303,7 +300,6 @@ const requestedUserListData = {
       executionId: 'exId_1724943092549',
       status: 'FINISHED',
       type: 'report',
-      dataProductDefinitionsPath: '',
     },
     {
       reportId: 'test-report-2',
@@ -311,7 +307,6 @@ const requestedUserListData = {
       executionId: 'exId_1721738244285',
       status: 'FAILED',
       type: 'report',
-      dataProductDefinitionsPath: '',
     },
     {
       reportId: 'test-report-3',
@@ -319,7 +314,6 @@ const requestedUserListData = {
       executionId: 'exId_1721738244290',
       status: 'EXPIRED',
       type: 'report',
-      dataProductDefinitionsPath: '',
     },
     {
       reportId: 'test-report-1',
@@ -327,7 +321,6 @@ const requestedUserListData = {
       executionId: 'exId_1724943092098',
       status: 'SUBMITTED',
       type: 'dashboard',
-      dataProductDefinitionsPath: '',
     },
     {
       reportId: 'test-report-1',
@@ -335,7 +328,6 @@ const requestedUserListData = {
       executionId: 'exId_1724943092123',
       status: 'FAILED',
       type: 'dashboard',
-      dataProductDefinitionsPath: '',
     },
     {
       reportId: 'test-report-1',
@@ -343,7 +335,6 @@ const requestedUserListData = {
       executionId: 'exId_1724943092824',
       status: 'EXPIRED',
       type: 'dashboard',
-      dataProductDefinitionsPath: '',
     },
   ],
   csrfToken: 'csrfToken',

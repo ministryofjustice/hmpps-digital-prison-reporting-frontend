@@ -26,26 +26,21 @@ class ReportingService {
   async getDefinitionSummary(
     token: string,
     reportId: string,
-    dataProductDefinitionsPath?: string,
   ): Promise<components['schemas']['ReportDefinitionSummary']> {
-    return this.reportingClient.getDefinitionSummary(token, reportId, dataProductDefinitionsPath)
+    return this.reportingClient.getDefinitionSummary(token, reportId)
   }
 
-  async getDefinitions(
-    token: string,
-    dataProductDefinitionsPath?: string,
-  ): Promise<Array<components['schemas']['ReportDefinitionSummary']>> {
-    return this.reportingClient.getDefinitions(token, dataProductDefinitionsPath)
+  async getDefinitions(token: string): Promise<Array<components['schemas']['ReportDefinitionSummary']>> {
+    return this.reportingClient.getDefinitions(token)
   }
 
   async getDefinition(
     token: string,
     reportId: string,
     variantId: string,
-    dataProductDefinitionsPath?: string,
     query?: Dict<string | string[]>,
   ): Promise<components['schemas']['SingleVariantReportDefinition']> {
-    return this.reportingClient.getDefinition(token, reportId, variantId, dataProductDefinitionsPath, query)
+    return this.reportingClient.getDefinition(token, reportId, variantId, query)
   }
 
   async requestAsyncReport(
@@ -62,9 +57,8 @@ class ReportingService {
     reportId: string,
     variantId: string,
     executionId: string,
-    dataProductDefinitionsPath?: string,
   ): Promise<Dict<string>> {
-    return this.reportingClient.cancelAsyncRequest(token, reportId, variantId, executionId, dataProductDefinitionsPath)
+    return this.reportingClient.cancelAsyncRequest(token, reportId, variantId, executionId)
   }
 
   async downloadAsyncReport(
@@ -115,21 +109,13 @@ class ReportingService {
     reportId: string,
     variantId: string,
     executionId: string,
-    dataProductDefinitionsPath: string,
     tableId: string,
   ): Promise<components['schemas']['StatementExecutionStatus']> {
-    return this.reportingClient.getAsyncReportStatus(
-      token,
-      reportId,
-      variantId,
-      executionId,
-      dataProductDefinitionsPath,
-      tableId,
-    )
+    return this.reportingClient.getAsyncReportStatus(token, reportId, variantId, executionId, tableId)
   }
 
-  async getAsyncCount(token: string, tableId: string, dataProductDefinitionsPath?: string): Promise<number> {
-    return this.reportingClient.getAsyncCount(token, tableId, dataProductDefinitionsPath)
+  async getAsyncCount(token: string, tableId: string): Promise<number> {
+    return this.reportingClient.getAsyncCount(token, tableId)
   }
 
   async getAsyncInteractiveCount(

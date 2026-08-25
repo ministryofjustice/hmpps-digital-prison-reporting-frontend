@@ -25,20 +25,16 @@ class ReportQuery implements FilteredListRequest {
 
   filtersPrefix: string
 
-  dataProductDefinitionsPath?: string | undefined
-
   constructor({
     fields,
     template,
     queryParams,
-    definitionsPath,
     filtersPrefix = DEFAULT_FILTERS_PREFIX,
     reportType,
   }: {
     fields: components['schemas']['FieldDefinition'][]
     template?: Template
     queryParams: ParsedQs
-    definitionsPath?: string
     filtersPrefix?: string
     reportType?: ReportType
   }) {
@@ -53,10 +49,6 @@ class ReportQuery implements FilteredListRequest {
       queryParams['sortedAsc'] !== undefined
         ? queryParams['sortedAsc'] !== 'false'
         : this.getDefaultSortDirection(fields)
-
-    this.dataProductDefinitionsPath =
-      definitionsPath ??
-      (queryParams['dataProductDefinitionsPath'] ? queryParams['dataProductDefinitionsPath'].toString() : undefined)
 
     this.filtersPrefix = filtersPrefix
 
@@ -352,10 +344,6 @@ class ReportQuery implements FilteredListRequest {
       ...(this.sortColumn && { sortColumn: this.sortColumn }),
       sortedAsc: this.sortedAsc.toString(),
       columns: this.columns,
-    }
-
-    if (this.dataProductDefinitionsPath) {
-      record['dataProductDefinitionsPath'] = this.dataProductDefinitionsPath
     }
 
     Object.keys(this.filters).forEach(filterName => {

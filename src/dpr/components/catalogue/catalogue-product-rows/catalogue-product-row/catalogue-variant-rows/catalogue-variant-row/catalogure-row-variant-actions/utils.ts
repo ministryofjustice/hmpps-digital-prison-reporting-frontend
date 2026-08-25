@@ -120,16 +120,13 @@ const setRequestHref = (
   variant: components['schemas']['VariantDefinitionSummary'] | components['schemas']['DashboardDefinitionSummary'],
   reportType: ReportType,
 ) => {
-  const { pathSuffix, dpdPathFromQuery } = localsHelper.getValues(res)
   const { nestedBaseUrl } = getRouteLocals(res)
   const rootPath = setNestedPath(`/dpr`, nestedBaseUrl)
 
   const { id, loadType } = variant
 
-  const dpdPathQueryParam = dpdPathFromQuery ? pathSuffix : ''
-
-  const syncPath = `${rootPath}/view-report/sync/${reportType}/${productId}/${id}/load-report${dpdPathQueryParam}`
-  const asyncPath = `${rootPath}/request-report/${reportType}/${productId}/${id}/filters${dpdPathQueryParam}`
+  const syncPath = `${rootPath}/view-report/sync/${reportType}/${productId}/${id}/load-report`
+  const asyncPath = `${rootPath}/request-report/${reportType}/${productId}/${id}/filters`
 
   return loadType && loadType === LoadType.SYNC ? syncPath : asyncPath
 }

@@ -1,7 +1,6 @@
 import { type Response } from 'express'
 import { Services } from '../types/Services'
 import { RequestedReport, StoredReportData } from '../types/UserReports'
-import { getCurrentVariantDefinition } from './definitionUtils'
 import { BookmarkStoreData } from '../types/Bookmark'
 import * as MyReportsUtils from '../routes/journeys/my-reports/utils'
 import { getRefreshedSubscriptionsAndUpdateTimestamp } from './Subscriptions/utils'
@@ -25,13 +24,13 @@ export const getAllMyReports = async (
   services: Services,
   dprUserId: string,
 ): Promise<AllReportsFromState> => {
-  const recentlyViewedReports = await getRecentlyViewedReports(res, services, dprUserId)
+  const recentlyViewedReports = await getRecentlyViewedReports(services, dprUserId)
 
-  const requestedReports = await getRequestedReports(res, services, dprUserId)
+  const requestedReports = await getRequestedReports(services, dprUserId)
 
   const subscriptions = await getSubscriptions(res, services, dprUserId)
 
-  const bookmarks = await getAllMyBookmarks(res, services, dprUserId)
+  const bookmarks = await getAllMyBookmarks(services, dprUserId)
 
   return {
     requestedReports,
@@ -51,17 +50,9 @@ export const getAllMyReports = async (
  * @param {string} dprUserId
  * @return {*}
  */
-const getRecentlyViewedReports = async (res: Response, services: Services, dprUserId: string) => {
-  const { definitions, definitionsPath } = res.locals
-
+const getRecentlyViewedReports = async (services: Services, dprUserId: string) => {
   // 1. Get the recently viewed reports
-  let recentlyViewedReports = await MyReportsUtils.getAllMyReports('recentlyViewedReports', services, dprUserId)
-
-  recentlyViewedReports = !definitionsPath
-    ? recentlyViewedReports
-    : recentlyViewedReports.filter((report: StoredReportData) => {
-        return getCurrentVariantDefinition(definitions, report.reportId, report.id)
-      })
+  const recentlyViewedReports = await MyReportsUtils.getAllMyReports('recentlyViewedReports', services, dprUserId)
 
   // 2. Clean and get requested reports
   await services.requestedReportService.cleanList(dprUserId, recentlyViewedReports)
@@ -79,15 +70,8 @@ const getRecentlyViewedReports = async (res: Response, services: Services, dprUs
  * @param {string} dprUserId
  * @return {*}
  */
-const getRequestedReports = async (res: Response, services: Services, dprUserId: string) => {
-  const { definitions, definitionsPath } = res.locals
-  let requestedReports = await MyReportsUtils.getAllMyReports('requestedReports', services, dprUserId)
-
-  requestedReports = !definitionsPath
-    ? requestedReports
-    : requestedReports.filter((report: RequestedReport) => {
-        return getCurrentVariantDefinition(definitions, report.reportId, report.id)
-      })
+const getRequestedReports = async (services: Services, dprUserId: string) => {
+  const requestedReports = await MyReportsUtils.getAllMyReports('requestedReports', services, dprUserId)
 
   return requestedReports
 }
@@ -104,16 +88,9 @@ const getRequestedReports = async (res: Response, services: Services, dprUserId:
  * @return {*}
  */
 const getSubscriptions = async (res: Response, services: Services, dprUserId: string) => {
-  const { definitions, definitionsPath } = res.locals
   let subscriptions = await MyReportsUtils.getAllMyReports('subscriptions', services, dprUserId)
 
   if (subscriptions.length) {
-    subscriptions = !definitionsPath
-      ? subscriptions
-      : subscriptions.filter((report: StoredReportData) => {
-          return getCurrentVariantDefinition(definitions, report.reportId, report.id)
-        })
-
     // Update subscriptions with refreshed timestamp
     subscriptions = await getRefreshedSubscriptionsAndUpdateTimestamp(res, services, subscriptions)
   }
@@ -131,15 +108,8 @@ const getSubscriptions = async (res: Response, services: Services, dprUserId: st
  * @param {string} dprUserId
  * @return {*}
  */
-export const getAllMyBookmarks = async (res: Response, services: Services, dprUserId: string) => {
-  const { definitions, definitionsPath } = res.locals
-
-  let bookmarks = await services.bookmarkService.getAllBookmarks(dprUserId)
-  bookmarks = !definitionsPath
-    ? bookmarks
-    : bookmarks.filter((bookmark: BookmarkStoreData) => {
-        return getCurrentVariantDefinition(definitions, bookmark.reportId, bookmark.id)
-      })
+export const getAllMyBookmarks = async (services: Services, dprUserId: string) => {
+  const bookmarks = await services.bookmarkService.getAllBookmarks(dprUserId)
 
   return bookmarks
 }

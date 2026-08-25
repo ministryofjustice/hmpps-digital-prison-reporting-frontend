@@ -1,6 +1,6 @@
 import { Response } from 'express'
 import { LoadType, ReportType } from '../types/UserReports'
-import localsHelper, { getRouteLocals } from './localsHelper'
+import { getRouteLocals } from './localsHelper'
 import { setNestedPath } from './urlHelper'
 
 const getTypeTagColor = (type: ReportType) => {
@@ -97,7 +97,6 @@ export const setInitialHref = (
   res: Response,
   isMissing = false,
 ) => {
-  const { pathSuffix, dpdPathFromQuery } = localsHelper.getValues(res)
   const { nestedBaseUrl } = getRouteLocals(res)
   const rootPath = setNestedPath(`/dpr`, nestedBaseUrl)
 
@@ -105,11 +104,10 @@ export const setInitialHref = (
   if (isMissing) {
     href = `${rootPath}/request-missing-report/${reportId}/${id}/form`
   } else {
-    const dpdPathQueryParam = dpdPathFromQuery ? pathSuffix : ''
-    href = `${rootPath}/request-report/${type}/${reportId}/${id}/filters${dpdPathQueryParam}`
+    href = `${rootPath}/request-report/${type}/${reportId}/${id}/filters`
 
     if (loadType && loadType === LoadType.SYNC) {
-      href = `${rootPath}/view-report/sync/${type}/${reportId}/${id}/load-report${dpdPathQueryParam}`
+      href = `${rootPath}/view-report/sync/${type}/${reportId}/${id}/load-report`
     }
   }
   return href

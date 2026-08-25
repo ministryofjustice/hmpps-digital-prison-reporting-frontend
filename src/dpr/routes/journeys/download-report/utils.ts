@@ -82,14 +82,14 @@ const streamDownloadSyncData = async (args: {
  */
 export const downloadReport = async ({ req, services, res }: { req: Request; services: Services; res: Response }) => {
   const { reportId, id, tableId } = req.params as { reportId: string; id: string; tableId?: string }
-  const { token, definitionsPath: dataProductDefinitionsPath } = LocalsHelper.getValues(res)
+  const { token } = LocalsHelper.getValues(res)
 
   // Sent by the format button the user pressed. Narrowed to a known format because it
   // ends up in the outbound API path.
   const format = toDownloadFormat(req.body?.format)
 
-  const definition = await services.reportingService.getDefinition(token, reportId, id, dataProductDefinitionsPath)
-  const queryParams = setQueryForDownload(req, definition, dataProductDefinitionsPath)
+  const definition = await services.reportingService.getDefinition(token, reportId, id)
+  const queryParams = setQueryForDownload(req, definition)
 
   logger.info(`Initiating streaming as ${format}...`)
 
@@ -158,11 +158,7 @@ export const setUpDownload = (res: Response, req: Request): DownloadActionParams
  * @param {components['schemas']['SingleVariantReportDefinition']} definition
  * @return {*}
  */
-const setQueryForDownload = (
-  req: Request,
-  definition: components['schemas']['SingleVariantReportDefinition'],
-  dataProductDefinitionsPath: string | undefined,
-) => {
+const setQueryForDownload = (req: Request, definition: components['schemas']['SingleVariantReportDefinition']) => {
   const { reportId, id, tableId } = req.params as { reportId: string; id: string; tableId?: string }
 
   const sessionKey = tableId ? { reportId, id, tableId } : { reportId, id }
@@ -187,7 +183,6 @@ const setQueryForDownload = (
     ...filtersQuery,
     ...validColumnsQuery,
     ...sortQuery,
-    ...(dataProductDefinitionsPath && { dataProductDefinitionsPath }),
   }
 }
 

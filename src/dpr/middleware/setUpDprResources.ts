@@ -9,7 +9,6 @@ import setUpNunjucksFilters from '../setUpNunjucksFilters'
 import { errorRequestHandler } from '../routes'
 import { AllReportsFromState, getAllMyReports } from '../utils/reportStoreHelper'
 import logger from '../utils/logger'
-import { getDefinitionsPath } from '../utils/definitionUtils'
 import { cleanupReports } from '../utils/cleanupMyReports'
 
 /**
@@ -126,45 +125,6 @@ const populateSubsMessages = (req: Request, res: Response) => {
 }
 
 /**
- * Derives the definition path and sets the locals
- *
- * @param {Request} req
- * @param {Response} res
- * @param {DprConfig} [config]
- */
-const deriveDefinitionsPath = (req: Request, res: Response, config?: DprConfig) => {
-  // Check definitions path from config
-  const dpdPathFromConfig = config?.dataProductDefinitionsPath
-
-  res.locals['dpdPathFromConfig'] = !!dpdPathFromConfig
-
-  // Check definitions path from request
-  const dpdPathFromQuery = getDefinitionsPath(req.query) || null
-  const dpdPathFromBody = req.body?.dataProductDefinitionsPath as string | undefined
-  const definitionsPathFromQuery = dpdPathFromQuery || dpdPathFromBody
-
-  res.locals['dpdPathFromQuery'] = !!definitionsPathFromQuery
-
-  // Set the definitions path to locals
-  // - incoming query overwrites config
-  const activeDefinitionsPath = definitionsPathFromQuery || dpdPathFromConfig
-
-  if (activeDefinitionsPath) {
-    res.locals['hasDefinitionPath'] = !!activeDefinitionsPath
-    res.locals['definitionsPath'] = activeDefinitionsPath
-    res.locals['pathSuffix'] = `?dataProductDefinitionsPath=${res.locals['definitionsPath']}`
-
-    logger.info(
-      `DEFINITIONS PATH SET: ${JSON.stringify({
-        definitionsPath: res.locals['definitionsPath'],
-        dpdPathFromBody: res.locals['dpdPathFromBody'],
-        dpdPathFromQuery: res.locals['dpdPathFromQuery'],
-      })}`,
-    )
-  }
-}
-
-/**
  * Populates the definitions and sets the local collection
  *
  * @param {Services} services
@@ -173,13 +133,10 @@ const deriveDefinitionsPath = (req: Request, res: Response, config?: DprConfig) 
  * @param {DprConfig} [config]
  */
 const populateDefinitions = async (services: Services, req: Request, res: Response, config?: DprConfig) => {
-  // 1. set the definitions path
-  deriveDefinitionsPath(req, res, config)
-
-  // 2. set the definitions
+  // 1. set the definitions
   await setDefinitions(services, req, res, config)
 
-  // 3. set the collections
+  // 2. set the collections
   await setProductCollection(services, req, res)
 }
 
@@ -243,7 +200,7 @@ const setDefinitions = async (services: Services, req: Request, res: Response, c
   const { token } = localsHelper.getValues(res)
 
   if (shouldRunDefinitionsCheck(req.session, config)) {
-    const defs = await services.reportingService.getDefinitions(token, res.locals['definitionsPath'])
+    const defs = await services.reportingService.getDefinitions(token)
     if (!defs) return
 
     req.session['allDefinitions'] = defs

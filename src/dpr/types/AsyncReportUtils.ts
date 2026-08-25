@@ -25,7 +25,6 @@ export interface RequestReportData {
   description: string
   reportId: string
   id: string
-  definitionPath: string
   csrfToken: string
   template?: string
   sections: components['schemas']['DashboardSectionDefinition'][]

@@ -6,13 +6,13 @@ import { AsyncReportUtilsParams } from '../../../../../types/AsyncReportUtils'
 import Dashboard from '../../../../../components/_dashboards/Dashboard'
 
 export const renderDashboard = async ({ req, res, services }: AsyncReportUtilsParams) => {
-  const { token, dprUser, definitionsPath } = LocalsHelper.getValues(res)
+  const { token, dprUser } = LocalsHelper.getValues(res)
   const { id, reportId } = <{ id: string; reportId: string }>req.params
 
   // Get the definition
   const definition =
     (res.locals['definition'] as components['schemas']['DashboardDefinition']) ??
-    (await services.dashboardService.getDefinition(token, reportId, id, definitionsPath))
+    (await services.dashboardService.getDefinition(token, reportId, id))
 
   // Create the report config
   const dashboardConfig = await new Dashboard(services, res, req, definition, LoadType.SYNC).build()

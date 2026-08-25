@@ -83,14 +83,6 @@ export const mergeQueryStrings = (baseQs: string, overrideQs: string): string =>
   return result ? `${result}` : ''
 }
 
-export const getDpdPathSuffix = (dpdsPath: string) => {
-  if (dpdsPath && dpdsPath !== '') {
-    return `?dataProductDefinitionsPath=${dpdsPath}`
-  }
-
-  return ''
-}
-
 export const getRoutePrefix = (config?: DprConfig) => {
   let prefix = config?.routePrefix
   if (!prefix) {

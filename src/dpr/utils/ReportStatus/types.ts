@@ -77,7 +77,6 @@ export type GetReportStatusOptions = {
   reportId: string
   id: string
   executionId: string
-  definitionsPath: string
   tableId: string
   reportType: ReportType
 }

@@ -321,12 +321,12 @@ const mapBookmarks = async (
   services: Services,
   res: Response,
 ): Promise<MappedBookmarks[]> => {
-  const { token, definitionsPath } = LocalsHelper.getValues(res)
+  const { token } = LocalsHelper.getValues(res)
 
   const mapped = await Promise.all(
     bookmarks.map(async bm => {
       try {
-        const resolved = await resolveBookmarkDefinition(bm, services, token, definitionsPath)
+        const resolved = await resolveBookmarkDefinition(bm, services, token)
 
         return {
           id: resolved.sourceId,
@@ -358,22 +358,16 @@ const mapBookmarks = async (
  * @param {BookmarkStoreData} bm
  * @param {Services} services
  * @param {string} token
- * @param {string} definitionsPath
  * @return {*}
  */
-const resolveBookmarkDefinition = async (
-  bm: BookmarkStoreData,
-  services: Services,
-  token: string,
-  definitionsPath: string,
-) => {
+const resolveBookmarkDefinition = async (bm: BookmarkStoreData, services: Services, token: string) => {
   const { id, reportId, type, variantId } = bm
   const sourceId = variantId || id
 
-  const summary = await services.reportingService.getDefinitionSummary(token, reportId, definitionsPath)
+  const summary = await services.reportingService.getDefinitionSummary(token, reportId)
 
   if (!type || type === ReportType.REPORT) {
-    const definition = await services.reportingService.getDefinition(token, reportId, sourceId, definitionsPath)
+    const definition = await services.reportingService.getDefinition(token, reportId, sourceId)
     const defSummary = summary.variants.find(v => v.id === sourceId)
 
     return {
@@ -386,7 +380,7 @@ const resolveBookmarkDefinition = async (
     }
   }
 
-  const definition = await services.dashboardService.getDefinition(token, reportId, sourceId, definitionsPath)
+  const definition = await services.dashboardService.getDefinition(token, reportId, sourceId)
   const defSummary = summary.dashboards?.find(d => d.id === sourceId)
 
   return {

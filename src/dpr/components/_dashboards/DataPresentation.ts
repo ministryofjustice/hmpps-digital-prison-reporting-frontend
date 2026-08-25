@@ -178,7 +178,6 @@ export default class DataPresentation {
       queryData: query?.data,
       requestUrl: url?.request,
       defaultQuery: url?.report?.default,
-      dataProductDefinitionsPath: requestData.dataProductDefinitionsPath,
     }
   }
 

@@ -72,14 +72,9 @@ export class RequestedReportBuilder extends StoreItemBuilder {
   }
 
   private setPollingUrlData = (origin: string) => {
-    const { definitionsPath, dpdPathFromQuery } = this.res.locals
-
     const { executionId } = this.executionData
 
-    let pollingPath = this.req.baseUrl.replace('/filters', `/${executionId}/status`)
-    if (dpdPathFromQuery) {
-      pollingPath = `${pollingPath}?dataProductDefinitionsPath=${definitionsPath}`
-    }
+    const pollingPath = this.req.baseUrl.replace('/filters', `/${executionId}/status`)
 
     const pollingFullUrl = `${origin}${pollingPath}`
 
@@ -129,7 +124,6 @@ export class RequestedReportBuilder extends StoreItemBuilder {
     const url = this.buildRequestUrls()
     const status = this.buildStatus()
     const timestamp = this.buildTimestamp()
-    const definitionsPath = this.buidDefinitionsPath()
     const query = this.buildQuery()
     const metrics = this.buildSections()
 
@@ -141,7 +135,6 @@ export class RequestedReportBuilder extends StoreItemBuilder {
       ...(sortBy && { sortBy }),
       ...(query && { query }),
       ...(metrics && { metrics }),
-      ...(definitionsPath && definitionsPath),
       url,
       status,
       timestamp,

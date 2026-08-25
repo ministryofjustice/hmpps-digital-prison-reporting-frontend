@@ -22,8 +22,8 @@ class MockDashboardClient {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  async getDefinition(token, id, dpdId, dataProductDefinitionsPath, query) {
-    logInfo('getDefinition', { token, dpdId, id, dataProductDefinitionsPath, ...query })
+  async getDefinition(token, id, dpdId, query) {
+    logInfo('getDefinition', { token, dpdId, id, ...query })
     return Promise.resolve(this.dashboards.find(d => d.id === id))
   }
 
@@ -45,15 +45,15 @@ class MockDashboardClient {
     })
   }
 
-  async getAsyncStatus(token, reportId, id, executionId, tableId, definitionsPath) {
-    logInfo('getAsyncStatus', { token, reportId, id, executionId, definitionsPath, tableId })
+  async getAsyncStatus(token, reportId, id, executionId, tableId) {
+    logInfo('getAsyncStatus', { token, reportId, id, executionId, tableId })
 
     const statuses = this.getStatusResponses(id)
     return mockStatusHelper(this.requests, statuses, executionId)
   }
 
-  async cancelAsyncRequest(token, reportId, variantId, executionId, definitionsPath) {
-    this.logInfo('cancelAsyncRequest', { token, reportId, variantId, executionId, definitionsPath })
+  async cancelAsyncRequest(token, reportId, variantId, executionId) {
+    this.logInfo('cancelAsyncRequest', { token, reportId, variantId, executionId })
 
     return new Promise(resolve => {
       resolve({

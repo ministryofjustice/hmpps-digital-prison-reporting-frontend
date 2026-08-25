@@ -30,7 +30,6 @@ const failedDashboard = {
       retried: '2024-07-23T12:37:25.288Z',
     },
   },
-  dataProductDefinitionsPath: '',
 }
 
 const expiredDashboard = {
@@ -64,7 +63,6 @@ const expiredDashboard = {
       expired: new Date().toISOString(),
     },
   },
-  dataProductDefinitionsPath: '',
 }
 
 const submittedDashboard = {
@@ -95,7 +93,6 @@ const submittedDashboard = {
   timestamp: {
     requested: '2024-08-29T14:51:33.557Z',
   },
-  dataProductDefinitionsPath: '',
 }
 
 const abortedDashboard = {
@@ -127,11 +124,9 @@ const abortedDashboard = {
     requested: '2024-08-29T14:51:33.557Z',
     aborted: '2024-08-29T14:51:33.557Z',
   },
-  dataProductDefinitionsPath: '',
 }
 
 const readyDashboard = {
-  dataProductDefinitionsPath: '',
   type: 'dashboard',
   reportId: 'mock-dashboards',
   reportName: 'Mock dashboards',

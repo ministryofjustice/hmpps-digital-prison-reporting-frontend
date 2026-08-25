@@ -17,7 +17,7 @@ class RequestDownloadController {
   }
 
   GET: RequestHandler = async (req, res, next) => {
-    const { token, csrfToken, definitionsPath, dprUser } = LocalsHelper.getValues(res)
+    const { token, csrfToken, dprUser } = LocalsHelper.getValues(res)
     const { reportId, variantId, tableId } = req.params as Record<string, string>
 
     const loadType = tableId ? LoadType.ASYNC : LoadType.SYNC
@@ -27,12 +27,7 @@ class RequestDownloadController {
     const validationErrors = res.locals['validationErrors'] || []
 
     const variantData: components['schemas']['SingleVariantReportDefinition'] =
-      await this.services.reportingService.getDefinition(
-        token,
-        reportId as string,
-        variantId as string,
-        definitionsPath,
-      )
+      await this.services.reportingService.getDefinition(token, reportId as string, variantId as string)
 
     try {
       res.render(`dpr/routes/journeys/download-report/request-download/form/view`, {

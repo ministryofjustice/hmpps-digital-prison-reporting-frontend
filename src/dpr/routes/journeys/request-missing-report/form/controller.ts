@@ -20,16 +20,11 @@ class MissingReportFormController {
   }
 
   GET: RequestHandler = async (req, res, next) => {
-    const { token, csrfToken, definitionsPath, dprUser } = LocalsHelper.getValues(res)
+    const { token, csrfToken, dprUser } = LocalsHelper.getValues(res)
     const { reportId, variantId } = req.params
 
     const reportDefinition: components['schemas']['SingleVariantReportDefinition'] =
-      await this.reportingService.getDefinition(
-        token,
-        reportId as string,
-        variantId as string,
-        definitionsPath ?? 'definitions/prisons/missing',
-      )
+      await this.reportingService.getDefinition(token, reportId as string, variantId as string)
 
     const { variant, name } = reportDefinition
 

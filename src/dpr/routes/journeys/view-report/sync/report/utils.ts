@@ -6,13 +6,13 @@ import { components } from '../../../../../types/api'
 import { updateLastViewedSync } from '../../utils'
 
 export const renderReport = async ({ req, res, services }: AsyncReportUtilsParams) => {
-  const { token, dprUser, definitionsPath } = LocalsHelper.getValues(res)
+  const { token, dprUser } = LocalsHelper.getValues(res)
   const { id, reportId } = <{ id: string; reportId: string }>req.params
 
   // Get the definition
   const definition =
     (res.locals['definition'] as components['schemas']['SingleVariantReportDefinition']) ??
-    (await services.reportingService.getDefinition(token, reportId, id, definitionsPath))
+    (await services.reportingService.getDefinition(token, reportId, id))
 
   // Create the report config
   const reportConfig = await new Report(services, res, req, definition, LoadType.SYNC).build()

@@ -36,7 +36,7 @@ import { RequestedReportBuilder } from '../../my-reports/requested-reports/build
  */
 export const request = async ({ req, res, services }: AsyncReportUtilsParams) => {
   const { token } = LocalsHelper.getValues(res)
-  const requestArgs = { req, res, token }
+  const requestArgs = { req, token }
 
   const { executionData, queryData, childExecutionData } = await requestProduct({
     ...requestArgs,
@@ -116,7 +116,6 @@ export const updateStore = async ({
  * @param {string} token
  * @param {string} reportId
  * @param {SetQueryFromFiltersResult} [queryData]
- * @param {string} [dataProductDefinitionsPath]
  * @return {*}  {Promise<Array<ChildReportExecutionData>>}
  */
 const requestChildVariants = async (
@@ -128,7 +127,6 @@ const requestChildVariants = async (
   token: string,
   reportId: string,
   queryData?: SetQueryFromFiltersResult,
-  dataProductDefinitionsPath?: string,
 ): Promise<Array<ChildReportExecutionData>> => {
   const query = queryData
     ? Object.fromEntries(Object.entries(queryData.query).filter(([key]) => key !== 'sortColumn' && key !== 'sortedAsc'))
@@ -136,15 +134,20 @@ const requestChildVariants = async (
 
   const results: Array<ChildReportExecutionData | null> = await Promise.all(
     childVariants.map(async childVariant => {
-      const queryParams = {
-        ...query,
-        ...(dataProductDefinitionsPath && { dataProductDefinitionsPath }),
-      }
-
       const response =
         reportType === ReportType.DASHBOARD
-          ? await services.dashboardService.requestAsyncDashboard(token, reportId, childVariant.id, queryParams)
-          : await services.reportingService.requestAsyncReport(token, reportId, childVariant.id, queryParams)
+          ? await services.dashboardService.requestAsyncDashboard(
+              token,
+              reportId,
+              childVariant.id,
+              <Record<string, string | number | boolean>>query,
+            )
+          : await services.reportingService.requestAsyncReport(
+              token,
+              reportId,
+              childVariant.id,
+              <Record<string, string | number | boolean>>query,
+            )
 
       const { executionId, tableId } = response
 
@@ -176,11 +179,10 @@ const requestChildVariants = async (
  * @param {Services} services
  * @return {*}
  */
-const requestDashboard = async (req: Request, res: Response, token: string, services: Services) => {
-  const { definitionsPath: dataProductDefinitionsPath, dpdPathFromQuery } = LocalsHelper.getValues(res)
+const requestDashboard = async (req: Request, token: string, services: Services) => {
   const { reportId, id } = req.body as { reportId: string; id: string }
 
-  const definition = await services.dashboardService.getDefinition(token, reportId, id, dataProductDefinitionsPath)
+  const definition = await services.dashboardService.getDefinition(token, reportId, id)
 
   const childVariants = definition.childVariants ?? []
 
@@ -189,13 +191,11 @@ const requestDashboard = async (req: Request, res: Response, token: string, serv
   const query = new ReportQuery({
     fields,
     queryParams: formBodyToQueryObject(req.body),
-    definitionsPath: <string>dataProductDefinitionsPath,
     reportType: ReportType.DASHBOARD,
   }).toRecordWithFilterPrefix(true) as Record<string, string>
 
   const requestResponse = await services.dashboardService.requestAsyncDashboard(token, reportId, id, {
     ...query,
-    dataProductDefinitionsPath,
   })
 
   const { executionId, tableId } = requestResponse
@@ -207,7 +207,6 @@ const requestDashboard = async (req: Request, res: Response, token: string, serv
   const executionData = {
     executionId,
     tableId,
-    ...(dpdPathFromQuery && { dataProductDefinitionsPath }),
   }
 
   const querySummary = buildQuerySummary(req.body, fields)
@@ -226,7 +225,6 @@ const requestDashboard = async (req: Request, res: Response, token: string, serv
     token,
     reportId,
     queryData,
-    dataProductDefinitionsPath,
   )
 
   return {
@@ -245,11 +243,10 @@ const requestDashboard = async (req: Request, res: Response, token: string, serv
  * @param {Services} services
  * @return {*}
  */
-const requestReport = async (req: Request, res: Response, token: string, services: Services) => {
-  const { definitionsPath: dataProductDefinitionsPath, dpdPathFromQuery } = LocalsHelper.getValues(res)
+const requestReport = async (req: Request, token: string, services: Services) => {
   const { reportId, id } = req.body as { reportId: string; id: string }
 
-  const definition = await services.reportingService.getDefinition(token, reportId, id, dataProductDefinitionsPath)
+  const definition = await services.reportingService.getDefinition(token, reportId, id)
 
   const childVariants = (<components['schemas']['SingleVariantReportDefinition']>definition).variant.childVariants ?? []
 
@@ -258,13 +255,11 @@ const requestReport = async (req: Request, res: Response, token: string, service
   const query = new ReportQuery({
     fields,
     queryParams: formBodyToQueryObject(req.body),
-    definitionsPath: <string>dataProductDefinitionsPath,
     reportType: ReportType.REPORT,
   }).toRecordWithFilterPrefix(true) as Record<string, string>
 
   const requestResponse = await services.reportingService.requestAsyncReport(token, reportId, id, {
     ...query,
-    dataProductDefinitionsPath,
   })
   const { executionId, tableId } = requestResponse
 
@@ -275,7 +270,6 @@ const requestReport = async (req: Request, res: Response, token: string, service
   const executionData = {
     executionId,
     tableId,
-    ...(dpdPathFromQuery && { dataProductDefinitionsPath }),
   }
 
   const sortData = buildSortData(req.body)
@@ -298,7 +292,6 @@ const requestReport = async (req: Request, res: Response, token: string, service
     token,
     reportId,
     queryData,
-    dataProductDefinitionsPath,
   )
 
   return {
@@ -310,12 +303,10 @@ const requestReport = async (req: Request, res: Response, token: string, service
 
 const requestProduct = async ({
   req,
-  res,
   token,
   services,
 }: {
   req: Request
-  res: Response
   token: string
   services: Services
 }): Promise<{
@@ -327,10 +318,10 @@ const requestProduct = async ({
 
   switch (type) {
     case ReportType.REPORT:
-      return requestReport(req, res, token, services)
+      return requestReport(req, token, services)
 
     case ReportType.DASHBOARD:
-      return requestDashboard(req, res, token, services)
+      return requestDashboard(req, token, services)
 
     default:
       throw new Error(`Unsupported report type: ${type}`)
@@ -373,13 +364,7 @@ export const renderRequest = async ({
 }): Promise<RequestDataResult | boolean> => {
   try {
     const { reportId, type, id } = req.params as { reportId: string; type: ReportType; id: string }
-    const {
-      token,
-      csrfToken,
-      definitionsPath: definitionPath,
-      dprUser,
-      saveDefaultsEnabled,
-    } = LocalsHelper.getValues(res)
+    const { token, csrfToken, dprUser, saveDefaultsEnabled } = LocalsHelper.getValues(res)
     const definition = res.locals['definition'] as
       | components['schemas']['SingleVariantReportDefinition']
       | components['schemas']['DashboardDefinition']
@@ -410,7 +395,6 @@ export const renderRequest = async ({
         req,
         token,
         reportId: reportId as string,
-        definitionPath,
         services,
         definition: definition as components['schemas']['DashboardDefinition'],
       })
@@ -433,7 +417,6 @@ export const renderRequest = async ({
       description,
       reportId,
       id,
-      definitionPath,
       csrfToken,
       sections,
       hasDefaults,
@@ -459,19 +442,16 @@ const renderDashboardRequestData = async ({
   req,
   token,
   reportId,
-  definitionPath,
   services,
   definition,
 }: {
   req: Request
   token: string
   reportId: string
-  definitionPath: string
   services: Services
   definition: components['schemas']['DashboardDefinition']
 }) => {
-  const productDefinitions =
-    req.session['allDefinitions'] ?? (await services.reportingService.getDefinitions(token, definitionPath))
+  const productDefinitions = req.session['allDefinitions'] ?? (await services.reportingService.getDefinitions(token))
 
   const productDefinition = productDefinitions.find(
     (def: components['schemas']['ReportDefinitionSummary']) => def.id === reportId,

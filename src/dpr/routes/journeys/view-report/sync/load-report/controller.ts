@@ -16,12 +16,12 @@ class LoadReportController {
 
   GET: RequestHandler = async (req, res, next) => {
     try {
-      const { token, definitionsPath } = LocalsHelper.getValues(res)
+      const { token } = LocalsHelper.getValues(res)
       const { reportId, id, type } = <{ id: string; type: string; reportId: string }>req.params
 
       const definitionSummary =
         res.locals['reportDefinitionSummary'] ??
-        (await this.services.reportingService.getDefinitionSummary(token, reportId, definitionsPath))
+        (await this.services.reportingService.getDefinitionSummary(token, reportId))
 
       let definition:
         | components['schemas']['SingleVariantReportDefinition']
@@ -33,7 +33,7 @@ class LoadReportController {
       if (type === ReportType.REPORT) {
         definition =
           (res.locals['definition'] as components['schemas']['SingleVariantReportDefinition']) ??
-          (await this.services.reportingService.getDefinition(token, reportId, id, definitionsPath))
+          (await this.services.reportingService.getDefinition(token, reportId, id))
 
         const { variant } = definition
 
@@ -43,7 +43,7 @@ class LoadReportController {
       } else {
         definition =
           (res.locals['definition'] as components['schemas']['DashboardDefinition']) ??
-          (await this.services.dashboardService.getDefinition(token, reportId, id, definitionsPath))
+          (await this.services.dashboardService.getDefinition(token, reportId, id))
 
         description = definition.description
         name = definition.name

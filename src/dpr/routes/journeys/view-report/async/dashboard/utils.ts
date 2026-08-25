@@ -14,7 +14,7 @@ import { updateLastViewedAsync } from '../../utils'
 import DashboardSchema from './validate'
 
 export const renderDashboard = async ({ req, res, services }: AsyncReportUtilsParams) => {
-  const { token, dprUser, definitionsPath } = LocalsHelper.getValues(res)
+  const { token, dprUser } = LocalsHelper.getValues(res)
   const { id, tableId, reportId } = <{ id: string; tableId: string; reportId: string }>req.params
 
   const requestData: RequestedReport | undefined = await getMyReport(
@@ -30,7 +30,7 @@ export const renderDashboard = async ({ req, res, services }: AsyncReportUtilsPa
   // Get the definition
   const definition =
     (res.locals['definition'] as components['schemas']['DashboardDefinition']) ??
-    (await services.dashboardService.getDefinition(token, reportId, id, definitionsPath, queryData))
+    (await services.dashboardService.getDefinition(token, reportId, id, queryData))
 
   // Validate definition
   DashboardSchema.DashboardSchema.parse(definition)

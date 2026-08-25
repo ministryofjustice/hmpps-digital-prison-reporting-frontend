@@ -60,27 +60,6 @@ export default {
 
 See <a href="/get-started/environments" target="_blank">DPR Environments</a> for API base urls
 
-### DPD path config
-
-The DPD path is location in the definitions repo where your DPDs are stored. The path commonly follows this pattern:
-
-```js
-definitions/prisons/dps/${yourServiceName}
-```
-
-Add your DPD path to the `config.ts` file:
-
-```js
-export const dpr = {
-  dataProductDefinitionsPath: 'definitions/prisons/dps/yourServiceName'
-}
-
-export default {
-  ...config
-  dpr,
-}
-```
-
 ### DPD retrieval interval
 
 Data products are polled for updates:

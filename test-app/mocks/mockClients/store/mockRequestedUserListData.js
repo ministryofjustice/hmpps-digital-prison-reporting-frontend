@@ -103,7 +103,6 @@ const requestedReady = {
 }
 
 const requestedExpired = {
-  dataProductDefinitionsPath: 123,
   type: 'report',
   reportId: 'request-examples',
   reportName: 'Request examples',

@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## 9.0.0
+
+- Removed all references to `dataProductDefinitionPath`.
+
 ## 8.7.0
 
 Request access to unauthorised reports:

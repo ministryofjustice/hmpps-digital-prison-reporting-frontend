@@ -90,8 +90,12 @@ export class DprReportsCatalogueSearch extends DprReportsCatalogueFiltersClass {
    * Returns the number of matching child rows.
    */
   private filterVariants(product: HTMLElement, searchTerm: string, productMatches: boolean): number {
+    const productText = this.getSearchText(product)
+
     return this.getProductVariants(product).filter(variant => {
-      const variantMatches = this.matchesSearch(variant, searchTerm)
+      const combinedText = `${productText} ${this.getSearchText(variant)}`
+
+      const variantMatches = this.matchesSearch(combinedText, searchTerm)
 
       const showVariant = productMatches || variantMatches
 
@@ -107,17 +111,18 @@ export class DprReportsCatalogueSearch extends DprReportsCatalogueFiltersClass {
   private productMatches(product: HTMLElement, searchTerm: string): boolean {
     const heading = product.querySelector<HTMLElement>('.dpr-report-catalogue__product-row__name')
 
-    return heading ? this.matchesSearch(heading, searchTerm) : false
+    return heading ? this.matchesSearch(this.getSearchText(heading), searchTerm) : false
   }
 
-  private matchesSearch(element: HTMLElement, searchTerm: string): boolean {
+  private matchesSearch(text: string, searchTerm: string): boolean {
     if (searchTerm === '') {
       return true
     }
 
-    return this.getSearchText(element).includes(searchTerm)
-  }
+    const searchTerms = searchTerm.split(/\s+/).filter(Boolean)
 
+    return searchTerms.every(term => text.includes(term))
+  }
   /**
    * Normalises a search term for matching.
    *

@@ -49,7 +49,7 @@ context('Download report', () => {
       })
 
       describe('Requesting download for report returning a 404', () => {
-        it('should fail the download, mark report as expired and direct the user to rerun', () => {
+        it('should fail the download and show the expired report page', () => {
           cy.task('stubFeatureFlagsDisabled')
           resetFeatureFlags()
 

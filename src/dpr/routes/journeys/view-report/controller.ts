@@ -1,7 +1,7 @@
 import { ErrorRequestHandler } from 'express'
-import ErrorHandler from '../../../utils/ErrorHandler/ErrorHandler'
 import { Services } from '../../../types/Services'
 import { captureDprError } from '../../../utils/captureError'
+import ErrorHandler from '../../../utils/ErrorHandler/ErrorHandler'
 
 class ViewReportController {
   layoutPath: string

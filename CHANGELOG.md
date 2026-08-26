@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## 9.0.1
+
+- Redirect to expired report page when downloading an expired report.
+
 ## 9.0.0
 
 - Removed all references to `dataProductDefinitionPath`.

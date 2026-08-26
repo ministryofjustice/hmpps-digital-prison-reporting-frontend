@@ -1,23 +1,35 @@
-import { createBasicHttpStub } from './wiremock'
-import { requestExampleSuccess } from '@networkMocks/report/mockVariants/request-examples/success'
-import { requestExampleFailStatus } from '@networkMocks/report/mockVariants/request-examples/fail-status'
-import { createMockData } from '@networkMocks/report/mockVariants/mockAsyncData'
-import { variant35Interactive } from '@networkMocks/report/mockVariants/mock-report/interactive-async'
-import { featureTestingInteractive } from '@networkMocks/report/mockVariants/feature-testing/interactiveFilters'
-import { establishmentAutocomplete } from '@networkMocks/report/mockVariants/filter-input-examples/autocomplete'
-import { featureTestingMissingDescription } from '@networkMocks/report/mockVariants/feature-testing/missingDescription'
-import { featureTestingMissing1 } from '@networkMocks/report/mockVariants/feature-testing/missing1'
-import { variant15 as relativeDateRange } from '@networkMocks/report/mockVariants/filter-input-examples/relativeDateRange'
-import { variant15 as relativeDateRangeWithDefaults } from '@networkMocks/report/mockVariants/filter-input-examples/relativeDateRangeWithDefaults'
+import { getFlagsMockDisabled, getFlagsMockEmpty, getFlagsMockEnabled } from '@networkMocks/featureFlags/mocks'
+import { generateNetworkMock, stubFor } from '@networkMocks/generateNetworkMock'
+import {
+  expiredEndpoint,
+  generateIndividualDefinitionSummaries,
+  getDefinitionSummaries,
+  getSubscriptionsStatusEndpoint,
+  getSubscriptionsStatusPendingEndpoint,
+  pollingEndpoint,
+  subscribeEndpoint,
+  subscribeEndpointError,
+  unsubscribeEndpoint,
+  unsubscribeEndpointError,
+} from '@networkMocks/mocks'
+import {
+  getProductCollection1,
+  getProductCollection2,
+  getProductCollections,
+} from '@networkMocks/productCollections/mocks'
+import { missingReportSubmitFailMock, missingReportSubmitSuccessMock } from '@networkMocks/report/missingReport/mocks'
 import {
   cancelAsyncRequestMock,
   getAsyncInteractiveCountMock,
-  getAsyncReportResultMock,
+  getAsyncReportDownload404Mock,
   getAsyncReportDownloadMock,
+  getAsyncReportResultMock,
   getAsyncReportXlsxDownloadMock,
+  getAsyncSummaryReport,
+  getInteractiveReportDownloadMock,
+  getReportResultCountMock,
   getSyncReportDownloadMock,
   getSyncReportXlsxDownloadMock,
-  getReportResultCountMock,
   reportsAbortedStatusMock,
   reportsExpiredStatusMock,
   reportsFailedStatusMock,
@@ -26,51 +38,40 @@ import {
   reportsReadyStatusMock,
   reportsStartedStatusMock,
   reportsSubmittedStatusMock,
-  requestAsyncReportMock,
   requestAsyncReportBadDataMock,
+  requestAsyncReportMock,
   setupSimpleReportDefinitionResponseMock,
-  getAsyncSummaryReport,
-  getInteractiveReportDownloadMock,
 } from '@networkMocks/report/mocks'
-import {
-  generateIndividualDefinitionSummaries,
-  getDefinitionSummaries,
-  pollingEndpoint,
-  expiredEndpoint,
-  getSubscriptionsStatusEndpoint,
-  subscribeEndpoint,
-  unsubscribeEndpoint,
-  getSubscriptionsStatusPendingEndpoint,
-  subscribeEndpointError,
-  unsubscribeEndpointError,
-} from '@networkMocks/mocks'
-import { generateNetworkMock, stubFor } from '@networkMocks/generateNetworkMock'
-import { missingReportSubmitFailMock, missingReportSubmitSuccessMock } from '@networkMocks/report/missingReport/mocks'
-import { featureTestingUnprintable } from '@networkMocks/report/mockVariants/feature-testing/unprintable'
+import { listSectionData } from '@networkMocks/report/mockVariants/data/list-section'
+import { featureTestingInteractiveDownload } from '@networkMocks/report/mockVariants/feature-testing/download'
 import { featureTestingEmptyQuery } from '@networkMocks/report/mockVariants/feature-testing/emptyQuery'
-import { featureTestingSync } from '@networkMocks/report/mockVariants/feature-testing/sync'
-import { getListWithWarnings, getListWithWarningsCount } from '@networkMocks/report/sync/mocks'
+import { featureTestingInteractive } from '@networkMocks/report/mockVariants/feature-testing/interactiveFilters'
+import { featureTestingMissing1 } from '@networkMocks/report/mockVariants/feature-testing/missing1'
+import { featureTestingMissingDescription } from '@networkMocks/report/mockVariants/feature-testing/missingDescription'
 import { featureTestingOrderFilters } from '@networkMocks/report/mockVariants/feature-testing/orderFilters'
+import { featureTestingScheduled } from '@networkMocks/report/mockVariants/feature-testing/scheduled-reports/scheduled-1'
+import { featureTestingScheduled2 } from '@networkMocks/report/mockVariants/feature-testing/scheduled-reports/scheduled-2'
+import { featureTestingScheduled3 } from '@networkMocks/report/mockVariants/feature-testing/scheduled-reports/scheduled-3'
+import { featureTestingSync } from '@networkMocks/report/mockVariants/feature-testing/sync'
+import { featureTestingUnprintable } from '@networkMocks/report/mockVariants/feature-testing/unprintable'
 import { featureTestingValidation } from '@networkMocks/report/mockVariants/feature-testing/validation'
-import {
-  getProductCollection1,
-  getProductCollection2,
-  getProductCollections,
-} from '@networkMocks/productCollections/mocks'
-import { reportingFailureStubs } from './failures'
+import { establishmentAutocomplete } from '@networkMocks/report/mockVariants/filter-input-examples/autocomplete'
+import autoMultiselectExample from '@networkMocks/report/mockVariants/filter-input-examples/autocompleteMulti'
+import autoMultiselectMinMaxExample from '@networkMocks/report/mockVariants/filter-input-examples/autoMultiMinMax'
+import multiselectExample from '@networkMocks/report/mockVariants/filter-input-examples/multiselect'
+import { variant15 as relativeDateRange } from '@networkMocks/report/mockVariants/filter-input-examples/relativeDateRange'
+import { variant15 as relativeDateRangeWithDefaults } from '@networkMocks/report/mockVariants/filter-input-examples/relativeDateRangeWithDefaults'
+import { variant35Interactive } from '@networkMocks/report/mockVariants/mock-report/interactive-async'
+import { createMockData } from '@networkMocks/report/mockVariants/mockAsyncData'
 import reportTemplateExampleListSection from '@networkMocks/report/mockVariants/report-templates/list-section/list-section'
 import reportTemplateExampleParentChild from '@networkMocks/report/mockVariants/report-templates/parent-child/parent-child'
 import reportTemplateExampleParentChildSection from '@networkMocks/report/mockVariants/report-templates/parent-child/parent-child-section'
 import reportTemplateExampleSummarySection from '@networkMocks/report/mockVariants/report-templates/summary-section/summary-section'
-import multiselectExample from '@networkMocks/report/mockVariants/filter-input-examples/multiselect'
-import autoMultiselectExample from '@networkMocks/report/mockVariants/filter-input-examples/autocompleteMulti'
-import autoMultiselectMinMaxExample from '@networkMocks/report/mockVariants/filter-input-examples/autoMultiMinMax'
-import { getFlagsMockDisabled, getFlagsMockEmpty, getFlagsMockEnabled } from '@networkMocks/featureFlags/mocks'
-import { listSectionData } from '@networkMocks/report/mockVariants/data/list-section'
-import { featureTestingInteractiveDownload } from '@networkMocks/report/mockVariants/feature-testing/download'
-import { featureTestingScheduled } from '@networkMocks/report/mockVariants/feature-testing/scheduled-reports/scheduled-1'
-import { featureTestingScheduled2 } from '@networkMocks/report/mockVariants/feature-testing/scheduled-reports/scheduled-2'
-import { featureTestingScheduled3 } from '@networkMocks/report/mockVariants/feature-testing/scheduled-reports/scheduled-3'
+import { requestExampleFailStatus } from '@networkMocks/report/mockVariants/request-examples/fail-status'
+import { requestExampleSuccess } from '@networkMocks/report/mockVariants/request-examples/success'
+import { getListWithWarnings, getListWithWarningsCount } from '@networkMocks/report/sync/mocks'
+import { reportingFailureStubs } from './failures'
+import { createBasicHttpStub } from './wiremock'
 
 export const stubs = {
   stubGetFeatureTestingMissing: () =>
@@ -727,6 +728,7 @@ export const stubs = {
   stubMissingRequestSubmitSuccess: () => stubFor(missingReportSubmitSuccessMock),
   stubMissingRequestSubmitFail: () => stubFor(missingReportSubmitFailMock),
   stubAsyncReportDownload: () => stubFor(getAsyncReportDownloadMock),
+  stubAsyncReport404Download: () => stubFor(getAsyncReportDownload404Mock),
   stubAsyncReportXlsxDownload: () => stubFor(getAsyncReportXlsxDownloadMock),
   stubAsyncInteractiveReportDownload: () => stubFor(getInteractiveReportDownloadMock),
   stubSyncReportDownload: () => stubFor(getSyncReportDownloadMock),

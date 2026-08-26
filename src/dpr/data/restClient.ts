@@ -1,10 +1,10 @@
-import superagent, { ResponseError } from 'superagent'
 import Agent, { HttpsAgent } from 'agentkeepalive'
+import { Response as ExpressResponse } from 'express'
 import http from 'http'
 import https from 'https'
-import { URL } from 'url'
 import { pipeline } from 'stream'
-import { Response as ExpressResponse } from 'express'
+import superagent, { ResponseError } from 'superagent'
+import { URL } from 'url'
 
 import logger from '../utils/logger'
 import sanitiseError from '../utils/sanitisedError'
@@ -64,55 +64,69 @@ class RestClient {
 
     const client = url.protocol === 'https:' ? https : http
 
-    const req = client.request(
-      url,
-      {
-        method: 'GET',
-        headers: {
-          ...headers,
-          Authorization: token ? `Bearer ${token}` : undefined,
+    return new Promise((resolve, reject) => {
+      const req = client.request(
+        url,
+        {
+          method: 'GET',
+          headers: {
+            ...headers,
+            Authorization: token ? `Bearer ${token}` : undefined,
+          },
+          agent: this.agent,
         },
-        agent: this.agent,
-      },
-      upstream => {
-        // Forward status
-        res.status(upstream.statusCode || 500)
+        upstream => {
+          // Forward status
+          const statusCode = upstream.statusCode || 500
+          res.status(statusCode)
 
-        // Forward headers
-        Object.entries(upstream.headers).forEach(([key, value]) => {
-          if (value !== undefined) {
-            res.setHeader(key, value as string)
+          // Reject if the upstream request failed (otherwise no error to catch)
+          if (statusCode >= 400) {
+            upstream.resume() // consume the response to free up memory
+            // eslint-disable-next-line prefer-promise-reject-errors
+            reject({ status: statusCode, message: `getStream request failed with status code ${statusCode}` })
+            return
           }
-        })
 
-        res.flushHeaders()
+          // Forward headers
+          Object.entries(upstream.headers).forEach(([key, value]) => {
+            if (value !== undefined) {
+              res.setHeader(key, value as string)
+            }
+          })
 
-        res.on('close', () => {
-          req.destroy()
-        })
+          res.flushHeaders()
 
-        pipeline(upstream, res, err => {
-          if (err) {
-            res.destroy(err)
-          }
-        })
-      },
-    )
+          res.on('close', () => {
+            req.destroy()
+          })
 
-    req.setTimeout(this.timeoutConfig(), () => {
-      req.destroy(new Error('Upstream request timed out.'))
+          pipeline(upstream, res, err => {
+            if (err) {
+              res.destroy(err)
+              reject(err)
+            } else {
+              resolve()
+            }
+          })
+        },
+      )
+
+      req.setTimeout(this.timeoutConfig(), () => {
+        req.destroy(new Error('Upstream request timed out.'))
+      })
+
+      req.on('error', err => {
+        logger.warn({ err }, `Error streaming from ${this.name}, path: '${path}'`)
+        if (!res.headersSent) {
+          res.status(502).end('Download request failed')
+        } else {
+          res.destroy(err)
+        }
+      })
+
+      req.end()
     })
-
-    req.on('error', err => {
-      logger.warn({ err }, `Error streaming from ${this.name}, path: '${path}'`)
-      if (!res.headersSent) {
-        res.status(502).end('Download request failed')
-      } else {
-        res.destroy(err)
-      }
-    })
-
-    req.end()
   }
 
   private async requestWithBody<Response = unknown>(

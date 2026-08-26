@@ -1,16 +1,8 @@
 import { summaries } from '@networkMocks/definitionSummaries'
-import { addBookmark, executeReportStubs } from 'cypress-tests/cypressUtils'
+import { addBookmark, executeReportStubs, validateCatalogueTotals } from 'cypress-tests/cypressUtils'
 
 context('Catalogue collections', () => {
   const paths = ['/', '/embedded/platform', '/embedded/platform/dpr']
-
-  const validateTotals = (totalReports: number) => {
-    cy.get('.dpr-reports-catalogue__totals p')
-      .invoke('text')
-      .then(text => {
-        expect(text.replace(/\s+/g, ' ').trim()).to.contain(`Showing ${totalReports} reports from`)
-      })
-  }
 
   const tests = (path: string) => {
     describe(`Catalogue collections from ${path}`, () => {
@@ -36,7 +28,7 @@ context('Catalogue collections', () => {
             .filter(rep => rep.authorised)
             .reduce((acc, cur) => acc + (cur.dashboards?.length ?? 0) + cur.variants.length, 0)
 
-          validateTotals(totalReports)
+          validateCatalogueTotals(totalReports)
 
           const totalWithUnauthorisedReports = summaries.reduce(
             (acc, cur) => acc + (cur.dashboards?.length ?? 0) + cur.variants.length,
@@ -46,7 +38,7 @@ context('Catalogue collections', () => {
           cy.findAllByRole('group').contains('Show more filters').should('be.visible').click()
           cy.findByRole('checkbox', { name: 'Show unauthorised reports' }).check()
 
-          validateTotals(totalWithUnauthorisedReports)
+          validateCatalogueTotals(totalWithUnauthorisedReports)
 
           addBookmark('Interactive Report with async filters')
 
@@ -59,7 +51,7 @@ context('Catalogue collections', () => {
 
           cy.wait(100)
 
-          validateTotals(totalReportsStarterPack)
+          validateCatalogueTotals(totalReportsStarterPack)
         })
       })
     })

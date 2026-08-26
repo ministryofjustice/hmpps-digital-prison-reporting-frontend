@@ -2,17 +2,18 @@ import {
   defaultMockRequest,
   generateNetworkMock,
   reportIdRegex,
+  setupSimpleFailedMock,
   setupSimpleMock,
 } from '@networkMocks/generateNetworkMock'
 import { createMockData } from '@networkMocks/report/mockVariants/mockAsyncData'
 import { components } from 'src/dpr/types/api'
 import { RequestStatus } from '../../src/dpr/types/UserReports'
-import { requestExampleVariants } from './mockVariants/request-examples'
-import { reportTemplates } from './mockVariants/report-templates'
-import { mockReportVariants } from './mockVariants/mock-report'
-import { xlsxReportBase64 } from './xlsxFixture'
-import { filterInputExamplesVariants } from './mockVariants/filter-input-examples'
 import { featureTestingVariants } from './mockVariants/feature-testing'
+import { filterInputExamplesVariants } from './mockVariants/filter-input-examples'
+import { mockReportVariants } from './mockVariants/mock-report'
+import { reportTemplates } from './mockVariants/report-templates'
+import { requestExampleVariants } from './mockVariants/request-examples'
+import { xlsxReportBase64 } from './xlsxFixture'
 
 const generateMocksFromDefs = (reportId: string, defs: components['schemas']['VariantDefinition'][]) => {
   return defs.map(def => setupSimpleReportDefinitionResponseMock(reportId, def))
@@ -51,6 +52,7 @@ export const getAsyncListSectionReportResultMock = setupSimpleMock(
 )
 
 const downloadPathPattern = '/reports/[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+/tables/tblId_[a-zA-Z0-9]+/download'
+
 export const getAsyncReportDownloadMock = {
   priority: 1,
   request: {
@@ -70,6 +72,8 @@ export const getAsyncReportDownloadMock = {
 `,
   },
 }
+
+export const getAsyncReportDownload404Mock = setupSimpleFailedMock(downloadPathPattern, 404)
 
 export const getInteractiveReportDownloadMock = {
   priority: 1,

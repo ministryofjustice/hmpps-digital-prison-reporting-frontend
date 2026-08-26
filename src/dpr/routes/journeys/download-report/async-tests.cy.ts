@@ -3,12 +3,10 @@ import { checkA11y, executeReportStubs, startReportRequest } from '../../../../.
 
 context('Download report', () => {
   const paths = ['/', '/embedded/platform', '/embedded/platform/dpr']
-  let downloadRequestFormPage: string
-  let viewReportUrl: string
 
   const tests = (path: string) => {
     describe(`Download report from ${path}`, () => {
-      before(() => {
+      beforeEach(() => {
         executeReportStubs()
         cy.task('stubDefinitionRequestExamplesSuccess')
         cy.task('stubRequestSuccessResult20')
@@ -19,13 +17,6 @@ context('Download report', () => {
         cy.findByRole('button', { name: /Request/ }).click()
         checkA11y()
         cy.findByRole('heading', { level: 1, name: /Successful Report/ }).should('be.visible')
-        cy.url().then(url => {
-          viewReportUrl = url
-        })
-      })
-
-      beforeEach(() => {
-        cy.visit(viewReportUrl)
       })
 
       describe('Enabling download', () => {
@@ -50,10 +41,6 @@ context('Download report', () => {
           cy.findByLabelText(/Enable download/).click()
           cy.findByRole('link', { name: 'Fill out a form' }).click()
 
-          cy.url().then(url => {
-            downloadRequestFormPage = url
-          })
-
           cy.url().should(
             'match',
             /(?:\/embedded\/platform(?:\/dpr)?)?\/download-report\/request-download\/request-examples\/request-example-success\/tableId\/tblId_[0-9]+\/form/,
@@ -61,9 +48,43 @@ context('Download report', () => {
         })
       })
 
+      describe('Requesting download for report returning a 404', () => {
+        it('should fail the download and show the expired report page', () => {
+          cy.task('stubFeatureFlagsDisabled')
+          resetFeatureFlags()
+
+          cy.findByLabelText(/Enable download/).click()
+          cy.findByRole('link', { name: 'Fill out a form' }).click()
+          cy.findByRole('textbox', { name: 'What is your Job title?' }).type('Software engineer')
+          cy.findByRole('textbox', { name: 'Can you provide more detail' }).type('I like this report')
+
+          cy.findByRole('button', { name: 'Submit request' }).click()
+          cy.findByText(/You have been granted permission/).should('be.visible')
+
+          cy.url().as('downloadRequestSubmittedPage')
+          cy.url().and(
+            'match',
+            /(?:\/embedded\/platform(?:\/dpr)?)?\/download-report\/request-download\/request-examples\/request-example-success\/tableId\/tblId_[0-9]+\/form\/submitted/,
+          )
+          cy.findByRole('link', { name: /Return to report to download/ }).click()
+          cy.findAllByRole('heading').contains('Successful Report').should('exist')
+          cy.findByRole('button', { name: /Download CSV/ }).should('be.visible')
+
+          cy.task('getAsyncReportFailure404')
+          cy.task('stubAsyncReport404Download')
+          cy.findByRole('button', { name: /Download CSV/ }).click()
+
+          // Shows the expired page
+          cy.findByText(/expired/i).should('be.visible')
+          cy.findByText(/Your report is no longer available and needs to be refreshed/i).should('be.visible')
+        })
+      })
+
       describe('Requesting download', () => {
         it('should validate the required fields', () => {
-          cy.visit(downloadRequestFormPage)
+          cy.findByLabelText(/Enable download/).click()
+          cy.findByRole('link', { name: 'Fill out a form' }).click()
+
           cy.findByRole('alert').should('not.exist')
 
           cy.findAllByRole('paragraph').contains('Enter your Job title').should('not.exist')
@@ -84,7 +105,9 @@ context('Download report', () => {
         it('should submit the download request', () => {
           cy.task('stubFeatureFlagsDisabled')
           resetFeatureFlags()
-          cy.visit(downloadRequestFormPage)
+          cy.findByLabelText(/Enable download/).click()
+          cy.findByRole('link', { name: 'Fill out a form' }).click()
+
           cy.findByRole('textbox', { name: 'What is your Job title?' }).type('Software engineer')
           cy.findByRole('textbox', { name: 'Can you provide more detail' }).type('I like this report')
 

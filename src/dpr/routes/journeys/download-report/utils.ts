@@ -1,13 +1,13 @@
-import { Response, Request } from 'express'
+import { Request, Response } from 'express'
 import { DownloadActionParams } from '../../../components/_reports/report-heading/report-actions/types'
+import { DownloadFormat, toDownloadFormat } from '../../../types/Download'
 import { Services } from '../../../types/Services'
 import { components } from '../../../types/api'
+import { getField, getFields, validateDefinition } from '../../../utils/definitionUtils'
 import LocalsHelper from '../../../utils/localsHelper'
 import logger from '../../../utils/logger'
-import { getActiveJourneyValue } from '../../../utils/sessionHelper'
 import { qsToQueryObject } from '../../../utils/queryMappers'
-import { getField, getFields, validateDefinition } from '../../../utils/definitionUtils'
-import { DownloadFormat, toDownloadFormat } from '../../../types/Download'
+import { getActiveJourneyValue } from '../../../utils/sessionHelper'
 
 /**
  * Streams the download for an Async repoort
@@ -94,7 +94,7 @@ export const downloadReport = async ({ req, services, res }: { req: Request; ser
   logger.info(`Initiating streaming as ${format}...`)
 
   if (!tableId) {
-    await streamDownloadSyncData({
+    return streamDownloadSyncData({
       definition,
       services,
       token,
@@ -102,18 +102,18 @@ export const downloadReport = async ({ req, services, res }: { req: Request; ser
       res,
       format,
     })
-  } else {
-    await streamDownloadAsyncData({
-      services,
-      token,
-      reportId,
-      id,
-      tableId,
-      queryParams,
-      res,
-      format,
-    })
   }
+
+  return streamDownloadAsyncData({
+    services,
+    token,
+    reportId,
+    id,
+    tableId,
+    queryParams,
+    res,
+    format,
+  })
 }
 
 /**

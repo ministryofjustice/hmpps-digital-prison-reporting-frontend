@@ -1,13 +1,13 @@
 import { Response } from 'express'
-import ReportQuery from '../types/ReportQuery'
-import logger from '../utils/logger'
-import RestClient from './restClient'
-import Dict = NodeJS.Dict
 import { components, operations } from '../types/api'
-import { ApiConfig, Count, ListWithWarnings } from './types'
-import type { ResultWithHeaders } from './restClient'
 import { DEFAULT_DOWNLOAD_FORMAT, DownloadFormat, downloadPathSuffix } from '../types/Download'
+import ReportQuery from '../types/ReportQuery'
 import { GetSubscriptionResponse } from '../types/Subscriptions'
+import logger from '../utils/logger'
+import type { ResultWithHeaders } from './restClient'
+import RestClient from './restClient'
+import { ApiConfig, Count, ListWithWarnings } from './types'
+import Dict = NodeJS.Dict
 
 class ReportingClient {
   restClient: RestClient

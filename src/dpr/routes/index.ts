@@ -26,7 +26,7 @@ export const errorRequestHandler =
   }
 
 export function routes(routeImportParams: { services: Services; layoutPath: string }): Router {
-  logger.info('Initialiasing DPR routes...')
+  logger.info('Initialising DPR routes...')
   const router = Router({ mergeParams: true })
 
   // ensures that this route matches `/`

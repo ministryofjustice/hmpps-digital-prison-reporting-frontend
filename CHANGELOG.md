@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## 9.1.0
+
+- Report Catalogue search:
+
 ## 9.0.1
 
 - Redirect to expired report page when downloading an expired report.

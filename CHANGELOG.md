@@ -2,7 +2,7 @@ Below you can find the changes included in each release.
 
 ## 9.1.0
 
-- Report Catalogue search:
+- Report Catalogue search: Updated search query logic to improve result relevance and accuracy.
 
 ## 9.0.1
 

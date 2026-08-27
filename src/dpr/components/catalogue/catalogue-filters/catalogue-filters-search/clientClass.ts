@@ -91,7 +91,7 @@ export class DprReportsCatalogueSearch extends DprReportsCatalogueFiltersClass {
    */
   private filterVariants(product: HTMLElement, searchTerm: string, productMatches: boolean): number {
     return this.getProductVariants(product).filter(variant => {
-      const variantMatches = this.matchesSearch(variant, searchTerm)
+      const variantMatches = this.variantMatches(product, variant, searchTerm)
 
       const showVariant = productMatches || variantMatches
 
@@ -101,23 +101,40 @@ export class DprReportsCatalogueSearch extends DprReportsCatalogueFiltersClass {
     }).length
   }
 
+  private variantMatches(product: HTMLElement, variant: HTMLElement, searchTerm: string): boolean {
+    if (searchTerm === '') {
+      return true
+    }
+
+    const heading = product.querySelector<HTMLElement>('.dpr-report-catalogue__product-row__name')
+
+    const productText = heading ? this.getSearchText(heading) : ''
+
+    const variantText = this.getSearchText(variant)
+
+    const searchTerms = searchTerm.split(/\s+/).filter(Boolean)
+
+    return searchTerms.every(term => productText.includes(term) || variantText.includes(term))
+  }
+
   /**
    * Determines whether a product heading matches the search term.
    */
   private productMatches(product: HTMLElement, searchTerm: string): boolean {
     const heading = product.querySelector<HTMLElement>('.dpr-report-catalogue__product-row__name')
 
-    return heading ? this.matchesSearch(heading, searchTerm) : false
+    return heading ? this.matchesSearch(this.getSearchText(heading), searchTerm) : false
   }
 
-  private matchesSearch(element: HTMLElement, searchTerm: string): boolean {
+  private matchesSearch(text: string, searchTerm: string): boolean {
     if (searchTerm === '') {
       return true
     }
 
-    return this.getSearchText(element).includes(searchTerm)
-  }
+    const searchTerms = searchTerm.split(/\s+/).filter(Boolean)
 
+    return searchTerms.every(term => text.includes(term))
+  }
   /**
    * Normalises a search term for matching.
    *

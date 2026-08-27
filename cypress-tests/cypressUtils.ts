@@ -193,6 +193,39 @@ export const findCatalogueRowAndConfirmActionExists = (reportName: string, actio
     })
 }
 
+export const getProductRow = (productName: string) =>
+  cy
+    .findByRole('heading', {
+      level: 1,
+      name: productName,
+    })
+    .closest('[id^="dpr-report-catalogue__product-"]')
+
+export const productShouldNotExist = (productName: string) =>
+  cy
+    .findByRole('heading', {
+      level: 1,
+      name: productName,
+    })
+    .should('not.exist')
+
+export const validateProductCount = (expectedCount: number) =>
+  cy
+    .findByLabelText(/Reports Catalogue.*/i)
+    .find('.dpr-report-catalogue__product-rows')
+    .findAllByRole('heading', { level: 1 })
+    .should('have.length', expectedCount)
+
+export const validateCatalogueTotals = (totalReports: number) => {
+  const type = totalReports === 1 ? 'report' : 'reports'
+
+  cy.get('.dpr-reports-catalogue__totals p')
+    .invoke('text')
+    .then(text => {
+      expect(text.replace(/\s+/g, ' ').trim()).to.contain(`Showing ${totalReports} ${type} from`)
+    })
+}
+
 // BOOKMARK HELPERS
 
 export const addBookmark = (name: string) => {

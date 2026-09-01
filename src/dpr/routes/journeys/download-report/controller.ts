@@ -1,5 +1,4 @@
 import { RequestHandler } from 'express'
-import ErrorHandler from 'src/dpr/utils/ErrorHandler/ErrorHandler'
 import { Services } from '../../../types/Services'
 import LocalsHelper from '../../../utils/localsHelper'
 import { getActiveJourneyValue } from '../../../utils/sessionHelper'
@@ -38,15 +37,7 @@ class DownloadReportController {
     )
 
     if (canDownloadReport) {
-      try {
-        await DownloadUtils.downloadReport({ req, res, services: this.services })
-      } catch (error) {
-        const formattedErr = new ErrorHandler(error || {}).formatError()
-
-        if (formattedErr.status === 404) {
-          res.redirect(redirect)
-        }
-      }
+      await DownloadUtils.downloadReport({ req, res, services: this.services })
     } else {
       res.redirect(redirect)
     }

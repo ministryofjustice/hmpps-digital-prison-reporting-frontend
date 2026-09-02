@@ -17,7 +17,7 @@ updates:
       interval: 'daily'
     cooldown:
       default-days: 3
-open-pull-requests-limit: 3
+open-pull-requests-limit: 5
 groups:
   production-dependencies:
     dependency-type: 'production' # separate groups for production and development dependencies

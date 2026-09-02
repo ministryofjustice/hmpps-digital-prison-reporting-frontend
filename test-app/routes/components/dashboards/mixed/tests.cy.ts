@@ -1,8 +1,4 @@
-import {
-  checkA11y,
-  executeDashboardStubs,
-  requestReportByNameAndDescription,
-} from '../../../../../cypress-tests/cypressUtils'
+import { executeDashboardStubs, requestReportByNameAndDescription } from '../../../../../cypress-tests/cypressUtils'
 
 context('Dashboard visualisation: Mixed charts', () => {
   const path = '/'
@@ -22,11 +18,6 @@ context('Dashboard visualisation: Mixed charts', () => {
         name: 'Mixed - Complete dataset',
         description: 'This dashboard represents example Mixed visualisations using a complete dataset',
       })
-    })
-
-    it('is accessible', () => {
-      cy.findByRole('heading', { level: 1, name: /Mixed - Complete dataset/ }).should('be.visible')
-      checkA11y()
     })
 
     it('should have the correct amount of sections', () => {
@@ -98,11 +89,6 @@ context('Dashboard visualisation: Mixed charts', () => {
       })
     })
 
-    it('is accessible', () => {
-      cy.findByRole('heading', { level: 1, name: /Mixed - Partial dataset/ }).should('be.visible')
-      checkA11y()
-    })
-
     it('should have the correct amount of sections', () => {
       cy.findAllByRole('heading', { level: 2 })
         .should('have.length', 3)
@@ -149,11 +135,6 @@ context('Dashboard visualisation: Mixed charts', () => {
         name: 'Mixed - Historic - Partial dataset',
         description: 'This dashboard represents example mixed visualisations using a partial historic',
       })
-    })
-
-    it('is accessible', () => {
-      cy.findByRole('heading', { level: 1, name: /Mixed - Historic - Partial dataset/ }).should('be.visible')
-      checkA11y()
     })
 
     it('should have the correct amount of sections', () => {

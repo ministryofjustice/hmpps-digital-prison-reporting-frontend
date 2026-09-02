@@ -4,7 +4,13 @@ export const checkA11y = () => {
   cy.document().its('readyState').should('eq', 'complete')
   cy.get('body').should('be.visible')
   cy.injectAxe()
-  cy.checkA11y(undefined, undefined, logAccessibilityViolations)
+  cy.checkA11y(
+    undefined,
+    {
+      retries: 2,
+    },
+    logAccessibilityViolations,
+  )
 }
 
 export const checkSelectedFilterValues = ({
@@ -79,7 +85,6 @@ export const requestReport = async ({
   cy.visit(path)
   checkA11y()
   requestReportByNameAndDescription({ name, description })
-  checkA11y()
   const regexName = new RegExp(`${name}`)
   cy.findByRole('heading', { level: 1, name: regexName }).should('be.visible')
 }

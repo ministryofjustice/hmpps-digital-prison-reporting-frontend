@@ -25,9 +25,7 @@ export const validateFilters =
   (req, res, next) => {
     const { type: reportType } = req.params
     const definition = res.locals.definition as
-      | components['schemas']['SingleVariantReportDefinition']
-      | components['schemas']['DashboardDefinition']
-      | undefined
+      components['schemas']['SingleVariantReportDefinition'] | components['schemas']['DashboardDefinition'] | undefined
 
     if (!definition) {
       next(new Error('Definition missing from res.locals'))

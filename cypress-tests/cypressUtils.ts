@@ -4,7 +4,13 @@ export const checkA11y = () => {
   cy.document().its('readyState').should('eq', 'complete')
   cy.get('body').should('be.visible')
   cy.injectAxe()
-  cy.checkA11y(undefined, undefined, logAccessibilityViolations)
+  cy.checkA11y(
+    undefined,
+    {
+      retries: 2,
+    },
+    logAccessibilityViolations,
+  )
 }
 
 export const checkSelectedFilterValues = ({

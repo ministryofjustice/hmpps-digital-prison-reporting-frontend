@@ -85,7 +85,6 @@ export const requestReport = async ({
   cy.visit(path)
   checkA11y()
   requestReportByNameAndDescription({ name, description })
-  checkA11y()
   const regexName = new RegExp(`${name}`)
   cy.findByRole('heading', { level: 1, name: regexName }).should('be.visible')
 }

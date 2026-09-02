@@ -8,30 +8,25 @@ context('Dashboard visualisation: Mixed charts', () => {
   const path = '/'
 
   describe('Complete data', () => {
-    let completeDashboardUrl = ''
-
     before(() => {
       cy.task('resetStubs')
       executeDashboardStubs()
       cy.task('stubMixedDashboardCompleteData')
       cy.task('stubDashboardResultCompleteData')
+    })
+
+    beforeEach(() => {
       cy.visit(path)
 
       requestReportByNameAndDescription({
         name: 'Mixed - Complete dataset',
         description: 'This dashboard represents example Mixed visualisations using a complete dataset',
       })
-
-      cy.findByRole('heading', { level: 1, name: /Mixed - Complete dataset/ }).should('be.visible')
-      checkA11y()
-
-      cy.url().then(url => {
-        completeDashboardUrl = url
-      })
     })
 
-    beforeEach(() => {
-      cy.visit(completeDashboardUrl)
+    it('is accessible', () => {
+      cy.findByRole('heading', { level: 1, name: /Mixed - Complete dataset/ }).should('be.visible')
+      checkA11y()
     })
 
     it('should have the correct amount of sections', () => {
@@ -87,30 +82,25 @@ context('Dashboard visualisation: Mixed charts', () => {
   })
 
   describe('Partial data', () => {
-    let partialDashboardUrl = ''
-
     before(() => {
       cy.task('resetStubs')
       executeDashboardStubs()
       cy.task('stubMixedDashboardPartialData')
       cy.task('stubDashboardResultPartialData')
+    })
+
+    beforeEach(() => {
       cy.visit(path)
 
       requestReportByNameAndDescription({
         name: 'Mixed - Partial dataset',
         description: 'This dashboard represents example mixed visualisations using a partial dataset',
       })
-
-      cy.findByRole('heading', { level: 1, name: /Mixed - Partial dataset/ }).should('be.visible')
-      checkA11y()
-
-      cy.url().then(url => {
-        partialDashboardUrl = url
-      })
     })
 
-    beforeEach(() => {
-      cy.visit(partialDashboardUrl)
+    it('is accessible', () => {
+      cy.findByRole('heading', { level: 1, name: /Mixed - Partial dataset/ }).should('be.visible')
+      checkA11y()
     })
 
     it('should have the correct amount of sections', () => {
@@ -145,30 +135,25 @@ context('Dashboard visualisation: Mixed charts', () => {
   })
 
   describe('Partial Historic data', () => {
-    let partialDashboardUrl = ''
-
     before(() => {
       cy.task('resetStubs')
       executeDashboardStubs()
       cy.task('stubMixedDashboardPartialDataHistoric')
       cy.task('stubDashboardResultPartialDataHistoric')
+    })
+
+    beforeEach(() => {
       cy.visit(path)
 
       requestReportByNameAndDescription({
         name: 'Mixed - Historic - Partial dataset',
         description: 'This dashboard represents example mixed visualisations using a partial historic',
       })
-
-      cy.findByRole('heading', { level: 1, name: /Mixed - Historic - Partial dataset/ }).should('be.visible')
-      checkA11y()
-
-      cy.url().then(url => {
-        partialDashboardUrl = url
-      })
     })
 
-    beforeEach(() => {
-      cy.visit(partialDashboardUrl)
+    it('is accessible', () => {
+      cy.findByRole('heading', { level: 1, name: /Mixed - Historic - Partial dataset/ }).should('be.visible')
+      checkA11y()
     })
 
     it('should have the correct amount of sections', () => {

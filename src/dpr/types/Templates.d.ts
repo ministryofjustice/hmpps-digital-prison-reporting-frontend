@@ -10,9 +10,4 @@ export type Template =
   | 'row-section-child'
 
 export type SummaryTemplate =
-  | 'table-header'
-  | 'table-footer'
-  | 'section-header'
-  | 'section-footer'
-  | 'page-header'
-  | 'page-footer'
+  'table-header' | 'table-footer' | 'section-header' | 'section-footer' | 'page-header' | 'page-footer'

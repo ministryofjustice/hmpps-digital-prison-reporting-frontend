@@ -24,8 +24,7 @@ class LoadReportController {
         (await this.services.reportingService.getDefinitionSummary(token, reportId))
 
       let definition:
-        | components['schemas']['SingleVariantReportDefinition']
-        | components['schemas']['DashboardDefinition']
+        components['schemas']['SingleVariantReportDefinition'] | components['schemas']['DashboardDefinition']
 
       let classification
       let description

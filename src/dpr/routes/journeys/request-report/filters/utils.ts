@@ -120,8 +120,7 @@ export const updateStore = async ({
  */
 const requestChildVariants = async (
   childVariants:
-    | Array<components['schemas']['ChildVariantDefinition']>
-    | Array<components['schemas']['DashboardDefinition']>,
+    Array<components['schemas']['ChildVariantDefinition']> | Array<components['schemas']['DashboardDefinition']>,
   services: Services,
   reportType: ReportType,
   token: string,
@@ -366,8 +365,7 @@ export const renderRequest = async ({
     const { reportId, type, id } = req.params as { reportId: string; type: ReportType; id: string }
     const { token, csrfToken, dprUser, saveDefaultsEnabled } = LocalsHelper.getValues(res)
     const definition = res.locals['definition'] as
-      | components['schemas']['SingleVariantReportDefinition']
-      | components['schemas']['DashboardDefinition']
+      components['schemas']['SingleVariantReportDefinition'] | components['schemas']['DashboardDefinition']
 
     let name: string = ''
     let reportName: string = ''

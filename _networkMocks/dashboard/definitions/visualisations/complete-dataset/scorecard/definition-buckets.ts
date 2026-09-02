@@ -8,12 +8,22 @@ export const definition: components['schemas']['DashboardDefinition'] = {
   sections: [
     {
       id: 'section-1',
-      display: 'Custom bucket boundaries',
+      display: 'Custom bucket boundaries - rag colours true',
       description: '',
       visualisations: [
+        Scorecards.simpleScorecardCustomBucketsBoundariesMetricOne,
         Scorecards.simpleScorecardCustomBucketsBoundariesMetricTwo,
         Scorecards.simpleScorecardCustomBucketsBoundariesMetricThree,
-        Scorecards.simpleScorecardCustomBucketsBoundariesMetricOne,
+      ],
+    },
+    {
+      id: 'section-2',
+      display: 'Custom bucket boundaries - custom colors',
+      description: '',
+      visualisations: [
+        Scorecards.simpleScorecardCustomBucketsMetricOne,
+        Scorecards.simpleScorecardCustomBucketsMetricTwo,
+        Scorecards.simpleScorecardCustomBucketsMetricThree,
       ],
     },
   ],

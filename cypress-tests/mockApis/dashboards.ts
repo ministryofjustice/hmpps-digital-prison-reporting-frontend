@@ -19,6 +19,9 @@ import {
   scorecardGroupCompleteDatasetMock,
   scorecardsBucketCompleteDatasetMock,
   scorecardsCompleteDatasetMock,
+  scorecardsCompleteDatasetNoTsMock,
+  scorecardsInvalidVisDefinitionsMock,
+  scorecardsCompletebadDatasetMock,
 } from '@networkMocks/dashboard/definitions/visualisations/mocks'
 
 import {
@@ -33,13 +36,17 @@ import {
 // DATA
 import {
   dashboardResultCompleteDataMock,
+  dashboardResultCompleteDataNoTsMock,
   dashboardResultCompleteDataSyncMock,
 } from '@networkMocks/dashboard/data/complete-data/mocks'
 import {
   dashboardResultPartialDataHistoricMock,
   dashboardResultPartialDataMock,
 } from '@networkMocks/dashboard/data/partial-data/mocks'
-
+import {
+  dashboardResultCompleteBadDataMock,
+  dashboardResultCompleteBadDataDuplicatesMock,
+} from '@networkMocks/dashboard/data/bad-data/mocks'
 import {
   dashboardResultEmptyDataSyncMock,
   dashboardResultMissingFirstRowDataSyncMock,
@@ -100,6 +107,9 @@ const lineDefinitionStubs = {
 
 const scorecardDefinitionStubs = {
   stubDefinitionScorecardDashboard: () => stubFor(scorecardsCompleteDatasetMock),
+  stubDefinitionScorecardDashboardBadData: () => stubFor(scorecardsCompletebadDatasetMock),
+  stubDefinitionScorecardDashboardNoTs: () => stubFor(scorecardsCompleteDatasetNoTsMock),
+  stubDefinitionScorecardDashboardInvalidVisDefs: () => stubFor(scorecardsInvalidVisDefinitionsMock),
   stubDefinitionScorecardBucketDashboard: () => stubFor(scorecardsBucketCompleteDatasetMock),
   stubDefinitionScorecardGroupDashboard: () => stubFor(scorecardGroupCompleteDatasetMock),
 }
@@ -144,11 +154,20 @@ const requestStubs = {
 const resultsStubs = {
   stubDashboardResultCompleteData: () => stubFor(dashboardResultCompleteDataMock),
   stubDashboardResultCompleteDataSync: () => stubFor(dashboardResultCompleteDataSyncMock),
+
   stubDashboardResultPartialData: () => stubFor(dashboardResultPartialDataMock),
   stubDashboardResultPartialDataHistoric: () => stubFor(dashboardResultPartialDataHistoricMock),
+
   stubDashboardResultUndefinedData: () => stubFor(dashboardResultUndefinedMock),
   stubDashboardResultEmptyData: () => stubFor(dashboardResultEmptyDataSyncMock),
+
+  stubDashboardResultCompleteDataNoTs: () => stubFor(dashboardResultCompleteDataNoTsMock),
+
+  stubDashboardResultCompleteBadData: () => stubFor(dashboardResultCompleteBadDataMock),
+  stubDashboardResultCompleteBadDataDuplicates: () => stubFor(dashboardResultCompleteBadDataDuplicatesMock),
+
   stubDashboardResultMissingFirstRowDataSync: () => stubFor(dashboardResultMissingFirstRowDataSyncMock),
+
   stubDashboardResultParentChildParent: () => stubFor(getAsyncReportResultMockParentChildParentMock),
   stubDashboardResultParentChildParentNoData: () => stubFor(getAsyncReportResultMockParentChildParentNoDataMock),
   stubDashboardResultParentChildParent404: () => stubFor(getAsyncReportResultMockParentChildParent404Mock),

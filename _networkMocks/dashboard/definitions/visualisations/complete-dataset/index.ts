@@ -8,9 +8,11 @@ import { definition as listInvalidVisDefinition } from './list/definition-invali
 
 // scorecard
 import { definition as scorecardsCompleteDataset } from './scorecard/definition'
+import { definition as scorecardsCompleteBadDataset } from './scorecard/definition-bad-data'
 import { definition as scorecardsCompleteNoTsDataset } from './scorecard/definition-no-ts'
 import { definition as scorecardsBucketsCompleteDataset } from './scorecard/definition-buckets'
 import { definition as scorecardGroupCompleteDataset } from './scorecardGroup/definition'
+import { definition as scorecardsInvalid } from './scorecard/definition-invalid'
 
 // Matrix
 import { definition as matrixChartDefinition } from './matrix/definition'
@@ -29,7 +31,13 @@ import { definition as linetimeseriesChartsDefinition } from './line-timeseries/
 import { definition as mixedDefinition } from './mixed/definition'
 
 const lists = [listCompleteDataset, listCompleteDatasetHistoric, listInvalidDefinition, listInvalidVisDefinition]
-const scorecards = [scorecardsCompleteDataset, scorecardsBucketsCompleteDataset]
+const scorecards = [
+  scorecardsCompleteDataset,
+  scorecardsCompleteBadDataset,
+  scorecardsBucketsCompleteDataset,
+  scorecardsCompleteNoTsDataset,
+  scorecardsInvalid,
+]
 const scorecardGroups = [scorecardGroupCompleteDataset]
 const matrixDefs = [matrixChartDefinition]
 const barChartDefs = [barChartsDefinition]

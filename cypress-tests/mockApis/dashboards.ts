@@ -22,6 +22,7 @@ import {
   scorecardsCompleteDatasetNoTsMock,
   scorecardsInvalidVisDefinitionsMock,
   scorecardsCompletebadDatasetMock,
+  scorecardGroupCompleteDatasetInvalidMock,
 } from '@networkMocks/dashboard/definitions/visualisations/mocks'
 
 import {
@@ -112,6 +113,7 @@ const scorecardDefinitionStubs = {
   stubDefinitionScorecardDashboardInvalidVisDefs: () => stubFor(scorecardsInvalidVisDefinitionsMock),
   stubDefinitionScorecardBucketDashboard: () => stubFor(scorecardsBucketCompleteDatasetMock),
   stubDefinitionScorecardGroupDashboard: () => stubFor(scorecardGroupCompleteDatasetMock),
+  stubDefinitionScorecardGroupDashboardInvalid: () => stubFor(scorecardGroupCompleteDatasetInvalidMock),
 }
 
 const mixedChartsDefinitionStubs = {

@@ -6,8 +6,7 @@ export const completeDataSetNoTs = completeDataSet[0].map(data => {
       ...data.establishment_id,
     },
     has_metric_one: {
-      // ...data.has_metric_one,
-      raw: undefined,
+      ...data.has_metric_one,
     },
     has_metric_two: {
       ...data.has_metric_two,

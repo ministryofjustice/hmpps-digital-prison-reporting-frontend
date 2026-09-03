@@ -1,5 +1,6 @@
 import * as Scorecards from './vis-definitions/definitions'
 import { components } from '../../../../../../src/dpr/types/api'
+import { fullDatasetHistoric } from '../list/vis-definitions/full-data'
 
 export const definition: components['schemas']['DashboardDefinition'] = {
   id: 'scorecard-group-example_complete-data',
@@ -23,6 +24,11 @@ export const definition: components['schemas']['DashboardDefinition'] = {
       id: 'section-2',
       display: 'Scorecards with columns',
       visualisations: [Scorecards.dataQualityAllCols],
+    },
+    {
+      id: 'totals-breakdown',
+      display: 'Full Dataset',
+      visualisations: [fullDatasetHistoric],
     },
   ],
   filterFields: [],

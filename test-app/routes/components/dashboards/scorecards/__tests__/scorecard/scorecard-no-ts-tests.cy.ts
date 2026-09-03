@@ -1,9 +1,9 @@
-import { resetFeatureFlags } from '../../../../integrationTests/appStateUtils'
+import { resetFeatureFlags } from '../../../../../integrationTests/appStateUtils'
 import {
   checkA11y,
   executeDashboardStubs,
   requestReportByNameAndDescription,
-} from '../../../../../../cypress-tests/cypressUtils'
+} from '../../../../../../../cypress-tests/cypressUtils'
 
 context('Dashboard visualisation: Scorecards - not ts data', () => {
   const path = '/'

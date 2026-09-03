@@ -11,8 +11,11 @@ import { definition as scorecardsCompleteDataset } from './scorecard/definition'
 import { definition as scorecardsCompleteBadDataset } from './scorecard/definition-bad-data'
 import { definition as scorecardsCompleteNoTsDataset } from './scorecard/definition-no-ts'
 import { definition as scorecardsBucketsCompleteDataset } from './scorecard/definition-buckets'
-import { definition as scorecardGroupCompleteDataset } from './scorecardGroup/definition'
 import { definition as scorecardsInvalid } from './scorecard/definition-invalid'
+
+// scorecard-group
+import { definition as scorecardGroupCompleteDataset } from './scorecardGroup/definition'
+import { definition as scorecardGroupCompleteDatasetInvalid } from './scorecardGroup/definition-invalid'
 
 // Matrix
 import { definition as matrixChartDefinition } from './matrix/definition'
@@ -38,7 +41,7 @@ const scorecards = [
   scorecardsCompleteNoTsDataset,
   scorecardsInvalid,
 ]
-const scorecardGroups = [scorecardGroupCompleteDataset]
+const scorecardGroups = [scorecardGroupCompleteDataset, scorecardGroupCompleteDatasetInvalid]
 const matrixDefs = [matrixChartDefinition]
 const barChartDefs = [barChartsDefinition]
 const doughnutChartDefs = [doughnutChartsDefinition]
@@ -61,6 +64,6 @@ export const visualisationIds: string[] = visualisations.map(vis => {
   return vis.id
 })
 
-export const visIdsNoTs: string[] = [scorecardsCompleteNoTsDataset].map(vis => {
+export const visIdsNoTs: string[] = [scorecardsCompleteNoTsDataset, scorecardGroupCompleteDataset].map(vis => {
   return vis.id
 })

@@ -1,11 +1,15 @@
-import { resetFeatureFlags } from '../../../../../routes/integrationTests/appStateUtils'
-import { executeDashboardStubs, requestReportByNameAndDescription } from '../../../../../../cypress-tests/cypressUtils'
+import { resetFeatureFlags } from '../../../../../integrationTests/appStateUtils'
+import {
+  checkA11y,
+  executeDashboardStubs,
+  requestReportByNameAndDescription,
+} from '../../../../../../../cypress-tests/cypressUtils'
 
-context('Dashboard visualisation: Scorecards', () => {
+context('Dashboard visualisation: Scorecards - not ts data', () => {
   const path = '/'
 
-  describe('scorecard group', () => {
-    let scorecardGroupUrl = ''
+  describe('scorecard', () => {
+    let completeDashboardUrl = ''
 
     before(() => {
       cy.task('resetStubs')
@@ -13,7 +17,7 @@ context('Dashboard visualisation: Scorecards', () => {
       resetFeatureFlags()
 
       cy.task('stubDefinitionScorecardGroupDashboard')
-      cy.task('stubDashboardResultCompleteData')
+      cy.task('stubDashboardResultCompleteDataNoTs')
       cy.task('stubMockDashboardsStatusStarted')
       cy.task('stubMockDashboardsStatusFinished')
 
@@ -27,12 +31,16 @@ context('Dashboard visualisation: Scorecards', () => {
       cy.findByRole('heading', { level: 1, name: /Scorecard/ }).should('be.visible')
 
       cy.url().then(url => {
-        scorecardGroupUrl = url
+        completeDashboardUrl = url
       })
     })
 
     beforeEach(() => {
-      cy.visit(scorecardGroupUrl)
+      cy.visit(completeDashboardUrl)
+    })
+
+    it('is accessible', () => {
+      checkA11y()
     })
 
     it('should show scorecard group using list', () => {
@@ -43,40 +51,27 @@ context('Dashboard visualisation: Scorecards', () => {
           cy.findByLabelText('ABC')
             .should('exist')
             .within(() => {
+              cy.findAllByRole('paragraph').eq(1).contains(424).should('exist')
               cy.findAllByRole('paragraph').eq(1).invoke('attr', 'style').should('contain', 'background-color')
+              cy.findAllByRole('paragraph').eq(2).should('not.exist')
+              cy.findAllByRole('paragraph').eq(3).should('not.exist')
             })
           cy.findByLabelText('GHI')
             .should('exist')
             .within(() => {
+              cy.findAllByRole('paragraph').eq(1).contains(761).should('exist')
               cy.findAllByRole('paragraph').eq(1).invoke('attr', 'style').should('contain', `background-color`)
+              cy.findAllByRole('paragraph').eq(2).should('not.exist')
+              cy.findAllByRole('paragraph').eq(3).should('not.exist')
             })
           cy.findByLabelText('DEF')
             .should('exist')
             .within(() => {
+              cy.findAllByRole('paragraph').eq(1).contains(401).should('exist')
               cy.findAllByRole('paragraph').eq(1).invoke('attr', 'style').should('contain', `background-color`)
+              cy.findAllByRole('paragraph').eq(2).should('not.exist')
+              cy.findAllByRole('paragraph').eq(3).should('not.exist')
             })
-        })
-
-      cy.findAllByLabelText(/By Establishment ID/)
-        .eq(3)
-        .should('exist')
-        .within(() => {
-          cy.findByLabelText('ABC').should('exist')
-          cy.findByLabelText('GHI').should('exist')
-          cy.findByLabelText('DEF').should('exist')
-        })
-    })
-
-    it('should show scorecard group using columns', () => {
-      cy.findByLabelText(/Establishment ID: ABC/)
-        .should('exist')
-        .within(() => {
-          cy.findByLabelText('Has MetricOne').should('exist')
-          cy.findByLabelText('MetricOne is missing').should('exist')
-          cy.findByLabelText('Has MetricTwo').should('exist')
-          cy.findByLabelText('MetricTwo is missing').should('exist')
-          cy.findByLabelText('Has MetricThree').should('exist')
-          cy.findByLabelText('MetricThree is missing').should('exist')
         })
     })
   })

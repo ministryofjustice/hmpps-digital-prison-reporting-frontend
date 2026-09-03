@@ -12,6 +12,7 @@ import { definition as scorecardsBucketsCompleteDatasetNoTs } from './complete-d
 import { definition as scorecardsInvalidVisDefinitions } from './complete-dataset/scorecard/definition-invalid'
 import { definition as scorecardsCompletebadDataset } from './complete-dataset/scorecard/definition-bad-data'
 import { definition as scorecardGroupCompleteDataset } from './complete-dataset/scorecardGroup/definition'
+import { definition as scorecardGroupCompleteDatasetInvalid } from './complete-dataset/scorecardGroup/definition-invalid'
 import { definition as matrixCompleteDataset } from './complete-dataset/matrix/definition'
 import { definition as barCompleteDataset } from './complete-dataset/bar/definition'
 import { definition as doughnutCompleteDataset } from './complete-dataset/doughnut/definition'
@@ -79,6 +80,11 @@ export const scorecardsCompletebadDatasetMock = setupSimpleMock(
 export const scorecardGroupCompleteDatasetMock = setupSimpleMock(
   `/definitions/${productId}/dashboards/${scorecardGroupCompleteDataset.id}`,
   scorecardGroupCompleteDataset,
+)
+
+export const scorecardGroupCompleteDatasetInvalidMock = setupSimpleMock(
+  `/definitions/${productId}/dashboards/${scorecardGroupCompleteDatasetInvalid.id}`,
+  scorecardGroupCompleteDatasetInvalid,
 )
 
 // MATRIX definition examples

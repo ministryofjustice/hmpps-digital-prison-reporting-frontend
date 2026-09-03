@@ -1,17 +1,19 @@
-import { resetFeatureFlags } from '../../../../integrationTests/appStateUtils'
-import { executeDashboardStubs, requestReportByNameAndDescription } from '../../../../../../cypress-tests/cypressUtils'
+import { resetFeatureFlags } from '../../../../../../routes/integrationTests/appStateUtils'
+import {
+  executeDashboardStubs,
+  requestReportByNameAndDescription,
+} from '../../../../../../../cypress-tests/cypressUtils'
 
 context('Dashboard visualisation: Scorecards', () => {
   const path = '/'
 
-  describe('scorecard validation', () => {
+  describe('scorecard group', () => {
     before(() => {
       cy.task('resetStubs')
       executeDashboardStubs()
       resetFeatureFlags()
 
-      cy.task('stubDefinitionScorecardDashboardInvalidVisDefs')
-
+      cy.task('stubDefinitionScorecardGroupDashboardInvalid')
       cy.task('stubDashboardResultCompleteData')
       cy.task('stubMockDashboardsStatusStarted')
       cy.task('stubMockDashboardsStatusFinished')
@@ -19,8 +21,8 @@ context('Dashboard visualisation: Scorecards', () => {
       cy.visit(path)
 
       requestReportByNameAndDescription({
-        name: 'Scorecard - Invalid visualisation definitions',
-        description: 'Scorecard examples that are invalid',
+        name: 'Scorecard Group - Complete data - invalid',
+        description: 'Scorecard examples',
       })
     })
 
@@ -33,16 +35,14 @@ context('Dashboard visualisation: Scorecards', () => {
 
       cy.findAllByRole('paragraph')
         .eq(2)
-        .contains("Type: 'scorecard'. ID: 'simple-scorecard-MetricOne'. Issues: Measure must contain a single item")
+        .contains(
+          "Type: 'scorecard-group'. ID: 'data-quality-MetricOne-invalid-1'. Issues: Measure must contain two or more items. Measure must have length 2 when displayValue is defined",
+        )
 
       cy.findAllByRole('paragraph')
         .eq(3)
-        .contains("Type: 'scorecard'. ID: 'simple-scorecard-MetricTwo'. Issues: Measure must contain a single item")
-
-      cy.findAllByRole('paragraph')
-        .eq(4)
         .contains(
-          "Type: 'scorecard'. ID: 'simple-scorecard-MetricThree'. Issues: Too small: expected array to have >=1 items",
+          "Type: 'scorecard-group'. ID: 'data-quality-MetricOne-invalid-2'. Issues: Measure must contain two or more items",
         )
     })
   })

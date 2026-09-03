@@ -46,9 +46,7 @@ export type ChildResolution = {
 }
 
 export type UpstreamSignal =
-  | { kind: 'STATUS'; status: RequestStatus }
-  | { kind: 'ERROR'; failure: FailureInfo }
-  | { kind: 'EMPTY' }
+  { kind: 'STATUS'; status: RequestStatus } | { kind: 'ERROR'; failure: FailureInfo } | { kind: 'EMPTY' }
 
 export type StatusResolution =
   | { type: 'NO_CHANGE' }

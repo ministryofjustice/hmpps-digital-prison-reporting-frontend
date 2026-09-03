@@ -80,14 +80,6 @@ class RestClient {
           const statusCode = upstream.statusCode || 500
           res.status(statusCode)
 
-          // Reject if the upstream request failed (otherwise no error to catch)
-          if (statusCode >= 400) {
-            upstream.resume() // consume the response to free up memory
-            // eslint-disable-next-line prefer-promise-reject-errors
-            reject({ status: statusCode, message: `getStream request failed with status code ${statusCode}` })
-            return
-          }
-
           // Forward headers
           Object.entries(upstream.headers).forEach(([key, value]) => {
             if (value !== undefined) {

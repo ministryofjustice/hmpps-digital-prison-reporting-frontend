@@ -82,8 +82,7 @@ export default class DataPresentation {
     readonly res: Response,
     readonly req: Request,
     readonly definition:
-      | components['schemas']['DashboardDefinition']
-      | components['schemas']['SingleVariantReportDefinition'],
+      components['schemas']['DashboardDefinition'] | components['schemas']['SingleVariantReportDefinition'],
     readonly loadType: LoadType,
     readonly type: ReportType,
     readonly requestData?: RequestedReport | undefined,

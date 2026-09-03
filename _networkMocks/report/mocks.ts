@@ -2,7 +2,6 @@ import {
   defaultMockRequest,
   generateNetworkMock,
   reportIdRegex,
-  setupSimpleFailedMock,
   setupSimpleMock,
 } from '@networkMocks/generateNetworkMock'
 import { createMockData } from '@networkMocks/report/mockVariants/mockAsyncData'
@@ -72,8 +71,6 @@ export const getAsyncReportDownloadMock = {
 `,
   },
 }
-
-export const getAsyncReportDownload404Mock = setupSimpleFailedMock(downloadPathPattern, 404)
 
 export const getInteractiveReportDownloadMock = {
   priority: 1,

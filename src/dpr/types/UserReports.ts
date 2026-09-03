@@ -38,11 +38,7 @@ export interface RequestedDashboard extends StoredReportData {
 export type RecentlyViewedReport = StoredReportData
 export type SubscribedReport = StoredReportData
 export type UserReportData =
-  | RequestedReport
-  | RecentlyViewedReport
-  | StoredReportData
-  | RequestedDashboard
-  | SubscribedReport
+  RequestedReport | RecentlyViewedReport | StoredReportData | RequestedDashboard | SubscribedReport
 
 export interface AsyncReportUrlData {
   origin: string

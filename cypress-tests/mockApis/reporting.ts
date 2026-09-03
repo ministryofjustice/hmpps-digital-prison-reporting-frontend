@@ -21,7 +21,6 @@ import { missingReportSubmitFailMock, missingReportSubmitSuccessMock } from '@ne
 import {
   cancelAsyncRequestMock,
   getAsyncInteractiveCountMock,
-  getAsyncReportDownload404Mock,
   getAsyncReportDownloadMock,
   getAsyncReportResultMock,
   getAsyncReportXlsxDownloadMock,
@@ -728,7 +727,6 @@ export const stubs = {
   stubMissingRequestSubmitSuccess: () => stubFor(missingReportSubmitSuccessMock),
   stubMissingRequestSubmitFail: () => stubFor(missingReportSubmitFailMock),
   stubAsyncReportDownload: () => stubFor(getAsyncReportDownloadMock),
-  stubAsyncReport404Download: () => stubFor(getAsyncReportDownload404Mock),
   stubAsyncReportXlsxDownload: () => stubFor(getAsyncReportXlsxDownloadMock),
   stubAsyncInteractiveReportDownload: () => stubFor(getInteractiveReportDownloadMock),
   stubSyncReportDownload: () => stubFor(getSyncReportDownloadMock),

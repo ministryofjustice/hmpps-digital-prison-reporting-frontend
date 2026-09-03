@@ -7,6 +7,7 @@ export const requestCatalogueVariant = async (page: Page, name: string | RegExp)
     .filter({
       has: page.getByRole('heading', { name }),
     })
+    .first()
     .getByRole('link', {
       name: /Request (dashboard|report)/i,
     })

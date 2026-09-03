@@ -181,17 +181,17 @@ class Buckets {
       // First bucket
       if (!min && max && value <= max) {
         colour = bucket.hexColour || colour
-        score = index
+        score = index + 1
       }
       // middle buckets
       if (min && value >= min && max && value <= max) {
         colour = bucket.hexColour || colour
-        score = index
+        score = index + 1
       }
       // last bucket
       if (min && !max && value >= min) {
         colour = bucket.hexColour || colour
-        score = index
+        score = index + 1
       }
     })
 

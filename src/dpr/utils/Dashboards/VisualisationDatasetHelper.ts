@@ -15,6 +15,7 @@ import * as OptionalKeysHelper from './VisualisationOptionalKeysHelper'
 export const getDatasetRows = (
   visDefinition: components['schemas']['DashboardVisualisationDefinition'],
   dashboardData: DashboardDataResponse[],
+  allowUndefinedValues = false,
 ) => {
   const { columns } = visDefinition
   const { measures, filters, expectNulls } = visDefinition.columns
@@ -63,7 +64,7 @@ export const getDatasetRows = (
         valid = value !== '' && value !== undefined && value !== null
 
         // 2. check values exist in the defined columns
-      } else if (displayColumnsIds.includes(fieldId)) {
+      } else if (displayColumnsIds.includes(fieldId) && !allowUndefinedValues) {
         valid = value !== '' && value !== undefined && value !== null
 
         // 3. check that all remaining columns are null.

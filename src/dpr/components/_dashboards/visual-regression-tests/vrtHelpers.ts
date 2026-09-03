@@ -10,5 +10,6 @@ export const requestCatalogueVariant = async (page: Page, name: string | RegExp)
     .getByRole('link', {
       name: /Request (dashboard|report)/i,
     })
+    .first()
     .click()
 }

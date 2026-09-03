@@ -78,6 +78,7 @@ class ScorecardVisualisation {
   getDataset = (
     definition: ScorecardDefinitionType | ScorecardGroupDefinitionType,
     rawData: DashboardDataResponse[],
+    allowUndefinedValues = false,
   ): ScorecardDataset => {
     const scorecardDefinition = <components['schemas']['DashboardVisualisationDefinition']>definition
     const { columns } = scorecardDefinition
@@ -86,7 +87,7 @@ class ScorecardVisualisation {
 
     // Latest most recent data
     const latestData = DatasetHelper.getLastestDataset(rawData, dateColumn)
-    const latestDataSetRows = DatasetHelper.getDatasetRows(scorecardDefinition, latestData)
+    const latestDataSetRows = DatasetHelper.getDatasetRows(scorecardDefinition, latestData, allowUndefinedValues)
 
     let latestTs
     const latestDateData = DatasetHelper.getDateValue(latestDataSetRows, dateColumn)
@@ -150,9 +151,15 @@ class ScorecardVisualisation {
     let trendData
 
     if (valueFrom !== valueFor) {
-      const value = earliestValue ? Number(latestValue) - Number(earliestValue) : 0
+      const value: number = earliestValue ? Number(latestValue) - Number(earliestValue) : 0
       const direction: string = this.trendSymbols[Math.sign(value)] || this.trendSymbols[2]
-      const diplayValue = setUnitOnValue(Math.abs(value), mapUnitToSymbol(unit || this.unit), false)
+
+      let diplayValue: number | string
+      if (value === 0) {
+        diplayValue = 'Unchanged'
+      } else {
+        diplayValue = setUnitOnValue(Math.abs(value), mapUnitToSymbol(unit || this.unit), false)
+      }
 
       trendData = {
         direction,

@@ -5,10 +5,10 @@ import {
   requestReportByNameAndDescription,
 } from '../../../../../../../cypress-tests/cypressUtils'
 
-context('Dashboard visualisation: Scorecards - not ts data', () => {
+context('Dashboard visualisation: Scorecard Group: No ts data', () => {
   const path = '/'
 
-  describe('scorecard', () => {
+  describe('scorecard group tests with not timestamp in dataset', () => {
     let completeDashboardUrl = ''
 
     before(() => {

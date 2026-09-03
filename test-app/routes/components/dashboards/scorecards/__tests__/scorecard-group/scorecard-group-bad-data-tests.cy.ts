@@ -5,7 +5,7 @@ import {
   requestReportByNameAndDescription,
 } from '../../../../../../../cypress-tests/cypressUtils'
 
-context('Dashboard visualisation: Scorecards', () => {
+context('Dashboard visualisation: Scorecard Group: Bad data', () => {
   const path = '/'
 
   describe('scorecard group - bad data', () => {

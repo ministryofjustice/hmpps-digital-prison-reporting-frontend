@@ -5,10 +5,10 @@ import {
   requestReportByNameAndDescription,
 } from '../../../../../../../cypress-tests/cypressUtils'
 
-context('Dashboard visualisation: Scorecards', () => {
+context('Dashboard visualisation: Scorecards: Complete data', () => {
   const path = '/'
 
-  describe('scorecard', () => {
+  describe('scorecard tests', () => {
     let completeDashboardUrl = ''
 
     before(() => {

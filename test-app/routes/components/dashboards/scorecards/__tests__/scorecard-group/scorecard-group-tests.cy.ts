@@ -4,10 +4,10 @@ import {
   requestReportByNameAndDescription,
 } from '../../../../../../../cypress-tests/cypressUtils'
 
-context('Dashboard visualisation: Scorecards', () => {
+context('Dashboard visualisation: Scorecard Group: Valid data', () => {
   const path = '/'
 
-  describe('scorecard group', () => {
+  describe('scorecard group with valid data', () => {
     let scorecardGroupUrl = ''
 
     before(() => {

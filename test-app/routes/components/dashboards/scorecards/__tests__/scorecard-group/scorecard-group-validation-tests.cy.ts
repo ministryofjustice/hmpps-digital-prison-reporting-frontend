@@ -4,10 +4,10 @@ import {
   requestReportByNameAndDescription,
 } from '../../../../../../../cypress-tests/cypressUtils'
 
-context('Dashboard visualisation: Scorecards', () => {
+context('Dashboard visualisation: Scorecard Group: Validation', () => {
   const path = '/'
 
-  describe('scorecard group', () => {
+  describe('scorecard group validation tests', () => {
     before(() => {
       cy.task('resetStubs')
       executeDashboardStubs()

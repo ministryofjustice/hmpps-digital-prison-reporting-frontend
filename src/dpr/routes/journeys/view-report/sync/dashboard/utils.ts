@@ -14,8 +14,13 @@ export const renderDashboard = async ({ req, res, services }: AsyncReportUtilsPa
     (res.locals['definition'] as components['schemas']['DashboardDefinition']) ??
     (await services.dashboardService.getDefinition(token, reportId, id))
 
+  // Get the definition summary
+  const definitionSummary =
+    (res.locals['reportDefinitionSummary'] as components['schemas']['ReportDefinitionSummary']) ??
+    (await services.reportingService.getDefinitionSummary(token, reportId))
+
   // Create the report config
-  const dashboardConfig = await new Dashboard(services, res, req, definition, LoadType.SYNC).build()
+  const dashboardConfig = await new Dashboard(services, res, req, definition, definitionSummary, LoadType.SYNC).build()
 
   // Save the data to redis
   if (dashboardConfig && dashboardConfig.dashboardData && Object.keys(dashboardConfig.dashboardData).length) {

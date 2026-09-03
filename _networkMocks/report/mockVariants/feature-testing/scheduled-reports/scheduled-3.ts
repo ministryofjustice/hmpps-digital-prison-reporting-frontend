@@ -1,6 +1,6 @@
-import { VariantDefinitionWithSchedule } from 'src/dpr/types/Subscriptions'
+import { components } from 'src/dpr/types/api'
 
-export const featureTestingScheduled3: VariantDefinitionWithSchedule = {
+export const featureTestingScheduled3: components['schemas']['VariantDefinition'] = {
   id: 'feature-testing-scheduled-3',
   name: 'Scheduled Report 3',
   description: 'This is third scheduled report',
@@ -8,7 +8,6 @@ export const featureTestingScheduled3: VariantDefinitionWithSchedule = {
   classification: 'OFFICIAL',
   printable: false,
   interactive: true,
-  schedule: 'Weekly at 9:00am',
   specification: {
     sections: [],
     template: 'list',

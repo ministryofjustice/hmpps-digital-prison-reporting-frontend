@@ -24,7 +24,6 @@ import ReportQuery from '../../types/ReportQuery'
 // Helpers
 import ErrorHandler from '../../utils/ErrorHandler/ErrorHandler'
 import DataPresentation from '../_dashboards/DataPresentation'
-import { VariantDefinitionWithSchedule } from '../../types/Subscriptions'
 
 type ReportDefinition = components['schemas']['SingleVariantReportDefinition']
 
@@ -33,6 +32,8 @@ type TempSummaryFieldType = components['schemas']['SummaryField'] & { defaultSor
 
 export default class Report extends DataPresentation {
   variant!: components['schemas']['VariantDefinition']
+
+  variantSummary!: components['schemas']['VariantDefinitionSummary'] | undefined
 
   specification!: components['schemas']['Specification']
 
@@ -57,15 +58,17 @@ export default class Report extends DataPresentation {
     res: Response,
     req: Request,
     definition: components['schemas']['SingleVariantReportDefinition'],
+    summary: components['schemas']['ReportDefinitionSummary'],
     loadType: LoadType,
     requestData?: RequestedReport | undefined,
   ) {
-    super(services, res, req, definition, loadType, ReportType.REPORT, requestData)
+    super(services, res, req, definition, summary, loadType, ReportType.REPORT, requestData)
     this.setSpecification()
   }
 
   setSpecification = () => {
     this.variant = (<ReportDefinition>this.definition).variant
+    this.variantSummary = this.summary.variants.find(v => v.id === this.variant.id)
     const { specification } = this.variant
     if (!specification) {
       throw new Error('No specification in definition')
@@ -291,8 +294,8 @@ export default class Report extends DataPresentation {
    */
   buildReportDetails = () => {
     const { name: reportName, description: reportDescription } = this.definition
-    // TODO: remove casting `VariantDefinitionWithSchedule` type when type includes "schedule"
-    const { classification, printable, name, description, schedule } = <VariantDefinitionWithSchedule>this.variant
+    const { classification, printable, name, description } = this.variant
+    const schedule = this.variantSummary?.schedule
     const { template, fields } = this.specification
 
     this.reportDetails = {

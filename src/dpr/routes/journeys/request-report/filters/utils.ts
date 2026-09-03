@@ -3,7 +3,6 @@ import { NextFunction, Request, Response } from 'express'
 
 // Utils
 import { setupSubscriptionConfig } from 'src/dpr/components/subscription/utils'
-import { VariantDefinitionWithSchedule } from 'src/dpr/types/Subscriptions'
 import { buildFilterData, buildSortData } from '../../../../components/_async/async-filters-form/utils'
 import { buildMasterSections } from '../../../../components/_dashboards/dashboard-section/utils'
 import { getRequestFilters } from '../../../../components/_filters/utils'
@@ -364,8 +363,11 @@ export const renderRequest = async ({
   try {
     const { reportId, type, id } = req.params as { reportId: string; type: ReportType; id: string }
     const { token, csrfToken, dprUser, saveDefaultsEnabled } = LocalsHelper.getValues(res)
+
     const definition = res.locals['definition'] as
       components['schemas']['SingleVariantReportDefinition'] | components['schemas']['DashboardDefinition']
+
+    const summary = <components['schemas']['ReportDefinitionSummary']>res.locals['reportDefinitionSummary']
 
     let name: string = ''
     let reportName: string = ''
@@ -378,6 +380,7 @@ export const renderRequest = async ({
     if (type === ReportType.REPORT) {
       const reportData = await renderReportRequestData(
         definition as components['schemas']['SingleVariantReportDefinition'],
+        summary,
       )
 
       name = reportData.name
@@ -385,7 +388,7 @@ export const renderRequest = async ({
       description = reportData.description
       fields = reportData.fields
 
-      subscriptionConfig = await setupSubscriptionConfig(req, res, reportId, id, reportData.schedule, services)
+      subscriptionConfig = await setupSubscriptionConfig(req, res, reportId, id, services, reportData.schedule)
     }
 
     if (type === ReportType.DASHBOARD) {
@@ -476,12 +479,16 @@ const renderDashboardRequestData = async ({
   }
 }
 
-const renderReportRequestData = async (definition: components['schemas']['SingleVariantReportDefinition']) => {
+const renderReportRequestData = async (
+  definition: components['schemas']['SingleVariantReportDefinition'],
+  summary: components['schemas']['ReportDefinitionSummary'],
+) => {
   const fields = getFields(definition)
   const { variant, description: productDescription } = definition
+  const variantSummary = summary.variants.find(v => v.id === variant.id)
+  const schedule = variantSummary?.schedule
 
-  // TODO: remove casting `VariantDefinitionWithSchedule` type when type includes "schedule"
-  const { name, schedule, specification, description } = <VariantDefinitionWithSchedule>variant
+  const { name, specification, description } = variant
 
   return {
     definition,

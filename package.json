@@ -138,7 +138,7 @@
   },
   "dependencies": {
     "@flipt-io/flipt-client-js": "0.5.1",
-    "@ministryofjustice/frontend": "10.0.1",
+    "@ministryofjustice/frontend": "11.0.0",
     "@sentry/node": "10.72.0",
     "@tsconfig/node24": "24.0.5",
     "agentkeepalive": "^4.5.0",

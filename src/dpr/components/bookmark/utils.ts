@@ -16,7 +16,10 @@ const setUpBookmark = (
   const { id, reportId } = req.params as Record<string, string>
   const { bookmarkActionEndpoint } = getRouteLocals(res)
 
-  const reportIsBookmarked = getActiveJourneyValue(req, { id, reportId }, 'reportIsBookmarked')
+  let reportIsBookmarked = false
+  if (id && reportId) {
+    reportIsBookmarked = <boolean>getActiveJourneyValue(req, { id, reportId }, 'reportIsBookmarked')
+  }
 
   if (reportIsBookmarked || bookmarked) {
     linkText = 'Remove bookmark'

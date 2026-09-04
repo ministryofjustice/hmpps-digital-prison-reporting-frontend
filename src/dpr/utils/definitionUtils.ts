@@ -80,28 +80,77 @@ export const getFilter = (
  * @param {string} variantId
  * @return {*}  {(components['schemas']['VariantDefinition'] | undefined)}
  */
-export const getCurrentVariantDefinition = (
+export const getCurrentVariantDefinitionSummary = (
   definitions: components['schemas']['ReportDefinitionSummary'][],
   reportId: string,
   variantId: string,
-): components['schemas']['VariantDefinition'] | undefined => {
+):
+  | {
+      reportDefinitionSummary: components['schemas']['ReportDefinitionSummary']
+      variantDefinitionSummary: components['schemas']['VariantDefinitionSummary']
+    }
+  | undefined => {
+  if (!definitions) {
+    logger.info('No definreportDefinitionSummaryitions')
+    return undefined
+  }
+
+  let variantDefinitionSummary: components['schemas']['VariantDefinitionSummary'] | undefined
+  const reportDefinitionSummary = definitions.find(
+    (report: components['schemas']['ReportDefinitionSummary']) => report.id === reportId,
+  )
+
+  if (reportDefinitionSummary) {
+    variantDefinitionSummary = reportDefinitionSummary.variants.find(variant => variantId === variant.id)
+
+    if (variantDefinitionSummary) {
+      return {
+        reportDefinitionSummary,
+        variantDefinitionSummary,
+      }
+    }
+  }
+
+  return undefined
+}
+
+/**
+ * Gets the current varaint definition
+ *
+ * @param {components['schemas']['ReportDefinitionSummary'][]} definitions
+ * @param {string} reportId
+ * @param {string} variantId
+ * @return {*}  {(components['schemas']['VariantDefinition'] | undefined)}
+ */
+export const getCurrentDashboardDefinitionSummary = (
+  definitions: components['schemas']['ReportDefinitionSummary'][],
+  reportId: string,
+  variantId: string,
+):
+  | {
+      reportDefinitionSummary: components['schemas']['ReportDefinitionSummary']
+      dashboardDefinitionSummary: components['schemas']['DashboardDefinitionSummary']
+    }
+  | undefined => {
   if (!definitions) {
     logger.info('No definitions')
     return undefined
   }
 
-  let variantDef: components['schemas']['VariantDefinition']
-  const reportDef = definitions.find(
+  let dashboardDefinitionSummary: components['schemas']['DashboardDefinitionSummary'] | undefined
+  const reportDefinitionSummary = definitions.find(
     (report: components['schemas']['ReportDefinitionSummary']) => report.id === reportId,
   )
 
-  if (reportDef) {
-    // TODO: this needs fixing, we should never be using `as unknown as`, but the types are very mixed up here
-    variantDef = reportDef.variants.find(
-      variant => variantId === variant.id,
-    ) as unknown as components['schemas']['VariantDefinition']
+  if (reportDefinitionSummary) {
+    dashboardDefinitionSummary = reportDefinitionSummary.dashboards?.find(variant => variantId === variant.id)
 
-    return variantDef
+    if (dashboardDefinitionSummary) {
+      return {
+        reportDefinitionSummary,
+        dashboardDefinitionSummary,
+      }
+    }
   }
 
   return undefined
@@ -412,7 +461,8 @@ export const getDefaultColumnsQueryString = (fields: components['schemas']['Fiel
 }
 
 export default {
-  getCurrentVariantDefinition,
+  getCurrentVariantDefinitionSummary,
+  getCurrentDashboardDefinitionSummary,
   getFieldDisplayName,
   getField,
   getFields,

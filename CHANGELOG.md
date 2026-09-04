@@ -1,5 +1,10 @@
 Below you can find the changes included in each release.
 
+## 9.2.0
+
+- Bookmarks: Bookmarks are mapped in the UI using the report defintions summaries, instead of the report definitions.
+- Dashboards Visualisations: Scorecard and Scorecard group integration tests.
+
 ## 9.1.0
 
 - Report Catalogue search: Updated search query logic to improve result relevance and accuracy.

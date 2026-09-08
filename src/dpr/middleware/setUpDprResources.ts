@@ -204,6 +204,7 @@ const setDefinitions = async (services: Services, req: Request, res: Response, c
     if (!defs) return
 
     req.session['allDefinitions'] = defs
+    res.locals['definitions'] = defs ?? []
 
     logger.info(`Definitions set: ${req.session['allDefinitions'].length}`)
 

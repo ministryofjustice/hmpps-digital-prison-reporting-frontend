@@ -666,6 +666,7 @@ export interface components {
       isMissing: boolean
       /** @enum {string|null} */
       loadType?: 'sync' | 'async' | null
+      schedule?: string | null
     }
     ChildVariantDefinition: {
       id: string

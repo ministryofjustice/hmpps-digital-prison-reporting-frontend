@@ -16,8 +16,8 @@ export const setupSubscriptionConfig = async (
   res: Response,
   reportId: string,
   id: string,
-  schedule: string | undefined,
   services: Services,
+  schedule?: string | undefined | null,
 ): Promise<SubscriptionActionConfig | undefined> => {
   const { csrfToken, subscriptionsEnabled, dprUser } = LocalsHelper.getValues(res)
 

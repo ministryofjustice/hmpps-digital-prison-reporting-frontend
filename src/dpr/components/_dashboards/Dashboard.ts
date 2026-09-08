@@ -39,10 +39,11 @@ export default class Dashboard extends DataPresentation {
     res: Response,
     req: Request,
     definition: DashboardDefinition,
+    summary: components['schemas']['ReportDefinitionSummary'],
     loadType: LoadType,
     requestData?: RequestedReport | undefined,
   ) {
-    super(services, res, req, definition, loadType, ReportType.DASHBOARD, requestData)
+    super(services, res, req, definition, summary, loadType, ReportType.DASHBOARD, requestData)
 
     this.dashboardFeatureFlags = res.app.locals['featureFlags'].flags
   }

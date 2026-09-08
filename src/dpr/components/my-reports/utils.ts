@@ -1,4 +1,5 @@
 import { Request, Response } from 'express'
+import { getCurrentDashboardDefinitionSummary, getCurrentVariantDefinitionSummary } from 'src/dpr/utils/definitionUtils'
 import { Services } from '../../types/Services'
 import {
   DprMyReport,
@@ -49,7 +50,7 @@ export const initMyReports = async (
 
   return {
     ...(subscriptionsEnabled && { subscriptions: await initSubscribed(req, res, options) }),
-    ...(bookmarkingEnabled && { bookmarks: await initBookmarks(res, req, services) }),
+    ...(bookmarkingEnabled && { bookmarks: await initBookmarks(res, req) }),
     requested: await initRequested(req, res, options),
     viewed: await initViewed(req, res, options),
     ...(messages && { messages }),
@@ -116,10 +117,9 @@ const checkExpiredAndGetReports = async (res: Response, services: Services) => {
 const initBookmarks = async (
   res: Response,
   req: Request,
-  services: Services,
   options?: MyReportsOptions | undefined,
 ): Promise<DprMyReportListConfig> => {
-  const totalItems = await buildBookmarkListItems(res, req, services)
+  const totalItems = await buildBookmarkListItems(res, req)
   const totals = buildTotals(res, totalItems, ListType.BOOKMARKS, options)
   const items = cutItemsToSize(totalItems, options)
 
@@ -283,7 +283,7 @@ const buildTotals = (
  * @param {Services} services
  * @return {*}  {Promise<DprMyReportItem[]>}
  */
-const buildBookmarkListItems = async (res: Response, req: Request, services: Services): Promise<DprMyReportItem[]> => {
+const buildBookmarkListItems = async (res: Response, req: Request): Promise<DprMyReportItem[]> => {
   const { bookmarks } = LocalsHelper.getValues(res)
 
   // loop it
@@ -292,7 +292,7 @@ const buildBookmarkListItems = async (res: Response, req: Request, services: Ser
   }
 
   // gather data for loop.
-  const mappedBookmarks: MappedBookmarks[] = await mapBookmarks(bookmarks, services, res)
+  const mappedBookmarks: MappedBookmarks[] = await mapBookmarks(bookmarks, res)
 
   return mappedBookmarks.map(bookmark => {
     const { name, reportName, type, description } = bookmark
@@ -316,17 +316,12 @@ const buildBookmarkListItems = async (res: Response, req: Request, services: Ser
  * @param {Response} res
  * @return {*}
  */
-const mapBookmarks = async (
-  bookmarks: BookmarkStoreData[],
-  services: Services,
-  res: Response,
-): Promise<MappedBookmarks[]> => {
-  const { token } = LocalsHelper.getValues(res)
-
+const mapBookmarks = async (bookmarks: BookmarkStoreData[], res: Response): Promise<MappedBookmarks[]> => {
   const mapped = await Promise.all(
     bookmarks.map(async bm => {
       try {
-        const resolved = await resolveBookmarkDefinition(bm, services, token)
+        const resolved = await resolveBookmarkDefinition(res, bm)
+        if (!resolved) return null
 
         return {
           id: resolved.sourceId,
@@ -360,36 +355,53 @@ const mapBookmarks = async (
  * @param {string} token
  * @return {*}
  */
-const resolveBookmarkDefinition = async (bm: BookmarkStoreData, services: Services, token: string) => {
+const resolveBookmarkDefinition = async (res: Response, bm: BookmarkStoreData) => {
   const { id, reportId, type, variantId } = bm
   const sourceId = variantId || id
 
-  const summary = await services.reportingService.getDefinitionSummary(token, reportId)
-
-  if (!type || type === ReportType.REPORT) {
-    const definition = await services.reportingService.getDefinition(token, reportId, sourceId)
-    const defSummary = summary.variants.find(v => v.id === sourceId)
-
-    return {
-      sourceId,
-      reportType: ReportType.REPORT,
-      reportName: definition.variant.name,
-      name: definition.name,
-      description: definition.variant.description || definition.description || '',
-      loadType: defSummary?.loadType ? (defSummary.loadType as LoadType) : LoadType.ASYNC,
-    }
+  switch (type) {
+    case ReportType.REPORT:
+      return resolveReportBookmark(res, reportId, sourceId)
+    case ReportType.DASHBOARD:
+      return resolveDashboardBookmark(res, reportId, sourceId)
+    case undefined:
+      return resolveReportBookmark(res, reportId, sourceId)
+    default:
+      return resolveReportBookmark(res, reportId, sourceId)
   }
+}
 
-  const definition = await services.dashboardService.getDefinition(token, reportId, sourceId)
-  const defSummary = summary.dashboards?.find(d => d.id === sourceId)
+const resolveReportBookmark = (res: Response, reportId: string, sourceId: string) => {
+  const reportDefinitions = getCurrentVariantDefinitionSummary(res.locals['definitions'], reportId, sourceId)
+
+  if (!reportDefinitions) return undefined
+
+  const { reportDefinitionSummary, variantDefinitionSummary } = reportDefinitions
 
   return {
     sourceId,
-    reportType: type,
-    reportName: definition?.name || '',
-    name: summary?.name || '',
-    description: definition?.description || summary?.description || '',
-    loadType: defSummary?.loadType ? (defSummary.loadType as LoadType) : LoadType.ASYNC,
+    reportType: ReportType.REPORT,
+    reportName: variantDefinitionSummary.name,
+    name: reportDefinitionSummary.name,
+    description: variantDefinitionSummary.description || reportDefinitionSummary.description || '',
+    loadType: variantDefinitionSummary?.loadType ? (variantDefinitionSummary.loadType as LoadType) : LoadType.ASYNC,
+  }
+}
+
+const resolveDashboardBookmark = (res: Response, reportId: string, sourceId: string) => {
+  const dashboardDefinitions = getCurrentDashboardDefinitionSummary(res.locals['definitions'], reportId, sourceId)
+
+  if (!dashboardDefinitions) return undefined
+
+  const { reportDefinitionSummary, dashboardDefinitionSummary } = dashboardDefinitions
+
+  return {
+    sourceId,
+    reportType: ReportType.DASHBOARD,
+    reportName: dashboardDefinitionSummary.name,
+    name: reportDefinitionSummary.name,
+    description: dashboardDefinitionSummary.description || reportDefinitionSummary.description || '',
+    loadType: dashboardDefinitionSummary?.loadType ? (dashboardDefinitionSummary.loadType as LoadType) : LoadType.ASYNC,
   }
 }
 

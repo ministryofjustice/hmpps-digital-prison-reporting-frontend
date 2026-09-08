@@ -8,7 +8,11 @@ import { definition as listInvalidDef } from './complete-dataset/list/definition
 import { definition as listInvalidVisDef } from './complete-dataset/list/definition-invalid-vis-defs'
 import { definition as scorecardsCompleteDataset } from './complete-dataset/scorecard/definition'
 import { definition as scorecardsBucketsCompleteDataset } from './complete-dataset/scorecard/definition-buckets'
+import { definition as scorecardsBucketsCompleteDatasetNoTs } from './complete-dataset/scorecard/definition-no-ts'
+import { definition as scorecardsInvalidVisDefinitions } from './complete-dataset/scorecard/definition-invalid'
+import { definition as scorecardsCompletebadDataset } from './complete-dataset/scorecard/definition-bad-data'
 import { definition as scorecardGroupCompleteDataset } from './complete-dataset/scorecardGroup/definition'
+import { definition as scorecardGroupCompleteDatasetInvalid } from './complete-dataset/scorecardGroup/definition-invalid'
 import { definition as matrixCompleteDataset } from './complete-dataset/matrix/definition'
 import { definition as barCompleteDataset } from './complete-dataset/bar/definition'
 import { definition as doughnutCompleteDataset } from './complete-dataset/doughnut/definition'
@@ -59,9 +63,28 @@ export const scorecardsBucketCompleteDatasetMock = setupSimpleMock(
   `/definitions/${productId}/dashboards/${scorecardsBucketsCompleteDataset.id}`,
   scorecardsBucketsCompleteDataset,
 )
+export const scorecardsCompleteDatasetNoTsMock = setupSimpleMock(
+  `/definitions/${productId}/dashboards/${scorecardsBucketsCompleteDatasetNoTs.id}`,
+  scorecardsBucketsCompleteDatasetNoTs,
+)
+export const scorecardsInvalidVisDefinitionsMock = setupSimpleMock(
+  `/definitions/${productId}/dashboards/${scorecardsInvalidVisDefinitions.id}`,
+  scorecardsInvalidVisDefinitions,
+)
+export const scorecardsCompletebadDatasetMock = setupSimpleMock(
+  `/definitions/${productId}/dashboards/${scorecardsCompletebadDataset.id}`,
+  scorecardsCompletebadDataset,
+)
+
+// SCORECARD GROUP definition mocks
 export const scorecardGroupCompleteDatasetMock = setupSimpleMock(
   `/definitions/${productId}/dashboards/${scorecardGroupCompleteDataset.id}`,
   scorecardGroupCompleteDataset,
+)
+
+export const scorecardGroupCompleteDatasetInvalidMock = setupSimpleMock(
+  `/definitions/${productId}/dashboards/${scorecardGroupCompleteDatasetInvalid.id}`,
+  scorecardGroupCompleteDatasetInvalid,
 )
 
 // MATRIX definition examples

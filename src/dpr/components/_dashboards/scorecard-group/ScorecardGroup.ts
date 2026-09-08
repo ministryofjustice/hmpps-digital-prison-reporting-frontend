@@ -57,7 +57,7 @@ class ScorecardGroupVisualisation {
 
   withData = (responseData: DashboardDataResponse[]) => {
     this.responseData = responseData
-    this.dataset = this.scoreCardBuilder.getDataset(this.definition, this.responseData)
+    this.dataset = this.scoreCardBuilder.getDataset(this.definition, this.responseData, true)
     this.initBuckets(this.responseData, this.valueKey)
     this.initGroupVars()
     return this
@@ -107,6 +107,10 @@ class ScorecardGroupVisualisation {
           .filter(colId => {
             return this.measures.some(m => m.id === colId)
           })
+          .filter(colId => {
+            const rowCol = row[colId]
+            return rowCol.raw
+          })
           .map(colId => {
             const measure = this.measures.find(m => m.id === colId)
 
@@ -125,7 +129,7 @@ class ScorecardGroupVisualisation {
             const valueFrom = `${earliestTs}`
 
             const comparisonRow = earliest[rowIndex]
-            const prevVal = comparisonRow[colId]?.raw
+            const prevVal = comparisonRow ? comparisonRow[colId]?.raw : undefined
             const ragScore = this.scoreCardBuilder.setRagScore(value, ragValue, this.buckets, this.bucketsHelper)
 
             return this.scoreCardBuilder.createScorecardData({
@@ -165,6 +169,7 @@ class ScorecardGroupVisualisation {
 
     let earliestGroupedByKey = DatasetHelper.groupRowsByKey(earliest, <string>this.groupKeyId)
     let latestGroupedByKey = DatasetHelper.groupRowsByKey(latest, <string>this.groupKeyId)
+
     if (this.groupKeyId === this.titleKey) {
       latestGroupedByKey = [latestGroupedByKey.flat()]
       earliestGroupedByKey = [earliestGroupedByKey.flat()]
@@ -173,16 +178,25 @@ class ScorecardGroupVisualisation {
     const scorecardGroup = latestGroupedByKey.map((group, groupIndex) => {
       return {
         title: this.groupKeyDisplay ? `By ${this.groupKeyDisplay}` : '',
-        scorecards: group.map((row, rowIndex) => {
-          const values = this.getScorecardValues(row)
-          const comparisonRow = earliestGroupedByKey[groupIndex][rowIndex]
-          const prevVal = comparisonRow[this.valueKey]?.raw
+        scorecards: group
+          .map((row, rowIndex) => {
+            const values = this.getScorecardValues(row)
 
-          return this.scoreCardBuilder.createScorecardData({
-            ...values,
-            prevVal,
+            const comparisonRow = earliestGroupedByKey[groupIndex][rowIndex]
+            const prevVal = comparisonRow ? comparisonRow[this.valueKey]?.raw : undefined
+
+            return {
+              ...values,
+              prevVal,
+            }
           })
-        }),
+          .filter(data => {
+            // Filter out scorecards where the value is null or undefined
+            return data.value
+          })
+          .map(data => {
+            return this.scoreCardBuilder.createScorecardData(data)
+          }),
       }
     })
 

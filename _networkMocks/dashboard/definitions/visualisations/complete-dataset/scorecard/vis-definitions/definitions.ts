@@ -56,6 +56,19 @@ export const simpleScorecardMetricThree: components['schemas']['DashboardVisuali
   },
 }
 
+export const simpleScorecardMetricThreeFilterOnEst: components['schemas']['DashboardVisualisationDefinition'] = {
+  id: 'simple-scorecard-MetricThree-filter',
+  type: DashboardVisualisationType.SCORECARD,
+  display: 'No of prisoners with MetricThree',
+  description: '',
+  columns: {
+    keys: [{ id: 'ts', type: 'timestamp' }, { id: 'establishment_id' }],
+    measures: [{ id: 'has_metric_three' }],
+    filters: [{ id: 'establishment_id', equals: 'ABC' }],
+    expectNulls: false,
+  },
+}
+
 export const simpleScorecardMetricThreeWithUnit: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'simple-scorecard-MetricThreeWithUnit',
   type: DashboardVisualisationType.SCORECARD,
@@ -76,6 +89,19 @@ export const simpleScorecardMetricOne: components['schemas']['DashboardVisualisa
   columns: {
     keys: [{ id: 'ts', type: 'timestamp' }, { id: 'establishment_id' }],
     measures: [{ id: 'has_metric_one' }],
+    expectNulls: false,
+  },
+}
+
+export const simpleScorecardMetricOneFilterOnEst: components['schemas']['DashboardVisualisationDefinition'] = {
+  id: 'simple-scorecard-MetricOne-filter',
+  type: DashboardVisualisationType.SCORECARD,
+  display: 'No of prisoners with MetricOne',
+  description: '',
+  columns: {
+    keys: [{ id: 'ts', type: 'timestamp' }, { id: 'establishment_id' }],
+    measures: [{ id: 'has_metric_one' }],
+    filters: [{ id: 'establishment_id', equals: 'ABC' }],
     expectNulls: false,
   },
 }

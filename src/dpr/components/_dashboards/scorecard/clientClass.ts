@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { DprClientClass } from '../../../DprClientClass'
 
-class Pagination extends DprClientClass {
+class Scorecard extends DprClientClass {
   static getModuleName() {
     return 'scorecard'
   }
@@ -10,7 +10,7 @@ class Pagination extends DprClientClass {
     this.scorecard = this.getElement()
     this.value = this.scorecard.querySelector('.dpr-scorecard__value')
     this.ragStatus = this.scorecard.querySelector('.dpr-scorecard__value-description')
-    this.initHover()
+    if (this.ragStatus) this.initHover()
   }
 
   initHover() {
@@ -23,5 +23,5 @@ class Pagination extends DprClientClass {
   }
 }
 
-export { Pagination }
-export default Pagination
+export { Scorecard }
+export default Scorecard

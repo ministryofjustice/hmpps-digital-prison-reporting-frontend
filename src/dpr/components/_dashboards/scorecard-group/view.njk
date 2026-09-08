@@ -14,9 +14,13 @@
       class="dpr-scorecard-group"
       {% if title %}aria-labelledby="{{ id }}_scorecard_group_{{ loop.index }}"{% endif %}
     >
+    {% if scorecards.length %}
       {% for scorecard in scorecards %}
         {{ dprScoreCard(scorecard, loop.index) }}
       {% endfor %}
+    {% else %}
+      <p>No values in dataset</p>
+    {% endif %}
     </div>
   {% endfor %}
 {% endmacro %}

@@ -6,7 +6,11 @@ export const simpleScorecardCustomBucketsMetricTwo: components['schemas']['Dashb
   type: DashboardVisualisationType.SCORECARD,
   display: 'No of prisoners with MetricTwo',
   options: {
-    buckets: [{ hexColour: '#912b88' }, { hexColour: '#28a197' }, { hexColour: '#f47738' }],
+    buckets: [
+      { hexColour: '#ddd6ec', max: 200 },
+      { hexColour: '#28a197', min: 201, max: 500 },
+      { hexColour: '#f47738', min: 501 },
+    ],
   },
   columns: {
     keys: [{ id: 'ts', type: 'timestamp' }, { id: 'establishment_id' }],
@@ -20,7 +24,11 @@ export const simpleScorecardCustomBucketsMetricOne: components['schemas']['Dashb
   type: DashboardVisualisationType.SCORECARD,
   display: 'No of prisoners with MetricOne',
   options: {
-    buckets: [{ hexColour: '#912b88' }, { hexColour: '#28a197' }, { hexColour: '#f47738' }],
+    buckets: [
+      { hexColour: '#ddd6ec', max: 600 },
+      { hexColour: '#28a197', min: 601, max: 700 },
+      { hexColour: '#f47738', min: 701 },
+    ],
   },
   columns: {
     keys: [{ id: 'ts', type: 'timestamp' }, { id: 'establishment_id' }],
@@ -34,7 +42,11 @@ export const simpleScorecardCustomBucketsMetricThree: components['schemas']['Das
   type: DashboardVisualisationType.SCORECARD,
   display: 'No of prisoners with MetricThree',
   options: {
-    buckets: [{ hexColour: '#912b88' }, { hexColour: '#28a197' }, { hexColour: '#f47738' }],
+    buckets: [
+      { hexColour: '#ddd6ec', max: 600 },
+      { hexColour: '#28a197', min: 601, max: 700 },
+      { hexColour: '#f47738', min: 701 },
+    ],
   },
   columns: {
     keys: [{ id: 'ts', type: 'timestamp' }, { id: 'establishment_id' }],
@@ -66,7 +78,7 @@ export const simpleScorecardCustomBucketsBoundariesMetricTwo: components['schema
     display: 'No of prisoners with MetricTwo',
     options: {
       useRagColour: true,
-      buckets: [{ max: 300 }, { min: 301, max: 800 }, { min: 801 }],
+      buckets: [{ max: 700 }, { min: 701, max: 800 }, { min: 801 }],
     },
     columns: {
       keys: [{ id: 'ts', type: 'timestamp' }, { id: 'establishment_id' }],

@@ -5,11 +5,11 @@ phase: Beta
 phaseText: Some features here are in beta. Certain behaviors may be unstable, and we’re actively working to improve the experience.
 ---
 
-A dashboard a collection of things. The role of the dashboard is present data in easy to digest DEFces, through the use of various [visualisation types](#visualisations).
+A dashboard is a collection of visualisations. The role of a dashboard is to present data in easy to digest DEFces, through the use of various [visualisation types](#visualisations).
 
 ## Structure
 
-A dashboards structure is defined by a [dashboard definition](/dashboards/definitions/dashboard-definition).
+A dashboard's structure is defined by a [dashboard definition](/dashboards/definitions/dashboard-definition).
 
 A dashboard has:
 

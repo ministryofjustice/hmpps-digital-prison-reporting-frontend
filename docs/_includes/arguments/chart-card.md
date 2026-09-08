@@ -2,7 +2,7 @@
 | ----------- | ------ | -------- | ------------------------------------------------------- |
 | id          | string | Yes      | The chart ID                                            |
 | title       | string | Yes      | The chart title                                         |
-| description | string | no       | The chart desciption                                    |
+| description | string | no       | The chart description                                   |
 | type        | enum[] | Yes      | The chart type. Valid values: `bar`, `line`, `doughnut` |
 | details     | object | No       | Meta data about the chart. See [Details](#details)      |
 | data        | object | Yes      | The data to create the visualisation. See [Data](#data) |

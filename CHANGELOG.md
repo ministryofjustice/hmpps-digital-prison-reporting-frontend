@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## 9.2.1
+
+- Parent-child Dashboards: Update docs for dashboard definition
+
 ## 9.2.0
 
 - Bookmarks: Bookmarks are mapped in the UI using the report defintions summaries, instead of the report definitions.

@@ -4,15 +4,15 @@
 import ChartVisualisation from '../clientClass'
 
 class BarChartVisualisation extends ChartVisualisation {
-  static getModuleName() {
+  static override getModuleName() {
     return 'bar-chart'
   }
 
-  initialise() {
+  override initialise() {
     this.setupCanvas()
     this.settings = this.initSettings()
     this.chartData = this.generateChartData(this.settings)
-    this.initChart(this.chartData)
+    this.initChart()
   }
 
   initSettings() {

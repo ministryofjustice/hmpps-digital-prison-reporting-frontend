@@ -1,13 +1,16 @@
-// @ts-nocheck
 /* eslint-disable class-methods-use-this */
+import Chart, { ChartConfiguration, ScriptableContext, TooltipItem } from 'chart.js/auto'
 import ChartVisualisation from '../clientClass'
 
 class DoughnutChartVisualisation extends ChartVisualisation {
-  static getModuleName() {
+  settings: Record<string, any> = {}
+  chartData!: ChartConfiguration
+
+  static override getModuleName() {
     return 'doughnut-chart'
   }
 
-  initialise() {
+  override initialise() {
     this.setupCanvas()
     this.settings = this.initSettings()
     this.chartData = this.generateChartData(this.settings)
@@ -25,7 +28,7 @@ class DoughnutChartVisualisation extends ChartVisualisation {
   }
 
   setOptions() {
-    const cutoutValue = this.chartParams.datasets.length === 1 ? '50%' : '20%'
+    const cutoutValue = this.chartParams['datasets'].length === 1 ? '50%' : '20%'
     return {
       cutout: cutoutValue,
     }
@@ -42,7 +45,7 @@ class DoughnutChartVisualisation extends ChartVisualisation {
 
   setPlugins() {
     const plugins = []
-    if (this.chartParams.datasets.length === 1 && !this.isPercentage) {
+    if (this.chartParams['datasets'].length === 1 && !this.isPercentage()) {
       plugins.push(this.setCentralText())
     }
     return plugins
@@ -52,10 +55,8 @@ class DoughnutChartVisualisation extends ChartVisualisation {
     return {
       // Put the total in the center of the donut
       id: 'text',
-      beforeDraw(chart) {
-        const { width } = chart
-        const { height } = chart
-        const { ctx } = chart
+      beforeDraw(chart: Chart) {
+        const { width, height, ctx } = chart
 
         ctx.textBaseline = 'middle'
         let fontSize = 2.5
@@ -63,8 +64,8 @@ class DoughnutChartVisualisation extends ChartVisualisation {
         ctx.fillStyle = '	#505a5f'
 
         // Accumulated total
-        const total = chart.data.datasets[0].data.reduce((a, c) => a + c, 0)
-        const text = total
+        const total = chart.data.datasets[0].data.reduce<number>((a, c) => a + Number(c), 0)
+        const text: string = total?.toString() || ''
         const textX = Math.round((width - ctx.measureText(text).width) / 2)
         const textY = height / 2
 
@@ -91,13 +92,13 @@ class DoughnutChartVisualisation extends ChartVisualisation {
     const ctx = this
     return {
       callbacks: {
-        title(context) {
+        title(context: TooltipItem<'doughnut'>[]) {
           const { label, dataset } = context[0]
           const { label: establishmentId } = dataset
           const title = ctx.singleDataset ? `${label}` : `${establishmentId}: ${label}`
           return title
         },
-        label(context) {
+        label(context: TooltipItem<'doughnut'>) {
           const { label, parsed: value, dataset } = context
           const { label: legend } = dataset
           const dataArr = dataset.data
@@ -127,14 +128,14 @@ class DoughnutChartVisualisation extends ChartVisualisation {
     return {
       textAlign: 'center',
       color: '#FFF',
-      display: context => {
+      display: (context: ScriptableContext<'doughnut'>) => {
         const { dataset, dataIndex } = context
         const value = dataset.data[dataIndex]
         const total = dataset.data.reduce((a, c) => a + c, 0)
         const percentage = (value / total) * 100
         return percentage > 4
       },
-      formatter: (value, context) => {
+      formatter: (value: string, context: ScriptableContext<'doughnut'>) => {
         const { dataset } = context
         const label = ctx.singleDataset
           ? `${value}${this.suffix}`

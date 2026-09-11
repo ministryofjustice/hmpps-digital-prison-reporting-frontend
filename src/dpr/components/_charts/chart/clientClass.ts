@@ -1,8 +1,7 @@
 /* eslint-disable class-methods-use-this */
-import Chart, { ChartConfiguration } from 'chart.js/auto'
+import Chart, { ChartConfiguration, ChartType } from 'chart.js/auto'
 import { MatrixController, MatrixElement } from 'chartjs-chart-matrix'
 import ChartDataLabels from 'chartjs-plugin-datalabels'
-
 import { DprClientClass } from '../../../DprClientClass'
 
 class ChartVisualisation extends DprClientClass {
@@ -70,12 +69,12 @@ class ChartVisualisation extends DprClientClass {
     })
   }
 
-  generateChartData(settings: Record<string, any>) {
+  generateChartData(settings: Record<string, any>): ChartConfiguration {
     const { datasets, labels, config } = this.chartParams
     const { options, datalabels, plugins, pluginsOptions, toolTipOptions, hoverEvent, styling } = settings
 
     const chartData = {
-      type: this.type,
+      type: this.type as ChartType,
       data: {
         labels,
         datasets: this.createDatasets(datasets, styling),
@@ -109,7 +108,7 @@ class ChartVisualisation extends DprClientClass {
     })
   }
 
-  setHoverValue({ label, value, legend, ctx }: { label: string; value: string; legend: string; ctx: any }) {
+  setHoverValue({ label, value, legend, ctx }: { label: string; value: string; legend: string | undefined; ctx: any }) {
     if (ctx.tooltipDetailsEl) {
       ctx.tooltipDetailsEl.style.display = 'block'
       ctx.labelElement.innerHTML = ctx.singleDataset ? `${label}` : `${legend}: ${label}`

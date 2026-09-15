@@ -1,14 +1,17 @@
-// @ts-nocheck
 /* eslint-disable prefer-destructuring */
 /* eslint-disable class-methods-use-this */
+import { Chart, ChartConfiguration, ChartType, Color, ScriptableContext, TooltipItem, TooltipModel } from 'chart.js'
 import ChartVisualisation from '../clientClass'
 
 export default class MatrixChartVisualisation extends ChartVisualisation {
-  static getModuleName() {
+  settings: Record<string, any> = {}
+  chartData!: ChartConfiguration
+
+  static override getModuleName() {
     return 'matrix-chart'
   }
 
-  initialise() {
+  override initialise() {
     this.setupCanvas()
     this.settings = this.initSettings()
     this.chartData = this.generateChartData(this.settings)
@@ -25,12 +28,12 @@ export default class MatrixChartVisualisation extends ChartVisualisation {
     const ctx = this
     return {
       callbacks: {
-        title(context) {
-          const { raw } = context[0]
+        title(context: TooltipItem<'matrix'>[]) {
+          const raw = context[0].raw as TooltipModel<'matrix'>
           const title = `${raw.y} ${raw.x}`
           return title
         },
-        label(context) {
+        label(context: TooltipItem<'matrix'>) {
           const { data, label: legend } = context.dataset
           const dataValue = data[context.dataIndex]
           const label = `${dataValue.y} ${dataValue.x}`
@@ -42,11 +45,11 @@ export default class MatrixChartVisualisation extends ChartVisualisation {
     }
   }
 
-  generateChartData(settings) {
+  override generateChartData(settings: Record<string, any>): ChartConfiguration {
     const { config } = this.chartParams
     const { options, plugins, pluginsOptions, toolTipOptions, hoverEvent } = settings
-    const d = {
-      type: this.type,
+    const d: ChartConfiguration = {
+      type: this.type as ChartType,
       data: {
         datasets: this.createDatasets(),
       },
@@ -76,18 +79,19 @@ export default class MatrixChartVisualisation extends ChartVisualisation {
     return d
   }
 
-  createDatasets() {
+  override createDatasets() {
     const { datasets } = this.chartParams
-    return datasets.map(d => {
-      const { label, data } = d
+    return datasets.map((dataset: any) => {
+      const { label, data } = dataset
       return {
         label,
         data,
-        backgroundColor(c) {
-          return c.raw.c
+        backgroundColor(c: ScriptableContext<'matrix'>): Color {
+          const color = (c.raw as { c: Color }).c as Color
+          return color
         },
-        width: ({ chart }) => (chart.chartArea || {}).width / chart.scales.x.ticks.length - 1,
-        height: ({ chart }) => (chart.chartArea || {}).height / chart.scales.y.ticks.length - 1,
+        width: ({ chart }: { chart: Chart }) => (chart.chartArea || {}).width / chart.scales['x'].ticks.length - 1,
+        height: ({ chart }: { chart: Chart }) => (chart.chartArea || {}).height / chart.scales['y'].ticks.length - 1,
       }
     })
   }

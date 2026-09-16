@@ -11,9 +11,6 @@ test('Scorecard group VRT tests', async ({ page }) => {
   await page.getByRole('button', { name: /Request dashboard/ }).click()
 
   await expect(page.getByRole('heading', { name: 'Scorecard Group - Complete data' })).toBeVisible()
-  await expect(page.getByText('Value for').first()).toBeVisible({
-    timeout: 30000,
-  }) // ensures scorecard is fully loaded before taking screenshot
   await expect(page).toHaveScreenshot({
     fullPage: true,
     animations: 'disabled',

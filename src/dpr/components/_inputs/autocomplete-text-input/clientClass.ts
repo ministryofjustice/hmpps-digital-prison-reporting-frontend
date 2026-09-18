@@ -1,34 +1,37 @@
-// @ts-nocheck
 /* eslint-disable class-methods-use-this */
 import { DprClientClass } from '../../../DprClientClass'
 
 class Autocomplete extends DprClientClass {
-  static getModuleName() {
+  private listItemsSelector: string
+  private listParentSelector: string
+
+  static override getModuleName() {
     return 'autocomplete-text-input'
   }
 
-  constructor(element) {
+  constructor(element: HTMLElement) {
     super(element)
 
-    const listId = this.getTextInput().getAttribute('aria-owns')
+    const listId = this.getTextInput()?.getAttribute('aria-owns')
     this.listItemsSelector = `#${listId} li`
     this.listParentSelector = `#${listId} ul`
   }
 
-  initialise() {
+  override initialise() {
     const textInput = this.getTextInput()
-    textInput.addEventListener('keyup', event => {
+
+    textInput?.addEventListener('keyup', event => {
       this.onTextInput(event, textInput)
     })
 
-    textInput.addEventListener('keypress', e => {
+    textInput?.addEventListener('keypress', e => {
       if (e.key === 'Enter') {
         e.stopPropagation()
         e.preventDefault()
       }
     })
 
-    textInput.addEventListener('input', () => {
+    textInput?.addEventListener('input', () => {
       if (textInput.value !== '') {
         return
       }
@@ -40,7 +43,7 @@ class Autocomplete extends DprClientClass {
         hiddenInput.disabled = true
       }
 
-      delete textInput.dataset.staticOptionNameValue
+      delete textInput.dataset['staticOptionNameValue']
 
       textInput.dispatchEvent(new Event('change', { bubbles: true }))
     })
@@ -56,15 +59,19 @@ class Autocomplete extends DprClientClass {
     this.initialiseDefaultValue(textInput)
   }
 
-  initialiseDefaultValue(textInput) {
+  initialiseDefaultValue(textInput: HTMLInputElement | null) {
     const hiddenInput = this.getHiddenInput()
+
     if (hiddenInput?.value) {
       hiddenInput.disabled = false
       return
     }
 
-    textInput.value = ''
-    delete textInput.dataset.staticOptionNameValue
+    if (textInput) {
+      textInput.value = ''
+    }
+
+    delete textInput?.dataset['staticOptionNameValue']
 
     if (hiddenInput) {
       hiddenInput.value = ''
@@ -72,14 +79,14 @@ class Autocomplete extends DprClientClass {
     }
   }
 
-  getTextInput() {
+  getTextInput(): HTMLInputElement | null {
     return this.getElement().querySelector('.autocomplete-text-input-box')
   }
 
-  onTextInput(event, textInput) {
-    const minLength = Number(textInput.dataset.minimumLength)
+  onTextInput(event: Event, textInput: HTMLInputElement) {
+    const minLength = Number(textInput.dataset['minimumLength'])
     const { resourceEndpoint } = textInput.dataset
-    const searchValue = event.target.value.toLowerCase()
+    const searchValue = (event.target as HTMLInputElement).value.toLowerCase()
 
     if (resourceEndpoint) {
       if (searchValue.length >= minLength) {
@@ -92,7 +99,7 @@ class Autocomplete extends DprClientClass {
       }
     } else {
       this.getElement()
-        .querySelectorAll(this.listItemsSelector)
+        .querySelectorAll<HTMLElement>(this.listItemsSelector)
         .forEach(item => {
           if (
             searchValue.length >= minLength &&
@@ -111,31 +118,40 @@ class Autocomplete extends DprClientClass {
     }
   }
 
-  getInputListButton(item) {
+  getInputListButton(item: HTMLElement): HTMLButtonElement | null {
     return item.querySelector('.autocomplete-text-input-list-button')
   }
 
-  isMatchingStaticOptionNameOrDisplayPrefix(inputListButton, searchValue, item) {
+  isMatchingStaticOptionNameOrDisplayPrefix(
+    inputListButton: HTMLButtonElement | null,
+    searchValue: string,
+    item: HTMLElement,
+  ) {
     return (
-      this.isStaticOptionsNamePrefix(inputListButton.dataset.staticOptionNameValue, searchValue) ||
+      this.isStaticOptionsNamePrefix(inputListButton?.dataset['staticOptionNameValue'], searchValue) ||
       item.innerText.trim().toLowerCase().startsWith(searchValue)
     )
   }
 
-  isStaticOptionsNamePrefix(staticOptionNameValue, searchValue) {
+  isStaticOptionsNamePrefix(staticOptionNameValue: string | undefined, searchValue: string) {
     return staticOptionNameValue && staticOptionNameValue.trim().toLowerCase().startsWith(searchValue)
   }
 
-  async populateOptionsDynamically(resourceEndpoint, searchValue, textInput, templateProvider) {
+  async populateOptionsDynamically(
+    resourceEndpoint: string,
+    searchValue: string,
+    textInput: HTMLInputElement | null,
+    templateProvider: () => HTMLElement | null,
+  ) {
     try {
       const response = await fetch(resourceEndpoint.replace('{prefix}', encodeURI(searchValue)))
       const results = await response.json()
 
-      if (searchValue === textInput.value.toLowerCase()) {
+      if (searchValue === textInput?.value.toLowerCase()) {
         const template = templateProvider()
 
-        results.forEach(r => {
-          this.addItem(template, r, event => {
+        results.forEach((result: string) => {
+          this.addItem(template, result, event => {
             this.onOptionClick(event, textInput, this.getElement())
           })
         })
@@ -145,17 +161,20 @@ class Autocomplete extends DprClientClass {
     }
   }
 
-  onOptionClick(event, textInput, topLevelElement) {
+  onOptionClick(event: Event, textInput: HTMLInputElement | null, topLevelElement: HTMLElement) {
     event.preventDefault()
 
-    const button = event.currentTarget.closest('button')
+    const button = (event.currentTarget as HTMLElement)?.closest('button')
     const hiddenInput = this.getHiddenInput()
 
-    const displayValue = button.innerText.trim()
-    const actualValue = button.dataset.staticOptionNameValue || ''
+    const displayValue = button?.innerText.trim()
+    const actualValue = button?.dataset['staticOptionNameValue'] || ''
 
     // UI Display Value
-    textInput.value = displayValue
+    if (textInput) {
+      this.setValue(textInput, displayValue)
+      textInput.dataset['staticOptionNameValue'] = actualValue
+    }
 
     // submission value
     if (hiddenInput) {
@@ -163,46 +182,54 @@ class Autocomplete extends DprClientClass {
       hiddenInput.disabled = false
     }
 
-    textInput.dataset.staticOptionNameValue = actualValue
-
     topLevelElement.querySelectorAll('li').forEach(item => {
       item.classList.add('autocomplete-text-input-item-hide')
     })
+  }
+
+  setValue(textInput: HTMLInputElement, displayValue?: string) {
+    if (displayValue) {
+      textInput.value = displayValue
+    }
 
     textInput.focus()
     textInput.dispatchEvent(new Event('change', { bubbles: true }))
   }
 
-  setValue(textInput, displayValue) {
-    textInput.value = displayValue
-    textInput.focus()
-    textInput.dispatchEvent(new Event('change', { bubbles: true }))
-  }
+  addItem(template: HTMLElement | null, content: string, clickEvent?: (event: Event) => void) {
+    const item: HTMLElement = template?.cloneNode(true) as HTMLElement
+    const button = item?.querySelector('button')
+    if (button) {
+      button.innerHTML = content
+    }
 
-  addItem(template, content, clickEvent) {
-    const item = template.cloneNode(true)
-    item.querySelector('button').innerHTML = content
     item.classList.remove('autocomplete-text-input-item-hide')
-    this.getElement().querySelector(this.listParentSelector).appendChild(item)
+    this.getElement().querySelector(this.listParentSelector)?.appendChild(item)
 
     if (clickEvent) {
-      item.addEventListener('mousedown', event => {
+      item.addEventListener('mousedown', (event: Event) => {
         clickEvent(event)
       })
     }
   }
 
   clearListAndRecreateTemplate() {
-    const template = this.getElement().querySelector(this.listItemsSelector).cloneNode(true)
-    template.classList.add('autocomplete-text-input-item-hide')
+    const template: HTMLElement | null = this.getElement()
+      .querySelector(this.listItemsSelector)
+      ?.cloneNode(true) as HTMLElement | null
+    template?.classList.add('autocomplete-text-input-item-hide')
     this.getElement()
       .querySelectorAll(this.listItemsSelector)
       .forEach(e => e.remove())
-    this.getElement().querySelector(this.listParentSelector).append(template)
+
+    if (template) {
+      this.getElement().querySelector(this.listParentSelector)?.append(template)
+    }
+
     return template
   }
 
-  getHiddenInput() {
+  getHiddenInput(): HTMLInputElement | null {
     return this.getElement().querySelector('[data-autocomplete-hidden]')
   }
 }

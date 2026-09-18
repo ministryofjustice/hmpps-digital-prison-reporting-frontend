@@ -1,18 +1,37 @@
-// @ts-nocheck
 /* eslint-disable class-methods-use-this */
-import Chart from 'chart.js/auto'
+import Chart, { ChartConfiguration, ChartType } from 'chart.js/auto'
 import { MatrixController, MatrixElement } from 'chartjs-chart-matrix'
 import ChartDataLabels from 'chartjs-plugin-datalabels'
-
 import { DprClientClass } from '../../../DprClientClass'
 
 class ChartVisualisation extends DprClientClass {
+  chartContext: HTMLCanvasElement | null = null
+  chart: Chart | null = null
+  chartParams: Record<string, any> = {}
+  type: string | null = null
+  id: string = ''
+  unit: string = ''
+  suffix: string = ''
+  legend: HTMLElement | null = null
+  tooltipDetailsEl: HTMLElement | null = null
+  headlineValuesEl: HTMLElement | null = null
+  labelElement: HTMLElement | null = null
+  valueElement: HTMLElement | null = null
+  legendElement: HTMLElement | null = null
+  partialStart: boolean = false
+  partialEnd: boolean = false
+  singleDataset: boolean = false
+
+  static override getModuleName() {
+    return 'chart'
+  }
+
   setupCanvas() {
     this.chartContext = this.getElement().querySelector('canvas')
 
     // data
-    this.id = this.chartContext.getAttribute('id')
-    this.chartParams = JSON.parse(this.getElement().getAttribute('data-dpr-chart-data'))
+    this.id = this.chartContext?.getAttribute('id') || ''
+    this.chartParams = JSON.parse(this.getElement().getAttribute('data-dpr-chart-data') || '{}')
     this.type = this.getElement().getAttribute('data-dpr-chart-type')
     this.setValueSuffix()
 
@@ -27,16 +46,16 @@ class ChartVisualisation extends DprClientClass {
     this.legendElement = document.getElementById(`dpr-${this.id}-legend`)
     this.legendElement = document.getElementById(`dpr-${this.id}-legend`)
 
-    if (this.chartParams.partialDate) {
-      this.partialStart = this.chartParams.partialDate.start || false
-      this.partialEnd = this.chartParams.partialDate.end || false
+    if (this.chartParams['partialDate']) {
+      this.partialStart = this.chartParams['partialDate'].start || false
+      this.partialEnd = this.chartParams['partialDate'].end || false
     }
 
     // flags
-    this.singleDataset = this.chartParams.datasets.length === 1
+    this.singleDataset = this.chartParams['datasets'].length === 1
   }
 
-  initChart() {
+  initChart(chartData: ChartConfiguration) {
     // Prevent font loading issue
     window.addEventListener('load', () => {
       // An example of creating a chart, replace with your code:
@@ -45,17 +64,17 @@ class ChartVisualisation extends DprClientClass {
       Chart.register(ChartDataLabels)
       Chart.register(MatrixController, MatrixElement)
       Chart.defaults.datasets.bar.categoryPercentage = 0.95
-      this.chart = new Chart(this.chartContext, this.chartData)
+      this.chart = new Chart(this.chartContext as HTMLCanvasElement, chartData)
       this.initChartEvents()
     })
   }
 
-  generateChartData(settings) {
+  generateChartData(settings: Record<string, any>): ChartConfiguration {
     const { datasets, labels, config } = this.chartParams
     const { options, datalabels, plugins, pluginsOptions, toolTipOptions, hoverEvent, styling } = settings
 
     const chartData = {
-      type: this.type,
+      type: this.type as ChartType,
       data: {
         labels,
         datasets: this.createDatasets(datasets, styling),
@@ -80,7 +99,7 @@ class ChartVisualisation extends DprClientClass {
     return chartData
   }
 
-  createDatasets(datasets, styling) {
+  createDatasets(datasets: Object[], styling: any) {
     return datasets.map(dataset => {
       return {
         ...dataset,
@@ -89,7 +108,7 @@ class ChartVisualisation extends DprClientClass {
     })
   }
 
-  setHoverValue({ label, value, legend, ctx }) {
+  setHoverValue({ label, value, legend, ctx }: { label: string; value: string; legend: string | undefined; ctx: any }) {
     if (ctx.tooltipDetailsEl) {
       ctx.tooltipDetailsEl.style.display = 'block'
       ctx.labelElement.innerHTML = ctx.singleDataset ? `${label}` : `${legend}: ${label}`
@@ -104,7 +123,7 @@ class ChartVisualisation extends DprClientClass {
   }
 
   setValueSuffix() {
-    this.unit = this.getElement().getAttribute('data-dpr-chart-unit')
+    this.unit = this.getElement().getAttribute('data-dpr-chart-unit') || ''
     this.suffix = this.unit === 'percentage' ? '%' : ''
   }
 
@@ -113,7 +132,7 @@ class ChartVisualisation extends DprClientClass {
   }
 
   initChartEvents() {
-    this.chart.canvas.addEventListener('mouseout', e => {
+    this.chart?.canvas.addEventListener('mouseout', () => {
       if (this.tooltipDetailsEl) this.tooltipDetailsEl.style.display = 'none'
       if (this.headlineValuesEl) this.headlineValuesEl.style.display = 'block'
     })

@@ -12,7 +12,7 @@ export const defaultMockRequest = {
   },
 } as const
 
-type CompleteMockRequest = {
+export type CompleteMockRequest = {
   priority: number
   request: {
     method: 'GET' | 'POST' | 'DELETE' | 'PUT' | 'OPTIONS'
@@ -22,10 +22,18 @@ type CompleteMockRequest = {
   }
   response: {
     status: number
-    headers: { 'Content-Type': 'application/json;charset=UTF-8' }
-    jsonBody: object
+    headers: { 
+      'Content-Type': 'application/json;charset=UTF-8' | 'text/csv' | 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+      'Content-Disposition'?: string
+    }
     fixedDelayMilliseconds: number
-  }
+  } & ({
+    jsonBody: object
+  } | {
+    body: string
+  } | {
+    base64Body: string
+  })
 }
 
 export const setupSimpleMock = (urlPathPattern: string, jsonBody: object, priority?: number): CompleteMockRequest => {

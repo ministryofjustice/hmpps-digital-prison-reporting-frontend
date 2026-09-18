@@ -85,10 +85,10 @@ export const getInteractiveReportDownloadMock: CompleteMockRequest = {
       sortColumn: { equalTo: 'field6' },
       sortedAsc: { equalTo: 'false' },
       'filters.field8': {
-        matches: 'value8\\.(2|3)',
+        matches: 'value8\\.(2|3),value8\\.(3|2)',
       },
       columns: {
-        matches: 'field(1|2|3|6)',
+        matches: 'field(1|2|3|6),field(1|2|3|6),field(1|2|3|6),field(1|2|3|6)',
       },
     },
   },

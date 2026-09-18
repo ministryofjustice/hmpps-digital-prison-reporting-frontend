@@ -258,4 +258,9 @@ export const mocks = [
   ...filterInputExampleVariantMocks,
   ...featureTestingVariantMocks,
   getAsyncSummaryReport,
+  getSyncReportDownloadMock,
+  getAsyncReportDownloadMock,
+  getSyncReportXlsxDownloadMock,
+  getAsyncReportXlsxDownloadMock,
+  getInteractiveReportDownloadMock,
 ]

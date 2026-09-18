@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## 9.2.2
+
+- Removed `@ts-nocheck` declarations from client-side ts files
+
 ## 9.2.1
 
 - Parent-child Dashboards: Update docs for dashboard definition

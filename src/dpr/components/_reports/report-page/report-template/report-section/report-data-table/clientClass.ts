@@ -1,12 +1,15 @@
-// @ts-nocheck
 import { DprClientClass } from '../../../../../../DprClientClass'
 
 class DataTable extends DprClientClass {
-  static getModuleName() {
+  tableContainer: HTMLElement | null = null
+  table: HTMLTableElement | null = null
+  gradient: HTMLElement | null = null
+
+  static override getModuleName() {
     return 'data-table'
   }
 
-  initialise() {
+  override initialise() {
     this.element = this.getElement()
     this.tableContainer = this.element.querySelector('.dpr-table-wrapper')
     this.table = this.element.querySelector('.dpr-data-table')
@@ -23,9 +26,9 @@ class DataTable extends DprClientClass {
       this.checkOffsetWidths()
     })
 
-    this.tableContainer.addEventListener('scroll', event => {
-      const endOfScroll = this.table.offsetWidth
-      const currentScroll = event.target.offsetWidth + event.target.scrollLeft
+    this.tableContainer?.addEventListener('scroll', event => {
+      const endOfScroll = this.table?.offsetWidth
+      const currentScroll = (event.target as HTMLElement)?.offsetWidth + (event.target as HTMLElement).scrollLeft
       if (endOfScroll === currentScroll) {
         this.removeGradient()
       } else {
@@ -34,16 +37,24 @@ class DataTable extends DprClientClass {
     })
   }
 
-  removeGradient(gradient) {
-    this.gradient.style.display = 'none'
+  removeGradient() {
+    if (this.gradient) {
+      this.gradient.style.display = 'none'
+    }
   }
 
-  addGradient(gradient) {
-    this.gradient.style.display = 'block'
+  addGradient() {
+    if (this.gradient) {
+      this.gradient.style.display = 'block'
+    }
   }
 
   checkOffsetWidths() {
-    if (this.tableContainer.offsetWidth >= this.table.offsetWidth) {
+    if (!this.tableContainer || !this.table) {
+      return
+    }
+
+    if (this.tableContainer?.offsetWidth >= this.table?.offsetWidth) {
       this.removeGradient()
     } else {
       this.addGradient()

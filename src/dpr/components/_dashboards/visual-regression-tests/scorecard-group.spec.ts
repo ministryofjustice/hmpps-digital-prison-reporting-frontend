@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test'
+import { expect, test } from '@playwright/test'
 import { requestCatalogueVariant } from './vrtHelpers'
 
 test('Scorecard group VRT tests', async ({ page }) => {

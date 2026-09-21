@@ -69,6 +69,9 @@
     "setup": "npm ci && hmpps-npm-script-run-allowlist",
     "prepare": "hmpps-precommit-hooks-prepare"
   },
+  "overrides": {
+    "@babel/core": "8.0.5"
+  },
   "jest": {
     "transform": {
       "^.+\\.tsx?$": [

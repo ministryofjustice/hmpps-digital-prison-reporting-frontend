@@ -1,21 +1,27 @@
-// @ts-nocheck
 import dayjs, { Dayjs } from 'dayjs'
 
 import { DprClientClass } from '../../../DprClientClass'
 
 export class GranularDateRange extends DprClientClass {
-  private quickFiltersInput: HTMLSelectElement
-  private granularityInput: HTMLSelectElement
-  private startInput: HTMLInputElement
-  private endInput: HTMLInputElement
+  private filter: HTMLElement | null = null
+  private quickFiltersInput: HTMLSelectElement | null = null
+  private granularityInput: HTMLSelectElement | null = null
+  private startInput: HTMLInputElement | null = null
+  private endInput: HTMLInputElement | null = null
 
-  private currentQuickFilterValue: string
+  private currentQuickFilterValue: string = ''
+  private fieldName: string | null = null
+  private idPrefix: string = ''
+
+  currentStartInputValue: string = ''
+  currentEndInputValue: string = ''
+  currentGranularityValue: string = ''
 
   static override getModuleName() {
     return 'granular-date-range-input'
   }
 
-  initialise() {
+  override initialise() {
     this.filter = this.getElement()
     this.fieldName = this.filter.getAttribute('data-field-name')
     this.idPrefix = `filters.${this.fieldName}`
@@ -25,17 +31,17 @@ export class GranularDateRange extends DprClientClass {
     this.startInput = this.filter.querySelector(`input[name='${this.idPrefix}.start']`)
     this.endInput = this.filter.querySelector(`input[name='${this.idPrefix}.end']`)
 
-    this.currentStartInputValue = this.startInput.value
-    this.currentEndInputValue = this.endInput.value
-    this.currentQuickFilterValue = this.quickFiltersInput.value
-    this.currentGranularityValue = this.granularityInput.value
+    this.currentStartInputValue = this.startInput?.value || ''
+    this.currentEndInputValue = this.endInput?.value || ''
+    this.currentQuickFilterValue = this.quickFiltersInput?.value || ''
+    this.currentGranularityValue = this.granularityInput?.value || ''
 
     this.initChangeEvents()
   }
 
   initChangeEvents() {
     ;[this.granularityInput, this.quickFiltersInput, this.startInput, this.endInput].forEach(el => {
-      el.addEventListener('change', event => {
+      el?.addEventListener('change', event => {
         this.resolveStateChange(event)
       })
     })
@@ -46,24 +52,24 @@ export class GranularDateRange extends DprClientClass {
     const value = target.value
 
     switch (target.id) {
-      case this.quickFiltersInput.id: {
+      case this.quickFiltersInput?.id: {
         this.currentQuickFilterValue = value
 
         const { granularity, startDate, endDate } = this.calculateStartEndGranularity(value)
-        this.granularityInput.value = granularity
-        this.startInput.value = startDate.format('DD/MM/YYYY').toString()
-        this.endInput.value = endDate.format('DD/MM/YYYY').toString()
+        this.granularityInput && (this.granularityInput.value = granularity)
+        this.startInput && (this.startInput.value = startDate.format('DD/MM/YYYY').toString())
+        this.endInput && (this.endInput.value = endDate.format('DD/MM/YYYY').toString())
 
         break
       }
-      case this.granularityInput.id: {
+      case this.granularityInput?.id: {
         if (this.shouldResetQuickFilters(event)) {
           this.resetQuickFiltersToNone()
         }
         break
       }
-      case this.startInput.id:
-      case this.endInput.id: {
+      case this.startInput?.id:
+      case this.endInput?.id: {
         this.resetQuickFiltersToNone()
         break
       }
@@ -77,15 +83,15 @@ export class GranularDateRange extends DprClientClass {
   }
 
   resetQuickFiltersToNone() {
-    this.quickFiltersInput.value = 'none'
+    this.quickFiltersInput && (this.quickFiltersInput.value = 'none')
   }
 
   updateQueryParams() {
     const queryParams = new URLSearchParams(window.location.search)
-    queryParams.set(this.granularityInput.id, this.granularityInput.value)
-    queryParams.set(this.quickFiltersInput.id, this.quickFiltersInput.value)
-    queryParams.set(this.startInput.id, this.startInput.value)
-    queryParams.set(this.endInput.id, this.endInput.value)
+    this.granularityInput && queryParams.set(this.granularityInput.id, this.granularityInput.value)
+    this.quickFiltersInput && queryParams.set(this.quickFiltersInput.id, this.quickFiltersInput.value)
+    this.startInput && queryParams.set(this.startInput.id, this.startInput.value)
+    this.endInput && queryParams.set(this.endInput.id, this.endInput.value)
     window.history.replaceState(null, '', `?${queryParams.toString()}`)
   }
 
@@ -108,16 +114,16 @@ export class GranularDateRange extends DprClientClass {
     endDate: Dayjs
     granularity: string
   } {
-    let startDate = dayjs(this.startInput.value)
-    let endDate = dayjs(this.endInput.value)
-    let granularity = this.granularityInput.value
+    let startDate = dayjs(this.startInput?.value)
+    let endDate = dayjs(this.endInput?.value)
+    let granularity = this.granularityInput?.value
 
     switch (quickFilterValue) {
       // This case only happens if quick filter is _already_ none and someone changes granularity
       case 'none':
         endDate = dayjs()
         startDate = dayjs()
-        granularity = this.granularityInput.value
+        granularity = this.granularityInput?.value
         break
       case 'today':
         endDate = dayjs()
@@ -241,7 +247,7 @@ export class GranularDateRange extends DprClientClass {
     return {
       startDate,
       endDate,
-      granularity,
+      granularity: String(granularity),
     }
   }
 }

@@ -1,4 +1,5 @@
 import {
+  CompleteMockRequest,
   defaultMockRequest,
   generateNetworkMock,
   reportIdRegex,
@@ -52,13 +53,14 @@ export const getAsyncListSectionReportResultMock = setupSimpleMock(
 
 const downloadPathPattern = '/reports/[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+/tables/tblId_[a-zA-Z0-9]+/download'
 
-export const getAsyncReportDownloadMock = {
+export const getAsyncReportDownloadMock: CompleteMockRequest = {
   priority: 1,
   request: {
     method: 'GET',
     urlPathPattern: downloadPathPattern,
   },
   response: {
+    fixedDelayMilliseconds: 0,
     status: 200,
     headers: {
       'Content-Type': 'text/csv',
@@ -72,7 +74,7 @@ export const getAsyncReportDownloadMock = {
   },
 }
 
-export const getInteractiveReportDownloadMock = {
+export const getInteractiveReportDownloadMock: CompleteMockRequest = {
   priority: 1,
   request: {
     method: 'GET',
@@ -83,15 +85,16 @@ export const getInteractiveReportDownloadMock = {
       sortColumn: { equalTo: 'field6' },
       sortedAsc: { equalTo: 'false' },
       'filters.field8': {
-        matches: 'value8\\.(2|3)',
+        matches: 'value8\\.(2|3),value8\\.(3|2)',
       },
       columns: {
-        matches: 'field(1|2|3|6)',
+        matches: 'field(1|2|3|6),field(1|2|3|6),field(1|2|3|6),field(1|2|3|6)',
       },
     },
   },
   response: {
     status: 200,
+    fixedDelayMilliseconds: 0,
     headers: {
       'Content-Type': 'text/csv',
       'Content-Disposition': 'attachment; filename="report.csv"',
@@ -109,13 +112,14 @@ export const getInteractiveReportDownloadMock = {
 // than the async stubs because it would otherwise also match their longer paths.
 const syncDownloadPathPattern = '/reports/[a-zA-Z0-9-_/]+/download'
 
-export const getSyncReportDownloadMock = {
+export const getSyncReportDownloadMock: CompleteMockRequest = {
   priority: 5,
   request: {
     method: 'GET',
     urlPathPattern: syncDownloadPathPattern,
   },
   response: {
+    fixedDelayMilliseconds: 0,
     status: 200,
     headers: {
       'Content-Type': 'text/csv',
@@ -132,15 +136,16 @@ export const getSyncReportDownloadMock = {
 // urlPathPattern is matched against the whole path, so the `/xlsx` stubs below never
 // collide with the csv stubs above.
 const xlsxDownloadResponse = {
+  fixedDelayMilliseconds: 0,
   status: 200,
   headers: {
     'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     'Content-Disposition': 'attachment; filename="report.xlsx"',
   },
   base64Body: xlsxReportBase64,
-}
+} as const
 
-export const getAsyncReportXlsxDownloadMock = {
+export const getAsyncReportXlsxDownloadMock: CompleteMockRequest = {
   priority: 1,
   request: {
     method: 'GET',
@@ -149,7 +154,7 @@ export const getAsyncReportXlsxDownloadMock = {
   response: xlsxDownloadResponse,
 }
 
-export const getSyncReportXlsxDownloadMock = {
+export const getSyncReportXlsxDownloadMock: CompleteMockRequest = {
   priority: 5,
   request: {
     method: 'GET',
@@ -258,4 +263,9 @@ export const mocks = [
   ...filterInputExampleVariantMocks,
   ...featureTestingVariantMocks,
   getAsyncSummaryReport,
+  getSyncReportDownloadMock,
+  getAsyncReportDownloadMock,
+  getSyncReportXlsxDownloadMock,
+  getAsyncReportXlsxDownloadMock,
+  getInteractiveReportDownloadMock,
 ]

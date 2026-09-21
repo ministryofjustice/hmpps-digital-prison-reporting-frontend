@@ -1,14 +1,18 @@
-// @ts-nocheck
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable class-methods-use-this */
+
+import { ChartConfiguration, TooltipItem } from 'chart.js'
 import ChartVisualisation from '../clientClass'
 
 class BarChartVisualisation extends ChartVisualisation {
-  static getModuleName() {
+  settings: Record<string, any> = {}
+  chartData!: ChartConfiguration
+
+  static override getModuleName() {
     return 'bar-chart'
   }
 
-  initialise() {
+  override initialise() {
     this.setupCanvas()
     this.settings = this.initSettings()
     this.chartData = this.generateChartData(this.settings)
@@ -26,13 +30,13 @@ class BarChartVisualisation extends ChartVisualisation {
     const ctx = this
     return {
       callbacks: {
-        title(context) {
+        title(context: TooltipItem<'bar'>[]) {
           const { label, dataset } = context[0]
           const { label: establishmentId } = dataset
           const title = ctx.singleDataset ? `${label}` : `${establishmentId}: ${label}`
           return title
         },
-        label(context) {
+        label(context: TooltipItem<'bar'>) {
           const { label } = context
           const { data, label: legend } = context.dataset
           const value = `${data[context.dataIndex]}${ctx.suffix}`
@@ -47,9 +51,9 @@ class BarChartVisualisation extends ChartVisualisation {
     return {
       color: '#FFF',
       display: () => {
-        return !this.timeseries
+        return true
       },
-      formatter: value => {
+      formatter: (value: string) => {
         return `${value}${this.suffix}`
       },
       labels: {

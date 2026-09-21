@@ -56,7 +56,7 @@ class RestClient {
     Object.entries(query).forEach(([key, value]) => {
       if (value === undefined) return
       if (Array.isArray(value)) {
-        value.forEach(v => url.searchParams.append(key, String(v)))
+        url.searchParams.append(key, String(value.join(',')))
       } else {
         url.searchParams.append(key, String(value))
       }

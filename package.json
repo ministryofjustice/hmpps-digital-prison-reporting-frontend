@@ -70,7 +70,7 @@
     "prepare": "hmpps-precommit-hooks-prepare"
   },
   "overrides": {
-    "@babel/core": "8.0.5"
+    "@babel/core": "7.28.6"
   },
   "jest": {
     "transform": {

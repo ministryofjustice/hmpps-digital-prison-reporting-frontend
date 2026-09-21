@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## 9.3.1
+
+- Improve accessibility of the data table
+
 ## 9.3.0
 
 - Autocomplete filter input reworked to meet accessibility requirements

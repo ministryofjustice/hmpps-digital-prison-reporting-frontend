@@ -11,6 +11,17 @@ test('Scorecard group VRT tests', async ({ page }) => {
   await page.getByRole('button', { name: /Request dashboard/ }).click()
 
   await expect(page.getByRole('heading', { name: 'Scorecard Group - Complete data' })).toBeVisible()
+  for (let i = 0; i < 10; i++) {
+    console.log(
+      await page.evaluate(
+        () => document.documentElement.scrollHeight
+      )
+    );
+
+    await page.waitForTimeout(100);
+  }
+  await page.waitForLoadState('networkidle');
+  await page.evaluate(() => document.fonts.ready);
   await expect(page).toHaveScreenshot({
     fullPage: true,
     animations: 'disabled',

@@ -42,7 +42,6 @@
   }
 
   .data-table-header-button {
-    background-color: transparent;
     border-width: 0;
     -webkit-box-decoration-break: clone;
     box-decoration-break: clone;
@@ -63,7 +62,8 @@
   }
 
   .data-table-header-button-sort-none:before {
-    content: ' \25bc';
+    // `content` can take an 'alt' property - in this case we dont want screenreaders announcing the name of the icon https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/content
+    content: ' \25bc' / "";
     position: absolute;
     right: -1px;
     top: 9px;
@@ -71,7 +71,8 @@
   }
 
   .data-table-header-button-sort-none:after {
-    content: ' \25b2';
+    // `content` can take an 'alt' property - in this case we dont want screenreaders announcing the name of the icon https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/content
+    content: ' \25b2' / "";
     position: absolute;
     right: -1px;
     top: 1px;
@@ -79,7 +80,8 @@
   }
 
   .data-table-header-button-sort-ascending:after {
-    content: ' \25b2';
+    // `content` can take an 'alt' property - in this case we dont want screenreaders announcing the name of the icon https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/content
+    content: ' \25b2' / "";
     font-size: 0.8em;
     position: absolute;
     right: -5px;
@@ -87,7 +89,8 @@
   }
 
   .data-table-header-button-sort-descending:after {
-    content: ' \25bc';
+    // `content` can take an 'alt' property - in this case we dont want screenreaders announcing the name of the icon https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/content
+    content: ' \25bc' / "";
     font-size: 0.8em;
     position: absolute;
     right: -5px;

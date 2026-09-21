@@ -5,6 +5,7 @@
   {% set head = dataTable.head %}
   {% set colCount = dataTable.colCount %}
   {% set classification = classification or 'OFFICIAL' %}
+  {% set tableCaption = '<span class="govuk-visually-hidden">Column headers with buttons are sortable.</span>' %}
 
   {% if rows.length > 0 %}
     <div
@@ -19,6 +20,7 @@
         <div class="dpr-table-content">
           {{
             govukTable({
+              caption: tableCaption | safe,
               head: head,
               rows: rows,
               classes: 'dpr-data-table',

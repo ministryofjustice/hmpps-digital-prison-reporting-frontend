@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test'
-import { requestCatalogueVariant } from './vrtHelpers'
+import { requestCatalogueVariant, takeScreenshotsOfAllCharts } from './vrtHelpers'
 
 test('Mixed chart partial historic dataset', async ({ page }) => {
   await page.goto('/embedded/platform')
@@ -11,9 +11,5 @@ test('Mixed chart partial historic dataset', async ({ page }) => {
   await page.getByRole('button', { name: /Request dashboard/ }).click()
 
   await expect(page.getByRole('heading', { name: /Mixed - Historic - Partial dataset/ })).toBeVisible()
-  await expect(page).toHaveScreenshot({
-    fullPage: true,
-    animations: 'disabled',
-    maxDiffPixelRatio: 0.015,
-  })
+  await takeScreenshotsOfAllCharts(page)
 })

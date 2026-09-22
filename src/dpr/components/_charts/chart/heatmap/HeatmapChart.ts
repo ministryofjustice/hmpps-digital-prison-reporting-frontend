@@ -1,13 +1,14 @@
 /* eslint-disable prefer-destructuring */
 import dayjs from 'dayjs'
-import logger from '../../../../utils/logger'
+import { UI_OUTPUT_FORMAT } from 'src/dpr/utils/dateHelper'
 import { components } from '../../../../types/api'
 import { DashboardDataResponse } from '../../../../types/Metrics'
 import DatasetHelper, {
+  getDateValue,
   getTimestampColumn,
   getTimestampMeasure,
-  getDateValue,
 } from '../../../../utils/Dashboards/VisualisationDatasetHelper'
+import logger from '../../../../utils/logger'
 import {
   DashboardVisualisationData,
   DashboardVisualisationDataSet,
@@ -29,8 +30,6 @@ class HeatmapChart {
   private granularity!: Granularity
 
   private data: MatrixChartData[] = []
-
-  private dayDateFormat = 'YYYY-MM-DD'
 
   private valueKey = ''
 
@@ -85,6 +84,7 @@ class HeatmapChart {
     const dateMeasure = getTimestampMeasure(
       <components['schemas']['DashboardVisualisationColumnDefinition'][]>this.measures,
     )
+
     if (!dateMeasure) {
       throw new Error('No timestamp field in definition')
     }
@@ -116,12 +116,12 @@ class HeatmapChart {
           case 'hourly':
             break
           case 'weekly':
-            x = dayjs(tsRaw, this.dayDateFormat).format('ddd')
-            y = dayjs(tsRaw, this.dayDateFormat).week()
+            x = dayjs(tsRaw, UI_OUTPUT_FORMAT).format('ddd')
+            y = dayjs(tsRaw, UI_OUTPUT_FORMAT).week()
             break
           case 'daily':
-            x = dayjs(tsRaw, this.dayDateFormat).format('MMM YY')
-            y = dayjs(tsRaw, this.dayDateFormat).format('D')
+            x = dayjs(tsRaw, UI_OUTPUT_FORMAT).format('MMM YY')
+            y = dayjs(tsRaw, UI_OUTPUT_FORMAT).format('D')
             break
           case 'monthly':
             {
@@ -135,8 +135,8 @@ class HeatmapChart {
             y = <string>tsRaw
             break
           default:
-            x = dayjs(tsRaw, this.dayDateFormat).format('MMM YY')
-            y = dayjs(tsRaw, this.dayDateFormat).format('D')
+            x = dayjs(tsRaw, UI_OUTPUT_FORMAT).format('MMM YY')
+            y = dayjs(tsRaw, UI_OUTPUT_FORMAT).format('D')
             break
         }
         return { y, x, v, r }

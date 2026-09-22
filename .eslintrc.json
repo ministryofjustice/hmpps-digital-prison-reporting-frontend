@@ -109,6 +109,7 @@
       {
         "devDependencies": [
           "**/*.spec.ts",
+          "src/dpr/components/_dashboards/visual-regression-tests/vrtHelpers.ts",
           "**/*.test.js",
           "**/*.test.ts",
           "**/testutils/**",

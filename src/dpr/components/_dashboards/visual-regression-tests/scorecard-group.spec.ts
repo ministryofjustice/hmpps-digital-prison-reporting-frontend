@@ -23,6 +23,12 @@ test('Scorecard group VRT tests', async ({ page }) => {
   await page.waitForLoadState('networkidle');
   await page.evaluate(() => document.fonts.ready);
   await expect(page).toHaveScreenshot({
+    clip: {
+      x: 0,
+      y: 0,
+      width: 1280,
+      height: 6320,
+    },
     fullPage: true,
     animations: 'disabled',
     maxDiffPixelRatio: 0.015,

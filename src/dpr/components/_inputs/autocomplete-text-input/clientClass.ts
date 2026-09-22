@@ -1,77 +1,292 @@
-/* eslint-disable class-methods-use-this */
 import { DprClientClass } from '../../../DprClientClass'
 
 class Autocomplete extends DprClientClass {
-  private listItemsSelector: string
-  private listParentSelector: string
+  private activeIndex = -1
 
   static override getModuleName() {
     return 'autocomplete-text-input'
   }
 
-  constructor(element: HTMLElement) {
-    super(element)
-
-    const listId = this.getTextInput()?.getAttribute('aria-owns')
-    this.listItemsSelector = `#${listId} li`
-    this.listParentSelector = `#${listId} ul`
-  }
-
   override initialise() {
     const textInput = this.getTextInput()
 
-    textInput?.addEventListener('keyup', event => {
-      this.onTextInput(event, textInput)
-    })
-
-    textInput?.addEventListener('keypress', e => {
-      if (e.key === 'Enter') {
-        e.stopPropagation()
-        e.preventDefault()
-      }
-    })
-
-    textInput?.addEventListener('input', () => {
-      if (textInput.value !== '') {
-        return
-      }
-
-      const hiddenInput = this.getHiddenInput()
-
-      if (hiddenInput) {
-        hiddenInput.value = ''
-        hiddenInput.disabled = true
-      }
-
-      delete textInput.dataset['staticOptionNameValue']
-
-      textInput.dispatchEvent(new Event('change', { bubbles: true }))
-    })
-
-    this.getElement()
-      .querySelectorAll('.autocomplete-text-input-list-button')
-      .forEach(button => {
-        button.addEventListener('mousedown', event => {
-          this.onOptionClick(event, textInput, this.getElement())
-        })
-      })
-
-    this.initialiseDefaultValue(textInput)
-  }
-
-  initialiseDefaultValue(textInput: HTMLInputElement | null) {
-    const hiddenInput = this.getHiddenInput()
-
-    if (hiddenInput?.value) {
-      hiddenInput.disabled = false
+    if (!textInput) {
       return
     }
 
-    if (textInput) {
-      textInput.value = ''
+    this.initialiseDefaultValue()
+
+    textInput.addEventListener('input', () => {
+      this.onInput()
+    })
+
+    textInput.addEventListener('keydown', event => {
+      this.onKeyDown(event)
+    })
+
+    textInput.addEventListener('blur', () => {
+      window.setTimeout(() => {
+        this.closeList()
+      }, 100)
+    })
+
+    this.getAllOptions().forEach(option => {
+      option.addEventListener('mousedown', event => {
+        event.preventDefault()
+        this.selectOption(option)
+      })
+    })
+
+    textInput.addEventListener('focus', () => {
+      const minimumLength = Number(textInput.dataset['minimumLength'] || 0)
+
+      if (minimumLength === 0) {
+        this.filterOptions('')
+      }
+    })
+  }
+
+  private getTextInput(): HTMLInputElement | null {
+    return this.getElement().querySelector('.autocomplete-text-input-box')
+  }
+
+  private getHiddenInput(): HTMLInputElement | null {
+    return this.getElement().querySelector('[data-autocomplete-hidden]')
+  }
+
+  private getAllOptions(): HTMLElement[] {
+    return Array.from(this.getElement().querySelectorAll<HTMLElement>('.autocomplete-option'))
+  }
+
+  private getVisibleOptions(): HTMLElement[] {
+    return this.getAllOptions().filter(option => !option.classList.contains('autocomplete-text-input-item-hide'))
+  }
+
+  private initialiseDefaultValue() {
+    const hiddenInput = this.getHiddenInput()
+    const textInput = this.getTextInput()
+
+    if (!hiddenInput || !textInput) {
+      return
     }
 
-    delete textInput?.dataset['staticOptionNameValue']
+    const selectedValue = hiddenInput.value
+
+    if (!selectedValue) {
+      hiddenInput.disabled = true
+      return
+    }
+
+    hiddenInput.disabled = false
+
+    const matchingOption = this.getAllOptions().find(option => option.dataset['value'] === selectedValue)
+
+    if (!matchingOption) {
+      return
+    }
+
+    textInput.value = matchingOption.dataset['display'] ?? matchingOption.textContent?.trim() ?? ''
+  }
+
+  private onInput() {
+    const textInput = this.getTextInput()
+
+    if (!textInput) {
+      return
+    }
+
+    this.clearSelection()
+
+    const searchValue = textInput.value.trim().toLowerCase()
+
+    if (!searchValue) {
+      this.closeList()
+      return
+    }
+
+    this.filterOptions(searchValue)
+  }
+
+  private filterOptions(searchValue: string) {
+    const minimumLength = Number(this.getTextInput()?.dataset['minimumLength'] || 0)
+
+    let visibleCount = 0
+
+    this.getAllOptions().forEach(option => {
+      const display = option.dataset['display']?.toLowerCase() ?? ''
+
+      const value = option.dataset['value']?.toLowerCase() ?? ''
+
+      const matches =
+        searchValue.length === 0
+          ? true
+          : searchValue.length >= minimumLength && (display.includes(searchValue) || value.includes(searchValue))
+
+      option.classList.toggle('autocomplete-text-input-item-hide', !matches)
+
+      option.classList.remove('autocomplete-option-selected')
+
+      option.setAttribute('aria-selected', 'false')
+
+      if (matches) {
+        visibleCount += 1
+      }
+    })
+
+    this.activeIndex = -1
+
+    if (visibleCount > 0) {
+      this.openList()
+    } else {
+      this.closeList()
+    }
+  }
+
+  private onKeyDown(event: KeyboardEvent) {
+    switch (event.key) {
+      case 'ArrowDown':
+        event.preventDefault()
+        this.moveNext()
+        break
+
+      case 'ArrowUp':
+        event.preventDefault()
+        this.movePrevious()
+        break
+
+      case 'Enter':
+        this.selectActiveOption(event)
+        break
+
+      case 'Escape':
+        event.preventDefault()
+        this.closeList()
+        break
+
+      default:
+        break
+    }
+  }
+
+  private moveNext() {
+    const options = this.getVisibleOptions()
+
+    if (!options.length) {
+      return
+    }
+
+    const nextIndex = this.activeIndex < options.length - 1 ? this.activeIndex + 1 : 0
+
+    this.highlightOption(nextIndex)
+  }
+
+  private movePrevious() {
+    const options = this.getVisibleOptions()
+
+    if (!options.length) {
+      return
+    }
+
+    const previousIndex = this.activeIndex > 0 ? this.activeIndex - 1 : options.length - 1
+
+    this.highlightOption(previousIndex)
+  }
+
+  private highlightOption(index: number) {
+    const textInput = this.getTextInput()
+    const options = this.getVisibleOptions()
+
+    if (!textInput || !options.length) {
+      return
+    }
+
+    this.activeIndex = index
+
+    options.forEach((option, optionIndex) => {
+      const selected = optionIndex === index
+
+      option.classList.toggle('autocomplete-option-selected', selected)
+
+      option.setAttribute('aria-selected', String(selected))
+    })
+
+    const activeOption = options[index]
+
+    textInput.setAttribute('aria-activedescendant', activeOption.id)
+
+    activeOption.scrollIntoView({
+      block: 'nearest',
+    })
+  }
+
+  private selectActiveOption(event: KeyboardEvent) {
+    const options = this.getVisibleOptions()
+
+    if (this.activeIndex < 0 || !options[this.activeIndex]) {
+      return
+    }
+
+    event.preventDefault()
+
+    this.selectOption(options[this.activeIndex])
+  }
+
+  private selectOption(option: HTMLElement) {
+    const textInput = this.getTextInput()
+    const hiddenInput = this.getHiddenInput()
+
+    const display = option.dataset['display'] ?? option.textContent?.trim() ?? ''
+
+    const value = option.dataset['value'] ?? ''
+
+    if (textInput) {
+      textInput.value = display
+    }
+
+    if (hiddenInput) {
+      hiddenInput.value = value
+      hiddenInput.disabled = false
+    }
+
+    this.closeList()
+
+    textInput?.dispatchEvent(
+      new Event('change', {
+        bubbles: true,
+      }),
+    )
+  }
+
+  private openList() {
+    const textInput = this.getTextInput()
+
+    textInput?.setAttribute('aria-expanded', 'true')
+
+    this.getListbox()?.classList.remove('autocomplete-text-input-list--hidden')
+  }
+
+  private closeList() {
+    const textInput = this.getTextInput()
+
+    textInput?.setAttribute('aria-expanded', 'false')
+
+    textInput?.removeAttribute('aria-activedescendant')
+
+    this.activeIndex = -1
+
+    this.getAllOptions().forEach(option => {
+      option.classList.add('autocomplete-text-input-item-hide')
+
+      option.classList.remove('autocomplete-option-selected')
+
+      option.setAttribute('aria-selected', 'false')
+    })
+
+    this.getListbox()?.classList.add('autocomplete-text-input-list--hidden')
+  }
+
+  private clearSelection() {
+    const hiddenInput = this.getHiddenInput()
 
     if (hiddenInput) {
       hiddenInput.value = ''
@@ -79,158 +294,16 @@ class Autocomplete extends DprClientClass {
     }
   }
 
-  getTextInput(): HTMLInputElement | null {
-    return this.getElement().querySelector('.autocomplete-text-input-box')
-  }
+  private getListbox(): HTMLElement | null {
+    const textInput = this.getTextInput()
 
-  onTextInput(event: Event, textInput: HTMLInputElement) {
-    const minLength = Number(textInput.dataset['minimumLength'])
-    const { resourceEndpoint } = textInput.dataset
-    const searchValue = (event.target as HTMLInputElement).value.toLowerCase()
-
-    if (resourceEndpoint) {
-      if (searchValue.length >= minLength) {
-        this.addItem(this.clearListAndRecreateTemplate(), '<i>Searching...</i>')
-        this.populateOptionsDynamically(resourceEndpoint, searchValue, textInput, () =>
-          this.clearListAndRecreateTemplate(),
-        )
-      } else {
-        this.clearListAndRecreateTemplate()
-      }
-    } else {
-      this.getElement()
-        .querySelectorAll<HTMLElement>(this.listItemsSelector)
-        .forEach(item => {
-          if (
-            searchValue.length >= minLength &&
-            this.isMatchingStaticOptionNameOrDisplayPrefix(this.getInputListButton(item), searchValue, item)
-          ) {
-            item.classList.remove('autocomplete-text-input-item-hide')
-          } else {
-            item.classList.add('autocomplete-text-input-item-hide')
-          }
-        })
+    if (!textInput) {
+      return null
     }
 
-    if (searchValue.length === 0) {
-      const changeEvent = new Event('change')
-      textInput.dispatchEvent(changeEvent)
-    }
-  }
+    const listId = textInput.getAttribute('aria-controls')
 
-  getInputListButton(item: HTMLElement): HTMLButtonElement | null {
-    return item.querySelector('.autocomplete-text-input-list-button')
-  }
-
-  isMatchingStaticOptionNameOrDisplayPrefix(
-    inputListButton: HTMLButtonElement | null,
-    searchValue: string,
-    item: HTMLElement,
-  ) {
-    return (
-      this.isStaticOptionsNamePrefix(inputListButton?.dataset['staticOptionNameValue'], searchValue) ||
-      item.innerText.trim().toLowerCase().startsWith(searchValue)
-    )
-  }
-
-  isStaticOptionsNamePrefix(staticOptionNameValue: string | undefined, searchValue: string) {
-    return staticOptionNameValue && staticOptionNameValue.trim().toLowerCase().startsWith(searchValue)
-  }
-
-  async populateOptionsDynamically(
-    resourceEndpoint: string,
-    searchValue: string,
-    textInput: HTMLInputElement | null,
-    templateProvider: () => HTMLElement | null,
-  ) {
-    try {
-      const response = await fetch(resourceEndpoint.replace('{prefix}', encodeURI(searchValue)))
-      const results = await response.json()
-
-      if (searchValue === textInput?.value.toLowerCase()) {
-        const template = templateProvider()
-
-        results.forEach((result: string) => {
-          this.addItem(template, result, event => {
-            this.onOptionClick(event, textInput, this.getElement())
-          })
-        })
-      }
-    } catch (error) {
-      this.addItem(templateProvider(), `Failed to retrieve results: ${error}`)
-    }
-  }
-
-  onOptionClick(event: Event, textInput: HTMLInputElement | null, topLevelElement: HTMLElement) {
-    event.preventDefault()
-
-    const button = (event.currentTarget as HTMLElement)?.closest('button')
-    const hiddenInput = this.getHiddenInput()
-
-    const displayValue = button?.innerText.trim()
-    const actualValue = button?.dataset['staticOptionNameValue'] || ''
-
-    // UI Display Value
-    if (textInput) {
-      this.setValue(textInput, displayValue)
-      textInput.dataset['staticOptionNameValue'] = actualValue
-    }
-
-    // submission value
-    if (hiddenInput) {
-      hiddenInput.value = actualValue
-      hiddenInput.disabled = false
-    }
-
-    topLevelElement.querySelectorAll('li').forEach(item => {
-      item.classList.add('autocomplete-text-input-item-hide')
-    })
-  }
-
-  setValue(textInput: HTMLInputElement, displayValue?: string) {
-    if (displayValue) {
-      textInput.value = displayValue
-    }
-
-    textInput.focus()
-    textInput.dispatchEvent(new Event('change', { bubbles: true }))
-  }
-
-  addItem(template: HTMLElement | null, content: string, clickEvent?: (event: Event) => void) {
-    const item: HTMLElement = template?.cloneNode(true) as HTMLElement
-    const button = item?.querySelector('button')
-    if (button) {
-      button.innerHTML = content
-    }
-
-    item.classList.remove('autocomplete-text-input-item-hide')
-    this.getElement().querySelector(this.listParentSelector)?.appendChild(item)
-
-    if (clickEvent) {
-      item.addEventListener('mousedown', (event: Event) => {
-        clickEvent(event)
-      })
-    }
-  }
-
-  clearListAndRecreateTemplate() {
-    const template: HTMLElement | null = this.getElement()
-      .querySelector(this.listItemsSelector)
-      ?.cloneNode(true) as HTMLElement | null
-    template?.classList.add('autocomplete-text-input-item-hide')
-    this.getElement()
-      .querySelectorAll(this.listItemsSelector)
-      .forEach(e => e.remove())
-
-    if (template) {
-      this.getElement().querySelector(this.listParentSelector)?.append(template)
-    }
-
-    return template
-  }
-
-  getHiddenInput(): HTMLInputElement | null {
-    return this.getElement().querySelector('[data-autocomplete-hidden]')
+    return listId ? document.getElementById(listId) : null
   }
 }
 

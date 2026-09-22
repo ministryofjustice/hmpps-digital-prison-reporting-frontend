@@ -1,5 +1,5 @@
 import { resetFeatureFlags } from 'test-app/routes/integrationTests/appStateUtils'
-import { checkA11y, executeReportStubs } from '../../../../../../cypress-tests/cypressUtils'
+import { checkA11y, executeReportStubs, selectAutocompleteOption } from '../../../../../../cypress-tests/cypressUtils'
 
 describe('Request a report', () => {
   const path = '/embedded/platform/dpr/request-report/report/request-examples/request-example-success/filters'
@@ -23,11 +23,7 @@ describe('Request a report', () => {
     cy.findByRole('textbox', { name: 'From' }).type('1/2/2003')
     cy.findByRole('textbox', { name: 'To' }).type('4/5/2007')
     cy.findByRole('combobox', { name: 'Field 4' }).type('Inigo Montoya')
-    cy.findAllByRole('listbox', { name: 'Autocomplete options' })
-      .eq(0)
-      .within(() => {
-        cy.findByRole('button', { name: /Inigo/ }).click()
-      })
+    selectAutocompleteOption({ name: 'Field 4', searchText: 'Inigo Montoya', optionText: 'Inigo Montoya' })
     cy.findByRole('textbox', { name: 'Field 6' }).type('Value 6.1')
     cy.findByRole('textbox', { name: 'Field 7' }).type('05/05/2005')
     // multiselect

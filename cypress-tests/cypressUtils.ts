@@ -292,3 +292,74 @@ export const removeBookmark = (name: string) => {
       cy.findByRole('link', { name: /Remove bookmark/i }).click()
     })
 }
+
+export const selectAutocompleteOption = ({
+  name,
+  searchText,
+  optionText,
+}: {
+  name: string
+  searchText: string
+  optionText: string
+}): void => {
+  cy.findByRole('combobox', { name }).should('be.visible')
+  cy.findByRole('combobox', { name }).clear()
+  cy.findByRole('combobox', { name }).type(searchText)
+  cy.findByRole('option', {
+    name: optionText,
+  })
+    .should('be.visible')
+    .click()
+
+  cy.findByRole('combobox', {
+    name,
+  }).should('have.value', optionText)
+}
+
+export const selectAutocompleteOptionUsingKeyboard = ({
+  name,
+  searchText,
+  optionText,
+}: {
+  name: string
+  searchText: string
+  optionText: string
+}): void => {
+  cy.findByRole('combobox', { name }).should('be.visible')
+  cy.findByRole('combobox', { name }).clear()
+  cy.findByRole('combobox', { name }).type(searchText)
+
+  cy.get('.autocomplete-option:visible').then($options => {
+    const optionIndex = $options.toArray().findIndex(option => option.textContent?.trim() === optionText)
+
+    expect(optionIndex).to.be.greaterThan(-1)
+
+    Cypress._.times(optionIndex + 1, () => {
+      cy.findByRole('combobox', { name }).type('{downArrow}')
+    })
+
+    cy.findByRole('combobox', { name }).type('{enter}')
+    cy.findByRole('combobox', { name }).should('have.value', optionText)
+  })
+}
+
+export const assertAutocompleteOptionCount = ({
+  name,
+  searchText,
+  expectedCount,
+}: {
+  name: string
+  searchText: string
+  expectedCount: number
+}): void => {
+  cy.findByRole('combobox', {
+    name,
+  })
+    .closest('.dpr-autocomplete-text-input')
+    .within(() => {
+      cy.findByRole('combobox').clear()
+      cy.findByRole('combobox').type(searchText)
+
+      cy.get('.autocomplete-option:visible').should('have.length', expectedCount)
+    })
+}

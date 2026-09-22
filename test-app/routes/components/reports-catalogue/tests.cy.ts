@@ -36,7 +36,7 @@ describe('Reports Catalogue', () => {
         validateProductCount(2)
         validateCatalogueTotals(28)
 
-        const expectedCount = 26
+        const expectedCount = 27
 
         getProductRow(productName).should('exist')
         getProductRow(productName).contains(`(${expectedCount} reports)`)

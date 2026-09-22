@@ -1,39 +1,50 @@
+.autocomplete-text-input-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border: 2px solid #0b0c0c;
+  max-height: 300px;
+  overflow-y: auto;
+  background: #fff;
+}
+
+.autocomplete-option {
+  padding: 10px;
+  cursor: pointer;
+  border-bottom: Solid 1px govuk-functional-colour('border');
+}
+
+.autocomplete-option:hover {
+  background: govuk-functional-colour('hover');
+}
+
+.autocomplete-option-selected {
+  background: govuk-functional-colour('brand');
+  color: #fff;
+  outline: 3px solid govuk-functional-colour('focus');
+  outline-offset: -3px;
+}
+
+.autocomplete-text-input-item-hide {
+  display: none;
+}
+
 .dpr-autocomplete-text-input {
   position: relative;
+}
 
-  ul {
-    background-color: white;
-    display: inline-block;
-    left: 0;
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    position: absolute;
-    top: 100%;
-    width: 100%;
-    z-index: 10000;
-  }
+.autocomplete-text-input-list-container {
+  position: absolute;
+  z-index: 100;
+  width: 100%;
+  top: 102%;
+}
 
-  li {
-    border: #b1b4b6 1px solid;
-    border-top: 0;
-    text-align: left;
-    width: calc(100% - 2px);
+.autocomplete-text-input-list {
+  width: 100%;
+  box-sizing: border-box;
+}
 
-    button,
-    a {
-      box-shadow: none;
-      margin-bottom: 0;
-      text-align: left;
-      width: 100%;
-    }
-  }
-
-  .autocomplete-text-input-item-hide {
-    display: none;
-
-    button {
-      display: none;
-    }
-  }
+.autocomplete-text-input-list--hidden {
+  display: none;
 }

@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test'
-import { requestCatalogueVariant, takeScreenshotsOfAllCharts } from './vrtHelpers'
+import { requestCatalogueVariant, takeScreenshotsOfAllCharts } from './helpers/vrtHelpers.spec'
 
 test('Line-timeseries chart complete dataset', async ({ page }) => {
   await page.goto('/embedded/platform')

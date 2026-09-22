@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test'
-import { requestCatalogueVariant, takeScreenshotsOfAllCharts } from './vrtHelpers'
+import { requestCatalogueVariant, takeScreenshotsOfAllCharts } from './helpers/vrtHelpers.spec'
 
 test('Parent-child dashboard', async ({ page }) => {
   await page.goto('/embedded/platform')

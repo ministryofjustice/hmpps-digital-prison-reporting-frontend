@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test'
-import { requestCatalogueVariant, takeScreenshotsOfAllCharts, takeScreenshotsOfAllScorecards } from './vrtHelpers'
+import { requestCatalogueVariant, takeScreenshotsOfAllCharts, takeScreenshotsOfAllScorecards } from './helpers/vrtHelpers.spec'
 
 test('Scorecard VRT tests', async ({ page }) => {
   await page.goto('/embedded/platform')

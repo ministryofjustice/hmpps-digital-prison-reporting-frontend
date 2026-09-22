@@ -86,6 +86,8 @@ class Autocomplete extends DprClientClass {
     }
 
     textInput.value = matchingOption.dataset['display'] ?? matchingOption.textContent?.trim() ?? ''
+
+    textInput.dataset['selectedValue'] = selectedValue
   }
 
   private onInput() {
@@ -241,6 +243,7 @@ class Autocomplete extends DprClientClass {
 
     if (textInput) {
       textInput.value = display
+      textInput.dataset['selectedValue'] = value
     }
 
     if (hiddenInput) {
@@ -287,10 +290,15 @@ class Autocomplete extends DprClientClass {
 
   private clearSelection() {
     const hiddenInput = this.getHiddenInput()
+    const textInput = this.getTextInput()
 
     if (hiddenInput) {
       hiddenInput.value = ''
       hiddenInput.disabled = true
+    }
+
+    if (textInput) {
+      delete textInput.dataset['selectedValue']
     }
   }
 

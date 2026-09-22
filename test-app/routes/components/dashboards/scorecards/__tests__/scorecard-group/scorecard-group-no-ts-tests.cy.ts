@@ -16,7 +16,7 @@ context('Dashboard visualisation: Scorecard Group: No ts data', () => {
       executeDashboardStubs()
       resetFeatureFlags()
 
-      cy.task('stubDefinitionScorecardGroupDashboard')
+      cy.task('stubDefinitionScorecardGroupDashboardNoTs')
       cy.task('stubDashboardResultCompleteDataNoTs')
       cy.task('stubMockDashboardsStatusStarted')
       cy.task('stubMockDashboardsStatusFinished')
@@ -24,7 +24,7 @@ context('Dashboard visualisation: Scorecard Group: No ts data', () => {
       cy.visit(path)
 
       requestReportByNameAndDescription({
-        name: 'Scorecard Group - Complete data',
+        name: 'Scorecard Group - No ts Complete data',
         description: 'Scorecard examples',
       })
 

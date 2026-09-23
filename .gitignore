@@ -166,3 +166,4 @@ cypress
 /blob-report/
 /playwright/.cache/
 /playwright/.auth/
+src/dpr/components/_dashboards/visual-regression-tests/**/*-darwin.png

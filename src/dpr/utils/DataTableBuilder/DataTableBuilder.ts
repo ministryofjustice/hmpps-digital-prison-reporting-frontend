@@ -135,16 +135,19 @@ class DataTableBuilder {
             }
 
             const url = mergeAndStringifyQuery(this.currentQueryParams ?? {}, updateQueryParams, this.fields)
-            const visuallyHiddenText = `. ${sortDirection === 'none' ? 'Not sorted' : `Sorted ${sortDirection}`}. Click to sort ${nextAsc ? 'Ascending' : 'Descending'}`
 
             return {
+              attributes: {
+                'aria-sort': sortDirection,
+              },
               html:
                 `<a ` +
+                `role="button"` +
                 `data-column="${f.name}" ` +
-                `aria-describedby="${f.name}"` +
+                `aria-describedby="${f.display}"` +
                 `class="data-table-header-button data-table-header-button-sort-${sortDirection} ${classes}" ` +
                 `href="${url}"` +
-                `>${f.display}<span id=${f.name} class="govuk-visually-hidden">${visuallyHiddenText}</span></a>`,
+                `>${f.display}</a>`,
             }
           }
         }
@@ -294,26 +297,6 @@ class DataTableBuilder {
       })
       .join('-')
       .toLowerCase()
-  }
-
-  protected convertDataTableToHtml(dataTable: DataTable): string {
-    const head = dataTable.head || []
-    const headers = head.map(h => `<th scope='col' class='govuk-table__header'>${h.html ?? h.text}</th>`)
-    const rows = dataTable.rows.map(
-      r =>
-        `<tr class='govuk-table__row'>${r
-          .map(
-            c => `<td class='govuk-table__cell govuk-table__cell--${c.format} ${c.classes}'>${c.html ?? c.text}</td>`,
-          )
-          .join('')}</tr>`,
-    )
-
-    return (
-      "<table class='govuk-table'>" +
-      `<thead class='govuk-table__head'>${headers.join('')}</thead>` +
-      `<tbody class='govuk-table__body'>${rows.join('')}</tbody>` +
-      '</table>'
-    )
   }
 
   withHeaderOptions({

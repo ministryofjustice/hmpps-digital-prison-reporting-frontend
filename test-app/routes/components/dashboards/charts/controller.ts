@@ -22,6 +22,11 @@ export default class ChartsController {
           href: '/components/dashboards/charts/pie',
         },
         {
+          text: 'Matrix',
+          description: 'Matrix chart component examples',
+          href: '/components/dashboards/charts/matrix',
+        },
+        {
           text: 'List',
           description: 'List chart component examples',
           href: '/components/dashboards/charts/list',

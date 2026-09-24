@@ -19,11 +19,11 @@ context('Viewing a report', () => {
     it('should not show the ability to bookmark with bookmarking disabled', () => {
       toggleBookmarking()
       cy.visit(path)
-      cy.findAllByRole('link', { name: /Add bookmark/ }).should('have.length', 0)
+      cy.findAllByRole('button', { name: /Add bookmark/ }).should('have.length', 0)
 
       toggleBookmarking()
       cy.visit(path)
-      cy.findAllByRole('link', { name: /Add bookmark/ }).should('have.length.above', 0)
+      cy.findAllByRole('button', { name: /Add bookmark/ }).should('have.length.above', 0)
     })
 
     it('should show the ability to save filters as default with feature flag enabled', () => {

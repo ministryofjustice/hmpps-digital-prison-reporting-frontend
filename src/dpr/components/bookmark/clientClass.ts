@@ -8,15 +8,20 @@ type BookmarkResponse = {
 
 class BookmarkButton extends DprClientClass {
   private isSubmitting = false
+  private form!: HTMLFormElement
+  private button!: HTMLButtonElement | null
+  private typeInput!: HTMLInputElement | null
 
   static override getModuleName() {
     return 'bookmark-button'
   }
 
   override initialise(): void {
-    const form = this.getElement() as HTMLFormElement
+    this.form = this.getElement() as HTMLFormElement
+    this.button = this.form.querySelector<HTMLButtonElement>('[data-bookmark-button="true"]')
+    this.typeInput = this.form.querySelector<HTMLInputElement>('input[name="type"]')
 
-    form.addEventListener('submit', event => {
+    this.form.addEventListener('submit', event => {
       void this.handleSubmit(event)
     })
   }
@@ -28,74 +33,79 @@ class BookmarkButton extends DprClientClass {
       return
     }
 
-    const form = this.getElement() as HTMLFormElement
-
-    const button = form.querySelector<HTMLButtonElement>('[data-bookmark-button="true"]')
-
-    const typeInput = form.querySelector<HTMLInputElement>('input[name="type"]')
-
-    if (!button || !typeInput) {
+    if (!this.button || !this.typeInput) {
       return
     }
 
     try {
-      this.isSubmitting = true
+      this.startSubmitting(this.button)
 
-      button.classList.add('bookmark-disabled')
-
-      button.disabled = true
-
-      button.setAttribute('aria-disabled', 'true')
-
-      const csrfToken = form.querySelector<HTMLInputElement>('input[name="_csrf"]')?.value ?? ''
-      const formData = new FormData(form)
-      const payload = Object.fromEntries(formData.entries())
-
-      const response = await fetch(form.action, {
-        method: form.method || 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          'CSRF-Token': csrfToken,
-        },
-        body: JSON.stringify(payload),
-      })
-
-      if (!response.ok) {
-        throw new Error(`Bookmark request failed (${response.status})`)
-      }
-
-      const data = (await response.json()) as BookmarkResponse
+      const data = await this.submitBookmark()
 
       if (!data.success) {
         return
       }
 
-      const addText = button.dataset['addText'] ?? 'Add bookmark'
-
-      const removeText = button.dataset['removeText'] ?? 'Remove bookmark'
-
-      if (data.type === 'remove') {
-        typeInput.value = 'remove'
-        button.textContent = removeText
-        button.setAttribute('aria-pressed', 'true')
-      } else {
-        typeInput.value = 'add'
-        button.textContent = addText
-        button.setAttribute('aria-pressed', 'false')
-      }
-
-      button.dataset['bookmarked'] = String(data.bookmarked)
+      this.updateUi(this.button, this.typeInput, data)
     } catch (error) {
       console.error('Bookmark update failed', error)
     } finally {
-      this.isSubmitting = false
-
-      button.classList.remove('bookmark-disabled')
-
-      button.disabled = false
-      button.removeAttribute('aria-disabled')
+      this.finishSubmitting(this.button)
     }
+  }
+
+  private startSubmitting(button: HTMLButtonElement): void {
+    this.isSubmitting = true
+
+    button.classList.add('bookmark-disabled')
+    button.disabled = true
+    button.setAttribute('aria-disabled', 'true')
+  }
+
+  private finishSubmitting(button: HTMLButtonElement): void {
+    this.isSubmitting = false
+
+    button.classList.remove('bookmark-disabled')
+    button.disabled = false
+    button.removeAttribute('aria-disabled')
+  }
+
+  private async submitBookmark(): Promise<BookmarkResponse> {
+    const csrfToken = this.form.querySelector<HTMLInputElement>('input[name="_csrf"]')?.value ?? ''
+
+    const payload = Object.fromEntries(new FormData(this.form).entries())
+
+    const response = await fetch(this.form.action, {
+      method: this.form.method || 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'CSRF-Token': csrfToken,
+      },
+      body: JSON.stringify(payload),
+    })
+
+    if (!response.ok) {
+      throw new Error(`Bookmark request failed (${response.status})`)
+    }
+
+    return response.json() as Promise<BookmarkResponse>
+  }
+
+  private updateUi(button: HTMLButtonElement, typeInput: HTMLInputElement, data: BookmarkResponse): void {
+    const addText = button.dataset['addText'] ?? 'Add bookmark'
+
+    const removeText = button.dataset['removeText'] ?? 'Remove bookmark'
+
+    const isBookmarked = data.type === 'remove'
+
+    typeInput.value = data.type
+
+    button.textContent = isBookmarked ? removeText : addText
+
+    button.setAttribute('aria-pressed', String(isBookmarked))
+
+    button.dataset['bookmarked'] = String(data.bookmarked)
   }
 }
 

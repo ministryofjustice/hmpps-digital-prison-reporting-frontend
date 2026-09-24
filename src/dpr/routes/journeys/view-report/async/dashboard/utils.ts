@@ -32,6 +32,11 @@ export const renderDashboard = async ({ req, res, services }: AsyncReportUtilsPa
     (res.locals['definition'] as components['schemas']['DashboardDefinition']) ??
     (await services.dashboardService.getDefinition(token, reportId, id, queryData))
 
+  // Get the definition summary
+  const definitionSummary =
+    (res.locals['reportDefinitionSummary'] as components['schemas']['ReportDefinitionSummary']) ??
+    (await services.reportingService.getDefinitionSummary(token, reportId))
+
   // Validate definition
   DashboardSchema.DashboardSchema.parse(definition)
 
@@ -47,7 +52,15 @@ export const renderDashboard = async ({ req, res, services }: AsyncReportUtilsPa
   await validateDashboardVisualisations(masterDefinition)
 
   // Create the report config
-  const reportConfig = await new Dashboard(services, res, req, masterDefinition, LoadType.ASYNC, requestData).build()
+  const reportConfig = await new Dashboard(
+    services,
+    res,
+    req,
+    masterDefinition,
+    definitionSummary,
+    LoadType.ASYNC,
+    requestData,
+  ).build()
   const { dashboardData } = reportConfig
 
   if (dashboardData && dashboardData.sections?.length && requestData && Object.keys(requestData).length) {

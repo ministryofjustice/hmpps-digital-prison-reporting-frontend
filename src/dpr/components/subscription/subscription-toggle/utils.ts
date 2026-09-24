@@ -22,7 +22,7 @@ export const renderSubscriptionToggleAsHtml = async (
   const { reportId, id } = reportConfig
 
   return nunjucks.render('components/subscription/subscription-toggle/render.njk', {
-    subscriptionConfig: await setupSubscriptionConfig(req, res, reportId, id, schedule, services),
+    subscriptionConfig: await setupSubscriptionConfig(req, res, reportId, id, services, schedule),
     reportConfig,
   })
 }

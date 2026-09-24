@@ -14,8 +14,12 @@ export const renderReport = async ({ req, res, services }: AsyncReportUtilsParam
     (res.locals['definition'] as components['schemas']['SingleVariantReportDefinition']) ??
     (await services.reportingService.getDefinition(token, reportId, id))
 
+  const definitionSummary =
+    (res.locals['reportDefinitionSummary'] as components['schemas']['ReportDefinitionSummary']) ??
+    (await services.reportingService.getDefinitionSummary(token, reportId))
+
   // Create the report config
-  const reportConfig = await new Report(services, res, req, definition, LoadType.SYNC).build()
+  const reportConfig = await new Report(services, res, req, definition, definitionSummary, LoadType.SYNC).build()
 
   // Save the data to redis
   if (reportConfig && reportConfig.renderData && Object.keys(reportConfig.renderData).length) {

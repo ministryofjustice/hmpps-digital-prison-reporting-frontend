@@ -1,6 +1,5 @@
 import { Response, Request } from 'express'
 import { setupSubscriptionConfig } from 'src/dpr/components/subscription/utils'
-import { VariantDefinitionSummaryWithSchedule } from 'src/dpr/types/Subscriptions'
 import { LoadType, ReportType } from '../../../../../../../types/UserReports'
 import localsHelper, { getRouteLocals } from '../../../../../../../utils/localsHelper'
 import { setNestedPath } from '../../../../../../../utils/urlHelper'
@@ -31,10 +30,7 @@ export const intitialiseCatalogueRowActions = async (
   req: Request,
   services: Services,
   definition: components['schemas']['ReportDefinitionSummary'],
-  variant:
-    | components['schemas']['VariantDefinitionSummary']
-    | components['schemas']['DashboardDefinitionSummary']
-    | VariantDefinitionSummaryWithSchedule,
+  variant: components['schemas']['VariantDefinitionSummary'] | components['schemas']['DashboardDefinitionSummary'],
   reportType: ReportType,
   authorised: boolean,
 ): Promise<CatalogueVariantRowActions> => {
@@ -59,14 +55,13 @@ export const intitialiseCatalogueRowActions = async (
       bookmark = await setBookmark(res, req, services, definition.id, variant.id, reportType)
     }
 
-    // TODO: Subs: remove this casting when API is ready
-    if (services.subscriptionService.enabled && (<VariantDefinitionSummaryWithSchedule>variant).schedule) {
+    if (services.subscriptionService.enabled && (<components['schemas']['VariantDefinitionSummary']>variant).schedule) {
       subscription = await setSubscriptionAction(
         res,
         req,
         services,
         definition,
-        <VariantDefinitionSummaryWithSchedule>variant,
+        <components['schemas']['VariantDefinitionSummary']>variant,
       )
     }
   }
@@ -200,15 +195,15 @@ const setSubscriptionAction = async (
   req: Request,
   services: Services,
   definition: components['schemas']['ReportDefinitionSummary'],
-  variant: VariantDefinitionSummaryWithSchedule,
+  variant: components['schemas']['VariantDefinitionSummary'],
 ): Promise<CatalogueVariantRowActionSubscription> => {
   const subscriptionConfig = await setupSubscriptionConfig(
     req,
     res,
     definition.id,
     variant.id,
-    variant.schedule,
     services,
+    variant.schedule,
   )
 
   const reportConfig = {

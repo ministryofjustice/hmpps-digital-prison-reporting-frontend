@@ -191,7 +191,7 @@ export default class DataPresentation {
     this.extractedRequestData = this.requestData ? this.extractDataFromRequest(this.requestData) : undefined
 
     // Setup bookmark
-    const bookmarkConfig = setUpBookmark(this.res, this.req, this.services.bookmarkService)
+    const bookmarkConfig = setUpBookmark(this.res, this.req, this.services.bookmarkService, undefined, true)
 
     // Setup subscribe
     const subscriptionConfig = await setupSubscriptionConfig(this.req, this.res, reportId, id, schedule, this.services)

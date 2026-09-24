@@ -1,112 +1,101 @@
-import { ReportType } from '../../types/UserReports'
 import { DprClientClass } from '../../DprClientClass'
 
-export enum BookmarkAction {
-  ADD = 'add',
-  REMOVE = 'remove',
+type BookmarkResponse = {
+  success: boolean
+  type: 'add' | 'remove'
+  bookmarked: boolean
 }
 
 class BookmarkButton extends DprClientClass {
-  csrfToken!: string
-  reportId!: string | null
-  id!: string | null
-  linkType!: BookmarkAction
-  reportType!: ReportType
-  endpoint!: string
-  baseUrl!: string
-  isRunning = false
+  private isSubmitting = false
 
   static override getModuleName() {
     return 'bookmark-button'
   }
 
   override initialise(): void {
-    const element = this.getElement()
-    element.style.pointerEvents = ''
-    element.style.opacity = '1'
-    this.id = element.getAttribute('data-id')
-    this.reportId = element.getAttribute('data-report-id')
-    this.linkType = (this.element.getAttribute('data-link-type') as BookmarkAction) || BookmarkAction.ADD
-    this.setReportType()
-    this.endpoint = element.getAttribute('data-endpoint') || ''
-    this.csrfToken = element.getAttribute('data-csrf-token') || ''
+    const form = this.getElement() as HTMLFormElement
 
-    this.initEventListener()
-  }
-
-  /**
-   * Updates the bookmark button UI so that it shows:
-   * - the correct text
-   * - toggles the bookmark on and off correctly
-   *
-   * @memberof BookmarkButton
-   */
-  updateUI() {
-    this.linkType = this.linkType === BookmarkAction.ADD ? BookmarkAction.REMOVE : BookmarkAction.ADD
-    const textContent = this.linkType === BookmarkAction.ADD ? 'Add bookmark' : 'Remove bookmark'
-    const element = this.getElement()
-    element.setAttribute('data-link-type', this.linkType)
-    element.textContent = textContent
-  }
-
-  /**
-   * Inits the bookmark button click event
-   *
-   * @memberof BookmarkButton
-   */
-  initEventListener() {
-    this.getElement().addEventListener('click', (e: MouseEvent) => this.activateBookmark(e))
-    this.getElement().addEventListener('keydown', (e: KeyboardEvent) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        this.activateBookmark(e)
-      }
+    form.addEventListener('submit', event => {
+      void this.handleSubmit(event)
     })
   }
 
-  async activateBookmark(e: Event) {
-    e.preventDefault()
+  private async handleSubmit(event: SubmitEvent): Promise<void> {
+    event.preventDefault()
 
-    if (this.isRunning) return
-    this.isRunning = true
-    this.getElement().classList.add('bookmark-disabled')
+    if (this.isSubmitting) {
+      return
+    }
+
+    const form = this.getElement() as HTMLFormElement
+
+    const button = form.querySelector<HTMLButtonElement>('[data-bookmark-button="true"]')
+
+    const typeInput = form.querySelector<HTMLInputElement>('input[name="type"]')
+
+    if (!button || !typeInput) {
+      return
+    }
 
     try {
-      await fetch(this.endpoint, {
-        method: 'POST',
+      this.isSubmitting = true
+
+      button.classList.add('bookmark-disabled')
+
+      button.disabled = true
+
+      button.setAttribute('aria-disabled', 'true')
+
+      const csrfToken = form.querySelector<HTMLInputElement>('input[name="_csrf"]')?.value ?? ''
+      const formData = new FormData(form)
+      const payload = Object.fromEntries(formData.entries())
+
+      const response = await fetch(form.action, {
+        method: form.method || 'POST',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          'CSRF-Token': this.csrfToken,
+          'CSRF-Token': csrfToken,
         },
-        body: JSON.stringify({
-          type: this.linkType,
-          id: this.id,
-          reportId: this.reportId,
-          reportType: this.reportType,
-        }),
+        body: JSON.stringify(payload),
       })
-        .then(() => {
-          // The page should not reload if on the report/dashboard page so not to have to reload the data and cause a delay
-          // Should instead update the UI labels to signify the change has been made
-          if (!window.location.href.includes('/report') && !window.location.href.includes('/dashboard')) {
-            window.location.reload()
-          } else {
-            this.updateUI()
-          }
-        })
-        .catch(error => console.error('Error:', error))
-    } finally {
-      this.isRunning = false
-      this.getElement().classList.remove('bookmark-disabled')
-    }
-  }
 
-  setReportType() {
-    const rawReportTypeValue = this.element.getAttribute('data-report-type') || ''
-    if (!['dashboard', 'report'].includes(rawReportTypeValue)) {
-      throw new Error(`Report type for bookmark setup was unexpected: ${rawReportTypeValue}`)
+      if (!response.ok) {
+        throw new Error(`Bookmark request failed (${response.status})`)
+      }
+
+      const data = (await response.json()) as BookmarkResponse
+
+      if (!data.success) {
+        return
+      }
+
+      const addText = button.dataset['addText'] ?? 'Add bookmark'
+
+      const removeText = button.dataset['removeText'] ?? 'Remove bookmark'
+
+      if (data.type === 'remove') {
+        typeInput.value = 'remove'
+        button.textContent = removeText
+        button.setAttribute('aria-pressed', 'true')
+      } else {
+        typeInput.value = 'add'
+        button.textContent = addText
+        button.setAttribute('aria-pressed', 'false')
+      }
+
+      button.dataset['bookmarked'] = String(data.bookmarked)
+    } catch (error) {
+      console.error('Bookmark update failed', error)
+    } finally {
+      this.isSubmitting = false
+
+      button.classList.remove('bookmark-disabled')
+
+      button.disabled = false
+      button.removeAttribute('aria-disabled')
     }
-    this.reportType = rawReportTypeValue as ReportType
   }
 }
 

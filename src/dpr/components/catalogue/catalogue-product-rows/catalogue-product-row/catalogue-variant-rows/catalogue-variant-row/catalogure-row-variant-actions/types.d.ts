@@ -20,6 +20,7 @@ export type CatalogueVariantRowActionBookmark = {
   showBookmark: boolean
   linkType: string
   linkText: string
+  reportName?: string | undefined
 }
 
 export type CatalogueVariantRowActionSubscription = {

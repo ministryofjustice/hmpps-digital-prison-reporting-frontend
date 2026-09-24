@@ -1,19 +1,80 @@
+{% from "../button-link/view.njk" import dprButtonLink %}
+
 {% macro dprBookmarkButton(reportId, id, reportType, csrfToken, config) %}
-  {% set reportType %}{{ reportType if reportType else 'report' }}{% endset %}
+  {% set reportType = reportType if reportType else 'report' %}
   {% set linkId = reportId + '-' + id + '-' + reportType %}
 
-  <a
-    href="#"
-    class="govuk-link govuk-link--no-visited-state"
-    id="{{ linkId }}"
-    data-dpr-module="bookmark-button"
-    data-id="{{ id }}"
-    data-report-id="{{ reportId }}"
-    data-report-type="{{ reportType }}"
-    data-csrf-token="{{ csrfToken }}"
-    data-endpoint="{{ config.bookmarkActionEndpoint }}"
-    data-link-type="{{ config.linkType }}"
-  >
-    {{ config.linkText }}
-  </a>
+  {% set bookmarkActionEndpoint = config.bookmarkActionEndpoint %}
+  {% set linkType = config.linkType %}
+  {% set linkText = config.linkText %}
+  {% set reportName = config.reportName %}
+  {% set currentUrl = config.currentUrl %}
+  {% set ajax = config.isAjax or false %}
+
+  <form
+    class="dpr-bookmark-form"
+    method="POST"
+    action="{{ bookmarkActionEndpoint }}"
+    {% if ajax %}
+      data-dpr-module="bookmark-button"
+    {% endif %}
+    >
+
+    <input
+      type="hidden"
+      name="reportType"
+      value="{{ reportType }}"
+    />
+
+    <input
+      type="hidden"
+      name="_csrf"
+      value="{{ csrfToken }}"
+    />
+
+    <input
+      type="hidden"
+      name="type"
+      value="{{ linkType }}"
+    />
+
+    <input
+      type="hidden"
+      name="returnTo"
+      value="{{ currentUrl }}"
+    />
+
+    <input
+      type="hidden"
+      name="reportId"
+      value="{{ reportId }}"
+    />
+
+    <input
+      type="hidden"
+      name="id"
+      value="{{ id }}"
+    />
+
+    {{
+      dprButtonLink({
+        text: linkText,
+        attributes: {
+          type: "submit",
+          id: linkId,
+          "data-bookmark-button": "true",
+          "data-add-text": 'Add bookmark',
+          "data-remove-text": 'Remove bookmark',
+          "data-bookmarked": "true" if linkType == "remove" else "false",
+          "aria-pressed": "true" if linkType == "remove" else "false"
+        }
+      })
+    }}
+
+    {% if reportName %}
+      <span class="govuk-visually-hidden">
+        for {{ reportName }}
+      </span>
+    {% endif %}
+  </form>
 {% endmacro %}

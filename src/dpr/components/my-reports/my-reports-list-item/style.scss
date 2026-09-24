@@ -28,7 +28,7 @@
   grid-template-columns:
     3fr /* title */
     6fr /* description */
-    2fr; /* actions */
+    3fr; /* actions */
 }
 
 /* title | filters | status | actions */
@@ -36,9 +36,9 @@
 .dpr-my-reports__table--viewed {
   grid-template-columns:
     5fr /* title */
-    8fr /* filters */
-    2fr /* status */
-    2fr; /* actions */
+    9fr /* filters */
+    3fr /* status */
+    3fr; /* actions */
 }
 
 .dpr-my-reports__table--subscriptions {
@@ -114,6 +114,9 @@
   }
   .dpr-my-reports__cell--schedule {
     grid-column: 4;
+    p {
+      margin-bottom: 0px;
+    }
   }
   .dpr-my-reports__cell--actions {
     grid-column: 5;
@@ -196,4 +199,86 @@
 
 .dpr-my-reports__empty-state {
   margin-top: govuk-spacing(5);
+}
+
+.dpr-my-reports-column-heading {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  clip: rect(0 0 0 0) !important;
+  -webkit-clip-path: inset(50%) !important;
+  clip-path: inset(50%) !important;
+  border: 0 !important;
+  white-space: nowrap !important;
+
+  @media (max-width: 760px) {
+    position: static !important;
+    width: auto !important;
+    height: auto !important;
+    overflow: visible !important;
+    clip: auto !important;
+    -webkit-clip-path: none !important;
+    clip-path: none !important;
+    white-space: normal !important;
+
+    display: block;
+    margin-bottom: govuk-spacing(2) !important;
+  }
+}
+
+@media (max-width: 760px) {
+  .dpr-my-reports__headings {
+    display: none;
+  }
+
+  .dpr-my-reports__table {
+    grid-template-columns: 1fr !important;
+    row-gap: 0;
+  }
+
+  .dpr-my-reports__cell {
+    grid-column: 1 / -1 !important;
+    padding-left: govuk-spacing(3);
+    padding-right: govuk-spacing(3);
+    border: none;
+    display: block;
+  }
+
+  .dpr-my-reports__cell--actions {
+    margin-bottom: govuk-spacing(3);
+    border-bottom: solid 1px govuk-functional-colour('border');
+    padding-bottom: 0px;
+  }
+
+  .dpr-my-reports__cell--title {
+    border-top: solid 1px govuk-functional-colour('border');
+  }
+
+  .dpr-my-reports__cell--description {
+    .govuk-body-s {
+      margin-bottom: 0px;
+    }
+  }
+
+  .dpr-my-reports__cell--title,
+  .dpr-my-reports__cell--description,
+  .dpr-my-reports__cell--status,
+  .dpr-my-reports__cell--schedule,
+  .dpr-my-reports__cell--filters,
+  .dpr-my-reports__cell--actions {
+    border-left: solid 1px govuk-functional-colour('border');
+    border-right: solid 1px govuk-functional-colour('border');
+  }
+
+  .dpr-my-reports__cell--actions {
+    .dpr-my-reports__actions-list {
+      text-align: left;
+      .dpr-button-link {
+        text-align: left;
+      }
+    }
+  }
 }

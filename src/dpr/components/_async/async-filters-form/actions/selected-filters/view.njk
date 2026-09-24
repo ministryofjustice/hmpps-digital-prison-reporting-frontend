@@ -1,7 +1,9 @@
 {% macro dprSelectedFilters(resetArgs) %}
   <div class="dpr-selected-filters-container">
     <div class="dpr-selected-filters">
-      <h2 id="dpr-selected-filters-label" class="govuk-heading-s govuk-!-margin-bottom-2">Selected filters</h2>
+      <h2 id="dpr-selected-filters-label" class="govuk-heading-s govuk-!-margin-bottom-2">
+        Selected filters
+      </h2>
 
       <div
         id="dpr-selected-filters"
@@ -11,6 +13,13 @@
       >
         <!-- Client-side rendered -->
       </div>
+
+      <div
+        id="dpr-selected-filters-announcements"
+        class="govuk-visually-hidden"
+        aria-live="polite"
+        aria-atomic="true"
+      ></div>
     </div>
   </div>
 {% endmacro %}

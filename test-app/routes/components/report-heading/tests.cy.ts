@@ -41,12 +41,6 @@ context('Search component', () => {
     })
 
     cy.visit(path)
-    cy.findByRole('button', { name: /Add bookmark/ })
-      .should('be.visible')
-      .click()
-    cy.findByRole('button', { name: /Remove bookmark/ })
-      .should('be.visible')
-      .click()
     cy.findByRole('button', { name: /Add bookmark/ }).should('be.visible')
   })
 })

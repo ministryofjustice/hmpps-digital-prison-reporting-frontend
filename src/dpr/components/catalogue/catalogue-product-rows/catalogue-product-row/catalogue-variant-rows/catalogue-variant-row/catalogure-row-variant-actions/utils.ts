@@ -44,19 +44,22 @@ export const intitialiseCatalogueRowActions = async (
     }
   }
 
+  const { id } = definition
+  const { id: variantId, name } = variant
+
   let missing
   if (reportType === ReportType.REPORT) {
-    missing = setMissingAction(res, definition.id, <components['schemas']['VariantDefinitionSummary']>variant)
+    missing = setMissingAction(res, id, <components['schemas']['VariantDefinitionSummary']>variant)
   }
 
   let request
   let bookmark
   let subscription
   if (!missing) {
-    request = setRequestAction(res, definition.id, variant, reportType)
+    request = setRequestAction(res, id, variant, reportType)
 
     if (services.bookmarkService.enabled) {
-      bookmark = await setBookmark(res, req, services, definition.id, variant.id, reportType)
+      bookmark = await setBookmark(res, req, services, id, variantId, reportType, name)
     }
 
     // TODO: Subs: remove this casting when API is ready
@@ -179,6 +182,7 @@ const setBookmark = async (
   productId: string,
   id: string,
   reportType: ReportType,
+  reportName: string,
 ): Promise<CatalogueVariantRowActionBookmark> => {
   const { csrfToken, dprUser } = localsHelper.getValues(res)
 
@@ -192,6 +196,7 @@ const setBookmark = async (
     reportType,
     csrfToken,
     ...bookmarkConfig,
+    reportName,
   }
 }
 

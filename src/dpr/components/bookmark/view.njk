@@ -16,4 +16,10 @@
   >
     {{ config.linkText }}
   </a>
+
+  {% if config.reportName %}
+    <span class="govuk-visually-hidden">
+      for {{ config.reportName }}
+    </span>
+  {% endif %}
 {% endmacro %}

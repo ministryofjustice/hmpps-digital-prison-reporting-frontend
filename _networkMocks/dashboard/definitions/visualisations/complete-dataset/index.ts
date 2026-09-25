@@ -9,9 +9,9 @@ import { definition as listInvalidVisDefinition } from './list/definition-invali
 // scorecard
 import { definition as scorecardsCompleteDataset } from './scorecard/definition'
 import { definition as scorecardsCompleteBadDataset } from './scorecard/definition-bad-data'
-import { definition as scorecardsCompleteNoTsDataset } from './scorecard/definition-no-ts'
 import { definition as scorecardsBucketsCompleteDataset } from './scorecard/definition-buckets'
 import { definition as scorecardsInvalid } from './scorecard/definition-invalid'
+import { definition as scorecardsCompleteNoTsDataset } from './scorecard/definition-no-ts'
 
 // scorecard-group
 import { definition as scorecardGroupCompleteDataset } from './scorecardGroup/definition'
@@ -28,8 +28,8 @@ import { definition as barChartsDefinition } from './bar/definition'
 import { definition as doughnutChartsDefinition } from './doughnut/definition'
 
 // line
-import { definition as lineCompleteDefinition } from './line/definition'
 import { definition as linetimeseriesChartsDefinition } from './line-timeseries/definition'
+import { definition as lineCompleteDefinition } from './line/definition'
 
 // mixed
 import { definition as mixedDefinition } from './mixed/definition'
@@ -47,7 +47,7 @@ const scorecardGroups = [
   scorecardGroupCompleteDatasetInvalid,
   scorecardGroupCompleteDataseNoTs,
 ]
-const matrixDefs = [matrixChartDefinition]
+const matrixDefs = [matrixChartDefinition] as components['schemas']['DashboardDefinition'][] // TODO: fix later
 const barChartDefs = [barChartsDefinition]
 const doughnutChartDefs = [doughnutChartsDefinition]
 const lineDefs = [lineCompleteDefinition]

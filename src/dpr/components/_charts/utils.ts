@@ -86,6 +86,8 @@ export const createTimeseriesCharts = (
 
   const { latestData, dataSetRows, timeseriesData } = getDataForTimeseriesCharts(chartDefinition, rawData)
 
+  // console.log('createTimeseriesCharts: latestData', timeseriesData)
+
   if (dataSetRows.length) {
     switch (type) {
       case DashboardVisualisationType.MATRIX_TIMESERIES:

@@ -34,6 +34,8 @@ export const getDatasetRows = (
     keyColumnsIds.unshift(dateData.measure.id)
   }
 
+  // console.log('getDatasetRows: datasetRow', dashboardData?.[0])
+
   const filtered = dashboardData.filter((datasetRow: DashboardDataResponse) => {
     const validRow: boolean[] = []
 
@@ -72,6 +74,20 @@ export const getDatasetRows = (
         valid = value === '' || value === undefined || value === null
       }
 
+      if (!valid && fieldId === 'has_metric_two') {
+        console.log('FAILED', {
+          fieldId,
+          value,
+          displayColumnsIds,
+
+          keyColumnsIds,
+
+          filterColIds,
+
+          expectNulls,
+        })
+      }
+
       validRow.push(valid)
     })
 
@@ -81,6 +97,8 @@ export const getDatasetRows = (
   if (hasOptionalKeys) {
     return OptionalKeysHelper.filterRowsByKeys(filtered, keys || [])
   }
+
+  // console.log('getDatasetRows: filtered', filtered)
 
   return filtered
 }
@@ -186,6 +204,7 @@ export const filterRowsByDisplayColumns = (
   }
   const displayColumnsIds = displayColumns.map(col => col.id)
 
+  console.log('filterRowsByDisplayColumns: displayColumnsIds', displayColumnsIds, dashboardData)
   return dashboardData.map((datasetRow: DashboardDataResponse) => {
     return Object.keys(datasetRow)
       .filter(key => displayColumnsIds.includes(key))

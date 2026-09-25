@@ -20,41 +20,12 @@
     {% endif %}
     >
 
-    <input
-      type="hidden"
-      name="reportType"
-      value="{{ reportType }}"
-    />
-
-    <input
-      type="hidden"
-      name="_csrf"
-      value="{{ csrfToken }}"
-    />
-
-    <input
-      type="hidden"
-      name="type"
-      value="{{ linkType }}"
-    />
-
-    <input
-      type="hidden"
-      name="returnTo"
-      value="{{ currentUrl }}"
-    />
-
-    <input
-      type="hidden"
-      name="reportId"
-      value="{{ reportId }}"
-    />
-
-    <input
-      type="hidden"
-      name="id"
-      value="{{ id }}"
-    />
+    <input type="hidden" name="reportType" value="{{ reportType }}" />
+    <input type="hidden" name="_csrf" value="{{ csrfToken }}"/>
+    <input type="hidden" name="type" value="{{ linkType }}" />
+    <input type="hidden" name="returnTo" value="{{ currentUrl }}"/>
+    <input type="hidden" name="reportId" value="{{ reportId }}" />
+    <input type="hidden" name="id" value="{{ id }}" />
 
     {{
       dprButtonLink({
@@ -77,4 +48,11 @@
       </span>
     {% endif %}
   </form>
+
+  <div
+    id="dpr-bookmark-announcements"
+    class="govuk-visually-hidden"
+    aria-live="polite"
+    aria-atomic="true"
+  ></div>
 {% endmacro %}

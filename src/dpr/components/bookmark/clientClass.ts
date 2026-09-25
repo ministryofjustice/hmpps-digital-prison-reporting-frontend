@@ -47,6 +47,7 @@ class BookmarkButton extends DprClientClass {
       }
 
       this.updateUi(this.button, this.typeInput, data)
+      this.announceBookmarkUpdate(data.bookmarked)
     } catch (error) {
       console.error('Bookmark update failed', error)
     } finally {
@@ -106,6 +107,22 @@ class BookmarkButton extends DprClientClass {
     button.setAttribute('aria-pressed', String(isBookmarked))
 
     button.dataset['bookmarked'] = String(data.bookmarked)
+  }
+
+  private announceBookmarkUpdate(isBookmarked: boolean): void {
+    const liveRegion = document.getElementById('dpr-bookmark-announcements')
+
+    if (!liveRegion) {
+      return
+    }
+
+    liveRegion.textContent = ''
+
+    const announcement = isBookmarked ? 'Bookmark added' : 'Bookmark removed'
+
+    window.setTimeout(() => {
+      liveRegion.textContent = announcement
+    }, 10)
   }
 }
 

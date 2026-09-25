@@ -103,7 +103,7 @@ context('Bookmarks list', () => {
 
               cy.findByLabelText(/Bookmarks.*/i).within(() => {
                 getMyReportRowCell({ name: 'Test Dashboard', cell: 'actions' }).within(() => {
-                  cy.findByRole('link', { name: /Remove bookmark/ }).should('be.visible')
+                  cy.findByRole('button', { name: /Remove bookmark/ }).should('be.visible')
                 })
               })
 
@@ -172,8 +172,8 @@ context('Bookmarks list', () => {
             expectMyReportRowCountInTab({ tabName: /Bookmarks.*/i, count: 2 })
 
             cy.visit(viewReportUrl)
-            cy.findByRole('link', { name: /Add bookmark/ }).click()
-            cy.findByRole('link', { name: /Remove bookmark/ }).should('be.visible')
+            cy.findByRole('button', { name: /Add bookmark/ }).click()
+            cy.findByRole('button', { name: /Remove bookmark/ }).should('be.visible')
 
             cy.visit(path)
 
@@ -185,8 +185,8 @@ context('Bookmarks list', () => {
 
             cy.visit(viewReportUrl)
 
-            cy.findByRole('link', { name: /Remove bookmark/ }).click()
-            cy.findByRole('link', { name: /Add bookmark/ })
+            cy.findByRole('button', { name: /Remove bookmark/ }).click()
+            cy.findByRole('button', { name: /Add bookmark/ })
 
             cy.visit(path)
 
@@ -217,7 +217,7 @@ context('Bookmarks list', () => {
 
           it('should add a bookmark', () => {
             cy.visit(viewDashboardUrl)
-            cy.findByRole('link', { name: /Add bookmark/ })
+            cy.findByRole('button', { name: /Add bookmark/ })
               .click()
               .contains('Remove bookmark')
             cy.visit(path)
@@ -231,7 +231,7 @@ context('Bookmarks list', () => {
             expectMyReportRowCountInTab({ tabName: /Bookmarks.*/i, count: 3 })
 
             cy.visit(viewDashboardUrl)
-            cy.findByRole('link', { name: /Remove bookmark/ })
+            cy.findByRole('button', { name: /Remove bookmark/ })
               .click()
               .contains('Add bookmark')
             cy.visit(path)
@@ -271,7 +271,7 @@ context('Bookmarks list', () => {
               })
               .first()
               .within(() => {
-                cy.findByRole('link', { name: /Add bookmark/i })
+                cy.findByRole('button', { name: /Add bookmark/i })
                   .focus()
                   .type('{enter}')
               })
@@ -285,7 +285,7 @@ context('Bookmarks list', () => {
               })
               .first()
               .within(() => {
-                cy.findByRole('link', { name: /Remove bookmark/i })
+                cy.findByRole('button', { name: /Remove bookmark/i })
                   .focus()
                   .type('{enter}')
               })

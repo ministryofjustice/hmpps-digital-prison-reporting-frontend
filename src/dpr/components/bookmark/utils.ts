@@ -8,12 +8,14 @@ const setUpBookmark = (
   req: Request,
   bookmarkService: BookmarkService,
   bookmarked?: boolean | undefined,
+  isAjax?: boolean | undefined,
 ) => {
   const showBookmark = bookmarkService.enabled
   let linkText = 'Add bookmark'
   let linkType = 'add'
 
   const { id, reportId } = req.params as Record<string, string>
+  const currentUrl = req.originalUrl || '/'
   const { bookmarkActionEndpoint } = getRouteLocals(res)
 
   let reportIsBookmarked = false
@@ -31,6 +33,8 @@ const setUpBookmark = (
     showBookmark,
     linkText,
     linkType,
+    currentUrl,
+    isAjax,
   }
 }
 

@@ -186,7 +186,7 @@ const setBookmark = async (
 ): Promise<CatalogueVariantRowActionBookmark> => {
   const { csrfToken, dprUser } = localsHelper.getValues(res)
 
-  const reportIsBookmarked = await services.bookmarkService.isBookmarked(id, productId, dprUser.id)
+  const reportIsBookmarked = (await services.bookmarkService.isBookmarked(id, productId, dprUser.id)) || false
 
   const bookmarkConfig = setUpBookmark(res, req, services.bookmarkService, reportIsBookmarked)
 

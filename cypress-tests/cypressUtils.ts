@@ -241,7 +241,7 @@ export const addBookmark = (name: string) => {
     })
     .first()
     .within(() => {
-      cy.findByRole('link', { name: /Add bookmark/i }).click()
+      cy.findByRole('button', { name: /Add bookmark/i }).click()
     })
 }
 
@@ -253,7 +253,7 @@ export const addBookmarkExists = (name: string) => {
     })
     .first()
     .within(() => {
-      cy.findByRole('link', { name: /Add bookmark/i }).should('exist')
+      cy.findByRole('button', { name: /Add bookmark/i }).should('exist')
     })
 }
 
@@ -265,7 +265,7 @@ export const addBookmarkNotExist = (name: string) => {
     })
     .first()
     .within(() => {
-      cy.findByRole('link', { name: /Add bookmark/i }).should('not.exist')
+      cy.findByRole('button', { name: /Add bookmark/i }).should('not.exist')
     })
 }
 
@@ -277,7 +277,7 @@ export const removeBookmarkExists = (name: string) => {
     })
     .first()
     .within(() => {
-      cy.findByRole('link', { name: /Remove bookmark/i }).should('exist')
+      cy.findByRole('button', { name: /Remove bookmark/i }).should('exist')
     })
 }
 
@@ -289,7 +289,7 @@ export const removeBookmark = (name: string) => {
     })
     .first()
     .within(() => {
-      cy.findByRole('link', { name: /Remove bookmark/i }).click()
+      cy.findByRole('button', { name: /Remove bookmark/i }).click()
     })
 }
 

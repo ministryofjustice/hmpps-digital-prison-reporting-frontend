@@ -18,7 +18,6 @@ context('Catalogue collections', () => {
           cy.task('stubDefinitionMockReportVariant35')
 
           cy.visit(path)
-
           cy.findByRole('combobox', { name: /Your collections/ })
             .should('be.visible')
             .within(() => cy.findAllByRole('option').should('have.length', 3))

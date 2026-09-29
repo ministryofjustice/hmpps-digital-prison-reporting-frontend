@@ -1,5 +1,14 @@
 Below you can find the changes included in each release.
 
+## 9.4.0
+
+### Accessibility improvements
+
+- Converted bookmark link to a button. Announce bookmark actions.
+- Selected filters given more context for screen readers
+- Responsive layout for My reports component
+- Report catalogue actions given more context for screen readers, and actions are announced.
+
 ## 9.3.1
 
 - Improve accessibility of the data table

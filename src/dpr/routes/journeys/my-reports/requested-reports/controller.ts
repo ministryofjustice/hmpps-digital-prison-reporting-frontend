@@ -25,7 +25,6 @@ class RequestedReportsController {
       this.services,
       (updated, resolution, req, res) => {
         const viewModel = buildMyReportListRow(updated, resolution.newStatus, req, res, ListType.REQUESTED)
-        console.log(JSON.stringify({ viewModel }, null, 2))
         return {
           template: 'dpr/components/my-reports/my-reports-list-item/row.njk',
           data: { item: viewModel },

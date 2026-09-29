@@ -212,8 +212,6 @@ const buildListItems = async (req: Request, res: Response, listType: ListType): 
     return []
   }
 
-  console.log(JSON.stringify({ listData }, null, 2))
-
   return listData.map((data: StoredReportData) => {
     const status = data.status as RequestStatus
 

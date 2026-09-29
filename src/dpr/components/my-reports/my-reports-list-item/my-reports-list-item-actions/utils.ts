@@ -71,7 +71,7 @@ export const buildActionsCell = (
       break
   }
 
-  const actions = {
+  return {
     ...(retry && { retry }),
     ...(refresh && { refresh }),
     ...(remove && { remove }),
@@ -80,10 +80,6 @@ export const buildActionsCell = (
     ...(subscribe && { subscribe }),
     reportName,
   }
-
-  console.log(JSON.stringify({ actions }, null, 2))
-
-  return actions
 }
 
 /**

@@ -42,6 +42,7 @@ import {
 } from '@networkMocks/dashboard/data/bad-data/mocks'
 import {
   dashboardResultCompleteDataMock,
+  dashboardResultCompleteDataMockDaily,
   dashboardResultCompleteDataNoTsMock,
   dashboardResultCompleteDataSyncMock,
 } from '@networkMocks/dashboard/data/complete-data/mocks'
@@ -163,6 +164,8 @@ const requestStubs = {
 // RESULTS
 const resultsStubs = {
   stubDashboardResultCompleteData: () => stubFor(dashboardResultCompleteDataMock),
+  stubDashboardResultCompleteDataDaily: () => stubFor(dashboardResultCompleteDataMockDaily), // TODO: use daily date format
+  stubDashboardResultCompleteDataAnnually: () => stubFor(dashboardResultCompleteDataMock),
   stubDashboardResultCompleteDataSync: () => stubFor(dashboardResultCompleteDataSyncMock),
 
   stubDashboardResultPartialData: () => stubFor(dashboardResultPartialDataMock),

@@ -54,14 +54,14 @@ export const automaticBucketingCustomBaseColour = {
         type: 'timestamp',
       },
       {
-        id: 'count',
-        display: 'Total finds',
+        id: 'has_metric_two',
+        display: 'Has MetricTwo',
       },
     ],
     filters: [
       {
-        id: 'finds',
-        equals: 'Weapons',
+        id: 'establishment_id',
+        equals: 'ABC',
       },
     ],
     expectNulls: false,
@@ -89,8 +89,14 @@ export const automaticBucketingRag = {
         type: 'timestamp',
       },
       {
-        id: 'count',
-        display: 'Total finds',
+        id: 'has_metric_two',
+        display: 'Has MetricTwo',
+      },
+    ],
+    filters: [
+      {
+        id: 'establishment_id',
+        equals: 'ABC',
       },
     ],
     expectNulls: false,
@@ -128,8 +134,14 @@ export const automaticBucketingCustomColours = {
         type: 'timestamp',
       },
       {
-        id: 'count',
-        display: 'Total finds',
+        id: 'has_metric_two',
+        display: 'Has MetricTwo',
+      },
+    ],
+    filters: [
+      {
+        id: 'establishment_id',
+        equals: 'ABC',
       },
     ],
     expectNulls: false,
@@ -179,8 +191,8 @@ export const customBucketsWithSizing = {
         type: 'timestamp',
       },
       {
-        id: 'has_metric_two',
-        display: 'Has MetricTwo',
+        id: 'has_metric_one',
+        display: 'Has MetricOne',
       },
     ],
     expectNulls: false,
@@ -220,8 +232,14 @@ export const customBucketsWithSizingOpen = {
         type: 'timestamp',
       },
       {
-        id: 'count',
-        display: 'Total finds',
+        id: 'has_metric_one',
+        display: 'Has MetricOne',
+      },
+    ],
+    filters: [
+      {
+        id: 'establishment_id',
+        equals: 'ABC',
       },
     ],
     expectNulls: false,
@@ -235,6 +253,7 @@ export const customBucketsWithSizingAndColour = {
   description: '5 buckets. Increments of 20. 3 Custom colours',
   options: {
     buckets: [
+      // TODO: fix these buckets sizings to colour is not black
       {
         min: 0,
         max: 20,
@@ -273,39 +292,51 @@ export const customBucketsWithSizingAndColour = {
         type: 'timestamp',
       },
       {
-        id: 'count',
-        display: 'Total finds',
+        id: 'has_metric_one',
+        display: 'Has MetricOne',
+      },
+    ],
+    filters: [
+      {
+        id: 'establishment_id',
+        equals: 'ABC',
       },
     ],
     expectNulls: false,
   },
 }
 
-export const findsTotalsOvertimeValidationError = {
-  id: 'finds-totals-overtime-rag',
-  type: DashboardVisualisationType.MATRIX_TIMESERIES,
-  display: 'Finds totals over time matrix chart RAG',
-  description: '',
-  options: {
-    useRagColour: true,
-  },
-  columns: {
-    keys: [
-      {
-        id: 'ts',
-      },
-    ],
-    measures: [
-      {
-        id: 'count',
-        display: 'Total finds',
-      },
-      {
-        id: 'ts',
-        display: 'Date',
-        type: 'timestamp',
-      },
-    ],
-    expectNulls: false,
-  },
-}
+// export const findsTotalsOvertimeValidationError = {
+//   id: 'finds-totals-overtime-rag',
+//   type: DashboardVisualisationType.MATRIX_TIMESERIES,
+//   display: 'Finds totals over time matrix chart RAG',
+//   description: '',
+//   options: {
+//     useRagColour: true,
+//   },
+//   columns: {
+//     keys: [
+//       {
+//         id: 'ts',
+//       },
+//     ],
+//     measures: [
+//       {
+//         id: 'ts',
+//         display: 'Date',
+//         type: 'timestamp',
+//       },
+//       {
+//         id: 'has_metric_two',
+//         display: 'Has MetricTwo',
+//       },
+//     ],
+//     filters: [
+//       {
+//         id: 'establishment_id',
+//         equals: 'ABC',
+//       },
+//     ],
+//     expectNulls: false,
+//   },
+// }

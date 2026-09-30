@@ -1,4 +1,5 @@
 import { buildMasterSections } from 'src/dpr/components/_dashboards/dashboard-section/utils'
+import { getAllDefinitionsForReport } from 'src/dpr/utils/definitionUtils'
 import type { AsyncReportUtilsParams } from '../../../../../types/AsyncReportUtils'
 
 import type { RequestedReport } from '../../../../../types/UserReports'
@@ -27,10 +28,16 @@ export const renderDashboard = async ({ req, res, services }: AsyncReportUtilsPa
   // get pre-filter query data required by getDefinition
   const queryData = requestData?.query?.data
 
-  // Get the definition
-  const definition =
-    (res.locals['definition'] as components['schemas']['DashboardDefinition']) ??
-    (await services.dashboardService.getDefinition(token, reportId, id, queryData))
+  const { variantDefinition, variantSummary } = await getAllDefinitionsForReport(
+    res,
+    services,
+    reportId,
+    id,
+    token,
+    queryData,
+  )
+
+  const definition = variantDefinition as components['schemas']['DashboardDefinition']
 
   // Validate definition
   DashboardSchema.DashboardSchema.parse(definition)
@@ -47,7 +54,15 @@ export const renderDashboard = async ({ req, res, services }: AsyncReportUtilsPa
   await validateDashboardVisualisations(masterDefinition)
 
   // Create the report config
-  const reportConfig = await new Dashboard(services, res, req, masterDefinition, LoadType.ASYNC, requestData).build()
+  const reportConfig = await new Dashboard(
+    services,
+    res,
+    req,
+    masterDefinition,
+    variantSummary,
+    LoadType.ASYNC,
+    requestData,
+  ).build()
   const { dashboardData } = reportConfig
 
   if (dashboardData && dashboardData.sections?.length && requestData && Object.keys(requestData).length) {

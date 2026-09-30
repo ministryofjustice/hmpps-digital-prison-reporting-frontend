@@ -16,7 +16,7 @@ export interface ExtractedDefinitionData {
   description: string | undefined
   printable: boolean
   fields: components['schemas']['FieldDefinition'][]
-  schedule?: string | undefined
+  schedule?: string | undefined | null
 
   // Report specfic
   classification?: string | undefined

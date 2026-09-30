@@ -69,6 +69,7 @@ export type DprMyReportActions = {
   load?: ViewAction
   bookmark?: DprMyReportActionBookmark
   request?: ViewAction
+  reportName?: string | undefined
 }
 
 export type DprMyReportActionBookmark = {

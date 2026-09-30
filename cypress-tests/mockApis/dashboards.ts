@@ -14,6 +14,7 @@ import {
   listPartialDatasetHistoricMock,
   listPartialDatasetMock,
   matrixCompleteDatasetMock,
+  matrixInvalidMock,
   mixedCompleteDatasetMock,
   mixedPartialDatasetHistoricMock,
   mixedPartialDatasetMock,
@@ -111,6 +112,7 @@ const lineDefinitionStubs = {
 const matrixDefinitionStubs = {
   stubMatrixCompleteData: () => stubFor(matrixCompleteDatasetMock),
   // stubMatrixPartialData: () => stubFor(matrixPartialDatasetMock),
+  stubMatrixInvalid: () => stubFor(matrixInvalidMock),
 }
 
 const scorecardDefinitionStubs = {

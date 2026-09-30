@@ -60,7 +60,6 @@ export const createDashboardSections = (
           case DashboardVisualisationType.BAR_TIMESERIES:
           case DashboardVisualisationType.LINE_TIMESERIES: {
             chartData = ChartUtils.createTimeseriesCharts(visDefinition, dashboardDataForVis, type, query, partialDate)
-            // console.log('createDashboardSections: chartData', chartData)
             break
           }
           default:

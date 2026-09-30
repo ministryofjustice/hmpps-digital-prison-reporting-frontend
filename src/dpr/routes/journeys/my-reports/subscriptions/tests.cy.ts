@@ -24,9 +24,9 @@ describe('Subscriptions', () => {
 
   const paths = [
     '/?search=sch',
-    // '/dpr?search=sch',
-    // '/embedded/platform?search=sch',
-    // '/embedded/platform/dpr?search=sch',
+    '/dpr?search=sch',
+    '/embedded/platform?search=sch',
+    '/embedded/platform/dpr?search=sch',
   ]
 
   after(() => {

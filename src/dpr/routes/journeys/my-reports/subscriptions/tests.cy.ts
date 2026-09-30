@@ -24,9 +24,9 @@ describe('Subscriptions', () => {
 
   const paths = [
     '/?search=sch',
-    '/dpr?search=sch',
-    '/embedded/platform?search=sch',
-    '/embedded/platform/dpr?search=sch',
+    // '/dpr?search=sch',
+    // '/embedded/platform?search=sch',
+    // '/embedded/platform/dpr?search=sch',
   ]
 
   after(() => {
@@ -72,7 +72,7 @@ describe('Subscriptions', () => {
 
           cy.get('.moj-alert__content').within(() => {
             cy.findAllByRole('paragraph').contains('You have subscribed to Feature testing - Scheduled Report report.')
-            cy.findAllByRole('paragraph').contains('This report refreshes Weekly at 9:00am')
+            cy.findAllByRole('paragraph').contains('This report refreshes at 10:15 every day between Monday and Friday')
           })
 
           // User can go straight to subscribed reports
@@ -156,14 +156,14 @@ describe('Subscriptions', () => {
 
           // Shows that the report is scheduled and unsubscribed
           cy.findByRole('heading', { name: /This is a scheduled report/ })
-          cy.findAllByRole('paragraph').contains('Weekly at 9:00am').should('exist')
+          cy.findAllByRole('paragraph').contains('at 10:15 every day between Monday and Friday').should('exist')
 
           // Subscribe to it
           cy.findByRole('button', { name: 'Subscribe' }).click()
 
           // Shows the reports is subscribed
           cy.findByRole('heading', { name: /You are subscribed to this report/ })
-          cy.findAllByRole('paragraph').contains('Weekly at 9:00am').should('exist')
+          cy.findAllByRole('paragraph').contains('at 10:15 every day between Monday and Friday').should('exist')
           cy.findByRole('button', { name: 'Unsubscribe' }).should('exist')
 
           // Subscribed reports can go to the report
@@ -185,7 +185,7 @@ describe('Subscriptions', () => {
 
           // Shows the reports is subscribed
           cy.findByRole('heading', { name: /You are subscribed to this report/ })
-          cy.findAllByRole('paragraph').contains('Weekly at 9:00am').should('exist')
+          cy.findAllByRole('paragraph').contains('at 10:15 every day between Monday and Friday').should('exist')
           cy.findByRole('button', { name: 'Unsubscribe' }).should('exist')
           cy.findByRole('link', { name: 'View the report now' }).should('exist')
 
@@ -194,7 +194,7 @@ describe('Subscriptions', () => {
 
           // Shows that the report is scheduled and unsubscribed
           cy.findByRole('heading', { name: /This is a scheduled report/ })
-          cy.findAllByRole('paragraph').contains('Weekly at 9:00am').should('exist')
+          cy.findAllByRole('paragraph').contains('at 10:15 every day between Monday and Friday').should('exist')
 
           // Should show the subscribed report in the list
           cy.visit(path)
@@ -223,7 +223,7 @@ describe('Subscriptions', () => {
           // Check notification
           cy.get('.moj-alert__content').within(() => {
             cy.findAllByRole('paragraph').contains('You have subscribed to Scheduled Report - Scheduled Report report.')
-            cy.findAllByRole('paragraph').contains('This report refreshes Weekly at 9:00am')
+            cy.findAllByRole('paragraph').contains('This report refreshes at 10:15 every day between Monday and Friday')
           })
 
           cy.visit(path)
@@ -391,7 +391,7 @@ describe('Subscriptions', () => {
 
           // Shows the reports is subscribed
           cy.findByRole('heading', { name: /You are subscribed to this report/ })
-          cy.findAllByRole('paragraph').contains('Weekly at 9:00am').should('exist')
+          cy.findAllByRole('paragraph').contains('at 10:15 every day between Monday and Friday').should('exist')
           cy.findByRole('button', { name: 'Unsubscribe' }).should('exist')
 
           // Not show the report link

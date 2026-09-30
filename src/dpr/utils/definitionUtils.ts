@@ -477,7 +477,7 @@ export const getAllDefinitionsForReport = async (
     (res.locals['reportDefinitionSummary'] as components['schemas']['ReportDefinitionSummary']) ??
     (await services.reportingService.getDefinitionSummary(token, reportId))
 
-  const variantSummary = reportDefinitionSummary.variants.find(v => v.id === variantDefinition.id)
+  const variantSummary = reportDefinitionSummary.variants.find(v => v.id === id)
 
   return {
     variantDefinition,

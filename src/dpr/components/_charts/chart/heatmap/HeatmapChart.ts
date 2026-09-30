@@ -106,6 +106,7 @@ class HeatmapChart {
         }
 
         const tsRaw = dateData.value
+        this.granularity = dateData.granularity
 
         const v: MatrixChartData['v'] = Number(raw)
         const r: MatrixChartData['r'] = rag !== undefined ? Number(tsData[0][this.valueKey].rag) : undefined
@@ -113,12 +114,6 @@ class HeatmapChart {
         let y: MatrixChartData['y'] = 0
 
         switch (this.granularity) {
-          case 'hourly':
-            break
-          case 'weekly':
-            x = dayjs(tsRaw, UI_OUTPUT_FORMAT).format('ddd')
-            y = dayjs(tsRaw, UI_OUTPUT_FORMAT).week()
-            break
           case 'daily':
             x = dayjs(tsRaw, UI_OUTPUT_FORMAT).format('MMM YY')
             y = dayjs(tsRaw, UI_OUTPUT_FORMAT).format('D')

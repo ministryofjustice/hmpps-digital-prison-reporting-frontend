@@ -164,7 +164,7 @@ const requestStubs = {
 // RESULTS
 const resultsStubs = {
   stubDashboardResultCompleteData: () => stubFor(dashboardResultCompleteDataMock),
-  stubDashboardResultCompleteDataDaily: () => stubFor(dashboardResultCompleteDataMockDaily), // TODO: use daily date format
+  stubDashboardResultCompleteDataDaily: () => stubFor(dashboardResultCompleteDataMockDaily),
   stubDashboardResultCompleteDataAnnually: () => stubFor(dashboardResultCompleteDataMock),
   stubDashboardResultCompleteDataSync: () => stubFor(dashboardResultCompleteDataSyncMock),
 

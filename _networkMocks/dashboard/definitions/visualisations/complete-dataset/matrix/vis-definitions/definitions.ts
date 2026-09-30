@@ -305,38 +305,3 @@ export const customBucketsWithSizingAndColour = {
     expectNulls: false,
   },
 }
-
-// export const findsTotalsOvertimeValidationError = {
-//   id: 'finds-totals-overtime-rag',
-//   type: DashboardVisualisationType.MATRIX_TIMESERIES,
-//   display: 'Finds totals over time matrix chart RAG',
-//   description: '',
-//   options: {
-//     useRagColour: true,
-//   },
-//   columns: {
-//     keys: [
-//       {
-//         id: 'ts',
-//       },
-//     ],
-//     measures: [
-//       {
-//         id: 'ts',
-//         display: 'Date',
-//         type: 'timestamp',
-//       },
-//       {
-//         id: 'has_metric_two',
-//         display: 'Has MetricTwo',
-//       },
-//     ],
-//     filters: [
-//       {
-//         id: 'establishment_id',
-//         equals: 'ABC',
-//       },
-//     ],
-//     expectNulls: false,
-//   },
-// }

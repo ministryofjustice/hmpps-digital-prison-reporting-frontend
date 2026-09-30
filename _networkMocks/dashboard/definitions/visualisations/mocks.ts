@@ -24,6 +24,7 @@ import { definition as lineTimeseriesPartialDataset } from './partial-dataset/li
 import { definition as linePartialDataset } from './partial-dataset/line/definition'
 import { definition as listPartialDataset } from './partial-dataset/list/definition'
 import { definition as listPartialDatasetHistoric } from './partial-dataset/list/definition-historic'
+import { definition as matrixInvalid } from './partial-dataset/matrix/definition-invalid'
 import { definition as mixedPartialDatasetHistoric } from './partial-dataset/mixed-historic/definition'
 import { definition as mixedPartialDataset } from './partial-dataset/mixed/definition'
 
@@ -101,6 +102,11 @@ export const matrixCompleteDatasetMock = setupSimpleMock(
 //   `/definitions/${productId}/dashboards/${matrixPartialDataset.id}`,
 //   matrixPartialDataset,
 // )
+
+export const matrixInvalidMock = setupSimpleMock(
+  `/definitions/${productId}/dashboards/${matrixInvalid.id}`,
+  matrixInvalid,
+)
 
 // BAR definition examples
 export const barCompleteDatasetMock = setupSimpleMock(

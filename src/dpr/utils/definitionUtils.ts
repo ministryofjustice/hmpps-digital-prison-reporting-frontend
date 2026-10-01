@@ -1,3 +1,4 @@
+import { Response } from 'express'
 import { FilterType } from '../components/_filters/filter-input/enum'
 import { appendDateRangeValue, resolveDateRangeDefaults } from '../components/_inputs/date-range/utils'
 import {
@@ -458,6 +459,31 @@ export const getDefaultColumnsQueryString = (fields: components['schemas']['Fiel
   })
 
   return buildQueryString(params)
+}
+
+export const getAllDefinitionsForReport = async (
+  res: Response,
+  services: Services,
+  reportId: string,
+  id: string,
+  token: string,
+  queryData?: NodeJS.Dict<string | string[]> | undefined,
+) => {
+  const variantDefinition:
+    components['schemas']['DashboardDefinition'] | components['schemas']['SingleVariantReportDefinition'] =
+    res.locals['definition'] ?? (await services.reportingService.getDefinition(token, reportId, id, queryData))
+
+  const reportDefinitionSummary =
+    (res.locals['reportDefinitionSummary'] as components['schemas']['ReportDefinitionSummary']) ??
+    (await services.reportingService.getDefinitionSummary(token, reportId))
+
+  const variantSummary = reportDefinitionSummary.variants.find(v => v.id === id)
+
+  return {
+    variantDefinition,
+    reportDefinitionSummary,
+    variantSummary,
+  }
 }
 
 export default {

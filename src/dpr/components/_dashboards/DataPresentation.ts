@@ -83,6 +83,7 @@ export default class DataPresentation {
     readonly req: Request,
     readonly definition:
       components['schemas']['DashboardDefinition'] | components['schemas']['SingleVariantReportDefinition'],
+    readonly summary: components['schemas']['VariantDefinitionSummary'] | undefined,
     readonly loadType: LoadType,
     readonly type: ReportType,
     readonly requestData?: RequestedReport | undefined,
@@ -186,7 +187,7 @@ export default class DataPresentation {
    * - bookmark config
    * - general actions
    */
-  buildActions = async (type: ReportType, schedule?: string | undefined) => {
+  buildActions = async (type: ReportType, schedule?: string | undefined | null) => {
     const { tableId, reportId, id } = <{ id: string; tableId: string; reportId: string }>this.req.params
     this.extractedRequestData = this.requestData ? this.extractDataFromRequest(this.requestData) : undefined
 

@@ -10,7 +10,6 @@ import { CatalogueProduct } from './catalogue-product-rows/types'
 import { initialiseTruncation } from '../truncate/utils'
 import { intitialiseCatalogueRowActions } from './catalogue-product-rows/catalogue-product-row/catalogue-variant-rows/catalogue-variant-row/catalogure-row-variant-actions/utils'
 import { initCatalogueFilters } from './catalogue-filters/utilts'
-import { VariantDefinitionSummaryWithSchedule } from '../../types/Subscriptions'
 
 const sortByName = (a: { name: string }, b: { name: string }): number => a.name.localeCompare(b.name)
 
@@ -113,7 +112,7 @@ const mapCatalogue = async (
  * @return {*}  {CatalogueVariantRow}
  */
 const mapVariantRow = async (
-  variant: VariantDefinitionSummaryWithSchedule,
+  variant: components['schemas']['VariantDefinitionSummary'],
   definition: components['schemas']['ReportDefinitionSummary'],
   res: Response,
   req: Request,

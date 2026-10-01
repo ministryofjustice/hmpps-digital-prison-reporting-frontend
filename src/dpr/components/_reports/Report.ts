@@ -24,7 +24,6 @@ import ReportQuery from '../../types/ReportQuery'
 // Helpers
 import ErrorHandler from '../../utils/ErrorHandler/ErrorHandler'
 import DataPresentation from '../_dashboards/DataPresentation'
-import { VariantDefinitionWithSchedule } from '../../types/Subscriptions'
 
 type ReportDefinition = components['schemas']['SingleVariantReportDefinition']
 
@@ -57,10 +56,11 @@ export default class Report extends DataPresentation {
     res: Response,
     req: Request,
     definition: components['schemas']['SingleVariantReportDefinition'],
+    summary: components['schemas']['VariantDefinitionSummary'] | undefined,
     loadType: LoadType,
     requestData?: RequestedReport | undefined,
   ) {
-    super(services, res, req, definition, loadType, ReportType.REPORT, requestData)
+    super(services, res, req, definition, summary, loadType, ReportType.REPORT, requestData)
     this.setSpecification()
   }
 
@@ -291,8 +291,8 @@ export default class Report extends DataPresentation {
    */
   buildReportDetails = () => {
     const { name: reportName, description: reportDescription } = this.definition
-    // TODO: remove casting `VariantDefinitionWithSchedule` type when type includes "schedule"
-    const { classification, printable, name, description, schedule } = <VariantDefinitionWithSchedule>this.variant
+    const { classification, printable, name, description } = this.variant
+    const schedule = this.summary?.schedule
     const { template, fields } = this.specification
 
     this.reportDetails = {

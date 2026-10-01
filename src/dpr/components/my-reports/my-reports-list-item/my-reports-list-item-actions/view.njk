@@ -12,8 +12,9 @@
   {% set polling = actions.polling %}
   {% set load = actions.load %}
   {% set subscribe = actions.subscribe %}
+  {% set reportName = actions.reportName %}
 
-  <h1 class="dpr-my-reports-column-heading govuk-caption-m">Actions</h1>
+  <h1 class="dpr-my-reports-column-heading govuk-caption-m">Actions {% if reportName %}for {{ reportName }} {% endif %}</h1>
 
   <ul class="dpr-my-reports__actions-list">
     {% if refresh %}

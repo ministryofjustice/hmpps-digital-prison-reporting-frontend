@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## 9.5.0
+
+- Subscriptions: Removed temporary VariantSummaryDefinition types that included the schedule field. Replaced API generated types now the API includes this field.
+
 ## 9.4.1
 
 - My Reports Accessibility improvement: Added context to report card actions

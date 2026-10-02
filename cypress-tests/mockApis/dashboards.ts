@@ -13,8 +13,11 @@ import {
   listInvalidVisDefMock,
   listPartialDatasetHistoricMock,
   listPartialDatasetMock,
-  matrixCompleteDatasetMock,
+  matrixCompleteAnnuallyDatasetMock,
+  matrixCompleteDailyDatasetMock,
+  matrixCompleteMonthlyDatasetMock,
   matrixInvalidMock,
+  matrixPartialDatasetMock,
   mixedCompleteDatasetMock,
   mixedPartialDatasetHistoricMock,
   mixedPartialDatasetMock,
@@ -43,7 +46,9 @@ import {
 } from '@networkMocks/dashboard/data/bad-data/mocks'
 import {
   dashboardResultCompleteDataMock,
+  dashboardResultCompleteDataMockAnnually,
   dashboardResultCompleteDataMockDaily,
+  dashboardResultCompleteDataMockMonthly,
   dashboardResultCompleteDataNoTsMock,
   dashboardResultCompleteDataSyncMock,
 } from '@networkMocks/dashboard/data/complete-data/mocks'
@@ -110,8 +115,10 @@ const lineDefinitionStubs = {
 }
 
 const matrixDefinitionStubs = {
-  stubMatrixCompleteData: () => stubFor(matrixCompleteDatasetMock),
-  // stubMatrixPartialData: () => stubFor(matrixPartialDatasetMock),
+  stubMatrixCompleteDailyData: () => stubFor(matrixCompleteDailyDatasetMock),
+  stubMatrixCompleteMonthlyData: () => stubFor(matrixCompleteMonthlyDatasetMock),
+  stubMatrixCompleteAnnuallyData: () => stubFor(matrixCompleteAnnuallyDatasetMock),
+  stubMatrixPartialData: () => stubFor(matrixPartialDatasetMock),
   stubMatrixInvalid: () => stubFor(matrixInvalidMock),
 }
 
@@ -165,9 +172,10 @@ const requestStubs = {
 
 // RESULTS
 const resultsStubs = {
-  stubDashboardResultCompleteData: () => stubFor(dashboardResultCompleteDataMock),
   stubDashboardResultCompleteDataDaily: () => stubFor(dashboardResultCompleteDataMockDaily),
-  stubDashboardResultCompleteDataAnnually: () => stubFor(dashboardResultCompleteDataMock),
+  stubDashboardResultCompleteDataMonthly: () => stubFor(dashboardResultCompleteDataMockMonthly),
+  stubDashboardResultCompleteDataAnnually: () => stubFor(dashboardResultCompleteDataMockAnnually),
+  stubDashboardResultCompleteData: () => stubFor(dashboardResultCompleteDataMock),
   stubDashboardResultCompleteDataSync: () => stubFor(dashboardResultCompleteDataSyncMock),
 
   stubDashboardResultPartialData: () => stubFor(dashboardResultPartialDataMock),

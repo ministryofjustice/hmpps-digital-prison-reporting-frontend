@@ -8,7 +8,12 @@ import { definition as listCompleteDataset } from './complete-dataset/list/defin
 import { definition as listCompleteDatasetHistoric } from './complete-dataset/list/definition-historic'
 import { definition as listInvalidDef } from './complete-dataset/list/definition-invalid'
 import { definition as listInvalidVisDef } from './complete-dataset/list/definition-invalid-vis-defs'
-import { definition as matrixCompleteDataset } from './complete-dataset/matrix/definition'
+import {
+  annuallyDefinition as matrixCompleteAnnuallyDataset,
+  definition as matrixCompleteDataset,
+  monthlyDefinition as matrixCompleteMonthlyDataset,
+  partialDefinition as matrixPartialDataset,
+} from './complete-dataset/matrix/definition'
 import { definition as mixedCompleteDataset } from './complete-dataset/mixed/definition'
 import { definition as scorecardsCompleteDataset } from './complete-dataset/scorecard/definition'
 import { definition as scorecardsCompletebadDataset } from './complete-dataset/scorecard/definition-bad-data'
@@ -93,15 +98,25 @@ export const scorecardGroupCompleteDatasetNoTsMock = setupSimpleMock(
 )
 
 // MATRIX definition examples
-export const matrixCompleteDatasetMock = setupSimpleMock(
+export const matrixCompleteDailyDatasetMock = setupSimpleMock(
   `/definitions/${productId}/dashboards/${matrixCompleteDataset.id}`,
   matrixCompleteDataset,
 )
 
-// export const matrixPartialDatasetMock = setupSimpleMock(
-//   `/definitions/${productId}/dashboards/${matrixPartialDataset.id}`,
-//   matrixPartialDataset,
-// )
+export const matrixCompleteMonthlyDatasetMock = setupSimpleMock(
+  `/definitions/${productId}/dashboards/${matrixCompleteMonthlyDataset.id}`,
+  matrixCompleteMonthlyDataset,
+)
+
+export const matrixCompleteAnnuallyDatasetMock = setupSimpleMock(
+  `/definitions/${productId}/dashboards/${matrixCompleteAnnuallyDataset.id}`,
+  matrixCompleteAnnuallyDataset,
+)
+
+export const matrixPartialDatasetMock = setupSimpleMock(
+  `/definitions/${productId}/dashboards/${matrixPartialDataset.id}`,
+  matrixPartialDataset,
+)
 
 export const matrixInvalidMock = setupSimpleMock(
   `/definitions/${productId}/dashboards/${matrixInvalid.id}`,
@@ -168,7 +183,7 @@ export const mocks = [
   scorecardsCompleteDatasetMock,
   scorecardsBucketCompleteDatasetMock,
   scorecardGroupCompleteDatasetMock,
-  matrixCompleteDatasetMock,
+  matrixCompleteDailyDatasetMock,
   barCompleteDatasetMock,
   barPartialDatasetMock,
   barInvalidMock,

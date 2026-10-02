@@ -15,14 +15,6 @@ export const dashboardResultCompleteDataMock = setupSimpleMock(
   `/reports/(${productIds.join('|')})/dashboards/(${allIds.join('|')})/tables/tblId_[0-9]+/result`,
   completeDataSet,
 )
-export const dashboardResultCompleteDataMockDaily = setupSimpleMock(
-  `/reports/(${productIds.join('|')})/dashboards/(${allIds.join('|')})/tables/tblId_[0-9]+/result`,
-  completeDataSetDaily,
-)
-export const dashboardResultCompleteDataMockAnnually = setupSimpleMock(
-  `/reports/(${productIds.join('|')})/dashboards/(${allIds.join('|')})/tables/tblId_[0-9]+/result`,
-  completeDataSetAnnually,
-)
 
 export const dashboardResultCompleteDataSyncMock = setupSimpleMock(
   `/reports/(${productIds.join('|')})/dashboards/(${allIds.join('|')})`,
@@ -34,8 +26,26 @@ export const dashboardResultCompleteDataNoTsMock = setupSimpleMock(
   completeDataSetNoTs,
 )
 
+export const dashboardResultCompleteDataMockDaily = setupSimpleMock(
+  `/reports/(${productIds.join('|')})/dashboards/matrix-examples_complete-data_daily/tables/tblId_[0-9]+/result`,
+  completeDataSetDaily,
+)
+
+export const dashboardResultCompleteDataMockMonthly = setupSimpleMock(
+  `/reports/(${productIds.join('|')})/dashboards/matrix-examples_complete-data_monthly/tables/tblId_[0-9]+/result`,
+  completeDataSet,
+)
+
+export const dashboardResultCompleteDataMockAnnually = setupSimpleMock(
+  `/reports/(${productIds.join('|')})/dashboards/matrix-examples_complete-data_annually/tables/tblId_[0-9]+/result`,
+  completeDataSetAnnually,
+)
+
 export const mocks = [
   dashboardResultCompleteDataMock,
   dashboardResultCompleteDataSyncMock,
   dashboardResultCompleteDataNoTsMock,
+  dashboardResultCompleteDataMockDaily,
+  dashboardResultCompleteDataMockMonthly,
+  dashboardResultCompleteDataMockAnnually,
 ]

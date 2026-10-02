@@ -3,6 +3,7 @@ import { NextFunction, Request, Response } from 'express'
 
 // Utils
 import { setupSubscriptionConfig } from 'src/dpr/components/subscription/utils'
+import { QuerySummaryItem } from 'src/dpr/components/_async/request-details/types'
 import { buildFilterData, buildSortData } from '../../../../components/_async/async-filters-form/utils'
 import { buildMasterSections } from '../../../../components/_dashboards/dashboard-section/utils'
 import { getRequestFilters } from '../../../../components/_filters/utils'
@@ -18,7 +19,7 @@ import ReportQuery from '../../../../types/ReportQuery'
 import type { Services } from '../../../../types/Services'
 import { ReportType } from '../../../../types/UserReports'
 import { getDashboardFields, getFields } from '../../../../utils/definitionUtils'
-import { formBodyToQueryObject } from '../../../../utils/queryMappers'
+import { formBodyToQueryObject, qsToQueryObject } from '../../../../utils/queryMappers'
 import { getActiveJourneyValue, setActiveJourneySortSearch } from '../../../../utils/sessionHelper'
 import { joinQueryStrings } from '../../../../utils/urlHelper'
 import { RequestedReportBuilder } from '../../my-reports/requested-reports/builder'
@@ -273,8 +274,21 @@ const requestReport = async (req: Request, token: string, services: Services) =>
   const sortData = buildSortData(req.body)
   setActiveJourneySortSearch(req, { reportId, id, tableId }, sortData)
 
-  const querySummary = buildQuerySummary(req.body, fields)
+  let querySummary = buildQuerySummary(req.body, fields)
   const filterData = buildFilterData(req.body)
+
+  const interactiveDefaultFiltersSearch = getActiveJourneyValue(
+    req,
+    { id, reportId },
+    'interactiveDefaultFiltersSearch',
+  )
+
+  let interactiveQuerySummary: QuerySummaryItem[] | undefined
+  if (interactiveDefaultFiltersSearch) {
+    const interactiveQueryObject = qsToQueryObject(interactiveDefaultFiltersSearch)
+    interactiveQuerySummary = buildQuerySummary(interactiveQueryObject, fields)
+    querySummary = [...querySummary, ...interactiveQuerySummary]
+  }
 
   const queryData = {
     querySummary,

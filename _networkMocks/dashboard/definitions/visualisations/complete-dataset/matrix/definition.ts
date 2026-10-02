@@ -62,7 +62,6 @@ export const definition = {
   childVariants: [monthlyDefinition, annuallyDefinition],
 }
 
-// TODO: fix partial to use daily def
 export const partialDefinition = {
   ...definition,
   sections: definition.sections.map(section => ({

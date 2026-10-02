@@ -1,8 +1,8 @@
 import { fullDatasetHistoric } from '../list/vis-definitions/full-data'
 import * as matrix from './vis-definitions/definitions'
 
-export const definition = {
-  id: 'matrix-examples_complete-data_historic',
+const basicDefinition = {
+  id: 'matrix-examples_complete-data',
   name: 'Matrix - Complete data',
   description: 'Matrix examples',
   sections: [
@@ -36,4 +36,37 @@ export const definition = {
     },
   ],
   filterFields: [],
+}
+
+export const dailyDefinition = {
+  ...basicDefinition,
+  id: 'matrix-examples_complete-data_daily',
+}
+
+export const monthlyDefinition = {
+  ...basicDefinition,
+  id: 'matrix-examples_complete-data_monthly',
+  name: 'Matrix - Complete data monthly',
+  sections: basicDefinition.sections.map(section => ({ ...section, id: `${section.id}-monthly` })),
+}
+
+export const annuallyDefinition = {
+  ...basicDefinition,
+  id: 'matrix-examples_complete-data_annually',
+  name: 'Matrix - Complete data annually',
+  sections: basicDefinition.sections.map(section => ({ ...section, id: `${section.id}-annually` })),
+}
+
+export const definition = {
+  ...dailyDefinition,
+  childVariants: [monthlyDefinition, annuallyDefinition],
+}
+
+// TODO: fix partial to use daily def
+export const partialDefinition = {
+  ...definition,
+  sections: definition.sections.map(section => ({
+    ...section,
+    visualisations: section.visualisations.map(vis => ({ ...vis, expectNulls: true })),
+  })),
 }

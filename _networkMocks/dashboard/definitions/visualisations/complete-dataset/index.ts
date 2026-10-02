@@ -19,7 +19,12 @@ import { definition as scorecardGroupCompleteDatasetInvalid } from './scorecardG
 import { definition as scorecardGroupCompleteDataseNoTs } from './scorecardGroup/definiton-no-ts'
 
 // Matrix
-import { definition as matrixChartDefinition } from './matrix/definition'
+import {
+  annuallyDefinition as matrixChartAnnuallyDefinition,
+  definition as matrixChartDefinition,
+  monthlyDefinition as matrixChartMonthlyDefinition,
+  partialDefinition as matrixChartPartialDefinition,
+} from './matrix/definition'
 
 // bar
 import { definition as barChartsDefinition } from './bar/definition'
@@ -47,7 +52,12 @@ const scorecardGroups = [
   scorecardGroupCompleteDatasetInvalid,
   scorecardGroupCompleteDataseNoTs,
 ]
-const matrixDefs = [matrixChartDefinition] as components['schemas']['DashboardDefinition'][] // TODO: fix later
+const matrixDefs = [
+  matrixChartDefinition,
+  matrixChartMonthlyDefinition,
+  matrixChartAnnuallyDefinition,
+  matrixChartPartialDefinition,
+] as components['schemas']['DashboardDefinition'][]
 const barChartDefs = [barChartsDefinition]
 const doughnutChartDefs = [doughnutChartsDefinition]
 const lineDefs = [lineCompleteDefinition]

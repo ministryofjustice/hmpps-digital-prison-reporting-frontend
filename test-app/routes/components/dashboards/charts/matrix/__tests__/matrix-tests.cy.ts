@@ -7,16 +7,19 @@ import {
 context('Dashboard visualisation: matrix chart', () => {
   const path = '/'
 
-  // TODO: add test for monthly data and annually data
-
-  describe('Complete data daily', () => {
+  describe('Complete data', () => {
     let completeDashboardUrl = ''
 
     before(() => {
       cy.task('resetStubs')
       executeDashboardStubs()
-      cy.task('stubMatrixCompleteData')
+      cy.task('stubMatrixCompleteDailyData')
+      cy.task('stubMatrixCompleteMonthlyData')
+      cy.task('stubMatrixCompleteAnnuallyData')
+
       cy.task('stubDashboardResultCompleteDataDaily')
+      cy.task('stubDashboardResultCompleteDataMonthly')
+      cy.task('stubDashboardResultCompleteDataAnnually')
       cy.visit(path)
 
       requestReportByNameAndDescription({
@@ -37,24 +40,20 @@ context('Dashboard visualisation: matrix chart', () => {
     })
 
     it('should have the correct amount of sections', () => {
-      cy.findAllByRole('heading', { level: 2 })
-        .filter('[id^="section-title"]') // excludes filter heading
-        .should('have.length', 3)
-        .each((section, index) => {
-          switch (index) {
-            case 0:
-              cy.wrap(section).contains('Automatic bucketing')
-              break
-            case 1:
-              cy.wrap(section).contains('User defined custom buckets')
-              break
-            case 3:
-              cy.wrap(section).contains('Full Dataset')
-              break
-            default:
-              break
-          }
-        })
+      cy.findAllByRole('heading', { level: 2 }).then(headings => {
+        const texts = [...headings].map(h => h.textContent?.trim())
+        expect(texts).to.deep.equal([
+          'Automatic bucketing',
+          'User defined custom buckets',
+          'Full Dataset',
+          'Automatic bucketing',
+          'User defined custom buckets',
+          'Full Dataset',
+          'Automatic bucketing',
+          'User defined custom buckets',
+          'Full Dataset',
+        ])
+      })
     })
 
     it('should show the correct data for charts', () => {

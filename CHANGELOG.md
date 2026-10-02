@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## 9.5.0
+
+- Subscriptions: Removed
+
 ## 9.4.1
 
 - My Reports Accessibility improvement: Added context to report card actions

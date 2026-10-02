@@ -13,17 +13,22 @@ import {
   listInvalidVisDefMock,
   listPartialDatasetHistoricMock,
   listPartialDatasetMock,
+  matrixCompleteAnnuallyDatasetMock,
+  matrixCompleteDailyDatasetMock,
+  matrixCompleteMonthlyDatasetMock,
+  matrixInvalidMock,
+  matrixPartialDatasetMock,
   mixedCompleteDatasetMock,
   mixedPartialDatasetHistoricMock,
   mixedPartialDatasetMock,
+  scorecardGroupCompleteDatasetInvalidMock,
   scorecardGroupCompleteDatasetMock,
+  scorecardGroupCompleteDatasetNoTsMock,
   scorecardsBucketCompleteDatasetMock,
+  scorecardsCompletebadDatasetMock,
   scorecardsCompleteDatasetMock,
   scorecardsCompleteDatasetNoTsMock,
   scorecardsInvalidVisDefinitionsMock,
-  scorecardsCompletebadDatasetMock,
-  scorecardGroupCompleteDatasetInvalidMock,
-  scorecardGroupCompleteDatasetNoTsMock,
 } from '@networkMocks/dashboard/definitions/visualisations/mocks'
 
 import {
@@ -35,44 +40,46 @@ import {
   syncDashboardMock,
 } from '@networkMocks/dashboard/definitions/feature-testing/mocks'
 
-// DATA
+import {
+  dashboardResultCompleteBadDataDuplicatesMock,
+  dashboardResultCompleteBadDataMock,
+} from '@networkMocks/dashboard/data/bad-data/mocks'
 import {
   dashboardResultCompleteDataMock,
+  dashboardResultCompleteDataMockAnnually,
+  dashboardResultCompleteDataMockDaily,
+  dashboardResultCompleteDataMockMonthly,
   dashboardResultCompleteDataNoTsMock,
   dashboardResultCompleteDataSyncMock,
 } from '@networkMocks/dashboard/data/complete-data/mocks'
-import {
-  dashboardResultPartialDataHistoricMock,
-  dashboardResultPartialDataMock,
-} from '@networkMocks/dashboard/data/partial-data/mocks'
-import {
-  dashboardResultCompleteBadDataMock,
-  dashboardResultCompleteBadDataDuplicatesMock,
-} from '@networkMocks/dashboard/data/bad-data/mocks'
 import {
   dashboardResultEmptyDataSyncMock,
   dashboardResultMissingFirstRowDataSyncMock,
   dashboardResultUndefinedMock,
 } from '@networkMocks/dashboard/data/empty-data/mocks'
 import {
+  dashboardResultPartialDataHistoricMock,
+  dashboardResultPartialDataMock,
+} from '@networkMocks/dashboard/data/partial-data/mocks'
+import {
+  getAsyncReportResultMockParentChildChild1404Mock,
+  getAsyncReportResultMockParentChildChild1Mock,
+  getAsyncReportResultMockParentChildChild1NoDataMock,
+  getAsyncReportResultMockParentChildChild2404Mock,
+  getAsyncReportResultMockParentChildChild2Mock,
+  getAsyncReportResultMockParentChildChild2NoDataMock,
+  getAsyncReportResultMockParentChildParent404Mock,
+  getAsyncReportResultMockParentChildParentMock,
+  getAsyncReportResultMockParentChildParentNoDataMock,
   getDashboardStatusFinishedMock,
   getDashboardStatusStartedMock,
-  requestAsyncDashboardMock,
-  parentChildStatusParentFinishedMock,
-  parentChildStatusParentFailedMock,
+  parentChildStatusChild1FailedMock,
   parentChildStatusChild1FinishedMock,
   parentChildStatusChild2FailedMock,
   parentChildStatusChild2FinishedMock,
-  getAsyncReportResultMockParentChildParentMock,
-  getAsyncReportResultMockParentChildChild1Mock,
-  getAsyncReportResultMockParentChildChild1NoDataMock,
-  getAsyncReportResultMockParentChildChild2Mock,
-  getAsyncReportResultMockParentChildChild2404Mock,
-  getAsyncReportResultMockParentChildParent404Mock,
-  getAsyncReportResultMockParentChildChild1404Mock,
-  parentChildStatusChild1FailedMock,
-  getAsyncReportResultMockParentChildChild2NoDataMock,
-  getAsyncReportResultMockParentChildParentNoDataMock,
+  parentChildStatusParentFailedMock,
+  parentChildStatusParentFinishedMock,
+  requestAsyncDashboardMock,
 } from '@networkMocks/dashboard/mocks'
 import { stubFor } from '@networkMocks/generateNetworkMock'
 import { dashboardFailureStubs } from './failures'
@@ -107,6 +114,14 @@ const lineDefinitionStubs = {
   stubLinePartialData: () => stubFor(linePartialDatasetMock),
 }
 
+const matrixDefinitionStubs = {
+  stubMatrixCompleteDailyData: () => stubFor(matrixCompleteDailyDatasetMock),
+  stubMatrixCompleteMonthlyData: () => stubFor(matrixCompleteMonthlyDatasetMock),
+  stubMatrixCompleteAnnuallyData: () => stubFor(matrixCompleteAnnuallyDatasetMock),
+  stubMatrixPartialData: () => stubFor(matrixPartialDatasetMock),
+  stubMatrixInvalid: () => stubFor(matrixInvalidMock),
+}
+
 const scorecardDefinitionStubs = {
   stubDefinitionScorecardDashboard: () => stubFor(scorecardsCompleteDatasetMock),
   stubDefinitionScorecardDashboardBadData: () => stubFor(scorecardsCompletebadDatasetMock),
@@ -138,6 +153,7 @@ const definitionStubs = {
   ...lineTimeseriesDefinitionStubs,
   ...lineDefinitionStubs,
   ...mixedChartsDefinitionStubs,
+  ...matrixDefinitionStubs,
 }
 
 // REQUEST
@@ -156,6 +172,9 @@ const requestStubs = {
 
 // RESULTS
 const resultsStubs = {
+  stubDashboardResultCompleteDataDaily: () => stubFor(dashboardResultCompleteDataMockDaily),
+  stubDashboardResultCompleteDataMonthly: () => stubFor(dashboardResultCompleteDataMockMonthly),
+  stubDashboardResultCompleteDataAnnually: () => stubFor(dashboardResultCompleteDataMockAnnually),
   stubDashboardResultCompleteData: () => stubFor(dashboardResultCompleteDataMock),
   stubDashboardResultCompleteDataSync: () => stubFor(dashboardResultCompleteDataSyncMock),
 

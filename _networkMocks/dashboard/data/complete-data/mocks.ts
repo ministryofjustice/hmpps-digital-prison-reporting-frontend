@@ -2,9 +2,11 @@ import { setupSimpleMock } from '@networkMocks/generateNetworkMock'
 import { completeDataSet } from './data'
 import { completeDataSetNoTs } from './data_no-ts'
 
-import { visualisationIds, visIdsNoTs } from '../../definitions/visualisations/complete-dataset'
-import { requestExampleIds } from '../../definitions/request-examples'
 import { featureTestingIds } from '../../definitions/feature-testing'
+import { requestExampleIds } from '../../definitions/request-examples'
+import { visIdsNoTs, visualisationIds } from '../../definitions/visualisations/complete-dataset'
+import { completeDataSetAnnually } from './data_annually'
+import { completeDataSetDaily } from './data_daily'
 
 const allIds = [...visualisationIds, ...requestExampleIds, ...featureTestingIds]
 const productIds = ['dashboard-visualisations', 'request-examples', 'feature-testing']
@@ -24,8 +26,26 @@ export const dashboardResultCompleteDataNoTsMock = setupSimpleMock(
   completeDataSetNoTs,
 )
 
+export const dashboardResultCompleteDataMockDaily = setupSimpleMock(
+  `/reports/(${productIds.join('|')})/dashboards/matrix-examples_complete-data_daily/tables/tblId_[0-9]+/result`,
+  completeDataSetDaily,
+)
+
+export const dashboardResultCompleteDataMockMonthly = setupSimpleMock(
+  `/reports/(${productIds.join('|')})/dashboards/matrix-examples_complete-data_monthly/tables/tblId_[0-9]+/result`,
+  completeDataSet,
+)
+
+export const dashboardResultCompleteDataMockAnnually = setupSimpleMock(
+  `/reports/(${productIds.join('|')})/dashboards/matrix-examples_complete-data_annually/tables/tblId_[0-9]+/result`,
+  completeDataSetAnnually,
+)
+
 export const mocks = [
   dashboardResultCompleteDataMock,
   dashboardResultCompleteDataSyncMock,
   dashboardResultCompleteDataNoTsMock,
+  dashboardResultCompleteDataMockDaily,
+  dashboardResultCompleteDataMockMonthly,
+  dashboardResultCompleteDataMockAnnually,
 ]

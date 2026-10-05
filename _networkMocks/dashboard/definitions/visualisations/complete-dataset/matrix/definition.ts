@@ -64,6 +64,8 @@ export const definition = {
 
 export const partialDefinition = {
   ...definition,
+  id: 'matrix-examples_partial-data',
+  name: 'Matrix - Partial data',
   sections: definition.sections.map(section => ({
     ...section,
     visualisations: section.visualisations.map(vis => ({ ...vis, expectNulls: true })),

@@ -1,5 +1,4 @@
 import type { Request, Response } from 'express'
-import { QueryData } from '../../../../components/_async/async-filters-form/types'
 import {
   AsyncReportQueryData,
   AsyncReportUrlData,
@@ -8,7 +7,6 @@ import {
 } from '../../../../types/UserReports'
 import { StoreItemBuilder, ReportData } from '../builder'
 import { RequestStatus } from '../../../../utils/ReportStatus/types'
-import { normalizeQueryStringArray } from '../../../../utils/queryMappers'
 
 export class ViewedReportBuilder extends StoreItemBuilder {
   filters!: ParamsConfig
@@ -18,8 +16,6 @@ export class ViewedReportBuilder extends StoreItemBuilder {
   reportData!: ReportData
 
   requestUrls!: AsyncReportUrlData | undefined
-
-  interactiveQuery!: QueryData
 
   asyncQueryData!: AsyncReportQueryData | undefined
 
@@ -51,12 +47,6 @@ export class ViewedReportBuilder extends StoreItemBuilder {
 
   private withAsyncQuery = (asyncQueryData: AsyncReportQueryData | undefined) => {
     this.asyncQueryData = asyncQueryData
-  }
-
-  withInteractiveQuery = (interactiveQueryData: QueryData) => {
-    this.interactiveQuery = interactiveQueryData
-
-    return this
   }
 
   // Builder methods
@@ -105,26 +95,6 @@ export class ViewedReportBuilder extends StoreItemBuilder {
   private buildTimestamp = () => {
     return {
       lastViewed: new Date(),
-    }
-  }
-
-  private buildInteractiveQuery = (): AsyncReportQueryData | undefined => {
-    if (!this.interactiveQuery.query || !this.interactiveQuery.querySummary) {
-      return undefined
-    }
-
-    const { query, querySummary: summary } = this.interactiveQuery
-
-    const data = {
-      ...query,
-      ...(query['columns'] && {
-        columns: normalizeQueryStringArray(query['columns']),
-      }),
-    }
-
-    return {
-      data,
-      summary,
     }
   }
 

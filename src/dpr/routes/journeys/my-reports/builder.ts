@@ -1,7 +1,8 @@
 import type { Response } from 'express'
-import { SetQueryFromFiltersResult } from 'src/dpr/components/_async/async-filters-form/types'
+import { QueryData, SetQueryFromFiltersResult } from 'src/dpr/components/_async/async-filters-form/types'
 import { ChildReportExecutionData, ExecutionData } from 'src/dpr/types/ExecutionData'
-import { AsyncReportUrlData, ReportType, RequestFormData } from 'src/dpr/types/UserReports'
+import { AsyncReportQueryData, AsyncReportUrlData, ReportType, RequestFormData } from 'src/dpr/types/UserReports'
+import { normalizeQueryStringArray } from 'src/dpr/utils/queryMappers'
 
 export interface ReportData {
   type: ReportType
@@ -21,6 +22,8 @@ export class StoreItemBuilder {
   syncUrl: AsyncReportUrlData | undefined
 
   queryData!: SetQueryFromFiltersResult | undefined
+
+  interactiveQuery!: QueryData | undefined
 
   reportType!: ReportType
 
@@ -52,6 +55,12 @@ export class StoreItemBuilder {
     return this
   }
 
+  withInteractiveQuery = (interactiveQueryData: QueryData | undefined) => {
+    this.interactiveQuery = interactiveQueryData
+
+    return this
+  }
+
   // Builders
   buildReportMetaData = (reportData: ReportData | RequestFormData) => {
     const { reportId, id, reportName, name, description, schedule, type } = reportData
@@ -65,6 +74,26 @@ export class StoreItemBuilder {
       id,
       name,
       ...(schedule && { schedule }),
+    }
+  }
+
+  buildInteractiveQuery = (): AsyncReportQueryData | undefined => {
+    if (!this.interactiveQuery?.query || !this.interactiveQuery?.querySummary) {
+      return undefined
+    }
+
+    const { query, querySummary: summary } = this.interactiveQuery
+
+    const data = {
+      ...query,
+      ...(query['columns'] && {
+        columns: normalizeQueryStringArray(query['columns']),
+      }),
+    }
+
+    return {
+      data,
+      summary,
     }
   }
 }

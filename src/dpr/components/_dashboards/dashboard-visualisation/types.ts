@@ -99,6 +99,7 @@ export enum DashboardVisualisationType {
   LINE_TIMESERIES = 'line-timeseries',
   SCORECARD = 'scorecard',
   SCORECARD_GROUP = 'scorecard-group',
+  BOX_PLOT = 'box-plot',
 }
 
 export type DashboardVisualisationOptions = ListDashboardVisualisationOptions | BucketDashboardVisualisationOptions

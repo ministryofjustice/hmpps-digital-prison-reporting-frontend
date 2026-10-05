@@ -12,8 +12,6 @@
   {% set schedule = reportData.schedule %}
   {% set children = reportData.children %}
 
-  interactiveQuerySummary: {{ interactiveQuerySummary }}
-
   {% set filtersHtml %}
     {% if querySummary.length > 0 or interactiveQuerySummary.length > 0 %}
       <ul>

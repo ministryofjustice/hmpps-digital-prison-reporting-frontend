@@ -88,8 +88,6 @@ export const updateStore = async ({
 }): Promise<void> => {
   const { dprUser } = LocalsHelper.getValues(res)
 
-  console.log(JSON.stringify({ queryData, interactiveQueryData }, null, 2))
-
   const requestedReportData = new RequestedReportBuilder(req, res)
     .withExecutionData(executionData)
     .withChildExecutionData(childExecutionData)
@@ -100,8 +98,6 @@ export const updateStore = async ({
   if (!requestedReportData) {
     return
   }
-
-  console.log(JSON.stringify({ requestedReportData }, null, 2))
 
   await services.requestedReportService.addReport(dprUser.id, requestedReportData)
   const removedExecutionIds = await services.requestedReportService.removeDuplicateRequestedReports(dprUser.id)
@@ -224,6 +220,23 @@ const requestDashboard = async (req: Request, token: string, services: Services)
     query,
   }
 
+  const interactiveDefaultFiltersSearch = getActiveJourneyValue(
+    req,
+    { id, reportId },
+    'interactiveDefaultFiltersSearch',
+  )
+
+  let interactiveQueryData: QueryData | undefined
+  if (interactiveDefaultFiltersSearch) {
+    const interactiveQueryObject = qsToQueryObject(interactiveDefaultFiltersSearch)
+    const interactiveQuerySummary = buildQuerySummary(interactiveQueryObject, fields)
+
+    interactiveQueryData = {
+      query: interactiveQueryObject,
+      querySummary: interactiveQuerySummary,
+    }
+  }
+
   const childExecutionData = await requestChildVariants(
     childVariants,
     services,
@@ -237,6 +250,7 @@ const requestDashboard = async (req: Request, token: string, services: Services)
     executionData,
     childExecutionData,
     queryData,
+    interactiveQueryData,
   }
 }
 
@@ -267,6 +281,7 @@ const requestReport = async (req: Request, token: string, services: Services) =>
   const requestResponse = await services.reportingService.requestAsyncReport(token, reportId, id, {
     ...query,
   })
+
   const { executionId, tableId } = requestResponse
 
   if (!executionId || !tableId) {

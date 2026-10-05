@@ -3,6 +3,7 @@
   {% set name = reportData.name %}
   {% set description = reportData.description %}
   {% set querySummary = reportData.querySummary %}
+  {% set interactiveQuerySummary = reportData.interactiveQuerySummary %}
   {% set classification = reportData.classification %}
   {% set requestedTimestamp = reportData.requestedTimestamp %}
   {% set metrics = reportData.metrics %}
@@ -11,11 +12,17 @@
   {% set schedule = reportData.schedule %}
   {% set children = reportData.children %}
 
+  interactiveQuerySummary: {{ interactiveQuerySummary }}
+
   {% set filtersHtml %}
-    {% if querySummary.length > 0 %}
+    {% if querySummary.length > 0 or interactiveQuerySummary.length > 0 %}
       <ul>
         {% for query in querySummary %}
           <li class="govuk-body govuk-!-margin-bottom-0">{{ query.name | capitaliseSentence }}: {{ query.value }}</li>
+        {% endfor %}
+
+        {% for interactiveQuery in interactiveQuerySummary %}
+          <li class="govuk-body govuk-!-margin-bottom-0">{{ interactiveQuery.name | capitaliseSentence }}: {{ interactiveQuery.value }}</li>
         {% endfor %}
       </ul>
     {% endif %}

@@ -42,12 +42,13 @@ const setMetaDetails = (data: RequestedReport) => {
 }
 
 const setRequestDetails = (data: RequestedReport) => {
-  const { reportName, name, timestamp, query } = data
+  const { reportName, name, timestamp, query, interactiveQuery } = data
   return {
     reportName: reportName || '',
     name: name || '',
     requestedAt: timestamp.requested,
     ...(query && { querySummary: query?.summary }),
+    ...(interactiveQuery && { interactiveQuerySummary: interactiveQuery?.summary }),
   }
 }
 

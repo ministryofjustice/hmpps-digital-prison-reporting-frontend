@@ -3,14 +3,13 @@ import { NextFunction, Request, Response } from 'express'
 
 // Utils
 import { setupSubscriptionConfig } from 'src/dpr/components/subscription/utils'
-import { QuerySummaryItem } from 'src/dpr/components/_async/request-details/types'
 import { buildFilterData, buildSortData } from '../../../../components/_async/async-filters-form/utils'
 import { buildMasterSections } from '../../../../components/_dashboards/dashboard-section/utils'
 import { getRequestFilters } from '../../../../components/_filters/utils'
 import LocalsHelper from '../../../../utils/localsHelper'
 
 // Types
-import type { SetQueryFromFiltersResult } from '../../../../components/_async/async-filters-form/types'
+import type { QueryData, SetQueryFromFiltersResult } from '../../../../components/_async/async-filters-form/types'
 import { buildQuerySummary } from '../../../../components/_async/request-details/utils'
 import type { components } from '../../../../types/api'
 import type { AsyncReportUtilsParams, RequestDataResult, RequestReportData } from '../../../../types/AsyncReportUtils'
@@ -38,7 +37,7 @@ export const request = async ({ req, res, services }: AsyncReportUtilsParams) =>
   const { token } = LocalsHelper.getValues(res)
   const requestArgs = { req, token }
 
-  const { executionData, queryData, childExecutionData } = await requestProduct({
+  const { executionData, queryData, childExecutionData, interactiveQueryData } = await requestProduct({
     ...requestArgs,
     services,
   })
@@ -49,6 +48,7 @@ export const request = async ({ req, res, services }: AsyncReportUtilsParams) =>
       res,
       services,
       queryData,
+      interactiveQueryData,
       executionData,
       childExecutionData,
     })
@@ -74,6 +74,7 @@ export const updateStore = async ({
   res,
   services,
   queryData,
+  interactiveQueryData,
   executionData,
   childExecutionData,
 }: {
@@ -81,20 +82,26 @@ export const updateStore = async ({
   res: Response
   services: Services
   queryData?: SetQueryFromFiltersResult | undefined
+  interactiveQueryData?: QueryData | undefined
   executionData: ExecutionData
   childExecutionData: Array<ChildReportExecutionData>
 }): Promise<void> => {
   const { dprUser } = LocalsHelper.getValues(res)
 
+  console.log(JSON.stringify({ queryData, interactiveQueryData }, null, 2))
+
   const requestedReportData = new RequestedReportBuilder(req, res)
     .withExecutionData(executionData)
     .withChildExecutionData(childExecutionData)
     .withQueryData(queryData)
+    .withInteractiveQuery(interactiveQueryData)
     .build()
 
   if (!requestedReportData) {
     return
   }
+
+  console.log(JSON.stringify({ requestedReportData }, null, 2))
 
   await services.requestedReportService.addReport(dprUser.id, requestedReportData)
   const removedExecutionIds = await services.requestedReportService.removeDuplicateRequestedReports(dprUser.id)
@@ -274,8 +281,15 @@ const requestReport = async (req: Request, token: string, services: Services) =>
   const sortData = buildSortData(req.body)
   setActiveJourneySortSearch(req, { reportId, id, tableId }, sortData)
 
-  let querySummary = buildQuerySummary(req.body, fields)
+  const querySummary = buildQuerySummary(req.body, fields)
   const filterData = buildFilterData(req.body)
+
+  const queryData = {
+    querySummary,
+    filterData,
+    query,
+    ...(sortData && { sortData }),
+  }
 
   const interactiveDefaultFiltersSearch = getActiveJourneyValue(
     req,
@@ -283,18 +297,15 @@ const requestReport = async (req: Request, token: string, services: Services) =>
     'interactiveDefaultFiltersSearch',
   )
 
-  let interactiveQuerySummary: QuerySummaryItem[] | undefined
+  let interactiveQueryData: QueryData | undefined
   if (interactiveDefaultFiltersSearch) {
     const interactiveQueryObject = qsToQueryObject(interactiveDefaultFiltersSearch)
-    interactiveQuerySummary = buildQuerySummary(interactiveQueryObject, fields)
-    querySummary = [...querySummary, ...interactiveQuerySummary]
-  }
+    const interactiveQuerySummary = buildQuerySummary(interactiveQueryObject, fields)
 
-  const queryData = {
-    querySummary,
-    filterData,
-    query,
-    ...(sortData && { sortData }),
+    interactiveQueryData = {
+      query: interactiveQueryObject,
+      querySummary: interactiveQuerySummary,
+    }
   }
 
   const childExecutionData = await requestChildVariants(
@@ -310,6 +321,7 @@ const requestReport = async (req: Request, token: string, services: Services) =>
     executionData,
     childExecutionData,
     queryData,
+    interactiveQueryData,
   }
 }
 
@@ -325,6 +337,7 @@ const requestProduct = async ({
   executionData: ExecutionData
   childExecutionData: Array<ChildReportExecutionData>
   queryData?: SetQueryFromFiltersResult | undefined
+  interactiveQueryData?: QueryData | undefined
 }> => {
   const { type } = req.body as { type: ReportType }
 

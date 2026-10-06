@@ -7,3 +7,4 @@ dist-test-app/
 dist-docs
 **/init.js
 test-app/
+playwright-report/

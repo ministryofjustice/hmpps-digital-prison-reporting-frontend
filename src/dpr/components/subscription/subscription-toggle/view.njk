@@ -9,6 +9,7 @@
       {% else %}
         {{ dprUnsubscribeForm(subscriptionConfig, true) }}
       {% endif %}
+      <span class="govuk-visually-hidden">for {{ reportConfig.reportName }}</span>
     </div>
   {% endif %}
 {% endmacro %}

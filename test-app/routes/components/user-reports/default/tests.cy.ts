@@ -194,7 +194,7 @@ context('User reports component', () => {
     it('should show the product and variant information', () => {
       cy.findByLabelText(/Bookmarks.*/i).within(() => {
         getMyReportRowCell({ name: 'Successful Report', cell: 'actions' }).within(() => {
-          cy.findByRole('link', { name: 'Remove bookmark' }).should('exist')
+          cy.findByRole('button', { name: 'Remove bookmark' }).should('exist')
         })
       })
     })

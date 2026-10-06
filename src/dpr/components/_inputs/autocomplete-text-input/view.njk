@@ -1,13 +1,27 @@
 {% from "govuk/components/input/macro.njk" import govukInput %}
-{% from "govuk/components/button/macro.njk" import govukButton %}
 
 {% macro dprAutocompleteTextInput(options, validationErrors) %}
 
   {% set listId = (options.id | replace(".", "")) + "-list" %}
-  {% set labelInputId = options.id + '_label' %}
   {% set labelInputName = 'label.' + options.name %}
 
-  <div class="dpr-autocomplete-text-input" data-dpr-module="autocomplete-text-input">
+  {% set inputAttributes = {
+    "role": "combobox",
+    "aria-autocomplete": "list",
+    "aria-expanded": "false",
+    "aria-controls": listId,
+    "aria-haspopup": "listbox",
+    "data-minimum-length": options.minimumLength,
+    "placeholder": "Search",
+    "pattern": options.pattern,
+    "required": "true" if options.mandatory
+  } %}
+
+  <div
+    class="dpr-autocomplete-text-input"
+    data-dpr-module="autocomplete-text-input"
+  >
+
     <input
       type="hidden"
       name="{{ options.name }}"
@@ -17,83 +31,51 @@
 
     {{
       govukInput({
-          id: options.id,
-          label: {
-              text: options.labelText,
-              classes: "govuk-!-font-weight-bold dpr-inline-label"
-          },
-          name: labelInputName,
-          value: options.value,
-          type: "search",
-          errorMessage: validationErrors | dpr.findError(options.id),
-          attributes: {
-              "aria-autocomplete": "list",
-              "aria-expanded": "false",
-              "aria-owns": listId,
-              "haspopup": "true",
-              "data-minimum-length": options.minimumLength,
-              "data-resource-endpoint": options.dynamicResourceEndpoint,
-              "placeholder": "Search",
-              "role": "combobox",
-              pattern: options.pattern,
-              'display-name': options.labelText,
-              "data-static-option-name-value": options.staticOptionNameValue,
-              required: true
-          } if options.mandatory else {
-              "aria-autocomplete": "list",
-              "aria-expanded": "false",
-              "aria-owns": listId,
-              "haspopup": "true",
-              "data-minimum-length": options.minimumLength,
-              "data-resource-endpoint": options.dynamicResourceEndpoint,
-              "placeholder": "Search",
-              "role": "combobox",
-              pattern: options.pattern,
-              'display-name': options.labelText,
-              "data-static-option-name-value": options.staticOptionNameValue
-          },
-          autocomplete: "off",
-          suffix: {
-              html: "&#x1F50D;"
-          },
-          classes: (options.classes if options.classes else "") + " autocomplete-text-input-box govuk-input--width-20",
-          hint: {
-              html: "(Optional)"
-          } if not options.mandatory
+        id: options.id,
+        label: {
+          text: options.labelText,
+          classes: "govuk-!-font-weight-bold dpr-inline-label"
+        },
+        name: labelInputName,
+        value: options.displayValue,
+        type: "text",
+        autocomplete: "off",
+        errorMessage: validationErrors | dpr.findError(options.id),
+        classes: (options.classes if options.classes else "") + " autocomplete-text-input-box govuk-input--width-20",
+        attributes: inputAttributes,
+        suffix: {
+          html: "&#x1F50D;"
+        },
+        hint: {
+          html: "(Optional)"
+        } if not options.mandatory
       })
     }}
 
-    <div id="{{ listId }}" class="autocomplete-text-input-list">
-      <ul role="listbox" aria-label="Autocomplete options">
-        {% if (options.dynamicResourceEndpoint) %}
-          <li class="autocomplete-text-input-item-hide">
-            {{
-              govukButton({
-                  text: '~Template~',
-                  classes: "govuk-button--inverse autocomplete-text-input-list-button",
-                  attributes: {
-                      "data-parent-input": options.id
-                  }
-              })
-            }}
+    <div class="autocomplete-text-input-list-container">
+      <ul
+        id="{{ listId }}"
+        class="autocomplete-text-input-list autocomplete-text-input-list--hidden"
+        role="listbox"
+        aria-label="{{ options.labelText }}"
+      >
+
+        {% for item in options.items %}
+          <li
+            id="{{ listId }}-{{ loop.index0 }}"
+            role="option"
+            aria-selected="false"
+            class="autocomplete-option autocomplete-text-input-item-hide"
+            data-value="{{ item.value }}"
+            data-display="{{ item.text }}"
+          >
+            {{ item.text }}
           </li>
-        {% else %}
-          {% for item in options.items %}
-            <li class="autocomplete-text-input-item-hide">
-              {{
-                govukButton({
-                    text: item.text,
-                    classes: "govuk-button--inverse autocomplete-text-input-list-button",
-                    attributes: {
-                        "data-parent-input": options.id,
-                        "data-static-option-name-value": item.value
-                    }
-                })
-              }}
-            </li>
-          {% endfor %}
-        {% endif %}
+        {% endfor %}
+
       </ul>
     </div>
+
   </div>
+
 {% endmacro %}

@@ -1,14 +1,22 @@
-// @ts-nocheck
 import dayjs from 'dayjs'
 
 import { DprClientClass } from '../../../DprClientClass'
 
 class DateInput extends DprClientClass {
-  static getModuleName() {
+  dateInput: HTMLInputElement | null = null
+  required: string | null = null
+  displayName: string | null = null
+  pattern: string | null = null
+  patternHint: string | null = null
+  min: string | null = null
+  max: string | null = null
+  setToValueTriggers: NodeListOf<Element> | null = null
+
+  static override getModuleName() {
     return 'date-input'
   }
 
-  initialise() {
+  override initialise() {
     const element = this.getElement()
     this.dateInput = element.querySelector(`input.moj-js-datepicker-input`)
     this.setToValueTriggers = document.querySelectorAll(`[data-set-min-max-trigger='true']`)
@@ -28,24 +36,24 @@ class DateInput extends DprClientClass {
 
   setValidationOnInputEl() {
     if (this.required && this.required === 'true') {
-      this.dateInput.setAttribute('required', true)
+      this.dateInput?.setAttribute('required', 'true')
     }
-    if (this.min) this.dateInput.setAttribute('min', this.min)
-    if (this.max) this.dateInput.setAttribute('max', this.max)
+    if (this.min) this.dateInput?.setAttribute('min', this.min)
+    if (this.max) this.dateInput?.setAttribute('max', this.max)
 
-    this.dateInput.setAttribute('display-name', this.displayName)
-    this.dateInput.setAttribute('pattern', this.pattern)
-    this.dateInput.setAttribute('pattern-hint', this.patternHint)
+    this.displayName && this.dateInput?.setAttribute('display-name', this.displayName)
+    this.pattern && this.dateInput?.setAttribute('pattern', this.pattern)
+    this.patternHint && this.dateInput?.setAttribute('pattern-hint', this.patternHint)
   }
 
   setMinMaxEventListener() {
-    this.dateInput.addEventListener('blur', () => {
+    this.dateInput?.addEventListener('blur', () => {
       this.setToMinMax()
     })
   }
 
   setToMinMax() {
-    if (this.dateInput.value) {
+    if (this.dateInput?.value) {
       const dateValue = new Date(this.dateInput.value)
 
       if (this.min) {
@@ -64,20 +72,23 @@ class DateInput extends DprClientClass {
     }
 
     const changeEvent = new Event('change')
-    this.dateInput.dispatchEvent(changeEvent)
+    this.dateInput?.dispatchEvent(changeEvent)
   }
 
   setToValue() {
-    this.setToValueTriggers.forEach(set => {
+    this.setToValueTriggers?.forEach(set => {
       set.addEventListener('click', e => {
         e.preventDefault()
-        const value = e.target.getAttribute('data-set-min-max-value')
-        const inputId = e.target.getAttribute('data-set-to-input')
-        const input = document.getElementById(inputId)
+        const value = (e.target as HTMLElement)?.getAttribute('data-set-min-max-value')
+        const inputId = (e.target as HTMLElement)?.getAttribute('data-set-to-input') || ''
+        const input: HTMLInputElement | null = document.getElementById(inputId) as HTMLInputElement | null
 
-        input.value = value
-        const changeEvent = new Event('change')
-        input.dispatchEvent(changeEvent)
+        if (input && value) {
+          input.value = value
+          const changeEvent = new Event('change')
+
+          input?.dispatchEvent(changeEvent)
+        }
       })
     })
   }

@@ -4,18 +4,23 @@ import { components } from '../../../../../types/api'
 import { updateLastViewedSync } from '../../utils'
 import { AsyncReportUtilsParams } from '../../../../../types/AsyncReportUtils'
 import Dashboard from '../../../../../components/_dashboards/Dashboard'
+import { getAllDefinitionsForReport } from '../../../../../utils/definitionUtils'
 
 export const renderDashboard = async ({ req, res, services }: AsyncReportUtilsParams) => {
   const { token, dprUser } = LocalsHelper.getValues(res)
   const { id, reportId } = <{ id: string; reportId: string }>req.params
 
-  // Get the definition
-  const definition =
-    (res.locals['definition'] as components['schemas']['DashboardDefinition']) ??
-    (await services.dashboardService.getDefinition(token, reportId, id))
+  const { variantDefinition, variantSummary } = await getAllDefinitionsForReport(res, services, reportId, id, token)
 
   // Create the report config
-  const dashboardConfig = await new Dashboard(services, res, req, definition, LoadType.SYNC).build()
+  const dashboardConfig = await new Dashboard(
+    services,
+    res,
+    req,
+    <components['schemas']['DashboardDefinition']>variantDefinition,
+    variantSummary,
+    LoadType.SYNC,
+  ).build()
 
   // Save the data to redis
   if (dashboardConfig && dashboardConfig.dashboardData && Object.keys(dashboardConfig.dashboardData).length) {

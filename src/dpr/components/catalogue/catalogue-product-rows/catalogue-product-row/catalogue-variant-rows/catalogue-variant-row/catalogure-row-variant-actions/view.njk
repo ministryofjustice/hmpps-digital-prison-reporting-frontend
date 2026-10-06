@@ -2,7 +2,7 @@
 {%- from "../../../../../../bookmark/view.njk" import dprBookmarkButton -%}
 {%- from "../../../../../../subscription/subscription-toggle/view.njk" import dprSubscriptionToggle -%}
 
-{% macro dprReportsCatalogueVariantRowActions(actions) %}
+{% macro dprReportsCatalogueVariantRowActions(actions, reportName) %}
 
   {% set request = actions.request %}
   {% set bookmark = actions.bookmark %}
@@ -11,6 +11,8 @@
   {% set subscription = actions.subscription %}
 
   <div class="dpr-reports-catalogue__actions">
+    <span class="govuk-visually-hidden">Actions</span>
+
     {% if not authorised %}
       <div class="dpr-reports-catalogue__actions-unauthorised">
         {{ govukTag({ text: "Unauthorised", classes: "govuk-tag--red" }) }}
@@ -23,6 +25,7 @@
           <li>
             <a href="{{ href }}" class="govuk-link govuk-link--no-visited-state">
               {{ label }}
+              <span class="govuk-visually-hidden">for {{ reportName }}</span>
             </a>
           </li>
         {% endif %}
@@ -33,6 +36,7 @@
           <li>
             <a href="{{ href }}" class="govuk-link govuk-link--no-visited-state">
               {{ label }}
+              <span class="govuk-visually-hidden">for {{ reportName }}</span>
             </a>
           </li>
         {% endif %}
@@ -42,6 +46,7 @@
           {% set id = bookmark.id %}
           {% set reportType = bookmark.reportType %}
           {% set csrfToken = bookmark.csrfToken %}
+          {% set name = bookmark.reportName %}
 
           <li>{{ dprBookmarkButton(reportId, id, reportType, csrfToken, bookmark) }}</li>
         {% endif %}

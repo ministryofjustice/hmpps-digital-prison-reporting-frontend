@@ -168,18 +168,15 @@ export class DprSelectedAsyncFilters extends DprClientClass {
 
   private buildGranularDateRangeFilter(displayName: string, controls: FilterControl[]): SelectedFilter {
     const quick = controls.find(c => c.name.includes('quick-filter') && (c as HTMLInputElement).value) as
-      | HTMLInputElement
-      | undefined
+      HTMLInputElement | undefined
 
     const granularity = controls.find(c => c.name.includes('granularity')) as HTMLInputElement | undefined
 
     const start = controls.find(c => c.name.endsWith('.start') && (c as HTMLInputElement).value) as
-      | HTMLInputElement
-      | undefined
+      HTMLInputElement | undefined
 
     const end = controls.find(c => c.name.endsWith('.end') && (c as HTMLInputElement).value) as
-      | HTMLInputElement
-      | undefined
+      HTMLInputElement | undefined
 
     let displayValue = ''
 
@@ -301,12 +298,15 @@ export class DprSelectedAsyncFilters extends DprClientClass {
 
     const value = document.createTextNode(`: ${filter.displayValue}`)
 
-    button.append(name, value)
+    const hiddenText = document.createElement('span')
+    hiddenText.className = 'govuk-visually-hidden'
+    hiddenText.textContent = ', remove filter'
+
+    button.append(name, value, hiddenText)
 
     button.addEventListener('click', () => {
       const params = new URLSearchParams(window.location.search)
 
-      // Remove ALL values for this filter from the query string
       filter.inputs.forEach(control => {
         params.delete(control.name)
 
@@ -324,6 +324,8 @@ export class DprSelectedAsyncFilters extends DprClientClass {
 
         control.dispatchEvent(new Event('change', { bubbles: true }))
       })
+
+      this.announceFilterRemoval(filter.displayName, filter.displayValue)
 
       const query = params.toString()
       const url = query ? `?${query}` : window.location.pathname
@@ -369,6 +371,20 @@ export class DprSelectedAsyncFilters extends DprClientClass {
 
   private humanise(value: string): string {
     return value.replace(/-/g, ' ')
+  }
+
+  private announceFilterRemoval(filterName: string, filterValue: string): void {
+    const liveRegion = document.getElementById('dpr-selected-filters-announcements')
+
+    if (!liveRegion) {
+      return
+    }
+
+    liveRegion.textContent = ''
+
+    window.setTimeout(() => {
+      liveRegion.textContent = `${filterName}: ${filterValue} removed`
+    }, 10)
   }
 }
 

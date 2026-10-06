@@ -1,13 +1,14 @@
-// @ts-nocheck
 /* eslint-disable class-methods-use-this */
 import { DprClientClass } from './DprClientClass'
 
 class DprSyncLoading extends DprClientClass {
-  static getModuleName() {
+  private form: HTMLFormElement | null = null
+
+  static override getModuleName() {
     return 'sync-loading'
   }
 
-  initialise() {
+  override initialise() {
     this.element = this.getElement()
     this.form = this.element.querySelector('#dpr-sync-loading-form')
 
@@ -15,7 +16,7 @@ class DprSyncLoading extends DprClientClass {
   }
 
   async load() {
-    this.form.submit()
+    this.form?.submit()
   }
 }
 

@@ -666,6 +666,7 @@ export interface components {
       isMissing: boolean
       /** @enum {string|null} */
       loadType?: 'sync' | 'async' | null
+      schedule?: string | null
     }
     ChildVariantDefinition: {
       id: string
@@ -1221,12 +1222,6 @@ export interface operations {
         filters: {
           [key: string]: string
         }
-        /**
-         * @description This optional parameter sets the path of the directory of the data product definition files your application will use.
-         *           "This query parameter is intended to be used in conjunction with the `dpr.lib.dataProductDefinitions.host` property to retrieve definition files from another application by using a web client.
-         * @example definitions/prisons/orphanage
-         */
-        dataProductDefinitionsPath?: string
       }
       header?: never
       path: {
@@ -1291,7 +1286,6 @@ export interface operations {
   getQueryExecutionResult: {
     parameters: {
       query: {
-        dataProductDefinitionsPath?: string
         selectedPage?: number
         pageSize?: number
         /**
@@ -1373,7 +1367,6 @@ export interface operations {
   getSummaryQueryExecutionResult: {
     parameters: {
       query: {
-        dataProductDefinitionsPath?: string
         /**
          * @description The filter query parameters have to start with the prefix "filters." followed by the name of the filter.
          *           For range filters, like date for instance, these need to be followed by a .start or .end suffix accordingly.
@@ -1388,6 +1381,8 @@ export interface operations {
         filters: {
           [key: string]: string
         }
+        sortColumn?: string
+        sortedAsc?: boolean
       }
       header?: never
       path: {
@@ -1452,7 +1447,6 @@ export interface operations {
   downloadCsv: {
     parameters: {
       query: {
-        dataProductDefinitionsPath?: string
         /**
          * @description The filter query parameters have to start with the prefix "filters." followed by the name of the filter.
          *           For range filters, like date for instance, these need to be followed by a .start or .end suffix accordingly.
@@ -1530,7 +1524,6 @@ export interface operations {
   downloadXlsx: {
     parameters: {
       query: {
-        dataProductDefinitionsPath?: string
         /**
          * @description The filter query parameters have to start with the prefix "filters." followed by the name of the filter.
          *           For range filters, like date for instance, these need to be followed by a .start or .end suffix accordingly.
@@ -1611,7 +1604,6 @@ export interface operations {
         filters: {
           [key: string]: string
         }
-        dataProductDefinitionsPath?: string
       }
       header?: never
       path: {
@@ -1675,17 +1667,6 @@ export interface operations {
   getQueryExecutionStatus: {
     parameters: {
       query?: {
-        /**
-         * @description This optional parameter sets the path of the directory of the data product definition files your application will use.
-         *           "This query parameter is intended to be used in conjunction with the `dpr.lib.dataProductDefinitions.host` property to retrieve definition files from another application by using a web client.
-         * @example definitions/prisons/orphanage
-         */
-        dataProductDefinitionsPath?: string
-        /**
-         * @deprecated
-         * @description External table ID.
-         * @example reports._6b3c6dfb_f601_4795_8ee5_2ad65b7fb283
-         */
         tableId?: string
       }
       header?: never
@@ -1748,7 +1729,6 @@ export interface operations {
   downloadCsv_1: {
     parameters: {
       query: {
-        dataProductDefinitionsPath?: string
         /**
          * @description The filter query parameters have to start with the prefix "filters." followed by the name of the filter.
          *           For range filters, like date for instance, these need to be followed by a .start or .end suffix accordingly.
@@ -1825,7 +1805,6 @@ export interface operations {
   downloadXlsx_1: {
     parameters: {
       query: {
-        dataProductDefinitionsPath?: string
         /**
          * @description The filter query parameters have to start with the prefix "filters." followed by the name of the filter.
          *           For range filters, like date for instance, these need to be followed by a .start or .end suffix accordingly.
@@ -1916,12 +1895,6 @@ export interface operations {
         filters: {
           [key: string]: string
         }
-        /**
-         * @description This optional parameter sets the path of the directory of the data product definition files your application will use.
-         *           "This query parameter is intended to be used in conjunction with the `dpr.lib.dataProductDefinitions.host` property to retrieve definition files from another application by using a web client.
-         * @example definitions/prisons/orphanage
-         */
-        dataProductDefinitionsPath?: string
       }
       header?: never
       path: {
@@ -2002,12 +1975,6 @@ export interface operations {
         filters: {
           [key: string]: string
         }
-        /**
-         * @description This optional parameter sets the path of the directory of the data product definition files your application will use.
-         *           "This query parameter is intended to be used in conjunction with the `dpr.lib.dataProductDefinitions.host` property to retrieve definition files from another application by using a web client.
-         * @example definitions/prisons/orphanage
-         */
-        dataProductDefinitionsPath?: string
       }
       header?: never
       path: {
@@ -2072,7 +2039,6 @@ export interface operations {
   getDashboardQueryExecutionResult: {
     parameters: {
       query: {
-        dataProductDefinitionsPath?: string
         selectedPage?: number
         pageSize?: number
         /**
@@ -2152,17 +2118,6 @@ export interface operations {
   getDashboardExecutionStatus: {
     parameters: {
       query?: {
-        /**
-         * @description This optional parameter sets the path of the directory of the data product definition files your application will use.
-         *           "This query parameter is intended to be used in conjunction with the `dpr.lib.dataProductDefinitions.host` property to retrieve definition files from another application by using a web client.
-         * @example definitions/prisons/orphanage
-         */
-        dataProductDefinitionsPath?: string
-        /**
-         * @deprecated
-         * @description External table ID.
-         * @example reports._6b3c6dfb_f601_4795_8ee5_2ad65b7fb283
-         */
         tableId?: string
       }
       header?: never
@@ -2408,12 +2363,6 @@ export interface operations {
          * @example HTML
          */
         renderMethod?: 'HTML' | 'PDF' | 'SVG'
-        /**
-         * @description This optional parameter sets the path of the directory of the data product definition files your application will use.
-         *           "This query parameter is intended to be used in conjunction with the `dpr.lib.dataProductDefinitions.host` property to retrieve definition files from another application by using a web client.
-         * @example definitions/prisons/orphanage
-         */
-        dataProductDefinitionsPath?: string
       }
       header?: never
       path?: never
@@ -2470,14 +2419,7 @@ export interface operations {
   }
   definitionSummary: {
     parameters: {
-      query?: {
-        /**
-         * @description This optional parameter sets the path of the directory of the data product definition files your application will use.
-         *           "This query parameter is intended to be used in conjunction with the `dpr.lib.dataProductDefinitions.host` property to retrieve definition files from another application by using a web client.
-         * @example definitions/prisons/orphanage
-         */
-        dataProductDefinitionsPath?: string
-      }
+      query?: never
       header?: never
       path: {
         /**
@@ -2540,23 +2482,6 @@ export interface operations {
   definition: {
     parameters: {
       query: {
-        /**
-         * @description This optional parameter sets the path of the directory of the data product definition files your application will use.
-         *           "This query parameter is intended to be used in conjunction with the `dpr.lib.dataProductDefinitions.host` property to retrieve definition files from another application by using a web client.
-         * @example definitions/prisons/orphanage
-         */
-        dataProductDefinitionsPath?: string
-        /**
-         * @description The filter query parameters have to start with the prefix "filters." followed by the name of the filter.
-         *           For range filters, like date for instance, these need to be followed by a .start or .end suffix accordingly.
-         *           For multiselect filters, these are passed as one query parameter per filter with a comma separated list of values:
-         *           filters.someMultiselectFilter=a,b,c
-         * @example {
-         *       "filters.date.start": "2023-04-25",
-         *       "filters.date.end": "2023-05-30",
-         *       "filters.someMultiselectFilter": "a,b,c"
-         *     }
-         */
         filters: {
           [key: string]: string
         }
@@ -2628,23 +2553,6 @@ export interface operations {
   dashboardDefinition: {
     parameters: {
       query: {
-        /**
-         * @description This optional parameter sets the path of the directory of the data product definition files your application will use.
-         *           "This query parameter is intended to be used in conjunction with the `dpr.lib.dataProductDefinitions.host` property to retrieve definition files from another application by using a web client.
-         * @example definitions/prisons/orphanage
-         */
-        dataProductDefinitionsPath?: string
-        /**
-         * @description The filter query parameters have to start with the prefix "filters." followed by the name of the filter.
-         *           For range filters, like date for instance, these need to be followed by a .start or .end suffix accordingly.
-         *           For multiselect filters, these are passed as one query parameter per filter with a comma separated list of values:
-         *           filters.someMultiselectFilter=a,b,c
-         * @example {
-         *       "filters.date.start": "2023-04-25",
-         *       "filters.date.end": "2023-05-30",
-         *       "filters.someMultiselectFilter": "a,b,c"
-         *     }
-         */
         filters: {
           [key: string]: string
         }
@@ -2733,12 +2641,6 @@ export interface operations {
         filters: {
           [key: string]: string
         }
-        /**
-         * @description This optional parameter sets the path of the directory of the data product definition files your application will use.
-         *           "This query parameter is intended to be used in conjunction with the `dpr.lib.dataProductDefinitions.host` property to retrieve definition files from another application by using a web client.
-         * @example definitions/prisons/orphanage
-         */
-        dataProductDefinitionsPath?: string
       }
       header?: never
       path: {
@@ -2801,23 +2703,6 @@ export interface operations {
   asyncExecuteDashboard: {
     parameters: {
       query: {
-        /**
-         * @description This optional parameter sets the path of the directory of the data product definition files your application will use.
-         *           "This query parameter is intended to be used in conjunction with the `dpr.lib.dataProductDefinitions.host` property to retrieve definition files from another application by using a web client.
-         * @example definitions/prisons/orphanage
-         */
-        dataProductDefinitionsPath?: string
-        /**
-         * @description The filter query parameters have to start with the prefix "filters." followed by the name of the filter.
-         *           For range filters, like date for instance, these need to be followed by a .start or .end suffix accordingly.
-         *           For multiselect filters, these are passed as one query parameter per filter with a comma separated list of values:
-         *           filters.someMultiselectFilter=a,b,c
-         * @example {
-         *       "filters.date.start": "2023-04-25",
-         *       "filters.date.end": "2023-05-30",
-         *       "filters.someMultiselectFilter": "a,b,c"
-         *     }
-         */
         filters: {
           [key: string]: string
         }
@@ -2882,14 +2767,7 @@ export interface operations {
   }
   cancelReportQueryExecution: {
     parameters: {
-      query?: {
-        /**
-         * @description This optional parameter sets the path of the directory of the data product definition files your application will use.
-         *           "This query parameter is intended to be used in conjunction with the `dpr.lib.dataProductDefinitions.host` property to retrieve definition files from another application by using a web client.
-         * @example definitions/prisons/orphanage
-         */
-        dataProductDefinitionsPath?: string
-      }
+      query?: never
       header?: never
       path: {
         reportId: string
@@ -2949,14 +2827,7 @@ export interface operations {
   }
   cancelDashboardQueryExecution: {
     parameters: {
-      query?: {
-        /**
-         * @description This optional parameter sets the path of the directory of the data product definition files your application will use.
-         *           "This query parameter is intended to be used in conjunction with the `dpr.lib.dataProductDefinitions.host` property to retrieve definition files from another application by using a web client.
-         * @example definitions/prisons/orphanage
-         */
-        dataProductDefinitionsPath?: string
-      }
+      query?: never
       header?: never
       path: {
         reportId: string

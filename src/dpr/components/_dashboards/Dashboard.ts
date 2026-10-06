@@ -19,8 +19,6 @@ import ErrorHandler from '../../utils/ErrorHandler/ErrorHandler'
 import { createDashboardSections } from './dashboard-section/utils'
 import DataPresentation from './DataPresentation'
 
-type DashboardDefinition = components['schemas']['DashboardDefinition']
-
 export default class Dashboard extends DataPresentation {
   sections!: DashboardSection[]
 
@@ -38,11 +36,12 @@ export default class Dashboard extends DataPresentation {
     services: Services,
     res: Response,
     req: Request,
-    definition: DashboardDefinition,
+    definition: components['schemas']['DashboardDefinition'],
+    summary: components['schemas']['VariantDefinitionSummary'] | undefined,
     loadType: LoadType,
     requestData?: RequestedReport | undefined,
   ) {
-    super(services, res, req, definition, loadType, ReportType.DASHBOARD, requestData)
+    super(services, res, req, definition, summary, loadType, ReportType.DASHBOARD, requestData)
 
     this.dashboardFeatureFlags = res.app.locals['featureFlags'].flags
   }
@@ -91,7 +90,7 @@ export default class Dashboard extends DataPresentation {
    *
    */
   getData = async () => {
-    const childVariants = (this.definition as DashboardDefinition)?.childVariants
+    const childVariants = (this.definition as components['schemas']['DashboardDefinition'])?.childVariants
 
     if (childVariants) {
       await this.getParentChildData()
@@ -152,7 +151,7 @@ export default class Dashboard extends DataPresentation {
       this.dashboardData = []
     }
 
-    const childVariants = (this.definition as DashboardDefinition)?.childVariants
+    const childVariants = (this.definition as components['schemas']['DashboardDefinition'])?.childVariants
 
     this.parentChildData = !childVariants
       ? []
@@ -167,7 +166,7 @@ export default class Dashboard extends DataPresentation {
    *
    */
   getChildData = async (
-    childVariants: DashboardDefinition[],
+    childVariants: components['schemas']['DashboardDefinition'][],
     services: Services,
     token: string,
     req: Request,
@@ -249,7 +248,7 @@ export default class Dashboard extends DataPresentation {
 
   buildSections = () => {
     this.sections = createDashboardSections(
-      this.definition as DashboardDefinition,
+      this.definition as components['schemas']['DashboardDefinition'],
       this.dashboardData,
       this.parentChildData,
       this.reportQuery.toRecordWithFilterPrefix(true),

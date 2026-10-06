@@ -414,7 +414,7 @@ const resolveDashboardBookmark = (res: Response, reportId: string, sourceId: str
  */
 const buildBookmarkActionsCell = (data: MappedBookmarks, res: Response, req: Request): DprMyReportActions => {
   const { load, request } = buildLoadRequestAction(res, req, data)
-  const bookmark = buildBookmarkRemoveAction(res, data)
+  const bookmark = buildBookmarkRemoveAction(req, res, data)
 
   return {
     ...(load && { load }),
@@ -430,10 +430,11 @@ const buildBookmarkActionsCell = (data: MappedBookmarks, res: Response, req: Req
  * @param {MappedBookmarks} data
  * @return {*}
  */
-const buildBookmarkRemoveAction = (res: Response, data: MappedBookmarks): DprMyReportActionBookmark => {
+const buildBookmarkRemoveAction = (req: Request, res: Response, data: MappedBookmarks): DprMyReportActionBookmark => {
   const { reportId, id, type: reportType } = data
   const { csrfToken } = LocalsHelper.getValues(res)
   const { bookmarkActionEndpoint } = LocalsHelper.getRouteLocals(res)
+  const currentUrl = req.originalUrl || '/'
 
   return {
     reportId,
@@ -443,6 +444,7 @@ const buildBookmarkRemoveAction = (res: Response, data: MappedBookmarks): DprMyR
     bookmarkActionEndpoint,
     linkType: 'remove',
     linkText: 'Remove bookmark',
+    currentUrl,
   }
 }
 

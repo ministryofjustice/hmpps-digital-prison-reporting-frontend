@@ -1,39 +1,37 @@
-// @ts-nocheck
 /* eslint-disable no-new */
 /* global dayjs */
 import dayjs from 'dayjs'
 import customParse from 'dayjs/plugin/customParseFormat'
 
 // General Components
-import CardGroup from './components/card-group/clientClass'
 import BookmarkButton from './components/bookmark/clientClass'
-import ShowMore from './components/show-more/clientClass'
+import CardGroup from './components/card-group/clientClass'
 import { dprTruncate } from './components/truncate/clientClass'
 
 // Reports
-import Pagination from './components/_reports/report-page/report-template/report-pagination/clientClass'
 import ReportActions from './components/_reports/report-heading/report-actions/clientClass'
-import DataTable from './components/_reports/report-page/report-template/report-section/report-data-table/clientClass'
 import DownloadMessage from './components/_reports/report-heading/report-download-message/clientClass'
+import Pagination from './components/_reports/report-page/report-template/report-pagination/clientClass'
+import DataTable from './components/_reports/report-page/report-template/report-section/report-data-table/clientClass'
 
 // Filters
-import DprFiltersFormClass from './components/_async/async-filters-form/clientClass'
 import DprSelectedAsyncFilters from './components/_async/async-filters-form/actions/selected-filters/clientClass'
+import DprFiltersFormClass from './components/_async/async-filters-form/clientClass'
 import DprAppliedFilters from './components/_filters/filters-applied/clientClass'
 
 // Async
-import DprReportStatus from './components/_async/async-polling/clientClass.ts'
+import DprReportStatus from './components/_async/async-polling/clientClass'
 
 // Sync
 import SyncLoading from './DprSyncLoading'
 
 // Inputs
+import AutoCompleteMulti from './components/_inputs/autocomplete-multi/clientClass'
+import Autocomplete from './components/_inputs/autocomplete-text-input/clientClass'
 import DateInput from './components/_inputs/date-input/clientClass'
 import DateRange from './components/_inputs/date-range/clientClass'
-import Autocomplete from './components/_inputs/autocomplete-text-input/clientClass'
 import { GranularDateRange } from './components/_inputs/granular-date-range/clientClass'
 import MultiselectInput from './components/_inputs/multi-select/clientClass'
-import AutoCompleteMulti from './components/_inputs/autocomplete-multi/clientClass'
 
 // My Reports
 import DprMyReports from './components/my-reports/my-reports-list/clientClass'
@@ -41,20 +39,20 @@ import DprMyReports from './components/my-reports/my-reports-list/clientClass'
 // Charts
 import BarChartVisualisation from './components/_charts/chart/bar/clientClass'
 import DoughnutChartVisualisation from './components/_charts/chart/doughnut/clientClass'
-import LineChartVisualisation from './components/_charts/chart/line/clientClass'
 import MatrixChartVisualisation from './components/_charts/chart/heatmap/clientClass'
+import LineChartVisualisation from './components/_charts/chart/line/clientClass'
 
 // Dashboards
 import ScoreCard from './components/_dashboards/scorecard/clientClass'
 
 // ReportsCatalogue v2
-import { DprReportsCatalogueSearch } from './components/catalogue/catalogue-filters/catalogue-filters-search/clientClass'
 import { DprReportsCatalogueCollections } from './components/catalogue/catalogue-filters/catalogue-filters-collection/clientClass'
-import { DprReportsCatalogueTypeFilter } from './components/catalogue/catalogue-filters/catalogue-filters-type/clientClass'
+import { DprReportsCatalogueSearch } from './components/catalogue/catalogue-filters/catalogue-filters-search/clientClass'
 import { DprReportsCatalogueShowHide } from './components/catalogue/catalogue-filters/catalogue-filters-show-hide/clientClass'
-import { DprReportsCatalogueTotals } from './components/catalogue/catalogue-totals/clientClass'
-import { DprReportsCatalogueProductCounts } from './components/catalogue/catalogue-product-rows/catalogue-product-row/catalogue-product-row-totals/clientClass'
+import { DprReportsCatalogueTypeFilter } from './components/catalogue/catalogue-filters/catalogue-filters-type/clientClass'
 import { DprReportsCatalogueNavigation } from './components/catalogue/catalogue-product-rows/catalogue-product-row/catalogue-product-row-navigation/clientClass'
+import { DprReportsCatalogueProductCounts } from './components/catalogue/catalogue-product-rows/catalogue-product-row/catalogue-product-row-totals/clientClass'
+import { DprReportsCatalogueTotals } from './components/catalogue/catalogue-totals/clientClass'
 
 /**
  * Initialise all components
@@ -101,7 +99,9 @@ function initAll() {
   dayjs.extend(customParse)
 
   components.forEach(Component => {
-    const $elements = document.querySelectorAll(`[data-dpr-module="${Component.getModuleName()}"]`)
+    const $elements: NodeListOf<HTMLElement> = document.querySelectorAll(
+      `[data-dpr-module="${Component.getModuleName()}"]`,
+    )
     $elements.forEach(async $element => {
       try {
         new Component($element).initialise()

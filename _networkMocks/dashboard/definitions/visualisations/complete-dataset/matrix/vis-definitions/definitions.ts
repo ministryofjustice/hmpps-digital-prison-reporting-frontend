@@ -153,28 +153,24 @@ export const customBucketsWithSizing: components['schemas']['DashboardVisualisat
   id: 'custom-bucket-sizing',
   type: DashboardVisualisationType.MATRIX_TIMESERIES,
   display: 'Custom bucket count and sizing',
-  description: 'Example produces 5 buckets with boundaries in increments of 20',
+  description: 'Example produces 4 buckets with custom boundaries',
   options: {
     buckets: [
       {
         min: 0,
-        max: 20,
+        max: 450,
       },
       {
-        min: 21,
-        max: 40,
+        min: 451,
+        max: 500,
       },
       {
-        min: 41,
-        max: 60,
+        min: 501,
+        max: 600,
       },
       {
-        min: 61,
-        max: 80,
-      },
-      {
-        min: 81,
-        max: 100,
+        min: 601,
+        max: 800,
       },
     ],
   },
@@ -209,14 +205,15 @@ export const customBucketsWithSizingOpen: components['schemas']['DashboardVisual
   options: {
     buckets: [
       {
-        max: 10,
+        min: 0,
+        max: 450,
       },
       {
-        min: 11,
-        max: 30,
+        min: 451,
+        max: 500,
       },
       {
-        min: 31,
+        min: 501,
       },
     ],
   },
@@ -251,31 +248,22 @@ export const customBucketsWithSizingAndColour: components['schemas']['DashboardV
   id: 'custom-bucket-sizing-and-colour',
   type: DashboardVisualisationType.MATRIX_TIMESERIES,
   display: 'Custom bucket sizing, count and colour',
-  description: '5 buckets. Increments of 20. 3 Custom colours',
+  description: '3 buckets. 3 Custom colours',
   options: {
     buckets: [
-      // TODO: fix these buckets sizings to colour is not black
       {
         min: 0,
-        max: 20,
+        max: 500,
         hexColour: '#912b88',
       },
       {
-        min: 21,
-        max: 40,
-      },
-      {
-        min: 41,
-        max: 60,
+        min: 501,
+        max: 600,
         hexColour: '#f47738',
       },
       {
-        min: 61,
-        max: 80,
-      },
-      {
-        min: 81,
-        max: 100,
+        min: 601,
+        max: 800,
         hexColour: '#28a197',
       },
     ],

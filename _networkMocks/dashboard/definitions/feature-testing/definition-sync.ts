@@ -1,6 +1,5 @@
 import {
   establishmentIdFilter,
-  granularDateRangeFilter,
   nullEstablishmentIdFilter,
   undefinedEstablishmentIdFilter,
 } from '@networkMocks/dashboard/filter-definitions'
@@ -51,10 +50,5 @@ export const definition: components['schemas']['DashboardDefinition'] & {
     },
   ],
   loadType: 'sync' as components['schemas']['DashboardDefinitionSummary']['loadType'],
-  filterFields: [
-    establishmentIdFilter,
-    nullEstablishmentIdFilter,
-    granularDateRangeFilter,
-    undefinedEstablishmentIdFilter,
-  ],
+  filterFields: [establishmentIdFilter, nullEstablishmentIdFilter, undefinedEstablishmentIdFilter],
 }

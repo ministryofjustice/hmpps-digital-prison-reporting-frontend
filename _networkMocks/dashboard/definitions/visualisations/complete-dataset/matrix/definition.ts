@@ -1,7 +1,8 @@
+import { components } from 'src/dpr/types/api'
 import { fullDatasetHistoric } from '../list/vis-definitions/full-data'
 import * as matrix from './vis-definitions/definitions'
 
-const basicDefinition = {
+export const basicDefinition: components['schemas']['DashboardDefinition'] = {
   id: 'matrix-examples_complete-data',
   name: 'Matrix - Complete data',
   description: 'Matrix examples',
@@ -38,36 +39,26 @@ const basicDefinition = {
   filterFields: [],
 }
 
-export const dailyDefinition = {
+export const dailyDefinition: components['schemas']['DashboardDefinition'] = {
   ...basicDefinition,
   id: 'matrix-examples_complete-data_daily',
 }
 
-export const monthlyDefinition = {
+export const monthlyDefinition: components['schemas']['DashboardDefinition'] = {
   ...basicDefinition,
   id: 'matrix-examples_complete-data_monthly',
   name: 'Matrix - Complete data monthly',
   sections: basicDefinition.sections.map(section => ({ ...section, id: `${section.id}-monthly` })),
 }
 
-export const annuallyDefinition = {
+export const annuallyDefinition: components['schemas']['DashboardDefinition'] = {
   ...basicDefinition,
   id: 'matrix-examples_complete-data_annually',
   name: 'Matrix - Complete data annually',
   sections: basicDefinition.sections.map(section => ({ ...section, id: `${section.id}-annually` })),
 }
 
-export const definition = {
+export const definition: components['schemas']['DashboardDefinition'] = {
   ...dailyDefinition,
   childVariants: [monthlyDefinition, annuallyDefinition],
-}
-
-export const partialDefinition = {
-  ...definition,
-  id: 'matrix-examples_partial-data',
-  name: 'Matrix - Partial data',
-  sections: definition.sections.map(section => ({
-    ...section,
-    visualisations: section.visualisations.map(vis => ({ ...vis, expectNulls: true })),
-  })),
 }

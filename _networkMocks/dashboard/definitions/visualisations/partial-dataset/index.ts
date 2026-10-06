@@ -4,11 +4,12 @@ import { definition as linetimeseries } from './line-timeseries/definition'
 import { definition as line } from './line/definition'
 import { definition as list } from './list/definition'
 import { definition as listHistoric } from './list/definition-historic'
-import { definition as matrix } from './matrix/definition-invalid'
+import { partialDefinition as partialMatrix } from './matrix/definition'
+import { definition as invalidMatrix } from './matrix/definition-invalid'
 import { definition as mixedHistoric } from './mixed-historic/definition'
 import { definition as mixed } from './mixed/definition'
 
-export const snapshotVisualisations = [list, matrix, bar, invalidBar, mixed, line]
+export const snapshotVisualisations = [list, partialMatrix, invalidMatrix, bar, invalidBar, mixed, line]
 export const historicVisualisations = [listHistoric, linetimeseries, mixedHistoric]
 export const visualisations = [...snapshotVisualisations, ...historicVisualisations]
 

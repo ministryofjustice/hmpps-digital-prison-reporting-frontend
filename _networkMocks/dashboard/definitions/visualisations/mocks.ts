@@ -12,7 +12,6 @@ import {
   annuallyDefinition as matrixCompleteAnnuallyDataset,
   definition as matrixCompleteDataset,
   monthlyDefinition as matrixCompleteMonthlyDataset,
-  partialDefinition as matrixPartialDataset,
 } from './complete-dataset/matrix/definition'
 import { definition as mixedCompleteDataset } from './complete-dataset/mixed/definition'
 import { definition as scorecardsCompleteDataset } from './complete-dataset/scorecard/definition'
@@ -29,6 +28,7 @@ import { definition as lineTimeseriesPartialDataset } from './partial-dataset/li
 import { definition as linePartialDataset } from './partial-dataset/line/definition'
 import { definition as listPartialDataset } from './partial-dataset/list/definition'
 import { definition as listPartialDatasetHistoric } from './partial-dataset/list/definition-historic'
+import { partialDefinition as matrixPartialDataset } from './partial-dataset/matrix/definition'
 import { definition as matrixInvalid } from './partial-dataset/matrix/definition-invalid'
 import { definition as mixedPartialDatasetHistoric } from './partial-dataset/mixed-historic/definition'
 import { definition as mixedPartialDataset } from './partial-dataset/mixed/definition'

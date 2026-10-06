@@ -6,12 +6,12 @@ import { visualisations as completeDataVisualisations } from './visualisations/c
 import { visualisations as partialDataVisualisations } from './visualisations/partial-dataset'
 
 import {
-  successfulExecution,
-  failedExecution,
-  serverError,
   expiredDashboard,
-  requestTimeout,
+  failedExecution,
   failedRequest,
+  requestTimeout,
+  serverError,
+  successfulExecution,
 } from './request-examples/definitions'
 
 // Visualisations

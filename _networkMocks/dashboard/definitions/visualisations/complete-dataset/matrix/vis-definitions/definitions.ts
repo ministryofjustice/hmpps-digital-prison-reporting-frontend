@@ -1,6 +1,7 @@
+import { components } from 'src/dpr/types/api'
 import { DashboardVisualisationType } from '../../../../../../../src/dpr/components/_dashboards/dashboard-visualisation/types'
 
-export const automaticBucketing = {
+export const automaticBucketing: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'automatic-bucketing',
   type: DashboardVisualisationType.MATRIX_TIMESERIES,
   display: 'Automatic bucketing example',
@@ -33,7 +34,7 @@ export const automaticBucketing = {
   },
 }
 
-export const automaticBucketingCustomBaseColour = {
+export const automaticBucketingCustomBaseColour: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'automatic-bucketing-custom-base-colour',
   type: DashboardVisualisationType.MATRIX_TIMESERIES,
   display: 'Custom base colour',
@@ -68,7 +69,7 @@ export const automaticBucketingCustomBaseColour = {
   },
 }
 
-export const automaticBucketingRag = {
+export const automaticBucketingRag: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'automatic-bucketing-rag-colours',
   type: DashboardVisualisationType.MATRIX_TIMESERIES,
   display: 'RAG colours',
@@ -103,7 +104,7 @@ export const automaticBucketingRag = {
   },
 }
 
-export const automaticBucketingCustomColours = {
+export const automaticBucketingCustomColours: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'automatic-bucketing-custom-bucket-colours',
   type: DashboardVisualisationType.MATRIX_TIMESERIES,
   display: 'Custom buckets colours',
@@ -148,7 +149,7 @@ export const automaticBucketingCustomColours = {
   },
 }
 
-export const customBucketsWithSizing = {
+export const customBucketsWithSizing: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'custom-bucket-sizing',
   type: DashboardVisualisationType.MATRIX_TIMESERIES,
   display: 'Custom bucket count and sizing',
@@ -199,7 +200,7 @@ export const customBucketsWithSizing = {
   },
 }
 
-export const customBucketsWithSizingOpen = {
+export const customBucketsWithSizingOpen: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'custom-bucket-open-sizing',
   type: DashboardVisualisationType.MATRIX_TIMESERIES,
   display: 'Open ended bucket boundaries',
@@ -246,7 +247,7 @@ export const customBucketsWithSizingOpen = {
   },
 }
 
-export const customBucketsWithSizingAndColour = {
+export const customBucketsWithSizingAndColour: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'custom-bucket-sizing-and-colour',
   type: DashboardVisualisationType.MATRIX_TIMESERIES,
   display: 'Custom bucket sizing, count and colour',

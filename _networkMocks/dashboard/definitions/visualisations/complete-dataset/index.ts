@@ -23,7 +23,6 @@ import {
   annuallyDefinition as matrixChartAnnuallyDefinition,
   definition as matrixChartDefinition,
   monthlyDefinition as matrixChartMonthlyDefinition,
-  partialDefinition as matrixChartPartialDefinition,
 } from './matrix/definition'
 
 // bar
@@ -52,12 +51,7 @@ const scorecardGroups = [
   scorecardGroupCompleteDatasetInvalid,
   scorecardGroupCompleteDataseNoTs,
 ]
-const matrixDefs = [
-  matrixChartDefinition,
-  matrixChartMonthlyDefinition,
-  matrixChartAnnuallyDefinition,
-  matrixChartPartialDefinition,
-] as components['schemas']['DashboardDefinition'][]
+const matrixDefs = [matrixChartDefinition, matrixChartMonthlyDefinition, matrixChartAnnuallyDefinition]
 const barChartDefs = [barChartsDefinition]
 const doughnutChartDefs = [doughnutChartsDefinition]
 const lineDefs = [lineCompleteDefinition]

@@ -2,7 +2,7 @@ import { components } from 'src/dpr/types/api'
 import { fullDatasetHistoric } from '../list/vis-definitions/full-data'
 import * as matrix from './vis-definitions/definitions'
 
-export const basicDefinition: components['schemas']['DashboardDefinition'] = {
+const basicDefinition: components['schemas']['DashboardDefinition'] = {
   id: 'matrix-examples_complete-data',
   name: 'Matrix - Complete data',
   description: 'Matrix examples',

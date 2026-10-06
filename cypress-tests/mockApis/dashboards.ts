@@ -17,7 +17,6 @@ import {
   matrixCompleteDailyDatasetMock,
   matrixCompleteMonthlyDatasetMock,
   matrixInvalidMock,
-  matrixPartialDatasetMock,
   mixedCompleteDatasetMock,
   mixedPartialDatasetHistoricMock,
   mixedPartialDatasetMock,
@@ -118,7 +117,6 @@ const matrixDefinitionStubs = {
   stubMatrixCompleteDailyData: () => stubFor(matrixCompleteDailyDatasetMock),
   stubMatrixCompleteMonthlyData: () => stubFor(matrixCompleteMonthlyDatasetMock),
   stubMatrixCompleteAnnuallyData: () => stubFor(matrixCompleteAnnuallyDatasetMock),
-  stubMatrixPartialData: () => stubFor(matrixPartialDatasetMock),
   stubMatrixInvalid: () => stubFor(matrixInvalidMock),
 }
 

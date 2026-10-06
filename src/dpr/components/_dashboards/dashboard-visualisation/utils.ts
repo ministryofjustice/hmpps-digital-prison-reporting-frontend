@@ -12,6 +12,7 @@ import ScorecardGroupChartSchemas from '../scorecard-group/validate'
 import { AggregatedValidationError } from '../../../utils/ErrorHandler/AggregatedValidationError'
 import { DashboardVisualisationType } from './types'
 import { FEATURE_FLAG_KEYS } from '../../../utils/featureFlagsHelper'
+import BoxPlotChartSchemas from '../../_charts/chart/box-plot/validate'
 
 const schemaMap: Record<string, ZodType<unknown>> = {
   list: ListChartSchemas.ListSchema,
@@ -21,6 +22,7 @@ const schemaMap: Record<string, ZodType<unknown>> = {
   doughnut: DoughnutChartSchemas.DoughnutMeasureSchema,
   'matrix-timeseries': HeatmapTimeseriesChartSchemas,
   line: lineChartSchemas.LineSchema,
+  boxplot: BoxPlotChartSchemas.BoxPlotSchema,
   scorecard: ScorecardChartSchemas.ScorecardSchema,
   'scorecard-group': ScorecardGroupChartSchemas.ScorecardGroupSchema,
 } as const
@@ -112,5 +114,6 @@ export const getFeatureFlagVisTypeMap = (dashboardFeatureFlags: Record<string, b
     [DashboardVisualisationType.MATRIX_TIMESERIES]: dashboardFeatureFlags[FEATURE_FLAG_KEYS.MATRIX_TIMESERIES_CHARTS],
     [DashboardVisualisationType.BAR_TIMESERIES]: dashboardFeatureFlags[FEATURE_FLAG_KEYS.BAR_TIMESERIES_CHARTS],
     [DashboardVisualisationType.LINE_TIMESERIES]: dashboardFeatureFlags[FEATURE_FLAG_KEYS.LINE_TIMESERIES_CHARTS],
+    [DashboardVisualisationType.BOX_PLOT]: dashboardFeatureFlags[FEATURE_FLAG_KEYS.LINE_TIMESERIES_CHARTS],
   }
 }

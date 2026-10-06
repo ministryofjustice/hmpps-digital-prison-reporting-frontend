@@ -70,6 +70,7 @@ export const DashboardVisualisationSchema = z.object({
     'scorecard-group',
     'matrix-timeseries',
     'line-timeseries',
+    'boxplot',
   ]),
   display: z.string(),
   description: z.string().optional(),

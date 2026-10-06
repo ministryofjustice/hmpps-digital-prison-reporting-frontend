@@ -8,15 +8,12 @@ import DatasetHelper, {
   getTimestampColumn,
   getTimestampMeasure,
 } from '../../utils/Dashboards/VisualisationDatasetHelper'
-import { mapUnitToSymbol } from '../../utils/Dashboards/VisualisationUnitHelper'
-import DashboardListUtils from '../_dashboards/dashboard-list/utils'
 import {
   DashboardVisualisationCardData,
   DashboardVisualisationData,
   DashboardVisualisationType,
   MoJTable,
 } from '../_dashboards/dashboard-visualisation/types'
-import { UnitType } from '../_dashboards/dashboard-visualisation/Validate'
 import { PartialDate } from '../_filters/types'
 import { Granularity } from '../_inputs/granular-date-range/types'
 import BarTimeseriesChart from './chart/bar-timeseries/BarTimeseriesChart'
@@ -25,6 +22,8 @@ import DoughnutChart from './chart/doughnut/DoughnutChart'
 import HeatmapChart from './chart/heatmap/HeatmapChart'
 import LineTimeseriesChart from './chart/line-timeseries/LineTimeseriesChart'
 import LineChart from './chart/line/LineChart'
+import { createSnapshotTable, createTimeseriesTable } from './chart-table/utils'
+import { BoxPlotChart } from './chart/box-plot/BoxPlotChart'
 
 dayjs.extend(weekOfYear)
 
@@ -40,6 +39,9 @@ export const createChart = (
   const { dataSetRows, snapshotData } = getDataForSnapshotCharts(chartDefinition, rawData)
   if (dataSetRows.length) {
     switch (type) {
+      case DashboardVisualisationType.BOX_PLOT:
+        chart = new BoxPlotChart().withDefinition(chartDefinition).withData(snapshotData).build()
+        break
       case DashboardVisualisationType.BAR:
         chart = new BarChart().withDefinition(chartDefinition).withData(snapshotData).build()
         break
@@ -88,6 +90,10 @@ export const createTimeseriesCharts = (
 
   if (dataSetRows.length) {
     switch (type) {
+      case DashboardVisualisationType.BOX_PLOT:
+        chart = new BoxPlotChart().withDefinition(chartDefinition).withData(timeseriesData).build()
+        break
+
       case DashboardVisualisationType.MATRIX_TIMESERIES:
         chart = new HeatmapChart()
           .withDefinition(chartDefinition)
@@ -95,6 +101,7 @@ export const createTimeseriesCharts = (
           .withData(timeseriesData)
           .build()
         break
+
       case DashboardVisualisationType.LINE_TIMESERIES:
         chart = new LineTimeseriesChart()
           .withDefinition(chartDefinition)
@@ -102,6 +109,7 @@ export const createTimeseriesCharts = (
           .withPartialDate(partialDate)
           .build()
         break
+
       case DashboardVisualisationType.BAR_TIMESERIES:
         chart = new BarTimeseriesChart()
           .withDefinition(chartDefinition)
@@ -109,6 +117,7 @@ export const createTimeseriesCharts = (
           .withPartialDate(partialDate)
           .build()
         break
+
       default:
         break
     }
@@ -124,6 +133,15 @@ export const createTimeseriesCharts = (
   }
 }
 
+/**
+ * Gets the data to use for a snapshot chart
+ *
+ * - Uses the lastest/most recent data if timestamps are present
+ *
+ * @param {components['schemas']['DashboardVisualisationDefinition']} chartDefinition
+ * @param {DashboardDataResponse[]} rawData
+ * @return {*}
+ */
 const getDataForSnapshotCharts = (
   chartDefinition: components['schemas']['DashboardVisualisationDefinition'],
   rawData: DashboardDataResponse[],
@@ -131,8 +149,12 @@ const getDataForSnapshotCharts = (
   const { columns } = chartDefinition
   const dateColumn = DatasetHelper.getTimestampColumn(columns)
 
-  const data = DatasetHelper.getLastestDataset(rawData, dateColumn)
-  const dataSetRows = DatasetHelper.getDatasetRows(chartDefinition, data)
+  const latestData = DatasetHelper.getLastestDataset(rawData, dateColumn)
+
+  // Pass latest data get the rows
+  const dataSetRows = DatasetHelper.getDatasetRows(chartDefinition, latestData)
+
+  // Filter the rows to create the visualisation dataset
   const snapshotData = DatasetHelper.filterRowsByDisplayColumns(chartDefinition, dataSetRows, true)
 
   return {
@@ -141,13 +163,28 @@ const getDataForSnapshotCharts = (
   }
 }
 
+/**
+ * Returns the data to use for timeseries charts
+ *
+ * - Uses all data where timestamps are present
+ *
+ * @param {components['schemas']['DashboardVisualisationDefinition']} chartDefinition
+ * @param {DashboardDataResponse[]} rawData
+ * @return {*}
+ */
 const getDataForTimeseriesCharts = (
   chartDefinition: components['schemas']['DashboardVisualisationDefinition'],
   rawData: DashboardDataResponse[],
 ) => {
-  const dateMeasure = DatasetHelper.getTimestampMeasure(chartDefinition.columns.measures)
-  const latestData = DatasetHelper.getLastestDataset(rawData, dateMeasure)
+  const { columns } = chartDefinition
+  const dateColumn = DatasetHelper.getTimestampColumn(columns)
+
+  const latestData = DatasetHelper.getLastestDataset(rawData, dateColumn)
+
+  // Pass latest all data to get the rows
   const dataSetRows = DatasetHelper.getDatasetRows(chartDefinition, rawData)
+
+  // Filter the rows to create the visualisation dataset
   const timeseriesData = DatasetHelper.filterRowsByDisplayColumns(chartDefinition, dataSetRows, true)
 
   return {
@@ -248,74 +285,6 @@ const createHeadlines = (
   if (headline) headlines.push(headline)
 
   return headlines
-}
-
-const mapTableHead = (headerColumns: components['schemas']['DashboardVisualisationColumnDefinition'][]) => {
-  return headerColumns.map(column => {
-    const unitSymbol = mapUnitToSymbol(column.unit as UnitType)
-    const headText = unitSymbol ? `${column.display} (${unitSymbol})` : column.display
-    return { text: headText || '' }
-  })
-}
-
-const createSnapshotTable = (
-  chartDefinition: components['schemas']['DashboardVisualisationDefinition'],
-  data: DashboardDataResponse[],
-): MoJTable => {
-  const { columns } = chartDefinition
-  const { measures } = columns
-  const keys = columns.keys || []
-  const head = mapTableHead([...keys, ...measures])
-
-  const filteredRowData = DatasetHelper.filterRowsByDisplayColumns(chartDefinition, data, true)
-  const rows = DashboardListUtils.createTableRows(filteredRowData)
-
-  return {
-    head,
-    rows,
-  }
-}
-
-/**
- * Creates the a table representation for a timeseries chart
- * - ensures the Date column is always at index 0 when there are multiple rows
- *
- * @param {components['schemas']['DashboardVisualisationDefinition']} chartDefinition
- * @param {DashboardDataResponse[]} timeseriesData
- * @return {*}  {MoJTable}
- */
-const createTimeseriesTable = (
-  chartDefinition: components['schemas']['DashboardVisualisationDefinition'],
-  timeseriesData: DashboardDataResponse[],
-): MoJTable => {
-  const { columns } = chartDefinition
-  const { keys, measures = [] } = columns
-
-  const safeKeys = keys ?? []
-  let flatTimeseriesData = timeseriesData.flat()
-
-  let tableColumns: components['schemas']['DashboardVisualisationColumnDefinition'][]
-
-  if (timeseriesData.length > 1) {
-    const tsMeasures = measures.filter(m => m.type === 'timestamp')
-
-    if (tsMeasures.length !== 1) {
-      throw new Error('Multi-timeseries tables require exactly one date measure')
-    }
-
-    const [tsColumn] = tsMeasures
-    const valueColumns = measures.filter(m => m.id !== tsColumn.id)
-
-    tableColumns = [tsColumn, ...safeKeys, ...valueColumns]
-  } else {
-    flatTimeseriesData = DatasetHelper.filterRowsByDisplayColumns(chartDefinition, flatTimeseriesData)
-    tableColumns = measures
-  }
-
-  const head = mapTableHead(tableColumns)
-  const rows = DashboardListUtils.createTableRows(flatTimeseriesData, tableColumns)
-
-  return { head, rows }
 }
 
 export type GetDateValueResponse = {

@@ -3,6 +3,7 @@ import Chart, { ChartConfiguration, ChartType } from 'chart.js/auto'
 import { MatrixController, MatrixElement } from 'chartjs-chart-matrix'
 import ChartDataLabels from 'chartjs-plugin-datalabels'
 import { DprClientClass } from '../../../DprClientClass'
+import { BoxPlotController, BoxAndWiskers } from '@sgratzl/chartjs-chart-boxplot'
 
 class ChartVisualisation extends DprClientClass {
   chartContext: HTMLCanvasElement | null = null
@@ -63,10 +64,16 @@ class ChartVisualisation extends DprClientClass {
       Chart.defaults.font.size = 12
       Chart.register(ChartDataLabels)
       Chart.register(MatrixController, MatrixElement)
+      Chart.register(BoxPlotController, BoxAndWiskers)
       Chart.defaults.datasets.bar.categoryPercentage = 0.95
-      this.chart = new Chart(this.chartContext as HTMLCanvasElement, chartData)
+
+      this.chart = this.generateChart(chartData)
       this.initChartEvents()
     })
+  }
+
+  generateChart(chartData: ChartConfiguration) {
+    return new Chart(this.chartContext as HTMLCanvasElement, chartData)
   }
 
   generateChartData(settings: Record<string, any>): ChartConfiguration {

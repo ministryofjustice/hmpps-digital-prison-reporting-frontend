@@ -7,6 +7,7 @@ const { generateAgeBreakdownData } = require('./data/age-breakdown/data')
 const AgeBreakdownDataHelper = require('./data/age-breakdown/dataGenerator')
 const TestDataHelper = require('./data/test-data/dataGenerator')
 const DataQualityMetricsHelper = require('./data/data-quality-metrics/dataGenerator')
+const BoxPlotData = require('./data/box-plot/data')
 const { da } = require('zod/v4/locales')
 
 class MockDashboardClient {
@@ -164,6 +165,12 @@ const getData = (def, dashboardId, query) => {
     ].includes(dashboardId)
   ) {
     return DataQualityMetricsHelper.generateData(query)
+  }
+
+  if ([
+    'box-plot-chart-examples-dashboard',
+  ].includes(dashboardId)) {
+    return BoxPlotData
   }
 
   const data = DataQualityMetricsHelper.generateData(query)

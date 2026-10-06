@@ -14,6 +14,7 @@ export const FEATURE_FLAG_KEYS = {
   MATRIX_TIMESERIES_CHARTS: 'matrixtimeseriesChartsEnabled',
   BAR_TIMESERIES_CHARTS: 'bartimeseriesChartsEnabled',
   LINE_TIMESERIES_CHARTS: 'linetimeseriesChartsEnabled',
+  BOX_PLOT_CHARTS: 'boxPlotChartsEnabled',
 } as const
 
 export type FeatureFlagKey = (typeof FEATURE_FLAG_KEYS)[keyof typeof FEATURE_FLAG_KEYS]
@@ -27,6 +28,7 @@ export const DASHBOARD_VISUALISATION_FEATURE_FLAGS: readonly FeatureFlagKey[] = 
   FEATURE_FLAG_KEYS.MATRIX_TIMESERIES_CHARTS,
   FEATURE_FLAG_KEYS.BAR_TIMESERIES_CHARTS,
   FEATURE_FLAG_KEYS.LINE_TIMESERIES_CHARTS,
+  FEATURE_FLAG_KEYS.BOX_PLOT_CHARTS,
 ]
 
 export const FEATURE_FLAGS: readonly FeatureFlagKey[] = [
@@ -53,6 +55,7 @@ const FEATURE_FLAG_FALLBACK_STATES: Record<FeatureFlagKey, boolean> = {
   [FEATURE_FLAG_KEYS.MATRIX_TIMESERIES_CHARTS]: false,
   [FEATURE_FLAG_KEYS.BAR_TIMESERIES_CHARTS]: false,
   [FEATURE_FLAG_KEYS.LINE_TIMESERIES_CHARTS]: false,
+  [FEATURE_FLAG_KEYS.BOX_PLOT_CHARTS]: false,
 }
 
 const toFeatureFlagEntityId = (entityId?: string) => {

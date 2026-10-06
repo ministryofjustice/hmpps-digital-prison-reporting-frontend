@@ -18,12 +18,11 @@ const BoxPlotOptions = z.object({
 
 const BoxPlotSchema = z.object({
   ...DashboardVisualisationSchema.shape,
-  type: z.literal('box-plot'),
+  type: z.literal('boxplot'),
   display: z.string(),
   options: z.object(BoxPlotOptions.shape).optional(),
   columns: z.object({
     ...DashboardColumns.shape,
-    measures: z.array(BoxPlotMeasureSchema).min(2, 'Measure must contain 2 items'),
   }),
 })
 

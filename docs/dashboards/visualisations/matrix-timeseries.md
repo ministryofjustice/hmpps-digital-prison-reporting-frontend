@@ -94,7 +94,10 @@ See [Custom buckets](/dashboards/visualisations/custom-buckets##custom-buckets) 
 # Data assumptions
 
 - Ensure that your measure includes a `type` of `timestamp` when specifying a timestamp measure.
-- The `timestamp` date format must be `YYYY-MM-DD`
+- The `timestamp` date format must be one of the following, depending on the granularity of the matrix desired:
+  -  `YYYY-MM-DD` for daily granularity (e.g `24-01-2024`)
+  -  `MMM YY` for monthly granularity (e.g `24 Jan`)
+  -  `YYYY` for annual granularity (eg. `2024`)
 
 <hr class='dpr-docs-hr'/>
 
@@ -130,7 +133,7 @@ For these examples we will use a mocked dataset representing finds totals
 | 2025-02-23 |          |       |       | Phones      | 22    |
 | 2025-02-23 |          |       |       | Weapons     | 49    |
 | 2025-02-23 |          |       |       | Alcohol     | 7     |
-... more rows ommitted
+... more rows omitted
 
 ```
 

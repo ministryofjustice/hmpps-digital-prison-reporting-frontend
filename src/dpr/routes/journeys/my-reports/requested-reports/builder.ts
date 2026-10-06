@@ -125,6 +125,7 @@ export class RequestedReportBuilder extends StoreItemBuilder {
     const status = this.buildStatus()
     const timestamp = this.buildTimestamp()
     const query = this.buildQuery()
+    const interactiveQuery = this.buildInteractiveQuery()
     const metrics = this.buildSections()
 
     const requestedReportData: RequestedReport | RequestedDashboard = {
@@ -134,6 +135,7 @@ export class RequestedReportBuilder extends StoreItemBuilder {
       ...(filters && { filters }),
       ...(sortBy && { sortBy }),
       ...(query && { query }),
+      ...(interactiveQuery && { interactiveQuery }),
       ...(metrics && { metrics }),
       url,
       status,

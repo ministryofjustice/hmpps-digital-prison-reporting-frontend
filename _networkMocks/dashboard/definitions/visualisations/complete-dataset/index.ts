@@ -21,6 +21,8 @@ import { definition as scorecardGroupCompleteDataseNoTs } from './scorecardGroup
 // Matrix
 import {
   annuallyDefinition as matrixChartAnnuallyDefinition,
+  autoBucketedDefinition as matrixChartAutoBucketedDefinition,
+  bucketedDefinition as matrixChartBucketedDefinition,
   definition as matrixChartDefinition,
   monthlyDefinition as matrixChartMonthlyDefinition,
 } from './matrix/definition'
@@ -51,7 +53,13 @@ const scorecardGroups = [
   scorecardGroupCompleteDatasetInvalid,
   scorecardGroupCompleteDataseNoTs,
 ]
-const matrixDefs = [matrixChartDefinition, matrixChartMonthlyDefinition, matrixChartAnnuallyDefinition]
+const matrixDefs = [
+  matrixChartDefinition,
+  matrixChartMonthlyDefinition,
+  matrixChartAnnuallyDefinition,
+  matrixChartAutoBucketedDefinition,
+  matrixChartBucketedDefinition,
+]
 const barChartDefs = [barChartsDefinition]
 const doughnutChartDefs = [doughnutChartsDefinition]
 const lineDefs = [lineCompleteDefinition]

@@ -10,6 +10,8 @@ import { definition as listInvalidDef } from './complete-dataset/list/definition
 import { definition as listInvalidVisDef } from './complete-dataset/list/definition-invalid-vis-defs'
 import {
   annuallyDefinition as matrixCompleteAnnuallyDataset,
+  autoBucketedDefinition as matrixCompleteAutoBucketedDataset,
+  bucketedDefinition as matrixCompleteBucketedDataset,
   definition as matrixCompleteDataset,
   monthlyDefinition as matrixCompleteMonthlyDataset,
 } from './complete-dataset/matrix/definition'
@@ -112,6 +114,16 @@ export const matrixCompleteAnnuallyDatasetMock = setupSimpleMock(
   matrixCompleteAnnuallyDataset,
 )
 
+export const matrixCompleteAutoBucketedDatasetMock = setupSimpleMock(
+  `/definitions/${productId}/dashboards/${matrixCompleteAutoBucketedDataset.id}`,
+  matrixCompleteAutoBucketedDataset,
+)
+
+export const matrixCompleteBucketedDatasetMock = setupSimpleMock(
+  `/definitions/${productId}/dashboards/${matrixCompleteBucketedDataset.id}`,
+  matrixCompleteBucketedDataset,
+)
+
 export const matrixInvalidMock = setupSimpleMock(
   `/definitions/${productId}/dashboards/${matrixInvalid.id}`,
   matrixInvalid,
@@ -178,6 +190,11 @@ export const mocks = [
   scorecardsBucketCompleteDatasetMock,
   scorecardGroupCompleteDatasetMock,
   matrixCompleteDailyDatasetMock,
+  matrixCompleteMonthlyDatasetMock,
+  matrixCompleteAnnuallyDatasetMock,
+  matrixCompleteAutoBucketedDatasetMock,
+  matrixCompleteBucketedDatasetMock,
+  matrixInvalidMock,
   barCompleteDatasetMock,
   barPartialDatasetMock,
   barInvalidMock,

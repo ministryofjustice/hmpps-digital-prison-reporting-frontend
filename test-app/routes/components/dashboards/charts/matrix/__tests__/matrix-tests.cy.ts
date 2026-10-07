@@ -44,13 +44,10 @@ context('Dashboard visualisation: matrix chart', () => {
         const texts = [...headings].map(h => h.textContent?.trim())
         expect(texts).to.deep.equal([
           'Automatic bucketing',
-          'User defined custom buckets',
           'Full Dataset',
           'Automatic bucketing',
-          'User defined custom buckets',
           'Full Dataset',
           'Automatic bucketing',
-          'User defined custom buckets',
           'Full Dataset',
         ])
       })
@@ -60,7 +57,7 @@ context('Dashboard visualisation: matrix chart', () => {
       cy.findAllByLabelText(/Automatic bucketing/)
         .first()
         .within(() => {
-          cy.findAllByRole('heading', { level: 3 }).should('have.length', 4)
+          cy.findAllByRole('heading', { level: 3 }).should('have.length', 1)
 
           cy.findByLabelText(/Automatic bucketing example/).within(() => {
             cy.findByRole('tab', { name: /Table/ }).click()

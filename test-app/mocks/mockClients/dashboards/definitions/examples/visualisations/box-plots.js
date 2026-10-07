@@ -100,13 +100,71 @@ const boxBlotGrouped3 = {
   id: 'box-plot-grouped-3',
   type: 'boxplot',
   display: 'Box plot grouped example 3',
-  description: 'Example of a box plot chart using groups - multiple categorys, composite key',
-  options: {},
+  description: 'Example of a box plot chart using groups - multiple categorys - horizontal',
+  options: {
+    horizontal: true
+  },
   columns: {
     keys: [
       {
         id: 'date',
         display: 'Date',
+      },
+    ],
+    measures: [
+      {
+        id: 'cat1',
+        display: 'Category 1',
+      },
+      {
+        id: 'cat2',
+        display: 'Category 2',
+      },
+      {
+        id: 'cat3',
+        display: 'Category 3',
+      },
+      {
+        id: 'cat4',
+        display: 'Category 4',
+      },
+      {
+        id: 'cat5',
+        display: 'Category 5',
+      },
+      {
+        id: 'cat6',
+        display: 'Category 6',
+      },
+      {
+        id: 'cat7',
+        display: 'Category 7',
+      },
+      {
+        id: 'cat8',
+        display: 'Category 8',
+      },
+    ],
+  },
+}
+
+const boxBlotGrouped4 = {
+  id: 'box-plot-grouped-4',
+  type: 'boxplot',
+  display: 'Box plot grouped example 3',
+  description: 'Example of a box plot chart using groups - multiple categorys, composite key',
+  options: {
+
+  },
+  columns: {
+    keys: [
+      {
+        id: 'date',
+        display: 'Date',
+      },
+      {
+        id: 'type',
+        display: 'type',
       },
     ],
     measures: [
@@ -126,6 +184,7 @@ module.exports = {
   boxBlotGrouped1,
   boxBlotGrouped2,
   boxBlotGrouped3,
+  boxBlotGrouped4,
   boxBlotWide1,
   boxBlotWide2,
 }

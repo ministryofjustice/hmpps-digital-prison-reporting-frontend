@@ -22,6 +22,7 @@ class BoxPlotChartVisualisation extends ChartVisualisation {
   initSettings() {
     return {
       toolTipOptions: this.setToolTipOptions(),
+      datalabels: this.setDataLabels(),
     }
   }
 
@@ -36,12 +37,29 @@ class BoxPlotChartVisualisation extends ChartVisualisation {
           return title
         },
         label(context: TooltipItem<'boxplot'>) {
-          const { label } = context
-          const { data, label: legend } = context.dataset
-          const value = `${data[context.dataIndex]}${ctx.suffix}`
+          const { parsed, label } = context
+          const { label: legend } = context.dataset
+
+          const value = [
+            `Min: ${parsed.min}`,
+            `Q1: ${parsed.q1}`,
+            `Median: ${parsed.median}`,
+            `Mean: ${parsed.mean}`,
+            `Q3: ${parsed.q3}`,
+            `Max: ${parsed.max}`,
+          ]
+
           ctx.setHoverValue({ label, value, legend, ctx })
           return value
         },
+      },
+    }
+  }
+
+  setDataLabels() {
+    return {
+      display: () => {
+        return false
       },
     }
   }

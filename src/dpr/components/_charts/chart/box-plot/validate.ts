@@ -12,15 +12,16 @@ const BoxPlotMeasureSchema = z.object({
   type: z.string().optional(),
 })
 
-const BoxPlotOptions = z.object({
-  showLatest: z.boolean().default(true),
+const BoxPlotOptionsSchema = z.object({
+  showLatest: z.boolean().default(false),
+  horizontal: z.boolean().default(false),
 })
 
 const BoxPlotSchema = z.object({
   ...DashboardVisualisationSchema.shape,
   type: z.literal('boxplot'),
   display: z.string(),
-  options: z.object(BoxPlotOptions.shape).optional(),
+  options: z.object(BoxPlotOptionsSchema.shape).optional(),
   columns: z.object({
     ...DashboardColumns.shape,
   }),
@@ -29,6 +30,7 @@ const BoxPlotSchema = z.object({
 const BoxPlotChartSchemas = {
   BoxPlotSchema,
   BoxPlotMeasureSchema,
+  BoxPlotOptionsSchema,
 }
 
 export default BoxPlotChartSchemas

@@ -17,7 +17,12 @@ const boxPlotChartDashboard = {
       id: 'section-2',
       display: 'Basic box plot charts - grouped',
       description: 'A set of simple box plot charts using grouped data',
-      visualisations: [boxPlots.boxBlotGrouped1, boxPlots.boxBlotGrouped2, boxPlots.boxBlotGrouped3],
+      visualisations: [
+        boxPlots.boxBlotGrouped1,
+        boxPlots.boxBlotGrouped2,
+        boxPlots.boxBlotGrouped3,
+        boxPlots.boxBlotGrouped4
+      ],
     },
     {
       id: 'section-2',

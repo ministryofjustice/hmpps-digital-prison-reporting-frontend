@@ -6,7 +6,7 @@
 
 {% macro dprChartTabs(id, data) %}
   {% set chartData = data.chart %}
-  {% set tableData = data.table %}
+  {% set tables = data.tables or [] %}
   {% set tabItems = [] %}
 
   {% set type = chartData.type %}
@@ -33,21 +33,23 @@
     {% set tabItems = (tabItems.push(tabContent), tabItems) %}
   {% endif %}
 
-  {% if tableData %}
+  {% for table in tables %}
     {% set tableHtml %}
-      <div class="dpr-chart-tab-table">{{ dprDataTable(tableData) }}</div>
+      <div class="dpr-chart-tab-table">
+        {{ dprDataTable(table) }}
+      </div>
     {% endset %}
 
-    {%
-      set tabItems = (tabItems.push({
-        label: "Table",
-        id: id + "_table_tab",
-        panel: {
-          html: tableHtml
-        }
-      }), tabItems)
-    %}
-  {% endif %}
+    {% set tableLabel = table.title or ('Table ' + (loop.index|string)) %}
+
+    {% set tabItems = (tabItems.push({
+      label: tableLabel,
+      id: id + "_table_" + loop.index + "_tab",
+      panel: {
+        html: tableHtml
+      }
+    }), tabItems) %}
+  {% endfor %}
 
   {% if tabItems.length %}
     {{ govukTabs({ items: tabItems, classes: 'dpr-chart-tabs' }) }}

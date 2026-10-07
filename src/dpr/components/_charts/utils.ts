@@ -1,13 +1,9 @@
 import dayjs from 'dayjs'
 import weekOfYear from 'dayjs/plugin/weekOfYear'
 import { components } from '../../types/api'
-import { ChartDetails, ChartMetaData } from '../../types/Charts'
+import { ChartDetails } from '../../types/Charts'
 import { DashboardDataResponse } from '../../types/Metrics'
-import DatasetHelper, {
-  getDateValue,
-  getTimestampColumn,
-  getTimestampMeasure,
-} from '../../utils/Dashboards/VisualisationDatasetHelper'
+import DatasetHelper from '../../utils/Dashboards/VisualisationDatasetHelper'
 import {
   DashboardVisualisationCardData,
   DashboardVisualisationData,
@@ -24,6 +20,7 @@ import LineTimeseriesChart from './chart/line-timeseries/LineTimeseriesChart'
 import LineChart from './chart/line/LineChart'
 import { createSnapshotTable, createTimeseriesTable } from './chart-table/utils'
 import { BoxPlotChart } from './chart/box-plot/BoxPlotChart'
+import { getChartDetails } from './chart-details/utils'
 
 dayjs.extend(weekOfYear)
 
@@ -37,31 +34,43 @@ export const createChart = (
   let details: ChartDetails | undefined
 
   const { dataSetRows, snapshotData } = getDataForSnapshotCharts(chartDefinition, rawData)
+  const tables: MoJTable[] = []
+
   if (dataSetRows.length) {
     switch (type) {
-      case DashboardVisualisationType.BOX_PLOT:
-        chart = new BoxPlotChart().withDefinition(chartDefinition).withData(snapshotData).build()
+      case DashboardVisualisationType.BOX_PLOT: {
+        const boxPlotChart = new BoxPlotChart().withDefinition(chartDefinition).withData(snapshotData)
+        chart = boxPlotChart.build()
+        const statsTable = boxPlotChart.buildTable()
+        tables.push(statsTable)
         break
+      }
+
       case DashboardVisualisationType.BAR:
         chart = new BarChart().withDefinition(chartDefinition).withData(snapshotData).build()
         break
+
       case DashboardVisualisationType.DONUT:
         chart = new DoughnutChart().withDefinition(chartDefinition).withData(snapshotData).build()
         break
+
       case DashboardVisualisationType.LINE:
         chart = new LineChart().withDefinition(chartDefinition).withData(snapshotData).build()
         break
+
       default:
         break
     }
 
     table = createSnapshotTable(chartDefinition, dataSetRows)
+    tables.push(table)
     details = getChartDetails(chartDefinition, dataSetRows)
   }
 
   return {
     details,
     table,
+    tables,
     chart,
   }
 }
@@ -90,10 +99,6 @@ export const createTimeseriesCharts = (
 
   if (dataSetRows.length) {
     switch (type) {
-      case DashboardVisualisationType.BOX_PLOT:
-        chart = new BoxPlotChart().withDefinition(chartDefinition).withData(timeseriesData).build()
-        break
-
       case DashboardVisualisationType.MATRIX_TIMESERIES:
         chart = new HeatmapChart()
           .withDefinition(chartDefinition)
@@ -192,99 +197,6 @@ const getDataForTimeseriesCharts = (
     dataSetRows,
     timeseriesData,
   }
-}
-
-const getChartDetails = (
-  chartDefinition: components['schemas']['DashboardVisualisationDefinition'],
-  data: DashboardDataResponse[],
-  timeseries = false,
-): ChartDetails => {
-  const { columns } = chartDefinition
-  const meta: ChartMetaData[] = []
-  const headlines: ChartMetaData[] = createHeadlines(chartDefinition, data, timeseries)
-
-  const dateColumn = getTimestampColumn(columns)
-  const dateData = getDateValue(data, dateColumn)
-
-  if (dateData) {
-    const { value } = dateData
-    meta.push({
-      label: 'Values for:',
-      value,
-    })
-  }
-
-  return {
-    meta,
-    headlines,
-  }
-}
-
-const createHeadlines = (
-  chartDefinition: components['schemas']['DashboardVisualisationDefinition'],
-  data: DashboardDataResponse[],
-  timeseries = false,
-) => {
-  const headlines: ChartMetaData[] = []
-  const { columns } = chartDefinition
-  const { measures } = columns
-  const isListChart = !!measures.find(col => col.axis)
-  let headline: ChartMetaData | undefined
-  let headlineColumn: components['schemas']['DashboardVisualisationColumnDefinition'] | undefined
-  let value: number | undefined
-  let label: string = ''
-
-  if (timeseries) {
-    headlineColumn = measures.find(col => col.type !== 'timestamp')
-
-    if (headlineColumn) {
-      const { id } = headlineColumn
-      const rawValue = data[0][id]?.raw
-
-      const dateColumn = getTimestampMeasure(measures)
-      const dateData = getDateValue(data, dateColumn)
-
-      if (dateData) {
-        label = dateData.value
-      }
-
-      const numericValue = Number(rawValue)
-      value = Number.isNaN(numericValue) ? undefined : numericValue
-
-      if (value) {
-        headline = {
-          label,
-          value,
-        }
-      }
-    }
-  } else {
-    headlineColumn = !isListChart ? measures[0] : measures.find(col => col.axis && col.axis === 'y')
-
-    if (headlineColumn) {
-      const display = headlineColumn.display?.toLowerCase()
-      label = display ? `Total ${display}` : 'Total'
-      value = data.reduce((acc: number, d: DashboardDataResponse) => {
-        if (headlineColumn) {
-          const { id } = headlineColumn
-          const { raw } = d[id]
-          if (raw) {
-            return acc + Number(raw)
-          }
-        }
-        return acc
-      }, 0)
-
-      headline = {
-        label,
-        value,
-      }
-    }
-  }
-
-  if (headline) headlines.push(headline)
-
-  return headlines
 }
 
 export type GetDateValueResponse = {

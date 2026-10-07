@@ -115,11 +115,26 @@ class ChartVisualisation extends DprClientClass {
     })
   }
 
-  setHoverValue({ label, value, legend, ctx }: { label: string; value: string; legend: string | undefined; ctx: any }) {
+  setHoverValue({
+    label,
+    value,
+    legend,
+    ctx,
+  }: {
+    label: string
+    value: string | string[]
+    legend: string | undefined
+    ctx: any
+  }) {
     if (ctx.tooltipDetailsEl) {
       ctx.tooltipDetailsEl.style.display = 'block'
       ctx.labelElement.innerHTML = ctx.singleDataset ? `${label}` : `${legend}: ${label}`
-      ctx.valueElement.innerHTML = `${value}`
+
+      if (Array.isArray(value)) {
+        ctx.valueElement.innerHTML = `<div class="dpr-headline--box-plot">${value.join('<br>')}</div>`
+      } else {
+        ctx.valueElement.innerHTML = `${value}`
+      }
     }
     if (ctx.headlineValuesEl) {
       ctx.headlineValuesEl.style.display = 'none'

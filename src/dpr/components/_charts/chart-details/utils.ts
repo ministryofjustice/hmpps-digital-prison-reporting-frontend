@@ -6,6 +6,7 @@ import {
   getDateValue,
   getTimestampMeasure,
 } from '../../../utils/Dashboards/VisualisationDatasetHelper'
+import { DashboardVisualisationType } from '../../_dashboards/dashboard-visualisation/types'
 
 export const getChartDetails = (
   chartDefinition: components['schemas']['DashboardVisualisationDefinition'],
@@ -39,7 +40,10 @@ export const createHeadlines = (
   timeseries = false,
 ) => {
   const headlines: ChartMetaData[] = []
-  const { columns } = chartDefinition
+  const { columns, type } = chartDefinition
+
+  if (type === DashboardVisualisationType.BOX_PLOT) return headlines
+
   const { measures } = columns
   const isListChart = !!measures.find(col => col.axis)
   let headline: ChartMetaData | undefined

@@ -37,6 +37,7 @@ export interface DashboardVisualisation {
 export interface DashboardVisualisationCardData {
   chart?: DashboardVisualisationData | undefined
   table?: MoJTable | undefined
+  tables?: MoJTable[] | undefined
   details?: ChartDetails | undefined
 }
 

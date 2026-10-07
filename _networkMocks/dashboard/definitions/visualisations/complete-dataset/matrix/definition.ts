@@ -31,7 +31,7 @@ export const dailyDefinition: components['schemas']['DashboardDefinition'] = {
 export const monthlyDefinition: components['schemas']['DashboardDefinition'] = {
   ...basicDefinition,
   id: 'matrix-examples_complete-data_monthly',
-  name: 'Matrix - Complete data monthly',
+  name: 'Matrix - monthly - Complete data',
   sections: basicDefinition.sections.map(section => ({
     ...section,
     id: `${section.id}-monthly`,
@@ -42,7 +42,7 @@ export const monthlyDefinition: components['schemas']['DashboardDefinition'] = {
 export const annuallyDefinition: components['schemas']['DashboardDefinition'] = {
   ...basicDefinition,
   id: 'matrix-examples_complete-data_annually',
-  name: 'Matrix - Complete data annually',
+  name: 'Matrix - annually - Complete data',
   sections: basicDefinition.sections.map(section => ({
     ...section,
     id: `${section.id}-annually`,
@@ -57,7 +57,7 @@ export const definition: components['schemas']['DashboardDefinition'] = {
 
 export const autoBucketedDefinition: components['schemas']['DashboardDefinition'] = {
   id: 'matrix-examples_complete-data_auto_bucketed',
-  name: 'Matrix - Complete data auto bucketed',
+  name: 'Matrix - auto bucketed - Complete data',
   description: 'Matrix examples',
   sections: [
     {
@@ -83,7 +83,7 @@ export const autoBucketedDefinition: components['schemas']['DashboardDefinition'
 
 export const bucketedDefinition: components['schemas']['DashboardDefinition'] = {
   id: 'matrix-examples_complete-data_bucketed',
-  name: 'Matrix - Complete data custom bucketed',
+  name: 'Matrix - custom bucketed - Complete data',
   description: 'Matrix examples',
   sections: [
     {

@@ -6,10 +6,10 @@ test('Matrix chart - complete dataset auto bucketed', async ({ page }) => {
 
   page.getByLabel(/Reports catalogue.*/i)
 
-  requestCatalogueVariant(page, /Matrix - Complete data auto bucketed/)
+  requestCatalogueVariant(page, /Matrix - auto bucketed - Complete data/)
 
   await page.getByRole('button', { name: /Request dashboard/ }).click()
 
-  await expect(page.getByRole('heading', { name: /Matrix - Complete data auto bucketed/ })).toBeVisible()
+  await expect(page.getByRole('heading', { name: /Matrix - auto bucketed - Complete data/ })).toBeVisible()
   await takeScreenshotsOfAllCharts(page)
 })

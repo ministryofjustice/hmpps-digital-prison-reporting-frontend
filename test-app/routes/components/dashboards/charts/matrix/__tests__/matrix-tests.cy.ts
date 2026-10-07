@@ -64,7 +64,7 @@ context('Dashboard visualisation: matrix chart', () => {
             cy.findByLabelText(/Table.*/i).within(() => {
               cy.findByRole('table').within(() => {
                 cy.findAllByRole('row')
-                  .should('have.length', 7)
+                  .should('have.length', 91)
                   .each((row, index) => {
                     switch (index) {
                       case 0:
@@ -77,43 +77,29 @@ context('Dashboard visualisation: matrix chart', () => {
                       case 1:
                         cy.wrap(row).within(() => {
                           cy.findAllByRole('cell').should('have.length', 3)
-                          cy.findAllByRole('cell').eq(0).contains('24/08/2024')
-                          cy.findAllByRole('cell').eq(2).contains('459')
+                          cy.findAllByRole('cell').eq(0).contains('01/01/2026')
+                          cy.findAllByRole('cell').eq(2).contains('733')
                         })
                         break
                       case 2:
                         cy.wrap(row).within(() => {
                           cy.findAllByRole('cell').should('have.length', 3)
-                          cy.findAllByRole('cell').eq(0).contains('24/09/2024')
-                          cy.findAllByRole('cell').eq(2).contains('573')
+                          cy.findAllByRole('cell').eq(0).contains('02/01/2026')
+                          cy.findAllByRole('cell').eq(2).contains('232')
                         })
                         break
                       case 3:
                         cy.wrap(row).within(() => {
                           cy.findAllByRole('cell').should('have.length', 3)
-                          cy.findAllByRole('cell').eq(0).contains('24/10/2024')
-                          cy.findAllByRole('cell').eq(2).contains('638')
+                          cy.findAllByRole('cell').eq(0).contains('03/01/2026')
+                          cy.findAllByRole('cell').eq(2).contains('488')
                         })
                         break
                       case 4:
                         cy.wrap(row).within(() => {
                           cy.findAllByRole('cell').should('have.length', 3)
-                          cy.findAllByRole('cell').eq(0).contains('24/11/2024')
-                          cy.findAllByRole('cell').eq(2).contains('471')
-                        })
-                        break
-                      case 5:
-                        cy.wrap(row).within(() => {
-                          cy.findAllByRole('cell').should('have.length', 3)
-                          cy.findAllByRole('cell').eq(0).contains('24/12/2024')
-                          cy.findAllByRole('cell').eq(2).contains('584')
-                        })
-                        break
-                      case 6:
-                        cy.wrap(row).within(() => {
-                          cy.findAllByRole('cell').should('have.length', 3)
-                          cy.findAllByRole('cell').eq(0).contains('24/01/2025')
-                          cy.findAllByRole('cell').eq(2).contains('684')
+                          cy.findAllByRole('cell').eq(0).contains('04/01/2026')
+                          cy.findAllByRole('cell').eq(2).contains('651')
                         })
                         break
                       default:

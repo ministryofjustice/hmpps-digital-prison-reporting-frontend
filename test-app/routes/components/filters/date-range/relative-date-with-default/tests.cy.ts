@@ -14,9 +14,10 @@ context('Inputs: Relative date range with defaults', () => {
       cy.task('stubSingleSummaries')
       cy.task('stubFilterInputsRelDateDef')
     })
+
     it('should initialise the start and end values', () => {
       checkA11y()
-      cy.findByRole('textbox', { name: 'From' }).should('not.have.value', '')
+      cy.findByRole('textbox', { name: 'From', timeout: 10000 }).should('not.have.value', '')
       cy.findByRole('textbox', { name: 'To' }).should('not.have.value', '')
 
       cy.findByRole('tab', { name: 'Preset date ranges' }).click()

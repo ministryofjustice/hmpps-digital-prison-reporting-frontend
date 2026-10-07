@@ -11,21 +11,6 @@ import { completeDataSetDaily } from './data_daily'
 const allIds = [...visualisationIds, ...requestExampleIds, ...featureTestingIds]
 const productIds = ['dashboard-visualisations', 'request-examples', 'feature-testing']
 
-export const dashboardResultCompleteDataMock = setupSimpleMock(
-  `/reports/(${productIds.join('|')})/dashboards/(${allIds.join('|')})/tables/tblId_[0-9]+/result`,
-  completeDataSet,
-)
-
-export const dashboardResultCompleteDataSyncMock = setupSimpleMock(
-  `/reports/(${productIds.join('|')})/dashboards/(${allIds.join('|')})`,
-  completeDataSet,
-)
-
-export const dashboardResultCompleteDataNoTsMock = setupSimpleMock(
-  `/reports/(${productIds.join('|')})/dashboards/(${visIdsNoTs.join('|')})/tables/tblId_[0-9]+/result`,
-  completeDataSetNoTs,
-)
-
 export const dashboardResultCompleteDataMockDaily = setupSimpleMock(
   `/reports/(${productIds.join('|')})/dashboards/matrix-examples_complete-data_daily/tables/tblId_[0-9]+/result`,
   completeDataSetDaily,
@@ -41,11 +26,26 @@ export const dashboardResultCompleteDataMockAnnually = setupSimpleMock(
   completeDataSetAnnually,
 )
 
+export const dashboardResultCompleteDataMock = setupSimpleMock(
+  `/reports/(${productIds.join('|')})/dashboards/(${allIds.join('|')})/tables/tblId_[0-9]+/result`,
+  completeDataSet,
+)
+
+export const dashboardResultCompleteDataSyncMock = setupSimpleMock(
+  `/reports/(${productIds.join('|')})/dashboards/(${allIds.join('|')})`,
+  completeDataSet,
+)
+
+export const dashboardResultCompleteDataNoTsMock = setupSimpleMock(
+  `/reports/(${productIds.join('|')})/dashboards/(${visIdsNoTs.join('|')})/tables/tblId_[0-9]+/result`,
+  completeDataSetNoTs,
+)
+
 export const mocks = [
-  dashboardResultCompleteDataMock,
-  dashboardResultCompleteDataSyncMock,
-  dashboardResultCompleteDataNoTsMock,
   dashboardResultCompleteDataMockDaily,
   dashboardResultCompleteDataMockMonthly,
   dashboardResultCompleteDataMockAnnually,
+  dashboardResultCompleteDataMock,
+  dashboardResultCompleteDataSyncMock,
+  dashboardResultCompleteDataNoTsMock,
 ]

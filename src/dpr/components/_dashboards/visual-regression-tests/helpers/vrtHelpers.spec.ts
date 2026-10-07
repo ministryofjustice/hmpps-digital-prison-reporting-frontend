@@ -19,14 +19,13 @@ export const takeScreenshotsOfAllCharts = async (page: Page) => {
   const charts = page.getByRole('tabpanel')
   const count = await charts.count()
 
-  await Promise.all(
-    Array.from({ length: count }, (_, i) =>
-      expect(charts.nth(i)).toHaveScreenshot(`chart-${i}.png`, {
-        animations: 'disabled',
-        maxDiffPixelRatio: 0.015,
-      }),
-    ),
-  )
+  for (let i = 0; i < count; i += 1) {
+    // eslint-disable-next-line no-await-in-loop
+    await expect(charts.nth(i)).toHaveScreenshot(`chart-${i}.png`, {
+      animations: 'disabled',
+      maxDiffPixelRatio: 0.015,
+    })
+  }
 }
 
 export const takeScreenshotsOfAllScorecards = async (page: Page) => {

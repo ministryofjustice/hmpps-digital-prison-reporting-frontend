@@ -32,14 +32,22 @@ export const monthlyDefinition: components['schemas']['DashboardDefinition'] = {
   ...basicDefinition,
   id: 'matrix-examples_complete-data_monthly',
   name: 'Matrix - Complete data monthly',
-  sections: basicDefinition.sections.map(section => ({ ...section, id: `${section.id}-monthly` })),
+  sections: basicDefinition.sections.map(section => ({
+    ...section,
+    id: `${section.id}-monthly`,
+    visualisations: section.visualisations.map(vis => ({ ...vis, id: `${vis.id}-monthly` })),
+  })),
 }
 
 export const annuallyDefinition: components['schemas']['DashboardDefinition'] = {
   ...basicDefinition,
   id: 'matrix-examples_complete-data_annually',
   name: 'Matrix - Complete data annually',
-  sections: basicDefinition.sections.map(section => ({ ...section, id: `${section.id}-annually` })),
+  sections: basicDefinition.sections.map(section => ({
+    ...section,
+    id: `${section.id}-annually`,
+    visualisations: section.visualisations.map(vis => ({ ...vis, id: `${vis.id}-annually` })),
+  })),
 }
 
 export const definition: components['schemas']['DashboardDefinition'] = {

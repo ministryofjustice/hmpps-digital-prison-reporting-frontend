@@ -1,5 +1,5 @@
-import { expect } from '@playwright/test'
 import type { Page } from '@playwright/test'
+import { expect } from '@playwright/test'
 
 export const requestCatalogueVariant = async (page: Page, name: string | RegExp) => {
   await page
@@ -16,14 +16,16 @@ export const requestCatalogueVariant = async (page: Page, name: string | RegExp)
 }
 
 export const takeScreenshotsOfAllCharts = async (page: Page) => {
-  const charts = await page.getByRole('tabpanel').all()
+  const charts = page.getByRole('tabpanel')
+  const count = await charts.count()
+
   await Promise.all(
-    charts.map(async (chart, idx) => {
-      await expect(chart).toHaveScreenshot(`chart-${idx}.png`, {
+    Array.from({ length: count }, (_, i) =>
+      expect(charts.nth(i)).toHaveScreenshot(`chart-${i}.png`, {
         animations: 'disabled',
         maxDiffPixelRatio: 0.015,
-      })
-    }),
+      }),
+    ),
   )
 }
 

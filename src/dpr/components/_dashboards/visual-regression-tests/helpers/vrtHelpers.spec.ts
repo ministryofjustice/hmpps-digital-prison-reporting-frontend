@@ -22,6 +22,7 @@ export const takeScreenshotsOfAllCharts = async (page: Page) => {
   for (let i = 0; i < count; i += 1) {
     /* eslint-disable no-await-in-loop */
     await expect(charts.nth(i).locator('canvas')).toBeVisible() // canvas must be ready before screenshot
+    await charts.nth(i).isVisible()
     await expect(charts.nth(i)).toHaveScreenshot(`chart-${i}.png`, {
       animations: 'disabled',
       maxDiffPixelRatio: 0.015,

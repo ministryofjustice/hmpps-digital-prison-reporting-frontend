@@ -32,3 +32,9 @@ declare module 'express-session' {
     allDefinitions: components['schemas']['ReportDefinitionSummary'][]
   }
 }
+
+declare global {
+  interface Window {
+    chartReady?: boolean
+  }
+}

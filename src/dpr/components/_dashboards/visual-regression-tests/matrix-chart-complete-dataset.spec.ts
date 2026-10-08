@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test'
-import { requestCatalogueVariant, takeScreenshotsOfAllCharts } from './helpers/vrtHelpers.spec'
+import { requestCatalogueVariant, takeScreenshotsOfAllCharts, verifyChartHeights } from './helpers/vrtHelpers.spec'
 
 test('Matrix chart - complete dataset', async ({ page }) => {
   await page.goto('/embedded/platform')
@@ -12,6 +12,6 @@ test('Matrix chart - complete dataset', async ({ page }) => {
 
   await expect(page.getByRole('heading', { name: /Matrix - Complete data/ })).toBeVisible()
 
-  await page.waitForTimeout(10000) // ensure charts have enough time to render before taking screenshots
+  await verifyChartHeights(page, [761, 301, 141])
   await takeScreenshotsOfAllCharts(page)
 })

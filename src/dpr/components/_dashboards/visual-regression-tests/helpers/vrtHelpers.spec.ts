@@ -15,6 +15,20 @@ export const requestCatalogueVariant = async (page: Page, name: string | RegExp)
     .click()
 }
 
+export const verifyChartHeights = async (page: Page, expectedHeights: number[]) => {
+  const charts = page.getByRole('tabpanel')
+  for (let i = 0; i < expectedHeights.length; i += 1) {
+    const chart = charts.nth(i)
+    // eslint-disable-next-line no-await-in-loop
+    await expect
+      .poll(async () => {
+        const box = await chart.boundingBox()
+        return Math.round(box?.height ?? 0)
+      })
+      .toBe(expectedHeights[i])
+  }
+}
+
 export const takeScreenshotsOfAllCharts = async (page: Page) => {
   const charts = page.getByRole('tabpanel')
   const count = await charts.count()

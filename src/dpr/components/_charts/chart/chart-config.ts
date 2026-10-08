@@ -26,9 +26,6 @@ const chartConfig: ChartOptionsType = {
   maintainAspectRatio: false,
   animation: {
     duration: 0,
-    onComplete: () => {
-      window.chartsReady = (window.chartsReady ?? 0) + 1
-    },
   },
   hover: {
     animationDuration: 0,

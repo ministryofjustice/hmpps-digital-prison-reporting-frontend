@@ -35,6 +35,6 @@ declare module 'express-session' {
 
 declare global {
   interface Window {
-    chartsReady?: number
+    chartsReady?: Set<string>
   }
 }

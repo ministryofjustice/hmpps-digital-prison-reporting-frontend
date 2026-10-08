@@ -29,7 +29,6 @@ export const createChart = (
   rawData: DashboardDataResponse[],
   type: components['schemas']['DashboardVisualisationDefinition']['type'],
 ): DashboardVisualisationCardData | undefined => {
-  let table: MoJTable | undefined
   let chart: DashboardVisualisationData | undefined
   let details: ChartDetails | undefined
 
@@ -62,14 +61,14 @@ export const createChart = (
         break
     }
 
-    table = createSnapshotTable(chartDefinition, dataSetRows)
+    const table = createSnapshotTable(chartDefinition, dataSetRows)
     tables.push(table)
+
     details = getChartDetails(chartDefinition, dataSetRows)
   }
 
   return {
     details,
-    table,
     tables,
     chart,
   }
@@ -82,7 +81,7 @@ export const createTimeseriesCharts = (
   query: Record<string, string | string[]>,
   partialDate?: PartialDate,
 ) => {
-  let table: MoJTable | undefined
+  const tables: MoJTable[] = []
   let chart: DashboardVisualisationData | undefined
   let details: ChartDetails | undefined
   let granularity: Granularity = Granularity.DAILY
@@ -127,13 +126,14 @@ export const createTimeseriesCharts = (
         break
     }
 
-    table = createTimeseriesTable(chartDefinition, timeseriesData)
+    const table = createTimeseriesTable(chartDefinition, timeseriesData)
+    tables.push(table)
     details = getChartDetails(chartDefinition, latestData, true)
   }
 
   return {
     details,
-    table,
+    tables,
     chart,
   }
 }

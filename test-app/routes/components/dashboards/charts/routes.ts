@@ -5,6 +5,7 @@ import ChartsController from './controller'
 import BarChartRoutes from './bar/routes'
 import LineChartRoutes from './line/routes'
 import PieChartRoutes from './pie/routes'
+import BoxPlotChartRoutes from './boxplot/routes'
 
 export default function routes(): Router {
   const router = Router({ mergeParams: true })
@@ -14,6 +15,7 @@ export default function routes(): Router {
   router.use('/pie', PieChartRoutes())
   router.use('/line', LineChartRoutes())
   router.use('/bar', BarChartRoutes())
+  router.use('/boxplot', BoxPlotChartRoutes())
 
   return router
 }

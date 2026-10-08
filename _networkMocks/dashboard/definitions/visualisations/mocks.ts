@@ -26,6 +26,7 @@ import { definition as linePartialDataset } from './partial-dataset/line/definit
 import { definition as mixedCompleteDataset } from './complete-dataset/mixed/definition'
 import { definition as mixedPartialDataset } from './partial-dataset/mixed/definition'
 import { definition as mixedPartialDatasetHistoric } from './partial-dataset/mixed-historic/definition'
+import { definition as BoxPlotDataset } from './complete-dataset/boxplot/definition'
 
 const productId = 'dashboard-visualisations'
 
@@ -134,6 +135,9 @@ export const linePartialDatasetMock = setupSimpleMock(
   linePartialDataset,
 )
 
+// BOXPLOT definition examples
+export const boxPlotMock = setupSimpleMock(`/definitions/${productId}/dashboards/${BoxPlotDataset.id}`, BoxPlotDataset)
+
 // MIXED definitions examples
 export const mixedCompleteDatasetMock = setupSimpleMock(
   `/definitions/${productId}/dashboards/${mixedCompleteDataset.id}`,
@@ -169,4 +173,5 @@ export const mocks = [
   mixedPartialDatasetMock,
   mixedCompleteDatasetMock,
   mixedPartialDatasetHistoricMock,
+  boxPlotMock,
 ]

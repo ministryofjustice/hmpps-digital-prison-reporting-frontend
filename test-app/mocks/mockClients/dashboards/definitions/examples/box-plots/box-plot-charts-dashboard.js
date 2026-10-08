@@ -11,7 +11,10 @@ const boxPlotChartDashboard = {
       id: 'section-1',
       display: 'Basic box plot charts - wide',
       description: 'A set of simple box plot charts using wide data',
-      visualisations: [boxPlots.boxBlotWide1, boxPlots.boxBlotWide2],
+      visualisations: [
+        boxPlots.boxBlotWide1,
+        boxPlots.boxBlotWide2
+      ],
     },
     {
       id: 'section-2',

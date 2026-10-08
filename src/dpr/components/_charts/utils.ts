@@ -152,12 +152,19 @@ const getDataForSnapshotCharts = (
   rawData: DashboardDataResponse[],
 ) => {
   const { columns } = chartDefinition
-  const dateColumn = DatasetHelper.getTimestampColumn(columns)
+
+  let allowUndefinedValues = false
+  let dateColumn = DatasetHelper.getTimestampColumn(columns)
+
+  if (chartDefinition.type === DashboardVisualisationType.BOX_PLOT) {
+    allowUndefinedValues = true
+    dateColumn = undefined
+  }
 
   const latestData = DatasetHelper.getLastestDataset(rawData, dateColumn)
 
   // Pass latest data get the rows
-  const dataSetRows = DatasetHelper.getDatasetRows(chartDefinition, latestData)
+  const dataSetRows = DatasetHelper.getDatasetRows(chartDefinition, latestData, allowUndefinedValues)
 
   // Filter the rows to create the visualisation dataset
   const snapshotData = DatasetHelper.filterRowsByDisplayColumns(chartDefinition, dataSetRows, true)

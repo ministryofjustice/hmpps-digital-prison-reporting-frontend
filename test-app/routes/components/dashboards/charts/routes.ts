@@ -4,6 +4,7 @@ import ChartsController from './controller'
 // Routes
 import BarChartRoutes from './bar/routes'
 import LineChartRoutes from './line/routes'
+import MatrixChartRoutes from './matrix/routes'
 import PieChartRoutes from './pie/routes'
 import BoxPlotChartRoutes from './boxplot/routes'
 
@@ -16,6 +17,7 @@ export default function routes(): Router {
   router.use('/line', LineChartRoutes())
   router.use('/bar', BarChartRoutes())
   router.use('/boxplot', BoxPlotChartRoutes())
+  router.use('/matrix', MatrixChartRoutes())
 
   return router
 }

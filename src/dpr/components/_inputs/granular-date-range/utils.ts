@@ -4,9 +4,9 @@ import { Request } from 'express'
 import { components } from '../../../types/api'
 import { DateFilterValue, FilterValue, GranularDateRange, GranularDateRangeFilterValue } from '../../_filters/types'
 
+import { defaultFilterValue, DefaultGranularDateFilterValue } from '../../../utils/Personalisation/types'
 import StartEndDateUtils from '../start-end-date/utils'
 import { Granularity, QuickFilters } from './types'
-import { defaultFilterValue, DefaultGranularDateFilterValue } from '../../../utils/Personalisation/types'
 
 dayjs.extend(customParse)
 
@@ -84,11 +84,8 @@ const getQuickFilterOptions = () => {
 
 const getGranularityOptions = () => {
   const options: { value: Granularity; text: string; disabled?: boolean }[] = [
-    { value: Granularity.HOURLY, text: 'Hourly' },
     { value: Granularity.DAILY, text: 'Daily' },
-    // { value: Granularity.WEEKLY, text: 'Weekly' },
     { value: Granularity.MONTHLY, text: 'Monthly' },
-    // { value: Granularity.QUARTERLY, text: 'Quarterly' },
     { value: Granularity.ANNUALLY, text: 'Annually' },
   ]
 
@@ -519,6 +516,27 @@ export const resolveGranularDateRangeDefaults = (
   }
 
   return undefined
+}
+
+export const getGranularityFromDateFormat = (dateValue: string): Granularity => {
+  if (!dateValue || typeof dateValue !== 'string') return Granularity.NONE
+
+  // Daily: 24/01/24
+  if (dayjs(dateValue, 'DD/MM/YY', true).isValid()) {
+    return Granularity.DAILY
+  }
+
+  // Monthly: Jan 24
+  if (dayjs(dateValue, 'MMM YY', true).isValid()) {
+    return Granularity.MONTHLY
+  }
+
+  // Annually: 2024
+  if (dayjs(dateValue, 'YYYY', true).isValid()) {
+    return Granularity.ANNUALLY
+  }
+
+  return Granularity.NONE
 }
 
 export default {

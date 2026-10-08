@@ -1,3 +1,5 @@
+import { Granularity } from 'src/dpr/components/_inputs/granular-date-range/types'
+import { getGranularityFromDateFormat } from 'src/dpr/components/_inputs/granular-date-range/utils'
 import { DashboardDataResponse } from '../../types/Metrics'
 import { components } from '../../types/api'
 import { apiDateToUi } from '../dateHelper'
@@ -202,6 +204,7 @@ export const filterRowsByDisplayColumns = (
 export type GetDateValueResponse = {
   measure: components['schemas']['DashboardVisualisationColumnDefinition']
   value: string
+  granularity: Granularity
 }
 
 export const getDateValue = (
@@ -215,9 +218,12 @@ export const getDateValue = (
 
   if (!dateValue || typeof dateValue !== 'string') return undefined
 
+  const granularity: Granularity = getGranularityFromDateFormat(dateValue)
+
   return {
     measure: dateColumn,
     value: apiDateToUi(dateValue) || dateValue,
+    granularity,
   }
 }
 

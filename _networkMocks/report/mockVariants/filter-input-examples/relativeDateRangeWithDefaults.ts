@@ -26,6 +26,7 @@ export const variant15: components['schemas']['VariantDefinition'] = {
           type: 'daterange',
           mandatory: true,
           defaultQuickFilterValue: 'next-month',
+          defaultGranularity: 'monthly',
         },
       },
     ],

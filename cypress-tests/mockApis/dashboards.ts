@@ -13,17 +13,21 @@ import {
   listInvalidVisDefMock,
   listPartialDatasetHistoricMock,
   listPartialDatasetMock,
+  matrixCompleteAnnuallyDatasetMock,
+  matrixCompleteDailyDatasetMock,
+  matrixCompleteMonthlyDatasetMock,
+  matrixInvalidMock,
   mixedCompleteDatasetMock,
   mixedPartialDatasetHistoricMock,
   mixedPartialDatasetMock,
+  scorecardGroupCompleteDatasetInvalidMock,
   scorecardGroupCompleteDatasetMock,
+  scorecardGroupCompleteDatasetNoTsMock,
   scorecardsBucketCompleteDatasetMock,
+  scorecardsCompletebadDatasetMock,
   scorecardsCompleteDatasetMock,
   scorecardsCompleteDatasetNoTsMock,
   scorecardsInvalidVisDefinitionsMock,
-  scorecardsCompletebadDatasetMock,
-  scorecardGroupCompleteDatasetInvalidMock,
-  scorecardGroupCompleteDatasetNoTsMock,
   boxPlotMock,
 } from '@networkMocks/dashboard/definitions/visualisations/mocks'
 
@@ -36,9 +40,11 @@ import {
   syncDashboardMock,
 } from '@networkMocks/dashboard/definitions/feature-testing/mocks'
 
-// DATA
 import {
   dashboardResultCompleteDataMock,
+  dashboardResultCompleteDataMockAnnually,
+  dashboardResultCompleteDataMockDaily,
+  dashboardResultCompleteDataMockMonthly,
   dashboardResultCompleteDataNoTsMock,
   dashboardResultCompleteDataSyncMock,
 } from '@networkMocks/dashboard/data/complete-data/mocks'
@@ -62,9 +68,6 @@ import {
 import {
   getDashboardStatusFinishedMock,
   getDashboardStatusStartedMock,
-  requestAsyncDashboardMock,
-  parentChildStatusParentFinishedMock,
-  parentChildStatusParentFailedMock,
   parentChildStatusChild1FinishedMock,
   parentChildStatusChild2FailedMock,
   parentChildStatusChild2FinishedMock,
@@ -79,6 +82,9 @@ import {
   getAsyncReportResultMockParentChildChild2NoDataMock,
   getAsyncReportResultMockParentChildParentNoDataMock,
   getAsyncReportResultMockBoxPlotMock,
+  parentChildStatusParentFailedMock,
+  parentChildStatusParentFinishedMock,
+  requestAsyncDashboardMock,
 } from '@networkMocks/dashboard/mocks'
 import { stubFor } from '@networkMocks/generateNetworkMock'
 import { dashboardFailureStubs } from './failures'
@@ -111,6 +117,13 @@ const lineTimeseriesDefinitionStubs = {
 const lineDefinitionStubs = {
   stubLineCompleteData: () => stubFor(lineCompleteDatasetMock),
   stubLinePartialData: () => stubFor(linePartialDatasetMock),
+}
+
+const matrixDefinitionStubs = {
+  stubMatrixCompleteDailyData: () => stubFor(matrixCompleteDailyDatasetMock),
+  stubMatrixCompleteMonthlyData: () => stubFor(matrixCompleteMonthlyDatasetMock),
+  stubMatrixCompleteAnnuallyData: () => stubFor(matrixCompleteAnnuallyDatasetMock),
+  stubMatrixInvalid: () => stubFor(matrixInvalidMock),
 }
 
 const scorecardDefinitionStubs = {
@@ -149,6 +162,7 @@ const definitionStubs = {
   ...lineDefinitionStubs,
   ...mixedChartsDefinitionStubs,
   ...boxPlotChartsDefinitionStubs,
+  ...matrixDefinitionStubs,
 }
 
 // REQUEST
@@ -168,6 +182,9 @@ const requestStubs = {
 // RESULTS
 const resultsStubs = {
   // Complete data stubs
+  stubDashboardResultCompleteDataDaily: () => stubFor(dashboardResultCompleteDataMockDaily),
+  stubDashboardResultCompleteDataMonthly: () => stubFor(dashboardResultCompleteDataMockMonthly),
+  stubDashboardResultCompleteDataAnnually: () => stubFor(dashboardResultCompleteDataMockAnnually),
   stubDashboardResultCompleteData: () => stubFor(dashboardResultCompleteDataMock),
   stubDashboardResultCompleteDataSync: () => stubFor(dashboardResultCompleteDataSyncMock),
 

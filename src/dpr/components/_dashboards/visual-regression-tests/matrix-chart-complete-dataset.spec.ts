@@ -14,4 +14,5 @@ test('Matrix chart - complete dataset', async ({ page }) => {
 
   await verifyChartHeights(page, [761, 301, 141])
   await takeScreenshotsOfAllCharts(page)
+  await verifyChartHeights(page, [761, 301, 141]) // verify a second time to check if heights has changed after taking screenshots
 })

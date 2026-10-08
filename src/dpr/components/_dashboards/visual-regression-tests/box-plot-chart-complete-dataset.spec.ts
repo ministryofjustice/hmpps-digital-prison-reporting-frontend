@@ -10,7 +10,8 @@ test('Bar chart complete dataset', async ({ page }) => {
 
   await page.getByRole('button', { name: /Request dashboard/ }).click()
 
-  await page.waitForFunction(() => window.chartReady === true)
+  const chartCount = await page.locator('canvas').count()
+  await page.waitForFunction(expected => window.chartsReady === expected, chartCount)
 
   await expect(page.getByRole('heading', { name: /Box plot chart Examples/ })).toBeVisible()
 

@@ -27,7 +27,7 @@ const chartConfig: ChartOptionsType = {
   animation: {
     duration: 0,
     onComplete: () => {
-      window.chartReady = true
+      window.chartsReady = (window.chartsReady ?? 0) + 1
     },
   },
   hover: {

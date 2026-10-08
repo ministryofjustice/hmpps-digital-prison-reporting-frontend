@@ -1,5 +1,5 @@
 {% macro dprReportsCatalogueTotals(totals) %}
-  <div class="dpr-reports-catalogue__totals" data-dpr-module="dpr-report-catalogue-totals">
+  <div class="dpr-reports-catalogue__totals" data-dpr-module="dpr-report-catalogue-totals" aria-live="polite" aria-atomic="true">
     <p>Showing
       <span data-products-variants>{{ totals.variants | dpr.safe }}</span>
       from

@@ -3,14 +3,13 @@ import { NextFunction, Request, Response } from 'express'
 
 // Utils
 import { setupSubscriptionConfig } from 'src/dpr/components/subscription/utils'
-import { VariantDefinitionWithSchedule } from 'src/dpr/types/Subscriptions'
 import { buildFilterData, buildSortData } from '../../../../components/_async/async-filters-form/utils'
 import { buildMasterSections } from '../../../../components/_dashboards/dashboard-section/utils'
 import { getRequestFilters } from '../../../../components/_filters/utils'
 import LocalsHelper from '../../../../utils/localsHelper'
 
 // Types
-import type { SetQueryFromFiltersResult } from '../../../../components/_async/async-filters-form/types'
+import type { QueryData, SetQueryFromFiltersResult } from '../../../../components/_async/async-filters-form/types'
 import { buildQuerySummary } from '../../../../components/_async/request-details/utils'
 import type { components } from '../../../../types/api'
 import type { AsyncReportUtilsParams, RequestDataResult, RequestReportData } from '../../../../types/AsyncReportUtils'
@@ -19,7 +18,7 @@ import ReportQuery from '../../../../types/ReportQuery'
 import type { Services } from '../../../../types/Services'
 import { ReportType } from '../../../../types/UserReports'
 import { getDashboardFields, getFields } from '../../../../utils/definitionUtils'
-import { formBodyToQueryObject } from '../../../../utils/queryMappers'
+import { formBodyToQueryObject, qsToQueryObject } from '../../../../utils/queryMappers'
 import { getActiveJourneyValue, setActiveJourneySortSearch } from '../../../../utils/sessionHelper'
 import { joinQueryStrings } from '../../../../utils/urlHelper'
 import { RequestedReportBuilder } from '../../my-reports/requested-reports/builder'
@@ -38,7 +37,7 @@ export const request = async ({ req, res, services }: AsyncReportUtilsParams) =>
   const { token } = LocalsHelper.getValues(res)
   const requestArgs = { req, token }
 
-  const { executionData, queryData, childExecutionData } = await requestProduct({
+  const { executionData, queryData, childExecutionData, interactiveQueryData } = await requestProduct({
     ...requestArgs,
     services,
   })
@@ -49,6 +48,7 @@ export const request = async ({ req, res, services }: AsyncReportUtilsParams) =>
       res,
       services,
       queryData,
+      interactiveQueryData,
       executionData,
       childExecutionData,
     })
@@ -74,6 +74,7 @@ export const updateStore = async ({
   res,
   services,
   queryData,
+  interactiveQueryData,
   executionData,
   childExecutionData,
 }: {
@@ -81,6 +82,7 @@ export const updateStore = async ({
   res: Response
   services: Services
   queryData?: SetQueryFromFiltersResult | undefined
+  interactiveQueryData?: QueryData | undefined
   executionData: ExecutionData
   childExecutionData: Array<ChildReportExecutionData>
 }): Promise<void> => {
@@ -90,6 +92,7 @@ export const updateStore = async ({
     .withExecutionData(executionData)
     .withChildExecutionData(childExecutionData)
     .withQueryData(queryData)
+    .withInteractiveQuery(interactiveQueryData)
     .build()
 
   if (!requestedReportData) {
@@ -217,6 +220,23 @@ const requestDashboard = async (req: Request, token: string, services: Services)
     query,
   }
 
+  const interactiveDefaultFiltersSearch = getActiveJourneyValue(
+    req,
+    { id, reportId },
+    'interactiveDefaultFiltersSearch',
+  )
+
+  let interactiveQueryData: QueryData | undefined
+  if (interactiveDefaultFiltersSearch) {
+    const interactiveQueryObject = qsToQueryObject(interactiveDefaultFiltersSearch)
+    const interactiveQuerySummary = buildQuerySummary(interactiveQueryObject, fields)
+
+    interactiveQueryData = {
+      query: interactiveQueryObject,
+      querySummary: interactiveQuerySummary,
+    }
+  }
+
   const childExecutionData = await requestChildVariants(
     childVariants,
     services,
@@ -230,6 +250,7 @@ const requestDashboard = async (req: Request, token: string, services: Services)
     executionData,
     childExecutionData,
     queryData,
+    interactiveQueryData,
   }
 }
 
@@ -260,6 +281,7 @@ const requestReport = async (req: Request, token: string, services: Services) =>
   const requestResponse = await services.reportingService.requestAsyncReport(token, reportId, id, {
     ...query,
   })
+
   const { executionId, tableId } = requestResponse
 
   if (!executionId || !tableId) {
@@ -284,6 +306,23 @@ const requestReport = async (req: Request, token: string, services: Services) =>
     ...(sortData && { sortData }),
   }
 
+  const interactiveDefaultFiltersSearch = getActiveJourneyValue(
+    req,
+    { id, reportId },
+    'interactiveDefaultFiltersSearch',
+  )
+
+  let interactiveQueryData: QueryData | undefined
+  if (interactiveDefaultFiltersSearch) {
+    const interactiveQueryObject = qsToQueryObject(interactiveDefaultFiltersSearch)
+    const interactiveQuerySummary = buildQuerySummary(interactiveQueryObject, fields)
+
+    interactiveQueryData = {
+      query: interactiveQueryObject,
+      querySummary: interactiveQuerySummary,
+    }
+  }
+
   const childExecutionData = await requestChildVariants(
     childVariants,
     services,
@@ -297,6 +336,7 @@ const requestReport = async (req: Request, token: string, services: Services) =>
     executionData,
     childExecutionData,
     queryData,
+    interactiveQueryData,
   }
 }
 
@@ -312,6 +352,7 @@ const requestProduct = async ({
   executionData: ExecutionData
   childExecutionData: Array<ChildReportExecutionData>
   queryData?: SetQueryFromFiltersResult | undefined
+  interactiveQueryData?: QueryData | undefined
 }> => {
   const { type } = req.body as { type: ReportType }
 
@@ -364,8 +405,11 @@ export const renderRequest = async ({
   try {
     const { reportId, type, id } = req.params as { reportId: string; type: ReportType; id: string }
     const { token, csrfToken, dprUser, saveDefaultsEnabled } = LocalsHelper.getValues(res)
+
     const definition = res.locals['definition'] as
       components['schemas']['SingleVariantReportDefinition'] | components['schemas']['DashboardDefinition']
+
+    const summary = <components['schemas']['ReportDefinitionSummary']>res.locals['reportDefinitionSummary']
 
     let name: string = ''
     let reportName: string = ''
@@ -378,6 +422,7 @@ export const renderRequest = async ({
     if (type === ReportType.REPORT) {
       const reportData = await renderReportRequestData(
         definition as components['schemas']['SingleVariantReportDefinition'],
+        summary,
       )
 
       name = reportData.name
@@ -476,12 +521,15 @@ const renderDashboardRequestData = async ({
   }
 }
 
-const renderReportRequestData = async (definition: components['schemas']['SingleVariantReportDefinition']) => {
+const renderReportRequestData = async (
+  definition: components['schemas']['SingleVariantReportDefinition'],
+  summary: components['schemas']['ReportDefinitionSummary'],
+) => {
   const fields = getFields(definition)
   const { variant, description: productDescription } = definition
-
-  // TODO: remove casting `VariantDefinitionWithSchedule` type when type includes "schedule"
-  const { name, schedule, specification, description } = <VariantDefinitionWithSchedule>variant
+  const { name, specification, description } = variant
+  const variantSummary = summary.variants.find(v => v.id === variant.id)
+  const schedule = variantSummary?.schedule
 
   return {
     definition,

@@ -1,6 +1,5 @@
 import { Response, Request } from 'express'
 import { setupSubscriptionConfig } from 'src/dpr/components/subscription/utils'
-import { VariantDefinitionSummaryWithSchedule } from 'src/dpr/types/Subscriptions'
 import { LoadType, ReportType } from '../../../../../../../types/UserReports'
 import localsHelper, { getRouteLocals } from '../../../../../../../utils/localsHelper'
 import { setNestedPath } from '../../../../../../../utils/urlHelper'
@@ -31,10 +30,7 @@ export const intitialiseCatalogueRowActions = async (
   req: Request,
   services: Services,
   definition: components['schemas']['ReportDefinitionSummary'],
-  variant:
-    | components['schemas']['VariantDefinitionSummary']
-    | components['schemas']['DashboardDefinitionSummary']
-    | VariantDefinitionSummaryWithSchedule,
+  variant: components['schemas']['VariantDefinitionSummary'] | components['schemas']['DashboardDefinitionSummary'],
   reportType: ReportType,
   authorised: boolean,
 ): Promise<CatalogueVariantRowActions> => {
@@ -44,29 +40,32 @@ export const intitialiseCatalogueRowActions = async (
     }
   }
 
+  const { id } = definition
+  const { id: variantId, name } = variant
+
   let missing
   if (reportType === ReportType.REPORT) {
-    missing = setMissingAction(res, definition.id, <components['schemas']['VariantDefinitionSummary']>variant)
+    missing = setMissingAction(res, id, <components['schemas']['VariantDefinitionSummary']>variant)
   }
 
   let request
   let bookmark
   let subscription
   if (!missing) {
-    request = setRequestAction(res, definition.id, variant, reportType)
+    request = setRequestAction(res, id, variant, reportType)
 
     if (services.bookmarkService.enabled) {
-      bookmark = await setBookmark(res, req, services, definition.id, variant.id, reportType)
+      bookmark = await setBookmark(res, req, services, id, variantId, reportType, name)
     }
 
     // TODO: Subs: remove this casting when API is ready
-    if (services.subscriptionService.enabled && (<VariantDefinitionSummaryWithSchedule>variant).schedule) {
+    if (services.subscriptionService.enabled && (<components['schemas']['VariantDefinitionSummary']>variant).schedule) {
       subscription = await setSubscriptionAction(
         res,
         req,
         services,
         definition,
-        <VariantDefinitionSummaryWithSchedule>variant,
+        <components['schemas']['VariantDefinitionSummary']>variant,
       )
     }
   }
@@ -179,10 +178,11 @@ const setBookmark = async (
   productId: string,
   id: string,
   reportType: ReportType,
+  reportName: string,
 ): Promise<CatalogueVariantRowActionBookmark> => {
   const { csrfToken, dprUser } = localsHelper.getValues(res)
 
-  const reportIsBookmarked = await services.bookmarkService.isBookmarked(id, productId, dprUser.id)
+  const reportIsBookmarked = (await services.bookmarkService.isBookmarked(id, productId, dprUser.id)) || false
 
   const bookmarkConfig = setUpBookmark(res, req, services.bookmarkService, reportIsBookmarked)
 
@@ -192,6 +192,7 @@ const setBookmark = async (
     reportType,
     csrfToken,
     ...bookmarkConfig,
+    reportName,
   }
 }
 
@@ -200,7 +201,7 @@ const setSubscriptionAction = async (
   req: Request,
   services: Services,
   definition: components['schemas']['ReportDefinitionSummary'],
-  variant: VariantDefinitionSummaryWithSchedule,
+  variant: components['schemas']['VariantDefinitionSummary'],
 ): Promise<CatalogueVariantRowActionSubscription> => {
   const subscriptionConfig = await setupSubscriptionConfig(
     req,

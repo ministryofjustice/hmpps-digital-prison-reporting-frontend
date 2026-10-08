@@ -90,8 +90,8 @@ export class DprFiltersFormClass extends DprClientClass {
     const name = this.normaliseFilterName(input.name)
     let value = input.value
 
-    if (input instanceof HTMLInputElement && input.dataset['staticOptionNameValue']) {
-      value = input.dataset['staticOptionNameValue']
+    if (input instanceof HTMLInputElement && input.dataset['selectedValue']) {
+      value = input.dataset['selectedValue']
     }
 
     const isDateInput = input instanceof HTMLInputElement && input.classList.contains('moj-js-datepicker-input')

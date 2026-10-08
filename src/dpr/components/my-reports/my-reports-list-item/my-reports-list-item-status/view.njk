@@ -1,5 +1,6 @@
 {%- from "../../../_async/request-status-tag/view.njk" import dprRequestStatusTag -%}
 
 {% macro dprMyReportListItemStatus(status) %}
+  <h1 class="dpr-my-reports-column-heading govuk-caption-m">Status</h1>
   <div class="dpr-my-reports__status">{{ dprRequestStatusTag(status) }}</div>
 {% endmacro %}

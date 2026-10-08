@@ -1,4 +1,4 @@
-import { executeReportStubs } from '../../../../../../cypress-tests/cypressUtils'
+import { executeReportStubs, selectAutocompleteOption } from '../../../../../../cypress-tests/cypressUtils'
 
 describe('Filter validation', () => {
   const path = '/embedded/platform/dpr/request-report/report/feature-testing/feature-testing-validation/filters'
@@ -18,10 +18,7 @@ describe('Filter validation', () => {
   }
 
   const fillAutocomplete = (name = 'Field 4') => {
-    cy.findByRole('combobox', { name }).type('Inigo Montoya')
-    cy.findByRole('listbox', { name: 'Autocomplete options' }).within(() => {
-      cy.findByRole('button', { name: /Inigo/ }).click()
-    })
+    selectAutocompleteOption({ name, searchText: 'Inigo Montoya', optionText: 'Inigo Montoya' })
   }
 
   const fillPatternTextInput = (name = 'Field 5') => {

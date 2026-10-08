@@ -17,7 +17,8 @@ export const buildActionsCell = (
   req: Request,
   listType: ListType,
 ): DprMyReportActions => {
-  const { status } = data
+  const { status, variantName, name } = data
+  const reportName = name ?? variantName ?? ''
 
   let retry: LinkAction | undefined
   let refresh: LinkAction | undefined
@@ -77,6 +78,7 @@ export const buildActionsCell = (
     ...(view && { view }),
     ...(polling && { polling }),
     ...(subscribe && { subscribe }),
+    reportName,
   }
 }
 

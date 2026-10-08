@@ -1,3 +1,4 @@
+import { getAllDefinitionsForReport } from 'src/dpr/utils/definitionUtils'
 import { LoadType, ReportType } from '../../../../../types/UserReports'
 import Report from '../../../../../components/_reports/Report'
 import LocalsHelper from '../../../../../utils/localsHelper'
@@ -9,13 +10,17 @@ export const renderReport = async ({ req, res, services }: AsyncReportUtilsParam
   const { token, dprUser } = LocalsHelper.getValues(res)
   const { id, reportId } = <{ id: string; reportId: string }>req.params
 
-  // Get the definition
-  const definition =
-    (res.locals['definition'] as components['schemas']['SingleVariantReportDefinition']) ??
-    (await services.reportingService.getDefinition(token, reportId, id))
+  const { variantDefinition, variantSummary } = await getAllDefinitionsForReport(res, services, reportId, id, token)
 
   // Create the report config
-  const reportConfig = await new Report(services, res, req, definition, LoadType.SYNC).build()
+  const reportConfig = await new Report(
+    services,
+    res,
+    req,
+    <components['schemas']['SingleVariantReportDefinition']>variantDefinition,
+    variantSummary,
+    LoadType.SYNC,
+  ).build()
 
   // Save the data to redis
   if (reportConfig && reportConfig.renderData && Object.keys(reportConfig.renderData).length) {

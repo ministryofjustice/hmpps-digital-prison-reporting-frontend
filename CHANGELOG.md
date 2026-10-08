@@ -1,5 +1,13 @@
 Below you can find the changes included in each release.
 
+## 9.6.0
+
+### Matrix charts
+
+- Support matrix charts with differing date formats
+- Added integration and visual tests for various scenarios
+- Speed up playwright install by only installing chromium
+
 ## 9.5.0
 
 - Subscriptions: Removed temporary VariantSummaryDefinition types that included the schedule field. Replaced API generated types now the API includes this field.

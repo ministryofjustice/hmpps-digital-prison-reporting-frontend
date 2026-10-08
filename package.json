@@ -137,7 +137,7 @@
     "ext": "js,json,html,njk"
   },
   "dependencies": {
-    "@flipt-io/flipt-client-js": "0.5.1",
+    "@flipt-io/flipt-client-js": "0.6.0",
     "@ministryofjustice/frontend": "10.0.1",
     "@sentry/node": "10.73.0",
     "@tsconfig/node24": "24.0.5",

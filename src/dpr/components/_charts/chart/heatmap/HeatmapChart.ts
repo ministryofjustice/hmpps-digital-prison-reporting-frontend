@@ -1,13 +1,14 @@
 /* eslint-disable prefer-destructuring */
 import dayjs from 'dayjs'
-import logger from '../../../../utils/logger'
+import { UI_OUTPUT_FORMAT } from 'src/dpr/utils/dateHelper'
 import { components } from '../../../../types/api'
 import { DashboardDataResponse } from '../../../../types/Metrics'
 import DatasetHelper, {
+  getDateValue,
   getTimestampColumn,
   getTimestampMeasure,
-  getDateValue,
 } from '../../../../utils/Dashboards/VisualisationDatasetHelper'
+import logger from '../../../../utils/logger'
 import {
   DashboardVisualisationData,
   DashboardVisualisationDataSet,
@@ -29,8 +30,6 @@ class HeatmapChart {
   private granularity!: Granularity
 
   private data: MatrixChartData[] = []
-
-  private dayDateFormat = 'YYYY-MM-DD'
 
   private valueKey = ''
 
@@ -85,6 +84,7 @@ class HeatmapChart {
     const dateMeasure = getTimestampMeasure(
       <components['schemas']['DashboardVisualisationColumnDefinition'][]>this.measures,
     )
+
     if (!dateMeasure) {
       throw new Error('No timestamp field in definition')
     }
@@ -106,6 +106,7 @@ class HeatmapChart {
         }
 
         const tsRaw = dateData.value
+        this.granularity = dateData.granularity
 
         const v: MatrixChartData['v'] = Number(raw)
         const r: MatrixChartData['r'] = rag !== undefined ? Number(tsData[0][this.valueKey].rag) : undefined
@@ -113,15 +114,9 @@ class HeatmapChart {
         let y: MatrixChartData['y'] = 0
 
         switch (this.granularity) {
-          case 'hourly':
-            break
-          case 'weekly':
-            x = dayjs(tsRaw, this.dayDateFormat).format('ddd')
-            y = dayjs(tsRaw, this.dayDateFormat).week()
-            break
           case 'daily':
-            x = dayjs(tsRaw, this.dayDateFormat).format('MMM YY')
-            y = dayjs(tsRaw, this.dayDateFormat).format('D')
+            x = dayjs(tsRaw, UI_OUTPUT_FORMAT).format('MMM YY')
+            y = dayjs(tsRaw, UI_OUTPUT_FORMAT).format('D')
             break
           case 'monthly':
             {
@@ -135,8 +130,8 @@ class HeatmapChart {
             y = <string>tsRaw
             break
           default:
-            x = dayjs(tsRaw, this.dayDateFormat).format('MMM YY')
-            y = dayjs(tsRaw, this.dayDateFormat).format('D')
+            x = dayjs(tsRaw, UI_OUTPUT_FORMAT).format('MMM YY')
+            y = dayjs(tsRaw, UI_OUTPUT_FORMAT).format('D')
             break
         }
         return { y, x, v, r }

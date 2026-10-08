@@ -1,15 +1,7 @@
-/**
- * Mock complete dataset with monthly dates
- * - "complete" refers to a dataset that does not have any undefined/null values
- * - Mocked data quality values
- * - 3 Establishments
- * - 6 months historic data - granularity: monthly
- */
-
-export const completeDataSet = [
+export const completeDataSetAnnually = [
   [
     {
-      ts: { raw: 'Aug 24' },
+      ts: { raw: '2024' },
       establishment_id: {
         raw: 'ABC',
       },
@@ -36,7 +28,7 @@ export const completeDataSet = [
       },
     },
     {
-      ts: { raw: 'Aug 24' },
+      ts: { raw: '2024' },
       establishment_id: {
         raw: 'GHI',
       },
@@ -63,7 +55,7 @@ export const completeDataSet = [
       },
     },
     {
-      ts: { raw: 'Aug 24' },
+      ts: { raw: '2024' },
       establishment_id: {
         raw: 'DEF',
       },
@@ -92,7 +84,7 @@ export const completeDataSet = [
   ],
   [
     {
-      ts: { raw: 'Sep 24' },
+      ts: { raw: '2024' },
       establishment_id: {
         raw: 'ABC',
       },
@@ -119,7 +111,7 @@ export const completeDataSet = [
       },
     },
     {
-      ts: { raw: 'Sep 24' },
+      ts: { raw: '2024' },
       establishment_id: {
         raw: 'GHI',
       },
@@ -146,7 +138,7 @@ export const completeDataSet = [
       },
     },
     {
-      ts: { raw: 'Sep 24' },
+      ts: { raw: '2024' },
       establishment_id: {
         raw: 'DEF',
       },
@@ -175,7 +167,7 @@ export const completeDataSet = [
   ],
   [
     {
-      ts: { raw: 'Oct 24' },
+      ts: { raw: '2024' },
       establishment_id: {
         raw: 'ABC',
       },
@@ -202,7 +194,7 @@ export const completeDataSet = [
       },
     },
     {
-      ts: { raw: 'Oct 24' },
+      ts: { raw: '2024' },
       establishment_id: {
         raw: 'GHI',
       },
@@ -229,7 +221,7 @@ export const completeDataSet = [
       },
     },
     {
-      ts: { raw: 'Oct 24' },
+      ts: { raw: '2024' },
       establishment_id: {
         raw: 'DEF',
       },
@@ -258,7 +250,7 @@ export const completeDataSet = [
   ],
   [
     {
-      ts: { raw: 'Nov 24' },
+      ts: { raw: '2024' },
       establishment_id: {
         raw: 'ABC',
       },
@@ -285,7 +277,7 @@ export const completeDataSet = [
       },
     },
     {
-      ts: { raw: 'Nov 24' },
+      ts: { raw: '2024' },
       establishment_id: {
         raw: 'GHI',
       },
@@ -312,7 +304,7 @@ export const completeDataSet = [
       },
     },
     {
-      ts: { raw: 'Nov 24' },
+      ts: { raw: '2024' },
       establishment_id: {
         raw: 'DEF',
       },
@@ -341,7 +333,7 @@ export const completeDataSet = [
   ],
   [
     {
-      ts: { raw: 'Dec 24' },
+      ts: { raw: '2024' },
       establishment_id: {
         raw: 'ABC',
       },
@@ -368,7 +360,7 @@ export const completeDataSet = [
       },
     },
     {
-      ts: { raw: 'Dec 24' },
+      ts: { raw: '2024' },
       establishment_id: {
         raw: 'GHI',
       },
@@ -395,7 +387,7 @@ export const completeDataSet = [
       },
     },
     {
-      ts: { raw: 'Dec 24' },
+      ts: { raw: '2024' },
       establishment_id: {
         raw: 'DEF',
       },
@@ -424,7 +416,7 @@ export const completeDataSet = [
   ],
   [
     {
-      ts: { raw: 'Jan 25' },
+      ts: { raw: '2025' },
       establishment_id: {
         raw: 'ABC',
       },
@@ -451,7 +443,7 @@ export const completeDataSet = [
       },
     },
     {
-      ts: { raw: 'Jan 25' },
+      ts: { raw: '2025' },
       establishment_id: {
         raw: 'GHI',
       },
@@ -478,7 +470,7 @@ export const completeDataSet = [
       },
     },
     {
-      ts: { raw: 'Jan 25' },
+      ts: { raw: '2025' },
       establishment_id: {
         raw: 'DEF',
       },

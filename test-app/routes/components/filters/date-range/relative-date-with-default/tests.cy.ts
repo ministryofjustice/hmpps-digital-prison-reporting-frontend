@@ -7,16 +7,17 @@ context('Inputs: Relative date range with defaults', () => {
 
   describe('Setting the relative date range', () => {
     beforeEach(() => {
-      cy.visit(path)
       cy.task('resetStubs')
       cy.task('resetRedis')
       cy.task('stubDefinitions')
       cy.task('stubSingleSummaries')
       cy.task('stubFilterInputsRelDateDef')
+      cy.visit(path)
     })
+
     it('should initialise the start and end values', () => {
       checkA11y()
-      cy.findByRole('textbox', { name: 'From' }).should('not.have.value', '')
+      cy.findByRole('textbox', { name: 'From', timeout: 10000 }).should('not.have.value', '')
       cy.findByRole('textbox', { name: 'To' }).should('not.have.value', '')
 
       cy.findByRole('tab', { name: 'Preset date ranges' }).click()

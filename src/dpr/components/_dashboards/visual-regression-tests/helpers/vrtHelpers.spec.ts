@@ -15,27 +15,6 @@ export const requestCatalogueVariant = async (page: Page, name: string | RegExp)
     .click()
 }
 
-export const waitForChartsToFullyRender = async (page: Page, expectedHeights: number[]) => {
-  await expect
-    .poll(
-      async () => {
-        const charts = page.getByRole('tabpanel')
-        const heights = await Promise.all(
-          expectedHeights.map(async (_, i) => {
-            const box = await charts.nth(i).boundingBox()
-            return Math.round(box?.height ?? 0)
-          }),
-        )
-        console.log('heights', heights)
-        return heights
-      },
-      {
-        timeout: 30000,
-      },
-    )
-    .toEqual(expectedHeights)
-}
-
 export const takeScreenshotsOfAllCharts = async (page: Page) => {
   const charts = page.getByRole('tabpanel')
   const count = await charts.count()

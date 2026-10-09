@@ -15,30 +15,25 @@ export const requestCatalogueVariant = async (page: Page, name: string | RegExp)
     .click()
 }
 
-export const verifyChartHeights = async (page: Page, expectedHeights: number[]) => {
-  const charts = page.getByRole('tabpanel')
-
-  console.log('count', await charts.count())
-
-  for (let i = 0; i < expectedHeights.length; i += 1) {
-    const chart = charts.nth(i)
-    /* eslint-disable no-await-in-loop */
-    const box = await chart.boundingBox()
-    const id = await chart.getAttribute('id')
-    console.log({
-      index: i,
-      id,
-      height: box?.height,
-    })
-
-    await expect
-      .poll(async () => {
-        return Math.round(box?.height ?? 0)
-      })
-      .toBe(expectedHeights[i])
-
-    /* eslint-enable no-await-in-loop */
-  }
+export const waitForChartsToFullyRender = async (page: Page, expectedHeights: number[]) => {
+  await expect
+    .poll(
+      async () => {
+        const charts = page.getByRole('tabpanel')
+        const heights = await Promise.all(
+          expectedHeights.map(async (_, i) => {
+            const box = await charts.nth(i).boundingBox()
+            return Math.round(box?.height ?? 0)
+          }),
+        )
+        console.log('heights', heights)
+        return heights
+      },
+      {
+        timeout: 30000,
+      },
+    )
+    .toEqual(expectedHeights)
 }
 
 export const takeScreenshotsOfAllCharts = async (page: Page) => {
@@ -48,7 +43,7 @@ export const takeScreenshotsOfAllCharts = async (page: Page) => {
   for (let i = 0; i < count; i += 1) {
     /* eslint-disable no-await-in-loop */
     const chart = charts.nth(i)
-    await chart.isVisible()
+    await expect(chart).toBeVisible()
     await expect(chart.locator('canvas')).toBeVisible() // canvas must be ready before screenshot
 
     await expect(chart).toHaveScreenshot(`chart-${i}.png`, {

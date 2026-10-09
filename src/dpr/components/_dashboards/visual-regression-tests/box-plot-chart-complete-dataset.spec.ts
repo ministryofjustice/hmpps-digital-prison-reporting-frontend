@@ -30,7 +30,10 @@ test('Bar chart complete dataset', async ({ page }) => {
     }))
   })
 
+  const preRenderChartData = window.chartData
+
   console.log(JSON.stringify(chartInfo, null, 2))
+  console.log(JSON.stringify(preRenderChartData, null, 2))
 
   await takeScreenshotsOfAllCharts(page)
 })

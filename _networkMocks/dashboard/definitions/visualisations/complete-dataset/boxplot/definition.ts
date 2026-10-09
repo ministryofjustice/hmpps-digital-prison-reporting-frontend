@@ -11,17 +11,20 @@ export const definition: components['schemas']['DashboardDefinition'] = {
       id: 'section-1',
       display: 'Basic box plot charts - wide',
       description: 'A set of simple box plot charts using wide data',
-      visualisations: [BoxPlotChart.boxBlotWide1, BoxPlotChart.boxBlotWide2],
+      visualisations: [
+        BoxPlotChart.boxBlotWide1,
+        // BoxPlotChart.boxBlotWide2
+      ],
     },
     {
       id: 'section-2',
       display: 'Basic box plot charts - grouped',
       description: 'A set of simple box plot charts using grouped data',
       visualisations: [
-        BoxPlotChart.boxBlotGrouped1,
-        BoxPlotChart.boxBlotGrouped2,
-        BoxPlotChart.boxBlotGrouped3,
-        BoxPlotChart.boxBlotGrouped4,
+        // BoxPlotChart.boxBlotGrouped1,
+        // BoxPlotChart.boxBlotGrouped2,
+        // BoxPlotChart.boxBlotGrouped3,
+        // BoxPlotChart.boxBlotGrouped4,
       ],
     },
     {

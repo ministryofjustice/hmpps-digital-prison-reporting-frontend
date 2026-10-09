@@ -21,7 +21,7 @@ export const definition: components['schemas']['DashboardDefinition'] = {
         BoxPlotChart.boxBlotGrouped1,
         BoxPlotChart.boxBlotGrouped2,
         BoxPlotChart.boxBlotGrouped3,
-        // BoxPlotChart.boxBlotGrouped4,
+        BoxPlotChart.boxBlotGrouped4,
       ],
     },
     {

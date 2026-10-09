@@ -12,7 +12,7 @@ test('Boxplot chart complete dataset', async ({ page }) => {
 
   await expect(page.getByRole('heading', { name: /Box plot chart Examples/ })).toBeVisible()
 
-  await page.waitForTimeout(1000)
+  await page.waitForTimeout(5000)
 
   await takeScreenshotsOfAllCharts(page)
 })

@@ -76,7 +76,7 @@ class ChartVisualisation extends DprClientClass {
     const chart = new Chart(this.chartContext as HTMLCanvasElement, chartData)
 
     window.chartData ??= {}
-    window.chartData = chartData
+    window.chartData[this.id] = chartData
 
     window.debugCharts ??= {}
     window.debugCharts[this.id] = chart

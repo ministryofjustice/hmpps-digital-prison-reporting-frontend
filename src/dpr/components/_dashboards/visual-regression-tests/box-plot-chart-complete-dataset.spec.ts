@@ -16,7 +16,7 @@ test('Bar chart complete dataset', async ({ page }) => {
 
   await page.waitForFunction(expected => {
     const charts = Object.values(window.debugCharts ?? {})
-    return charts.length === expected
+    return charts.length === expected && charts.every(chart => chart.getDatasetMeta(0).data.length > 0)
   }, chartCount)
 
   const chartInfo = await page.evaluate(() => {
@@ -31,7 +31,10 @@ test('Bar chart complete dataset', async ({ page }) => {
   })
 
   const preRenderChartData = await page.evaluate(() => {
-    return window.chartData
+    return Object.entries(window.chartData ?? {}).map(([id, chartData]) => ({
+      id,
+      chartData,
+    }))
   })
 
   console.log(JSON.stringify({ chartInfo }, null, 2))

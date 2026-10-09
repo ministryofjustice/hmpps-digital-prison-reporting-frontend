@@ -1,5 +1,4 @@
 import { test, expect } from '@playwright/test'
-import { Element } from 'chart.js'
 import { requestCatalogueVariant, takeScreenshotsOfAllCharts } from './helpers/vrtHelpers.spec'
 
 test('Bar chart complete dataset', async ({ page }) => {
@@ -28,7 +27,14 @@ test('Bar chart complete dataset', async ({ page }) => {
       metaElements: chart.getDatasetMeta(0).data.length,
       width: chart.width,
       height: chart.height,
-      meta: chart.getDatasetMeta(0).data.map((el: Element) => el),
+      elements: chart.getDatasetMeta(0).meta.data.map((el: Record<string, string | number | boolean>) => ({
+        type: el.constructor?.name,
+        x: el['x'],
+        y: el['y'],
+        width: el['width'],
+        height: el['height'],
+        hidden: el['hidden'],
+      })),
       attached: document.contains(chart.canvas),
     }))
   })

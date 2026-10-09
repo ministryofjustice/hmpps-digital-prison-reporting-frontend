@@ -38,7 +38,7 @@ import { definition as linetimeseriesChartsDefinition } from './line-timeseries/
 import { definition as lineCompleteDefinition } from './line/definition'
 
 // Boxplot
-import { definition as BoxPlotChartsDefinition } from './boxplot/definition'
+import { definition as boxPlotChartsDefinition } from './boxplot/definition'
 
 // mixed
 import { definition as mixedDefinition } from './mixed/definition'
@@ -62,7 +62,7 @@ const barChartDefs = [barChartsDefinition]
 const doughnutChartDefs = [doughnutChartsDefinition]
 const lineDefs = [lineCompleteDefinition]
 const lineTimeseriesDefs = [linetimeseriesChartsDefinition]
-const boxPlotDefs = [BoxPlotChartsDefinition]
+const boxPlotDefs = [boxPlotChartsDefinition]
 
 const completeDatasetVisualisationIds = [
   ...lists,

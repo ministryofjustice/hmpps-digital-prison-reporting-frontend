@@ -32,7 +32,7 @@ import { definition as listPartialDataset } from './partial-dataset/list/definit
 import { definition as listPartialDatasetHistoric } from './partial-dataset/list/definition-historic'
 import { definition as matrixInvalid } from './partial-dataset/matrix/definition-invalid'
 import { definition as mixedPartialDatasetHistoric } from './partial-dataset/mixed-historic/definition'
-import { definition as BoxPlotDataset } from './complete-dataset/boxplot/definition'
+import { definition as boxPlotDataset } from './complete-dataset/boxplot/definition'
 import { definition as mixedPartialDataset } from './partial-dataset/mixed/definition'
 
 const productId = 'dashboard-visualisations'
@@ -168,7 +168,7 @@ export const linePartialDatasetMock = setupSimpleMock(
 )
 
 // BOXPLOT definition examples
-export const boxPlotMock = setupSimpleMock(`/definitions/${productId}/dashboards/${BoxPlotDataset.id}`, BoxPlotDataset)
+export const boxPlotMock = setupSimpleMock(`/definitions/${productId}/dashboards/${boxPlotDataset.id}`, boxPlotDataset)
 
 // MIXED definitions examples
 export const mixedCompleteDatasetMock = setupSimpleMock(

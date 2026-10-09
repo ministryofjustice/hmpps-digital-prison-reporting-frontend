@@ -23,7 +23,7 @@ test('Bar chart complete dataset', async ({ page }) => {
     return Object.entries(window.debugCharts ?? {}).map(([id, chart]) => ({
       id,
       labels: chart.data.labels,
-      datasets: chart.data.datasets.length,
+      datasets: chart.data.datasets,
       metaElements: chart.getDatasetMeta(0).data.length,
       width: chart.width,
       height: chart.height,

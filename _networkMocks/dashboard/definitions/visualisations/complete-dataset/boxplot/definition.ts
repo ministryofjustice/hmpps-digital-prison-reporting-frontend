@@ -11,10 +11,7 @@ export const definition: components['schemas']['DashboardDefinition'] = {
       id: 'section-1',
       display: 'Basic box plot charts - wide',
       description: 'A set of simple box plot charts using wide data',
-      visualisations: [
-        BoxPlotChart.boxBlotWide1,
-        // BoxPlotChart.boxBlotWide2
-      ],
+      visualisations: [BoxPlotChart.boxBlotWide1, BoxPlotChart.boxBlotWide2],
     },
     {
       id: 'section-2',

@@ -74,12 +74,6 @@ class ChartVisualisation extends DprClientClass {
 
   generateChart(chartData: ChartConfiguration) {
     const chart = new Chart(this.chartContext as HTMLCanvasElement, chartData)
-
-    window.chartData = chartData
-
-    window.debugCharts ??= {}
-    window.debugCharts[this.id] = chart
-
     return chart
   }
 
@@ -95,14 +89,6 @@ class ChartVisualisation extends DprClientClass {
       },
       options: {
         ...config,
-        animation: {
-          duration: 0,
-          onComplete: () => {
-            window.chartsReady ??= new Set<string>()
-            window.chartsReady.add(this.id)
-            console.log(window.chartsReady)
-          },
-        },
         ...(options && options),
         ...(hoverEvent && hoverEvent),
         plugins: {

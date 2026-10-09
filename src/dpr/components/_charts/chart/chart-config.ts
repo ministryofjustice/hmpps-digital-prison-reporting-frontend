@@ -66,7 +66,6 @@ export type ChartOptionsType = {
   maintainAspectRatio: boolean
   animation: {
     duration: number
-    onComplete?: () => void
   }
   hover: {
     animationDuration: number

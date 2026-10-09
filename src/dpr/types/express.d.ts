@@ -32,11 +32,3 @@ declare module 'express-session' {
     allDefinitions: components['schemas']['ReportDefinitionSummary'][]
   }
 }
-
-declare global {
-  interface Window {
-    chartsReady?: Set<string>
-    debugCharts?: Record<string, Chart>
-    chartData: ChartConfiguration
-  }
-}

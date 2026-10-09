@@ -35,7 +35,11 @@ export const monthlyDefinition: components['schemas']['DashboardDefinition'] = {
   sections: basicDefinition.sections.map(section => ({
     ...section,
     id: `${section.id}-monthly`,
-    visualisations: section.visualisations.map(vis => ({ ...vis, id: `${vis.id}-monthly` })),
+    visualisations: section.visualisations.map(vis => ({
+      ...vis,
+      id: `${vis.id}-monthly`,
+      display: `${vis.display} monthly`,
+    })),
   })),
 }
 
@@ -46,7 +50,11 @@ export const annuallyDefinition: components['schemas']['DashboardDefinition'] = 
   sections: basicDefinition.sections.map(section => ({
     ...section,
     id: `${section.id}-annually`,
-    visualisations: section.visualisations.map(vis => ({ ...vis, id: `${vis.id}-annually` })),
+    visualisations: section.visualisations.map(vis => ({
+      ...vis,
+      id: `${vis.id}-annually`,
+      display: `${vis.display} annually`,
+    })),
   })),
 }
 

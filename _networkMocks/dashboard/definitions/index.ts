@@ -2,7 +2,7 @@ import { components } from '../../../src/dpr/types/api'
 
 import { featureTestingDefinitions } from './feature-testing'
 
-import { visualisations as completeDataVisualisations } from './visualisations/complete-dataset'
+import { allVisualisations as completeDataVisualisations } from './visualisations/complete-dataset'
 import { visualisations as partialDataVisualisations } from './visualisations/partial-dataset'
 
 import {

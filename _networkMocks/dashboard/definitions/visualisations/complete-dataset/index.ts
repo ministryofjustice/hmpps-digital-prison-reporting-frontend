@@ -56,20 +56,15 @@ const scorecardGroups = [
   scorecardGroupCompleteDatasetInvalid,
   scorecardGroupCompleteDataseNoTs,
 ]
-const matrixDefs = [
-  matrixChartDefinition,
-  matrixChartMonthlyDefinition,
-  matrixChartAnnuallyDefinition,
-  matrixChartAutoBucketedDefinition,
-  matrixChartBucketedDefinition,
-]
+const matrixParentChildDefs = [matrixChartDefinition, matrixChartMonthlyDefinition, matrixChartAnnuallyDefinition]
+const matrixDefs = [matrixChartAutoBucketedDefinition, matrixChartBucketedDefinition]
 const barChartDefs = [barChartsDefinition]
 const doughnutChartDefs = [doughnutChartsDefinition]
 const lineDefs = [lineCompleteDefinition]
 const lineTimeseriesDefs = [linetimeseriesChartsDefinition]
 const boxPlotDefs = [BoxPlotChartsDefinition]
 
-export const visualisations: components['schemas']['DashboardDefinition'][] = [
+const completeDatasetVisualisationIds = [
   ...lists,
   ...scorecards,
   ...scorecardGroups,
@@ -82,7 +77,12 @@ export const visualisations: components['schemas']['DashboardDefinition'][] = [
   mixedDefinition,
 ]
 
-export const visualisationIds: string[] = visualisations.map(vis => {
+export const allVisualisations: components['schemas']['DashboardDefinition'][] = [
+  ...completeDatasetVisualisationIds,
+  ...matrixParentChildDefs,
+]
+
+export const visualisationIds: string[] = completeDatasetVisualisationIds.map(vis => {
   return vis.id
 })
 

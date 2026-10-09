@@ -29,8 +29,9 @@ test('Bar chart complete dataset', async ({ page }) => {
       height: chart.height,
     }))
   })
-
-  const preRenderChartData = window.chartData
+  const preRenderChartData = await page.evaluate(() => {
+    return window.chartData
+  })
 
   console.log(JSON.stringify(chartInfo, null, 2))
   console.log(JSON.stringify(preRenderChartData, null, 2))

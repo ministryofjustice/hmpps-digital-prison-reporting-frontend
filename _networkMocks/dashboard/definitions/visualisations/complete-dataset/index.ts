@@ -80,6 +80,7 @@ const completeDatasetVisualisationIds = [
 export const allVisualisations: components['schemas']['DashboardDefinition'][] = [
   ...completeDatasetVisualisationIds,
   ...matrixParentChildDefs,
+  ...boxPlotDefs,
 ]
 
 export const visualisationIds: string[] = completeDatasetVisualisationIds.map(vis => {

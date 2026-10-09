@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 import { requestCatalogueVariant, takeScreenshotsOfAllCharts } from './helpers/vrtHelpers.spec'
 
-test('Boxplot chart complete dataset', async ({ page }) => {
+test('Bar chart complete dataset', async ({ page }) => {
   await page.goto('/embedded/platform')
 
   page.getByLabel(/Reports catalogue.*/i)
@@ -12,7 +12,29 @@ test('Boxplot chart complete dataset', async ({ page }) => {
 
   await expect(page.getByRole('heading', { name: /Box plot chart Examples/ })).toBeVisible()
 
-  await page.waitForTimeout(5000)
+  const chartCount = await page.getByRole('tabpanel').count()
+
+  await page.waitForFunction(expected => {
+    const charts = Object.values(window.debugCharts ?? {})
+    return charts.length === expected && charts.every(chart => chart.getDatasetMeta(0).data.length > 0)
+  }, chartCount)
+
+  const chartInfo = await page.evaluate(() => {
+    return Object.entries(window.debugCharts ?? {}).map(([id, chart]) => ({
+      id,
+      labels: chart.data.labels,
+      datasets: chart.data.datasets,
+      metaElements: chart.getDatasetMeta(0).data.length,
+      width: chart.width,
+      height: chart.height,
+    }))
+  })
+  const preRenderChartData = await page.evaluate(() => {
+    return window.chartData
+  })
+
+  console.log(JSON.stringify(chartInfo, null, 2))
+  console.log(JSON.stringify(preRenderChartData, null, 2))
 
   await takeScreenshotsOfAllCharts(page)
 })

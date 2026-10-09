@@ -89,6 +89,13 @@ class ChartVisualisation extends DprClientClass {
       },
       options: {
         ...config,
+        animation: {
+          duration: 0,
+          onComplete: () => {
+            window.chartsReady ??= new Set<string>()
+            window.chartsReady.add(this.id)
+          },
+        },
         ...(options && options),
         ...(hoverEvent && hoverEvent),
         plugins: {

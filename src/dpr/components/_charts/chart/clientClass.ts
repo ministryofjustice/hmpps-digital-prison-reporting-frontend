@@ -3,6 +3,7 @@ import Chart, { ChartConfiguration, ChartType } from 'chart.js/auto'
 import { MatrixController, MatrixElement } from 'chartjs-chart-matrix'
 import ChartDataLabels from 'chartjs-plugin-datalabels'
 import { DprClientClass } from '../../../DprClientClass'
+import { BoxPlotController, BoxAndWiskers } from '@sgratzl/chartjs-chart-boxplot'
 
 class ChartVisualisation extends DprClientClass {
   chartContext: HTMLCanvasElement | null = null
@@ -63,10 +64,24 @@ class ChartVisualisation extends DprClientClass {
       Chart.defaults.font.size = 12
       Chart.register(ChartDataLabels)
       Chart.register(MatrixController, MatrixElement)
+      Chart.register(BoxPlotController, BoxAndWiskers)
       Chart.defaults.datasets.bar.categoryPercentage = 0.95
-      this.chart = new Chart(this.chartContext as HTMLCanvasElement, chartData)
+
+      this.chart = this.generateChart(chartData)
       this.initChartEvents()
     })
+  }
+
+  generateChart(chartData: ChartConfiguration) {
+    const chart = new Chart(this.chartContext as HTMLCanvasElement, chartData)
+
+    window.chartData ??= {}
+    window.chartData[this.id] = chartData
+
+    window.debugCharts ??= {}
+    window.debugCharts[this.id] = chart
+
+    return chart
   }
 
   generateChartData(settings: Record<string, any>): ChartConfiguration {
@@ -81,6 +96,14 @@ class ChartVisualisation extends DprClientClass {
       },
       options: {
         ...config,
+        animation: {
+          duration: 0,
+          onComplete: () => {
+            window.chartsReady ??= new Set<string>()
+            window.chartsReady.add(this.id)
+            console.log(window.chartsReady)
+          },
+        },
         ...(options && options),
         ...(hoverEvent && hoverEvent),
         plugins: {
@@ -108,11 +131,26 @@ class ChartVisualisation extends DprClientClass {
     })
   }
 
-  setHoverValue({ label, value, legend, ctx }: { label: string; value: string; legend: string | undefined; ctx: any }) {
+  setHoverValue({
+    label,
+    value,
+    legend,
+    ctx,
+  }: {
+    label: string
+    value: string | string[]
+    legend: string | undefined
+    ctx: any
+  }) {
     if (ctx.tooltipDetailsEl) {
       ctx.tooltipDetailsEl.style.display = 'block'
       ctx.labelElement.innerHTML = ctx.singleDataset ? `${label}` : `${legend}: ${label}`
-      ctx.valueElement.innerHTML = `${value}`
+
+      if (Array.isArray(value)) {
+        ctx.valueElement.innerHTML = `<div class="dpr-headline--box-plot">${value.join('<br>')}</div>`
+      } else {
+        ctx.valueElement.innerHTML = `${value}`
+      }
     }
     if (ctx.headlineValuesEl) {
       ctx.headlineValuesEl.style.display = 'none'

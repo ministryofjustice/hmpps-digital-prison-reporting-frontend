@@ -28,6 +28,7 @@ import {
   scorecardsCompleteDatasetMock,
   scorecardsCompleteDatasetNoTsMock,
   scorecardsInvalidVisDefinitionsMock,
+  boxPlotMock,
 } from '@networkMocks/dashboard/definitions/visualisations/mocks'
 
 import {
@@ -40,10 +41,6 @@ import {
 } from '@networkMocks/dashboard/definitions/feature-testing/mocks'
 
 import {
-  dashboardResultCompleteBadDataDuplicatesMock,
-  dashboardResultCompleteBadDataMock,
-} from '@networkMocks/dashboard/data/bad-data/mocks'
-import {
   dashboardResultCompleteDataMock,
   dashboardResultCompleteDataMockAnnually,
   dashboardResultCompleteDataMockDaily,
@@ -51,31 +48,40 @@ import {
   dashboardResultCompleteDataNoTsMock,
   dashboardResultCompleteDataSyncMock,
 } from '@networkMocks/dashboard/data/complete-data/mocks'
+
+import {
+  dashboardResultPartialDataHistoricMock,
+  dashboardResultPartialDataMock,
+} from '@networkMocks/dashboard/data/partial-data/mocks'
+
+import {
+  dashboardResultCompleteBadDataMock,
+  dashboardResultCompleteBadDataDuplicatesMock,
+} from '@networkMocks/dashboard/data/bad-data/mocks'
+
 import {
   dashboardResultEmptyDataSyncMock,
   dashboardResultMissingFirstRowDataSyncMock,
   dashboardResultUndefinedMock,
 } from '@networkMocks/dashboard/data/empty-data/mocks'
+
 import {
-  dashboardResultPartialDataHistoricMock,
-  dashboardResultPartialDataMock,
-} from '@networkMocks/dashboard/data/partial-data/mocks'
-import {
-  getAsyncReportResultMockParentChildChild1404Mock,
-  getAsyncReportResultMockParentChildChild1Mock,
-  getAsyncReportResultMockParentChildChild1NoDataMock,
-  getAsyncReportResultMockParentChildChild2404Mock,
-  getAsyncReportResultMockParentChildChild2Mock,
-  getAsyncReportResultMockParentChildChild2NoDataMock,
-  getAsyncReportResultMockParentChildParent404Mock,
-  getAsyncReportResultMockParentChildParentMock,
-  getAsyncReportResultMockParentChildParentNoDataMock,
   getDashboardStatusFinishedMock,
   getDashboardStatusStartedMock,
-  parentChildStatusChild1FailedMock,
   parentChildStatusChild1FinishedMock,
   parentChildStatusChild2FailedMock,
   parentChildStatusChild2FinishedMock,
+  getAsyncReportResultMockParentChildParentMock,
+  getAsyncReportResultMockParentChildChild1Mock,
+  getAsyncReportResultMockParentChildChild1NoDataMock,
+  getAsyncReportResultMockParentChildChild2Mock,
+  getAsyncReportResultMockParentChildChild2404Mock,
+  getAsyncReportResultMockParentChildParent404Mock,
+  getAsyncReportResultMockParentChildChild1404Mock,
+  parentChildStatusChild1FailedMock,
+  getAsyncReportResultMockParentChildChild2NoDataMock,
+  getAsyncReportResultMockParentChildParentNoDataMock,
+  getAsyncReportResultMockBoxPlotMock,
   parentChildStatusParentFailedMock,
   parentChildStatusParentFinishedMock,
   requestAsyncDashboardMock,
@@ -137,6 +143,10 @@ const mixedChartsDefinitionStubs = {
   stubMixedDashboardPartialDataHistoric: () => stubFor(mixedPartialDatasetHistoricMock),
 }
 
+const boxPlotChartsDefinitionStubs = {
+  stubDefinitionBoxPlotDashboard: () => stubFor(boxPlotMock),
+}
+
 const definitionStubs = {
   stubTestDashboard8: () => stubFor(featureFlagDashboardMock),
   stubTestDashboardWithLink: () => stubFor(dashboardWithLinksMock),
@@ -151,6 +161,7 @@ const definitionStubs = {
   ...lineTimeseriesDefinitionStubs,
   ...lineDefinitionStubs,
   ...mixedChartsDefinitionStubs,
+  ...boxPlotChartsDefinitionStubs,
   ...matrixDefinitionStubs,
 }
 
@@ -170,25 +181,27 @@ const requestStubs = {
 
 // RESULTS
 const resultsStubs = {
+  // Complete data stubs
   stubDashboardResultCompleteDataDaily: () => stubFor(dashboardResultCompleteDataMockDaily),
   stubDashboardResultCompleteDataMonthly: () => stubFor(dashboardResultCompleteDataMockMonthly),
   stubDashboardResultCompleteDataAnnually: () => stubFor(dashboardResultCompleteDataMockAnnually),
   stubDashboardResultCompleteData: () => stubFor(dashboardResultCompleteDataMock),
   stubDashboardResultCompleteDataSync: () => stubFor(dashboardResultCompleteDataSyncMock),
 
+  // Partial data stubs
   stubDashboardResultPartialData: () => stubFor(dashboardResultPartialDataMock),
   stubDashboardResultPartialDataHistoric: () => stubFor(dashboardResultPartialDataHistoricMock),
 
-  stubDashboardResultUndefinedData: () => stubFor(dashboardResultUndefinedMock),
-  stubDashboardResultEmptyData: () => stubFor(dashboardResultEmptyDataSyncMock),
-
   stubDashboardResultCompleteDataNoTs: () => stubFor(dashboardResultCompleteDataNoTsMock),
 
+  // Bad data stubs
+  stubDashboardResultEmptyData: () => stubFor(dashboardResultEmptyDataSyncMock),
+  stubDashboardResultUndefinedData: () => stubFor(dashboardResultUndefinedMock),
   stubDashboardResultCompleteBadData: () => stubFor(dashboardResultCompleteBadDataMock),
   stubDashboardResultCompleteBadDataDuplicates: () => stubFor(dashboardResultCompleteBadDataDuplicatesMock),
-
   stubDashboardResultMissingFirstRowDataSync: () => stubFor(dashboardResultMissingFirstRowDataSyncMock),
 
+  // Parent Child data stubs
   stubDashboardResultParentChildParent: () => stubFor(getAsyncReportResultMockParentChildParentMock),
   stubDashboardResultParentChildParentNoData: () => stubFor(getAsyncReportResultMockParentChildParentNoDataMock),
   stubDashboardResultParentChildParent404: () => stubFor(getAsyncReportResultMockParentChildParent404Mock),
@@ -198,6 +211,9 @@ const resultsStubs = {
   stubDashboardResultParentChildChild2: () => stubFor(getAsyncReportResultMockParentChildChild2Mock),
   stubDashboardResultParentChildChild2NoData: () => stubFor(getAsyncReportResultMockParentChildChild2NoDataMock),
   stubDashboardResultParentChildChild2404: () => stubFor(getAsyncReportResultMockParentChildChild2404Mock),
+
+  // Boxplot data stubs
+  stubDashboardResultBoxPlotData: () => stubFor(getAsyncReportResultMockBoxPlotMock),
 }
 
 const stubs = {

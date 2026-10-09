@@ -14,6 +14,7 @@ const {
   mockScorecardGroupMetricOneByEstablishment,
   mockTargetScorecardDefinitionMetricThree,
   mockMetricOneBarChartList,
+  mockMetricOneLineChartTimeseries
 } = require('../data-quality/visualisations')
 const { lists } = require('../examples/visualisations')
 
@@ -68,12 +69,12 @@ const testingDashboard1 = {
         mockScorecardGroupMetricOneByEstablishment,
       ],
     },
-    // {
-    //   id: 'test-section-7',
-    //   display: 'Section 7 - Timeseries charts',
-    //   description: 'Section 7 description - Testing timeseries charts',
-    //   visualisations: [mockMetricOneLineChartTimeseries],
-    // },
+    {
+      id: 'test-section-7',
+      display: 'Section 7 - Timeseries charts',
+      description: 'Section 7 description - Testing timeseries charts',
+      visualisations: [mockMetricOneLineChartTimeseries],
+    },
     {
       id: 'all-data',
       display: 'All Data',

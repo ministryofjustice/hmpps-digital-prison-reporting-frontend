@@ -15,7 +15,7 @@ export default class MatrixChartVisualisation extends ChartVisualisation {
     this.setupCanvas()
     this.settings = this.initSettings()
     this.chartData = this.generateChartData(this.settings)
-    this.initChart(this.chartData)
+    this.initChart(this.chartData as ChartConfiguration<'matrix'>)
   }
 
   initSettings() {

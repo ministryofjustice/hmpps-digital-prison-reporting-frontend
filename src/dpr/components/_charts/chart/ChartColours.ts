@@ -42,4 +42,12 @@ export default class ChartColoursHelper {
       borderColor: colour,
     }
   }
+
+  setBoxPlotColourStyles = (datasetIndex: number) => {
+    const colour = this.getHexPallette()[datasetIndex % this.pallette.length]
+    return {
+      backgroundColor: `${colour}80`, // 60% opacity
+      borderColor: colour,
+    }
+  }
 }

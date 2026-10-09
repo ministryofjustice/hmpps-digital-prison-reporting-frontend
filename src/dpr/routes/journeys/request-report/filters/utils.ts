@@ -2,7 +2,7 @@
 import { NextFunction, Request, Response } from 'express'
 
 // Utils
-import { setupSubscriptionConfig } from 'src/dpr/components/subscription/utils'
+import { setupSubscriptionConfig } from '../../../../components/subscription/utils'
 import { buildFilterData, buildSortData } from '../../../../components/_async/async-filters-form/utils'
 import { buildMasterSections } from '../../../../components/_dashboards/dashboard-section/utils'
 import { getRequestFilters } from '../../../../components/_filters/utils'

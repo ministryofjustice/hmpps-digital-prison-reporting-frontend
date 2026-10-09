@@ -50,18 +50,21 @@ export const createDashboardSections = (
               .build()
             break
 
+          case DashboardVisualisationType.BOX_PLOT:
           case DashboardVisualisationType.BAR:
           case DashboardVisualisationType.LINE:
           case DashboardVisualisationType.DONUT: {
             chartData = ChartUtils.createChart(visDefinition, dashboardDataForVis, type)
             break
           }
+
           case DashboardVisualisationType.MATRIX_TIMESERIES:
           case DashboardVisualisationType.BAR_TIMESERIES:
           case DashboardVisualisationType.LINE_TIMESERIES: {
             chartData = ChartUtils.createTimeseriesCharts(visDefinition, dashboardDataForVis, type, query, partialDate)
             break
           }
+
           default:
             break
         }

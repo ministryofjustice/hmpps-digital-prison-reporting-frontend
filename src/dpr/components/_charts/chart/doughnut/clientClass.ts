@@ -14,7 +14,7 @@ class DoughnutChartVisualisation extends ChartVisualisation {
     this.setupCanvas()
     this.settings = this.initSettings()
     this.chartData = this.generateChartData(this.settings)
-    this.initChart(this.chartData)
+    this.initChart(this.chartData as ChartConfiguration<'doughnut'>)
   }
 
   initSettings() {
@@ -94,8 +94,8 @@ class DoughnutChartVisualisation extends ChartVisualisation {
       callbacks: {
         title(context: TooltipItem<'doughnut'>[]) {
           const { label, dataset } = context[0]
-          const { label: establishmentId } = dataset
-          const title = ctx.singleDataset ? `${label}` : `${establishmentId}: ${label}`
+          const { label: datasetLabel } = dataset
+          const title = ctx.singleDataset ? `${label}` : `${datasetLabel}: ${label}`
           return title
         },
         label(context: TooltipItem<'doughnut'>) {

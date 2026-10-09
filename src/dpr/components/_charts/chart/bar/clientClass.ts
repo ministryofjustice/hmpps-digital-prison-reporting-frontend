@@ -16,7 +16,7 @@ class BarChartVisualisation extends ChartVisualisation {
     this.setupCanvas()
     this.settings = this.initSettings()
     this.chartData = this.generateChartData(this.settings)
-    this.initChart(this.chartData)
+    this.initChart(this.chartData as ChartConfiguration<'bar'>)
   }
 
   initSettings() {
@@ -32,8 +32,8 @@ class BarChartVisualisation extends ChartVisualisation {
       callbacks: {
         title(context: TooltipItem<'bar'>[]) {
           const { label, dataset } = context[0]
-          const { label: establishmentId } = dataset
-          const title = ctx.singleDataset ? `${label}` : `${establishmentId}: ${label}`
+          const { label: datesetLabel } = dataset
+          const title = ctx.singleDataset ? `${label}` : `${datesetLabel}: ${label}`
           return title
         },
         label(context: TooltipItem<'bar'>) {

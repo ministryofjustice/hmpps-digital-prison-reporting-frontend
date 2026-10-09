@@ -73,7 +73,6 @@ const completeDatasetVisualisationIds = [
   ...doughnutChartDefs,
   ...lineTimeseriesDefs,
   ...lineDefs,
-  ...boxPlotDefs,
   mixedDefinition,
 ]
 

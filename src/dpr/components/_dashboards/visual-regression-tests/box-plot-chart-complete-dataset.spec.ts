@@ -12,6 +12,13 @@ test('Bar chart complete dataset', async ({ page }) => {
 
   await expect(page.getByRole('heading', { name: /Box plot chart Examples/ })).toBeVisible()
 
+  const chartCount = await page.getByRole('tabpanel').count()
+
+  await page.waitForFunction(expected => {
+    const charts = Object.values(window.debugCharts ?? {})
+    return charts.length === expected
+  }, chartCount)
+
   const chartInfo = await page.evaluate(() => {
     return Object.entries(window.debugCharts ?? {}).map(([id, chart]) => ({
       id,

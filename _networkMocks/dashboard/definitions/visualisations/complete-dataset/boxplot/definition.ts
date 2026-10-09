@@ -18,7 +18,7 @@ export const definition: components['schemas']['DashboardDefinition'] = {
       display: 'Basic box plot charts - grouped',
       description: 'A set of simple box plot charts using grouped data',
       visualisations: [
-        // BoxPlotChart.boxBlotGrouped1,
+        BoxPlotChart.boxBlotGrouped1,
         // BoxPlotChart.boxBlotGrouped2,
         // BoxPlotChart.boxBlotGrouped3,
         // BoxPlotChart.boxBlotGrouped4,

@@ -20,7 +20,7 @@ export const definition: components['schemas']['DashboardDefinition'] = {
       visualisations: [
         BoxPlotChart.boxBlotGrouped1,
         BoxPlotChart.boxBlotGrouped2,
-        // BoxPlotChart.boxBlotGrouped3,
+        BoxPlotChart.boxBlotGrouped3,
         // BoxPlotChart.boxBlotGrouped4,
       ],
     },

@@ -37,6 +37,6 @@ declare global {
   interface Window {
     chartsReady?: Set<string>
     debugCharts?: Record<string, Chart>
-    chartData: ChartConfiguration
+    chartData: Record<string, ChartConfiguration>
   }
 }

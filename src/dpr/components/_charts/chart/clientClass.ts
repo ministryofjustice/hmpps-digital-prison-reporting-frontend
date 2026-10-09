@@ -74,6 +74,12 @@ class ChartVisualisation extends DprClientClass {
 
   generateChart(chartData: ChartConfiguration) {
     const chart = new Chart(this.chartContext as HTMLCanvasElement, chartData)
+
+    window.chartData[this.id] = chartData
+
+    window.debugCharts ??= {}
+    window.debugCharts[this.id] = chart
+
     return chart
   }
 

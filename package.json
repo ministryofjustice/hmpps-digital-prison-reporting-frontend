@@ -148,7 +148,7 @@
     "chartjs-chart-matrix": "^3.0.0",
     "chartjs-plugin-datalabels": "^2.2.0",
     "connect-flash": "^0.1.1",
-    "connect-redis": "^9.0.0",
+    "connect-redis": "^10.0.0",
     "dayjs": "^1.11.21",
     "express": "^5.2.1",
     "express-session": "^1.19.0",

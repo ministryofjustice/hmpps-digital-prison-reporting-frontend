@@ -60,7 +60,7 @@ Below you can find the changes included in each release.
 
 ## 9.0.0
 
-- Removed all references to `dataProductDefinitionPath`.
+- Removed all references to `dataProductDefinitionsPath`.
 
 ## 8.7.0
 

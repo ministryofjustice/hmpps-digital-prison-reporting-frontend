@@ -1,294 +1,276 @@
 // @ts-nocheck
 const mockBarChartData = [
   {
-    id: 'bar-chart-1',
-    data: {
-      details: {
-        meta: [
+    "id": "bar-data-quality-has-MetricOne",
+    "title": "MetricOne values",
+    "description": "",
+    "type": "bar",
+    "data": {
+      "details": {
+        "meta": [],
+        "headlines": [
           {
-            label: 'Data for Period',
-            value: '6th Aug 2024 - 6th Sept 2024',
-          },
-          {
-            label: 'Source data refreshed',
-            value: 'Friday, 6 September 2024',
-          },
-        ],
-        headlines: [{ label: 'Total has MetricOne', value: 2629 }],
+            "label": "Total has metricone",
+            "value": 339
+          }
+        ]
       },
-      table: {
-        head: [{ text: 'Establishment ID' }, { text: 'Has MetricOne' }, { text: 'Has no MetricOne' }],
-        rows: [
-          [{ text: 'ABC' }, { text: 775 }, { text: 696 }],
-          [{ text: 'GHI' }, { text: 655 }, { text: 456 }],
-          [{ text: 'DEF' }, { text: 660 }, { text: 574 }],
-          [{ text: 'JKL' }, { text: 539 }, { text: 589 }],
-        ],
-      },
-      chart: {
-        type: 'bar',
-        data: {
-          labels: ['Has MetricOne', 'Has no MetricOne'],
-          datasets: [
-            { label: 'ABC', data: [775, 696], total: 1471 },
-            { label: 'GHI', data: [655, 456], total: 1111 },
-            { label: 'DEF', data: [660, 574], total: 1234 },
-            { label: 'JKL', data: [539, 589], total: 1128 },
+      "tables": [
+        {
+          "head": [
+            {
+              "text": "Establishment ID"
+            },
+            {
+              "text": "Has MetricOne"
+            },
+            {
+              "text": "No MetricOne"
+            }
           ],
+          "rows": [
+            [
+              {
+                "text": "ABC"
+              },
+              {
+                "text": 22
+              },
+              {
+                "text": 47
+              }
+            ],
+            [
+              {
+                "text": "ABC"
+              },
+              {
+                "text": 87
+              },
+              {
+                "text": 64
+              }
+            ],
+            [
+              {
+                "text": "ABC"
+              },
+              {
+                "text": 62
+              },
+              {
+                "text": 65
+              }
+            ],
+            [
+              {
+                "text": "ABC"
+              },
+              {
+                "text": 31
+              },
+              {
+                "text": 86
+              }
+            ],
+            [
+              {
+                "text": "ABC"
+              },
+              {
+                "text": 57
+              },
+              {
+                "text": 27
+              }
+            ],
+            [
+              {
+                "text": "ABC"
+              },
+              {
+                "text": 80
+              },
+              {
+                "text": 63
+              }
+            ]
+          ]
+        }
+      ],
+      "chart": {
+        "type": "bar",
+        "options": {
+          "height": 5,
+          "timeseries": false
         },
-      },
+        "data": {
+          "labels": [
+            "Has MetricOne",
+            "No MetricOne"
+          ],
+          "datasets": [
+            {
+              "label": "ABC",
+              "data": [
+                22,
+                47
+              ],
+              "total": 69,
+              "backgroundColor": "#5694ca",
+              "borderColor": "#5694ca",
+              "borderWidth": [
+                0,
+                0
+              ],
+              "datalabels": {
+                "align": "center",
+                "anchor": "bottom"
+              }
+            },
+            {
+              "label": "ABC",
+              "data": [
+                87,
+                64
+              ],
+              "total": 151,
+              "backgroundColor": "#912b88",
+              "borderColor": "#912b88",
+              "borderWidth": [
+                0,
+                0
+              ],
+              "datalabels": {
+                "align": "center",
+                "anchor": "bottom"
+              }
+            },
+            {
+              "label": "ABC",
+              "data": [
+                62,
+                65
+              ],
+              "total": 127,
+              "backgroundColor": "#00703c",
+              "borderColor": "#00703c",
+              "borderWidth": [
+                0,
+                0
+              ],
+              "datalabels": {
+                "align": "center",
+                "anchor": "bottom"
+              }
+            },
+            {
+              "label": "ABC",
+              "data": [
+                31,
+                86
+              ],
+              "total": 117,
+              "backgroundColor": "#003078",
+              "borderColor": "#003078",
+              "borderWidth": [
+                0,
+                0
+              ],
+              "datalabels": {
+                "align": "center",
+                "anchor": "bottom"
+              }
+            },
+            {
+              "label": "ABC",
+              "data": [
+                57,
+                27
+              ],
+              "total": 84,
+              "backgroundColor": "#f47738",
+              "borderColor": "#f47738",
+              "borderWidth": [
+                0,
+                0
+              ],
+              "datalabels": {
+                "align": "center",
+                "anchor": "bottom"
+              }
+            },
+            {
+              "label": "ABC",
+              "data": [
+                80,
+                63
+              ],
+              "total": 143,
+              "backgroundColor": "#28a197",
+              "borderColor": "#28a197",
+              "borderWidth": [
+                0,
+                0
+              ],
+              "datalabels": {
+                "align": "center",
+                "anchor": "bottom"
+              }
+            }
+          ],
+          "config": {
+            "responsive": true,
+            "maintainAspectRatio": false,
+            "animation": {
+              "duration": 0
+            },
+            "hover": {
+              "animationDuration": 0
+            },
+            "plugins": {
+              "legend": {
+                "position": "bottom"
+              },
+              "tooltip": {
+                "backgroundColor": "#FFF",
+                "bodyColor": "#000",
+                "titleFont": {
+                  "size": 16
+                },
+                "bodyFont": {
+                  "size": 16
+                },
+                "titleColor": "#000",
+                "displayColors": false,
+                "borderWidth": 1,
+                "borderColor": "#b1b4b6",
+                "cornerRadius": 0,
+                "padding": 20,
+                "footerFont": {
+                  "weight": "bold"
+                },
+                "animation": {
+                  "duration": 0
+                }
+              }
+            },
+            "scales": {
+              "x": {},
+              "y": {
+                "title": {
+                  "display": true,
+                  "text": "Total"
+                }
+              }
+            },
+            "indexAxis": "x"
+          }
+        }
+      }
     },
-  },
-  // {
-  //   id: 'bar-chart-1',
-  //   title: 'Prisoners favourite colours',
-  //   description: 'Prisoners favourite colours',
-  //   details: {
-  //     headlines: [],
-  //     meta: [
-  //       {
-  //         label: 'Data for Period',
-  //         value: '6th Aug 2024 - 6th Sept 2024',
-  //       },
-  //       {
-  //         label: 'Source data refreshed',
-  //         value: 'Friday, 6 September 2024',
-  //       },
-  //     ],
-  //   },
-  //   data: {
-  //     chart: [
-  //       {
-  //         type: 'bar',
-  //         unit: 'number',
-  //         data: {
-  //           labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-  //           datasets: [
-  //             {
-  //               label: 'No of prisoners',
-  //               data: [12, 19, 3, 5, 2, 10],
-  //               total: [12, 19, 3, 5, 2, 10].reduce((acc, val) => acc + val, 0),
-  //             },
-  //           ],
-  //           axis: 'x',
-  //         },
-  //       },
-  //     ],
-  //     table: {
-  //       head: [{ text: 'Colours' }, { text: 'No of prisoners' }],
-  //       rows: [
-  //         [{ text: 'Red' }, { text: '12' }],
-  //         [{ text: 'Blue' }, { text: '19' }],
-  //         [{ text: 'Yellow' }, { text: '3' }],
-  //         [{ text: 'Green' }, { text: '5' }],
-  //         [{ text: 'Purple' }, { text: '2' }],
-  //         [{ text: 'Orange' }, { text: '10' }],
-  //       ],
-  //     },
-  //   },
-  // },
-  // {
-  //   id: 'bar-chart-2',
-  //   title: 'Prisoners and Staff favourite colours',
-  //   description: 'Prisoners and Staff favourite colours',
-  //   details: {
-  //     headlines: [],
-  //     meta: [
-  //       {
-  //         label: 'Data for Period',
-  //         value: '6th Aug 2024 - 6th Sept 2024',
-  //       },
-  //       {
-  //         label: 'Source data refreshed',
-  //         value: 'Friday, 6 September 2024',
-  //       },
-  //     ],
-  //   },
-  //   data: {
-  //     chart: [
-  //       {
-  //         type: 'bar',
-  //         unit: 'number',
-  //         data: {
-  //           labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-  //           datasets: [
-  //             {
-  //               label: 'No of prisoners',
-  //               data: [12, 19, 3, 5, 2, 10],
-  //               total: [12, 19, 3, 5, 2, 10].reduce((acc, val) => acc + val, 0),
-  //             },
-  //             {
-  //               label: 'No of Staff',
-  //               data: [17, 10, 6, 9, 6, 8],
-  //               total: [17, 10, 6, 9, 6, 8].reduce((acc, val) => acc + val, 0),
-  //             },
-  //           ],
-  //           axis: 'x',
-  //         },
-  //       },
-  //     ],
-  //     table: {
-  //       head: [{ text: 'Colours' }, { text: 'No of prisoners' }, { text: 'No of Staff' }],
-  //       rows: [
-  //         [{ text: 'Red' }, { text: '12' }, { text: '17' }],
-  //         [{ text: 'Blue' }, { text: '19' }, { text: '10' }],
-  //         [{ text: 'Yellow' }, { text: '3' }, { text: '6' }],
-  //         [{ text: 'Green' }, { text: '5' }, { text: '9' }],
-  //         [{ text: 'Purple' }, { text: '2' }, { text: '6' }],
-  //         [{ text: 'Orange' }, { text: '10' }, { text: '8' }],
-  //       ],
-  //     },
-  //   },
-  // },
-  // {
-  //   id: 'bar-chart-3',
-  //   title: 'Prisoners and Staff favourite colours',
-  //   description: 'Prisoners and Staff favourite colours',
-  //   details: {
-  //     headlines: [],
-  //     meta: [
-  //       {
-  //         label: 'Data for Period',
-  //         value: '6th Aug 2024 - 6th Sept 2024',
-  //       },
-  //       {
-  //         label: 'Source data refreshed',
-  //         value: 'Friday, 6 September 2024',
-  //       },
-  //     ],
-  //   },
-  //   data: {
-  //     chart: [
-  //       {
-  //         type: 'bar',
-  //         unit: 'number',
-  //         data: {
-  //           labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-  //           datasets: [
-  //             {
-  //               label: 'No of Prisoners',
-  //               data: [12, 19, 3, 5, 2, 10],
-  //               total: [12, 19, 3, 5, 2, 10].reduce((acc, val) => acc + val, 0),
-  //             },
-  //             {
-  //               label: 'No of Staff',
-  //               data: [17, 10, 6, 9, 6, 8],
-  //               total: [17, 10, 6, 9, 6, 8].reduce((acc, val) => acc + val, 0),
-  //             },
-  //           ],
-  //           axis: 'x',
-  //           stacked: true,
-  //         },
-  //       },
-  //     ],
-  //     table: {
-  //       head: [{ text: 'Colours' }, { text: 'No of Prisoners' }, { text: 'No of Staff' }],
-  //       rows: [
-  //         [{ text: 'Red' }, { text: '12' }, { text: '17' }],
-  //         [{ text: 'Blue' }, { text: '19' }, { text: '10' }],
-  //         [{ text: 'Yellow' }, { text: '3' }, { text: '6' }],
-  //         [{ text: 'Green' }, { text: '5' }, { text: '9' }],
-  //         [{ text: 'Purple' }, { text: '2' }, { text: '6' }],
-  //         [{ text: 'Orange' }, { text: '10' }, { text: '8' }],
-  //       ],
-  //     },
-  //   },
-  // },
-  // {
-  //   id: 'bar-chart-4',
-  //   title: 'Prisoners and Staff and pets favourite colours',
-  //   description: 'Prisoners and Staff and pets favourite colours',
-  //   details: {
-  //     headlines: [],
-  //     meta: [
-  //       {
-  //         label: 'Data for Period',
-  //         value: '6th Aug 2024 - 6th Sept 2024',
-  //       },
-  //       {
-  //         label: 'Source data refreshed',
-  //         value: 'Friday, 6 September 2024',
-  //       },
-  //     ],
-  //   },
-  //   data: {
-  //     chart: [
-  //       {
-  //         type: 'bar',
-  //         unit: 'number',
-  //         data: {
-  //           labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-  //           datasets: [
-  //             {
-  //               label: 'No of Prisoners',
-  //               data: [12, 19, 3, 5, 2, 10],
-  //               total: [12, 19, 3, 5, 2, 10].reduce((acc, val) => acc + val, 0),
-  //             },
-  //             {
-  //               label: 'No of Staff',
-  //               data: [17, 10, 6, 9, 6, 8],
-  //               total: [17, 10, 6, 9, 6, 8].reduce((acc, val) => acc + val, 0),
-  //             },
-  //             {
-  //               label: 'No of Pets',
-  //               data: [17, 10, 6, 5, 12, 8],
-  //               total: [17, 10, 6, 5, 12, 8].reduce((acc, val) => acc + val, 0),
-  //             },
-  //           ],
-  //           axis: 'x',
-  //         },
-  //       },
-  //     ],
-  //     table: {
-  //       head: [{ text: 'Colours' }, { text: 'No of Prisoners' }, { text: 'No of Staff' }],
-  //       rows: [
-  //         [{ text: 'Red' }, { text: '12' }, { text: '17' }, { text: '17' }],
-  //         [{ text: 'Blue' }, { text: '19' }, { text: '10' }, { text: '10' }],
-  //         [{ text: 'Yellow' }, { text: '3' }, { text: '6' }, { text: '6' }],
-  //         [{ text: 'Green' }, { text: '5' }, { text: '9' }, { text: '5' }],
-  //         [{ text: 'Purple' }, { text: '2' }, { text: '6' }, { text: '12' }],
-  //         [{ text: 'Orange' }, { text: '10' }, { text: '8' }, { text: '8' }],
-  //       ],
-  //     },
-  //   },
-  // },
-  // {
-  //   id: 'bar-chart-5',
-  //   title: 'Prisoners and Staff and pets favourite colours',
-  //   description: 'Prisoners and Staff and pets favourite colours',
-  //   details: {
-  //     headlines: [],
-  //     meta: [
-  //       {
-  //         label: 'Data for Period',
-  //         value: '6th Aug 2024 - 6th Sept 2024',
-  //       },
-  //       {
-  //         label: 'Source data refreshed',
-  //         value: 'Friday, 6 September 2024',
-  //       },
-  //     ],
-  //   },
-  //   data: {
-  //     chart: [
-  //       {
-  //         type: 'bar',
-  //         unit: 'number',
-  //         timeseries: true,
-  //         data: {
-  //           labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-  //           datasets: [
-  //             {
-  //               label: 'Assaults',
-  //               data: [100, 130, 80, 60, 99, 50, 65, 100, 130, 80, 60, 99],
-  //               total: [100, 130, 80, 60, 99, 50, 65, 100, 130, 80, 60, 99].reduce((a, c) => a + c, 0),
-  //             },
-  //           ],
-  //         },
-  //       },
-  //     ],
-  //   },
-  // },
+    "isEnabled": true
+  }
 ]
 
 module.exports = mockBarChartData

@@ -14,15 +14,15 @@ const doughnutChartDashboard = {
       visualisations: [
         doughnut.dataQualityMetricOneDoughnut,
         doughnut.dataQualityMetricTwoDoughnut,
-        doughnut.dataQualityMetricThreeDoughnut,
-        doughnut.dataQualityMetricTwoMetricThreeDoughnut,
+        // doughnut.dataQualityMetricThreeDoughnut,
+        // doughnut.dataQualityMetricTwoMetricThreeDoughnut,
       ],
     },
-    {
-      id: 'section-3',
-      display: 'Dashboard dataset',
-      visualisations: [lists.fullDataset],
-    },
+    // {
+    //   id: 'section-3',
+    //   display: 'Dashboard dataset',
+    //   visualisations: [lists.fullDataset],
+    // },
   ],
   filterFields: [establishmentIdFilter, granularDateRangeFilter],
 }

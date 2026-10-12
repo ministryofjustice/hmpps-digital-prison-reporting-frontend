@@ -1,94 +1,129 @@
 // @ts-nocheck
 const mockPieChartData = [
   {
-    id: 'pie_chart-1',
-    data: {
-      details: {
-        headlines: [],
-        meta: [
+    "id": "doughnut-data-quality-has-MetricOne",
+    "title": "MetricOne values",
+    "description": "",
+    "type": "doughnut",
+    "data": {
+      "details": {
+        "meta": [],
+        "headlines": [
           {
-            label: 'Data for Period',
-            value: '6th Aug 2024 - 6th Sept 2024',
-          },
-          {
-            label: 'Source data refreshed',
-            value: 'Friday, 6 September 2024',
-          },
-        ],
+            "label": "Total has metricone",
+            "value": 37
+          }
+        ]
       },
-      chart: {
-        type: 'doughnut',
-        unit: 'number',
-        data: {
-          labels: ['Red Red RedRed Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-          datasets: [
+      "tables": [
+        {
+          "head": [
             {
-              label: 'No of prisoners',
-              data: [12, 19, 3, 5, 2, 10],
-              total: [12, 19, 3, 5, 2, 10].reduce((acc, val) => acc + val, 0),
+              "text": "Establishment ID"
             },
+            {
+              "text": "Has MetricOne"
+            },
+            {
+              "text": "No MetricOne"
+            }
           ],
-        },
-      },
-      table: {
-        head: [{ text: 'Colours' }, { text: 'No of prisoners' }],
-        rows: [
-          [{ text: 'Red' }, { text: '12' }],
-          [{ text: 'Blue' }, { text: '19' }],
-          [{ text: 'Yellow' }, { text: '3' }],
-          [{ text: 'Green' }, { text: '5' }],
-          [{ text: 'Purple' }, { text: '2' }],
-          [{ text: 'Orange' }, { text: '10' }],
-        ],
-      },
-    },
-  },
-  {
-    id: 'pie_chart-2',
-    data: {
-      details: {
-        headlines: [],
-        meta: [
-          {
-            label: 'Data for Period',
-            value: '6th Aug 2024 - 6th Sept 2024',
-          },
-          {
-            label: 'Source data refreshed',
-            value: 'Friday, 6 September 2024',
-          },
-        ],
-      },
-      chart: {
-        type: 'doughnut',
-        unit: 'number',
-        data: {
-          labels: ['Red', 'Blue', 'Yellow', 'Green'],
-          datasets: [
-            {
-              label: 'No of prisoners',
-              data: [12, 19, 3, 5],
-              total: [12, 19, 3, 5].reduce((acc, val) => acc + val, 0),
-            },
-            {
-              label: 'No of Staff',
-              data: [17, 10, 6, 9],
-              total: [17, 10, 6, 9].reduce((acc, val) => acc + val, 0),
-            },
+          "rows": [
+            [
+              {
+                "text": "ABC"
+              },
+              {
+                "text": 37
+              },
+              {
+                "text": 4
+              }
+            ]
+          ]
+        }
+      ],
+      "chart": {
+        "type": "doughnut",
+        "options": {},
+        "data": {
+          "labels": [
+            "Has MetricOne",
+            "No MetricOne"
           ],
-        },
-      },
-      table: {
-        head: [{ text: 'Colours' }, { text: 'No of prisoners' }, { text: 'No of Staff' }],
-        rows: [
-          [{ text: 'Red' }, { text: '12' }, { text: '17' }],
-          [{ text: 'Blue' }, { text: '19' }, { text: '10' }],
-          [{ text: 'Yellow' }, { text: '3' }, { text: '6' }],
-          [{ text: 'Green' }, { text: '5' }, { text: '9' }],
-        ],
-      },
+          "datasets": [
+            {
+              "label": "ABC",
+              "data": [
+                37,
+                4
+              ],
+              "total": 41,
+              "backgroundColor": [
+                "#5694ca",
+                "#912b88",
+                "#00703c",
+                "#003078",
+                "#f47738",
+                "#28a197",
+                "#5694ca",
+                "#912b88",
+                "#00703c",
+                "#003078",
+                "#f47738",
+                "#28a197"
+              ],
+              "borderColor": "#FFFFFF",
+              "hoverOffset": 4,
+              "datalabels": {
+                "anchor": "center",
+                "borderWidth": 0
+              }
+            }
+          ],
+          "config": {
+            "responsive": true,
+            "maintainAspectRatio": false,
+            "animation": {
+              "duration": 0
+            },
+            "hover": {
+              "animationDuration": 0
+            },
+            "plugins": {
+              "legend": {
+                "position": "bottom"
+              },
+              "tooltip": {
+                "backgroundColor": "#FFF",
+                "bodyColor": "#000",
+                "titleFont": {
+                  "size": 16
+                },
+                "bodyFont": {
+                  "size": 16
+                },
+                "titleColor": "#000",
+                "displayColors": false,
+                "borderWidth": 1,
+                "borderColor": "#b1b4b6",
+                "cornerRadius": 0,
+                "padding": 20,
+                "footerFont": {
+                  "weight": "bold"
+                },
+                "animation": {
+                  "duration": 0
+                }
+              }
+            },
+            "cutout": "50%"
+          }
+        }
+      }
     },
-  },
+    "isEnabled": true
+  }
 ]
 
 module.exports = mockPieChartData

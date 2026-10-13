@@ -55,7 +55,6 @@ export class BoxPlotChart extends Chart {
 
     const height = this.getCanvasHeight()
 
-    // Here is where I want to call it
     this.createStats()
 
     return {

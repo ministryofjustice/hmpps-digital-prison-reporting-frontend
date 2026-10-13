@@ -4,7 +4,7 @@ import {
   requestReportByNameAndDescription,
 } from '../../../../../../cypress-tests/cypressUtils'
 
-context('Dashboard visualisation: bar chart', () => {
+context('Dashboard visualisation: Boxplot chart', () => {
   const path = '/'
 
   describe('Complete data', () => {

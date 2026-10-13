@@ -3,7 +3,7 @@ import BoxPlotChartSchemas from './validate'
 
 export type BoxPlotDefinitionType = z.infer<typeof BoxPlotChartSchemas.BoxPlotSchema>
 export type BoxPlotDefinitionMeasure = z.infer<typeof BoxPlotChartSchemas.BoxPlotMeasureSchema>
-export type BarDefinitionOptions = z.infer<typeof BoxPlotChartSchemas.BoxPlotOptionsSchema>
+export type BoxPlotDefinitionOptions = z.infer<typeof BoxPlotChartSchemas.BoxPlotOptionsSchema>
 
 export interface BoxPlotStats {
   min: number

@@ -10,8 +10,8 @@ import Chart from '../Chart'
 import BoxPlotChartSchemas from './validate'
 import {
   BoxPlotDefinitionMeasure,
+  BoxPlotDefinitionOptions,
   BoxPlotDefinitionType,
-  BarDefinitionOptions,
   BoxPlotStats,
   BoxPlotStatsRow,
 } from './types'
@@ -23,7 +23,7 @@ export class BoxPlotChart extends Chart {
 
   private keys!: VisualisationDefinitionKey[]
 
-  private options: BarDefinitionOptions | undefined
+  private options: BoxPlotDefinitionOptions | undefined
 
   private barCount = 0
 

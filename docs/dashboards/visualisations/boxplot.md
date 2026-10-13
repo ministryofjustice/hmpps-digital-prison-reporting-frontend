@@ -78,7 +78,7 @@ option: {
 
 | Name         | Type    | Required | Description                                                    |
 | ------------ | ------- | -------- | -------------------------------------------------------------- |
-| `horizontal` | boolean | No       | Defines whether the bar chart should be rendered horizontally. |
+| `horizontal` | boolean | No       | Defines whether the chart should be rendered horizontally. |
 
 <hr class='dpr-docs-hr'/>
 

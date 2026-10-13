@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 import { requestCatalogueVariant, takeScreenshotsOfAllCharts } from './helpers/vrtHelpers.spec'
 
-test('Bar chart complete dataset', async ({ page }) => {
+test('Boxplot chart complete dataset', async ({ page }) => {
   await page.goto('/embedded/platform')
 
   page.getByLabel(/Reports catalogue.*/i)

@@ -2,6 +2,8 @@ Below you can find the changes included in each release.
 
 ## 9.6.0
 
+- "Filters" tags on requested reports in the "My reports" list now include the default applied interactive filters.
+
 ### Matrix charts
 
 - Support matrix charts with differing date formats

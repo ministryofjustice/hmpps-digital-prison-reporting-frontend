@@ -38,9 +38,9 @@ Use a line‑timeseries chart when helping users understand how something evolve
 
 Avoid using a `line‑timeseries` chart when:
 
-- The data isn’t related to time — use a standard line chart or another type entirely.
+- The data isn’t related to time - use a standard line chart or another type entirely.
 - Time intervals are inconsistent or categorical (e.g., “Phase 1, Phase 2”), which breaks the assumption of temporal continuity.
-- You need to compare single points in time rather than trends — a bar or column chart works better.
+- You need to compare single points in time rather than trends - a bar or column chart works better.
 - Your dataset has only a couple of timestamps, not enough to show a meaningful trend.
 - You’re dealing with non‑continuous or event‑based timelines, where a dot plot, scatter, or bar chart may be clearer.
 - Precision on individual values matters more than overall trend, as line charts can obscure exact readings.

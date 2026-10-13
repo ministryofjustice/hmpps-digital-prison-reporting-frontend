@@ -39,9 +39,9 @@ Heatmaps shine when the goal is to understand the shape or distribution of data 
 
 Avoid using a matrix/heatmap when:
 
-- Precise numerical values matter — colour is less accurate than explicit numbers or bars.
+- Precise numerical values matter - colour is less accurate than explicit numbers or bars.
 - Your dataset has very few data points, making the grid sparse and uninformative.
-- There is no clear second dimension — if you only have one variable, a bar or line chart is better.
+- There is no clear second dimension - if you only have one variable, a bar or line chart is better.
 - Your audience may struggle with colour interpretation (e.g. colour‑blindness concerns or inaccessible palettes).
 - Colours don't have a strong meaning tied to the data (e.g., random colours instead of a meaningful scale).
 - You need to emphasise ranking or order, which is harder to interpret through colour alone.

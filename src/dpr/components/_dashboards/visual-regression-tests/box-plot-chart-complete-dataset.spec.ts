@@ -12,12 +12,5 @@ test('Bar chart complete dataset', async ({ page }) => {
 
   await expect(page.getByRole('heading', { name: /Box plot chart Examples/ })).toBeVisible()
 
-  // const chartCount = await page.getByRole('tabpanel').count()
-
-  // await page.waitForFunction(expected => {
-  //   const charts = Object.values(window.debugCharts ?? {})
-  //   return charts.length === expected && charts.every(chart => chart.getDatasetMeta(0).data.length > 0)
-  // }, chartCount)
-
   await takeScreenshotsOfAllCharts(page)
 })

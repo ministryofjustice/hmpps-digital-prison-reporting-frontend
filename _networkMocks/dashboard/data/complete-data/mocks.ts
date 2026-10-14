@@ -14,7 +14,7 @@ const productIds = ['dashboard-visualisations', 'request-examples', 'feature-tes
 
 const dailyDefIds = ['matrix-examples_complete-data_daily', 'line-timeseries-visualisations-daily-complete-dataset']
 export const dashboardResultCompleteDataMockDaily = setupSimpleMock(
-  `/reports/(${productIds.join('|')})/dashboards/matrix-examples_complete-data_daily (${dailyDefIds.join('|')})/tables/tblId_[0-9]+/result`,
+  `/reports/(${productIds.join('|')})/dashboards/(${dailyDefIds.join('|')})/tables/tblId_[0-9]+/result`,
   completeDataSetDaily,
 )
 

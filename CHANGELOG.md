@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## 9.7.1
+
+- Matrix charts with daily granularity now ordered by day on the Y axis
+
 ## 9.7.0
 
 - New Dashboard Box plot chart type added to dashboards visualisation set.

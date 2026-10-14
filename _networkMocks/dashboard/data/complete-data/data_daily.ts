@@ -53,7 +53,7 @@ export const completeDataSetDaily = [
         raw: 521,
       },
       has_metric_two: {
-        raw: 232,
+        raw: null,
       },
       metric_two_is_missing: {
         raw: 160,
@@ -735,7 +735,7 @@ export const completeDataSetDaily = [
         raw: 708,
       },
       has_metric_two: {
-        raw: 172,
+        raw: null,
       },
       metric_two_is_missing: {
         raw: 468,

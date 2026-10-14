@@ -521,8 +521,8 @@ export const resolveGranularDateRangeDefaults = (
 export const getGranularityFromDateFormat = (dateValue: string): Granularity => {
   if (!dateValue || typeof dateValue !== 'string') return Granularity.NONE
 
-  // Daily: 24/01/24
-  if (dayjs(dateValue, 'DD/MM/YY', true).isValid()) {
+  // Daily: 2024-01-24
+  if (dayjs(dateValue, 'YYYY-MM-DD', true).isValid()) {
     return Granularity.DAILY
   }
 

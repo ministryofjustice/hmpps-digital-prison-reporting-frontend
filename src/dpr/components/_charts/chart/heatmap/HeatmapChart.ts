@@ -170,13 +170,22 @@ class HeatmapChart {
         }),
       ),
     ]
-    this.yLabels = [
+
+    const uniqueYLabels = [
       ...new Set(
         (<MatrixChartData[]>this.datasets[0].data).map(d => {
           return d.y
         }),
       ),
     ]
+
+    if (this.granularity === Granularity.DAILY) {
+      // ensures days are sorted from 1 to 31 on y axis
+      this.yLabels = uniqueYLabels.sort((a, b) => Number(a) - Number(b))
+    } else {
+      this.yLabels = uniqueYLabels
+    }
+
     const grid = {
       display: false,
       drawBorder: false,

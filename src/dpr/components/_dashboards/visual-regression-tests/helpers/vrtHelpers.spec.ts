@@ -1,4 +1,4 @@
-import type { Page } from '@playwright/test'
+import type { Page, PageAssertionsToHaveScreenshotOptions } from '@playwright/test'
 import { expect } from '@playwright/test'
 
 export const requestCatalogueVariant = async (page: Page, name: string | RegExp) => {
@@ -15,7 +15,10 @@ export const requestCatalogueVariant = async (page: Page, name: string | RegExp)
     .click()
 }
 
-export const takeScreenshotsOfAllCharts = async (page: Page, screenshotOptions: Record<string, unknown> = {}) => {
+export const takeScreenshotsOfAllCharts = async (
+  page: Page,
+  screenshotOptions: PageAssertionsToHaveScreenshotOptions = {},
+) => {
   const charts = page.getByRole('tabpanel')
   const count = await charts.count()
 

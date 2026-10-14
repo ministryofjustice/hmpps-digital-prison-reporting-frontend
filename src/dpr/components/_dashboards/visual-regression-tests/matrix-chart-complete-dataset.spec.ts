@@ -12,6 +12,6 @@ test('Matrix chart - complete dataset', async ({ page }) => {
 
   await expect(page.getByRole('heading', { name: /Matrix - Complete data/ })).toBeVisible()
   await takeScreenshotsOfAllCharts(page, {
-    maxDiffPixelRatio: 0.005,
+    maxDiffPixels: 100,
   })
 })

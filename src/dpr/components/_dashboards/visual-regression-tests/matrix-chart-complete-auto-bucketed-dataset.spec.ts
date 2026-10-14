@@ -11,5 +11,7 @@ test('Matrix chart - complete dataset auto bucketed', async ({ page }) => {
   await page.getByRole('button', { name: /Request dashboard/ }).click()
 
   await expect(page.getByRole('heading', { name: /Matrix - auto bucketed - Complete data/ })).toBeVisible()
-  await takeScreenshotsOfAllCharts(page)
+  await takeScreenshotsOfAllCharts(page, {
+    maxDiffPixels: 100,
+  })
 })

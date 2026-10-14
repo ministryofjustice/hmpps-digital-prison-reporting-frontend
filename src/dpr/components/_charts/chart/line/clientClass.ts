@@ -16,7 +16,7 @@ class LineChartVisualisation extends ChartVisualisation {
     this.settings = this.initSettings()
     this.chartData = this.generateChartData(this.settings)
     this.lastIndex = this.chartData.data?.labels ? this.chartData.data.labels.length - 1 : 0
-    this.initChart(this.chartData)
+    this.initChart(this.chartData as ChartConfiguration<'line'>)
   }
 
   initSettings() {

@@ -27,9 +27,9 @@ export default class ChartsController {
           href: '/components/dashboards/charts/matrix',
         },
         {
-          text: 'List',
-          description: 'List chart component examples',
-          href: '/components/dashboards/charts/list',
+          text: 'Boxplot',
+          description: 'Boxplot chart component examples',
+          href: '/components/dashboards/charts/boxplot',
         },
       ],
     })

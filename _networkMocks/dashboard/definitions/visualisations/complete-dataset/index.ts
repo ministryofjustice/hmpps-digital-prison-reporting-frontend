@@ -37,6 +37,9 @@ import { definition as doughnutChartsDefinition } from './doughnut/definition'
 import { definition as linetimeseriesChartsDefinition } from './line-timeseries/definition'
 import { definition as lineCompleteDefinition } from './line/definition'
 
+// Boxplot
+import { definition as boxPlotChartsDefinition } from './boxplot/definition'
+
 // mixed
 import { definition as mixedDefinition } from './mixed/definition'
 
@@ -59,6 +62,7 @@ const barChartDefs = [barChartsDefinition]
 const doughnutChartDefs = [doughnutChartsDefinition]
 const lineDefs = [lineCompleteDefinition]
 const lineTimeseriesDefs = [linetimeseriesChartsDefinition]
+const boxPlotDefs = [boxPlotChartsDefinition]
 
 const completeDatasetVisualisationIds = [
   ...lists,
@@ -75,6 +79,7 @@ const completeDatasetVisualisationIds = [
 export const allVisualisations: components['schemas']['DashboardDefinition'][] = [
   ...completeDatasetVisualisationIds,
   ...matrixParentChildDefs,
+  ...boxPlotDefs,
 ]
 
 export const visualisationIds: string[] = completeDatasetVisualisationIds.map(vis => {

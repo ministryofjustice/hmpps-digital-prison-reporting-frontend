@@ -41,6 +41,7 @@ import BarChartVisualisation from './components/_charts/chart/bar/clientClass'
 import DoughnutChartVisualisation from './components/_charts/chart/doughnut/clientClass'
 import MatrixChartVisualisation from './components/_charts/chart/heatmap/clientClass'
 import LineChartVisualisation from './components/_charts/chart/line/clientClass'
+import BoxPlotChartVisualisation from './components/_charts/chart/box-plot/clientClass'
 
 // Dashboards
 import ScoreCard from './components/_dashboards/scorecard/clientClass'
@@ -76,6 +77,7 @@ function initAll() {
     DoughnutChartVisualisation,
     LineChartVisualisation,
     MatrixChartVisualisation,
+    BoxPlotChartVisualisation,
     ScoreCard,
     ReportActions,
     DownloadMessage,

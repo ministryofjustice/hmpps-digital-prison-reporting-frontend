@@ -25,7 +25,7 @@ Choose a `bar` chart when:
 - Your data is categorical, not continuous (e.g., product types, regions, departments).
 - You want to compare values side‑by‑side across a small or moderate number of categories.
 - Exact comparisons matter, such as ranking or identifying the largest/smallest categories.
-- Category labels are long—bar charts handle text better than many other chart types.
+- Category labels are long-bar charts handle text better than many other chart types.
 - You have a single point in time, rather than values that change over time.
 
 Bar charts are especially effective when clarity and straightforward comparison are more important than showing trends or progression.
@@ -36,9 +36,9 @@ Bar charts are especially effective when clarity and straightforward comparison 
 
 Avoid using a `bar` chart when:
 
-- Your data is continuous, especially over time — use a line or line‑timeseries chart instead.
+- Your data is continuous, especially over time - use a line or line‑timeseries chart instead.
 - There are too many categories, which results in overcrowding or unreadable labels.
-- Your categories have a natural progression, like days or distances — a line chart may communicate patterns more effectively.
+- Your categories have a natural progression, like days or distances - a line chart may communicate patterns more effectively.
 - You need to show part‑to‑whole relationships, where pie or stacked charts are more appropriate (assuming limited categories).
 - The focus is on overall trends, not the comparison of categories.
 - Your values represent cumulative or flowing data, better suited to an area or line chart.

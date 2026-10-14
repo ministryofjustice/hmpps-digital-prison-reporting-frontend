@@ -10,6 +10,7 @@ const lineExamples = require('./definitions/examples/line')
 const doughnutExamples = require('./definitions/examples/doughnut')
 const matrixExamples = require('./definitions/examples/matrix/definition')
 const scorecardExamples = require('./definitions/examples/scorecards')
+const boxPlotExamples = require('./definitions/examples/box-plots')
 const chartExamples = require('./definitions/examples/charts')
 const testingDashboards = require('./definitions/test-dashboard')
 const parentChildDashboards = require('./definitions/parent-child')
@@ -94,6 +95,7 @@ module.exports = {
     barExamples.barChartStackedDashboard,
     doughnutExamples.doughnutChartDashboard,
     lineExamples.lineChartDashboard,
+    boxPlotExamples.boxPlotChartDashboard
   ],
   dataQuality: [
     barExamples.barChartDashboard,

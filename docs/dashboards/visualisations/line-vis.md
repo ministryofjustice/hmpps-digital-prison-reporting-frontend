@@ -38,9 +38,9 @@ Avoid using a `line` chart when:
 
 - Your data is categorical, such as names, departments, or discrete labels.
 - The values are unrelated or non‑continuous, making connecting them with a line misleading.
-- You need to compare individual values, not the relationship between them — a bar or column chart is clearer.
+- You need to compare individual values, not the relationship between them - a bar or column chart is clearer.
 - There are very few data points (e.g., 2–3); the line adds no meaningful shape or trend.
-- Your x‑axis is time‑based and you need time‑specific formatting, scaling, or handling — use a line‑timeseries chart instead.
+- Your x‑axis is time‑based and you need time‑specific formatting, scaling, or handling - use a line‑timeseries chart instead.
 - The data includes gaps or missing intervals, which can distort the interpretation of continuity.
 
 ### Note:

@@ -8,6 +8,7 @@ const scorecardGroups = require('./scorecard-groups')
 const bar = require('./bar')
 const doughnut = require('./doughnut')
 const line = require('./line')
+const boxPlots = require('./box-plots')
 
 module.exports = {
   bar,
@@ -19,4 +20,5 @@ module.exports = {
   scorecardGroups,
   matrix,
   line,
+  boxPlots
 }

@@ -37,6 +37,7 @@ export interface DashboardVisualisation {
 export interface DashboardVisualisationCardData {
   chart?: DashboardVisualisationData | undefined
   table?: MoJTable | undefined
+  tables?: MoJTable[] | undefined
   details?: ChartDetails | undefined
 }
 
@@ -60,9 +61,10 @@ export interface DashboardVisualisationDataValues {
   partialDate?: PartialDate | undefined
 }
 
+export type DashboardVisualisationDataSetData = number[] | number[][] | MatrixChartData[]
 export interface DashboardVisualisationDataSet {
   label: string
-  data: number[] | MatrixChartData[]
+  data: DashboardVisualisationDataSetData
   total?: number
 }
 
@@ -99,6 +101,7 @@ export enum DashboardVisualisationType {
   LINE_TIMESERIES = 'line-timeseries',
   SCORECARD = 'scorecard',
   SCORECARD_GROUP = 'scorecard-group',
+  BOX_PLOT = 'boxplot',
 }
 
 export type DashboardVisualisationOptions = ListDashboardVisualisationOptions | BucketDashboardVisualisationOptions

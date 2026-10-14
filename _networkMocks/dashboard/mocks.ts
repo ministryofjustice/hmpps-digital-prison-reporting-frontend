@@ -7,6 +7,7 @@ import {
 } from '@networkMocks/generateNetworkMock'
 import { RequestStatus } from 'src/dpr/types/UserReports'
 import { completeDataSet } from './data/complete-data/data'
+import { boxPlotMockData } from './data/box-plot-data/data'
 
 export const getDashboardStatusFinishedMock = setupSimpleMock(
   `/reports/${reportIdRegex}/dashboards/${reportIdRegex}/statements/exId_[0-9]+/status`,
@@ -143,6 +144,12 @@ export const getAsyncReportResultMockParentChildChild2404Mock = setupSimpleFaile
   },
 )
 
+// Boxplot data mock
+export const getAsyncReportResultMockBoxPlotMock = setupSimpleMock(
+  `/reports/dashboard-visualisations/dashboards/box-plot-chart-examples-dashboard/tables/tblId_${reportIdRegex}/result`,
+  boxPlotMockData,
+)
+
 export const mocks = [
   getDashboardStatusFinishedMock,
   requestAsyncDashboardMock,
@@ -154,4 +161,5 @@ export const mocks = [
   getAsyncReportResultMockParentChildParentMock,
   getAsyncReportResultMockParentChildChild1Mock,
   getAsyncReportResultMockParentChildChild2Mock,
+  getAsyncReportResultMockBoxPlotMock,
 ]

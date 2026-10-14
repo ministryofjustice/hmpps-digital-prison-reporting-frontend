@@ -151,7 +151,7 @@ class Chart {
   //  Styles
   // ----------------------------------------------------------------------------
 
-  private setStyles = (datasetIndex: number) => {
+  setStyles = (datasetIndex: number) => {
     return this.chartColoursHelper.setColourStyles(datasetIndex)
   }
 

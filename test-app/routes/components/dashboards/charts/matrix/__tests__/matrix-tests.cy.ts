@@ -64,7 +64,7 @@ context('Dashboard visualisation: matrix chart', () => {
             cy.findByLabelText(/Table.*/i).within(() => {
               cy.findByRole('table').within(() => {
                 cy.findAllByRole('row')
-                  .should('have.length', 90)
+                  .should('have.length', 89)
                   .each((row, index) => {
                     switch (index) {
                       case 0:

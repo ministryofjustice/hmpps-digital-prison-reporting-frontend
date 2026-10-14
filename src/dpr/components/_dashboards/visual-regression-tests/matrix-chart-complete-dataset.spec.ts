@@ -11,5 +11,7 @@ test('Matrix chart - complete dataset', async ({ page }) => {
   await page.getByRole('button', { name: /Request dashboard/ }).click()
 
   await expect(page.getByRole('heading', { name: /Matrix - Complete data/ })).toBeVisible()
-  await takeScreenshotsOfAllCharts(page)
+  await takeScreenshotsOfAllCharts(page, {
+    maxDiffPixelRatio: 0.005,
+  })
 })

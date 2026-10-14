@@ -15,7 +15,7 @@ export const requestCatalogueVariant = async (page: Page, name: string | RegExp)
     .click()
 }
 
-export const takeScreenshotsOfAllCharts = async (page: Page) => {
+export const takeScreenshotsOfAllCharts = async (page: Page, screenshotOptions: Record<string, unknown> = {}) => {
   const charts = page.getByRole('tabpanel')
   const count = await charts.count()
 
@@ -28,6 +28,7 @@ export const takeScreenshotsOfAllCharts = async (page: Page) => {
     await expect(chart).toHaveScreenshot(`chart-${i}.png`, {
       animations: 'disabled',
       maxDiffPixelRatio: 0.015,
+      ...screenshotOptions,
     })
 
     /* eslint-enable no-await-in-loop */

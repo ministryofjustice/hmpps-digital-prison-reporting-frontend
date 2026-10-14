@@ -2,7 +2,7 @@ Below you can find the changes included in each release.
 
 ## 9.7.0
 
-- New Dashabord Box plot chart type added to dashboards visualisation set.
+- New Dashboard Box plot chart type added to dashboards visualisation set.
 
 ## 9.6.0
 

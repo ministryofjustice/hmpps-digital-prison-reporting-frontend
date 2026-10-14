@@ -518,27 +518,6 @@ export const resolveGranularDateRangeDefaults = (
   return undefined
 }
 
-export const getGranularityFromDateFormat = (dateValue: string): Granularity => {
-  if (!dateValue || typeof dateValue !== 'string') return Granularity.NONE
-
-  // Daily: 24/01/24
-  if (dayjs(dateValue, 'DD/MM/YY', true).isValid()) {
-    return Granularity.DAILY
-  }
-
-  // Monthly: Jan 24
-  if (dayjs(dateValue, 'MMM YY', true).isValid()) {
-    return Granularity.MONTHLY
-  }
-
-  // Annually: 2024
-  if (dayjs(dateValue, 'YYYY', true).isValid()) {
-    return Granularity.ANNUALLY
-  }
-
-  return Granularity.NONE
-}
-
 export default {
   getFilterFromDefinition,
   setValueFromRequest,

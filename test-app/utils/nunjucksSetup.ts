@@ -4,7 +4,7 @@ import nunjucks from 'nunjucks'
 import * as pathModule from 'path'
 import setUpNunjucksFilters from '../../src/dpr/setUpNunjucksFilters'
 
-export default function nunjucksSetup(app: express.Express, path: pathModule.PlatformPath): nunjucks.Environment {
+export default function nunjucksSetup(app: express.Express, path: typeof pathModule): nunjucks.Environment {
   app.set('view engine', 'njk')
 
   let assetManifest: Record<string, string> = {}

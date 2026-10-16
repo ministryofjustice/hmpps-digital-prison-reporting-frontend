@@ -194,7 +194,7 @@
     "axe-core": "^4.12.0",
     "chokidar": "^3.6.0",
     "concurrently": "^10.0.3",
-    "cypress": "15.21.1",
+    "cypress": "16.1.1",
     "cypress-axe": "^1.6.0",
     "esbuild": "^0.28.1",
     "esbuild-plugin-clean": "^1.0.1",

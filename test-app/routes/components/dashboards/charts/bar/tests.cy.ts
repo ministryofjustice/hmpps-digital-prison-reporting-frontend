@@ -863,7 +863,7 @@ context('Dashboard visualisation: bar chart', () => {
       cy.findByRole('heading', { name: /Your report has failed to generate/ }).should('be.visible')
       cy.findAllByRole('paragraph')
         .eq(1)
-        .contains('Error: Schema validation: Dashboard Visualisation validation failed:')
+        .contains('Schema validation error: Dashboard Visualisation validation failed:')
       cy.findAllByRole('paragraph')
         .eq(2)
         .contains("Type: 'bar'. ID: 'invalid-y-axis-definition-bar'. Issues: X and Y axis must be defined in measure")

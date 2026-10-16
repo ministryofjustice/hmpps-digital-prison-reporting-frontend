@@ -1,5 +1,6 @@
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
+import { Granularity } from '../components/_inputs/granular-date-range/types'
 
 dayjs.extend(customParseFormat)
 
@@ -11,7 +12,12 @@ dayjs.extend(customParseFormat)
 
 export const UI_INPUT_FORMATS = ['D/M/YYYY', 'DD/MM/YYYY'] as const
 export const API_FORMAT = 'YYYY-MM-DD'
+export const API_MONTH_FORMAT = 'YYYY-MM'
+export const API_YEAR_FORMAT = 'YYYY'
+
 export const UI_OUTPUT_FORMAT = 'DD/MM/YYYY'
+export const UI_OUTPUT_MONTH_FORMAT = 'MMM YY'
+export const UI_OUTPUT_YEAR_FORMAT = 'YYYY'
 export const UI_DATE_TIME_FORMAT = 'DD/MM/YYYY HH:mm'
 
 /**
@@ -52,11 +58,24 @@ export function uiDateToApi(value?: string): string | undefined {
  * @param {string} [value]
  * @return {*}  {(string | undefined)}
  */
-export function apiDateToUi(value?: string): string | undefined {
+export function apiDateToUi(value?: string, granularity?: Granularity): string | undefined {
   if (!value) return undefined
 
-  const parsed = dayjs(value, API_FORMAT, true)
-  return parsed.isValid() ? parsed.format(UI_OUTPUT_FORMAT) : undefined
+  let apiFormat = API_FORMAT
+  let outputFormat = UI_OUTPUT_FORMAT
+
+  if (granularity && granularity === Granularity.MONTHLY) {
+    apiFormat = API_MONTH_FORMAT
+    outputFormat = UI_OUTPUT_MONTH_FORMAT
+  }
+
+  if (granularity && granularity === Granularity.ANNUALLY) {
+    apiFormat = API_YEAR_FORMAT
+    outputFormat = UI_OUTPUT_YEAR_FORMAT
+  }
+
+  const parsed = dayjs(value, apiFormat, true)
+  return parsed.isValid() ? parsed.format(outputFormat) : undefined
 }
 
 /**
@@ -118,4 +137,25 @@ export function toDate(value: unknown): Date | undefined {
     return Number.isNaN(d.getTime()) ? undefined : d
   }
   return undefined
+}
+
+export const getGranularityFromDateFormat = (dateValue: string): Granularity => {
+  if (!dateValue || typeof dateValue !== 'string') return Granularity.NONE
+
+  // Daily: 2024-01-24
+  if (dayjs(dateValue, API_FORMAT, true).isValid()) {
+    return Granularity.DAILY
+  }
+
+  // Monthly: 2024-01
+  if (dayjs(dateValue, API_MONTH_FORMAT, true).isValid()) {
+    return Granularity.MONTHLY
+  }
+
+  // Annually: 2024
+  if (dayjs(dateValue, 'YYYY', true).isValid()) {
+    return Granularity.ANNUALLY
+  }
+
+  return Granularity.NONE
 }

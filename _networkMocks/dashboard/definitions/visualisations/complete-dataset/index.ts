@@ -34,8 +34,13 @@ import { definition as barChartsDefinition } from './bar/definition'
 import { definition as doughnutChartsDefinition } from './doughnut/definition'
 
 // line
-import { definition as linetimeseriesChartsDefinition } from './line-timeseries/definition'
 import { definition as lineCompleteDefinition } from './line/definition'
+
+// line-timeseries
+import { definition as linetimeseriesChartsDefinition } from './line-timeseries/definition'
+import { definition as linetimeseriesChartsDailyDefinition } from './line-timeseries/definition-granularity-daily'
+import { definition as linetimeseriesChartsMonthlyDefinition } from './line-timeseries/defintion-granularity-monthly'
+import { definition as linetimeseriesChartsAnnaullyDefinition } from './line-timeseries/definition-granularity-yearly'
 
 // Boxplot
 import { definition as boxPlotChartsDefinition } from './boxplot/definition'
@@ -62,6 +67,11 @@ const barChartDefs = [barChartsDefinition]
 const doughnutChartDefs = [doughnutChartsDefinition]
 const lineDefs = [lineCompleteDefinition]
 const lineTimeseriesDefs = [linetimeseriesChartsDefinition]
+const lineTimeseriesGranularityDefs = [
+  linetimeseriesChartsDailyDefinition,
+  linetimeseriesChartsMonthlyDefinition,
+  linetimeseriesChartsAnnaullyDefinition,
+]
 const boxPlotDefs = [boxPlotChartsDefinition]
 
 const completeDatasetVisualisationIds = [
@@ -80,6 +90,7 @@ export const allVisualisations: components['schemas']['DashboardDefinition'][] =
   ...completeDatasetVisualisationIds,
   ...matrixParentChildDefs,
   ...boxPlotDefs,
+  ...lineTimeseriesGranularityDefs,
 ]
 
 export const visualisationIds: string[] = completeDatasetVisualisationIds.map(vis => {

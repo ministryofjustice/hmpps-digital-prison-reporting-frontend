@@ -216,7 +216,7 @@ export default class Report extends DataPresentation {
   setChildData = async () => {
     // Get the child data, if applicable
     const { childVariants } = this.variant
-    this.childData = !childVariants
+    this.childData = !childVariants?.length
       ? []
       : await this.getChildData(childVariants, this.services, this.token, this.req, this.requestData)
   }

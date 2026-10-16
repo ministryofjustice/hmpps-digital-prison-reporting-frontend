@@ -363,3 +363,23 @@ export const assertAutocompleteOptionCount = ({
       cy.get('.autocomplete-option:visible').should('have.length', expectedCount)
     })
 }
+
+export const applyFilters = () => {
+  cy.findByRole('button', { name: 'Apply filters' }).click()
+}
+
+export const showFilters = () => {
+  cy.findAllByRole('group')
+    .contains(/Show filters/)
+    .click()
+}
+
+export const saveDefaultsButton = () => {
+  return cy.findByRole('button', { name: 'Save current filter values as defaults' })
+}
+export const updateDefaultsButton = () => {
+  return cy.findByRole('button', { name: 'Update defaults' })
+}
+export const deleteDefaultsButton = () => {
+  return cy.findByRole('button', { name: 'Delete defaults' })
+}

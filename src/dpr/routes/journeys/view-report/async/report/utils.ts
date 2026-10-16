@@ -30,6 +30,14 @@ export const renderReport = async ({ req, res, services }: AsyncReportUtilsParam
     queryData,
   )
 
+  if (!requestData) {
+    return {
+      invalid: true,
+      variantName: (<components['schemas']['SingleVariantReportDefinition']>variantDefinition).variant.name,
+      reportName: variantDefinition.name,
+    }
+  }
+
   // Create the report config
   const reportConfig = await new Report(
     services,
@@ -40,6 +48,7 @@ export const renderReport = async ({ req, res, services }: AsyncReportUtilsParam
     LoadType.ASYNC,
     requestData,
   ).build()
+
   const { renderData } = reportConfig
 
   if (renderData && requestData && Object.keys(requestData).length) {

@@ -789,6 +789,7 @@ export interface components {
       type?: 'boolean' | 'date' | 'double' | 'HTML' | 'long' | 'string' | 'time' | 'timestamp' | null
       header?: boolean | null
       mergeRows?: boolean | null
+      defaultSort?: boolean | null
     }
     VariantDefinition: {
       id: string
@@ -868,7 +869,7 @@ export interface components {
         | 'scorecard-group'
         | 'matrix-timeseries'
         | 'line-timeseries'
-        | 'boxplot' // TODO: have this updated in the API type
+        | 'boxplot'
       display: string
       description?: string | null
       columns: components['schemas']['DashboardVisualisationColumnsDefinition']

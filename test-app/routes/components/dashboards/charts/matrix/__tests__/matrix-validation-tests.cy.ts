@@ -37,7 +37,7 @@ context('Dashboard visualisation: matrix validation tests', () => {
 
       cy.findAllByRole('paragraph')
         .eq(1)
-        .contains('Error: Schema validation: Dashboard Visualisation validation failed:')
+        .contains('Schema validation error: Dashboard Visualisation validation failed:')
 
       cy.findAllByRole('paragraph')
         .eq(2)

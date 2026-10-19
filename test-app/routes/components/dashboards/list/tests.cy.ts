@@ -810,7 +810,7 @@ context('Dashboard visualisation: List', () => {
         cy.findByRole('heading', { name: /Your report has failed to generate/ }).should('be.visible')
         cy.findAllByRole('paragraph')
           .eq(1)
-          .contains('Error: Schema validation error: Dashboard definition: Sections is required')
+          .contains('Schema validation error: Dashboard definition: Sections is required')
       })
     })
   })

@@ -30,7 +30,9 @@ export const renderReport = async ({ req, res, services }: AsyncReportUtilsParam
     queryData,
   )
 
-  if (!requestData) {
+  const schedule = variantSummary?.schedule
+
+  if (!requestData && !schedule) {
     return {
       invalid: true,
       variantName: (<components['schemas']['SingleVariantReportDefinition']>variantDefinition).variant.name,

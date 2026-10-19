@@ -1,13 +1,32 @@
 .dpr-reports-catalogue-filters__search-container {
   display: grid;
-  grid-template-columns: 2fr 220px;
+  grid-template-columns: 2fr auto;
   gap: 1rem;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
 
   .dpr-reports-catalogue-collection,
   .dpr-reports-catalogue-search {
     .govuk-form-group {
       margin-bottom: govuk-spacing(3);
     }
+  }
+
+  .dpr-reports-catalogue-collection__controls {
+    display: flex;
+    align-items: flex-end;
+    gap: govuk-spacing(3);
+  }
+
+  .dpr-reports-catalogue-collection__controls .govuk-form-group {
+    margin-bottom: 0;
+  }
+
+  .dpr-reports-catalogue-collection__button {
+    align-self: end;
+    margin-bottom: 2px;
   }
 }
 

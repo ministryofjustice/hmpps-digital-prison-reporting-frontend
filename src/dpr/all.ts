@@ -47,7 +47,6 @@ import BoxPlotChartVisualisation from './components/_charts/chart/box-plot/clien
 import ScoreCard from './components/_dashboards/scorecard/clientClass'
 
 // ReportsCatalogue v2
-import { DprReportsCatalogueCollections } from './components/catalogue/catalogue-filters/catalogue-filters-collection/clientClass'
 import { DprReportsCatalogueSearch } from './components/catalogue/catalogue-filters/catalogue-filters-search/clientClass'
 import { DprReportsCatalogueShowHide } from './components/catalogue/catalogue-filters/catalogue-filters-show-hide/clientClass'
 import { DprReportsCatalogueTypeFilter } from './components/catalogue/catalogue-filters/catalogue-filters-type/clientClass'
@@ -90,7 +89,6 @@ function initAll() {
     DprAppliedFilters,
     DprMyReports,
     DprReportsCatalogueSearch,
-    DprReportsCatalogueCollections,
     DprReportsCatalogueTypeFilter,
     DprReportsCatalogueShowHide,
     DprReportsCatalogueTotals,

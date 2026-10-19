@@ -61,24 +61,18 @@ const scorecardGroups = [
   scorecardGroupCompleteDatasetInvalid,
   scorecardGroupCompleteDataseNoTs,
 ]
-const matrixParentChildDefs = [matrixChartDefinition, matrixChartMonthlyDefinition, matrixChartAnnuallyDefinition]
-const matrixDefs = [matrixChartAutoBucketedDefinition, matrixChartBucketedDefinition]
+
 const barChartDefs = [barChartsDefinition]
 const doughnutChartDefs = [doughnutChartsDefinition]
 const lineDefs = [lineCompleteDefinition]
 const lineTimeseriesDefs = [linetimeseriesChartsDefinition]
-const lineTimeseriesGranularityDefs = [
-  linetimeseriesChartsDailyDefinition,
-  linetimeseriesChartsMonthlyDefinition,
-  linetimeseriesChartsAnnaullyDefinition,
-]
 const boxPlotDefs = [boxPlotChartsDefinition]
 
+// Chart definitions that use the all purpose complete dataset
 const completeDatasetVisualisationIds = [
   ...lists,
   ...scorecards,
   ...scorecardGroups,
-  ...matrixDefs,
   ...barChartDefs,
   ...doughnutChartDefs,
   ...lineTimeseriesDefs,
@@ -86,17 +80,48 @@ const completeDatasetVisualisationIds = [
   mixedDefinition,
 ]
 
+// Chart definitions that use the DAILY complete dataset
+const completeDatasetDailyVisualisationIds = [matrixChartDefinition, linetimeseriesChartsDailyDefinition]
+
+// Chart definitions that use the MONTHLY complete dataset
+const completeDatasetMonthlyVisualisationIds = [
+  matrixChartMonthlyDefinition,
+  matrixChartAutoBucketedDefinition,
+  matrixChartBucketedDefinition,
+  linetimeseriesChartsMonthlyDefinition,
+]
+
+// Chart definitions that use the YEARLY complete dataset
+const completeDatasetYearlyVisualisationIds = [matrixChartAnnuallyDefinition, linetimeseriesChartsAnnaullyDefinition]
+
+// Chart definitions that use the NO TS complete dataset
+const completeDatasetNoTsVisualisationIds = [scorecardsCompleteNoTsDataset, scorecardGroupCompleteDataseNoTs]
+
 export const allVisualisations: components['schemas']['DashboardDefinition'][] = [
   ...completeDatasetVisualisationIds,
-  ...matrixParentChildDefs,
+  ...completeDatasetDailyVisualisationIds,
+  ...completeDatasetMonthlyVisualisationIds,
+  ...completeDatasetYearlyVisualisationIds,
+  ...completeDatasetNoTsVisualisationIds,
   ...boxPlotDefs,
-  ...lineTimeseriesGranularityDefs,
 ]
 
 export const visualisationIds: string[] = completeDatasetVisualisationIds.map(vis => {
   return vis.id
 })
 
-export const visIdsNoTs: string[] = [scorecardsCompleteNoTsDataset, scorecardGroupCompleteDataseNoTs].map(vis => {
+export const dailyDatasetVisIds: string[] = completeDatasetDailyVisualisationIds.map(vis => {
+  return vis.id
+})
+
+export const monthlyDatasetVisIds: string[] = completeDatasetMonthlyVisualisationIds.map(vis => {
+  return vis.id
+})
+
+export const yearlyDatasetVisIds: string[] = completeDatasetYearlyVisualisationIds.map(vis => {
+  return vis.id
+})
+
+export const visIdsNoTs: string[] = completeDatasetNoTsVisualisationIds.map(vis => {
   return vis.id
 })

@@ -295,33 +295,38 @@ jobs:
           )
 
           echo "=== DEBUG: Found spec files ==="
-          printf "%s\n" "${FILES[@]}"
-          echo "================================"
 
           TOTAL=${#FILES[@]}
           SHARDS=${{ matrix.shard_total }}
           INDEX=${{ matrix.shard_index }}
+          SELECTED=()
 
-          SLICE=$(( (TOTAL + SHARDS - 1) / SHARDS ))
-          START=$(( INDEX * SLICE ))
-          END=$(( START + SLICE ))
-          [ "$END" -gt "$TOTAL" ] && END="$TOTAL"
+          for ((i=0; i<TOTAL; i++)); do
+            echo "FILE[$i]=${FILES[$i]}"
+          done
 
-          if [ "$START" -ge "$TOTAL" ]; then
+          echo "================================"
+
+          # use round-robin selection to distribute specs across shards
+          for ((i=0; i<TOTAL; i++)); do
+            if [ $(( i % SHARDS + 1 )) -eq "$INDEX" ]; then
+              SELECTED+=("${FILES[$i]}")
+            fi
+          done
+
+          if [ ${#SELECTED[@]} -eq 0 ]; then
             echo "specs=" >> "$GITHUB_OUTPUT"
-            echo "Shard $INDEX has no specs."
+            echo "Shard $INDEX of $SHARDS has no specs."
             exit 0
           fi
 
-          SELECTED=("${FILES[@]:$START:$((END-START))}")
-
-          echo "=== DEBUG: Specs for shard $INDEX ==="
+          echo "=== DEBUG: Specs for shard $INDEX of $SHARDS ==="
           printf "%s\n" "${SELECTED[@]}"
           echo "====================================="
 
           SPECS=$(IFS=, ; echo "${SELECTED[*]}")
           echo "specs=$SPECS" >> "$GITHUB_OUTPUT"
-          echo "Shard $INDEX specs: $SPECS"
+          echo "Shard $INDEX of $SHARDS selected ${#SELECTED[@]} specs: $SPECS"
 
       # ------------------------------------
       # START APP WITH UNBUFFERED LOGGING

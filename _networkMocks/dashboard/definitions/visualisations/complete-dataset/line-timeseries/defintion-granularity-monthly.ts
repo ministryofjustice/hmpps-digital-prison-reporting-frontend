@@ -1,5 +1,6 @@
 import { components } from '../../../../../../src/dpr/types/api'
 import { fullDataset } from '../list/vis-definitions/full-data'
+import * as LineCharts from './vis-definitions/defintitions'
 
 export const definition: components['schemas']['DashboardDefinition'] = {
   id: 'line-timeseries-visualisations-monthly-complete-dataset',
@@ -10,7 +11,11 @@ export const definition: components['schemas']['DashboardDefinition'] = {
     {
       id: 'section-2',
       display: 'Line timeseries monthly charts',
-      visualisations: [],
+      visualisations: [
+        LineCharts.mockMetricOneLineChartTimeseriesAllEst,
+        LineCharts.mockMetricTwoLineChartTimeseriesAllEst,
+        LineCharts.mockMetricThreeLineChartTimeseriesAllEst,
+      ],
     },
     {
       id: 'totals-breakdown-monthly',

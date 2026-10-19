@@ -100,6 +100,7 @@ export const updateStore = async ({
   }
 
   await services.requestedReportService.addReport(dprUser.id, requestedReportData)
+
   const removedExecutionIds = await services.requestedReportService.removeDuplicateRequestedReports(dprUser.id)
 
   if (!removedExecutionIds.length) {

@@ -25,7 +25,7 @@
   {% elif error.userMessage %}
     {%
       set errorList = (errorList.push({
-        html: '<p class="govuk-body">Error: ' + error.userMessage + '</p>'
+        html: '<p class="govuk-body">' + error.userMessage + '</p>'
       }), errorList)
     %}
   {% endif %}
@@ -76,11 +76,14 @@
     %}
   {% endif %}
 
-  {%
-    set errorList = (errorList.push({
-      html: metaHtml
-    }), errorList)
-  %}
+  {# Only set the meta ID if there is any provided #}
+  {% if reportId is defined or id is defined or executionId is defined or tableId is defined %}
+    {%
+      set errorList = (errorList.push({
+        html: metaHtml
+      }), errorList)
+    %}
+  {% endif %}
 
   {{
     govukErrorSummary({

@@ -94,7 +94,7 @@ export async function validateDashboardVisualisations(
     }))
 
     throw new AggregatedValidationError(
-      'Error: Schema validation: Dashboard Visualisation validation failed:',
+      'Error: Schema validation error: Dashboard Visualisation validation failed:',
       aggregatedZod,
       details,
     )

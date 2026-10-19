@@ -53,14 +53,10 @@ const scorecards = [
   scorecardsCompleteDataset,
   scorecardsCompleteBadDataset,
   scorecardsBucketsCompleteDataset,
-  scorecardsCompleteNoTsDataset,
   scorecardsInvalid,
 ]
-const scorecardGroups = [
-  scorecardGroupCompleteDataset,
-  scorecardGroupCompleteDatasetInvalid,
-  scorecardGroupCompleteDataseNoTs,
-]
+const scorecardGroups = [scorecardGroupCompleteDataset, scorecardGroupCompleteDatasetInvalid]
+const scorecardsNoTs = [scorecardGroupCompleteDataseNoTs, scorecardsCompleteNoTsDataset]
 
 const barChartDefs = [barChartsDefinition]
 const doughnutChartDefs = [doughnutChartsDefinition]
@@ -95,7 +91,7 @@ const completeDatasetMonthlyVisualisationIds = [
 const completeDatasetYearlyVisualisationIds = [matrixChartAnnuallyDefinition, linetimeseriesChartsAnnaullyDefinition]
 
 // Chart definitions that use the NO TS complete dataset
-const completeDatasetNoTsVisualisationIds = [scorecardsCompleteNoTsDataset, scorecardGroupCompleteDataseNoTs]
+const completeDatasetNoTsVisualisationIds = [...scorecardsNoTs]
 
 export const allVisualisations: components['schemas']['DashboardDefinition'][] = [
   ...completeDatasetVisualisationIds,

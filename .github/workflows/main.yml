@@ -320,13 +320,12 @@ jobs:
             exit 0
           fi
 
-          echo "=== DEBUG: Specs for shard $INDEX of $SHARDS ==="
+          echo "=== DEBUG: ${#SELECTED[@]} specs selected for shard $INDEX of $SHARDS ==="
           printf "%s\n" "${SELECTED[@]}"
           echo "====================================="
 
           SPECS=$(IFS=, ; echo "${SELECTED[*]}")
           echo "specs=$SPECS" >> "$GITHUB_OUTPUT"
-          echo "Shard $INDEX of $SHARDS selected ${#SELECTED[@]} specs: $SPECS"
 
       # ------------------------------------
       # START APP WITH UNBUFFERED LOGGING

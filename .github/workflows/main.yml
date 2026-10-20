@@ -79,6 +79,7 @@ jobs:
       - run: npm run test
 
   test_with_app:
+    name: test with app
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -203,6 +204,7 @@ jobs:
           path: artifacts/cypress/screenshots
 
   integration_test:
+    name: Integration Tests (${{ matrix.shard_index }} of ${{ matrix.shard_total }})
     runs-on: ubuntu-latest
     needs: build
     permissions:
@@ -231,7 +233,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        shard_index: [0, 1, 2, 3]
+        shard_index: [1, 2, 3, 4]
+        shard_total: [4]
 
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
@@ -292,33 +295,37 @@ jobs:
           )
 
           echo "=== DEBUG: Found spec files ==="
-          printf "%s\n" "${FILES[@]}"
-          echo "================================"
 
           TOTAL=${#FILES[@]}
-          SHARDS=4
+          SHARDS=${{ matrix.shard_total }}
           INDEX=${{ matrix.shard_index }}
+          SELECTED=()
 
-          SLICE=$(( (TOTAL + SHARDS - 1) / SHARDS ))
-          START=$(( INDEX * SLICE ))
-          END=$(( START + SLICE ))
-          [ "$END" -gt "$TOTAL" ] && END="$TOTAL"
+          for ((i=0; i<TOTAL; i++)); do
+            echo "FILE[$i]=${FILES[$i]}"
+          done
 
-          if [ "$START" -ge "$TOTAL" ]; then
+          echo "================================"
+
+          # use round-robin selection to distribute specs across shards
+          for ((i=0; i<TOTAL; i++)); do
+            if [ $(( i % SHARDS + 1 )) -eq "$INDEX" ]; then
+              SELECTED+=("${FILES[$i]}")
+            fi
+          done
+
+          if [ ${#SELECTED[@]} -eq 0 ]; then
             echo "specs=" >> "$GITHUB_OUTPUT"
-            echo "Shard $INDEX has no specs."
+            echo "Shard $INDEX of $SHARDS has no specs."
             exit 0
           fi
 
-          SELECTED=("${FILES[@]:$START:$((END-START))}")
-
-          echo "=== DEBUG: Specs for shard $INDEX ==="
+          echo "=== DEBUG: ${#SELECTED[@]} specs selected for shard $INDEX of $SHARDS ==="
           printf "%s\n" "${SELECTED[@]}"
           echo "====================================="
 
           SPECS=$(IFS=, ; echo "${SELECTED[*]}")
           echo "specs=$SPECS" >> "$GITHUB_OUTPUT"
-          echo "Shard $INDEX specs: $SPECS"
 
       # ------------------------------------
       # START APP WITH UNBUFFERED LOGGING
@@ -365,28 +372,28 @@ jobs:
         if: success() || failure()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         with:
-          name: app-log-${{ matrix.shard_index }}
+          name: app-log-${{ matrix.shard_index }}-of-${{ matrix.shard_total }}
           path: app.log
           if-no-files-found: ignore
 
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         if: success() || failure()
         with:
-          name: cypress-results-${{ matrix.shard_index }}
+          name: cypress-results-${{ matrix.shard_index }}-of-${{ matrix.shard_total }}
           path: test_results
           if-no-files-found: ignore
 
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         if: success() || failure()
         with:
-          name: cypress-videos-${{ matrix.shard_index }}
+          name: cypress-videos-${{ matrix.shard_index }}-of-${{ matrix.shard_total }}
           path: cypress-tests/integration-tests/videos
           if-no-files-found: ignore
 
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         if: success() || failure()
         with:
-          name: cypress-screenshots-${{ matrix.shard_index }}
+          name: cypress-screenshots-${{ matrix.shard_index }}-of-${{ matrix.shard_total }}
           path: cypress-tests/integration-tests/screenshots
           if-no-files-found: ignore
 

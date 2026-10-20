@@ -1,6 +1,10 @@
-import { checkA11y } from 'cypress-tests/cypressUtils'
+import { checkA11y, executeReportStubs } from 'cypress-tests/cypressUtils'
 
 context('Request missing report submitted', () => {
+  before(() => {
+    executeReportStubs()
+  })
+
   const path =
     '/embedded/platform/dpr/request-missing-report/feature-testing/feature-testing-missing-1/submitted?reportName=C%20Test%20Report&name=Missing%20Report%20about%20beans&reportId=feature-testing&variantId=feature-testing-missing-1'
 

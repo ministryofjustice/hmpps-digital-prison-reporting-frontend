@@ -1,5 +1,10 @@
 Below you can find the changes included in each release.
 
+## 9.8.0
+
+- Collections selector: Replaced auto submission of collection form with a manual apply collecton submit button.
+- Error message for when a user attempts to view a report using a report URL that they have not personally requested. In this case users will have insufficient data from the request to view the report correctly.
+
 ## 9.7.1
 
 - Matrix charts with daily granularity now ordered by day on the Y axis

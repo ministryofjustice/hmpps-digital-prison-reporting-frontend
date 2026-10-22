@@ -619,7 +619,6 @@ export function shouldRunExpiryCheck(session: { lastExpiredReportsCheckAt?: numb
 }
 
 export function recordExpiryCheck(session: { lastExpiredReportsCheckAt?: number }) {
-  // eslint-disable-next-line no-param-reassign
   session.lastExpiredReportsCheckAt = Date.now()
 }
 

@@ -1,6 +1,5 @@
 import { ActionTemplates } from './types'
 
-// eslint-disable-next-line import/prefer-default-export
 export const actionTemplates: ActionTemplates = {
   refresh: {
     id: 'dpr-button-refresh',

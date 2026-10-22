@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { createClient } from 'redis'
 import logger from '../utils/logger'
 import { ReportStoreConfig } from '../types/ReportStore'

@@ -1,4 +1,3 @@
-/* eslint-disable prefer-destructuring */
 import { DashboardDataResponse } from '../../../types/Metrics'
 import DatasetHelper from '../../../utils/Dashboards/VisualisationDatasetHelper'
 import { ScorecardDataset, ScorecardGroup } from '../scorecard/types'

@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import { Router } from 'express'
 import { Services } from '../../../../types/Services'
 import RecentlyViewedReportsController from './controller'

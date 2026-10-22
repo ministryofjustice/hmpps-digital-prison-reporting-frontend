@@ -1,13 +1,13 @@
-/* eslint-disable class-methods-use-this */
+import { BoxAndWiskers, BoxPlotController } from '@sgratzl/chartjs-chart-boxplot'
 import Chart, { ChartConfiguration, ChartType } from 'chart.js/auto'
 import { MatrixController, MatrixElement } from 'chartjs-chart-matrix'
 import ChartDataLabels from 'chartjs-plugin-datalabels'
 import { DprClientClass } from '../../../DprClientClass'
-import { BoxPlotController, BoxAndWiskers } from '@sgratzl/chartjs-chart-boxplot'
 
 class ChartVisualisation extends DprClientClass {
   chartContext: HTMLCanvasElement | null = null
   chart: Chart | null = null
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   chartParams: Record<string, any> = {}
   type: string | null = null
   id: string = ''
@@ -73,10 +73,12 @@ class ChartVisualisation extends DprClientClass {
   }
 
   generateChart(chartData: ChartConfiguration) {
-    const chart = new Chart(this.chartContext as HTMLCanvasElement, chartData)
+    const ChartConstructor = Chart as unknown as new (item: HTMLCanvasElement, config: ChartConfiguration) => Chart
+    const chart = new ChartConstructor(this.chartContext as HTMLCanvasElement, chartData)
     return chart
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   generateChartData(settings: Record<string, any>): ChartConfiguration {
     const { datasets, labels, config } = this.chartParams
     const { options, datalabels, plugins, pluginsOptions, toolTipOptions, hoverEvent, styling } = settings
@@ -110,13 +112,13 @@ class ChartVisualisation extends DprClientClass {
     return chartData
   }
 
-  createDatasets(datasets: Object[], styling: any) {
+  createDatasets(datasets: object[], styling: object): ChartConfiguration['data']['datasets'] {
     return datasets.map(dataset => {
       return {
         ...dataset,
         ...(styling && styling),
       }
-    })
+    }) as ChartConfiguration['data']['datasets']
   }
 
   setHoverValue({
@@ -128,6 +130,7 @@ class ChartVisualisation extends DprClientClass {
     label: string
     value: string | string[]
     legend: string | undefined
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ctx: any
   }) {
     if (ctx.tooltipDetailsEl) {

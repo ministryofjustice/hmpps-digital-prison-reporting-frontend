@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import { NextFunction, Request, Response } from 'express'
 
 // Utils

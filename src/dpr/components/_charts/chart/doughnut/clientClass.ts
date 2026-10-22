@@ -1,8 +1,8 @@
-/* eslint-disable class-methods-use-this */
 import Chart, { ChartConfiguration, ScriptableContext, TooltipItem } from 'chart.js/auto'
 import ChartVisualisation from '../clientClass'
 
 class DoughnutChartVisualisation extends ChartVisualisation {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   settings: Record<string, any> = {}
   chartData!: ChartConfiguration
 

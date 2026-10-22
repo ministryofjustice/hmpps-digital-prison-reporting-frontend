@@ -1,14 +1,16 @@
+/* eslint-disable import/no-extraneous-dependencies */
+
 const beautifyHTML = require('js-beautify').html
 const fs = require('fs')
 const hljs = require('highlight.js')
 const markdownIt = require('markdown-it')
 const markdownItAnchor = require('markdown-it-anchor')
 const matter = require('gray-matter')
-const mojFilters = require('@ministryofjustice/frontend/moj/filters/all.js')
+const mojFilters = require('@ministryofjustice/frontend/moj/filters/all')
 const nunjucks = require('nunjucks')
 const path = require('path')
-const releasePackage = require('./dist-docs/package.json')
 const { EleventyHtmlBasePlugin } = require('@11ty/eleventy')
+const releasePackage = require('./dist-docs/package.json')
 
 module.exports = function (eleventyConfig) {
   const nunjucksEnv = nunjucks.configure([
@@ -61,10 +63,11 @@ module.exports = function (eleventyConfig) {
     let jsCode = ''
     try {
       jsCode = fs.readFileSync(path.join(__dirname, 'docs', 'examples', exampleName, 'script.js'), 'utf8').trim()
+      // eslint-disable-next-line no-unused-vars
     } catch (e) {}
 
     const renderedExample = nunjucksEnv.render('example.njk', {
-      href: '/examples/' + exampleName,
+      href: `/examples/${exampleName}`,
       id: id || exampleName,
       arguments: data.arguments,
       jsArguments: data.jsArguments,
@@ -95,6 +98,9 @@ module.exports = function (eleventyConfig) {
         classSuffix = 'm'
         break
       case 3:
+        classSuffix = 's'
+        break
+      default:
         classSuffix = 's'
         break
     }

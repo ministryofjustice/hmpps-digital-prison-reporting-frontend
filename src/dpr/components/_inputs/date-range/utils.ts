@@ -1,14 +1,13 @@
-/* eslint-disable no-param-reassign */
 import dayjs from 'dayjs'
 import customParse from 'dayjs/plugin/customParseFormat'
 import isBetween from 'dayjs/plugin/isBetween'
 import { Request } from 'express'
 import { components } from '../../../types/api'
-import { DateRangeFilterValue, DateRange, FilterValue } from '../../_filters/types'
-import StartEndDateUtils from '../start-end-date/utils'
-import RelativeDateRange, { RelativeOption } from './types'
 import { DefaultDateFilterValue, defaultFilterValue } from '../../../utils/Personalisation/types'
 import { calcDatesForAPI, calcDatesForUI } from '../../../utils/durationCalculator'
+import { DateRange, DateRangeFilterValue, FilterValue } from '../../_filters/types'
+import StartEndDateUtils from '../start-end-date/utils'
+import RelativeDateRange, { RelativeOption } from './types'
 
 dayjs.extend(customParse)
 dayjs.extend(isBetween)
@@ -93,13 +92,14 @@ export const setFilterValueFromDefault = (defaultValue: defaultFilterValue, filt
 }
 
 export const getRelativeDateOptions = (min?: string, max?: string) => {
-  if (!min) min = '1977-05-25'
-  if (!max) max = '9999-01-01'
+  const tempMin = min || '1977-05-25'
+  const tempMax = max || '9999-01-01'
+
   let options: RelativeOption[] = getRelativeValues()
   options.forEach((option: RelativeOption) => {
     if (option.value !== RelativeDateRange.NONE) {
       const dates = calcDatesForUI(option.value)
-      if (dates && !dateIsInBounds(dates.start, dates.end, min, max)) {
+      if (dates && !dateIsInBounds(dates.start, dates.end, tempMin, tempMax)) {
         option.disabled = true
       }
     }

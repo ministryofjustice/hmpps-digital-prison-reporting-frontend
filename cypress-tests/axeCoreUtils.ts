@@ -1,3 +1,5 @@
+/* eslint-disable import/no-extraneous-dependencies */
+
 import { Result } from 'axe-core'
 
 export const logAccessibilityViolations = (violations: Result[]) => {

@@ -2,7 +2,7 @@ import {
   checkA11y,
   executeDashboardStubs,
   requestReportByNameAndDescription,
-} from '../../../../../../cypress-tests/cypressUtils'
+} from '../../../../../../../cypress-tests/cypressUtils'
 
 context('Dashboard visualisation: line timeseries chart', () => {
   const path = '/'

@@ -5,8 +5,7 @@ import * as LineCharts from './vis-definitions/defintitions'
 export const definition: components['schemas']['DashboardDefinition'] = {
   id: 'line-timeseries-visualisations-yearly-complete-dataset',
   name: 'Line-timeseries - Yearly Complete dataset',
-  description:
-    'This dashboard represents example line-timeseries visualisations using a yearly complete dataset. The dashboard aims to demonstrate how charts will adapt to yearly data',
+  description: 'This dashboard represents example line-timeseries visualisations using a yearly complete dataset.',
   sections: [
     {
       id: 'section-3',

@@ -7,6 +7,9 @@ import {
   linePartialDatasetMock,
   lineTimeseriesCompleteDatasetMock,
   lineTimeseriesPartialDatasetMock,
+  lineTimeseriesDailyDatasetDefinitionMock,
+  lineTimeseriesMonthlyDatasetDefinitionMock,
+  lineTimeseriesYearlyDatasetDefinitionMock,
   listCompleteDatasetHistoricMock,
   listCompleteDatasetMock,
   listInvalidDefMock,
@@ -112,6 +115,9 @@ const DoughnutDefinitionStubs = {
 const lineTimeseriesDefinitionStubs = {
   stubLineTimeseriesDashboardCompleteData: () => stubFor(lineTimeseriesCompleteDatasetMock),
   stubLineTimeseriesDashboardPartialData: () => stubFor(lineTimeseriesPartialDatasetMock),
+  stubLineTimeseriesDashboardDailyDataDef: () => stubFor(lineTimeseriesDailyDatasetDefinitionMock),
+  stubLineTimeseriesDashboardMonthlyDataDef: () => stubFor(lineTimeseriesMonthlyDatasetDefinitionMock),
+  stubLineTimeseriesDashboardYearlyDataDef: () => stubFor(lineTimeseriesYearlyDatasetDefinitionMock),
 }
 
 const lineDefinitionStubs = {

@@ -3,6 +3,9 @@ import { setupSimpleMock } from '@networkMocks/generateNetworkMock'
 import { definition as barCompleteDataset } from './complete-dataset/bar/definition'
 import { definition as doughnutCompleteDataset } from './complete-dataset/doughnut/definition'
 import { definition as lineTimeseriesCompleteDataset } from './complete-dataset/line-timeseries/definition'
+import { definition as lineTimeseriesDailyDataset } from './complete-dataset/line-timeseries/definition-granularity-daily'
+import { definition as lineTimeseriesMonthlyDataset } from './complete-dataset/line-timeseries/defintion-granularity-monthly'
+import { definition as lineTimeseriesYearlyDataset } from './complete-dataset/line-timeseries/definition-granularity-yearly'
 import { definition as lineCompleteDataset } from './complete-dataset/line/definition'
 import { definition as listCompleteDataset } from './complete-dataset/list/definition'
 import { definition as listCompleteDatasetHistoric } from './complete-dataset/list/definition-historic'
@@ -155,6 +158,18 @@ export const lineTimeseriesCompleteDatasetMock = setupSimpleMock(
 export const lineTimeseriesPartialDatasetMock = setupSimpleMock(
   `/definitions/${productId}/dashboards/${lineTimeseriesPartialDataset.id}`,
   lineTimeseriesPartialDataset,
+)
+export const lineTimeseriesDailyDatasetDefinitionMock = setupSimpleMock(
+  `/definitions/${productId}/dashboards/${lineTimeseriesDailyDataset.id}`,
+  lineTimeseriesDailyDataset,
+)
+export const lineTimeseriesMonthlyDatasetDefinitionMock = setupSimpleMock(
+  `/definitions/${productId}/dashboards/${lineTimeseriesMonthlyDataset.id}`,
+  lineTimeseriesMonthlyDataset,
+)
+export const lineTimeseriesYearlyDatasetDefinitionMock = setupSimpleMock(
+  `/definitions/${productId}/dashboards/${lineTimeseriesYearlyDataset.id}`,
+  lineTimeseriesYearlyDataset,
 )
 
 // LINE definition examples

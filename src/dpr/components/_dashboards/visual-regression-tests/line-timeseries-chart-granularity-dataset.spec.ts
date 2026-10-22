@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 import { requestCatalogueVariant, takeScreenshotsOfAllCharts } from './helpers/vrtHelpers.spec'
 
-test('Line-timeseries chart granularity datasets', async ({ page }) => {
+test('Line-timeseries chart granularity datasets tests', async ({ page }) => {
   await page.goto('/embedded/platform')
 
   page.getByLabel(/Reports catalogue.*/i)

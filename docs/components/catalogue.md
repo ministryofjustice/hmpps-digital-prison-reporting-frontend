@@ -1,7 +1,7 @@
 ---
 layout: layouts/component.njk
 title: Catalogue
-subsection: DPR Platform components
+subsection: HMPPS Datahub Platform components
 ---
 ## Overview
 
@@ -13,11 +13,11 @@ The catalogue component is used to:
 - request variants from the list.
 - bookmark variants from the list.
 
-This component supports the DPR platform functionality by providing a unified way of listing and navigating reports
+This component supports the HMPPS Datahub platform functionality by providing a unified way of listing and navigating reports
 
 ### When to use
 
-Use this component when you have integrated the DPR plaform into your service and want to:
+Use this component when you have integrated the HMPPS Datahub plaform into your service and want to:
 
 - View a list of your reports
 - be able to request those reports.

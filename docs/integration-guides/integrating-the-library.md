@@ -15,7 +15,7 @@ Run:
 npm i @ministryofjustice/hmpps-digital-prison-reporting-frontend --save
 ```
 
-When the installation finishes, the DPR package will be in your node_modules folder.
+When the installation finishes, the HMPPS Datahub package will be in your node_modules folder.
 
 ### Adding the library to your package.json file
 
@@ -91,7 +91,7 @@ Add the client-side JavaScript to the nunjucks layout, and initialise them using
   window.MOJFrontend.initAll()
 </script>
 
-<!-- DPR Lib -->
+<!-- HMPPS Datahub Lib -->
 <script type="module" src="/assets/dpr/all.mjs"></script>
 <script type="module">
   import { initAll } from '/assets/dpr/all.mjs'
@@ -134,7 +134,7 @@ const nunjucksEnv = nunjucks.configure([
 
 ## Import Fonts
 
-The DPR library uses Google fonts for some of its components. To allow these to be used without security warnings, you will need to allow the Google URLs in your web security configuration.
+The HMPPS Datahub library uses Google fonts for some of its components. To allow these to be used without security warnings, you will need to allow the Google URLs in your web security configuration.
 
 If you have already integrated the DPS header and footer, then you can simply update the following two lines in `setUpWebSecurity.ts`:
 

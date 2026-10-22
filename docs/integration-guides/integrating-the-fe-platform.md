@@ -4,9 +4,9 @@ title: Integrating the FE platform
 subsection: Integration Guides
 ---
 
-This guide explains how to integrate the DPR Frontend (FE) Platform into your service, using the <a href="https://github.com/ministryofjustice/hmpps-template-typescript" target="_blank">HMPPS TS template</a> as a reference.
+This guide explains how to integrate the HMPPS Datahub Frontend (FE) Platform into your service, using the <a href="https://github.com/ministryofjustice/hmpps-template-typescript" target="_blank">HMPPS TS template</a> as a reference.
 
-The FE Platform provides a ready‑made user interface and routing layer that allows services to embed DPR’s reporting journeys and features with minimal setup.
+The FE Platform provides a ready‑made user interface and routing layer that allows services to embed HMPPS Datahubs reporting journeys and features with minimal setup.
 
 **NOTE:**
 
@@ -15,31 +15,31 @@ They are <i>not</i> required if you are only consuming DPR’s embedded synchron
 
 ## Outcome
 
-By completing this guide, your service will have access to a set of predefined, fully‑integrated DPR routes for managing, viewing, and requesting reports.<br>
+By completing this guide, your service will have access to a set of predefined, fully‑integrated HMPPS Datahub routes for managing, viewing, and requesting reports.<br>
 For details of the available endpoints, see the [reporting routes](/get-started/routes) section.
 
 ## Pre-requisites
 
-- [Integrate the DPR FE Library](/integration-guides/integrating-the-library)
+- [Integrate the HMPPS Datahub FE Library](/integration-guides/integrating-the-library)
 
 ## Integration steps
 
-- [Add DPR configuration](#add-dpr-configuration)
+- [Add HMPPS Datahub configuration](#add-hmpps-atahub-configuration)
 - [Initialise Redis client](#initialise-redis-client)
 - [Initialise data clients](#initialise-data-clients)
 - [Create services](#create-services)
-- [Setup the DPR user in locals](#setup-the-dpr-user-in-locals)
+- [Setup the HMPPS Datahub user in locals](#setup-the-hmpps-datahub-user-in-locals)
 - [Initialise middleware](#initialise-middleware)
 - [Initialise routes](#initialise-routes)
 - [Quick start guide](#quick-start-guide)
 
 <hr class='dpr-docs-hr'>
 
-# Add DPR configuration
+# Add HMPPS Datahub configuration
 
 ### API config
 
-Add DPR API configuration to your `config.ts` file.
+Add HMPPS Datahub API configuration to your `config.ts` file.
 
 ```js
 export const apis = {
@@ -58,7 +58,7 @@ export default {
 }
 ```
 
-See <a href="/get-started/environments" target="_blank">DPR Environments</a> for API base urls
+See <a href="/get-started/environments" target="_blank">HMPPS Datahub Environments</a> for API base urls
 
 ### DPD retrieval interval
 
@@ -85,7 +85,7 @@ export default {
 
 # Initialise Redis Client
 
-An initialised Redis client is a dependency DPR's reporting platform. Redis is used to store report request config to keep track of the state of a requested report, and enable features such as bookmarking and downloading.
+An initialised Redis client is a dependency HMPPS Datahubs reporting platform. Redis is used to store report request config to keep track of the state of a requested report, and enable features such as bookmarking and downloading.
 
 See [next section (Initialise data clients)](#initialise-data-clients) for details on how the redis client is used.
 
@@ -93,7 +93,7 @@ See [next section (Initialise data clients)](#initialise-data-clients) for detai
 
 # Initialise data clients
 
-Initialise DPR data clients within your app setup to point to DPR's API endpoint.
+Initialise HMPPS Datahub data clients within your app setup to point to HMPPS Datahubs API endpoint.
 
 This setup is commonly done in the `server/data/index.ts` file of the <a href="https://github.com/ministryofjustice/hmpps-template-typescript/blob/main/server/data/index.ts" target="_blank">HMPPS template</a>
 
@@ -206,7 +206,7 @@ By default all features are set to `false`
 
 <hr class='dpr-docs-hr'>
 
-# Setup the DPR user in locals
+# Setup the HMPPS Datahub user in locals
 
 In your `populateCurrentUser` middleware, ensure you have `dprUser` defined in your `res.locals`
 
@@ -216,7 +216,7 @@ import { DprUser } from '@ministryofjustice/hmpps-digital-prison-reporting-front
 // example using manage user api
 const user = await this.hmppsManageUsersClient.getUser(token)
 
-// Init the DPR User
+// Init the HMPPS Datahub User
 const dprUser = new DprUser()
 
 // required
@@ -262,9 +262,9 @@ import { routes as dprRoutes } from '@ministryofjustice/hmpps-digital-prison-rep
 export function routes(services: Services): Router {
   const router = Router()
 
-  // Mount DPR routes BEFORE any root-level handlers.
-  // This ensures internal DPR middleware (e.g. setUpNestedRoute)
-  // runs correctly when the DPR router is entered.
+  // Mount HMPPS Datahub routes BEFORE any root-level handlers.
+  // This ensures internal HMPPS Datahub middleware (e.g. setUpNestedRoute)
+  // runs correctly when the HMPPS Datahub router is entered.
   router.use('/', dprRoutes({ services, layoutPath: 'path/to/layout.njk' }))
 
   // Your application's own routes can follow afterwards
@@ -276,10 +276,10 @@ export function routes(services: Services): Router {
 export default routes
 ```
 
-This will give your application the preset DPR routes to use to run and manage your reports.
+This will give your application the preset HMPPS Datahub routes to use to run and manage your reports.
 
-Note that all DPR routes are automatically namespaced under `/dpr`.
-So mounting the DPR router at a nested path like `/my/nested/route` will produce routes such as:
+Note that all HMPPS Datahub routes are automatically namespaced under `/dpr`.
+So mounting the HMPPS Datahub router at a nested path like `/my/nested/route` will produce routes such as:
 
 ```js
 /my/nested/route/dpr/...
@@ -290,15 +290,15 @@ See [reporting routes](/get-started/routes) to learn about the routes available 
 ## Important: Route ordering matters for nested mount paths
 
 Express processes routes in the order they are registered.<br>
-This becomes important when you mount DPR under a nested path, such as:
+This becomes important when you mount HMPPS Datahub under a nested path, such as:
 
 ```js
 router.use('/my/nested/route', dprRoutes(...))
 ```
 
-The DPR library uses an internal nested route URL, so its middleware (such as `setUpNestedRoute()`) must run when a request enters the DPR router.
+The HMPPS Datahub library uses an internal nested route URL, so its middleware (such as `setUpNestedRoute()`) must run when a request enters the HMPPS Datahub router.
 
-However, if you mount DPR at the application root (`'/'`), the routes are not considered nested and the middleware is a no‑op. In this case, route ordering is not important.
+However, if you mount HMPPS Datahub at the application root (`'/'`), the routes are not considered nested and the middleware is a no‑op. In this case, route ordering is not important.
 
 <hr class='dpr-docs-hr'>
 
@@ -327,7 +327,7 @@ const services = {
   ...createDprServices(clients),
 }
 
-// 3. Init DPR user in populateCurrentUser. See "Setup the DPR user in locals" section of guide
+// 3. Init HMPPS Datahub user in populateCurrentUser. See "Setup the HMPPS Datahub user in locals" section of guide
 
 // 4. Add middleware
 const env = nunjucksSetup(app, applicationInfo)

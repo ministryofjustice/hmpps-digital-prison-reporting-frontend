@@ -3,7 +3,7 @@ layout: layouts/get-started.njk
 title: Get started
 ---
 
-The DPR Component Library is designed to help present data in a consistent and manner across the DPS program.
+The HMPPS Datahub Component Library is designed to help present data in a consistent and manner across the DPS program.
 
 It uses and extends the following libraries:
 
@@ -16,7 +16,7 @@ For a guide on how to integrate the component library into your project, see the
 
 ## Contributing to the Pattern Library
 
-You can contribute to the DPR Component Library by commenting on [existing discussions](https://github.com/ministryofjustice/hmpps-digital-prison-reporting-frontend/discussions) or starting a [new discussion](https://github.com/ministryofjustice/hmpps-digital-prison-reporting-frontend/discussions/new) on GitHub.
+You can contribute to the HMPPS Datahub Component Library by commenting on [existing discussions](https://github.com/ministryofjustice/hmpps-digital-prison-reporting-frontend/discussions) or starting a [new discussion](https://github.com/ministryofjustice/hmpps-digital-prison-reporting-frontend/discussions/new) on GitHub.
 
 ## Change log
 

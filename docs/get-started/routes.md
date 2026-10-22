@@ -4,13 +4,13 @@ title: Routes
 subsection: Platform
 ---
 
-Integrating the platform will give you a set of routes that you can nest into your current app structure. See [here](/integration-guides/integrating-the-fe-platform#initialise-routes) for how to integrate, and nest the DPR routes into you app structure.
+Integrating the platform will give you a set of routes that you can nest into your current app structure. See [here](/integration-guides/integrating-the-fe-platform#initialise-routes) for how to integrate, and nest the HMPPS Datahub routes into you app structure.
 
 ## Manage reports routes
 
 These routes provide you with the means to manage and search your reports
 
-- [DPR style homepage](#dpr-style-homepage)
+- [HMPPS Datahub style homepage](#hmpps-datahub-style-homepage)
 - [Report catalogue route](#report-catalogue-route)
 - [My reports routes](#my-reports-routes)
 
@@ -25,7 +25,7 @@ The provided routes allow you to run reports either **synchronously**, or **asyn
 
 # Manage reports routes
 
-## DPR style homepage
+## HMPPS Datahub style homepage
 
 ```js
 /dpr

@@ -23,13 +23,11 @@ The visualisation definition is responsible for:
 - `bar`
 - `doughnut`
 - `line`
+- `line-timeseries`
 - `scorecard`
 - `scorecard-group`
-
-<!-- COMING SOON
-- `line-timeseries`
 - `matrix-timeseries`
-- `bar-timeseries` -->
+- `boxplot`
 
 <hr class='dpr-docs-hr'/>
 
@@ -42,7 +40,7 @@ All visualisation types share the same common definition attributes:
 | `id`          | string | Yes      | The visualisation ID                                                   |
 | `type`        | string | Yes      | The visualisation type See [Visualisation types](#visualisation-types) |
 | `display`     | string | no       | The visualisation title                                                |
-| `description` | string | no       | The visualisation description                                           |
+| `description` | string | no       | The visualisation description                                          |
 | `column`      | object | yes      | The dataset colums definition. See [Columns](#columns)                 |
 | `option`      | object | no       | Set specific option per visualisation type [Options](#options)         |
 

@@ -159,6 +159,7 @@ export const lineTimeseriesPartialDatasetMock = setupSimpleMock(
   `/definitions/${productId}/dashboards/${lineTimeseriesPartialDataset.id}`,
   lineTimeseriesPartialDataset,
 )
+
 export const lineTimeseriesDailyDatasetDefinitionMock = setupSimpleMock(
   `/definitions/${productId}/dashboards/${lineTimeseriesDailyDataset.id}`,
   lineTimeseriesDailyDataset,
@@ -220,6 +221,9 @@ export const mocks = [
   doughnutCompleteDatasetMock,
   lineTimeseriesCompleteDatasetMock,
   lineTimeseriesPartialDatasetMock,
+  lineTimeseriesDailyDatasetDefinitionMock,
+  lineTimeseriesMonthlyDatasetDefinitionMock,
+  lineTimeseriesYearlyDatasetDefinitionMock,
   lineCompleteDatasetMock,
   linePartialDatasetMock,
   mixedPartialDatasetMock,

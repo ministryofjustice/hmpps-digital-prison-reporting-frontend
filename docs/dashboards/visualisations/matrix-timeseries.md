@@ -103,12 +103,22 @@ See [Custom buckets](/dashboards/visualisations/custom-buckets##custom-buckets) 
 
 # Examples
 
+## Time Granularity examples
+- [Daily Granularity](#daily-granularity)
+- [Monthly Granularity](#monthly-granularity)
+- [Yearly Granularity](#yearly-granularity)
+
+## Buckets and colour exampled
 - [Automatic bucketing](#automatic-bucketing)
 - [Custom base colour](#custom-base-colour)
 - [Custom buckets definition](#custom-buckets)
 - [Custom buckets thresholds and colours](#custom-buckets-thresholds-and-colours)
 - [Custom buckets with open ended boundaries](#custom-buckets-with-open-ended-boundaries)
 - [RAG colours](#rag-colours)
+
+<hr class='dpr-docs-hr'/>
+
+# Buckets and colour exampled
 
 ### Example Dataset
 
@@ -539,3 +549,94 @@ see [here](/dashboards/visualisations/visualisation-dataset) for more info on ta
 <img src="/assets/images/charts/matrix/matrixExample2.png" alt="bar chart example" width="500"/>
 
 <hr class='dpr-docs-hr'/>
+
+
+# Granularity examples
+
+# Daily Granularity
+
+In this example blah blah
+
+### Dataset
+
+```js
+```
+
+### Definition
+
+```js
+{}
+```
+
+### Visualisation dataset
+
+This definition will return the following dataset
+
+```js
+```
+
+see [here](/dashboards/visualisations/visualisation-dataset) for more info on targeting data
+
+### Visualisation
+
+<img src="/assets/images/charts/matrix/chart-0-chromium-linux.png" alt="bar chart example" width="500"/>
+
+<hr class='dpr-docs-hr'/>
+
+# Montly Granularity
+
+In this example blah blah
+
+### Dataset
+
+```js
+```
+
+### Definition
+
+```js
+{}
+```
+
+### Visualisation dataset
+
+This definition will return the following dataset
+
+```js
+```
+
+see [here](/dashboards/visualisations/visualisation-dataset) for more info on targeting data
+
+### Visualisation
+
+<img src="/assets/images/charts/matrix/chart-1-chromium-linux.png" alt="bar chart example" width="500"/>
+
+<hr class='dpr-docs-hr'/>
+
+# Yearly Granularity
+
+In this example blah blah
+
+### Dataset
+
+```js
+```
+
+### Definition
+
+```js
+{}
+```
+
+### Visualisation dataset
+
+This definition will return the following dataset
+
+```js
+```
+
+see [here](/dashboards/visualisations/visualisation-dataset) for more info on targeting data
+
+### Visualisation
+
+<img src="/assets/images/charts/matrix/chart-2-chromium-linux.png" alt="bar chart example" width="500"/>

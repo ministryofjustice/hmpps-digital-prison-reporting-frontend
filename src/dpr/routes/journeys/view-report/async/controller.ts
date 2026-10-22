@@ -13,7 +13,7 @@ type RenderFunction<T = Record<string, unknown>> = (args: {
   res: Response
   services: Services
   next?: NextFunction
-}) => Promise<T & { expired?: boolean }>
+}) => Promise<T & { expired?: boolean; invalid?: boolean; reportName?: string; variantName?: string }>
 
 export class ViewAsyncController {
   layoutPath: string
@@ -64,6 +64,18 @@ export class ViewAsyncController {
         // If report/dashboard is expired redirect the the polling page to show expired status
         if (data.expired) {
           await updateStateToExpiredAndRedirect(req, res, this.services)
+          return
+        }
+
+        // report is invalid because it is missing the required request data
+        if (data.invalid) {
+          res.render(`dpr/routes/journeys/view-report/error`, {
+            layoutPath: this.layoutPath,
+            title: `Unable to view ${displayType}`,
+            error: {
+              userMessage: `<p class="govuk-body">The ${displayType}, <strong>${data.reportName} - ${data.variantName}</strong> cannot be displayed because the required information is unavailable.</p></br><p class="govuk-body">Please request and run it from the report catalogue on the homepage.</p>`,
+            },
+          })
           return
         }
 

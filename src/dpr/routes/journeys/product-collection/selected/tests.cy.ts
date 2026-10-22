@@ -43,6 +43,7 @@ context('Catalogue collections', () => {
           addBookmark('Interactive Report with async filters')
 
           cy.findByRole('combobox', { name: /Your collections/ }).select('My Starter Pack')
+          cy.findByRole('button', { name: /Apply collection/ }).click()
 
           const totalReportsStarterPack = [summaries[0], summaries[1]].reduce(
             (acc, cur) => acc + (cur.dashboards?.length ?? 0) + cur.variants.length,

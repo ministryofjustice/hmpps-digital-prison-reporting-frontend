@@ -1,4 +1,5 @@
 {% from "govuk/components/select/macro.njk" import govukSelect %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
 
 {% macro dprReportsCatalogueCollections(collectionsConfig) %}
 
@@ -9,22 +10,32 @@
   {% set formAction = collectionsConfig.formAction %}
 
   {% if productCollections.length > 0 %}
-    <div class="dpr-reports-catalogue-collection" data-dpr-module="dpr-reports-catalogue-collections">
+    <div class="dpr-reports-catalogue-collection">
       <form method="post" action="{{ formAction }}">
         <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
         <input type="hidden" name="returnTo" value="{{ currentUrl }}" />
-        {{
-          govukSelect({
-            id: 'productCollection',
-            name: 'productCollection',
-            value: selectedProductCollection.id,
-            items: productCollections,
-            label: {
-              text: 'Your collections',
-              classes: "govuk-label govuk-!-font-weight-bold govuk-!-margin-bottom-2"
-            }
-          })
-        }}
+
+        <div class="dpr-reports-catalogue-collection__controls">
+          {{
+            govukSelect({
+              id: 'productCollection',
+              name: 'productCollection',
+              value: selectedProductCollection.id,
+              items: productCollections,
+              label: {
+                text: 'Your collections',
+                classes: "govuk-label govuk-!-font-weight-bold govuk-!-margin-bottom-2 dpr-reports-catalogue-collection__select"
+              }
+            })
+          }}
+
+          {{
+            govukButton({
+              text: 'Apply collection',
+              classes: "govuk-button--primary dpr-reports-catalogue-collection__button"
+            })
+          }}
+        </div>
       </form>
     </div>
   {% endif %}

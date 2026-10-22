@@ -788,7 +788,7 @@ context('Dashboard visualisation: List', () => {
 
       it('should show an appropriate error message', () => {
         cy.findByRole('heading', { name: /Your report has failed to generate/ }).should('be.visible')
-        cy.findAllByRole('paragraph').eq(1).contains('Error: Schema validation error: measures is required')
+        cy.findAllByRole('paragraph').eq(1).contains('Schema validation error: measures is required')
       })
     })
 
@@ -810,7 +810,7 @@ context('Dashboard visualisation: List', () => {
         cy.findByRole('heading', { name: /Your report has failed to generate/ }).should('be.visible')
         cy.findAllByRole('paragraph')
           .eq(1)
-          .contains('Error: Schema validation error: Dashboard definition: Sections is required')
+          .contains('Schema validation error: Dashboard definition: Sections is required')
       })
     })
   })

@@ -7,7 +7,7 @@ phase: Beta
 
 <img src="/assets/images/charts/doughnut/Pie2.png" alt="" width="700" style="margin-bottom: 30px"/>
 
-The `doughnut` chart visualisation type represents data as a matrix/heatmap chart visualisation.
+The `doughnut` chart visualisation type represents data as a doughnut chart visualisation.
 
 - [When to use](#when-to-use)
 - [When not to use](#when-not-to-use)
@@ -42,7 +42,7 @@ Avoid using a pie chart when:
 - Negative values are present, as pie charts can only represent positive proportions of a whole.
 - The data doesn’t sum to a meaningful whole (e.g., independent metrics) - a pie chart implies parts of a single total.
 - Your categories don’t represent parts of a whole, but stand‑alone values better shown in a bar chart.
-- You need to compare multiple datasets - pie charts don’t scale well for side‑by‑side comparison.
+- You need to compare more than 2 datasets - pie charts don’t scale well for side‑by‑side comparison and become harder to read due to generating multiple layers of rings.  You should consider using a stacked bar chart instead in this case.
 - Order matters, such as progression or ranking - pie charts don’t convey sequence.
 
 <hr class='dpr-docs-hr'/>

@@ -7,7 +7,7 @@ title: Multi select
 
 ## Overview
 
-The DPR multiselect component is composite of the [GOV design system checkbox component](https://design-system.service.gov.uk/components/checkboxes/).
+The HMPPS Datahub multiselect component is composite of the [GOV design system checkbox component](https://design-system.service.gov.uk/components/checkboxes/).
 
 ### When to use
 

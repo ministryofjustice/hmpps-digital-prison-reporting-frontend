@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## 9.9.0
+
+Replaced all references of "DPR" and "Digital Prisons Reporting" to "HMPPS Datahub" in the library documentation website
+
 ## 9.8.0
 
 - Collections selector: Replaced auto submission of collection form with a manual apply collecton submit button.

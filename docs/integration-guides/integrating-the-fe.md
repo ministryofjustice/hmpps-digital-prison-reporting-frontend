@@ -8,8 +8,8 @@ This guide describes the integration process to add FE components and processes 
 
 ## Pre-requisites
 
-- [Integrate the DPR FE Library](/integration-guides/integrating-the-library)
-- [Integrate the DPR platform](/integration-guides/integrating-the-fe-platform)
+- [Integrate the HMPPS Datahub FE Library](/integration-guides/integrating-the-library)
+- [Integrate the HMPPS Datahub platform](/integration-guides/integrating-the-fe-platform)
 
 ## Contents
 
@@ -75,7 +75,7 @@ The catalogue component is used to:
 
 There are two ways of interacting with this component:
 
-- Using the configured route, made available by integrating the DPR routes. See <a href="/get-started/routes" target="_blank">Routes</a>
+- Using the configured route, made available by integrating the HMPPS Datahub routes. See <a href="/get-started/routes" target="_blank">Routes</a>
 - Embedding the component into your HTML directly.
 
 ## Embedding the component into your HTML directly
@@ -117,7 +117,7 @@ See [Catalogue](/components/catalogue) component for usage and examples.
 
 # My Reports Component
 
-This component is used to visualise and enable users to keep track of all requests, bookmarks and recently viewed reports so you can quickly navigate around the embedded DPR platform.
+This component is used to visualise and enable users to keep track of all requests, bookmarks and recently viewed reports so you can quickly navigate around the embedded HMPPS Datahub platform.
 
 It is responsible for:
 
@@ -130,7 +130,7 @@ It is responsible for:
 
 There are two ways of interacting with this component:
 
-- Using the configured route, made available by integrating the DPR routes. See <a href="/get-started/routes" target="_blank">Routes</a>
+- Using the configured route, made available by integrating the HMPPS Datahub routes. See <a href="/get-started/routes" target="_blank">Routes</a>
 - Embedding the component into your HTML directly
 
 ## Embedding the component into your HTML directly
@@ -151,7 +151,7 @@ export function routes(services: Services): Router {
     const myReportsData = await initMyReports({ res, req, services })
 
     res.render('requested-reports.njk', {
-      title: 'DPR test site',
+      title: 'HMPPS Datahub test site',
       myReportsData
     })
   })

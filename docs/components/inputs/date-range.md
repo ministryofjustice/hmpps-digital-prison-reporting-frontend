@@ -8,7 +8,7 @@ subsection: Inputs
 
 ## Overview
 
-The DPR multiselect component is composite of the [MOJ design system date picker component](https://design-patterns.service.justice.gov.uk/components/date-picker/checkboxes/).
+The HMPPS Datahub multiselect component is composite of the [MOJ design system date picker component](https://design-patterns.service.justice.gov.uk/components/date-picker/checkboxes/).
 
 ### When to use
 

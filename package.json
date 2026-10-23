@@ -235,5 +235,10 @@
     "typescript": "^5.9.3",
     "wait-on": "^9.0.1",
     "wiremock": "^3.13.1"
+  },
+  "overrides": {
+    "nunjucks": {
+      "chokidar": "^6.0.0"
+    }
   }
 }

@@ -1,4 +1,4 @@
-import { expect, it, describe } from '@jest/globals'
+import { describe, expect, it } from '@jest/globals'
 import DateMapper from './DateMapper'
 
 const dateMapper = new DateMapper()
@@ -33,7 +33,6 @@ describe('getDateType', () => {
   })
 
   it('Not a matchable string', () => {
-    // eslint-disable-next-line  @typescript-eslint/ban-ts-comment
     // @ts-ignore
     expect(dateMapper.getDateType(0)).toEqual('none')
   })

@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import { Router } from 'express'
 import BookmarkListingController from './controller'
 import { Services } from '../../../../../types/Services'

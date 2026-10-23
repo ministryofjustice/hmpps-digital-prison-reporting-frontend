@@ -2,10 +2,10 @@ import { Result } from 'axe-core'
 import fs from 'fs'
 import { globSync } from 'glob'
 import DateMapper from 'src/dpr/utils/DateMapper/DateMapper'
-import { resetStubs, resetRedis, deleteStub } from './cypress-tests/mockApis/wiremock'
+import dashboardStubs from './cypress-tests/mockApis/dashboards'
 import missingRequestStubs from './cypress-tests/mockApis/missingRequest'
 import reportingStubs from './cypress-tests/mockApis/reporting'
-import dashboardStubs from './cypress-tests/mockApis/dashboards'
+import { deleteStub, resetRedis, resetStubs } from './cypress-tests/mockApis/wiremock'
 
 const config: Cypress.ConfigOptions = {
   chromeWebSecurity: false,
@@ -71,7 +71,6 @@ const config: Cypress.ConfigOptions = {
         },
         async checkFilesIncremented(beforeCount) {
           for (let i = 3; i > 0; i -= 1) {
-            // eslint-disable-next-line no-await-in-loop
             await new Promise(r => {
               setTimeout(r, 500)
             })

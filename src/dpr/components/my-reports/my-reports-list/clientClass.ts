@@ -1,6 +1,6 @@
-import { ListType } from '../types'
-import PollingClientClass from '../../../DprStatusPolling'
 import DprHtmlClient from '../../../DprHtmlClient'
+import PollingClientClass from '../../../DprStatusPolling'
+import { ListType } from '../types'
 
 class DprMyReports extends PollingClientClass {
   private rows!: NodeListOf<HTMLElement>
@@ -88,6 +88,7 @@ class DprMyReports extends PollingClientClass {
       // Re-query rows after DOM update
       this.rows = this.getElement().querySelectorAll('[data-row-id]')
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error('Polling error', error)
     }
   }
@@ -144,6 +145,7 @@ class DprMyReports extends PollingClientClass {
       })
 
       if (!res.ok) {
+        // eslint-disable-next-line no-console
         console.error('Remove failed')
         return
       }
@@ -175,6 +177,7 @@ class DprMyReports extends PollingClientClass {
       // Update the count in the tab
       if (total) this.updateTabCount(total)
     } catch (err) {
+      // eslint-disable-next-line no-console
       console.error('Remove error', err)
     } finally {
       this.removing = false

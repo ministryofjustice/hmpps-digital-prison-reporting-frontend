@@ -1,10 +1,9 @@
-/* eslint-disable prefer-destructuring */
+import { components } from '../../../../types/api'
 import {
-  DashboardVisualisationType,
   DashboardVisualisationData,
+  DashboardVisualisationType,
   VisualisationDefinitionKey,
 } from '../../../_dashboards/dashboard-visualisation/types'
-import { components } from '../../../../types/api'
 import Chart from '../Chart'
 import { DoughnutDefinitionMeasure, DoughnutDefinitionType } from './types'
 import DoughnutChartSchemas from './validate'

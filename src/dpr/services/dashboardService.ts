@@ -3,7 +3,6 @@ import DashboardClient from '../data/dashboardClient'
 import { components } from '../types/api'
 import { DashboardDataResponse } from '../types/Metrics'
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
 class DashboardService {
   constructor(private readonly dashboardClient: DashboardClient) {
     this.dashboardClient = dashboardClient

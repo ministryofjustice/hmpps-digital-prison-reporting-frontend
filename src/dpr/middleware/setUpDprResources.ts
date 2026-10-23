@@ -251,7 +251,6 @@ export function shouldRunDefinitionsCheck(session: { lastDefinitionsCheck?: numb
  * @param {{ lastDefinitionsCheck?: number }} session
  */
 export function recordDefinitionsCheck(session: { lastDefinitionsCheck?: number }) {
-  // eslint-disable-next-line no-param-reassign
   session.lastDefinitionsCheck = Date.now()
 }
 

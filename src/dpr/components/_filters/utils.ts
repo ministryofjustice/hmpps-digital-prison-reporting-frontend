@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import { Request, Response } from 'express'
 import { FilterType } from './filter-input/enum'
 import type { components } from '../../types/api'

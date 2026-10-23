@@ -34,7 +34,7 @@ describe('Reports Catalogue', () => {
         searchBox.type(productName)
 
         validateProductCount(2)
-        validateCatalogueTotals(36)
+        validateCatalogueTotals(37)
 
         const expectedCount = 35
 
@@ -132,7 +132,7 @@ describe('Reports Catalogue', () => {
       it('should show both dashboards and reports when all is ticked', () => {
         cy.findByRole('radio', { name: 'All' }).check()
 
-        validateCatalogueTotals(91)
+        validateCatalogueTotals(92)
         validateProductCount(6)
         const expectedCount = 25
         getProductRow('Feature testing').contains(`(${expectedCount} reports)`)
@@ -144,7 +144,7 @@ describe('Reports Catalogue', () => {
       it('should show just dashboards when "Dashboards" is ticked', () => {
         cy.findByRole('radio', { name: 'Dashboard' }).check()
 
-        validateCatalogueTotals(47)
+        validateCatalogueTotals(48)
         validateProductCount(3)
         const expectedCount = 6
         getProductRow('Feature testing').contains(`(${expectedCount} reports)`)
@@ -186,7 +186,7 @@ describe('Reports Catalogue', () => {
 
         cy.findByRole('checkbox', { name: 'Hide missing reports' }).check()
 
-        validateCatalogueTotals(89)
+        validateCatalogueTotals(90)
         validateProductCount(6)
         getProductRow('Feature testing').contains(`(23 reports)`)
         getProductRow('Feature testing').within(() => {

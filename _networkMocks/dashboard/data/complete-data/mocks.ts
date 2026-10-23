@@ -4,25 +4,32 @@ import { completeDataSetNoTs } from './data_no-ts'
 
 import { featureTestingIds } from '../../definitions/feature-testing'
 import { requestExampleIds } from '../../definitions/request-examples'
-import { visIdsNoTs, visualisationIds } from '../../definitions/visualisations/complete-dataset'
+import {
+  visIdsNoTs,
+  visualisationIds,
+  dailyDatasetVisIds,
+  monthlyDatasetVisIds,
+  yearlyDatasetVisIds,
+} from '../../definitions/visualisations/complete-dataset'
 import { completeDataSetAnnually } from './data_annually'
 import { completeDataSetDaily } from './data_daily'
+import { completeDataSetMonthly } from './date_monthly'
 
 const allIds = [...visualisationIds, ...requestExampleIds, ...featureTestingIds]
 const productIds = ['dashboard-visualisations', 'request-examples', 'feature-testing']
 
 export const dashboardResultCompleteDataMockDaily = setupSimpleMock(
-  `/reports/(${productIds.join('|')})/dashboards/matrix-examples_complete-data_daily/tables/tblId_[0-9]+/result`,
+  `/reports/(${productIds.join('|')})/dashboards/(${dailyDatasetVisIds.join('|')})/tables/tblId_[0-9]+/result`,
   completeDataSetDaily,
 )
 
 export const dashboardResultCompleteDataMockMonthly = setupSimpleMock(
-  `/reports/(${productIds.join('|')})/dashboards/matrix-examples_complete-data_monthly/tables/tblId_[0-9]+/result`,
-  completeDataSet,
+  `/reports/(${productIds.join('|')})/dashboards/(${monthlyDatasetVisIds.join('|')})/tables/tblId_[0-9]+/result`,
+  completeDataSetMonthly,
 )
 
 export const dashboardResultCompleteDataMockAnnually = setupSimpleMock(
-  `/reports/(${productIds.join('|')})/dashboards/matrix-examples_complete-data_annually/tables/tblId_[0-9]+/result`,
+  `/reports/(${productIds.join('|')})/dashboards/(${yearlyDatasetVisIds.join('|')})/tables/tblId_[0-9]+/result`,
   completeDataSetAnnually,
 )
 

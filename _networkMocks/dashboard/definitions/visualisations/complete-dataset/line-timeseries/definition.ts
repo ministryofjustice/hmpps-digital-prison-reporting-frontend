@@ -1,6 +1,6 @@
 import { components } from '../../../../../../src/dpr/types/api'
 import { fullDataset } from '../list/vis-definitions/full-data'
-import * as ListCharts from './vis-definitions/defintitions'
+import * as LineCharts from './vis-definitions/defintitions'
 
 export const definition: components['schemas']['DashboardDefinition'] = {
   id: 'line-timeseries-visualisations_complete-dataset',
@@ -12,18 +12,18 @@ export const definition: components['schemas']['DashboardDefinition'] = {
       id: 'section-1',
       display: 'Line timeseries charts - single line',
       visualisations: [
-        ListCharts.mockMetricOneLineChartTimeseries,
-        ListCharts.mockMetricTwoLineChartTimeseries,
-        ListCharts.mockMetricThreeLineChartTimeseries,
+        LineCharts.mockMetricOneLineChartTimeseries,
+        LineCharts.mockMetricTwoLineChartTimeseries,
+        LineCharts.mockMetricThreeLineChartTimeseries,
       ],
     },
     {
       id: 'section-2',
       display: 'Line timeseries charts - multiple line',
       visualisations: [
-        ListCharts.mockMetricOneLineChartTimeseriesAllEst,
-        ListCharts.mockMetricTwoLineChartTimeseriesAllEst,
-        ListCharts.mockMetricThreeLineChartTimeseriesAllEst,
+        LineCharts.mockMetricOneLineChartTimeseriesAllEst,
+        LineCharts.mockMetricTwoLineChartTimeseriesAllEst,
+        LineCharts.mockMetricThreeLineChartTimeseriesAllEst,
       ],
     },
     {

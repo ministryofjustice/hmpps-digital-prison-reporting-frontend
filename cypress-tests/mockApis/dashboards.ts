@@ -7,6 +7,9 @@ import {
   linePartialDatasetMock,
   lineTimeseriesCompleteDatasetMock,
   lineTimeseriesPartialDatasetMock,
+  lineTimeseriesDailyDatasetDefinitionMock,
+  lineTimeseriesMonthlyDatasetDefinitionMock,
+  lineTimeseriesYearlyDatasetDefinitionMock,
   listCompleteDatasetHistoricMock,
   listCompleteDatasetMock,
   listInvalidDefMock,
@@ -29,6 +32,7 @@ import {
   scorecardsCompleteDatasetNoTsMock,
   scorecardsInvalidVisDefinitionsMock,
   boxPlotMock,
+  lineTimeseriesInvalidtDefinitionMock,
 } from '@networkMocks/dashboard/definitions/visualisations/mocks'
 
 import {
@@ -112,6 +116,10 @@ const DoughnutDefinitionStubs = {
 const lineTimeseriesDefinitionStubs = {
   stubLineTimeseriesDashboardCompleteData: () => stubFor(lineTimeseriesCompleteDatasetMock),
   stubLineTimeseriesDashboardPartialData: () => stubFor(lineTimeseriesPartialDatasetMock),
+  stubLineTimeseriesDashboardDailyDataDef: () => stubFor(lineTimeseriesDailyDatasetDefinitionMock),
+  stubLineTimeseriesDashboardMonthlyDataDef: () => stubFor(lineTimeseriesMonthlyDatasetDefinitionMock),
+  stubLineTimeseriesDashboardYearlyDataDef: () => stubFor(lineTimeseriesYearlyDatasetDefinitionMock),
+  stubLineTimeseriesDashboardInvalidDef: () => stubFor(lineTimeseriesInvalidtDefinitionMock),
 }
 
 const lineDefinitionStubs = {

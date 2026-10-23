@@ -9,7 +9,7 @@ import {
   MoJTableRow,
 } from '../dashboard-visualisation/types'
 import ListVisSchemas from './validate'
-import { apiDateToUi } from '../../../utils/dateHelper'
+import { apiDateToUi, getGranularityFromDateFormat } from '../../../utils/dateHelper'
 
 export const createList = (
   listDefinition: components['schemas']['DashboardVisualisationDefinition'],
@@ -130,7 +130,8 @@ export const createTableRows = (
 
         const { type } = measure
         if (type === 'date' || type === 'timestamp') {
-          cellContent = apiDateToUi(cellContent) || cellContent
+          const granularity = getGranularityFromDateFormat(cellContent)
+          cellContent = apiDateToUi(cellContent, granularity) || cellContent
         }
 
         const cell: MoJTableRow = measure.type === 'HTML' ? { html: cellContent } : { text: cellContent }

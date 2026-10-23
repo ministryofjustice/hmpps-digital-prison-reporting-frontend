@@ -87,7 +87,7 @@ If no timestamp data is found then the trend is not displayed
 }
 ```
 
-See the [Targeting data](/dashboards/visualisations/visualisation-dataset) for and how to target data with the `column`
+See the [Targeting data](/dashboards/visualisations/visualisation-dataset) for and how to target data with the `column` field
 
 ### Options:
 
@@ -121,7 +121,6 @@ This exmaple demonstrates how to define a scorecard in its simplest form.
 
 ### Dataset
 
-```js
 | ts         | est_id | has_metric_two  | metric_two_is_missing  | has_metric_three | metric_three_is_missing |
 |------------|--------|-----------------|------------------------|------------------|-------------------------|
 | 2025-06-01 | ABC    | 74              | 485                    | 300              | 500                     |
@@ -130,7 +129,6 @@ This exmaple demonstrates how to define a scorecard in its simplest form.
 | 2025-09-01 | ABC    | 30              | 765                    | 220              | 214                     |
 | 2025-10-01 | ABC    | 42              | 765                    | 220              | 214                     |
 | 2025-11-01 | ABC    | 21              | 765                    | 220              | 214                     |
-```
 
 ### Definition
 
@@ -149,6 +147,8 @@ This exmaple demonstrates how to define a scorecard in its simplest form.
 
 ### Visualisation
 
+This will produce the following cart visualisation
+
 <img src="/assets/images/charts/scorecard/scorecard-simple.png" alt=""/>
 
 <hr class='dpr-docs-hr'/>
@@ -161,7 +161,6 @@ The example demonstrates how to a define scorecard that get its value by using t
 
 ### Dataset
 
-```js
 | ts         | est_id | has_metric_two | has_metric_three |
 |------------|--------|----------------|------------------|
 | 2025-06-01 | ABC    | 21             | 485              |
@@ -176,7 +175,6 @@ The example demonstrates how to a define scorecard that get its value by using t
 | 2025-10-01 | DEF    | 44             | 765              |
 | 2025-11-01 | ABC    | 12             | 765              |
 | 2025-11-01 | DEF    | 33             | 765              |
-```
 
 ### Definition
 
@@ -201,6 +199,8 @@ The example demonstrates how to a define scorecard that get its value by using t
 
 ### Visualisation
 
+This will produce the following cart visualisation
+
 <img src="/assets/images/charts/scorecard/scorecard-filter.png" alt=""/>
 
 <hr class='dpr-docs-hr'/>
@@ -209,7 +209,6 @@ The example demonstrates how to a define scorecard that get its value by using t
 
 ### Dataset
 
-```js
 | ts         | est_id | wing     | diet       | total  |
 |------------|--------|----------|------------|--------|
 | 2025-11-01 |        |          |            | 30     |
@@ -226,7 +225,6 @@ The example demonstrates how to a define scorecard that get its value by using t
 | 2025-11-01 |  ABC   | south    | Diet three | 3      |
 | 2025-11-01 |  ABC   | south    | Diet four  | 1      |
 ... omitted past ts rows.
-```
 
 ### Definition
 
@@ -282,6 +280,8 @@ The example demonstrates how to a define scorecard that get its value by using t
 
 ### Visualisation
 
+This will produce the following cart visualisation
+
 <img src="/assets/images/charts/scorecard/scorecard-diet-filters.png" alt=""/>
 
 <hr class='dpr-docs-hr'/>
@@ -292,7 +292,6 @@ Defining multiple `scorecard` visualisation types adjacent to each other within 
 
 ### Dataset
 
-```js
 | ts         | est_id | has_metric_two | has_metric_three | has_metric_one |
 |------------|--------|----------------|------------------|----------------|
 | 2025-06-01 | ABC    | 81             | 89               | 36             |
@@ -301,7 +300,6 @@ Defining multiple `scorecard` visualisation types adjacent to each other within 
 | 2025-09-01 | ABC    | 30             | 56               | 67             |
 | 2025-10-01 | ABC    | 42             | 43               | 42             |
 | 2025-11-01 | ABC    | 94             | 61               | 51             |
-```
 
 ### Definition
 
@@ -346,6 +344,8 @@ see [here](/dashboards/visualisations/visualisation-dataset) for more info on ta
 
 ### Visualisation
 
+This will produce the following cart visualisation
+
 <img src="/assets/images/charts/scorecard/scorecard-section.png" alt=""/>
 
 <hr class='dpr-docs-hr'/>
@@ -359,7 +359,6 @@ This examples display RAG scores within the scorecard:
 
 ### Dataset
 
-```js
 | ts         | est_id | has_metric_two | has_metric_three | has_metric_one |
 |------------|--------|----------------|------------------|----------------|
 | 2025-06-01 | ABC    | 37             | 85               | 75             |
@@ -368,7 +367,6 @@ This examples display RAG scores within the scorecard:
 | 2025-09-01 | ABC    | 30             | 56               | 67             |
 | 2025-10-01 | ABC    | 42             | 43               | 42             |
 | 2025-11-01 | ABC    | 87             | 29               | 38             |
-```
 
 ### Definition
 
@@ -423,6 +421,8 @@ see [here](/dashboards/visualisations/visualisation-dataset) for more info on ta
 
 ### Visualisation
 
+This will produce the following cart visualisation
+
 <img src="/assets/images/charts/scorecard/scorecard-section-rag.png" alt=""/>
 
 <hr class='dpr-docs-hr'/>
@@ -436,7 +436,6 @@ Define custom colours to your buckets:
 
 ### Dataset
 
-```js
 | ts         | est_id | has_metric_two | has_metric_three | has_metric_one |
 |------------|--------|----------------|------------------|----------------|
 | 2025-06-01 | ABC    | 70             | 30               | 60             |
@@ -445,7 +444,7 @@ Define custom colours to your buckets:
 | 2025-09-01  | ABC    | 30             | 56               | 67             |
 | 2025-10-01 | ABC    | 42             | 43               | 42             |
 | 2025-11-01 | ABC    | 98             | 13               | 51             |
-```
+
 
 ### Definition
 
@@ -511,6 +510,8 @@ see [here](/dashboards/visualisations/visualisation-dataset) for more info on ta
 
 ### Visualisation
 
+This will produce the following cart visualisation
+
 <img src="/assets/images/charts/scorecard/scorecard-bucket-colours.png" alt=""/>
 
 <hr class='dpr-docs-hr'/>
@@ -521,7 +522,6 @@ In this example custom buckets are defined in the definition to set the RAG scor
 
 ### Dataset
 
-```js
 | ts         | est_id | has_metric_two | has_metric_three | has_metric_one |
 |------------|--------|----------------|------------------|----------------|
 | 2025-06-01 | ABC    | 70             | 30               | 60             |
@@ -530,7 +530,6 @@ In this example custom buckets are defined in the definition to set the RAG scor
 | 2025-09-01 | ABC    | 30             | 56               | 67             |
 | 2025-10-01 | ABC    | 42             | 43               | 42             |
 | 2025-11-01 | ABC    | 98             | 13               | 51             |
-```
 
 ### Definition
 
@@ -599,6 +598,8 @@ See [Custom buckets](/dashboards/visualisations/custom-buckets##custom-buckets) 
 see [here](/dashboards/visualisations/visualisation-dataset) for more info on targeting data.
 
 ### Visualisation
+
+This will produce the following cart visualisation
 
 <img src="/assets/images/charts/scorecard/scorecard-custom-buckets.png" alt=""/>
 

@@ -61,7 +61,7 @@ Avoid using a pie chart when:
 }
 ```
 
-See the [Targeting data](/dashboards/visualisations/visualisation-dataset) for and how to target data with the `column`
+See the [Targeting data](/dashboards/visualisations/visualisation-dataset) for and how to target data with the `column` field
 
 <hr class='dpr-docs-hr'/>
 
@@ -72,14 +72,12 @@ See the [Targeting data](/dashboards/visualisations/visualisation-dataset) for a
 
 ### Example Dataset
 
-```js
-
 | ts     | est_id | has_metric_one | no_metric_one | has_metric_two | no_metric_two | has_metric_three | no_metric_three |
 |--------|--------|----------------|---------------|----------------|---------------|------------------|-----------------|
 | Jan 25 | ABC    | 533            | 614           | 684            | 665           | 680              | 799             |
 | Jan 25 | GHI    | 484            | 713           | 700            | 506           | 771              | 457             |
 | Jan 25 | DEF    | 406            | 682           | 703            | 409           | 648              | 720             |
-```
+
 
 <hr class='dpr-docs-hr'/>
 
@@ -124,19 +122,17 @@ See the [Targeting data](/dashboards/visualisations/visualisation-dataset) for a
 
 This definition will return the following dataset
 
-```js
-
 | ts     | est_id | has_metric_one | no_metric_one |
 |--------|--------|----------------|---------------|
 | Jan 25 | ABC    | 533            | 614           |
-
-```
 
 see [here](/dashboards/visualisations/visualisation-dataset) for more info on targeting data
 
 <hr class='dpr-docs-hr'/>
 
 ### Visualisation
+
+This will produce the following cart visualisation
 
 <img src="/assets/images/charts/doughnut/Pie1.png" alt="" width="700" style="margin-bottom: 30px"/>
 
@@ -191,17 +187,18 @@ see [here](/dashboards/visualisations/visualisation-dataset) for more info on ta
 
 This definition will return the following dataset
 
-```js
 | ts     | est_id | has_metric_two | no_metric_two | has_metric_three | no_metric_three |
 |--------|--------|----------------|---------------|------------------|-----------------|
 | Jan 25 | ABC    | 684            | 665           | 680              | 799             |
-```
+
 
 see [here](/dashboards/visualisations/visualisation-dataset) for more info on targeting data
 
 <hr class='dpr-docs-hr'/>
 
 ### Visualisation
+
+This will produce the following cart visualisation
 
 <img src="/assets/images/charts/doughnut/Pie2.png" alt="" width="700" style="margin-bottom: 30px"/>
 
@@ -250,18 +247,17 @@ see [here](/dashboards/visualisations/visualisation-dataset) for more info on ta
 
 This definition will return the following dataset
 
-```js
 | est_id | has_metric_one  | no_metric_one  |
 |--------|-----------------|----------------|
 | ABC    | 533             | 614            |
 | GHI    | 484             | 713            |
-
-```
 
 see [here](/dashboards/visualisations/visualisation-dataset) for more info on targeting data
 
 <hr class='dpr-docs-hr'/>
 
 ### Visualisation
+
+This will produce the following cart visualisation
 
 <img src="/assets/images/charts/doughnut/Pie3.png" alt="" width="700" style="margin-bottom: 30px"/>

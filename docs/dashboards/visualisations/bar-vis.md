@@ -62,7 +62,7 @@ Avoid using a `bar` chart when:
 
 See the [Visualisation definition](/dashboards/visualisations/visualisation-definition) docs for the definition schema
 
-See the [Targeting data](/dashboards/visualisations/visualisation-dataset) for and how to target data with the `column`
+See the [Targeting data](/dashboards/visualisations/visualisation-dataset) for and how to target data with the `column` field
 
 ### Options:
 
@@ -167,7 +167,6 @@ Here we can define the `axis` field on the specific dataset columns we want to u
 
 ### Example Dataset
 
-```js
 | ts         |  est_id  | wing  | cell  | diet        | count |
 |------------|----------| ------|-------|-------------|-------|
 | 2025/02/25 |          |       |       |             | 5000  |
@@ -180,7 +179,6 @@ Here we can define the `axis` field on the specific dataset columns we want to u
 | 2025/02/25 | ABC      |       |       | Diet two    | 463   |
 | 2025/02/25 | ABC      |       |       | Diet three  | 397   |
 | 2025/02/25 | ABC      |       |       | Diet four   | 80    |
-```
 
 ### Definition:
 
@@ -213,24 +211,18 @@ Here we can define the `axis` field on the specific dataset columns we want to u
 
 This definition will return the following dataset
 
-```js
 | ts         |  est_id  | wing  | cell  | diet        | count |
 |------------|----------| ------|-------|-------------|-------|
 | 2025/02/25 |          |       |       | Diet one    | 1219  |
 | 2025/02/25 |          |       |       | Diet two    | 1125  |
 | 2025/02/25 |          |       |       | Diet three  | 1838  |
 | 2025/02/25 |          |       |       | Diet four   | 818   |
-```
 
 see [here](/dashboards/visualisations/visualisation-dataset) for more info on targeting data
 
 ### Visualisation:
 
 <img src="/assets/images/charts/bar/bar1.png" alt="bar chart example" width="800"/>
-
-```
-
-```
 
 ## Horizontal stacked bar chart
 
@@ -242,14 +234,12 @@ In this example we will define which dataset columns to use in the horizontal st
 
 ### Example Dataset
 
-```js
 | est_id | has_metric_one | metric_one_is_missing | has_metric_two | metric_two_is_missing |
 |--------|----------------|-----------------------|----------------|-----------------------|
 | ABC    | 93             | 13                    | 84             | 20                    |
 | GHI    | 92             | 74                    | 49             | 1                     |
 | DEF    | 10             | 13                    | 74             | 65                    |
 | JKL    | 52             | 85                    | 90             | 3                     |
-```
 
 ### Definition
 
@@ -288,16 +278,12 @@ In this example we will define which dataset columns to use in the horizontal st
 
 This definition will return the following dataset
 
-```js
-
 | est_id | has_metric_one | has_metric_two |
 |--------|----------------|----------------|
 | ABC    | 93             | 84             |
 | GHI    | 92             | 49             |
 | DEF    | 10             | 74             |
 | JKL    | 52             | 90             |
-
-```
 
 see [here](/dashboards/visualisations/visualisation-dataset) for more info on targeting data
 

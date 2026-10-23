@@ -70,7 +70,7 @@ Avoid using a `line‑timeseries` chart when:
 }
 ```
 
-See the [Targeting data](/dashboards/visualisations/visualisation-dataset) for and how to target data with the `column`
+See the [Targeting data](/dashboards/visualisations/visualisation-dataset) for and how to target data with the `column` field
 
 <hr class='dpr-docs-hr'/>
 
@@ -152,7 +152,6 @@ Prisoner totals for missing MetricOne by establishment over time
 
 This definition will return the following dataset
 
-```js
 | ts         | est_id | no_metric_one  |
 |------------|--------|----------------|
 | 2024-08-01 | ABC    | 781            |
@@ -173,13 +172,14 @@ This definition will return the following dataset
 | 2025-01-01 | ABC    | 614            |
 | 2025-01-01 | GHI    | 713            |
 | 2025-01-01 | DEF    | 682            |
-```
 
 see [here](/dashboards/visualisations/visualisation-dataset) for more info on targeting data
 
 <hr class='dpr-docs-hr'/>
 
 ### Visualisation
+
+This will produce the following cart visualisation
 
 <img src="/assets/images/charts/line/Line-timeseries1.png" alt="" width="700" style="margin-bottom: 30px"/>
 
@@ -230,7 +230,6 @@ Prisoner totals for missing MetricOne by single establishment over time, using f
 
 This definition will return the following dataset
 
-```js
 | ts         | est_id | no_metric_one  |
 |------------|--------|----------------|
 | 2024-08-01 | ABC    | 781            |
@@ -239,13 +238,14 @@ This definition will return the following dataset
 | 2024-11-01 | ABC    | 522            |
 | 2024-12-01 | ABC    | 431            |
 | 2025-01-01 | ABC    | 614            |
-```
 
 see [here](/dashboards/visualisations/visualisation-dataset) for more info on targeting data
 
 <hr class='dpr-docs-hr'/>
 
 ### Visualisation
+
+This will produce the following cart visualisation
 
 <img src="/assets/images/charts/line/Line-timeseries2.png" alt="" width="700" style="margin-bottom: 30px"/>
 

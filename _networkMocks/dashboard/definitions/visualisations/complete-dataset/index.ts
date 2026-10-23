@@ -34,8 +34,14 @@ import { definition as barChartsDefinition } from './bar/definition'
 import { definition as doughnutChartsDefinition } from './doughnut/definition'
 
 // line
-import { definition as linetimeseriesChartsDefinition } from './line-timeseries/definition'
 import { definition as lineCompleteDefinition } from './line/definition'
+
+// line-timeseries
+import { definition as linetimeseriesChartsDefinition } from './line-timeseries/definition'
+import { definition as linetimeseriesChartsDailyDefinition } from './line-timeseries/definition-granularity-daily'
+import { definition as linetimeseriesChartsMonthlyDefinition } from './line-timeseries/defintion-granularity-monthly'
+import { definition as linetimeseriesChartsAnnaullyDefinition } from './line-timeseries/definition-granularity-yearly'
+import { definition as linetimeseriesInvalidCharts } from './line-timeseries/definition-invalid'
 
 // Boxplot
 import { definition as boxPlotChartsDefinition } from './boxplot/definition'
@@ -48,37 +54,53 @@ const scorecards = [
   scorecardsCompleteDataset,
   scorecardsCompleteBadDataset,
   scorecardsBucketsCompleteDataset,
-  scorecardsCompleteNoTsDataset,
   scorecardsInvalid,
 ]
-const scorecardGroups = [
-  scorecardGroupCompleteDataset,
-  scorecardGroupCompleteDatasetInvalid,
-  scorecardGroupCompleteDataseNoTs,
-]
-const matrixParentChildDefs = [matrixChartDefinition, matrixChartMonthlyDefinition, matrixChartAnnuallyDefinition]
-const matrixDefs = [matrixChartAutoBucketedDefinition, matrixChartBucketedDefinition]
+const scorecardGroups = [scorecardGroupCompleteDataset, scorecardGroupCompleteDatasetInvalid]
+const scorecardsNoTs = [scorecardGroupCompleteDataseNoTs, scorecardsCompleteNoTsDataset]
+
 const barChartDefs = [barChartsDefinition]
 const doughnutChartDefs = [doughnutChartsDefinition]
 const lineDefs = [lineCompleteDefinition]
 const lineTimeseriesDefs = [linetimeseriesChartsDefinition]
 const boxPlotDefs = [boxPlotChartsDefinition]
 
+// Chart definitions that use the all purpose complete dataset
 const completeDatasetVisualisationIds = [
   ...lists,
   ...scorecards,
   ...scorecardGroups,
-  ...matrixDefs,
   ...barChartDefs,
   ...doughnutChartDefs,
   ...lineTimeseriesDefs,
   ...lineDefs,
   mixedDefinition,
+  linetimeseriesInvalidCharts,
 ]
+
+// Chart definitions that use the DAILY complete dataset
+const completeDatasetDailyVisualisationIds = [matrixChartDefinition, linetimeseriesChartsDailyDefinition]
+
+// Chart definitions that use the MONTHLY complete dataset
+const completeDatasetMonthlyVisualisationIds = [
+  matrixChartMonthlyDefinition,
+  matrixChartAutoBucketedDefinition,
+  matrixChartBucketedDefinition,
+  linetimeseriesChartsMonthlyDefinition,
+]
+
+// Chart definitions that use the YEARLY complete dataset
+const completeDatasetYearlyVisualisationIds = [matrixChartAnnuallyDefinition, linetimeseriesChartsAnnaullyDefinition]
+
+// Chart definitions that use the NO TS complete dataset
+const completeDatasetNoTsVisualisationIds = [...scorecardsNoTs]
 
 export const allVisualisations: components['schemas']['DashboardDefinition'][] = [
   ...completeDatasetVisualisationIds,
-  ...matrixParentChildDefs,
+  ...completeDatasetDailyVisualisationIds,
+  ...completeDatasetMonthlyVisualisationIds,
+  ...completeDatasetYearlyVisualisationIds,
+  ...completeDatasetNoTsVisualisationIds,
   ...boxPlotDefs,
 ]
 
@@ -86,6 +108,18 @@ export const visualisationIds: string[] = completeDatasetVisualisationIds.map(vi
   return vis.id
 })
 
-export const visIdsNoTs: string[] = [scorecardsCompleteNoTsDataset, scorecardGroupCompleteDataseNoTs].map(vis => {
+export const dailyDatasetVisIds: string[] = completeDatasetDailyVisualisationIds.map(vis => {
+  return vis.id
+})
+
+export const monthlyDatasetVisIds: string[] = completeDatasetMonthlyVisualisationIds.map(vis => {
+  return vis.id
+})
+
+export const yearlyDatasetVisIds: string[] = completeDatasetYearlyVisualisationIds.map(vis => {
+  return vis.id
+})
+
+export const visIdsNoTs: string[] = completeDatasetNoTsVisualisationIds.map(vis => {
   return vis.id
 })

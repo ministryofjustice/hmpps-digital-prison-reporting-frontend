@@ -6,6 +6,8 @@ import { definition as lineTimeseriesCompleteDataset } from './complete-dataset/
 import { definition as lineTimeseriesDailyDataset } from './complete-dataset/line-timeseries/definition-granularity-daily'
 import { definition as lineTimeseriesMonthlyDataset } from './complete-dataset/line-timeseries/defintion-granularity-monthly'
 import { definition as lineTimeseriesYearlyDataset } from './complete-dataset/line-timeseries/definition-granularity-yearly'
+import { definition as lineTimeseriesInvalid } from './complete-dataset/line-timeseries/definition-invalid'
+import { definition as lineTimeseriesPartialDataset } from './partial-dataset/line-timeseries/definition'
 import { definition as lineCompleteDataset } from './complete-dataset/line/definition'
 import { definition as listCompleteDataset } from './complete-dataset/list/definition'
 import { definition as listCompleteDatasetHistoric } from './complete-dataset/list/definition-historic'
@@ -29,7 +31,6 @@ import { definition as scorecardGroupCompleteDatasetInvalid } from './complete-d
 import { definition as scorecardGroupCompleteDatasetNoTs } from './complete-dataset/scorecardGroup/definiton-no-ts'
 import { definition as barPartialDataset } from './partial-dataset/bar/definition'
 import { definition as barInvalid } from './partial-dataset/bar/definition-invalid'
-import { definition as lineTimeseriesPartialDataset } from './partial-dataset/line-timeseries/definition'
 import { definition as linePartialDataset } from './partial-dataset/line/definition'
 import { definition as listPartialDataset } from './partial-dataset/list/definition'
 import { definition as listPartialDatasetHistoric } from './partial-dataset/list/definition-historic'
@@ -159,7 +160,6 @@ export const lineTimeseriesPartialDatasetMock = setupSimpleMock(
   `/definitions/${productId}/dashboards/${lineTimeseriesPartialDataset.id}`,
   lineTimeseriesPartialDataset,
 )
-
 export const lineTimeseriesDailyDatasetDefinitionMock = setupSimpleMock(
   `/definitions/${productId}/dashboards/${lineTimeseriesDailyDataset.id}`,
   lineTimeseriesDailyDataset,
@@ -171,6 +171,10 @@ export const lineTimeseriesMonthlyDatasetDefinitionMock = setupSimpleMock(
 export const lineTimeseriesYearlyDatasetDefinitionMock = setupSimpleMock(
   `/definitions/${productId}/dashboards/${lineTimeseriesYearlyDataset.id}`,
   lineTimeseriesYearlyDataset,
+)
+export const lineTimeseriesInvalidtDefinitionMock = setupSimpleMock(
+  `/definitions/${productId}/dashboards/${lineTimeseriesInvalid.id}`,
+  lineTimeseriesInvalid,
 )
 
 // LINE definition examples
@@ -224,6 +228,7 @@ export const mocks = [
   lineTimeseriesDailyDatasetDefinitionMock,
   lineTimeseriesMonthlyDatasetDefinitionMock,
   lineTimeseriesYearlyDatasetDefinitionMock,
+  lineTimeseriesInvalidtDefinitionMock,
   lineCompleteDatasetMock,
   linePartialDatasetMock,
   mixedPartialDatasetMock,

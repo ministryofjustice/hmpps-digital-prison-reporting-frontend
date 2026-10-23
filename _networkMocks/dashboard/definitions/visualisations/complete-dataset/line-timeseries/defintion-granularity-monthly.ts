@@ -11,9 +11,18 @@ export const definition: components['schemas']['DashboardDefinition'] = {
       id: 'section-2',
       display: 'Line timeseries monthly charts',
       visualisations: [
-        LineCharts.mockMetricOneLineChartTimeseriesAllEst,
-        LineCharts.mockMetricTwoLineChartTimeseriesAllEst,
-        LineCharts.mockMetricThreeLineChartTimeseriesAllEst,
+        {
+          ...LineCharts.mockMetricOneLineChartTimeseriesAllEst,
+          id: 'line-timeseries-monthly-1',
+        },
+        {
+          ...LineCharts.mockMetricTwoLineChartTimeseriesAllEst,
+          id: 'line-timeseries-monthly-2',
+        },
+        {
+          ...LineCharts.mockMetricThreeLineChartTimeseriesAllEst,
+          id: 'line-timeseries-monthly-3',
+        },
       ],
     },
     {

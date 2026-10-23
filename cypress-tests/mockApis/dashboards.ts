@@ -32,6 +32,7 @@ import {
   scorecardsCompleteDatasetNoTsMock,
   scorecardsInvalidVisDefinitionsMock,
   boxPlotMock,
+  lineTimeseriesInvalidtDefinitionMock,
 } from '@networkMocks/dashboard/definitions/visualisations/mocks'
 
 import {
@@ -118,6 +119,7 @@ const lineTimeseriesDefinitionStubs = {
   stubLineTimeseriesDashboardDailyDataDef: () => stubFor(lineTimeseriesDailyDatasetDefinitionMock),
   stubLineTimeseriesDashboardMonthlyDataDef: () => stubFor(lineTimeseriesMonthlyDatasetDefinitionMock),
   stubLineTimeseriesDashboardYearlyDataDef: () => stubFor(lineTimeseriesYearlyDatasetDefinitionMock),
+  stubLineTimeseriesDashboardInvalidDef: () => stubFor(lineTimeseriesInvalidtDefinitionMock),
 }
 
 const lineDefinitionStubs = {

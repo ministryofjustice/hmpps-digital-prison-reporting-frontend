@@ -41,6 +41,7 @@ import { definition as linetimeseriesChartsDefinition } from './line-timeseries/
 import { definition as linetimeseriesChartsDailyDefinition } from './line-timeseries/definition-granularity-daily'
 import { definition as linetimeseriesChartsMonthlyDefinition } from './line-timeseries/defintion-granularity-monthly'
 import { definition as linetimeseriesChartsAnnaullyDefinition } from './line-timeseries/definition-granularity-yearly'
+import { definition as linetimeseriesInvalidCharts } from './line-timeseries/definition-invalid'
 
 // Boxplot
 import { definition as boxPlotChartsDefinition } from './boxplot/definition'
@@ -74,6 +75,7 @@ const completeDatasetVisualisationIds = [
   ...lineTimeseriesDefs,
   ...lineDefs,
   mixedDefinition,
+  linetimeseriesInvalidCharts,
 ]
 
 // Chart definitions that use the DAILY complete dataset

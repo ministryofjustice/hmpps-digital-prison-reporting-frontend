@@ -192,7 +192,7 @@
     "@typescript-eslint/eslint-plugin": "^8.56.1",
     "@typescript-eslint/parser": "^8.56.1",
     "axe-core": "^4.12.0",
-    "chokidar": "^3.6.0",
+    "chokidar": "^6.0.0",
     "concurrently": "^10.0.3",
     "cypress": "15.21.1",
     "cypress-axe": "^1.6.0",

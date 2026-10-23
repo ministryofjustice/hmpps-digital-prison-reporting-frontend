@@ -35,7 +35,7 @@ To define a list visualisation:
 ```
 See the [Visualisation definition](/dashboards/visualisations/visualisation-definition) docs for the definition schema
 
-See the [Targeting data](/dashboards/visualisations/visualisation-dataset) for and how to target data with the `column`
+See the [Targeting data](/dashboards/visualisations/visualisation-dataset) for and how to target data with the `column` field
 
 ### Options:
 
@@ -63,13 +63,11 @@ There are two ways to represent data from a dataset as a list:
 
 ### Example Dataset
 
-```js
 | est_id | metric_1 | metric_2 | metric_3 | metric_4 |
 |--------|----------|----------|----------|----------|
 | ABC    | 100      | 231      | 300      | 500      |
 | DEF    | 200      | 238      | 280      | 320      |
 | JKL    | 150      | 208      | 220      | 214      |
-```
 
 <hr class='dpr-docs-hr'/>
 
@@ -113,13 +111,11 @@ There are two ways to represent data from a dataset as a list:
 
 ### Visualisation
 
-```js
 | Establishment ID | Metric 1 | Metric 2 title | Random name |
 |------------------|----------|----------------|-------------|
 | ABC              | 100      | 231            | 300         |
 | DEF              | 200      | 238            | 280         |
 | JKL              | 150      | 208            | 220         |
-```
 
 <hr class='dpr-docs-hr'/>
 

@@ -60,7 +60,7 @@ See the [scorecard](/dashboards/visualisations/scorecard) for details on how a s
 }
 ```
 
-See the [Targeting data](/dashboards/visualisations/visualisation-dataset) for and how to target data with the `column`
+See the [Targeting data](/dashboards/visualisations/visualisation-dataset) for and how to target data with the `column` field
 
 ### Options:
 
@@ -79,7 +79,6 @@ These examples demonstrate how to present multiple rows within a dataset as a sc
 
 For these examples we will use a mocked dataset representing data quality totals.
 
-```js
 | ts         | est_id | has_metric_two | has_metric_one | has_metric_three | metric_three_is_missing |
 |------------|--------|----------------|----------------|------------------|-------------------------|
 | Nov 25.    | ABC    | 21             | 91             | 54               | 63                      |
@@ -87,7 +86,6 @@ For these examples we will use a mocked dataset representing data quality totals
 | Nov 25.    | JKL    | 23             | 63             | 87               | 54                      |
 | Nov 25.    | GHI    | 86             | 64             | 36               | 87                      |
 ... omitted past ts data
-```
 
 <hr class='dpr-docs-hr'/>
 
@@ -136,6 +134,8 @@ In this dataset we have 4 unique values for `est_id`, therefore we will have 4 s
 ```
 
 ### Visualisation
+
+This will produce the following cart visualisation
 
 <img src="/assets/images/charts/scorecard-group/scorecard-group.png" alt=""/>
 
@@ -204,6 +204,8 @@ Each value in the group column will be used as new group:
 ```
 
 ### Visualisation
+
+This will produce the following cart visualisation
 
 <img src="/assets/images/charts/scorecard-group/scorecard-group-2.png" alt=""/>
 

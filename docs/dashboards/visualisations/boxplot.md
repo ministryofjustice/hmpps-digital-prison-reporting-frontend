@@ -66,7 +66,7 @@ Box plots can be less intuitive than bar or line charts, so they are most effect
 
 See the [Visualisation definition](/dashboards/visualisations/visualisation-definition) docs for the definition schema
 
-See the [Targeting data](/dashboards/visualisations/visualisation-dataset) for and how to target data with the `column`
+See the [Targeting data](/dashboards/visualisations/visualisation-dataset) for and how to target data with the `column` field
 
 ### Options:
 
@@ -89,7 +89,6 @@ option: {
 
 ### Example Dataset
 
-```js
 | Date       | Type | Cat1 | Cat2 | Cat3 | Cat4 | Cat5 | Cat6 | Cat7 | Cat8 |
 |------------|------|------|------|------|------|------|------|------|------|
 | 01/01/2026 | one  | 14   | 82   | 37   | 65   | 14   | 82   | 37   | 65   |
@@ -104,7 +103,6 @@ option: {
 | 03/01/2026 | one  | 55   | 43   | 27   | 96   | 55   | 43   | 27   | 96   |
 | 03/01/2026 | two  | 9    | 71   | 35   | 62   | 9    | 71   | 35   | 62   |
 | 03/01/2026 | two  | 18   | 89   | 50   | 6    | 18   | 89   | 50   | 6    |
-```
 
 <hr class='dpr-docs-hr'/>
 
@@ -151,7 +149,6 @@ An example boxplot visualisation definition where no keys/groups are specified
 
 This definition will return the following dataset
 
-```js
 | Cat1 | Cat2 | Cat3 | Cat4 |
 |------|------|------|------|
 | 14   | 82   | 37   | 65   |
@@ -166,13 +163,14 @@ This definition will return the following dataset
 | 55   | 43   | 27   | 96   |
 | 9    | 71   | 35   | 62   |
 | 18   | 89   | 50   | 6    |
-```
 
 see [here](/dashboards/visualisations/visualisation-dataset) for more info on targeting data
 
 <hr class='dpr-docs-hr'/>
 
 ### Visualisation
+
+This will produce the following cart visualisation
 
 <img src="/assets/images/charts/boxplot/chart-0-chromium-linux.png" alt="boxplot chart example" width="500"/>
 
@@ -221,7 +219,6 @@ An example boxplot visualisation definition using groups/keys
 
 This definition will return the following dataset
 
-```js
 | Date       | Type | Cat1 | Cat2 |
 |------------|------|------|------|
 | 01/01/2026 | one  | 14   | 82   |
@@ -236,12 +233,13 @@ This definition will return the following dataset
 | 03/01/2026 | one  | 55   | 43   |
 | 03/01/2026 | two  | 9    | 71   |
 | 03/01/2026 | two  | 18   | 89   |
-```
 
 see [here](/dashboards/visualisations/visualisation-dataset) for more info on targeting data
 
 <hr class='dpr-docs-hr'/>
 
 ### Visualisation
+
+This will produce the following cart visualisation
 
 <img src="/assets/images/charts/boxplot/chart-5-chromium-linux.png" alt="boxplot chart example 2" width="500"/>

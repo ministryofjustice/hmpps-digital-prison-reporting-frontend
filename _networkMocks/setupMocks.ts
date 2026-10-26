@@ -11,6 +11,9 @@ import { mocks as dashboardDefinitionMocks } from './dashboard/definitions/visua
 import { mocks as dashbordFeatureTestingMocks } from './dashboard/definitions/feature-testing/mocks'
 import { mocks as dashboardResultCompleteDataMock } from './dashboard/data/complete-data/mocks'
 import { mocks as dashboardResultPartialDataMocks } from './dashboard/data/partial-data/mocks'
+import { mocks as dashboardResultBoxPlotDataMocks } from './dashboard/data/box-plot-data/mocks'
+import { mocks as dashboardResultBadDataMocks } from './dashboard/data/bad-data/mocks'
+import { mocks as dashboardResultEmptyDataMocks } from './dashboard/data/empty-data/mocks'
 
 const setupMocks = async () => {
   const allMocks = [
@@ -21,10 +24,15 @@ const setupMocks = async () => {
     ...syncMocks,
     ...productCollectionMocks,
     ...featureFlagMocks,
+
+    // Dashboard data
     ...dashboardRequestMocks,
     ...dashbordFeatureTestingMocks,
     ...dashboardResultCompleteDataMock,
     ...dashboardResultPartialDataMocks,
+    ...dashboardResultBoxPlotDataMocks,
+    ...dashboardResultBadDataMocks,
+    ...dashboardResultEmptyDataMocks,
   ]
 
   await postNetworkMocks(allMocks)

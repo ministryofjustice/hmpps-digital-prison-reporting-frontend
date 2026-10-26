@@ -1,238 +1,56 @@
-import { setupSimpleMock } from '@networkMocks/generateNetworkMock'
+import { lineTimeseriesMocks } from './line-timeseries/mocks'
+import { matrixMocks } from './matrix/mocks'
+import { scorecardMocks } from './scorecard/mocks'
+import { scorecardGroupMocks } from './scorecardGroup/mocks'
+import { listMocks } from './list/mocks'
+import { barMocks } from './bar/mocks'
+import { boxPlotMocks } from './boxplot/mocks'
+import { lineMocks } from './line/mocks'
+import { doughnutMocks } from './doughnut/mocks'
+import { mixedMocks } from './mixed/mocks'
 
-import { definition as barCompleteDataset } from './complete-dataset/bar/definition'
-import { definition as doughnutCompleteDataset } from './complete-dataset/doughnut/definition'
-import { definition as lineTimeseriesCompleteDataset } from './complete-dataset/line-timeseries/definition'
-import { definition as lineTimeseriesDailyDataset } from './complete-dataset/line-timeseries/definition-granularity-daily'
-import { definition as lineTimeseriesMonthlyDataset } from './complete-dataset/line-timeseries/defintion-granularity-monthly'
-import { definition as lineTimeseriesYearlyDataset } from './complete-dataset/line-timeseries/definition-granularity-yearly'
-import { definition as lineTimeseriesInvalid } from './complete-dataset/line-timeseries/definition-invalid'
-import { definition as lineTimeseriesPartialDataset } from './partial-dataset/line-timeseries/definition'
-import { definition as lineCompleteDataset } from './complete-dataset/line/definition'
-import { definition as listCompleteDataset } from './complete-dataset/list/definition'
-import { definition as listCompleteDatasetHistoric } from './complete-dataset/list/definition-historic'
-import { definition as listInvalidDef } from './complete-dataset/list/definition-invalid'
-import { definition as listInvalidVisDef } from './complete-dataset/list/definition-invalid-vis-defs'
-import {
-  annuallyDefinition as matrixCompleteAnnuallyDataset,
-  autoBucketedDefinition as matrixCompleteAutoBucketedDataset,
-  bucketedDefinition as matrixCompleteBucketedDataset,
-  definition as matrixCompleteDataset,
-  monthlyDefinition as matrixCompleteMonthlyDataset,
-} from './complete-dataset/matrix/definition'
-import { definition as mixedCompleteDataset } from './complete-dataset/mixed/definition'
-import { definition as scorecardsCompleteDataset } from './complete-dataset/scorecard/definition'
-import { definition as scorecardsCompletebadDataset } from './complete-dataset/scorecard/definition-bad-data'
-import { definition as scorecardsBucketsCompleteDataset } from './complete-dataset/scorecard/definition-buckets'
-import { definition as scorecardsInvalidVisDefinitions } from './complete-dataset/scorecard/definition-invalid'
-import { definition as scorecardsBucketsCompleteDatasetNoTs } from './complete-dataset/scorecard/definition-no-ts'
-import { definition as scorecardGroupCompleteDataset } from './complete-dataset/scorecardGroup/definition'
-import { definition as scorecardGroupCompleteDatasetInvalid } from './complete-dataset/scorecardGroup/definition-invalid'
-import { definition as scorecardGroupCompleteDatasetNoTs } from './complete-dataset/scorecardGroup/definiton-no-ts'
-import { definition as barPartialDataset } from './partial-dataset/bar/definition'
-import { definition as barInvalid } from './partial-dataset/bar/definition-invalid'
-import { definition as linePartialDataset } from './partial-dataset/line/definition'
-import { definition as listPartialDataset } from './partial-dataset/list/definition'
-import { definition as listPartialDatasetHistoric } from './partial-dataset/list/definition-historic'
-import { definition as matrixInvalid } from './partial-dataset/matrix/definition-invalid'
-import { definition as mixedPartialDatasetHistoric } from './partial-dataset/mixed-historic/definition'
-import { definition as boxPlotDataset } from './complete-dataset/boxplot/definition'
-import { definition as mixedPartialDataset } from './partial-dataset/mixed/definition'
-
-const productId = 'dashboard-visualisations'
-
-// LIST Definition mocks
-export const listCompleteDatasetMock = setupSimpleMock(
-  `/definitions/${productId}/dashboards/${listCompleteDataset.id}`,
-  listCompleteDataset,
-)
-export const listCompleteDatasetHistoricMock = setupSimpleMock(
-  `/definitions/${productId}/dashboards/${listCompleteDatasetHistoric.id}`,
-  listCompleteDatasetHistoric,
-)
-export const listPartialDatasetMock = setupSimpleMock(
-  `/definitions/${productId}/dashboards/${listPartialDataset.id}`,
-  listPartialDataset,
-)
-export const listPartialDatasetHistoricMock = setupSimpleMock(
-  `/definitions/${productId}/dashboards/${listPartialDatasetHistoric.id}`,
-  listPartialDatasetHistoric,
-)
-export const listInvalidVisDefMock = setupSimpleMock(
-  `/definitions/${productId}/dashboards/${listInvalidVisDef.id}`,
-  listInvalidVisDef,
-)
-export const listInvalidDefMock = setupSimpleMock(
-  `/definitions/${productId}/dashboards/${listInvalidDef.id}`,
-  listInvalidDef,
-)
-
-// SCORECARD definition mocks
-export const scorecardsCompleteDatasetMock = setupSimpleMock(
-  `/definitions/${productId}/dashboards/${scorecardsCompleteDataset.id}`,
-  scorecardsCompleteDataset,
-)
-export const scorecardsBucketCompleteDatasetMock = setupSimpleMock(
-  `/definitions/${productId}/dashboards/${scorecardsBucketsCompleteDataset.id}`,
-  scorecardsBucketsCompleteDataset,
-)
-export const scorecardsCompleteDatasetNoTsMock = setupSimpleMock(
-  `/definitions/${productId}/dashboards/${scorecardsBucketsCompleteDatasetNoTs.id}`,
-  scorecardsBucketsCompleteDatasetNoTs,
-)
-export const scorecardsInvalidVisDefinitionsMock = setupSimpleMock(
-  `/definitions/${productId}/dashboards/${scorecardsInvalidVisDefinitions.id}`,
-  scorecardsInvalidVisDefinitions,
-)
-export const scorecardsCompletebadDatasetMock = setupSimpleMock(
-  `/definitions/${productId}/dashboards/${scorecardsCompletebadDataset.id}`,
-  scorecardsCompletebadDataset,
-)
-
-// SCORECARD GROUP definition mocks
-export const scorecardGroupCompleteDatasetMock = setupSimpleMock(
-  `/definitions/${productId}/dashboards/${scorecardGroupCompleteDataset.id}`,
-  scorecardGroupCompleteDataset,
-)
-export const scorecardGroupCompleteDatasetInvalidMock = setupSimpleMock(
-  `/definitions/${productId}/dashboards/${scorecardGroupCompleteDatasetInvalid.id}`,
-  scorecardGroupCompleteDatasetInvalid,
-)
-export const scorecardGroupCompleteDatasetNoTsMock = setupSimpleMock(
-  `/definitions/${productId}/dashboards/${scorecardGroupCompleteDatasetNoTs.id}`,
-  scorecardGroupCompleteDatasetNoTs,
-)
-
-// MATRIX definition examples
-export const matrixCompleteDailyDatasetMock = setupSimpleMock(
-  `/definitions/${productId}/dashboards/${matrixCompleteDataset.id}`,
-  matrixCompleteDataset,
-)
-
-export const matrixCompleteMonthlyDatasetMock = setupSimpleMock(
-  `/definitions/${productId}/dashboards/${matrixCompleteMonthlyDataset.id}`,
-  matrixCompleteMonthlyDataset,
-)
-
-export const matrixCompleteAnnuallyDatasetMock = setupSimpleMock(
-  `/definitions/${productId}/dashboards/${matrixCompleteAnnuallyDataset.id}`,
-  matrixCompleteAnnuallyDataset,
-)
-
-export const matrixCompleteAutoBucketedDatasetMock = setupSimpleMock(
-  `/definitions/${productId}/dashboards/${matrixCompleteAutoBucketedDataset.id}`,
-  matrixCompleteAutoBucketedDataset,
-)
-
-export const matrixCompleteBucketedDatasetMock = setupSimpleMock(
-  `/definitions/${productId}/dashboards/${matrixCompleteBucketedDataset.id}`,
-  matrixCompleteBucketedDataset,
-)
-
-export const matrixInvalidMock = setupSimpleMock(
-  `/definitions/${productId}/dashboards/${matrixInvalid.id}`,
-  matrixInvalid,
-)
-
-// BAR definition examples
-export const barCompleteDatasetMock = setupSimpleMock(
-  `/definitions/${productId}/dashboards/${barCompleteDataset.id}`,
-  barCompleteDataset,
-)
-export const barPartialDatasetMock = setupSimpleMock(
-  `/definitions/${productId}/dashboards/${barPartialDataset.id}`,
-  barPartialDataset,
-)
-export const barInvalidMock = setupSimpleMock(`/definitions/${productId}/dashboards/${barInvalid.id}`, barInvalid)
-
-// DOUGHNUT definition examples
-export const doughnutCompleteDatasetMock = setupSimpleMock(
-  `/definitions/${productId}/dashboards/${doughnutCompleteDataset.id}`,
-  doughnutCompleteDataset,
-)
-
-// LINE-TIMESERIES definition examples
-export const lineTimeseriesCompleteDatasetMock = setupSimpleMock(
-  `/definitions/${productId}/dashboards/${lineTimeseriesCompleteDataset.id}`,
-  lineTimeseriesCompleteDataset,
-)
-export const lineTimeseriesPartialDatasetMock = setupSimpleMock(
-  `/definitions/${productId}/dashboards/${lineTimeseriesPartialDataset.id}`,
-  lineTimeseriesPartialDataset,
-)
-export const lineTimeseriesDailyDatasetDefinitionMock = setupSimpleMock(
-  `/definitions/${productId}/dashboards/${lineTimeseriesDailyDataset.id}`,
-  lineTimeseriesDailyDataset,
-)
-export const lineTimeseriesMonthlyDatasetDefinitionMock = setupSimpleMock(
-  `/definitions/${productId}/dashboards/${lineTimeseriesMonthlyDataset.id}`,
-  lineTimeseriesMonthlyDataset,
-)
-export const lineTimeseriesYearlyDatasetDefinitionMock = setupSimpleMock(
-  `/definitions/${productId}/dashboards/${lineTimeseriesYearlyDataset.id}`,
-  lineTimeseriesYearlyDataset,
-)
-export const lineTimeseriesInvalidtDefinitionMock = setupSimpleMock(
-  `/definitions/${productId}/dashboards/${lineTimeseriesInvalid.id}`,
-  lineTimeseriesInvalid,
-)
-
-// LINE definition examples
-export const lineCompleteDatasetMock = setupSimpleMock(
-  `/definitions/${productId}/dashboards/${lineCompleteDataset.id}`,
-  lineCompleteDataset,
-)
-export const linePartialDatasetMock = setupSimpleMock(
-  `/definitions/${productId}/dashboards/${linePartialDataset.id}`,
-  linePartialDataset,
-)
-
-// BOXPLOT definition examples
-export const boxPlotMock = setupSimpleMock(`/definitions/${productId}/dashboards/${boxPlotDataset.id}`, boxPlotDataset)
-
-// MIXED definitions examples
-export const mixedCompleteDatasetMock = setupSimpleMock(
-  `/definitions/${productId}/dashboards/${mixedCompleteDataset.id}`,
-  mixedCompleteDataset,
-)
-export const mixedPartialDatasetMock = setupSimpleMock(
-  `/definitions/${productId}/dashboards/${mixedPartialDataset.id}`,
-  mixedPartialDataset,
-)
-export const mixedPartialDatasetHistoricMock = setupSimpleMock(
-  `/definitions/${productId}/dashboards/${mixedPartialDatasetHistoric.id}`,
-  mixedPartialDatasetHistoric,
-)
+export const mockDefinitions = {
+  lineTimeseries: {
+    ...lineTimeseriesMocks,
+  },
+  matrix: {
+    ...matrixMocks,
+  },
+  scorecard: {
+    ...scorecardMocks,
+  },
+  scorecardGroup: {
+    ...scorecardGroupMocks,
+  },
+  list: {
+    ...listMocks,
+  },
+  bar: {
+    ...barMocks,
+  },
+  boxPlot: {
+    ...boxPlotMocks,
+  },
+  line: {
+    ...lineMocks,
+  },
+  doughnut: {
+    ...doughnutMocks,
+  },
+  mixed: {
+    ...mixedMocks,
+  },
+}
 
 export const mocks = [
-  listCompleteDatasetMock,
-  listCompleteDatasetHistoricMock,
-  listPartialDatasetMock,
-  listPartialDatasetHistoricMock,
-  listInvalidDefMock,
-  scorecardsCompleteDatasetMock,
-  scorecardsBucketCompleteDatasetMock,
-  scorecardGroupCompleteDatasetMock,
-  matrixCompleteDailyDatasetMock,
-  matrixCompleteMonthlyDatasetMock,
-  matrixCompleteAnnuallyDatasetMock,
-  matrixCompleteAutoBucketedDatasetMock,
-  matrixCompleteBucketedDatasetMock,
-  matrixInvalidMock,
-  barCompleteDatasetMock,
-  barPartialDatasetMock,
-  barInvalidMock,
-  doughnutCompleteDatasetMock,
-  lineTimeseriesCompleteDatasetMock,
-  lineTimeseriesPartialDatasetMock,
-  lineTimeseriesDailyDatasetDefinitionMock,
-  lineTimeseriesMonthlyDatasetDefinitionMock,
-  lineTimeseriesYearlyDatasetDefinitionMock,
-  lineTimeseriesInvalidtDefinitionMock,
-  lineCompleteDatasetMock,
-  linePartialDatasetMock,
-  mixedPartialDatasetMock,
-  mixedCompleteDatasetMock,
-  mixedPartialDatasetHistoricMock,
-  boxPlotMock,
+  ...Object.values(lineTimeseriesMocks),
+  ...Object.values(matrixMocks),
+  ...Object.values(scorecardMocks),
+  ...Object.values(scorecardGroupMocks),
+  ...Object.values(listMocks),
+  ...Object.values(barMocks),
+  ...Object.values(boxPlotMocks),
+  ...Object.values(lineMocks),
+  ...Object.values(doughnutMocks),
+  ...Object.values(mixedMocks),
 ]

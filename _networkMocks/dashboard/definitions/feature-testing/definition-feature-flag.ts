@@ -1,6 +1,6 @@
 import { establishmentIdFilterInteractiveFalse } from '@networkMocks/dashboard/filter-definitions'
 import { components } from 'src/dpr/types/api'
-import * as BarCharts from '../visualisations/complete-dataset/bar/vis-definitions/cols-as-labels'
+import * as BarCharts from '../visualisations/bar/vis-definitions/cols-as-labels'
 
 export const definition: components['schemas']['DashboardDefinition'] = {
   id: 'test-dashboard-8',

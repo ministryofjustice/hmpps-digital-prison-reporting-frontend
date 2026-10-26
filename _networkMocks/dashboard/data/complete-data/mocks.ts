@@ -4,34 +4,86 @@ import { completeDataSetNoTs } from './data_no-ts'
 
 import { featureTestingIds } from '../../definitions/feature-testing'
 import { requestExampleIds } from '../../definitions/request-examples'
-import {
-  visIdsNoTs,
-  visualisationIds,
-  dailyDatasetVisIds,
-  monthlyDatasetVisIds,
-  yearlyDatasetVisIds,
-} from '../../definitions/visualisations/complete-dataset'
+import { allVisualisationDefinitions as vds } from '../../definitions/visualisations'
+
 import { completeDataSetAnnually } from './data_annually'
 import { completeDataSetDaily } from './data_daily'
 import { completeDataSetMonthly } from './date_monthly'
 
-const allIds = [...visualisationIds, ...requestExampleIds, ...featureTestingIds]
+// ----------------------------------------------------------------------
+// Defintions that require a complete dataset
+//
+
+const completeVisDefinitionsIds = [
+  // lists
+  vds.listCompleteDataset,
+  vds.listCompleteDatasetHistoric,
+
+  // scorecards
+  vds.scorecardGroupCompleteDataset,
+  vds.scorecardsBucketsCompleteDataset,
+
+  // scorecardGroup
+  vds.scorecardGroupCompleteDatasetInvalid,
+  vds.scorecardGroupCompleteDataset,
+
+  // bar
+  vds.barChartsDefinition,
+  vds.barChartsDefinitionInvalid,
+
+  // dougnhut
+  vds.doughnutChartsDefinition,
+
+  // line
+  vds.lineDefinitionInvalid,
+  vds.lineCompleteDefinition,
+
+  // line-timeseries
+  vds.linetimeseriesChartsDefinition,
+].map(def => def.id)
+
+// ----------------------------------------------------------------------
+// Defintions that require a complete dataset with DAILY timestamp format (YYYY-MM-DD)
+//
+
+const dailyDatasetVisDefinitionIds = [vds.matrixChartDefinition, vds.linetimeseriesChartsDailyDefinition].map(
+  def => def.id,
+)
+
+// ----------------------------------------------------------------------
+// Defintions that require a complete dataset with MONTHLY timestamp format (YYYY-MM)
+//
+
+const monthlyDatasetVisDefinitionIds = [
+  vds.matrixChartMonthlyDefinition,
+  vds.matrixChartAutoBucketedDefinition,
+  vds.matrixChartBucketedDefinition,
+  vds.linetimeseriesChartsMonthlyDefinition,
+].map(def => def.id)
+
+// ----------------------------------------------------------------------
+// Defintions that require a complete dataset with YEARLY timestamp format (YYYY)
+//
+
+const yearlyDatasetVisDefinitionIds = [
+  vds.matrixChartAnnuallyDefinition,
+  vds.linetimeseriesChartsAnnaullyDefinition,
+].map(def => def.id)
+
+// ----------------------------------------------------------------------
+// Defintions that require a complete dataset with no timestamp
+//
+
+const noTsDatasetVisDefinitionIds = [vds.scorecardsCompleteNoTsDataset, vds.scorecardGroupCompleteDataseNoTs].map(
+  def => def.id,
+)
+
+// ----------------------------------------------------------------------
+// DASHBOARD DATASET RESULT MOCKS
+//
+
+const allIds = [...completeVisDefinitionsIds, ...requestExampleIds, ...featureTestingIds]
 const productIds = ['dashboard-visualisations', 'request-examples', 'feature-testing']
-
-export const dashboardResultCompleteDataMockDaily = setupSimpleMock(
-  `/reports/(${productIds.join('|')})/dashboards/(${dailyDatasetVisIds.join('|')})/tables/tblId_[0-9]+/result`,
-  completeDataSetDaily,
-)
-
-export const dashboardResultCompleteDataMockMonthly = setupSimpleMock(
-  `/reports/(${productIds.join('|')})/dashboards/(${monthlyDatasetVisIds.join('|')})/tables/tblId_[0-9]+/result`,
-  completeDataSetMonthly,
-)
-
-export const dashboardResultCompleteDataMockAnnually = setupSimpleMock(
-  `/reports/(${productIds.join('|')})/dashboards/(${yearlyDatasetVisIds.join('|')})/tables/tblId_[0-9]+/result`,
-  completeDataSetAnnually,
-)
 
 export const dashboardResultCompleteDataMock = setupSimpleMock(
   `/reports/(${productIds.join('|')})/dashboards/(${allIds.join('|')})/tables/tblId_[0-9]+/result`,
@@ -43,8 +95,23 @@ export const dashboardResultCompleteDataSyncMock = setupSimpleMock(
   completeDataSet,
 )
 
+export const dashboardResultCompleteDataMockDaily = setupSimpleMock(
+  `/reports/(${productIds.join('|')})/dashboards/(${dailyDatasetVisDefinitionIds.join('|')})/tables/tblId_[0-9]+/result`,
+  completeDataSetDaily,
+)
+
+export const dashboardResultCompleteDataMockMonthly = setupSimpleMock(
+  `/reports/(${productIds.join('|')})/dashboards/(${monthlyDatasetVisDefinitionIds.join('|')})/tables/tblId_[0-9]+/result`,
+  completeDataSetMonthly,
+)
+
+export const dashboardResultCompleteDataMockAnnually = setupSimpleMock(
+  `/reports/(${productIds.join('|')})/dashboards/(${yearlyDatasetVisDefinitionIds.join('|')})/tables/tblId_[0-9]+/result`,
+  completeDataSetAnnually,
+)
+
 export const dashboardResultCompleteDataNoTsMock = setupSimpleMock(
-  `/reports/(${productIds.join('|')})/dashboards/(${visIdsNoTs.join('|')})/tables/tblId_[0-9]+/result`,
+  `/reports/(${productIds.join('|')})/dashboards/(${noTsDatasetVisDefinitionIds.join('|')})/tables/tblId_[0-9]+/result`,
   completeDataSetNoTs,
 )
 

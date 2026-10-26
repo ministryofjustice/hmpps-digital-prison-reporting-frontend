@@ -14,21 +14,25 @@ const productIds = ['dashboard-visualisations', 'request-examples', 'feature-tes
 export const dashboardResultCompleteBadDataMock = setupSimpleMock(
   `/reports/(${productIds.join('|')})/dashboards/(${allIds.join('|')})/tables/tblId_[0-9]+/result`,
   completeBadDataSet,
+  2,
 )
 
 export const dashboardResultCompleteBadDataSyncMock = setupSimpleMock(
   `/reports/(${productIds.join('|')})/dashboards/(${allIds.join('|')})`,
   completeBadDataSet,
+  2,
 )
 
 export const dashboardResultCompleteBadDataDuplicatesMock = setupSimpleMock(
   `/reports/(${productIds.join('|')})/dashboards/(${allIds.join('|')})/tables/tblId_[0-9]+/result`,
   completeBadDataSetDuplicateKeyValues,
+  2,
 )
 
 export const dashboardResultCompleteBadDataDuplicatesSyncMock = setupSimpleMock(
   `/reports/(${productIds.join('|')})/dashboards/(${allIds.join('|')})`,
   completeBadDataSetDuplicateKeyValues,
+  2,
 )
 
 export const mocks = [

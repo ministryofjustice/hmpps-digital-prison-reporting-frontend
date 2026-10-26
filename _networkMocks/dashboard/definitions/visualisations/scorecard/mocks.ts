@@ -11,18 +11,22 @@ const scorecardsCompleteDatasetMock = setupSimpleMock(
   `${prefix}/${scorecardsCompleteDataset.id}`,
   scorecardsCompleteDataset,
 )
+
 const scorecardsBucketCompleteDatasetMock = setupSimpleMock(
   `${prefix}/${scorecardsBucketsCompleteDataset.id}`,
   scorecardsBucketsCompleteDataset,
 )
+
 const scorecardsCompleteDatasetNoTsMock = setupSimpleMock(
   `${prefix}/${scorecardsBucketsCompleteDatasetNoTs.id}`,
   scorecardsBucketsCompleteDatasetNoTs,
 )
+
 const scorecardsInvalidVisDefinitionsMock = setupSimpleMock(
   `${prefix}/${scorecardsInvalidVisDefinitions.id}`,
   scorecardsInvalidVisDefinitions,
 )
+
 const scorecardsCompletebadDatasetMock = setupSimpleMock(
   `${prefix}/${scorecardsCompletebadDataset.id}`,
   scorecardsCompletebadDataset,

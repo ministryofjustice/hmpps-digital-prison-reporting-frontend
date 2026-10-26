@@ -20,7 +20,7 @@ const completeVisDefinitionsIds = [
   vds.listCompleteDatasetHistoric,
 
   // scorecards
-  vds.scorecardGroupCompleteDataset,
+  vds.scorecardsCompleteDataset,
   vds.scorecardsBucketsCompleteDataset,
 
   // scorecardGroup
@@ -40,6 +40,9 @@ const completeVisDefinitionsIds = [
 
   // line-timeseries
   vds.linetimeseriesChartsDefinition,
+
+  // mixed
+  vds.mixedDefinition,
 ].map(def => def.id)
 
 // ----------------------------------------------------------------------

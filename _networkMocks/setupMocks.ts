@@ -19,13 +19,11 @@ const setupMocks = async () => {
   const allMocks = [
     ...basicMocks,
     ...reportMocks,
-    ...dashboardDefinitionMocks,
     ...missingReportMocks,
     ...syncMocks,
     ...productCollectionMocks,
     ...featureFlagMocks,
-
-    // Dashboard data
+    ...dashboardDefinitionMocks,
     ...dashboardRequestMocks,
     ...dashbordFeatureTestingMocks,
     ...dashboardResultCompleteDataMock,

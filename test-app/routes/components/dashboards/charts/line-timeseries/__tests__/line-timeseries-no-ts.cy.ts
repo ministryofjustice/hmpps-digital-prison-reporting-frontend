@@ -1,0 +1,34 @@
+import {
+  executeDashboardStubs,
+  requestReportByNameAndDescription,
+} from '../../../../../../../cypress-tests/cypressUtils'
+
+context('Dashboard visualisation: line-timeseries - No TS in result dataset', () => {
+  const path = '/'
+
+  describe('check chart responds to no TS', () => {
+    before(() => {
+      cy.task('resetStubs')
+
+      executeDashboardStubs()
+
+      cy.task('stubLineTimeseriesDashboardCompleteData')
+      cy.task('stubDashboardResultCompleteDataNoTs')
+
+      cy.visit(path)
+
+      requestReportByNameAndDescription({
+        name: 'Line-timeseries - Complete dataset',
+        description: 'This dashboard represents example line-timeseries visualisations using a',
+      })
+    })
+
+    it('responds appropriately to not having a TS in the dataset', () => {
+      cy.findByRole('heading', { name: /Your report has failed to generate/ }).should('be.visible')
+
+      cy.findAllByRole('paragraph')
+        .eq(1)
+        .contains('mockMetricOneLineChartTimeseries: No relevant timestamp field in dataset')
+    })
+  })
+})

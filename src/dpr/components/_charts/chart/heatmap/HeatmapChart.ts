@@ -86,7 +86,15 @@ class HeatmapChart {
     )
 
     if (!dateMeasure) {
-      throw new Error('No timestamp field in definition')
+      logger.debug(this.definition.id, JSON.stringify(this.measures))
+      throw new Error(`${this.definition.id}: No timestamp field in definition`)
+    }
+
+    const tsInData = this.responseData[0][dateMeasure?.id]
+
+    if (!tsInData) {
+      logger.debug(this.definition.id, JSON.stringify(this.measures))
+      throw new Error(`${this.definition.id}: No relevant timestamp field in dataset`)
     }
 
     const timeBlockData = DatasetHelper.groupRowsByTimestamp(this.responseData, dateMeasure)

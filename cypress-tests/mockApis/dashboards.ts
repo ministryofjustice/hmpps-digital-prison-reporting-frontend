@@ -113,25 +113,27 @@ const matrixDefinitionStubs = {
 
 const { scorecard } = mockDefinitions
 const scorecardDefinitionStubs = {
-  stubDefinitionScorecardDashboard: () => stubFor(scorecard.scorecardsCompleteDatasetMock),
-  stubDefinitionScorecardDashboardBadData: () => stubFor(scorecard.scorecardsCompletebadDatasetMock),
-  stubDefinitionScorecardDashboardNoTs: () => stubFor(scorecard.scorecardsCompleteDatasetNoTsMock),
-  stubDefinitionScorecardDashboardInvalidVisDefs: () => stubFor(scorecard.scorecardsInvalidVisDefinitionsMock),
-  stubDefinitionScorecardBucketDashboard: () => stubFor(scorecard.scorecardsBucketCompleteDatasetMock),
+  stubDefinitionScorecardDashboard: () => stubFor(scorecard.scorecardsDashboardDefinitionMock),
+  stubDefinitionScorecardDashboardBadData: () => stubFor(scorecard.scorecardsDashboardDefinitionBadDatasetMock),
+  stubDefinitionScorecardDashboardNoTs: () => stubFor(scorecard.scorecardsDashboardDefinitionNoTsMock),
+  stubDefinitionScorecardDashboardInvalidVisDefs: () =>
+    stubFor(scorecard.scorecardsDashboardDefinitionInvalidVisDefinitionsMock),
+  stubDefinitionScorecardBucketDashboard: () => stubFor(scorecard.scorecardsDashboardDefintionBucketMock),
 }
 
 const { scorecardGroup } = mockDefinitions
 const scorecardGroupDefinitionStubs = {
-  stubDefinitionScorecardGroupDashboard: () => stubFor(scorecardGroup.scorecardGroupCompleteDatasetMock),
-  stubDefinitionScorecardGroupDashboardInvalid: () => stubFor(scorecardGroup.scorecardGroupCompleteDatasetInvalidMock),
-  stubDefinitionScorecardGroupDashboardNoTs: () => stubFor(scorecardGroup.scorecardGroupCompleteDatasetNoTsMock),
+  stubDefinitionScorecardGroupDashboard: () => stubFor(scorecardGroup.scorecardGroupDashboardDefinitionMock),
+  stubDefinitionScorecardGroupDashboardInvalid: () =>
+    stubFor(scorecardGroup.scorecardGroupDashboardDefinitionInvalidMock),
+  stubDefinitionScorecardGroupDashboardNoTs: () => stubFor(scorecardGroup.scorecardGroupDashboardDefinitionNoTsMock),
 }
 
 const { mixed } = mockDefinitions
 const mixedChartsDefinitionStubs = {
-  stubMixedDashboardCompleteData: () => stubFor(mixed.mixedCompleteDatasetMock),
-  stubMixedDashboardPartialData: () => stubFor(mixed.mixedPartialDatasetMock),
-  stubMixedDashboardPartialDataHistoric: () => stubFor(mixed.mixedPartialDatasetHistoricMock),
+  stubMixedDashboardCompleteData: () => stubFor(mixed.mixedDashboardDefinitionMock),
+  stubMixedDashboardPartialData: () => stubFor(mixed.mixedDashboardDefinitionMergedMock),
+  stubMixedDashboardPartialDataHistoric: () => stubFor(mixed.mixedDashboardDefinitionMergedDatasetHistoricMock),
 }
 
 const { boxPlot } = mockDefinitions

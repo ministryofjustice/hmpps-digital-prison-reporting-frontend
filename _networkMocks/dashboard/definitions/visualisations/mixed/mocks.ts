@@ -5,15 +5,15 @@ import { definition as mixedMergedDataset } from './definitions/definition-merge
 
 const prefix = '/definitions/dashboard-visualisations/dashboards'
 
-const mixedCompleteDatasetMock = setupSimpleMock(`${prefix}/${mixedCompleteDataset.id}`, mixedCompleteDataset)
-const mixedPartialDatasetMock = setupSimpleMock(`${prefix}/${mixedMergedDataset.id}`, mixedMergedDataset)
-const mixedPartialDatasetHistoricMock = setupSimpleMock(
+const mixedDashboardDefinitionMock = setupSimpleMock(`${prefix}/${mixedCompleteDataset.id}`, mixedCompleteDataset)
+const mixedDashboardDefinitionMergedMock = setupSimpleMock(`${prefix}/${mixedMergedDataset.id}`, mixedMergedDataset)
+const mixedDashboardDefinitionMergedDatasetHistoricMock = setupSimpleMock(
   `${prefix}/${mixedMergedDatasetHistoric.id}`,
   mixedMergedDatasetHistoric,
 )
 
 export const mixedMocks = {
-  mixedCompleteDatasetMock,
-  mixedPartialDatasetMock,
-  mixedPartialDatasetHistoricMock,
+  mixedDashboardDefinitionMock,
+  mixedDashboardDefinitionMergedMock,
+  mixedDashboardDefinitionMergedDatasetHistoricMock,
 }

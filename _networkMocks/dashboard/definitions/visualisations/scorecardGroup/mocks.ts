@@ -5,23 +5,23 @@ import { definition as scorecardGroupCompleteDatasetNoTs } from './definitions/d
 
 const prefix = '/definitions/dashboard-visualisations/dashboards'
 
-const scorecardGroupCompleteDatasetMock = setupSimpleMock(
+const scorecardGroupDashboardDefinitionMock = setupSimpleMock(
   `${prefix}/${scorecardGroupCompleteDataset.id}`,
   scorecardGroupCompleteDataset,
 )
 
-const scorecardGroupCompleteDatasetInvalidMock = setupSimpleMock(
+const scorecardGroupDashboardDefinitionInvalidMock = setupSimpleMock(
   `${prefix}/${scorecardGroupCompleteDatasetInvalid.id}`,
   scorecardGroupCompleteDatasetInvalid,
 )
 
-const scorecardGroupCompleteDatasetNoTsMock = setupSimpleMock(
+const scorecardGroupDashboardDefinitionNoTsMock = setupSimpleMock(
   `${prefix}/${scorecardGroupCompleteDatasetNoTs.id}`,
   scorecardGroupCompleteDatasetNoTs,
 )
 
 export const scorecardGroupMocks = {
-  scorecardGroupCompleteDatasetMock,
-  scorecardGroupCompleteDatasetInvalidMock,
-  scorecardGroupCompleteDatasetNoTsMock,
+  scorecardGroupDashboardDefinitionMock,
+  scorecardGroupDashboardDefinitionInvalidMock,
+  scorecardGroupDashboardDefinitionNoTsMock,
 }

@@ -7,35 +7,35 @@ import { definition as scorecardsBucketsCompleteDatasetNoTs } from './definition
 
 const prefix = '/definitions/dashboard-visualisations/dashboards'
 
-const scorecardsCompleteDatasetMock = setupSimpleMock(
+const scorecardsDashboardDefinitionMock = setupSimpleMock(
   `${prefix}/${scorecardsCompleteDataset.id}`,
   scorecardsCompleteDataset,
 )
 
-const scorecardsBucketCompleteDatasetMock = setupSimpleMock(
+const scorecardsDashboardDefintionBucketMock = setupSimpleMock(
   `${prefix}/${scorecardsBucketsCompleteDataset.id}`,
   scorecardsBucketsCompleteDataset,
 )
 
-const scorecardsCompleteDatasetNoTsMock = setupSimpleMock(
+const scorecardsDashboardDefinitionNoTsMock = setupSimpleMock(
   `${prefix}/${scorecardsBucketsCompleteDatasetNoTs.id}`,
   scorecardsBucketsCompleteDatasetNoTs,
 )
 
-const scorecardsInvalidVisDefinitionsMock = setupSimpleMock(
+const scorecardsDashboardDefinitionInvalidVisDefinitionsMock = setupSimpleMock(
   `${prefix}/${scorecardsInvalidVisDefinitions.id}`,
   scorecardsInvalidVisDefinitions,
 )
 
-const scorecardsCompletebadDatasetMock = setupSimpleMock(
+const scorecardsDashboardDefinitionBadDatasetMock = setupSimpleMock(
   `${prefix}/${scorecardsCompletebadDataset.id}`,
   scorecardsCompletebadDataset,
 )
 
 export const scorecardMocks = {
-  scorecardsCompleteDatasetMock,
-  scorecardsBucketCompleteDatasetMock,
-  scorecardsCompleteDatasetNoTsMock,
-  scorecardsInvalidVisDefinitionsMock,
-  scorecardsCompletebadDatasetMock,
+  scorecardsDashboardDefinitionMock,
+  scorecardsDashboardDefintionBucketMock,
+  scorecardsDashboardDefinitionNoTsMock,
+  scorecardsDashboardDefinitionInvalidVisDefinitionsMock,
+  scorecardsDashboardDefinitionBadDatasetMock,
 }

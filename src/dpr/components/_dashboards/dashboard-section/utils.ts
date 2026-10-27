@@ -22,8 +22,6 @@ export const createDashboardSections = (
     const { id, display: title, description } = section
     const featureFlagVisTypeMap = getFeatureFlagVisTypeMap(dashboardFeatureFlags)
 
-    console.log(JSON.stringify({ dashboardData }, null, 2))
-
     let hasScorecard = false
     const visualisations: DashboardVisualisation[] = section.visualisations.map(
       (visDefinition: components['schemas']['DashboardVisualisationDefinition']) => {

@@ -8,41 +8,41 @@ import { definition as lineTimeseriesMergedDataset } from './definitions/definit
 
 const prefix = '/definitions/dashboard-visualisations/dashboards'
 
-const lineTimeseriesCompleteDatasetMock = setupSimpleMock(
+const lineTimeseriesDashboardDefinitionMock = setupSimpleMock(
   `${prefix}/${lineTimeseriesCompleteDataset.id}`,
   lineTimeseriesCompleteDataset,
 )
 
-const lineTimeseriesPartialDatasetMock = setupSimpleMock(
+const lineTimeseriesDashboadDefinitionMergedDatasetMock = setupSimpleMock(
   `${prefix}/${lineTimeseriesMergedDataset.id}`,
   lineTimeseriesMergedDataset,
 )
 
-const lineTimeseriesDailyDatasetDefinitionMock = setupSimpleMock(
+const lineTimeseriesDashboardDefinitionDailyDatasetMock = setupSimpleMock(
   `${prefix}/${lineTimeseriesDailyDataset.id}`,
   lineTimeseriesDailyDataset,
 )
 
-const lineTimeseriesMonthlyDatasetDefinitionMock = setupSimpleMock(
+const lineTimeseriesDashboardDefinitionMonthlyDatasetMock = setupSimpleMock(
   `${prefix}/${lineTimeseriesMonthlyDataset.id}`,
   lineTimeseriesMonthlyDataset,
 )
 
-const lineTimeseriesYearlyDatasetDefinitionMock = setupSimpleMock(
+const lineTimeseriesDashboardDefinitionYearlyDatasetMock = setupSimpleMock(
   `${prefix}/${lineTimeseriesYearlyDataset.id}`,
   lineTimeseriesYearlyDataset,
 )
 
-const lineTimeseriesInvalidtDefinitionMock = setupSimpleMock(
+const lineTimeseriesDashboardDefinitionInvalidMock = setupSimpleMock(
   `${prefix}/${lineTimeseriesInvalid.id}`,
   lineTimeseriesInvalid,
 )
 
 export const lineTimeseriesMocks = {
-  lineTimeseriesCompleteDatasetMock,
-  lineTimeseriesPartialDatasetMock,
-  lineTimeseriesDailyDatasetDefinitionMock,
-  lineTimeseriesMonthlyDatasetDefinitionMock,
-  lineTimeseriesYearlyDatasetDefinitionMock,
-  lineTimeseriesInvalidtDefinitionMock,
+  lineTimeseriesDashboardDefinitionMock,
+  lineTimeseriesDashboadDefinitionMergedDatasetMock,
+  lineTimeseriesDashboardDefinitionDailyDatasetMock,
+  lineTimeseriesDashboardDefinitionMonthlyDatasetMock,
+  lineTimeseriesDashboardDefinitionYearlyDatasetMock,
+  lineTimeseriesDashboardDefinitionInvalidMock,
 }

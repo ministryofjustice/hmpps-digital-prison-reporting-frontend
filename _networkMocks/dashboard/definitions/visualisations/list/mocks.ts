@@ -8,24 +8,24 @@ import { definition as listMergedDatasetHistoric } from './definitions/definitio
 
 const prefix = '/definitions/dashboard-visualisations/dashboards'
 
-const listCompleteDatasetMock = setupSimpleMock(`${prefix}/${listCompleteDataset.id}`, listCompleteDataset)
-const listCompleteDatasetHistoricMock = setupSimpleMock(
+const listDashboardDefinitionMock = setupSimpleMock(`${prefix}/${listCompleteDataset.id}`, listCompleteDataset)
+const listDashboardDefinitonHistoricMock = setupSimpleMock(
   `${prefix}/${listCompleteDatasetHistoric.id}`,
   listCompleteDatasetHistoric,
 )
-const listPartialDatasetMock = setupSimpleMock(`${prefix}/${listMergedDataset.id}`, listMergedDataset)
-const listPartialDatasetHistoricMock = setupSimpleMock(
+const listDashboardDefinitionMergedDatasetMock = setupSimpleMock(`${prefix}/${listMergedDataset.id}`, listMergedDataset)
+const listDashboardDefintionMergedDatasetHistoricMock = setupSimpleMock(
   `${prefix}/${listMergedDatasetHistoric.id}`,
   listMergedDatasetHistoric,
 )
-const listInvalidVisDefMock = setupSimpleMock(`${prefix}/${listInvalidVisDef.id}`, listInvalidVisDef)
-const listInvalidDefMock = setupSimpleMock(`${prefix}/${listInvalidDef.id}`, listInvalidDef)
+const listDashboardDefinitionInvalidVisDefMock = setupSimpleMock(`${prefix}/${listInvalidVisDef.id}`, listInvalidVisDef)
+const listDashboardDefinitionInvalidMock = setupSimpleMock(`${prefix}/${listInvalidDef.id}`, listInvalidDef)
 
 export const listMocks = {
-  listCompleteDatasetMock,
-  listCompleteDatasetHistoricMock,
-  listPartialDatasetMock,
-  listPartialDatasetHistoricMock,
-  listInvalidVisDefMock,
-  listInvalidDefMock,
+  listDashboardDefinitionMock,
+  listDashboardDefinitonHistoricMock,
+  listDashboardDefinitionMergedDatasetMock,
+  listDashboardDefintionMergedDatasetHistoricMock,
+  listDashboardDefinitionInvalidVisDefMock,
+  listDashboardDefinitionInvalidMock,
 }

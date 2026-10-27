@@ -62,49 +62,53 @@ import { dashboardFailureStubs } from './failures'
 // DEFINITIONS
 const { list } = mockDefinitions
 const listDefinitionStubs = {
-  stubListDashboardCompleteData: () => stubFor(list.listCompleteDatasetMock),
-  stubListDashboardCompleteDataHistoric: () => stubFor(list.listCompleteDatasetHistoricMock),
-  stubListDashboardPartialData: () => stubFor(list.listPartialDatasetMock),
-  stubListDashboardPartialDataHistoric: () => stubFor(list.listPartialDatasetHistoricMock),
-  stubListInvalidDefs: () => stubFor(list.listInvalidDefMock),
-  stubListInvalidVisDefs: () => stubFor(list.listInvalidVisDefMock),
+  stubListDashboardCompleteData: () => stubFor(list.listDashboardDefinitionMock),
+  stubListDashboardCompleteDataHistoric: () => stubFor(list.listDashboardDefinitonHistoricMock),
+  stubListDashboardPartialData: () => stubFor(list.listDashboardDefinitionMergedDatasetMock),
+  stubListDashboardPartialDataHistoric: () => stubFor(list.listDashboardDefintionMergedDatasetHistoricMock),
+  stubListInvalidDefs: () => stubFor(list.listDashboardDefinitionInvalidMock),
+  stubListInvalidVisDefs: () => stubFor(list.listDashboardDefinitionInvalidVisDefMock),
 }
 
 const { bar } = mockDefinitions
 const BarDefinitionStubs = {
-  stubBarDashboardCompleteData: () => stubFor(bar.barCompleteDatasetMock),
-  stubBarDashboardPartialData: () => stubFor(bar.barPartialDatasetMock),
-  stubBarInvalid: () => stubFor(bar.barInvalidMock),
+  stubBarDashboardCompleteData: () => stubFor(bar.barDashboardDefinitionMock),
+  stubBarDashboardPartialData: () => stubFor(bar.barDashboardDefinitionMergedDatasetMock),
+  stubBarInvalid: () => stubFor(bar.barDashboardDefinitionInvalidMock),
 }
 
 const { doughnut } = mockDefinitions
 const DoughnutDefinitionStubs = {
-  stubDoughnutDashboardCompleteData: () => stubFor(doughnut.doughnutCompleteDatasetMock),
+  stubDoughnutDashboardCompleteData: () => stubFor(doughnut.doughnutDashboardDefinitionMock),
 }
 
 const { lineTimeseries } = mockDefinitions
 const lineTimeseriesDefinitionStubs = {
-  stubLineTimeseriesDashboardCompleteData: () => stubFor(lineTimeseries.lineTimeseriesCompleteDatasetMock),
-  stubLineTimeseriesDashboardPartialData: () => stubFor(lineTimeseries.lineTimeseriesPartialDatasetMock),
-  stubLineTimeseriesDashboardDailyDataDef: () => stubFor(lineTimeseries.lineTimeseriesDailyDatasetDefinitionMock),
-  stubLineTimeseriesDashboardMonthlyDataDef: () => stubFor(lineTimeseries.lineTimeseriesMonthlyDatasetDefinitionMock),
-  stubLineTimeseriesDashboardYearlyDataDef: () => stubFor(lineTimeseries.lineTimeseriesYearlyDatasetDefinitionMock),
-  stubLineTimeseriesDashboardInvalidDef: () => stubFor(lineTimeseries.lineTimeseriesInvalidtDefinitionMock),
+  stubLineTimeseriesDashboardCompleteData: () => stubFor(lineTimeseries.lineTimeseriesDashboardDefinitionMock),
+  stubLineTimeseriesDashboardPartialData: () =>
+    stubFor(lineTimeseries.lineTimeseriesDashboadDefinitionMergedDatasetMock),
+  stubLineTimeseriesDashboardDailyDataDef: () =>
+    stubFor(lineTimeseries.lineTimeseriesDashboardDefinitionDailyDatasetMock),
+  stubLineTimeseriesDashboardMonthlyDataDef: () =>
+    stubFor(lineTimeseries.lineTimeseriesDashboardDefinitionMonthlyDatasetMock),
+  stubLineTimeseriesDashboardYearlyDataDef: () =>
+    stubFor(lineTimeseries.lineTimeseriesDashboardDefinitionYearlyDatasetMock),
+  stubLineTimeseriesDashboardInvalidDef: () => stubFor(lineTimeseries.lineTimeseriesDashboardDefinitionInvalidMock),
 }
 
 const { line } = mockDefinitions
 const lineDefinitionStubs = {
-  stubLineCompleteData: () => stubFor(line.lineCompleteDatasetMock),
-  stubLinePartialData: () => stubFor(line.linePartialDatasetMock),
-  stubLineDashboardInvalidDef: () => stubFor(line.lineInvalidDefinitionMock),
+  stubLineCompleteData: () => stubFor(line.lineDashboardDefinitionMock),
+  stubLinePartialData: () => stubFor(line.lineDashboardDefinitionMergedDatasetMock),
+  stubLineDashboardInvalidDef: () => stubFor(line.lineInvalidDashboardDefinitionMock),
 }
 
 const { matrix } = mockDefinitions
 const matrixDefinitionStubs = {
-  stubMatrixCompleteDailyData: () => stubFor(matrix.matrixCompleteDailyDatasetMock),
-  stubMatrixCompleteMonthlyData: () => stubFor(matrix.matrixCompleteMonthlyDatasetMock),
-  stubMatrixCompleteAnnuallyData: () => stubFor(matrix.matrixCompleteAnnuallyDatasetMock),
-  stubMatrixInvalid: () => stubFor(matrix.matrixInvalidMock),
+  stubMatrixCompleteDailyData: () => stubFor(matrix.matrixDashboardDefinitionDailyDatasetMock),
+  stubMatrixCompleteMonthlyData: () => stubFor(matrix.matrixDashboardDefinitionMonthlyDatasetMock),
+  stubMatrixCompleteAnnuallyData: () => stubFor(matrix.matrixDashboardDefinitionAnnuallyDatasetMock),
+  stubMatrixInvalid: () => stubFor(matrix.matrixDashboardDefinitionInvalidMock),
 }
 
 const { scorecard } = mockDefinitions
@@ -132,7 +136,7 @@ const mixedChartsDefinitionStubs = {
 
 const { boxPlot } = mockDefinitions
 const boxPlotChartsDefinitionStubs = {
-  stubDefinitionBoxPlotDashboard: () => stubFor(boxPlot.boxPlotMock),
+  stubDefinitionBoxPlotDashboard: () => stubFor(boxPlot.boxplotDashboardDefinitionMock),
 }
 
 const definitionStubs = {

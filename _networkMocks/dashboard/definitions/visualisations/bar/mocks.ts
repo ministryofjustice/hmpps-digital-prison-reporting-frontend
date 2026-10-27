@@ -5,12 +5,12 @@ import { definition as barInvalid } from './definitions/definition-invalid'
 
 const prefix = '/definitions/dashboard-visualisations/dashboards'
 
-const barCompleteDatasetMock = setupSimpleMock(`${prefix}/${definition.id}`, definition)
-const barPartialDatasetMock = setupSimpleMock(`${prefix}/${barMergedDataset.id}`, barMergedDataset)
-const barInvalidMock = setupSimpleMock(`${prefix}/${barInvalid.id}`, barInvalid)
+const barDashboardDefinitionMock = setupSimpleMock(`${prefix}/${definition.id}`, definition)
+const barDashboardDefinitionMergedDatasetMock = setupSimpleMock(`${prefix}/${barMergedDataset.id}`, barMergedDataset)
+const barDashboardDefinitionInvalidMock = setupSimpleMock(`${prefix}/${barInvalid.id}`, barInvalid)
 
 export const barMocks = {
-  barCompleteDatasetMock,
-  barPartialDatasetMock,
-  barInvalidMock,
+  barDashboardDefinitionMock,
+  barDashboardDefinitionMergedDatasetMock,
+  barDashboardDefinitionInvalidMock,
 }

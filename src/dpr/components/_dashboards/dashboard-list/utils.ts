@@ -1,7 +1,7 @@
 import { components } from '../../../types/api'
 import { DashboardDataResponse } from '../../../types/Metrics'
 import DatasetHelper, { getDateValue, getTimestampColumn } from '../../../utils/Dashboards/VisualisationDatasetHelper'
-import { apiDateToUi } from '../../../utils/dateHelper'
+import { apiDateToUi, getGranularityFromDateFormat } from '../../../utils/dateHelper'
 import {
   ListDashboardVisualisationOptions,
   MoJTable,
@@ -9,7 +9,6 @@ import {
   MoJTableRow,
 } from '../dashboard-visualisation/types'
 import ListVisSchemas from './validate'
-import { apiDateToUi, getGranularityFromDateFormat } from '../../../utils/dateHelper'
 
 export const createList = (
   listDefinition: components['schemas']['DashboardVisualisationDefinition'],

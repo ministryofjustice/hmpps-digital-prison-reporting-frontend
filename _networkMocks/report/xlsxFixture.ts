@@ -1,7 +1,7 @@
 // A real, minimal xlsx workbook produced by the reporting API's xlsx writer, used to
 // stub the download endpoints. Rows mirror the csv download mocks, with the first
 // column holding values Excel would otherwise mangle when reading a csv.
-// eslint-disable-next-line import/prefer-default-export
+
 export const xlsxReportBase64 =
   'UEsDBC0ACAAIAAAAAAAAAAAAAAAAAAAAAAATAAAAW0NvbnRlbnRfVHlwZXNdLnhtbLVTy27CMBD8lcjXKjb0UFUVgUMfxxap9ANc' +
   'e5NY+CWvofD3XQc4lFKJCnHyY2ZnZlf2ZLZxtlpDQhN8w8Z8xCrwKmjju4Z9LF7qe1Zhll5LGzw0bAvIZtPJYhsBK6r12LA+5/gg' +

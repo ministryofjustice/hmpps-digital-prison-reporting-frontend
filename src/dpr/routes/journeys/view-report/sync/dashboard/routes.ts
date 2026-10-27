@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import { Router } from 'express'
 import { ViewSyncDashboardController } from './controller'
 import { ViewSyncController } from '../controller'

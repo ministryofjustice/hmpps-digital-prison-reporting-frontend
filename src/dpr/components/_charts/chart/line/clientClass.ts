@@ -1,8 +1,8 @@
-/* eslint-disable class-methods-use-this */
 import { ChartConfiguration, ScriptableLineSegmentContext, TooltipItem } from 'chart.js'
 import ChartVisualisation from '../clientClass'
 
 class LineChartVisualisation extends ChartVisualisation {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   settings: Record<string, any> = {}
   chartData!: ChartConfiguration
   lastIndex: number = 0
@@ -43,6 +43,7 @@ class LineChartVisualisation extends ChartVisualisation {
   }
 
   setToolTipOptions() {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     const ctx = this
     return {
       callbacks: {

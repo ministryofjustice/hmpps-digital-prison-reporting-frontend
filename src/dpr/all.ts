@@ -1,4 +1,4 @@
-/* eslint-disable no-new */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 /* global dayjs */
 import dayjs from 'dayjs'
 import customParse from 'dayjs/plugin/customParseFormat'
@@ -38,10 +38,10 @@ import DprMyReports from './components/my-reports/my-reports-list/clientClass'
 
 // Charts
 import BarChartVisualisation from './components/_charts/chart/bar/clientClass'
+import BoxPlotChartVisualisation from './components/_charts/chart/box-plot/clientClass'
 import DoughnutChartVisualisation from './components/_charts/chart/doughnut/clientClass'
 import MatrixChartVisualisation from './components/_charts/chart/heatmap/clientClass'
 import LineChartVisualisation from './components/_charts/chart/line/clientClass'
-import BoxPlotChartVisualisation from './components/_charts/chart/box-plot/clientClass'
 
 // Dashboards
 import ScoreCard from './components/_dashboards/scorecard/clientClass'
@@ -106,6 +106,7 @@ function initAll() {
       try {
         new Component($element).initialise()
       } catch (error) {
+        // eslint-disable-next-line no-console
         console.log(error)
       }
     })

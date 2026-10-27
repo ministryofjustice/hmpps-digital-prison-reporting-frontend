@@ -1,5 +1,5 @@
-import DprStatusPolling from '../../../DprStatusPolling'
 import DprHtmlClient from '../../../DprHtmlClient'
+import DprStatusPolling from '../../../DprStatusPolling'
 
 class DprReportStatus extends DprStatusPolling {
   private container!: HTMLElement
@@ -66,6 +66,7 @@ class DprReportStatus extends DprStatusPolling {
         }, 1000)
       }
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error('Polling error', error)
     } finally {
       this.polling = false

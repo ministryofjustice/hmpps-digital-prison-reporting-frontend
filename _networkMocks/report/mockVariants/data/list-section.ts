@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 const section1_1 = [
   {
     field1: 'Value 1',

@@ -1,10 +1,8 @@
-/* eslint-disable prefer-destructuring */
-/* eslint-disable class-methods-use-this */
 import { Chart, ChartConfiguration, ChartType, Color, ScriptableContext, TooltipItem, TooltipModel } from 'chart.js'
 import ChartVisualisation from '../clientClass'
 
 export default class MatrixChartVisualisation extends ChartVisualisation {
-  settings: Record<string, any> = {}
+  settings: Record<string, unknown> = {}
   chartData!: ChartConfiguration
 
   static override getModuleName() {
@@ -25,6 +23,7 @@ export default class MatrixChartVisualisation extends ChartVisualisation {
   }
 
   setToolTipOptions() {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     const ctx = this
     return {
       callbacks: {
@@ -45,6 +44,7 @@ export default class MatrixChartVisualisation extends ChartVisualisation {
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   override generateChartData(settings: Record<string, any>): ChartConfiguration {
     const { config } = this.chartParams
     const { options, plugins, pluginsOptions, toolTipOptions, hoverEvent } = settings
@@ -81,7 +81,7 @@ export default class MatrixChartVisualisation extends ChartVisualisation {
 
   override createDatasets() {
     const { datasets } = this.chartParams
-    return datasets.map((dataset: any) => {
+    return datasets.map((dataset: { label: string; data: unknown[] }) => {
       const { label, data } = dataset
       return {
         label,

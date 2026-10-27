@@ -1,7 +1,7 @@
-/* eslint-disable no-param-reassign */
 import { components } from '../../../types/api'
 import { DashboardDataResponse } from '../../../types/Metrics'
-import DatasetHelper, { getTimestampColumn, getDateValue } from '../../../utils/Dashboards/VisualisationDatasetHelper'
+import DatasetHelper, { getDateValue, getTimestampColumn } from '../../../utils/Dashboards/VisualisationDatasetHelper'
+import { apiDateToUi } from '../../../utils/dateHelper'
 import {
   ListDashboardVisualisationOptions,
   MoJTable,
@@ -9,7 +9,6 @@ import {
   MoJTableRow,
 } from '../dashboard-visualisation/types'
 import ListVisSchemas from './validate'
-import { apiDateToUi } from '../../../utils/dateHelper'
 
 export const createList = (
   listDefinition: components['schemas']['DashboardVisualisationDefinition'],
@@ -232,6 +231,7 @@ const sumColumns = (
       const total = rowsData.reduce((acc, row) => {
         const rowIndex = row[index]
         if (rowIndex && rowIndex.text) {
+          // eslint-disable-next-line no-param-reassign
           acc += Number(rowIndex.text)
         }
         return acc

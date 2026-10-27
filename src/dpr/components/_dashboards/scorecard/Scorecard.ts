@@ -1,4 +1,3 @@
-/* eslint-disable prefer-destructuring */
 import { mapUnitToSymbol, setUnitOnValue } from '../../../utils/Dashboards/VisualisationUnitHelper'
 import { DashboardDataResponse } from '../../../types/Metrics'
 import { DashboardVisualisationBucket } from '../dashboard-visualisation/types'

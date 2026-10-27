@@ -1,24 +1,24 @@
 import { Request, Response } from 'express'
 import { buildPollingAction } from 'src/dpr/components/my-reports/my-reports-list-item/my-reports-list-item-actions/utils'
 import {
-  qsToQueryObject,
-  normalizeQueryStringArray,
-  queryObjectToQs,
   extractFiltersFromQuery,
+  normalizeQueryStringArray,
+  qsToQueryObject,
+  queryObjectToQs,
 } from '../../../utils/queryMappers'
 
-import { joinQueryStrings } from '../../../utils/urlHelper'
-import { components } from '../../../types/api'
-import { Services } from '../../../types/Services'
-import LocalsHelper from '../../../utils/localsHelper'
-import ColumnsUtils from '../../../components/_reports/report-heading/report-columns/report-columns-form/utils'
-import { getActiveJourneyValue } from '../../../utils/sessionHelper'
-import { getFields } from '../../../utils/definitionUtils'
-import { LoadType, RequestedReport } from '../../../types/UserReports'
 import { QuerySummaryItem } from '../../../components/_async/request-details/types'
 import { buildQuerySummary } from '../../../components/_async/request-details/utils'
-import { ViewedReportBuilder } from '../my-reports/recently-viewed/builder'
+import ColumnsUtils from '../../../components/_reports/report-heading/report-columns/report-columns-form/utils'
+import { components } from '../../../types/api'
+import { Services } from '../../../types/Services'
+import { LoadType, RequestedReport } from '../../../types/UserReports'
+import { getFields } from '../../../utils/definitionUtils'
+import LocalsHelper from '../../../utils/localsHelper'
+import { getActiveJourneyValue } from '../../../utils/sessionHelper'
+import { joinQueryStrings } from '../../../utils/urlHelper'
 import { ReportData } from '../my-reports/builder'
+import { ViewedReportBuilder } from '../my-reports/recently-viewed/builder'
 import { getMyReport } from '../my-reports/utils'
 
 /**

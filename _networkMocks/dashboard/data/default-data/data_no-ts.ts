@@ -1,6 +1,6 @@
-import { completeDataSet } from './data'
+import { defaultDataSet } from './data'
 
-export const completeDataSetNoTs = completeDataSet[0].map(data => {
+export const defaultDataSetNoTs = defaultDataSet[0].map(data => {
   return {
     establishment_id: {
       ...data.establishment_id,

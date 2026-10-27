@@ -7,8 +7,8 @@ context('Dashboard visualisation: Mixed charts', () => {
     before(() => {
       cy.task('resetStubs')
       executeDashboardStubs()
-      cy.task('stubMixedDashboardCompleteData')
-      cy.task('stubDashboardResultCompleteData')
+      cy.task('stubMixedDashboardDefinition')
+      cy.task('stubDashboardResult')
     })
 
     beforeEach(() => {
@@ -76,8 +76,8 @@ context('Dashboard visualisation: Mixed charts', () => {
     before(() => {
       cy.task('resetStubs')
       executeDashboardStubs()
-      cy.task('stubMixedDashboardPartialData')
-      cy.task('stubDashboardResultPartialData')
+      cy.task('stubMixedDashboardDefinitionMergedDataset')
+      cy.task('stubDashboardResultMergedData')
     })
 
     beforeEach(() => {
@@ -124,8 +124,8 @@ context('Dashboard visualisation: Mixed charts', () => {
     before(() => {
       cy.task('resetStubs')
       executeDashboardStubs()
-      cy.task('stubMixedDashboardPartialDataHistoric')
-      cy.task('stubDashboardResultPartialDataHistoric')
+      cy.task('stubMixedDashboardDefinitionMergedDatasetHistoric')
+      cy.task('stubDashboardResultMergedDataHistoric')
     })
 
     beforeEach(() => {

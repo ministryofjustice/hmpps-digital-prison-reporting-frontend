@@ -12,8 +12,8 @@ context('Dashboard visualisation: bar chart', () => {
     before(() => {
       cy.task('resetStubs')
       executeDashboardStubs()
-      cy.task('stubBarInvalid')
-      cy.task('stubDashboardResultPartialData')
+      cy.task('stubBarChartsDashboardDefinitionInvalid')
+      cy.task('stubDashboardResultMergedData')
       cy.visit(path)
 
       requestReportByNameAndDescription({

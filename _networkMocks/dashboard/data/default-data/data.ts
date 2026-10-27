@@ -6,7 +6,7 @@
  * - 6 months historic data - granularity: monthly
  */
 
-export const completeDataSet = [
+export const defaultDataSet = [
   [
     {
       ts: { raw: 'Aug 24' },

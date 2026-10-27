@@ -6,7 +6,7 @@
  * - 6 months historic data - granularity: monthly
  */
 
-export const completeDataSetDaily = [
+export const defaultDataSetDaily = [
   [
     {
       ts: {

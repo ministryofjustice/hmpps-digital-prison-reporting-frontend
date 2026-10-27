@@ -16,10 +16,10 @@ context('Dashboard visualisation: Scorecards: Bad Data', () => {
       executeDashboardStubs()
       resetFeatureFlags()
 
-      cy.task('stubDefinitionScorecardDashboardBadData')
+      cy.task('stubScorecardsDashboardDefinitionBadData')
       cy.task('stubDashboardResultCompleteBadData')
-      cy.task('stubMockDashboardsStatusStarted')
-      cy.task('stubMockDashboardsStatusFinished')
+      cy.task('stubMockDashboardStatusStarted')
+      cy.task('stubMockDashboardStatusFinished')
 
       cy.visit(path)
 
@@ -76,10 +76,10 @@ context('Dashboard visualisation: Scorecards: Bad Data', () => {
       executeDashboardStubs()
       resetFeatureFlags()
 
-      cy.task('stubDefinitionScorecardDashboardBadData')
+      cy.task('stubScorecardsDashboardDefinitionBadData')
       cy.task('stubDashboardResultCompleteBadDataDuplicates')
-      cy.task('stubMockDashboardsStatusStarted')
-      cy.task('stubMockDashboardsStatusFinished')
+      cy.task('stubMockDashboardStatusStarted')
+      cy.task('stubMockDashboardStatusFinished')
 
       cy.visit(path)
 

@@ -13,8 +13,8 @@ context('Dashboard visualisation: bar chart', () => {
     before(() => {
       cy.task('resetStubs')
       executeDashboardStubs()
-      cy.task('stubBarDashboardCompleteData')
-      cy.task('stubDashboardResultCompleteData')
+      cy.task('stubBarChartsDashboardDefinition')
+      cy.task('stubDashboardResult')
       cy.visit(path)
 
       requestReportByNameAndDescription({
@@ -372,8 +372,8 @@ context('Dashboard visualisation: bar chart', () => {
     before(() => {
       cy.task('resetStubs')
       executeDashboardStubs()
-      cy.task('stubBarDashboardPartialData')
-      cy.task('stubDashboardResultPartialData')
+      cy.task('stubBarChartsDashboardDefinitionMergedDataset')
+      cy.task('stubDashboardResultMergedData')
       cy.visit(path)
 
       requestReportByNameAndDescription({

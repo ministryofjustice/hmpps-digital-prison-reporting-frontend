@@ -15,10 +15,10 @@ context('Dashboard visualisation: line-timeseries chart granularity tests', () =
 
       executeDashboardStubs()
 
-      cy.task('stubLineTimeseriesDashboardDailyDataDef')
-      cy.task('stubDashboardResultCompleteDataDaily')
-      cy.task('stubDashboardResultCompleteDataMonthly')
-      cy.task('stubDashboardResultCompleteDataAnnually')
+      cy.task('stubLineTimeseriesChartsDashboardDefinitionDaily')
+      cy.task('stubDashboardResultDaily')
+      cy.task('stubDashboardResultMonthly')
+      cy.task('stubDashboardResultAnnually')
 
       cy.visit(path)
 

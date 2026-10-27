@@ -13,8 +13,8 @@ context('Dashboard visualisation: List', () => {
     before(() => {
       cy.task('resetStubs')
       executeDashboardStubs()
-      cy.task('stubListDashboardCompleteData')
-      cy.task('stubDashboardResultCompleteData')
+      cy.task('stubListDashboardDefinition')
+      cy.task('stubDashboardResult')
       cy.visit(path)
 
       requestReportByNameAndDescription({
@@ -196,9 +196,9 @@ context('Dashboard visualisation: List', () => {
     before(() => {
       cy.task('resetStubs')
       executeDashboardStubs()
-      cy.task('stubTestDashboardWithLink')
-      cy.task('stubListDashboardCompleteData')
-      cy.task('stubDashboardResultCompleteData')
+      cy.task('stubTestDashboardDefinitionWithLink')
+      cy.task('stubListDashboardDefinition')
+      cy.task('stubDashboardResult')
       cy.visit(path)
 
       requestReportByNameAndDescription({
@@ -255,8 +255,8 @@ context('Dashboard visualisation: List', () => {
     before(() => {
       cy.task('resetStubs')
       executeDashboardStubs()
-      cy.task('stubListDashboardCompleteDataHistoric')
-      cy.task('stubDashboardResultCompleteData')
+      cy.task('stubListDashboardDefinitionHistoric')
+      cy.task('stubDashboardResult')
       cy.visit(path)
 
       requestReportByNameAndDescription({
@@ -391,8 +391,8 @@ context('Dashboard visualisation: List', () => {
     before(() => {
       cy.task('resetStubs')
       executeDashboardStubs()
-      cy.task('stubListDashboardPartialData')
-      cy.task('stubDashboardResultPartialData')
+      cy.task('stubListDashboardDefinitionMergedDataset')
+      cy.task('stubDashboardResultMergedData')
       cy.visit(path)
 
       requestReportByNameAndDescription({
@@ -776,8 +776,8 @@ context('Dashboard visualisation: List', () => {
       beforeEach(() => {
         cy.task('resetStubs')
         executeDashboardStubs()
-        cy.task('stubListInvalidVisDefs')
-        cy.task('stubDashboardResultCompleteData')
+        cy.task('stubListDashboardDefinitionInvalidVisDefinitions')
+        cy.task('stubDashboardResult')
         cy.visit(path)
 
         requestReportByNameAndDescription({
@@ -796,8 +796,8 @@ context('Dashboard visualisation: List', () => {
       beforeEach(() => {
         cy.task('resetStubs')
         executeDashboardStubs()
-        cy.task('stubListInvalidDefs')
-        cy.task('stubDashboardResultCompleteData')
+        cy.task('stubListDashboardDefinitionInvalid')
+        cy.task('stubDashboardResult')
         cy.visit(path)
 
         requestReportByNameAndDescription({

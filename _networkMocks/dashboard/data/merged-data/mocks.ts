@@ -9,10 +9,10 @@ import { allVisualisationDefinitions as vds } from '../../definitions/visualisat
 //
 
 const lastestMergedDefinitionIds = [
-  vds.listMergedDefinition,
-  vds.barChartsDefinitionMerged,
-  vds.lineDefinitionMerged,
-  vds.mixedDefinitionMerged,
+  vds.listDashboardDefinitionInvalidMergedDataset,
+  vds.barChartsDashboardDefinitionMergedDataset,
+  vds.lineChartsDashboardDefinitionMergedDataset,
+  vds.mixedChartsDashboardDefinitionMergedDataset,
 ].map(def => def.id)
 
 // ----------------------------------------------------------------------
@@ -20,9 +20,9 @@ const lastestMergedDefinitionIds = [
 //
 
 const historicMergedDefinitionIds = [
-  vds.listMergedDefinitionHistoric,
-  vds.mixedDefinitionMergedHistoric,
-  vds.linetimeseriesDefinitionMerged,
+  vds.listDashboardDefinitionInvalidMergedDatasetHistoric,
+  vds.mixedChartsDashboardDefinitionMergedDatasetHistoric,
+  vds.lineTimeseriesDashboardDefinitionMergedDataset,
 ].map(def => def.id)
 
 // ----------------------------------------------------------------------

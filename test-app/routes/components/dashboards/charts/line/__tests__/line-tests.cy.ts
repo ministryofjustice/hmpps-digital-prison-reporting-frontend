@@ -13,8 +13,8 @@ context('Dashboard visualisation: line chart', () => {
     before(() => {
       cy.task('resetStubs')
       executeDashboardStubs()
-      cy.task('stubLineCompleteData')
-      cy.task('stubDashboardResultCompleteData')
+      cy.task('stubLineChartsDashboardDefinition')
+      cy.task('stubDashboardResult')
       cy.visit(path)
 
       requestReportByNameAndDescription({
@@ -120,8 +120,8 @@ context('Dashboard visualisation: line chart', () => {
     before(() => {
       cy.task('resetStubs')
       executeDashboardStubs()
-      cy.task('stubLinePartialData')
-      cy.task('stubDashboardResultPartialData')
+      cy.task('stubLineChartsDashboardDefinitionMergedDataset')
+      cy.task('stubDashboardResultMergedData')
       cy.visit(path)
 
       requestReportByNameAndDescription({

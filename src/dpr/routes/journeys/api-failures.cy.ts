@@ -234,8 +234,8 @@ context('Try to run the app with failing and broken api endpoints', () => {
   describe('erroring endpoints - dashboards', () => {
     it('should cope with single definition endpoint failing', () => {
       executeDashboardStubs()
-      cy.task('stubDashboardResultCompleteData')
-      cy.task('stubTestDashboard8')
+      cy.task('stubDashboardResult')
+      cy.task('stubTestDashboardDefinition')
       cy.task('stubDefinitionFeatureTestingInteractive')
       cy.task('getSingleDashboardFailure')
 
@@ -247,8 +247,8 @@ context('Try to run the app with failing and broken api endpoints', () => {
 
     it('should cope with requestAsyncDashboard failing', () => {
       executeDashboardStubs()
-      cy.task('stubDashboardResultCompleteData')
-      cy.task('stubTestDashboard8')
+      cy.task('stubDashboardResult')
+      cy.task('stubTestDashboardDefinition')
       cy.task('stubDefinitionFeatureTestingInteractive')
       cy.task('requestAsyncDashboardFailure')
 
@@ -261,8 +261,8 @@ context('Try to run the app with failing and broken api endpoints', () => {
 
     it('should cope with getAsyncDashboard failing', () => {
       executeDashboardStubs()
-      cy.task('stubDashboardResultCompleteData')
-      cy.task('stubTestDashboard8')
+      cy.task('stubDashboardResult')
+      cy.task('stubTestDashboardDefinition')
       cy.task('stubDefinitionFeatureTestingInteractive')
       cy.task('getAsyncDashboardFailure')
 
@@ -277,8 +277,8 @@ context('Try to run the app with failing and broken api endpoints', () => {
       stubBaseTasks()
       stubDefinitionsTasks()
       cy.task('stubViewAsyncResults')
-      cy.task('stubDashboardResultCompleteData')
-      cy.task('stubTestDashboard8')
+      cy.task('stubDashboardResult')
+      cy.task('stubTestDashboardDefinition')
       cy.task('stubDefinitionFeatureTestingInteractive')
       cy.task('getAsyncDashboardStatusFailure')
 
@@ -293,10 +293,10 @@ context('Try to run the app with failing and broken api endpoints', () => {
       stubBaseTasks()
       stubDefinitionsTasks()
       cy.task('stubReportsStartedStatus')
-      cy.task('stubMockDashboardsStatusStarted')
+      cy.task('stubMockDashboardStatusStarted')
       cy.task('stubViewAsyncResults')
-      cy.task('stubDashboardResultCompleteData')
-      cy.task('stubTestDashboard8')
+      cy.task('stubDashboardResult')
+      cy.task('stubTestDashboardDefinition')
       cy.task('stubDefinitionFeatureTestingInteractive')
       cy.task('cancelAsyncRequestDashboardFailure')
 
@@ -305,7 +305,7 @@ context('Try to run the app with failing and broken api endpoints', () => {
       cy.findByRole('button', { name: /Request/ }).click()
 
       cy.findByRole('button', { name: /Cancel request/ }).click()
-      cy.task('stubMockDashboardsStatusFinished')
+      cy.task('stubMockDashboardStatusFinished')
       cy.findByRole('heading', { name: /Failed to abort request/ }).should('be.visible')
     })
   })

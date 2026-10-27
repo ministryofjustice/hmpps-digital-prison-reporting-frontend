@@ -13,8 +13,8 @@ context('Dashboard visualisation: line timeseries chart', () => {
     before(() => {
       cy.task('resetStubs')
       executeDashboardStubs()
-      cy.task('stubLineTimeseriesDashboardCompleteData')
-      cy.task('stubDashboardResultCompleteData')
+      cy.task('stubLineTimeseriesChartsDashboardDefinition')
+      cy.task('stubDashboardResult')
       cy.visit(path)
 
       requestReportByNameAndDescription({
@@ -650,8 +650,8 @@ context('Dashboard visualisation: line timeseries chart', () => {
     before(() => {
       cy.task('resetStubs')
       executeDashboardStubs()
-      cy.task('stubLineTimeseriesDashboardPartialData')
-      cy.task('stubDashboardResultPartialDataHistoric')
+      cy.task('stubLineTimeseriesChartsDashboardDefinitionMergedDataset')
+      cy.task('stubDashboardResultMergedDataHistoric')
       cy.visit(path)
 
       requestReportByNameAndDescription({

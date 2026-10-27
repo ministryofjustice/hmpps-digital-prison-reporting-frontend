@@ -6,7 +6,7 @@
  * - 6 months historic data - granularity: monthly
  */
 
-export const completeDataSetMonthly = [
+export const defaultDataSetMonthly = [
   [
     {
       ts: { raw: '2025-08' },

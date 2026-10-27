@@ -16,10 +16,10 @@ context('Dashboard visualisation: Scorecards: Buckets', () => {
       executeDashboardStubs()
       resetFeatureFlags()
 
-      cy.task('stubDefinitionScorecardBucketDashboard')
-      cy.task('stubDashboardResultCompleteData')
-      cy.task('stubMockDashboardsStatusStarted')
-      cy.task('stubMockDashboardsStatusFinished')
+      cy.task('stubScorecardsDashboardDefinitionBuckets')
+      cy.task('stubDashboardResult')
+      cy.task('stubMockDashboardStatusStarted')
+      cy.task('stubMockDashboardStatusFinished')
 
       cy.visit(path)
 

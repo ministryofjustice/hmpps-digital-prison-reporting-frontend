@@ -13,13 +13,13 @@ context('Dashboard visualisation: matrix chart', () => {
     before(() => {
       cy.task('resetStubs')
       executeDashboardStubs()
-      cy.task('stubMatrixCompleteDailyData')
-      cy.task('stubMatrixCompleteMonthlyData')
-      cy.task('stubMatrixCompleteAnnuallyData')
+      cy.task('stubMatrixChartsDashboardDefinitionDaily')
+      cy.task('stubMatrixChartsDashboardDefinitionMonthly')
+      cy.task('stubMatrixChartsDashboardDefinitionAnnually')
 
-      cy.task('stubDashboardResultCompleteDataDaily')
-      cy.task('stubDashboardResultCompleteDataMonthly')
-      cy.task('stubDashboardResultCompleteDataAnnually')
+      cy.task('stubDashboardResultDaily')
+      cy.task('stubDashboardResultMonthly')
+      cy.task('stubDashboardResultAnnually')
       cy.visit(path)
 
       requestReportByNameAndDescription({

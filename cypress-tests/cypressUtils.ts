@@ -111,7 +111,7 @@ export const executeReportStubs = (resetRedis: boolean = true) => {
 export const executeDashboardStubs = () => {
   stubBaseTasks()
   stubDefinitionsTasks()
-  cy.task('stubMockDashboardsStatusFinished')
+  cy.task('stubMockDashboardStatusFinished')
   cy.task('stubViewAsyncResults')
 }
 

@@ -13,8 +13,8 @@ context('Dashboard visualisation: Doughnut chart', () => {
     before(() => {
       cy.task('resetStubs')
       executeDashboardStubs()
-      cy.task('stubDoughnutDashboardCompleteData')
-      cy.task('stubDashboardResultCompleteData')
+      cy.task('stubDoughnutChartsDashboardDefinition')
+      cy.task('stubDashboardResult')
       cy.visit(path)
 
       requestReportByNameAndDescription({

@@ -12,10 +12,10 @@ context('Dashboard visualisation: line-timeseries chart invalid definitions', ()
 
       executeDashboardStubs()
 
-      cy.task('stubLineTimeseriesDashboardInvalidDef')
-      cy.task('stubDashboardResultCompleteData')
-      cy.task('stubMockDashboardsStatusStarted')
-      cy.task('stubMockDashboardsStatusFinished')
+      cy.task('stubLineTimeseriesChartsDashboardDefinitionInvalid')
+      cy.task('stubDashboardResult')
+      cy.task('stubMockDashboardStatusStarted')
+      cy.task('stubMockDashboardStatusFinished')
 
       cy.visit(path)
 

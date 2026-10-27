@@ -12,8 +12,8 @@ context('Dashboard visualisation: matrix validation tests', () => {
 
       executeDashboardStubs()
 
-      cy.task('stubMatrixCompleteMonthlyData')
-      cy.task('stubDashboardResultCompleteDataNoTs')
+      cy.task('stubMatrixChartsDashboardDefinitionMonthly')
+      cy.task('stubDashboardResultNoTs')
 
       cy.visit(path)
 

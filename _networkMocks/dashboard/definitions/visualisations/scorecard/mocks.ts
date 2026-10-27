@@ -1,20 +1,20 @@
 import { setupSimpleMock } from '@networkMocks/generateNetworkMock'
-import { definition as scorecardsCompleteDataset } from './definitions/definition'
+import { definition as scorecardsDashboardDefinition } from './definitions/definition'
 import { definition as scorecardsCompletebadDataset } from './definitions/definition-bad-data'
-import { definition as scorecardsBucketsCompleteDataset } from './definitions/definition-buckets'
+import { definition as scorecardsDashboardDefinitionBuckets } from './definitions/definition-buckets'
 import { definition as scorecardsInvalidVisDefinitions } from './definitions/definition-invalid'
 import { definition as scorecardsBucketsCompleteDatasetNoTs } from './definitions/definition-no-ts'
 
 const prefix = '/definitions/dashboard-visualisations/dashboards'
 
 const scorecardsDashboardDefinitionMock = setupSimpleMock(
-  `${prefix}/${scorecardsCompleteDataset.id}`,
-  scorecardsCompleteDataset,
+  `${prefix}/${scorecardsDashboardDefinition.id}`,
+  scorecardsDashboardDefinition,
 )
 
 const scorecardsDashboardDefintionBucketMock = setupSimpleMock(
-  `${prefix}/${scorecardsBucketsCompleteDataset.id}`,
-  scorecardsBucketsCompleteDataset,
+  `${prefix}/${scorecardsDashboardDefinitionBuckets.id}`,
+  scorecardsDashboardDefinitionBuckets,
 )
 
 const scorecardsDashboardDefinitionNoTsMock = setupSimpleMock(

@@ -1,25 +1,34 @@
 import { setupSimpleMock } from '@networkMocks/generateNetworkMock'
-import { definition as listCompleteDataset } from './definitions/definition'
-import { definition as listCompleteDatasetHistoric } from './definitions/definition-historic'
-import { definition as listInvalidDef } from './definitions/definition-invalid'
-import { definition as listInvalidVisDef } from './definitions/definition-invalid-vis-defs'
-import { definition as listMergedDataset } from './definitions/definition-merged'
-import { definition as listMergedDatasetHistoric } from './definitions/definition-merged-historic'
+import { definition as listDashboardDefinition } from './definitions/definition'
+import { definition as listDashboardDefinitionHistoric } from './definitions/definition-historic'
+import { definition as listDashboardDefinitionInvalid } from './definitions/definition-invalid'
+import { definition as listDashboardDefinitionInvalidVisDefinition } from './definitions/definition-invalid-vis-defs'
+import { definition as listDashboardDefinitionMergedDataset } from './definitions/definition-merged'
+import { definition as listDashboardDefinitionMergedDatasetHistoric } from './definitions/definition-merged-historic'
 
 const prefix = '/definitions/dashboard-visualisations/dashboards'
 
-const listDashboardDefinitionMock = setupSimpleMock(`${prefix}/${listCompleteDataset.id}`, listCompleteDataset)
+const listDashboardDefinitionMock = setupSimpleMock(`${prefix}/${listDashboardDefinition.id}`, listDashboardDefinition)
 const listDashboardDefinitonHistoricMock = setupSimpleMock(
-  `${prefix}/${listCompleteDatasetHistoric.id}`,
-  listCompleteDatasetHistoric,
+  `${prefix}/${listDashboardDefinitionHistoric.id}`,
+  listDashboardDefinitionHistoric,
 )
-const listDashboardDefinitionMergedDatasetMock = setupSimpleMock(`${prefix}/${listMergedDataset.id}`, listMergedDataset)
+const listDashboardDefinitionMergedDatasetMock = setupSimpleMock(
+  `${prefix}/${listDashboardDefinitionMergedDataset.id}`,
+  listDashboardDefinitionMergedDataset,
+)
 const listDashboardDefintionMergedDatasetHistoricMock = setupSimpleMock(
-  `${prefix}/${listMergedDatasetHistoric.id}`,
-  listMergedDatasetHistoric,
+  `${prefix}/${listDashboardDefinitionMergedDatasetHistoric.id}`,
+  listDashboardDefinitionMergedDatasetHistoric,
 )
-const listDashboardDefinitionInvalidVisDefMock = setupSimpleMock(`${prefix}/${listInvalidVisDef.id}`, listInvalidVisDef)
-const listDashboardDefinitionInvalidMock = setupSimpleMock(`${prefix}/${listInvalidDef.id}`, listInvalidDef)
+const listDashboardDefinitionInvalidVisDefMock = setupSimpleMock(
+  `${prefix}/${listDashboardDefinitionInvalidVisDefinition.id}`,
+  listDashboardDefinitionInvalidVisDefinition,
+)
+const listDashboardDefinitionInvalidMock = setupSimpleMock(
+  `${prefix}/${listDashboardDefinitionInvalid.id}`,
+  listDashboardDefinitionInvalid,
+)
 
 export const listMocks = {
   listDashboardDefinitionMock,

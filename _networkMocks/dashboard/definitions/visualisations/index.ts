@@ -1,117 +1,117 @@
 // list
-import { definition as listCompleteDataset } from './list/definitions/definition'
-import { definition as listCompleteDatasetHistoric } from './list/definitions/definition-historic'
-import { definition as listInvalidDefinition } from './list/definitions/definition-invalid'
-import { definition as listInvalidVisDefinition } from './list/definitions/definition-invalid-vis-defs'
-import { definition as listMergedDefinition } from './list/definitions/definition-merged'
-import { definition as listMergedDefinitionHistoric } from './list/definitions/definition-merged-historic'
+import { definition as listDashboardDefinition } from './list/definitions/definition'
+import { definition as listDashboardDefinitionHistoric } from './list/definitions/definition-historic'
+import { definition as listDashboardDefinitionInvalid } from './list/definitions/definition-invalid'
+import { definition as listDashboardDefinitionInvalidVisDefinition } from './list/definitions/definition-invalid-vis-defs'
+import { definition as listDashboardDefinitionInvalidMergedDataset } from './list/definitions/definition-merged'
+import { definition as listDashboardDefinitionInvalidMergedDatasetHistoric } from './list/definitions/definition-merged-historic'
 
 // scorecard
-import { definition as scorecardsCompleteDataset } from './scorecard/definitions/definition'
-import { definition as scorecardsCompleteBadDataset } from './scorecard/definitions/definition-bad-data'
-import { definition as scorecardsBucketsCompleteDataset } from './scorecard/definitions/definition-buckets'
-import { definition as scorecardsInvalid } from './scorecard/definitions/definition-invalid'
-import { definition as scorecardsCompleteNoTsDataset } from './scorecard/definitions/definition-no-ts'
+import { definition as scorecardsDashboardDefinition } from './scorecard/definitions/definition'
+import { definition as scorecardsDashboardDefinitionBadDataset } from './scorecard/definitions/definition-bad-data'
+import { definition as scorecardsDashboardDefinitionBuckets } from './scorecard/definitions/definition-buckets'
+import { definition as scorecardsDashboardDefinitionInvalid } from './scorecard/definitions/definition-invalid'
+import { definition as scorecardsDashboardDefinitionNoTs } from './scorecard/definitions/definition-no-ts'
 
 // scorecard-group
-import { definition as scorecardGroupCompleteDataset } from './scorecardGroup/definitions/definition'
-import { definition as scorecardGroupCompleteDatasetInvalid } from './scorecardGroup/definitions/definition-invalid'
-import { definition as scorecardGroupCompleteDataseNoTs } from './scorecardGroup/definitions/definiton-no-ts'
+import { definition as scorecardGroupDashboardDefinition } from './scorecardGroup/definitions/definition'
+import { definition as scorecardGroupDashboardDefinitionInvalid } from './scorecardGroup/definitions/definition-invalid'
+import { definition as scorecardGroupDashboardDefinitionNoTs } from './scorecardGroup/definitions/definiton-no-ts'
 
 // Matrix
 import {
-  annuallyDefinition as matrixChartAnnuallyDefinition,
-  autoBucketedDefinition as matrixChartAutoBucketedDefinition,
-  bucketedDefinition as matrixChartBucketedDefinition,
-  definition as matrixChartDefinition,
-  monthlyDefinition as matrixChartMonthlyDefinition,
+  definition as matrixChartsDashboardDefinition,
+  monthlyDefinition as matrixChartDashboardDefinitionMonthly,
+  annuallyDefinition as matrixChartDashboardDefinitionAnnually,
+  bucketedDefinition as matrixChartDashboardDefinitionBucketed,
+  autoBucketedDefinition as matrixChartDashboardDefinitionAutoBucketed,
 } from './matrix/definitions/definition'
-import { definition as invalidMatrix } from './matrix/definitions/definition-invalid'
+import { definition as matrixChartsDashboardDefinitionInvalid } from './matrix/definitions/definition-invalid'
 
 // bar
-import { definition as barChartsDefinition } from './bar/definitions/definition'
-import { definition as barChartsDefinitionInvalid } from './bar/definitions/definition-invalid'
-import { definition as barChartsDefinitionMerged } from './bar/definitions/definition-merged'
+import { definition as barChartsDashboardDefinition } from './bar/definitions/definition'
+import { definition as barChartsDashboardDefinitionInvalid } from './bar/definitions/definition-invalid'
+import { definition as barChartsDashboardDefinitionMergedDataset } from './bar/definitions/definition-merged'
 
 // doughnut
-import { definition as doughnutChartsDefinition } from './doughnut/definitions/definition'
+import { definition as doughnutChartsDashboardDefinition } from './doughnut/definitions/definition'
 
 // line
-import { definition as lineCompleteDefinition } from './line/definitions/definition'
-import { definition as lineDefinitionInvalid } from './line/definitions/definition-invalid'
-import { definition as lineDefinitionMerged } from './line/definitions/definition-merged'
+import { definition as lineChartsDashboardDefinition } from './line/definitions/definition'
+import { definition as lineChartsDashboardDefinitionInvalid } from './line/definitions/definition-invalid'
+import { definition as lineChartsDashboardDefinitionMergedDataset } from './line/definitions/definition-merged'
 
 // line-timeseries
-import { definition as linetimeseriesChartsDefinition } from './line-timeseries/definitions/definition'
-import { definition as linetimeseriesChartsDailyDefinition } from './line-timeseries/definitions/definition-granularity-daily'
-import { definition as linetimeseriesChartsMonthlyDefinition } from './line-timeseries/definitions/defintion-granularity-monthly'
-import { definition as linetimeseriesChartsAnnaullyDefinition } from './line-timeseries/definitions/definition-granularity-yearly'
-import { definition as linetimeseriesInvalidCharts } from './line-timeseries/definitions/definition-invalid'
-import { definition as linetimeseriesDefinitionMerged } from './line-timeseries/definitions/definition-merged'
+import { definition as lineTimeseriesDashboardDefinition } from './line-timeseries/definitions/definition'
+import { definition as lineTimeseriesDashboardDefinitionDaily } from './line-timeseries/definitions/definition-granularity-daily'
+import { definition as lineTimeseriesDashboardDefinitionMonthly } from './line-timeseries/definitions/defintion-granularity-monthly'
+import { definition as lineTimeseriesDashboardDefinitionAnnually } from './line-timeseries/definitions/definition-granularity-yearly'
+import { definition as lineTimeseriesDashboardDefinitionInvalidVisDefinitions } from './line-timeseries/definitions/definition-invalid'
+import { definition as lineTimeseriesDashboardDefinitionMergedDataset } from './line-timeseries/definitions/definition-merged'
 
 // Boxplot
-import { definition as boxPlotChartsDefinition } from './boxplot/definitions/definition'
+import { definition as boxPlotChartsDashboardDefinition } from './boxplot/definitions/definition'
 
 // mixed
-import { definition as mixedDefinition } from './mixed/definitions/definition'
-import { definition as mixedDefinitionMerged } from './mixed/definitions/definition-merged'
-import { definition as mixedDefinitionMergedHistoric } from './mixed/definitions/definition-merged-historic'
+import { definition as mixedChartsDashboardDefinition } from './mixed/definitions/definition'
+import { definition as mixedChartsDashboardDefinitionMergedDataset } from './mixed/definitions/definition-merged'
+import { definition as mixedChartsDashboardDefinitionMergedDatasetHistoric } from './mixed/definitions/definition-merged-historic'
 
 export const allVisualisationDefinitions = {
   // list
-  listCompleteDataset,
-  listCompleteDatasetHistoric,
-  listInvalidDefinition,
-  listInvalidVisDefinition,
-  listMergedDefinition,
-  listMergedDefinitionHistoric,
+  listDashboardDefinition,
+  listDashboardDefinitionHistoric,
+  listDashboardDefinitionInvalid,
+  listDashboardDefinitionInvalidVisDefinition,
+  listDashboardDefinitionInvalidMergedDataset,
+  listDashboardDefinitionInvalidMergedDatasetHistoric,
 
   // scorecard
-  scorecardsCompleteDataset,
-  scorecardsCompleteBadDataset,
-  scorecardsBucketsCompleteDataset,
-  scorecardsInvalid,
-  scorecardsCompleteNoTsDataset,
+  scorecardsDashboardDefinition,
+  scorecardsDashboardDefinitionBadDataset,
+  scorecardsDashboardDefinitionBuckets,
+  scorecardsDashboardDefinitionInvalid,
+  scorecardsDashboardDefinitionNoTs,
 
   // scorecard-group
-  scorecardGroupCompleteDataset,
-  scorecardGroupCompleteDatasetInvalid,
-  scorecardGroupCompleteDataseNoTs,
+  scorecardGroupDashboardDefinition,
+  scorecardGroupDashboardDefinitionInvalid,
+  scorecardGroupDashboardDefinitionNoTs,
 
   // matrix
-  matrixChartAnnuallyDefinition,
-  matrixChartAutoBucketedDefinition,
-  matrixChartBucketedDefinition,
-  matrixChartDefinition,
-  matrixChartMonthlyDefinition,
-  invalidMatrix,
+  matrixChartDashboardDefinitionAnnually,
+  matrixChartDashboardDefinitionAutoBucketed,
+  matrixChartDashboardDefinitionBucketed,
+  matrixChartsDashboardDefinition,
+  matrixChartDashboardDefinitionMonthly,
+  matrixChartsDashboardDefinitionInvalid,
 
   // bar
-  barChartsDefinition,
-  barChartsDefinitionInvalid,
-  barChartsDefinitionMerged,
+  barChartsDashboardDefinition,
+  barChartsDashboardDefinitionInvalid,
+  barChartsDashboardDefinitionMergedDataset,
 
   // doughnut
-  doughnutChartsDefinition,
+  doughnutChartsDashboardDefinition,
 
   // line
-  lineCompleteDefinition,
-  lineDefinitionInvalid,
-  lineDefinitionMerged,
+  lineChartsDashboardDefinition,
+  lineChartsDashboardDefinitionInvalid,
+  lineChartsDashboardDefinitionMergedDataset,
 
   // line-timeseries
-  linetimeseriesChartsDefinition,
-  linetimeseriesChartsDailyDefinition,
-  linetimeseriesChartsMonthlyDefinition,
-  linetimeseriesChartsAnnaullyDefinition,
-  linetimeseriesInvalidCharts,
-  linetimeseriesDefinitionMerged,
+  lineTimeseriesDashboardDefinition,
+  lineTimeseriesDashboardDefinitionDaily,
+  lineTimeseriesDashboardDefinitionMonthly,
+  lineTimeseriesDashboardDefinitionAnnually,
+  lineTimeseriesDashboardDefinitionInvalidVisDefinitions,
+  lineTimeseriesDashboardDefinitionMergedDataset,
 
   // boxplot
-  boxPlotChartsDefinition,
+  boxPlotChartsDashboardDefinition,
 
   // mixed
-  mixedDefinition,
-  mixedDefinitionMerged,
-  mixedDefinitionMergedHistoric,
+  mixedChartsDashboardDefinition,
+  mixedChartsDashboardDefinitionMergedDataset,
+  mixedChartsDashboardDefinitionMergedDatasetHistoric,
 }

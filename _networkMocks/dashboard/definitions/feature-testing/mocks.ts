@@ -9,7 +9,7 @@ import {
   parentChildDashboardDefinition,
 } from './definition-parent-child'
 import { definition as syncDefinition } from './definition-sync'
-import { completeDataSet } from '../../data/complete-data/data'
+import { defaultDataSet } from '../../data/default-data/data'
 
 const productId = 'feature-testing'
 
@@ -46,42 +46,42 @@ export const dashboardWithChildTwoMock = setupSimpleMock(
 )
 
 // status
-export const parentChildStatusParentFinishedMock = setupSimpleMock(
+export const parentChildDashboardStatusParentFinishedMock = setupSimpleMock(
   `/reports/feature-testing/dashboards/test-parent-dashboard/statements/exId_${reportIdRegex}/status`,
   {
     status: RequestStatus.FINISHED,
   },
 )
 
-export const parentChildStatusParentFailedMock = setupSimpleMock(
+export const parentChildDashboardStatusParentFailedMock = setupSimpleMock(
   `/reports/feature-testing/dashboards/test-parent-dashboard/statements/exId_${reportIdRegex}/status`,
   {
     status: RequestStatus.FAILED,
   },
 )
 
-export const parentChildStatusChild1FinishedMock = setupSimpleMock(
+export const parentChildDashboardStatusChild1FinishedMock = setupSimpleMock(
   `/reports/feature-testing/dashboards/test-child-dashboard-1/statements/exId_${reportIdRegex}/status`,
   {
     status: RequestStatus.FINISHED,
   },
 )
 
-export const parentChildStatusChild1FailedMock = setupSimpleMock(
+export const parentChildDashboardStatusChild1FailedMock = setupSimpleMock(
   `/reports/feature-testing/dashboards/test-child-dashboard-1/statements/exId_${reportIdRegex}/status`,
   {
     status: RequestStatus.FAILED,
   },
 )
 
-export const parentChildStatusChild2FinishedMock = setupSimpleMock(
+export const parentChildDashboardStatusChild2FinishedMock = setupSimpleMock(
   `/reports/feature-testing/dashboards/test-child-dashboard-2/statements/exId_${reportIdRegex}/status`,
   {
     status: RequestStatus.FINISHED,
   },
 )
 
-export const parentChildStatusChild2FailedMock = setupSimpleMock(
+export const parentChildDashboardStatusChild2FailedMock = setupSimpleMock(
   `/reports/feature-testing/dashboards/test-child-dashboard-2/statements/exId_${reportIdRegex}/status`,
   {
     status: RequestStatus.FAILED,
@@ -89,17 +89,17 @@ export const parentChildStatusChild2FailedMock = setupSimpleMock(
 )
 
 // results
-export const getAsyncReportResultMockParentChildParentMock = setupSimpleMock(
+export const dashboardResultParenChildParentMock = setupSimpleMock(
   `/reports/feature-testing/dashboards/test-parent-dashboard/tables/tblId_${reportIdRegex}/result`,
-  completeDataSet,
+  defaultDataSet,
 )
 
-export const getAsyncReportResultMockParentChildParentNoDataMock = setupSimpleMock(
+export const dashboardResultParenChildParentNoDataMock = setupSimpleMock(
   `/reports/feature-testing/dashboards/test-parent-dashboard/tables/tblId_${reportIdRegex}/result`,
   [],
 )
 
-export const getAsyncReportResultMockParentChildParent404Mock = setupSimpleFailedMock(
+export const dashboardResultParenChildParent404Mock = setupSimpleFailedMock(
   `/reports/feature-testing/dashboards/test-parent-dashboard/tables/tblId_${reportIdRegex}/result`,
   404,
   {
@@ -108,17 +108,17 @@ export const getAsyncReportResultMockParentChildParent404Mock = setupSimpleFaile
   },
 )
 
-export const getAsyncReportResultMockParentChildChild1Mock = setupSimpleMock(
+export const dashboardResultParenChildChild1Mock = setupSimpleMock(
   `/reports/feature-testing/dashboards/test-child-dashboard-1/tables/tblId_${reportIdRegex}/result`,
-  completeDataSet,
+  defaultDataSet,
 )
 
-export const getAsyncReportResultMockParentChildChild1NoDataMock = setupSimpleMock(
+export const dashboardResultParenChildChild1NoDataMock = setupSimpleMock(
   `/reports/feature-testing/dashboards/test-child-dashboard-1/tables/tblId_${reportIdRegex}/result`,
   [],
 )
 
-export const getAsyncReportResultMockParentChildChild1404Mock = setupSimpleFailedMock(
+export const dashboardResultParenChildChild1404Mock = setupSimpleFailedMock(
   `/reports/feature-testing/dashboards/test-child-dashboard-1/tables/tblId_${reportIdRegex}/result`,
   404,
   {
@@ -127,17 +127,17 @@ export const getAsyncReportResultMockParentChildChild1404Mock = setupSimpleFaile
   },
 )
 
-export const getAsyncReportResultMockParentChildChild2Mock = setupSimpleMock(
+export const dashboardResultParenChildChild2Mock = setupSimpleMock(
   `/reports/feature-testing/dashboards/test-child-dashboard-2/tables/tblId_${reportIdRegex}/result`,
-  completeDataSet,
+  defaultDataSet,
 )
 
-export const getAsyncReportResultMockParentChildChild2NoDataMock = setupSimpleMock(
+export const dashboardResultParenChildChild2NoDataMock = setupSimpleMock(
   `/reports/feature-testing/dashboards/test-child-dashboard-2/tables/tblId_${reportIdRegex}/result`,
   [],
 )
 
-export const getAsyncReportResultMockParentChildChild2404Mock = setupSimpleFailedMock(
+export const dashboardResultParenChildChild2404Mock = setupSimpleFailedMock(
   `/reports/feature-testing/dashboards/test-child-dashboard-2/tables/tblId_${reportIdRegex}/result`,
   404,
   {

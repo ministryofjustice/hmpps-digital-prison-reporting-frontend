@@ -3,7 +3,7 @@ import { boxPlotMockData } from './data'
 
 import { allVisualisationDefinitions as vds } from '../../definitions/visualisations'
 
-const boxPlotIds = [vds.boxPlotChartsDefinition].map(def => def.id)
+const boxPlotIds = [vds.boxPlotChartsDashboardDefinition].map(def => def.id)
 
 export const getAsyncReportResultMockBoxPlotMock = setupSimpleMock(
   `/reports/dashboard-visualisations/dashboards/(${boxPlotIds.join('|')})/tables/tblId_[0-9]+/result`,

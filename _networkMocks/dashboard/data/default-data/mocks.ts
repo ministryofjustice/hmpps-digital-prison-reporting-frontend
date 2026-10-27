@@ -1,14 +1,14 @@
 import { setupSimpleMock } from '@networkMocks/generateNetworkMock'
-import { completeDataSet } from './data'
-import { completeDataSetNoTs } from './data_no-ts'
+import { defaultDataSet } from './data'
+import { defaultDataSetNoTs } from './data_no-ts'
 
 import { featureTestingIds } from '../../definitions/feature-testing'
 import { requestExampleIds } from '../../definitions/request-examples'
 import { allVisualisationDefinitions as vds } from '../../definitions/visualisations'
 
-import { completeDataSetAnnually } from './data_annually'
-import { completeDataSetDaily } from './data_daily'
-import { completeDataSetMonthly } from './date_monthly'
+import { defaultDataSetAnnually } from './data_annually'
+import { defaultDataSetDaily } from './data_daily'
+import { defaultDataSetMonthly } from './date_monthly'
 
 // ----------------------------------------------------------------------
 // Defintions that require a complete dataset
@@ -16,52 +16,53 @@ import { completeDataSetMonthly } from './date_monthly'
 
 const completeVisDefinitionsIds = [
   // lists
-  vds.listCompleteDataset,
-  vds.listCompleteDatasetHistoric,
+  vds.listDashboardDefinition,
+  vds.listDashboardDefinitionHistoric,
 
   // scorecards
-  vds.scorecardsCompleteDataset,
-  vds.scorecardsBucketsCompleteDataset,
+  vds.scorecardsDashboardDefinition,
+  vds.scorecardsDashboardDefinitionBuckets,
 
   // scorecardGroup
-  vds.scorecardGroupCompleteDatasetInvalid,
-  vds.scorecardGroupCompleteDataset,
+  vds.scorecardGroupDashboardDefinitionInvalid,
+  vds.scorecardGroupDashboardDefinition,
 
   // bar
-  vds.barChartsDefinition,
-  vds.barChartsDefinitionInvalid,
+  vds.barChartsDashboardDefinition,
+  vds.barChartsDashboardDefinitionInvalid,
 
   // dougnhut
-  vds.doughnutChartsDefinition,
+  vds.doughnutChartsDashboardDefinition,
 
   // line
-  vds.lineDefinitionInvalid,
-  vds.lineCompleteDefinition,
+  vds.lineChartsDashboardDefinitionInvalid,
+  vds.lineChartsDashboardDefinition,
 
   // line-timeseries
-  vds.linetimeseriesChartsDefinition,
+  vds.lineTimeseriesDashboardDefinition,
 
   // mixed
-  vds.mixedDefinition,
+  vds.mixedChartsDashboardDefinition,
 ].map(def => def.id)
 
 // ----------------------------------------------------------------------
 // Defintions that require a complete dataset with DAILY timestamp format (YYYY-MM-DD)
 //
 
-const dailyDatasetVisDefinitionIds = [vds.matrixChartDefinition, vds.linetimeseriesChartsDailyDefinition].map(
-  def => def.id,
-)
+const dailyDatasetVisDefinitionIds = [
+  vds.matrixChartsDashboardDefinition,
+  vds.lineTimeseriesDashboardDefinitionDaily,
+].map(def => def.id)
 
 // ----------------------------------------------------------------------
 // Defintions that require a complete dataset with MONTHLY timestamp format (YYYY-MM)
 //
 
 const monthlyDatasetVisDefinitionIds = [
-  vds.matrixChartMonthlyDefinition,
-  vds.matrixChartAutoBucketedDefinition,
-  vds.matrixChartBucketedDefinition,
-  vds.linetimeseriesChartsMonthlyDefinition,
+  vds.matrixChartDashboardDefinitionMonthly,
+  vds.matrixChartDashboardDefinitionAutoBucketed,
+  vds.matrixChartDashboardDefinitionBucketed,
+  vds.lineTimeseriesDashboardDefinitionMonthly,
 ].map(def => def.id)
 
 // ----------------------------------------------------------------------
@@ -69,8 +70,8 @@ const monthlyDatasetVisDefinitionIds = [
 //
 
 const yearlyDatasetVisDefinitionIds = [
-  vds.matrixChartAnnuallyDefinition,
-  vds.linetimeseriesChartsAnnaullyDefinition,
+  vds.matrixChartDashboardDefinitionAnnually,
+  vds.lineTimeseriesDashboardDefinitionAnnually,
 ].map(def => def.id)
 
 // ----------------------------------------------------------------------
@@ -78,10 +79,10 @@ const yearlyDatasetVisDefinitionIds = [
 //
 
 const noTsDatasetVisDefinitionIds = [
-  vds.scorecardsCompleteNoTsDataset,
-  vds.scorecardGroupCompleteDataseNoTs,
-  vds.linetimeseriesChartsDefinition,
-  vds.matrixChartMonthlyDefinition,
+  vds.scorecardsDashboardDefinitionNoTs,
+  vds.scorecardGroupDashboardDefinitionNoTs,
+  vds.lineTimeseriesDashboardDefinition,
+  vds.matrixChartDashboardDefinitionMonthly,
 ].map(def => def.id)
 
 // ----------------------------------------------------------------------
@@ -91,47 +92,47 @@ const noTsDatasetVisDefinitionIds = [
 const allIds = [...completeVisDefinitionsIds, ...requestExampleIds, ...featureTestingIds]
 const productIds = ['dashboard-visualisations', 'request-examples', 'feature-testing']
 
-export const dashboardResultCompleteDataMock = setupSimpleMock(
+export const dashboardResultMock = setupSimpleMock(
   `/reports/(${productIds.join('|')})/dashboards/(${allIds.join('|')})/tables/tblId_[0-9]+/result`,
-  completeDataSet,
+  defaultDataSet,
   1,
 )
 
-export const dashboardResultCompleteDataSyncMock = setupSimpleMock(
+export const dashboardResultSyncMock = setupSimpleMock(
   `/reports/(${productIds.join('|')})/dashboards/(${allIds.join('|')})`,
-  completeDataSet,
+  defaultDataSet,
   1,
 )
 
-export const dashboardResultCompleteDataMockDaily = setupSimpleMock(
+export const dashboardResultDailyMock = setupSimpleMock(
   `/reports/(${productIds.join('|')})/dashboards/(${dailyDatasetVisDefinitionIds.join('|')})/tables/tblId_[0-9]+/result`,
-  completeDataSetDaily,
+  defaultDataSetDaily,
   1,
 )
 
-export const dashboardResultCompleteDataMockMonthly = setupSimpleMock(
+export const dashboardResultMonthlyMock = setupSimpleMock(
   `/reports/(${productIds.join('|')})/dashboards/(${monthlyDatasetVisDefinitionIds.join('|')})/tables/tblId_[0-9]+/result`,
-  completeDataSetMonthly,
+  defaultDataSetMonthly,
   1,
 )
 
-export const dashboardResultCompleteDataMockAnnually = setupSimpleMock(
+export const dashboardResultAnnuallyMock = setupSimpleMock(
   `/reports/(${productIds.join('|')})/dashboards/(${yearlyDatasetVisDefinitionIds.join('|')})/tables/tblId_[0-9]+/result`,
-  completeDataSetAnnually,
+  defaultDataSetAnnually,
   1,
 )
 
-export const dashboardResultCompleteDataNoTsMock = setupSimpleMock(
+export const dashboardResultNoTsMock = setupSimpleMock(
   `/reports/(${productIds.join('|')})/dashboards/(${noTsDatasetVisDefinitionIds.join('|')})/tables/tblId_[0-9]+/result`,
-  completeDataSetNoTs,
+  defaultDataSetNoTs,
   2,
 )
 
 export const mocks = [
-  dashboardResultCompleteDataMockDaily,
-  dashboardResultCompleteDataMockMonthly,
-  dashboardResultCompleteDataMockAnnually,
-  dashboardResultCompleteDataMock,
-  dashboardResultCompleteDataSyncMock,
-  dashboardResultCompleteDataNoTsMock,
+  dashboardResultDailyMock,
+  dashboardResultMonthlyMock,
+  dashboardResultAnnuallyMock,
+  dashboardResultMock,
+  dashboardResultSyncMock,
+  dashboardResultNoTsMock,
 ]

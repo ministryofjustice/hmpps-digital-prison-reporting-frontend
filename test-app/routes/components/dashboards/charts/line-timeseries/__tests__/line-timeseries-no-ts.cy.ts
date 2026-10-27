@@ -12,8 +12,8 @@ context('Dashboard visualisation: line-timeseries - No TS in result dataset', ()
 
       executeDashboardStubs()
 
-      cy.task('stubLineTimeseriesDashboardCompleteData')
-      cy.task('stubDashboardResultCompleteDataNoTs')
+      cy.task('stubLineTimeseriesChartsDashboardDefinition')
+      cy.task('stubDashboardResultNoTs')
 
       cy.visit(path)
 

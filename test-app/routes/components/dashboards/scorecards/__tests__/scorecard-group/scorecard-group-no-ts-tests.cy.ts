@@ -16,10 +16,10 @@ context('Dashboard visualisation: Scorecard Group: No ts data', () => {
       executeDashboardStubs()
       resetFeatureFlags()
 
-      cy.task('stubDefinitionScorecardGroupDashboardNoTs')
-      cy.task('stubDashboardResultCompleteDataNoTs')
-      cy.task('stubMockDashboardsStatusStarted')
-      cy.task('stubMockDashboardsStatusFinished')
+      cy.task('stubScorecardGroupDashboardDefinitionNoTs')
+      cy.task('stubDashboardResultNoTs')
+      cy.task('stubMockDashboardStatusStarted')
+      cy.task('stubMockDashboardStatusFinished')
 
       cy.visit(path)
 

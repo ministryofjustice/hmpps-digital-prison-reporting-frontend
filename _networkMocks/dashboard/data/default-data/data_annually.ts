@@ -1,4 +1,4 @@
-export const completeDataSetAnnually = [
+export const defaultDataSetAnnually = [
   [
     {
       ts: { raw: '2024' },

@@ -3,7 +3,8 @@ layout: layouts/dashboards.njk
 title: Boxplot
 subsection: Visualisation definition
 ---
-<img src="/assets/images/charts/boxplot/chart-0-chromium-linux.png" alt="bar chart example" width="500" style="margin-bottom: 20px"/>
+
+<img src="/assets/images/charts/boxplot/chart-0-chromium-linux.png" alt="boxplot chart example" style="margin-bottom: 20px"/>
 
 The `boxplot` chart visualisation type represents data as a {type} chart visualisation.
 
@@ -172,7 +173,7 @@ see [here](/dashboards/visualisations/visualisation-dataset) for more info on ta
 
 This will produce the following cart visualisation
 
-<img src="/assets/images/charts/boxplot/chart-0-chromium-linux.png" alt="boxplot chart example" width="500"/>
+<img src="/assets/images/charts/boxplot/chart-0-chromium-linux.png" alt="boxplot chart example"/>
 
 <hr class='dpr-docs-hr'/>
 
@@ -242,4 +243,4 @@ see [here](/dashboards/visualisations/visualisation-dataset) for more info on ta
 
 This will produce the following cart visualisation
 
-<img src="/assets/images/charts/boxplot/chart-5-chromium-linux.png" alt="boxplot chart example 2" width="500"/>
+<img src="/assets/images/charts/boxplot/chart-5-chromium-linux.png" alt="boxplot chart example 2"/>

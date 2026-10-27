@@ -2,7 +2,6 @@
 layout: layouts/dashboards.njk
 title: Doughnut chart
 subsection: Visualisation definition
-phase: Beta
 ---
 
 <img src="/assets/images/charts/doughnut/Pie2.png" alt="" width="700" style="margin-bottom: 30px"/>

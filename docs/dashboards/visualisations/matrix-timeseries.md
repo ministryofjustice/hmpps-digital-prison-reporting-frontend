@@ -2,8 +2,6 @@
 layout: layouts/dashboards.njk
 title: Matrix timeseries chart
 subsection: Visualisation definition
-phase: Experimental
-phaseText: 'This feature is experimental and may be unstable. You can try it, but be aware that issues and changes are likely'
 ---
 
 <img src="/assets/images/charts/matrix/matrixExample2.png" alt="bar chart example" width="350" style="margin-bottom: 30px"/>
@@ -802,4 +800,4 @@ see [here](/dashboards/visualisations/visualisation-dataset) for more info on ta
 
 This will produce the following cart visualisation
 
-<img src="/assets/images/charts/matrix/chart-2-chromium-linux.png" alt="bar chart example"/>
+<img src="/assets/images/charts/matrix/chart-2-chromium-linux.png" alt="matrix chart example"/>

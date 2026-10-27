@@ -2,7 +2,6 @@
 layout: layouts/dashboards.njk
 title: Line chart
 subsection: Visualisation definition
-phase: Beta
 ---
 
 <img src="/assets/images/charts/line/Line2.png" alt="" width="700" style="margin-bottom: 30px"/>

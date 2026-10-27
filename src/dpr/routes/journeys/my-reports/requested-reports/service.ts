@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import UserDataStore from '../../../../data/reportDataStore'
 import { RequestedReport, RequestStatus, StoredReportData } from '../../../../types/UserReports'
 import ReportStoreService from '../../../../services/reportStoreService'

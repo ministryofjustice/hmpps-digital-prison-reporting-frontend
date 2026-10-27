@@ -1,7 +1,7 @@
-/* eslint-disable import/no-extraneous-dependencies */
-import path from 'path'
+/* eslint-disable import-x/no-extraneous-dependencies */
 import express, { Router } from 'express'
 import noCache from 'nocache'
+import path from 'path'
 
 export default function setUpStaticResources(): Router {
   const router = express.Router()

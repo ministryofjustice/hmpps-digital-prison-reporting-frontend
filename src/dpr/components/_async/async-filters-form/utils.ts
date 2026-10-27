@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import type { components } from '../../../types/api'
 
 import SortHelper from './sortByTemplate'

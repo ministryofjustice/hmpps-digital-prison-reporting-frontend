@@ -1,4 +1,3 @@
-/* eslint-disable prefer-destructuring */
 import { DashboardDataResponse } from '../../../types/Metrics'
 import {
   DashboardVisualisationDataSet,

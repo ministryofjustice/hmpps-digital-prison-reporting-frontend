@@ -1,6 +1,6 @@
-import superagent, { SuperAgentRequest, Response } from 'superagent'
-import { createClient } from 'redis'
 import { stubFor } from '@networkMocks/generateNetworkMock'
+import { createClient } from 'redis'
+import superagent, { Response, SuperAgentRequest } from 'superagent'
 
 const url = 'http://localhost:9091/__admin'
 

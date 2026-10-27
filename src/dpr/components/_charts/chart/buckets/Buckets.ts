@@ -1,4 +1,3 @@
-/* eslint-disable prefer-destructuring */
 import { withAlphaHex } from 'with-alpha-hex'
 import { ScorecardDefinitionType } from '../../../_dashboards/scorecard/types'
 import { ScorecardGroupDefinitionType } from '../../../_dashboards/scorecard-group/types'

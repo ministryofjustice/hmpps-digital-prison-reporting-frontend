@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import ReportStoreService from './reportStoreService'
 import ReportDataStore from '../data/reportDataStore'
 import { ReportStoreConfig } from '../types/ReportStore'

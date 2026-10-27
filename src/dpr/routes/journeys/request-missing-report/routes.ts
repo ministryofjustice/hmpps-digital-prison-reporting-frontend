@@ -1,10 +1,9 @@
-/* eslint-disable no-param-reassign */
 import { Router } from 'express'
 
 // Routes
+import { Services } from '../../../types/Services'
 import formRoutes from './form/routes'
 import submittedRoutes from './submitted/routes'
-import { Services } from '../../../types/Services'
 
 export function Routes({ layoutPath, services }: { services: Services; layoutPath: string }): Router {
   const router = Router({ mergeParams: true })

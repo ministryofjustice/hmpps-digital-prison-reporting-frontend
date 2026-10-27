@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FilterType } from '../components/_filters/filter-input/enum'
 import { components } from '../types/api'
 import { DprConfig } from '../types/DprConfig'

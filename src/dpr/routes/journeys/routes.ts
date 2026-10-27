@@ -3,16 +3,16 @@ import { getRouteLocals } from 'src/dpr/utils/localsHelper'
 import { Services } from '../../types/Services'
 
 // Routes
-import { RequestMissingReportRoutes } from './request-missing-report/routes'
-import { RequestReportAccessRoutes } from './request-report-access/routes'
+import { setNestedPath } from '../../utils/urlHelper'
 import { DownloadReportRoutes } from './download-report/routes'
+import { MyReportsCatalogueRoutes } from './my-reports-catalogue/routes'
 import { MyReportsRoutes } from './my-reports/routes'
-import { ViewReportRoutes } from './view-report/routes'
-import { RequestReportRoutes } from './request-report/routes'
 import { ProductCollectionRoutes } from './product-collection/routes'
 import { ReportCatalogueRoutes } from './report-catalogue/routes'
-import { MyReportsCatalogueRoutes } from './my-reports-catalogue/routes'
-import { setNestedPath } from '../../utils/urlHelper'
+import { RequestMissingReportRoutes } from './request-missing-report/routes'
+import { RequestReportAccessRoutes } from './request-report-access/routes'
+import { RequestReportRoutes } from './request-report/routes'
+import { ViewReportRoutes } from './view-report/routes'
 
 export function DprRoutes({ layoutPath, services }: { services: Services; layoutPath: string }): Router {
   const router = Router({ mergeParams: true })

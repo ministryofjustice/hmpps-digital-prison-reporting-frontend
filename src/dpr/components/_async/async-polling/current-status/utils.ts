@@ -1,9 +1,9 @@
-import { Response, Request } from 'express'
-import { getValues } from 'src/dpr/utils/localsHelper'
+import { Request, Response } from 'express'
 import {
   buildReportPageAction,
   buildRequestAction,
 } from 'src/dpr/components/my-reports/my-reports-list-item/my-reports-list-item-actions/utils'
+import { getValues } from 'src/dpr/utils/localsHelper'
 import { ReportType, RequestStatus, RequestedReport } from '../../../../types/UserReports'
 
 /**
@@ -127,13 +127,15 @@ const setChildStatusDetails = (data: RequestedReport, res: Response) => {
 
   return childExecutionData
     ?.map(executionData => {
-      const definition = definitions.find(def => def.id === reportId)
+      const definition = definitions.find((def: { id: string }) => def.id === reportId)
 
       if (!definition) {
         return undefined
       }
 
-      const dashboardVariant = definition.dashboards?.find(variant => variant.id === executionData.variantId)
+      const dashboardVariant = definition.dashboards?.find(
+        (variant: { id: string }) => variant.id === executionData.variantId,
+      )
       if (!dashboardVariant) {
         return undefined
       }

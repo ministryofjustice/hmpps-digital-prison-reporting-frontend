@@ -1,4 +1,4 @@
-/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable import-x/no-extraneous-dependencies */
 
 const fs = require('fs')
 const { spawn, execSync } = require('node:child_process')

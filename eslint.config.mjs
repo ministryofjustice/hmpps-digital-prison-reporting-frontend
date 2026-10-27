@@ -1,22 +1,13 @@
-/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable import-x/no-extraneous-dependencies */
 
-import { fixupConfigRules, fixupPluginRules } from '@eslint/compat'
 import { defineConfig, globalIgnores } from '@eslint/config-helpers'
-import { FlatCompat } from '@eslint/eslintrc'
-import TypescriptEslint from '@typescript-eslint/eslint-plugin'
 import typescriptParser from '@typescript-eslint/parser'
-import Import from 'eslint-plugin-import'
-import NoOnlyTests from 'eslint-plugin-no-only-tests'
+import { importX } from 'eslint-plugin-import-x'
+import noOnlyTests from 'eslint-plugin-no-only-tests'
+import eslintPluginPrettier from 'eslint-plugin-prettier'
 import globals from 'globals'
-import path from 'path'
-import { fileURLToPath } from 'url'
+import tseslint from 'typescript-eslint'
 
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
-
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-})
 export default defineConfig([
   globalIgnores([
     'node_modules/',
@@ -116,17 +107,16 @@ export default defineConfig([
     '/playwright/.auth/',
     'src/dpr/components/_dashboards/visual-regression-tests/**/*-darwin.png',
     'cypress-tests/mockApis/**/*',
+    '.eleventy.js',
   ]),
   {
-    extends: fixupConfigRules(
-      compat.extends('plugin:@typescript-eslint/eslint-recommended', 'plugin:prettier/recommended'),
-    ),
     plugins: {
-      import: fixupPluginRules(Import),
-      'no-only-tests': fixupPluginRules(NoOnlyTests),
+      'import-x': importX,
+      'no-only-tests': noOnlyTests,
+      prettier: eslintPluginPrettier,
     },
     settings: {
-      'import/resolver': {
+      'import-x/resolver': {
         typescript: true,
       },
     },
@@ -140,11 +130,11 @@ export default defineConfig([
     },
     rules: {
       'dot-notation': 'off',
-      'import/prefer-default-export': 'off',
+      'import-x/prefer-default-export': 'off',
       'no-use-before-define': 0,
       semi: 0,
-      'import/no-unresolved': 'error',
-      'import/extensions': [
+      'import-x/no-unresolved': 'error',
+      'import-x/extensions': [
         'error',
         'ignorePackages',
         {
@@ -156,7 +146,7 @@ export default defineConfig([
         },
       ],
       'comma-dangle': ['error', 'always-multiline'],
-      'import/no-extraneous-dependencies': [
+      'import-x/no-extraneous-dependencies': [
         'error',
         {
           devDependencies: [
@@ -192,15 +182,14 @@ export default defineConfig([
   },
   {
     files: ['**/*.ts'],
+    extends: [...tseslint.configs.recommended],
     ignores: ['*.js'],
-    extends: fixupConfigRules(
-      compat.extends('plugin:@typescript-eslint/eslint-recommended', 'plugin:prettier/recommended'),
-    ),
     plugins: {
-      '@typescript-eslint': fixupPluginRules(TypescriptEslint),
+      'import-x': importX,
+      prettier: eslintPluginPrettier,
     },
     settings: {
-      'import/resolver': {
+      'import-x/resolver': {
         typescript: true,
       },
     },
@@ -212,14 +201,15 @@ export default defineConfig([
       },
     },
     rules: {
-      'import/no-named-as-default': 0,
-      'import/no-named-as-default-member': 0,
+      'import-x/no-named-as-default': 0,
+      'import-x/no-named-as-default-member': 0,
+      'import-x/extensions': 0,
       'class-methods-use-this': 0,
       'no-useless-constructor': 0,
       'no-unused-vars': 'off',
       'no-console': 'error',
       'no-param-reassign': ['error', { props: false }],
-      'import/no-unresolved': 'error',
+      'import-x/no-unresolved': 'error',
       'prettier/prettier': [
         'error',
         {

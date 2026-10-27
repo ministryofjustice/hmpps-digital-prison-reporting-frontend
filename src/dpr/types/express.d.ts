@@ -1,11 +1,11 @@
+import 'express-session'
 import { ActiveReportSessionData } from './ActiveReportSession'
 import { components } from './api'
 import { ExtraLocals } from './extraLocals'
-import 'express-session'
 
 declare global {
   namespace Express {
-    interface Locals extends ExtraLocals {}
+    type Locals = ExtraLocals
   }
 }
 

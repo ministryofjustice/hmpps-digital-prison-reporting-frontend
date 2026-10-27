@@ -89,6 +89,7 @@ class DoughnutChartVisualisation extends ChartVisualisation {
   }
 
   setToolTipOptions() {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     const ctx = this
     return {
       callbacks: {
@@ -124,6 +125,7 @@ class DoughnutChartVisualisation extends ChartVisualisation {
   }
 
   setDataLabels() {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     const ctx = this
     return {
       textAlign: 'center',

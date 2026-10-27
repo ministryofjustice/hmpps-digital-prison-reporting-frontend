@@ -1,15 +1,15 @@
-import { type RequestHandler, Response, Request } from 'express'
+import { Request, type RequestHandler, Response } from 'express'
 import type { Environment } from 'nunjucks'
-import { Services } from '../types/Services'
-import { DprConfig } from '../types/DprConfig'
-import localsHelper from '../utils/localsHelper'
-import { FeatureFlagService, isBooleanFlagEnabledOrMissing } from '../services/featureFlagService'
-import { FEATURE_FLAGS, getFeatureFlagEvaluationSubject } from '../utils/featureFlagsHelper'
-import setUpNunjucksFilters from '../setUpNunjucksFilters'
 import { errorRequestHandler } from '../routes'
-import { AllReportsFromState, getAllMyReports } from '../utils/reportStoreHelper'
-import logger from '../utils/logger'
+import { FeatureFlagService, isBooleanFlagEnabledOrMissing } from '../services/featureFlagService'
+import setUpNunjucksFilters from '../setUpNunjucksFilters'
+import { DprConfig } from '../types/DprConfig'
+import { Services } from '../types/Services'
 import { cleanupReports } from '../utils/cleanupMyReports'
+import { FEATURE_FLAGS, getFeatureFlagEvaluationSubject } from '../utils/featureFlagsHelper'
+import localsHelper from '../utils/localsHelper'
+import logger from '../utils/logger'
+import { AllReportsFromState, getAllMyReports } from '../utils/reportStoreHelper'
 
 /**
  * Middleware helper to populate all locals configuration
@@ -386,7 +386,7 @@ const populateBookmarks = async (res: Response, myReports: AllReportsFromState) 
  * @param {Response} res
  */
 const setUpDprPaths = (res: Response) => {
-  res.app.locals.dprPaths ??= {
+  res.app.locals['dprPaths'] ??= {
     bookmarkActionEndpoint: '/dpr/my-reports/bookmarks',
     downloadActionEndpoint: '/dpr/download-report/',
     productCollectionEndpoint: '/dpr/product-collection/selected',

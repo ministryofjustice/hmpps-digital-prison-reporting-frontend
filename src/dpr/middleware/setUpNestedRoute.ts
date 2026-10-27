@@ -1,10 +1,10 @@
 import { RequestHandler } from 'express'
-import { setNestedPath } from '../utils/urlHelper'
 import logger from '../utils/logger'
+import { setNestedPath } from '../utils/urlHelper'
 
 export const setupNestedRoute = (): RequestHandler => {
   return (req, res, next) => {
-    const locals = res.app.locals.dprPaths
+    const locals = res.app.locals['dprPaths']
     if (locals) {
       // Initialise originals once
       if (!locals.original) {

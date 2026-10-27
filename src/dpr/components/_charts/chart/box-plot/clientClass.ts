@@ -25,6 +25,7 @@ class BoxPlotChartVisualisation extends ChartVisualisation {
   }
 
   setToolTipOptions() {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     const ctx = this
     return {
       callbacks: {

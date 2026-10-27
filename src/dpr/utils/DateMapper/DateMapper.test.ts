@@ -33,7 +33,7 @@ describe('getDateType', () => {
   })
 
   it('Not a matchable string', () => {
-    // @ts-ignore
+    // @ts-expect-error Testing invalid input
     expect(dateMapper.getDateType(0)).toEqual('none')
   })
 })

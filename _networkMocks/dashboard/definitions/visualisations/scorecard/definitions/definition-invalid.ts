@@ -2,7 +2,7 @@ import { components } from '../../../../../../src/dpr/types/api'
 import * as Scorecards from '../vis-definitions/definitions-invalid'
 
 export const definition: components['schemas']['DashboardDefinition'] = {
-  id: 'scorecard-examples_complete-data',
+  id: 'scorecard-examples_complete-data_invalid',
   name: 'Scorecard - Invalid visualisation definitions',
   description: 'Scorecard examples that are invalid',
   sections: [

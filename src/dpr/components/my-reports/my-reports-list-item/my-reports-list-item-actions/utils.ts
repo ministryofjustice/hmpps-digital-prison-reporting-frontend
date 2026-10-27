@@ -1,8 +1,8 @@
 import { Request, Response } from 'express'
 
-import { StoredReportData, RequestStatus, LoadType } from '../../../../types/UserReports'
+import { LoadType, RequestStatus, StoredReportData } from '../../../../types/UserReports'
 import { getRouteLocals } from '../../../../utils/localsHelper'
-import { ListType, DprMyReportActions, LinkAction, ViewAction, MappedBookmarks, MyReportsFormAction } from '../../types'
+import { DprMyReportActions, LinkAction, ListType, MappedBookmarks, MyReportsFormAction, ViewAction } from '../../types'
 
 /**
  * Builds the action cell data
@@ -121,7 +121,7 @@ const buildRemoveAction = (
 
   return {
     action,
-    csrfToken: res.locals.csrfToken,
+    csrfToken: res.locals['csrfToken'],
     returnTo: req.originalUrl,
     text: 'Remove',
     type: 'remove',
@@ -154,7 +154,7 @@ const buildSubscriptionAction = (
 
   return {
     action,
-    csrfToken: res.locals.csrfToken,
+    csrfToken: res.locals['csrfToken'],
     returnTo: req.originalUrl,
     text: 'Unsubscribe',
     type: 'subscription',

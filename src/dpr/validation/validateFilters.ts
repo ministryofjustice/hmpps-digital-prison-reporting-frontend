@@ -1,11 +1,11 @@
-import { RequestHandler, Request } from 'express'
+import { Request, RequestHandler } from 'express'
 import { components } from '../types/api'
-import { getFields, getDashboardFields, getFieldsWithFilters } from '../utils/definitionUtils'
-import { buildFilterSchemaFromFields } from './buildFilterSchema'
-import { extractFiltersFromBody, formBodyToQs } from '../utils/queryMappers'
-import { joinQueryStrings } from '../utils/urlHelper'
-import { getActiveJourneyValue } from '../utils/sessionHelper'
 import { LoadType, ReportType } from '../types/UserReports'
+import { getDashboardFields, getFields, getFieldsWithFilters } from '../utils/definitionUtils'
+import { extractFiltersFromBody, formBodyToQs } from '../utils/queryMappers'
+import { getActiveJourneyValue } from '../utils/sessionHelper'
+import { joinQueryStrings } from '../utils/urlHelper'
+import { buildFilterSchemaFromFields } from './buildFilterSchema'
 
 /**
  * Middleware to validate a report or dashboard filter request
@@ -24,7 +24,7 @@ export const validateFilters =
   ({ interactive, loadType = LoadType.ASYNC }: { interactive: boolean; loadType?: LoadType }): RequestHandler =>
   (req, res, next) => {
     const { type: reportType } = req.params
-    const definition = res.locals.definition as
+    const definition = res.locals['definition'] as
       components['schemas']['SingleVariantReportDefinition'] | components['schemas']['DashboardDefinition'] | undefined
 
     if (!definition) {
@@ -53,7 +53,7 @@ export const validateFilters =
 
       if (result.success) {
         // All good - go to request the report middleware
-        res.locals.validatedFilters = result.data
+        res.locals['validatedFilters'] = result.data
         next()
       } else {
         const errors = result.error.issues.map(issue => ({

@@ -1,10 +1,8 @@
-/* eslint-disable no-underscore-dangle */
-/* eslint-disable class-methods-use-this */
-
 import { ChartConfiguration, TooltipItem } from 'chart.js'
 import ChartVisualisation from '../clientClass'
 
 class BarChartVisualisation extends ChartVisualisation {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   settings: Record<string, any> = {}
   chartData!: ChartConfiguration
 
@@ -27,6 +25,7 @@ class BarChartVisualisation extends ChartVisualisation {
   }
 
   setToolTipOptions() {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     const ctx = this
     return {
       callbacks: {

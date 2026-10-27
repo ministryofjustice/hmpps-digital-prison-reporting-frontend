@@ -49,6 +49,7 @@ class BookmarkButton extends DprClientClass {
       this.updateUi(this.button, this.typeInput, data)
       this.announceBookmarkUpdate(data.bookmarked)
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error('Bookmark update failed', error)
     } finally {
       this.finishSubmitting(this.button)

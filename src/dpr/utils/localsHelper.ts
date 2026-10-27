@@ -1,6 +1,6 @@
 import type { Response } from 'express'
-import { RequestedReport, StoredReportData } from '../types/UserReports'
 import { BookmarkStoreData } from '../types/Bookmark'
+import { RequestedReport, StoredReportData } from '../types/UserReports'
 
 export const getValues = (res: Response) => {
   const csrfToken = (res.locals['csrfToken'] as unknown as string) || 'csrfToken'
@@ -86,7 +86,7 @@ export interface DprAppLocals {
 }
 
 export const getRouteLocals = (res: Response): DprAppLocals => {
-  const locals = res.app.locals.dprPaths
+  const locals = res.app.locals['dprPaths']
   if (!locals) {
     throw new Error('Dpr Library Path locals not initialized')
   }

@@ -1,4 +1,3 @@
-/* eslint-disable prefer-destructuring */
 import dayjs from 'dayjs'
 import { UI_OUTPUT_FORMAT, UI_OUTPUT_MONTH_FORMAT } from 'src/dpr/utils/dateHelper'
 import { components } from '../../../../types/api'

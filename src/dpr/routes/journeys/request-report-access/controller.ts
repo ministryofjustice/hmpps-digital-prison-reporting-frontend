@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express'
-import LocalsHelper from '../../../utils/localsHelper'
-import { Services } from '../../../types/Services'
 import { ReportingService } from '../../../services'
+import { Services } from '../../../types/Services'
+import LocalsHelper from '../../../utils/localsHelper'
 
 class RequestReportAccessController {
   layoutPath: string
@@ -16,11 +16,11 @@ class RequestReportAccessController {
   GET: RequestHandler = async (req, res, next) => {
     const { definitions } = LocalsHelper.getValues(res)
     const { reportId } = req.params
-    const definition = definitions.find(def => def.id === reportId)
+    const definition = definitions.find((def: { id: string | string[] }) => def.id === reportId)
 
     const reportData = {
       productName: definition?.name ?? '',
-      productVariants: definition?.variants.map(variant => variant.name) ?? [],
+      productVariants: definition?.variants.map((variant: { name: string }) => variant.name) ?? [],
     }
 
     try {

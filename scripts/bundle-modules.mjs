@@ -1,3 +1,5 @@
+/* eslint-disable import-x/no-extraneous-dependencies */
+
 import * as esbuild from 'esbuild'
 
 esbuild

@@ -235,7 +235,7 @@
     "tsconfig-paths": "^4.2.0",
     "tsx": "4.23.15",
     "typescript": "^5.9.3",
-    "typescript-eslint": "8.71.2",
+    "typescript-eslint": "8.72.0",
     "url": "0.11.4",
     "wait-on": "^9.0.1",
     "wiremock": "^3.13.1"

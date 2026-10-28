@@ -1,6 +1,5 @@
-/* eslint-disable import/no-extraneous-dependencies */
-/* eslint-disable no-underscore-dangle */
-/* eslint-disable new-cap */
+/* eslint-disable import-x/no-extraneous-dependencies */
+
 // Core dependencies
 
 // NPM dependencies

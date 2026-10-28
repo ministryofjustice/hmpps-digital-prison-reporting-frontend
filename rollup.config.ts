@@ -1,10 +1,10 @@
-/* eslint-disable import/no-extraneous-dependencies */
-import typescript from '@rollup/plugin-typescript'
-import { nodeResolve } from '@rollup/plugin-node-resolve'
-import { dts } from 'rollup-plugin-dts'
+/* eslint-disable import-x/no-extraneous-dependencies */
 import commonjs from '@rollup/plugin-commonjs'
+import { nodeResolve } from '@rollup/plugin-node-resolve'
+import typescript from '@rollup/plugin-typescript'
+import { appendFileSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'fs'
 import copy from 'rollup-plugin-copy'
-import { writeFileSync, mkdirSync, existsSync, appendFileSync, readFileSync, rmSync } from 'fs'
+import { dts } from 'rollup-plugin-dts'
 
 import { glob } from 'glob'
 import path from 'path'

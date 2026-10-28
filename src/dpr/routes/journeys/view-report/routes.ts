@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import { Router } from 'express'
 import { getRouteLocals } from '../../../utils/localsHelper'
 import { LoadType } from '../../../types/UserReports'

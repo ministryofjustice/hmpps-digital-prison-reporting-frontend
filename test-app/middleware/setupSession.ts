@@ -1,9 +1,9 @@
-/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable import-x/no-extraneous-dependencies */
 
-import session from 'express-session'
 import { RedisStore } from 'connect-redis'
-import express, { Router } from 'express'
 import { randomUUID } from 'crypto'
+import express, { Router } from 'express'
+import session from 'express-session'
 import { createClient } from 'redis'
 import logger from 'src/dpr/utils/logger'
 

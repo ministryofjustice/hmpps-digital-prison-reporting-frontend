@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import { Router } from 'express'
 import { storeActiveReportSessionData } from '../../../middleware/setUpActiveReport'
 import { Services } from '../../../types/Services'

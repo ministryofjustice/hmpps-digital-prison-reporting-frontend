@@ -1,8 +1,8 @@
-/* eslint-disable class-methods-use-this */
 import Chart, { ChartConfiguration, ScriptableContext, TooltipItem } from 'chart.js/auto'
 import ChartVisualisation from '../clientClass'
 
 class DoughnutChartVisualisation extends ChartVisualisation {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   settings: Record<string, any> = {}
   chartData!: ChartConfiguration
 
@@ -89,6 +89,7 @@ class DoughnutChartVisualisation extends ChartVisualisation {
   }
 
   setToolTipOptions() {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     const ctx = this
     return {
       callbacks: {
@@ -124,6 +125,7 @@ class DoughnutChartVisualisation extends ChartVisualisation {
   }
 
   setDataLabels() {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     const ctx = this
     return {
       textAlign: 'center',

@@ -1,3 +1,5 @@
+/* eslint-disable import-x/no-extraneous-dependencies */
+
 import { configureAllowedScripts } from '@ministryofjustice/hmpps-npm-script-allowlist'
 
 export default configureAllowedScripts({

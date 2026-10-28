@@ -18,8 +18,8 @@ context('Dashboard visualisation: line timeseries chart', () => {
       cy.visit(path)
 
       requestReportByNameAndDescription({
-        name: 'Line-timeseries ',
-        description: 'This dashboard represents example line-timeseries visualisations using a',
+        name: 'Line-timeseries charts',
+        description: 'This dashboard represents example line-timeseries visualisations using the defau...',
       })
 
       cy.findByRole('heading', { level: 1, name: /Line-timeseries / }).should('be.visible')
@@ -656,7 +656,7 @@ context('Dashboard visualisation: line timeseries chart', () => {
 
       requestReportByNameAndDescription({
         name: 'Line-timeseries - Merged dataset',
-        description: 'This dashboard represents example line-timeseries visualisations using a merged dataset',
+        description: 'This dashboard represents example line-timeseries visualisations using a merged ...',
       })
 
       cy.findByRole('heading', { level: 1, name: /Line-timeseries - Merged dataset/ }).should('be.visible')

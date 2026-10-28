@@ -18,8 +18,8 @@ context('Dashboard visualisation: line-timeseries - No TS in result dataset', ()
       cy.visit(path)
 
       requestReportByNameAndDescription({
-        name: 'Line-timeseries ',
-        description: 'This dashboard represents example line-timeseries visualisations using a',
+        name: 'Line-timeseries charts',
+        description: 'This dashboard represents example line-timeseries visualisations using the defau...',
       })
     })
 

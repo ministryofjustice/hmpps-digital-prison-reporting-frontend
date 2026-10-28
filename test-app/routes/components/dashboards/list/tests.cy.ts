@@ -18,8 +18,8 @@ context('Dashboard visualisation: List', () => {
       cy.visit(path)
 
       requestReportByNameAndDescription({
-        name: 'List ',
-        description: 'This dashboard represents example list visualisations using a default dataset',
+        name: 'List charts',
+        description: 'This dashboard represents example list visualisations using the default dataset....',
       })
 
       cy.findByRole('heading', { level: 1, name: /List / }).should('be.visible')
@@ -203,7 +203,7 @@ context('Dashboard visualisation: List', () => {
 
       requestReportByNameAndDescription({
         name: 'List - with links',
-        description: 'This dashboard represents example list visualisations using a dataset with links',
+        description: 'This dashboard represents example list visualisations using the default dataset....',
       })
 
       cy.findByRole('heading', { level: 1, name: /List - with links/ }).should('be.visible')
@@ -260,11 +260,11 @@ context('Dashboard visualisation: List', () => {
       cy.visit(path)
 
       requestReportByNameAndDescription({
-        name: 'List  - Historic',
-        description: 'This dashboard represents example list visualidations using historic dataset',
+        name: 'List - Historic',
+        description: 'This dashboard represents example list visualidations using the default dataset ...',
       })
 
-      cy.findByRole('heading', { level: 1, name: /List  - Historic/ }).should('be.visible')
+      cy.findByRole('heading', { level: 1, name: /List - Historic/ }).should('be.visible')
       checkA11y()
 
       cy.url().then(url => {

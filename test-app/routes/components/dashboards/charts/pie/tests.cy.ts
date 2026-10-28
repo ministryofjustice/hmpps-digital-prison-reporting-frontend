@@ -18,7 +18,7 @@ context('Dashboard visualisation: Doughnut chart', () => {
       cy.visit(path)
 
       requestReportByNameAndDescription({
-        name: 'Doughnut ',
+        name: 'Doughnut charts',
         description: 'This dashboard represents example Doughnut visualisations',
       })
 

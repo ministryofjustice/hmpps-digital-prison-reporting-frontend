@@ -23,11 +23,11 @@ context('Dashboard visualisation: matrix chart', () => {
       cy.visit(path)
 
       requestReportByNameAndDescription({
-        name: 'Matrix ',
+        name: 'Matrix - daily',
         description: 'Matrix examples',
       })
 
-      cy.findByRole('heading', { level: 1, name: /Matrix / }).should('be.visible')
+      cy.findByRole('heading', { level: 1, name: /Matrix - daily/ }).should('be.visible')
       checkA11y()
 
       cy.url().then(url => {

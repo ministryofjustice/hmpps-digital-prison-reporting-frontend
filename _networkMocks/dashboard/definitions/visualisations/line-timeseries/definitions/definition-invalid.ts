@@ -3,7 +3,7 @@ import { components } from '../../../../../../src/dpr/types/api'
 
 export const definition: components['schemas']['DashboardDefinition'] = {
   id: 'line-timeseries-visualisations_invalid',
-  name: 'Line-timeseries - Invalid visualisation defintions',
+  name: 'Line-timeseries - Invalid visualisation definitions',
   description: 'This dashboard represents example invalid line-timeseries visualisations.',
   sections: [
     {

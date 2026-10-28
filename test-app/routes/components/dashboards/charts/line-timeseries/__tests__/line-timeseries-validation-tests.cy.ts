@@ -20,7 +20,7 @@ context('Dashboard visualisation: line-timeseries chart invalid definitions', ()
       cy.visit(path)
 
       requestReportByNameAndDescription({
-        name: 'Line-timeseries - Invalid visualisation defintions',
+        name: 'Line-timeseries - Invalid visualisation definitions',
         description: 'This dashboard represents example invalid line-timeseries visualisations.',
       })
     })

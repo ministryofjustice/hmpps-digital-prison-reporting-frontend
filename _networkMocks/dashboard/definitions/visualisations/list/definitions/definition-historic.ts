@@ -7,7 +7,7 @@ import {
 
 export const definition = {
   id: 'list-visualisations_historic',
-  name: 'List  - Historic',
+  name: 'List - Historic',
   description:
     'This dashboard represents example list visualidations using the default dataset of historic data. The dashboard aims to show all the options available to display a list using the default dataset',
   sections: [

@@ -24,7 +24,7 @@ context('Dashboard visualisation: line-timeseries chart granularity tests', () =
 
       requestReportByNameAndDescription({
         name: 'Line-timeseries - Daily dataset',
-        description: 'This dashboard represents example line-timeseries visualisations using a daily c...',
+        description: 'This dashboard represents example line-timeseries visualisations using a daily d...',
       })
 
       cy.findByRole('heading', { level: 1, name: /Line-timeseries - Daily dataset/ }).should('be.visible')

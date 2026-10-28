@@ -3,7 +3,7 @@ import {
   annuallyDefinition as matrixChartsDefinitionAnnuallyDataset,
   autoBucketedDefinition as matrixChartsDefinitionAutoBucketedDataset,
   bucketedDefinition as matrixChartsDefinitionBucketedDataset,
-  definition as matrixChartsDefinitionDataset,
+  definition as matrixChartsDefinition,
   monthlyDefinition as matrixChartsDefinitionMonthlyDataset,
 } from './definitions/definition'
 import { definition as matrixInvalid } from './definitions/definition-invalid'
@@ -11,8 +11,8 @@ import { definition as matrixInvalid } from './definitions/definition-invalid'
 const prefix = '/definitions/dashboard-visualisations/dashboards'
 
 const matrixDashboardDefinitionDailyDatasetMock = setupSimpleMock(
-  `${prefix}/${matrixChartsDefinitionDataset.id}`,
-  matrixChartsDefinitionDataset,
+  `${prefix}/${matrixChartsDefinition.id}`,
+  matrixChartsDefinition,
 )
 
 const matrixDashboardDefinitionMonthlyDatasetMock = setupSimpleMock(

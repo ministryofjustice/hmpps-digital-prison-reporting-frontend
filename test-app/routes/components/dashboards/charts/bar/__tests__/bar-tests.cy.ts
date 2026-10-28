@@ -18,7 +18,7 @@ context('Dashboard visualisation: bar chart', () => {
       cy.visit(path)
 
       requestReportByNameAndDescription({
-        name: 'Bar ',
+        name: 'Bar charts',
         description: 'This dashboard represents example Bar visualisations using a default dataset.',
       })
 

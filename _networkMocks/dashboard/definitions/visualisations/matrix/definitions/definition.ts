@@ -4,7 +4,7 @@ import * as matrix from '../vis-definitions/definitions'
 
 const basicDefinition: components['schemas']['DashboardDefinition'] = {
   id: 'matrix-examples',
-  name: 'Matrix ',
+  name: 'Matrix - daily',
   description: 'Matrix examples',
   sections: [
     {
@@ -31,7 +31,7 @@ export const dailyDefinition: components['schemas']['DashboardDefinition'] = {
 export const monthlyDefinition: components['schemas']['DashboardDefinition'] = {
   ...basicDefinition,
   id: 'matrix-examples_monthly',
-  name: 'Matrix - monthly ',
+  name: 'Matrix - monthly',
   sections: basicDefinition.sections.map(section => ({
     ...section,
     id: `${section.id}-monthly`,
@@ -46,7 +46,7 @@ export const monthlyDefinition: components['schemas']['DashboardDefinition'] = {
 export const annuallyDefinition: components['schemas']['DashboardDefinition'] = {
   ...basicDefinition,
   id: 'matrix-examples_annually',
-  name: 'Matrix - annually ',
+  name: 'Matrix - annually',
   sections: basicDefinition.sections.map(section => ({
     ...section,
     id: `${section.id}-annually`,

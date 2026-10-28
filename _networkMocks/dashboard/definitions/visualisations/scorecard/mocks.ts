@@ -23,7 +23,7 @@ const scorecardsDashboardDefinitionNoTsMock = setupSimpleMock(
 )
 
 const scorecardsDashboardDefinitionInvalidVisDefinitionsMock = setupSimpleMock(
-  `${prefix}/$ scorecardsDashboardDefinitionInvalidVisDefinitions.id}`,
+  `${prefix}/${scorecardsDashboardDefinitionInvalidVisDefinitions.id}`,
   scorecardsDashboardDefinitionInvalidVisDefinitions,
 )
 

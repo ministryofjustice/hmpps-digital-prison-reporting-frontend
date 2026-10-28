@@ -14,9 +14,9 @@ import { definition as scorecardsDashboardDefinitionInvalid } from './scorecard/
 import { definition as scorecardsDashboardDefinitionNoTs } from './scorecard/definitions/definition-no-ts'
 
 // scorecard-group
-import { definition as scorecardGroupDashboardDefinition } from './scorecardGroup/definitions/definition'
-import { definition as scorecardGroupDashboardDefinitionInvalid } from './scorecardGroup/definitions/definition-invalid'
-import { definition as scorecardGroupDashboardDefinitionNoTs } from './scorecardGroup/definitions/definiton-no-ts'
+import { definition as scorecardGroupDashboardDefinition } from './scorecard-group/definitions/definition'
+import { definition as scorecardGroupDashboardDefinitionInvalid } from './scorecard-group/definitions/definition-invalid'
+import { definition as scorecardGroupDashboardDefinitionNoTs } from './scorecard-group/definitions/definiton-no-ts'
 
 // Matrix
 import {

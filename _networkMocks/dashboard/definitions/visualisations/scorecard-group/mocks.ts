@@ -1,7 +1,7 @@
 import { setupSimpleMock } from '@networkMocks/generateNetworkMock'
 import { definition as scorecardGroupDashboardDefinition } from './definitions/definition'
 import { definition as scorecardGroupDashboardDefinitionInvalid } from './definitions/definition-invalid'
-import { definition as scorecardGroupCompleteDatasetNoTs } from './definitions/definiton-no-ts'
+import { definition as scorecardGroupDashboardDefinitionNoTs } from './definitions/definiton-no-ts'
 
 const prefix = '/definitions/dashboard-visualisations/dashboards'
 
@@ -16,8 +16,8 @@ const scorecardGroupDashboardDefinitionInvalidMock = setupSimpleMock(
 )
 
 const scorecardGroupDashboardDefinitionNoTsMock = setupSimpleMock(
-  `${prefix}/${scorecardGroupCompleteDatasetNoTs.id}`,
-  scorecardGroupCompleteDatasetNoTs,
+  `${prefix}/${scorecardGroupDashboardDefinitionNoTs.id}`,
+  scorecardGroupDashboardDefinitionNoTs,
 )
 
 export const scorecardGroupMocks = {

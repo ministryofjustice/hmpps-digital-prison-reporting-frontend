@@ -3,8 +3,8 @@ import { fullDatasetHistoric } from '../../list/vis-definitions/full-data'
 import * as matrix from '../vis-definitions/definitions'
 
 const basicDefinition: components['schemas']['DashboardDefinition'] = {
-  id: 'matrix-examples_complete-data',
-  name: 'Matrix - Complete data',
+  id: 'matrix-examples',
+  name: 'Matrix ',
   description: 'Matrix examples',
   sections: [
     {
@@ -25,13 +25,13 @@ const basicDefinition: components['schemas']['DashboardDefinition'] = {
 
 export const dailyDefinition: components['schemas']['DashboardDefinition'] = {
   ...basicDefinition,
-  id: 'matrix-examples_complete-data_daily',
+  id: 'matrix-examples_daily',
 }
 
 export const monthlyDefinition: components['schemas']['DashboardDefinition'] = {
   ...basicDefinition,
-  id: 'matrix-examples_complete-data_monthly',
-  name: 'Matrix - monthly - Complete data',
+  id: 'matrix-examples_monthly',
+  name: 'Matrix - monthly ',
   sections: basicDefinition.sections.map(section => ({
     ...section,
     id: `${section.id}-monthly`,
@@ -45,8 +45,8 @@ export const monthlyDefinition: components['schemas']['DashboardDefinition'] = {
 
 export const annuallyDefinition: components['schemas']['DashboardDefinition'] = {
   ...basicDefinition,
-  id: 'matrix-examples_complete-data_annually',
-  name: 'Matrix - annually - Complete data',
+  id: 'matrix-examples_annually',
+  name: 'Matrix - annually ',
   sections: basicDefinition.sections.map(section => ({
     ...section,
     id: `${section.id}-annually`,
@@ -64,8 +64,8 @@ export const definition: components['schemas']['DashboardDefinition'] = {
 }
 
 export const autoBucketedDefinition: components['schemas']['DashboardDefinition'] = {
-  id: 'matrix-examples_complete-data_auto_bucketed',
-  name: 'Matrix - auto bucketed - Complete data',
+  id: 'matrix-examples_auto_bucketed',
+  name: 'Matrix - auto bucketed ',
   description: 'Matrix examples',
   sections: [
     {
@@ -90,8 +90,8 @@ export const autoBucketedDefinition: components['schemas']['DashboardDefinition'
 }
 
 export const bucketedDefinition: components['schemas']['DashboardDefinition'] = {
-  id: 'matrix-examples_complete-data_bucketed',
-  name: 'Matrix - custom bucketed - Complete data',
+  id: 'matrix-examples_bucketed',
+  name: 'Matrix - custom bucketed ',
   description: 'Matrix examples',
   sections: [
     {

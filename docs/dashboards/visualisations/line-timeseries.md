@@ -173,7 +173,7 @@ see [here](/dashboards/visualisations/visualisation-dataset) for more info on ta
 
 ### Visualisation
 
-This will produce the following cart visualisation
+This will produce the following chart visualisation
 
 <img src="/assets/images/charts/line-timeseries/chart-0-chromium-linux.png" alt="line-timeseries chart example showing daily granularity"/>
 
@@ -261,7 +261,7 @@ see [here](/dashboards/visualisations/visualisation-dataset) for more info on ta
 
 ### Visualisation
 
-This will produce the following cart visualisation
+This will produce the following chart visualisation
 
 <img src="/assets/images/charts/line-timeseries/chart-4-chromium-linux.png" alt="line-timeseries chart example showing monthly granularity"/>
 
@@ -331,6 +331,6 @@ see [here](/dashboards/visualisations/visualisation-dataset) for more info on ta
 
 ### Visualisation
 
-This will produce the following cart visualisation
+This will produce the following chart visualisation
 
 <img src="/assets/images/charts/line-timeseries/chart-6-chromium-linux.png" alt="line-timeseries chart example show yearly granularity"/>

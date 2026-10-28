@@ -197,7 +197,7 @@ see [here](/dashboards/visualisations/visualisation-dataset) for more info on ta
 
 ### Visualisation
 
-This will produce the following cart visualisation
+This will produce the following chart visualisation
 
 <img src="/assets/images/charts/matrix/matrixExample1.png" alt="bar chart example" width="500"/>
 
@@ -260,7 +260,7 @@ see [here](/dashboards/visualisations/visualisation-dataset) for more info on ta
 
 ### Visualisation
 
-This will produce the following cart visualisation
+This will produce the following chart visualisation
 
 <img src="/assets/images/charts/matrix/matrix-example-base-colour.png" alt="bar chart example" width="500"/>
 
@@ -330,7 +330,7 @@ see [here](/dashboards/visualisations/visualisation-dataset) for more info on ta
 
 ### Visualisation
 
-This will produce the following cart visualisation
+This will produce the following chart visualisation
 
 <img src="/assets/images/charts/matrix/matrix-example-custom.png" alt="bar chart example" width="500"/>
 
@@ -397,7 +397,7 @@ see [here](/dashboards/visualisations/visualisation-dataset) for more info on ta
 
 ### Visualisation
 
-This will produce the following cart visualisation
+This will produce the following chart visualisation
 
 <img src="/assets/images/charts/matrix/matrix-example-custom-colour.png" alt="bar chart example" width="500"/>
 
@@ -537,7 +537,7 @@ see [here](/dashboards/visualisations/visualisation-dataset) for more info on ta
 
 ### Visualisation
 
-This will produce the following cart visualisation
+This will produce the following chart visualisation
 
 <img src="/assets/images/charts/matrix/matrixExample2.png" alt="bar chart example" width="500"/>
 
@@ -636,7 +636,7 @@ see [here](/dashboards/visualisations/visualisation-dataset) for more info on ta
 
 ### Visualisation
 
-This will produce the following cart visualisation
+This will produce the following chart visualisation
 
 <img src="/assets/images/charts/matrix/chart-0-chromium-linux.png" alt="bar chart example"/>
 
@@ -723,7 +723,7 @@ see [here](/dashboards/visualisations/visualisation-dataset) for more info on ta
 
 ### Visualisation
 
-This will produce the following cart visualisation
+This will produce the following chart visualisation
 
 <img src="/assets/images/charts/matrix/chart-1-chromium-linux.png" alt="bar chart example"/>
 
@@ -798,6 +798,6 @@ see [here](/dashboards/visualisations/visualisation-dataset) for more info on ta
 
 ### Visualisation
 
-This will produce the following cart visualisation
+This will produce the following chart visualisation
 
 <img src="/assets/images/charts/matrix/chart-2-chromium-linux.png" alt="matrix chart example"/>

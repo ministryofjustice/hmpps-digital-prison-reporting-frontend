@@ -3,10 +3,10 @@ import { fullDataset } from '../../list/vis-definitions/full-data'
 import * as BarChart from '../vis-definitions/cols-as-labels'
 
 export const definition: components['schemas']['DashboardDefinition'] = {
-  id: 'bar-visualisations_complete-dataset',
-  name: 'Bar - Complete dataset',
+  id: 'bar-visualisations',
+  name: 'Bar ',
   description:
-    'This dashboard represents example Bar visualisations using a complete dataset. The dashboard aims to show all the options available to display a Bar using a complete dataset.',
+    'This dashboard represents example Bar visualisations using the default dataset. The dashboard aims to show all the options available to display a Bar using the default dataset.',
   sections: [
     {
       id: 'section-1',

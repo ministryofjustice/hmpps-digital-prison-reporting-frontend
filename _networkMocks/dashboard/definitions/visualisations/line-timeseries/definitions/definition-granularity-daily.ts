@@ -5,9 +5,9 @@ import { definition as annuallyDefinition } from './definition-granularity-yearl
 import * as LineCharts from '../vis-definitions/defintitions'
 
 export const definition: components['schemas']['DashboardDefinition'] = {
-  id: 'line-timeseries-visualisations-daily-complete-dataset',
-  name: 'Line-timeseries - Daily Complete dataset',
-  description: 'This dashboard represents example line-timeseries visualisations using a daily complete dataset.',
+  id: 'line-timeseries-visualisations-daily-dataset',
+  name: 'Line-timeseries - Daily dataset',
+  description: 'This dashboard represents example line-timeseries visualisations using a daily dataset.',
   sections: [
     {
       id: 'section-1',

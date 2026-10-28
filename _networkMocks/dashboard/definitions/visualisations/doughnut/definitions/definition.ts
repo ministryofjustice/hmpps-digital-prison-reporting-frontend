@@ -3,10 +3,10 @@ import { fullDataset } from '../../list/vis-definitions/full-data'
 import * as DoughnutChart from '../vis-definitions/definitions'
 
 export const definition: components['schemas']['DashboardDefinition'] = {
-  id: 'doughnut-visualisations_complete-dataset',
-  name: 'Doughnut - Complete dataset',
+  id: 'doughnut-visualisations',
+  name: 'Doughnut ',
   description:
-    'This dashboard represents example Doughnut visualisations using a complete dataset. The dashboard aims to show all the options available to display a Doughnut using a complete dataset.',
+    'This dashboard represents example Doughnut visualisations using the default dataset. The dashboard aims to show all the options available to display a Doughnut using the default dataset.',
   sections: [
     {
       id: 'section-1',

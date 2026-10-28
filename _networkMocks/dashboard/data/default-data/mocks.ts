@@ -11,10 +11,10 @@ import { defaultDataSetDaily } from './data_daily'
 import { defaultDataSetMonthly } from './date_monthly'
 
 // ----------------------------------------------------------------------
-// Defintions that require a complete dataset
+// Defintions that require the default dataset
 //
 
-const completeVisDefinitionsIds = [
+const defaultVisDefinitionsIds = [
   // lists
   vds.listDashboardDefinition,
   vds.listDashboardDefinitionHistoric,
@@ -46,7 +46,7 @@ const completeVisDefinitionsIds = [
 ].map(def => def.id)
 
 // ----------------------------------------------------------------------
-// Defintions that require a complete dataset with DAILY timestamp format (YYYY-MM-DD)
+// Defintions that require a default dataset with DAILY timestamp format (YYYY-MM-DD)
 //
 
 const dailyDatasetVisDefinitionIds = [
@@ -55,7 +55,7 @@ const dailyDatasetVisDefinitionIds = [
 ].map(def => def.id)
 
 // ----------------------------------------------------------------------
-// Defintions that require a complete dataset with MONTHLY timestamp format (YYYY-MM)
+// Defintions that require a default dataset with MONTHLY timestamp format (YYYY-MM)
 //
 
 const monthlyDatasetVisDefinitionIds = [
@@ -66,7 +66,7 @@ const monthlyDatasetVisDefinitionIds = [
 ].map(def => def.id)
 
 // ----------------------------------------------------------------------
-// Defintions that require a complete dataset with YEARLY timestamp format (YYYY)
+// Defintions that require a default dataset with YEARLY timestamp format (YYYY)
 //
 
 const yearlyDatasetVisDefinitionIds = [
@@ -75,7 +75,7 @@ const yearlyDatasetVisDefinitionIds = [
 ].map(def => def.id)
 
 // ----------------------------------------------------------------------
-// Defintions that require a complete dataset with no timestamp
+// Defintions that require a default dataset with no timestamp
 //
 
 const noTsDatasetVisDefinitionIds = [
@@ -89,7 +89,7 @@ const noTsDatasetVisDefinitionIds = [
 // DASHBOARD DATASET RESULT MOCKS
 //
 
-const allIds = [...completeVisDefinitionsIds, ...requestExampleIds, ...featureTestingIds]
+const allIds = [...defaultVisDefinitionsIds, ...requestExampleIds, ...featureTestingIds]
 const productIds = ['dashboard-visualisations', 'request-examples', 'feature-testing']
 
 export const dashboardResultMock = setupSimpleMock(

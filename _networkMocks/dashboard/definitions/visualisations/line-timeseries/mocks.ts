@@ -1,41 +1,41 @@
 import { setupSimpleMock } from '@networkMocks/generateNetworkMock'
-import { definition as lineTimeseriesCompleteDataset } from './definitions/definition'
-import { definition as lineTimeseriesDailyDataset } from './definitions/definition-granularity-daily'
-import { definition as lineTimeseriesMonthlyDataset } from './definitions/defintion-granularity-monthly'
-import { definition as lineTimeseriesYearlyDataset } from './definitions/definition-granularity-yearly'
-import { definition as lineTimeseriesInvalid } from './definitions/definition-invalid'
-import { definition as lineTimeseriesMergedDataset } from './definitions/definition-merged'
+import { definition as lineTimeseriesDefinition } from './definitions/definition'
+import { definition as lineTimeseriesDefinitionDailyDataset } from './definitions/definition-granularity-daily'
+import { definition as lineTimeseriesDefinitionMonthlyDataset } from './definitions/defintion-granularity-monthly'
+import { definition as lineTimeseriesDefinitionYearlyDataset } from './definitions/definition-granularity-yearly'
+import { definition as lineTimeseriesDefinitionInvalid } from './definitions/definition-invalid'
+import { definition as lineTimeseriesDefinitionMergedDataset } from './definitions/definition-merged'
 
 const prefix = '/definitions/dashboard-visualisations/dashboards'
 
 const lineTimeseriesDashboardDefinitionMock = setupSimpleMock(
-  `${prefix}/${lineTimeseriesCompleteDataset.id}`,
-  lineTimeseriesCompleteDataset,
+  `${prefix}/${lineTimeseriesDefinition.id}`,
+  lineTimeseriesDefinition,
 )
 
 const lineTimeseriesDashboadDefinitionMergedDatasetMock = setupSimpleMock(
-  `${prefix}/${lineTimeseriesMergedDataset.id}`,
-  lineTimeseriesMergedDataset,
+  `${prefix}/${lineTimeseriesDefinitionMergedDataset.id}`,
+  lineTimeseriesDefinitionMergedDataset,
 )
 
 const lineTimeseriesDashboardDefinitionDailyDatasetMock = setupSimpleMock(
-  `${prefix}/${lineTimeseriesDailyDataset.id}`,
-  lineTimeseriesDailyDataset,
+  `${prefix}/${lineTimeseriesDefinitionDailyDataset.id}`,
+  lineTimeseriesDefinitionDailyDataset,
 )
 
 const lineTimeseriesDashboardDefinitionMonthlyDatasetMock = setupSimpleMock(
-  `${prefix}/${lineTimeseriesMonthlyDataset.id}`,
-  lineTimeseriesMonthlyDataset,
+  `${prefix}/${lineTimeseriesDefinitionMonthlyDataset.id}`,
+  lineTimeseriesDefinitionMonthlyDataset,
 )
 
 const lineTimeseriesDashboardDefinitionYearlyDatasetMock = setupSimpleMock(
-  `${prefix}/${lineTimeseriesYearlyDataset.id}`,
-  lineTimeseriesYearlyDataset,
+  `${prefix}/${lineTimeseriesDefinitionYearlyDataset.id}`,
+  lineTimeseriesDefinitionYearlyDataset,
 )
 
 const lineTimeseriesDashboardDefinitionInvalidMock = setupSimpleMock(
-  `${prefix}/${lineTimeseriesInvalid.id}`,
-  lineTimeseriesInvalid,
+  `${prefix}/${lineTimeseriesDefinitionInvalid.id}`,
+  lineTimeseriesDefinitionInvalid,
 )
 
 export const lineTimeseriesMocks = {

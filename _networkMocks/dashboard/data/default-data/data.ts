@@ -1,6 +1,5 @@
 /**
- * Mock complete dataset with monthly dates
- * - "complete" refers to a dataset that does not have any undefined/null values
+ * Mock dataset with monthly dates
  * - Mocked data quality values
  * - 3 Establishments
  * - 6 months historic data - granularity: monthly

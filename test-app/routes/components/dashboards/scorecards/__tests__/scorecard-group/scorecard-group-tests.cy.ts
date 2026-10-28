@@ -23,7 +23,7 @@ context('Dashboard visualisation: Scorecard Group: Valid data', () => {
       cy.visit(path)
 
       requestReportByNameAndDescription({
-        name: 'Scorecard Group - Complete data',
+        name: 'Scorecard Group ',
         description: 'Scorecard examples',
       })
 

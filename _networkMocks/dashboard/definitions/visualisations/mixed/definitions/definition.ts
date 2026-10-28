@@ -8,10 +8,10 @@ import * as ListChart1 from '../../list/vis-definitions/column-values-as-list'
 import * as ListChart2 from '../../list/vis-definitions/rows-as-list'
 
 export const definition: components['schemas']['DashboardDefinition'] = {
-  id: 'mixed-visualisations_complete-dataset',
-  name: 'Mixed - Complete dataset',
+  id: 'mixed-visualisations',
+  name: 'Mixed ',
   description:
-    'This dashboard represents example Mixed visualisations using a complete dataset. The dashboard aims to show all the options available to display a Mixed charts using a complete dataset.',
+    'This dashboard represents example Mixed visualisations using the default dataset. The dashboard aims to show all the options available to display a Mixed charts using the default dataset.',
   sections: [
     {
       id: 'section-1',

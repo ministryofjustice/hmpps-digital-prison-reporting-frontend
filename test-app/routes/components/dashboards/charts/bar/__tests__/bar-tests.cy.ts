@@ -7,8 +7,8 @@ import {
 context('Dashboard visualisation: bar chart', () => {
   const path = '/'
 
-  describe('Complete data', () => {
-    let completeDashboardUrl = ''
+  describe('default data', () => {
+    let dashboardUrl = ''
 
     before(() => {
       cy.task('resetStubs')
@@ -18,20 +18,20 @@ context('Dashboard visualisation: bar chart', () => {
       cy.visit(path)
 
       requestReportByNameAndDescription({
-        name: 'Bar - Complete dataset',
-        description: 'This dashboard represents example Bar visualisations using a complete dataset.',
+        name: 'Bar ',
+        description: 'This dashboard represents example Bar visualisations using a default dataset.',
       })
 
-      cy.findByRole('heading', { level: 1, name: /Bar - Complete dataset/ }).should('be.visible')
+      cy.findByRole('heading', { level: 1, name: /Bar / }).should('be.visible')
       checkA11y()
 
       cy.url().then(url => {
-        completeDashboardUrl = url
+        dashboardUrl = url
       })
     })
 
     beforeEach(() => {
-      cy.visit(completeDashboardUrl)
+      cy.visit(dashboardUrl)
     })
 
     it('should have the correct amount of sections', () => {
@@ -366,8 +366,8 @@ context('Dashboard visualisation: bar chart', () => {
     })
   })
 
-  describe('Partial data', () => {
-    let partialDashboardUrl = ''
+  describe('Merged data', () => {
+    let mergedDashboardUrl = ''
 
     before(() => {
       cy.task('resetStubs')
@@ -377,20 +377,20 @@ context('Dashboard visualisation: bar chart', () => {
       cy.visit(path)
 
       requestReportByNameAndDescription({
-        name: 'Bar - Partial dataset',
-        description: 'This dashboard represents example bar visualisations using a partial dataset.',
+        name: 'Bar - Merged dataset',
+        description: 'This dashboard represents example bar visualisations using a merged dataset.',
       })
 
-      cy.findByRole('heading', { level: 1, name: /Bar - Partial dataset/ }).should('be.visible')
+      cy.findByRole('heading', { level: 1, name: /Bar - Merged dataset/ }).should('be.visible')
       checkA11y()
 
       cy.url().then(url => {
-        partialDashboardUrl = url
+        mergedDashboardUrl = url
       })
     })
 
     beforeEach(() => {
-      cy.visit(partialDashboardUrl)
+      cy.visit(mergedDashboardUrl)
     })
 
     it('should have the correct amount of sections', () => {

@@ -147,7 +147,7 @@ see [here](/dashboards/visualisations/visualisation-dataset) for more info on ta
 
 ### Visualisation
 
-This will produce the following cart visualisation
+This will produce the following chart visualisation
 
 <img src="/assets/images/charts/line/Line1.png" alt="" width="700" style="margin-bottom: 30px"/>
 
@@ -236,6 +236,6 @@ see [here](/dashboards/visualisations/visualisation-dataset) for more info on ta
 
 ### Visualisation
 
-This will produce the following cart visualisation
+This will produce the following chart visualisation
 
 <img src="/assets/images/charts/line/Line3.png" alt="" width="700" style="margin-bottom: 30px"/>

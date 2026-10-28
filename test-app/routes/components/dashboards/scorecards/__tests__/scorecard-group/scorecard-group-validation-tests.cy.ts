@@ -21,7 +21,7 @@ context('Dashboard visualisation: Scorecard Group: Validation', () => {
       cy.visit(path)
 
       requestReportByNameAndDescription({
-        name: 'Scorecard Group - Complete data - invalid',
+        name: 'Scorecard Group  - invalid',
         description: 'Scorecard examples',
       })
     })

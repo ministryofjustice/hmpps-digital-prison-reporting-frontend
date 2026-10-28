@@ -4,8 +4,8 @@ import * as BarCharts from '../../bar/vis-definitions/cols-as-labels'
 import { fullDatasetHistoric } from '../../list/vis-definitions/full-data'
 
 export const definition: components['schemas']['DashboardDefinition'] = {
-  id: 'scorecard-examples_complete-data',
-  name: 'Scorecard - Complete data',
+  id: 'scorecard-examples',
+  name: 'Scorecard ',
   description: 'Scorecard examples',
   sections: [
     {

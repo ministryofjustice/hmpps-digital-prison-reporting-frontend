@@ -245,7 +245,7 @@ const totalsDiet = [
 ]
 
 // ABC
-const partialDatasetSeptABC = [
+const mergedDatasetSeptABC = [
   {
     ts: { raw: 'Sep 24' },
     establishment_id: { raw: 'ABC' },
@@ -528,7 +528,7 @@ const partialDatasetSeptABC = [
   },
 ]
 
-const partialDatasetOctABC = [
+const mergedDatasetOctABC = [
   {
     ts: { raw: 'Oct 24' },
     establishment_id: { raw: 'ABC' },
@@ -811,7 +811,7 @@ const partialDatasetOctABC = [
   },
 ]
 
-const partialDatasetNovABC = [
+const mergedDatasetNovABC = [
   {
     ts: { raw: 'Nov 24' },
     establishment_id: { raw: 'ABC' },
@@ -1094,7 +1094,7 @@ const partialDatasetNovABC = [
   },
 ]
 
-const partialDatasetDecABC = [
+const mergedDatasetDecABC = [
   {
     ts: { raw: 'Dec 24' },
     establishment_id: { raw: 'ABC' },
@@ -1377,7 +1377,7 @@ const partialDatasetDecABC = [
   },
 ]
 
-const partialDatasetJanABC = [
+const mergedDatasetJanABC = [
   {
     ts: { raw: 'Jan 25' },
     establishment_id: { raw: 'ABC' },
@@ -1660,7 +1660,7 @@ const partialDatasetJanABC = [
   },
 ]
 
-const partialDatasetFebABC = [
+const mergedDatasetFebABC = [
   {
     ts: { raw: 'Feb 25' },
     establishment_id: { raw: 'ABC' },
@@ -1944,7 +1944,7 @@ const partialDatasetFebABC = [
 ]
 
 // DEF
-const partialDatasetSeptDEF = [
+const mergedDatasetSeptDEF = [
   {
     ts: { raw: 'Sep 24' },
     establishment_id: { raw: 'DEF' },
@@ -2227,7 +2227,7 @@ const partialDatasetSeptDEF = [
   },
 ]
 
-const partialDatasetOctDEF = [
+const mergedDatasetOctDEF = [
   {
     ts: { raw: 'Oct 24' },
     establishment_id: { raw: 'DEF' },
@@ -2510,7 +2510,7 @@ const partialDatasetOctDEF = [
   },
 ]
 
-const partialDatasetNovDEF = [
+const mergedDatasetNovDEF = [
   {
     ts: { raw: 'Nov 24' },
     establishment_id: { raw: 'DEF' },
@@ -2793,7 +2793,7 @@ const partialDatasetNovDEF = [
   },
 ]
 
-const partialDatasetDecDEF = [
+const mergedDatasetDecDEF = [
   {
     ts: { raw: 'Dec 24' },
     establishment_id: { raw: 'DEF' },
@@ -3076,7 +3076,7 @@ const partialDatasetDecDEF = [
   },
 ]
 
-const partialDatasetJanDEF = [
+const mergedDatasetJanDEF = [
   {
     ts: { raw: 'Jan 25' },
     establishment_id: { raw: 'DEF' },
@@ -3359,7 +3359,7 @@ const partialDatasetJanDEF = [
   },
 ]
 
-const partialDatasetFebDEF = [
+const mergedDatasetFebDEF = [
   {
     ts: { raw: 'Feb 25' },
     establishment_id: { raw: 'DEF' },
@@ -3643,18 +3643,18 @@ const partialDatasetFebDEF = [
 ]
 
 const mergedEstablishments = [
-  ...partialDatasetSeptABC,
-  ...partialDatasetSeptDEF,
-  ...partialDatasetOctABC,
-  ...partialDatasetOctDEF,
-  ...partialDatasetNovABC,
-  ...partialDatasetNovDEF,
-  ...partialDatasetDecABC,
-  ...partialDatasetDecDEF,
-  ...partialDatasetJanABC,
-  ...partialDatasetJanDEF,
-  ...partialDatasetFebABC,
-  ...partialDatasetFebDEF,
+  ...mergedDatasetSeptABC,
+  ...mergedDatasetSeptDEF,
+  ...mergedDatasetOctABC,
+  ...mergedDatasetOctDEF,
+  ...mergedDatasetNovABC,
+  ...mergedDatasetNovDEF,
+  ...mergedDatasetDecABC,
+  ...mergedDatasetDecDEF,
+  ...mergedDatasetJanABC,
+  ...mergedDatasetJanDEF,
+  ...mergedDatasetFebABC,
+  ...mergedDatasetFebDEF,
 ]
 
-export const historicPartialData = [...totals, ...totalsDiet, ...mergedEstablishments]
+export const historicMergedData = [...totals, ...totalsDiet, ...mergedEstablishments]

@@ -7,8 +7,8 @@ import {
 context('Dashboard visualisation: Doughnut chart', () => {
   const path = '/'
 
-  describe('Complete data', () => {
-    let completeDashboardUrl = ''
+  describe('Default data', () => {
+    let dashboardUrl = ''
 
     before(() => {
       cy.task('resetStubs')
@@ -18,20 +18,20 @@ context('Dashboard visualisation: Doughnut chart', () => {
       cy.visit(path)
 
       requestReportByNameAndDescription({
-        name: 'Doughnut - Complete dataset',
-        description: 'This dashboard represents example Doughnut visualisations using a complete',
+        name: 'Doughnut ',
+        description: 'This dashboard represents example Doughnut visualisations',
       })
 
-      cy.findByRole('heading', { level: 1, name: /Doughnut - Complete dataset/ }).should('be.visible')
+      cy.findByRole('heading', { level: 1, name: /Doughnut / }).should('be.visible')
       checkA11y()
 
       cy.url().then(url => {
-        completeDashboardUrl = url
+        dashboardUrl = url
       })
     })
 
     beforeEach(() => {
-      cy.visit(completeDashboardUrl)
+      cy.visit(dashboardUrl)
     })
 
     it('should have the correct amount of sections', () => {

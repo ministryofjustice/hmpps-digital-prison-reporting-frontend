@@ -18,7 +18,7 @@ context('Dashboard visualisation: matrix validation tests', () => {
       cy.visit(path)
 
       requestReportByNameAndDescription({
-        name: 'Matrix - monthly - Complete data',
+        name: 'Matrix - monthly ',
         description: 'Matrix examples',
       })
     })

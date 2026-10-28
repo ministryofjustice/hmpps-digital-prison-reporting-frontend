@@ -1,6 +1,6 @@
 import { startReportRequest, stubBaseTasks, stubDefinitionsTasks } from 'cypress-tests/cypressUtils'
 
-context('Viewing a partial parent-child dashboard', () => {
+context('Viewing a merged parent-child dashboard', () => {
   const path = '/'
   const dashboardName = 'Test Parent Dashboard'
   const dashboardNameRegExp = new RegExp(`${dashboardName}`)

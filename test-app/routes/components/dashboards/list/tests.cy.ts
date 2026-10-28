@@ -7,8 +7,8 @@ import {
 context('Dashboard visualisation: List', () => {
   const path = '/'
 
-  describe('complete data', () => {
-    let completeDashboardUrl = ''
+  describe('Default data', () => {
+    let dashboardUrl = ''
 
     before(() => {
       cy.task('resetStubs')
@@ -18,20 +18,20 @@ context('Dashboard visualisation: List', () => {
       cy.visit(path)
 
       requestReportByNameAndDescription({
-        name: 'List - Complete dataset',
-        description: 'This dashboard represents example list visualisations using a complete dataset',
+        name: 'List ',
+        description: 'This dashboard represents example list visualisations using a default dataset',
       })
 
-      cy.findByRole('heading', { level: 1, name: /List - Complete dataset/ }).should('be.visible')
+      cy.findByRole('heading', { level: 1, name: /List / }).should('be.visible')
       checkA11y()
 
       cy.url().then(url => {
-        completeDashboardUrl = url
+        dashboardUrl = url
       })
     })
 
     beforeEach(() => {
-      cy.visit(completeDashboardUrl)
+      cy.visit(dashboardUrl)
     })
 
     it('should show the correct section headings', () => {
@@ -190,8 +190,8 @@ context('Dashboard visualisation: List', () => {
     })
   })
 
-  describe('complete data with links', () => {
-    let completeDashboardWithLinksUrl = ''
+  describe('Data with links', () => {
+    let dashboardWithLinksUrl = ''
 
     before(() => {
       cy.task('resetStubs')
@@ -203,19 +203,19 @@ context('Dashboard visualisation: List', () => {
 
       requestReportByNameAndDescription({
         name: 'List - with links',
-        description: 'This dashboard represents example list visualisations using a complete dataset',
+        description: 'This dashboard represents example list visualisations using a dataset with links',
       })
 
       cy.findByRole('heading', { level: 1, name: /List - with links/ }).should('be.visible')
       checkA11y()
 
       cy.url().then(url => {
-        completeDashboardWithLinksUrl = url
+        dashboardWithLinksUrl = url
       })
     })
 
     beforeEach(() => {
-      cy.visit(completeDashboardWithLinksUrl)
+      cy.visit(dashboardWithLinksUrl)
     })
 
     it('should show a list with clickable links in it', () => {
@@ -249,8 +249,8 @@ context('Dashboard visualisation: List', () => {
     })
   })
 
-  describe('complete data historic', () => {
-    let completeHistoricDashboardUrl = ''
+  describe('Historic data', () => {
+    let historicDashboardUrl = ''
 
     before(() => {
       cy.task('resetStubs')
@@ -260,20 +260,20 @@ context('Dashboard visualisation: List', () => {
       cy.visit(path)
 
       requestReportByNameAndDescription({
-        name: 'List - Complete dataset - Historic',
-        description: 'This dashboard represents example list visualidations using a complete dataset',
+        name: 'List  - Historic',
+        description: 'This dashboard represents example list visualidations using historic dataset',
       })
 
-      cy.findByRole('heading', { level: 1, name: /List - Complete dataset - Historic/ }).should('be.visible')
+      cy.findByRole('heading', { level: 1, name: /List  - Historic/ }).should('be.visible')
       checkA11y()
 
       cy.url().then(url => {
-        completeHistoricDashboardUrl = url
+        historicDashboardUrl = url
       })
     })
 
     beforeEach(() => {
-      cy.visit(completeHistoricDashboardUrl)
+      cy.visit(historicDashboardUrl)
     })
 
     it('should show the correct section headings', () => {
@@ -385,8 +385,8 @@ context('Dashboard visualisation: List', () => {
     })
   })
 
-  describe('partial data', () => {
-    let partialDashboardUrl = ''
+  describe('Merged data', () => {
+    let mergedDashboardUrl = ''
 
     before(() => {
       cy.task('resetStubs')
@@ -396,20 +396,20 @@ context('Dashboard visualisation: List', () => {
       cy.visit(path)
 
       requestReportByNameAndDescription({
-        name: 'List - Partial dataset',
-        description: 'This dashboard represents example list visualisations using a partial dataset',
+        name: 'List - Merged dataset',
+        description: 'This dashboard represents example list visualisations using a merged dataset',
       })
 
-      cy.findByRole('heading', { level: 1, name: /List - Partial dataset/ }).should('be.visible')
+      cy.findByRole('heading', { level: 1, name: /List - Merged dataset/ }).should('be.visible')
       checkA11y()
 
       cy.url().then(url => {
-        partialDashboardUrl = url
+        mergedDashboardUrl = url
       })
     })
 
     beforeEach(() => {
-      cy.visit(partialDashboardUrl)
+      cy.visit(mergedDashboardUrl)
     })
 
     it('should show the correct section headings', () => {

@@ -2,7 +2,7 @@ import { invalidDefinition } from '../vis-definitions/invalid'
 import { components } from '../../../../../../src/dpr/types/api'
 
 export const definition: components['schemas']['DashboardDefinition'] = {
-  id: 'list-visualisations_complete-dataset',
+  id: 'list-visualisations',
   name: 'List - Invalid vis definition',
   description: 'Invalid vis definition',
   sections: [

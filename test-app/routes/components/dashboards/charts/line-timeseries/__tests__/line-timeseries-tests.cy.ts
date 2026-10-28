@@ -7,8 +7,8 @@ import {
 context('Dashboard visualisation: line timeseries chart', () => {
   const path = '/'
 
-  describe('Complete data', () => {
-    let completeUrl = ''
+  describe('Default data', () => {
+    let dashboardUrl = ''
 
     before(() => {
       cy.task('resetStubs')
@@ -18,19 +18,19 @@ context('Dashboard visualisation: line timeseries chart', () => {
       cy.visit(path)
 
       requestReportByNameAndDescription({
-        name: 'Line-timeseries - Complete dataset',
+        name: 'Line-timeseries ',
         description: 'This dashboard represents example line-timeseries visualisations using a',
       })
 
-      cy.findByRole('heading', { level: 1, name: /Line-timeseries - Complete dataset/ }).should('be.visible')
+      cy.findByRole('heading', { level: 1, name: /Line-timeseries / }).should('be.visible')
 
       cy.url().then(url => {
-        completeUrl = url
+        dashboardUrl = url
       })
     })
 
     beforeEach(() => {
-      cy.visit(completeUrl)
+      cy.visit(dashboardUrl)
     })
 
     it('should be accessible', () => {
@@ -644,8 +644,8 @@ context('Dashboard visualisation: line timeseries chart', () => {
     })
   })
 
-  describe('Partial data', () => {
-    let partialData = ''
+  describe('Merged data', () => {
+    let MergedData = ''
 
     before(() => {
       cy.task('resetStubs')
@@ -655,19 +655,19 @@ context('Dashboard visualisation: line timeseries chart', () => {
       cy.visit(path)
 
       requestReportByNameAndDescription({
-        name: 'Line-timeseries - Partial dataset',
-        description: 'This dashboard represents example line-timeseries visualisations using a partial',
+        name: 'Line-timeseries - Merged dataset',
+        description: 'This dashboard represents example line-timeseries visualisations using a merged dataset',
       })
 
-      cy.findByRole('heading', { level: 1, name: /Line-timeseries - Partial dataset/ }).should('be.visible')
+      cy.findByRole('heading', { level: 1, name: /Line-timeseries - Merged dataset/ }).should('be.visible')
 
       cy.url().then(url => {
-        partialData = url
+        MergedData = url
       })
     })
 
     beforeEach(() => {
-      cy.visit(partialData)
+      cy.visit(MergedData)
     })
 
     it('should be accessible', { defaultCommandTimeout: 30000 }, () => {

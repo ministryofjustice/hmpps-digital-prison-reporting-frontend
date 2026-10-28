@@ -1,6 +1,6 @@
-import { partialDataSet } from './data'
+import { mergedDataSet } from './data'
 
-export const partialDataSetNoTs = partialDataSet.map(data => {
+export const mergedDataSetNoTs = mergedDataSet.map(data => {
   return {
     ...data.establishment_id,
     ...data.wing,

@@ -105,7 +105,7 @@ see [here](/dashboards/visualisations/visualisation-dataset) for more info on ta
 
 ### Visualisation
 
-This will produce the following cart visualisation
+This will produce the following chart visualisation
 
 <img src="/assets/images/barExample1.png" alt="" width="500"/>
 
@@ -145,6 +145,6 @@ see [here](/dashboards/visualisations/visualisation-dataset) for more info on ta
 
 ### Visualisation
 
-This will produce the following cart visualisation
+This will produce the following chart visualisation
 
 <img src="../../assets/images/barExample1.png" alt="" width="500"/>

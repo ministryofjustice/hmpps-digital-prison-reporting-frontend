@@ -5,11 +5,11 @@ import {
   requestReportByNameAndDescription,
 } from '../../../../../../../cypress-tests/cypressUtils'
 
-context('Dashboard visualisation: Scorecards: Complete data', () => {
+context('Dashboard visualisation: Scorecards', () => {
   const path = '/'
 
   describe('scorecard tests', () => {
-    let completeDashboardUrl = ''
+    let dashboardUrl = ''
 
     before(() => {
       cy.task('resetStubs')
@@ -24,19 +24,19 @@ context('Dashboard visualisation: Scorecards: Complete data', () => {
       cy.visit(path)
 
       requestReportByNameAndDescription({
-        name: 'Scorecard - Complete data',
+        name: 'Scorecard ',
         description: 'Scorecard examples',
       })
 
       cy.findByRole('heading', { level: 1, name: /Scorecard/ }).should('be.visible')
 
       cy.url().then(url => {
-        completeDashboardUrl = url
+        dashboardUrl = url
       })
     })
 
     beforeEach(() => {
-      cy.visit(completeDashboardUrl)
+      cy.visit(dashboardUrl)
     })
 
     it('is accessible', () => {

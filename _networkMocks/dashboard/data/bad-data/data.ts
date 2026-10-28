@@ -1,4 +1,4 @@
-export const completeBadDataSet = [
+export const badDataSet = [
   [
     {
       ts: { raw: 'Jan 25' },

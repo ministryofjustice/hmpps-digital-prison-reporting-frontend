@@ -9,7 +9,7 @@ context('Dashboard visualisation: Scorecard Group: No ts data', () => {
   const path = '/'
 
   describe('scorecard group tests with not timestamp in dataset', () => {
-    let completeDashboardUrl = ''
+    let dashboardUrl = ''
 
     before(() => {
       cy.task('resetStubs')
@@ -24,19 +24,19 @@ context('Dashboard visualisation: Scorecard Group: No ts data', () => {
       cy.visit(path)
 
       requestReportByNameAndDescription({
-        name: 'Scorecard Group - No ts Complete data',
+        name: 'Scorecard Group - No TS in dataset',
         description: 'Scorecard examples',
       })
 
       cy.findByRole('heading', { level: 1, name: /Scorecard/ }).should('be.visible')
 
       cy.url().then(url => {
-        completeDashboardUrl = url
+        dashboardUrl = url
       })
     })
 
     beforeEach(() => {
-      cy.visit(completeDashboardUrl)
+      cy.visit(dashboardUrl)
     })
 
     it('is accessible', () => {

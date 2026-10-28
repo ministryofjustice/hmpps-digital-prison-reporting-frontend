@@ -4,9 +4,9 @@ import * as LineChart from '../vis-definitions/definitions-merged'
 
 export const definition: components['schemas']['DashboardDefinition'] = {
   id: 'line-visualisations_partian-dataset',
-  name: 'Line - Partial dataset',
+  name: 'Line - Merged dataset',
   description:
-    'This dashboard represents example Line visualisations using a partial dataset. The dashboard aims to show all the options available to display a Line using a partial dataset.',
+    'This dashboard represents example Line visualisations using a merged dataset. The dashboard aims to show all the options available to display a Line using a merged dataset.',
   sections: [
     {
       id: 'section-1',

@@ -1,9 +1,9 @@
 import { setupSimpleMock } from '@networkMocks/generateNetworkMock'
 import { definition as scorecardsDashboardDefinition } from './definitions/definition'
-import { definition as scorecardsCompletebadDataset } from './definitions/definition-bad-data'
+import { definition as scorecardsDashboardDefinitionBadDataset } from './definitions/definition-bad-data'
 import { definition as scorecardsDashboardDefinitionBuckets } from './definitions/definition-buckets'
-import { definition as scorecardsInvalidVisDefinitions } from './definitions/definition-invalid'
-import { definition as scorecardsBucketsCompleteDatasetNoTs } from './definitions/definition-no-ts'
+import { definition as scorecardsDashboardDefinitionInvalidVisDefinitions } from './definitions/definition-invalid'
+import { definition as scorecardsDashboardDefinitionBucketsDatasetNoTs } from './definitions/definition-no-ts'
 
 const prefix = '/definitions/dashboard-visualisations/dashboards'
 
@@ -18,18 +18,18 @@ const scorecardsDashboardDefintionBucketMock = setupSimpleMock(
 )
 
 const scorecardsDashboardDefinitionNoTsMock = setupSimpleMock(
-  `${prefix}/${scorecardsBucketsCompleteDatasetNoTs.id}`,
-  scorecardsBucketsCompleteDatasetNoTs,
+  `${prefix}/${scorecardsDashboardDefinitionBucketsDatasetNoTs.id}`,
+  scorecardsDashboardDefinitionBucketsDatasetNoTs,
 )
 
 const scorecardsDashboardDefinitionInvalidVisDefinitionsMock = setupSimpleMock(
-  `${prefix}/${scorecardsInvalidVisDefinitions.id}`,
-  scorecardsInvalidVisDefinitions,
+  `${prefix}/$ scorecardsDashboardDefinitionInvalidVisDefinitions.id}`,
+  scorecardsDashboardDefinitionInvalidVisDefinitions,
 )
 
 const scorecardsDashboardDefinitionBadDatasetMock = setupSimpleMock(
-  `${prefix}/${scorecardsCompletebadDataset.id}`,
-  scorecardsCompletebadDataset,
+  `${prefix}/${scorecardsDashboardDefinitionBadDataset.id}`,
+  scorecardsDashboardDefinitionBadDataset,
 )
 
 export const scorecardMocks = {

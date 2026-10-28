@@ -4,7 +4,7 @@ import * as InvalidBarCharts from '../vis-definitions/invalid'
 export const definition: components['schemas']['DashboardDefinition'] = {
   id: 'bar-visualisations_invalid-vis-def',
   name: 'Bar - Invalid visualisation',
-  description: 'This dashboard represents example of invlaid bar visualisation definition using a partial dataset.',
+  description: 'This dashboard represents example of invlaid bar visualisation definition using a merged dataset.',
   sections: [
     {
       id: 'section-1',

@@ -1,7 +1,7 @@
 import { lineTimeseriesMocks } from './line-timeseries/mocks'
 import { matrixMocks } from './matrix/mocks'
 import { scorecardMocks } from './scorecard/mocks'
-import { scorecardGroupMocks } from './scorecardGroup/mocks'
+import { scorecardGroupMocks } from './scorecard-group/mocks'
 import { listMocks } from './list/mocks'
 import { barMocks } from './bar/mocks'
 import { boxPlotMocks } from './boxplot/mocks'

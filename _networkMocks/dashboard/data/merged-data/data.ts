@@ -1,10 +1,9 @@
 /**
- * "Partial" dataset refers to a dataset that contains nulls
- * - Can be the result of multiple joins/merging of datasets
+ * "Merged" dataset refers to a dataset made of multiple joined/merged of datasets
  * - Mocked values that represent diet totals.
  */
 
-const partialDataSetTotals = [
+const mergedDataSetTotals = [
   {
     ts: { raw: '2025/02/21' },
     establishment_id: { raw: '' },
@@ -47,7 +46,7 @@ const partialDataSetTotals = [
   },
 ]
 
-const partialDataSetTotalsByEst = [
+const mergedDataSetTotalsByEst = [
   {
     ts: { raw: '2025/02/21' },
     establishment_id: { raw: 'ABC' },
@@ -130,7 +129,7 @@ const partialDataSetTotalsByEst = [
   },
 ]
 
-const partialDataSetNorthMdi = [
+const mergedDataSetNorthMdi = [
   {
     ts: { raw: '2025/02/21' },
     establishment_id: { raw: 'ABC' },
@@ -373,7 +372,7 @@ const partialDataSetNorthMdi = [
   },
 ]
 
-const partialDataSetSouthMdi = [
+const mergedDataSetSouthMdi = [
   {
     ts: { raw: '2025/02/21' },
     establishment_id: { raw: 'ABC' },
@@ -616,7 +615,7 @@ const partialDataSetSouthMdi = [
   },
 ]
 
-const partialDataSetNorthDai = [
+const mergedDataSetNorthDai = [
   {
     ts: { raw: '2025/02/21' },
     establishment_id: { raw: 'DEF' },
@@ -867,7 +866,7 @@ const partialDataSetNorthDai = [
   },
 ]
 
-const partialDataSetSouthDai = [
+const mergedDataSetSouthDai = [
   {
     ts: { raw: '2025/02/21' },
     establishment_id: { raw: 'DEF' },
@@ -1118,16 +1117,16 @@ const partialDataSetSouthDai = [
   },
 ]
 
-export const partialDataSet = [
-  ...partialDataSetTotals,
-  ...partialDataSetTotalsByEst,
-  ...partialDataSetNorthMdi,
-  ...partialDataSetSouthMdi,
-  ...partialDataSetNorthDai,
-  ...partialDataSetSouthDai,
+export const mergedDataSet = [
+  ...mergedDataSetTotals,
+  ...mergedDataSetTotalsByEst,
+  ...mergedDataSetNorthMdi,
+  ...mergedDataSetSouthMdi,
+  ...mergedDataSetNorthDai,
+  ...mergedDataSetSouthDai,
 ]
 
-export const partialDataSetLastSixMonths = [
+export const mergedDataSetLastSixMonths = [
   {
     ts: { raw: 'Sep 24' },
     establishment_id: { raw: '' },

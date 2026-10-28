@@ -171,7 +171,7 @@ see [here](/dashboards/visualisations/visualisation-dataset) for more info on ta
 
 ### Visualisation
 
-This will produce the following cart visualisation
+This will produce the following chart visualisation
 
 <img src="/assets/images/charts/boxplot/chart-0-chromium-linux.png" alt="boxplot chart example"/>
 
@@ -241,6 +241,6 @@ see [here](/dashboards/visualisations/visualisation-dataset) for more info on ta
 
 ### Visualisation
 
-This will produce the following cart visualisation
+This will produce the following chart visualisation
 
 <img src="/assets/images/charts/boxplot/chart-5-chromium-linux.png" alt="boxplot chart example 2"/>

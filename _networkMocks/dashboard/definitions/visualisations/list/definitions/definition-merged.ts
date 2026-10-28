@@ -3,10 +3,10 @@ import { fullDataset } from '../vis-definitions/full-data'
 import { components } from '../../../../../../src/dpr/types/api'
 
 export const definition: components['schemas']['DashboardDefinition'] = {
-  id: 'list-visualisations_partial-dataset',
-  name: 'List - Partial dataset',
+  id: 'list-visualisations_merged-dataset',
+  name: 'List - Merged dataset',
   description:
-    'This dashboard represents example list visualisations using a partial dataset. The dashboard aims to show all the options available to display a list using a partial dataset.',
+    'This dashboard represents example list visualisations using a merged dataset. The dashboard aims to show all the options available to display a list using a merged dataset.',
   sections: [
     {
       id: 'section-1',

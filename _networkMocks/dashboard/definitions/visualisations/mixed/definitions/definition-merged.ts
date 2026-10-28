@@ -4,10 +4,10 @@ import * as BarChart from '../../bar/vis-definitions/definitions-merged'
 import * as ListChart from '../../list/vis-definitions/column-values-as-list-merged'
 
 export const definition: components['schemas']['DashboardDefinition'] = {
-  id: 'mixed-visualisations_partial-dataset',
-  name: 'Mixed - Partial dataset',
+  id: 'mixed-visualisations_merged-dataset',
+  name: 'Mixed - Merged dataset',
   description:
-    'This dashboard represents example mixed visualisations using a partial dataset. The dashboard aims to show all the options available to display a mixed using a partial dataset.',
+    'This dashboard represents example mixed visualisations using a merged dataset. The dashboard aims to show all the options available to display a mixed using a merged dataset.',
   sections: [
     {
       id: 'section-1',

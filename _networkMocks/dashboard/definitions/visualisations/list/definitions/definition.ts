@@ -4,10 +4,10 @@ import { dataQualityMetricOne, dataQualityMetricTwo, dataQualityMetricThree } fr
 import { components } from '../../../../../../src/dpr/types/api'
 
 export const definition: components['schemas']['DashboardDefinition'] = {
-  id: 'list-visualisations_complete-dataset',
-  name: 'List - Complete dataset',
+  id: 'list-visualisations',
+  name: 'List ',
   description:
-    'This dashboard represents example list visualisations using a complete dataset. The dashboard aims to show all the options available to display a list using a complete dataset.',
+    'This dashboard represents example list visualisations using the default dataset. The dashboard aims to show all the options available to display a list using the default dataset.',
   sections: [
     {
       id: 'section-1',

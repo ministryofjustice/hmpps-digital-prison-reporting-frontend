@@ -3,10 +3,10 @@ import { fullDataset } from '../../list/vis-definitions/full-data'
 import * as LineCharts from '../vis-definitions/defintitions'
 
 export const definition: components['schemas']['DashboardDefinition'] = {
-  id: 'line-timeseries-visualisations_complete-dataset',
-  name: 'Line-timeseries - Complete dataset',
+  id: 'line-timeseries-visualisations',
+  name: 'Line-timeseries ',
   description:
-    'This dashboard represents example line-timeseries visualisations using a complete dataset. The dashboard aims to show all the options available to display a line-timeseries using a complete dataset.',
+    'This dashboard represents example line-timeseries visualisations using the default dataset. The dashboard aims to show all the options available to display a line-timeseries using the default dataset.',
   sections: [
     {
       id: 'section-1',

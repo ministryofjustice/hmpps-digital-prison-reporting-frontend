@@ -7,8 +7,8 @@ import {
 context('Dashboard visualisation: matrix chart', () => {
   const path = '/'
 
-  describe('Complete data', () => {
-    let completeDashboardUrl = ''
+  describe('Default data', () => {
+    let dashboardUrl = ''
 
     before(() => {
       cy.task('resetStubs')
@@ -23,20 +23,20 @@ context('Dashboard visualisation: matrix chart', () => {
       cy.visit(path)
 
       requestReportByNameAndDescription({
-        name: 'Matrix - Complete data',
+        name: 'Matrix ',
         description: 'Matrix examples',
       })
 
-      cy.findByRole('heading', { level: 1, name: /Matrix - Complete data/ }).should('be.visible')
+      cy.findByRole('heading', { level: 1, name: /Matrix / }).should('be.visible')
       checkA11y()
 
       cy.url().then(url => {
-        completeDashboardUrl = url
+        dashboardUrl = url
       })
     })
 
     beforeEach(() => {
-      cy.visit(completeDashboardUrl)
+      cy.visit(dashboardUrl)
     })
 
     it('should have the correct amount of sections', () => {

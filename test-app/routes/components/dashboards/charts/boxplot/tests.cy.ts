@@ -7,7 +7,7 @@ import {
 context('Dashboard visualisation: Boxplot chart', () => {
   const path = '/'
 
-  describe('Complete data', () => {
+  describe('Default data', () => {
     let boxPlotDashboardUrl = ''
 
     before(() => {

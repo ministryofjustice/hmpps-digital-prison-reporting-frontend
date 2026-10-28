@@ -147,7 +147,7 @@ This exmaple demonstrates how to define a scorecard in its simplest form.
 
 ### Visualisation
 
-This will produce the following cart visualisation
+This will produce the following chart visualisation
 
 <img src="/assets/images/charts/scorecard/scorecard-simple.png" alt=""/>
 
@@ -199,7 +199,7 @@ The example demonstrates how to a define scorecard that get its value by using t
 
 ### Visualisation
 
-This will produce the following cart visualisation
+This will produce the following chart visualisation
 
 <img src="/assets/images/charts/scorecard/scorecard-filter.png" alt=""/>
 
@@ -280,7 +280,7 @@ This will produce the following cart visualisation
 
 ### Visualisation
 
-This will produce the following cart visualisation
+This will produce the following chart visualisation
 
 <img src="/assets/images/charts/scorecard/scorecard-diet-filters.png" alt=""/>
 
@@ -344,7 +344,7 @@ see [here](/dashboards/visualisations/visualisation-dataset) for more info on ta
 
 ### Visualisation
 
-This will produce the following cart visualisation
+This will produce the following chart visualisation
 
 <img src="/assets/images/charts/scorecard/scorecard-section.png" alt=""/>
 
@@ -421,7 +421,7 @@ see [here](/dashboards/visualisations/visualisation-dataset) for more info on ta
 
 ### Visualisation
 
-This will produce the following cart visualisation
+This will produce the following chart visualisation
 
 <img src="/assets/images/charts/scorecard/scorecard-section-rag.png" alt=""/>
 
@@ -510,7 +510,7 @@ see [here](/dashboards/visualisations/visualisation-dataset) for more info on ta
 
 ### Visualisation
 
-This will produce the following cart visualisation
+This will produce the following chart visualisation
 
 <img src="/assets/images/charts/scorecard/scorecard-bucket-colours.png" alt=""/>
 
@@ -599,7 +599,7 @@ see [here](/dashboards/visualisations/visualisation-dataset) for more info on ta
 
 ### Visualisation
 
-This will produce the following cart visualisation
+This will produce the following chart visualisation
 
 <img src="/assets/images/charts/scorecard/scorecard-custom-buckets.png" alt=""/>
 

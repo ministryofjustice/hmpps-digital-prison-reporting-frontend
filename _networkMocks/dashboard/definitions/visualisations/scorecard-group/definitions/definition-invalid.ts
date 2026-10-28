@@ -2,8 +2,8 @@ import * as Scorecards from '../vis-definitions/definitions-invalid'
 import { components } from '../../../../../../src/dpr/types/api'
 
 export const definition: components['schemas']['DashboardDefinition'] = {
-  id: 'scorecard-group-example_complete-data-invalid',
-  name: 'Scorecard Group - Complete data - invalid',
+  id: 'scorecard-group-example-invalid',
+  name: 'Scorecard Group  - invalid',
   description: 'Scorecard examples',
   sections: [
     {

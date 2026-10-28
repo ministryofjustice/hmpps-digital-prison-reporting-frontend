@@ -3,10 +3,10 @@ import { fullDataset } from '../../list/vis-definitions/full-data'
 import * as LineChart from '../vis-definitions/cols-as-labels'
 
 export const definition: components['schemas']['DashboardDefinition'] = {
-  id: 'line-visualisations_complete-dataset',
-  name: 'Line - Complete dataset',
+  id: 'line-visualisations',
+  name: 'Line ',
   description:
-    'This dashboard represents example Line visualisations using a complete dataset. The dashboard aims to show all the options available to display a Line using a complete dataset.',
+    'This dashboard represents example Line visualisations using the default dataset. The dashboard aims to show all the options available to display a Line using the default dataset.',
   sections: [
     {
       id: 'section-1',

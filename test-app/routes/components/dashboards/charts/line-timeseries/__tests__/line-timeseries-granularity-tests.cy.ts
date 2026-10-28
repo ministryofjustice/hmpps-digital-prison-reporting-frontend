@@ -23,11 +23,11 @@ context('Dashboard visualisation: line-timeseries chart granularity tests', () =
       cy.visit(path)
 
       requestReportByNameAndDescription({
-        name: 'Line-timeseries - Daily Complete dataset',
+        name: 'Line-timeseries - Daily dataset',
         description: 'This dashboard represents example line-timeseries visualisations using a daily c...',
       })
 
-      cy.findByRole('heading', { level: 1, name: /Line-timeseries - Daily Complete dataset/ }).should('be.visible')
+      cy.findByRole('heading', { level: 1, name: /Line-timeseries - Daily dataset/ }).should('be.visible')
       checkA11y()
 
       cy.url().then(url => {

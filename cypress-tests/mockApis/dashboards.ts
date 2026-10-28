@@ -34,13 +34,13 @@ import {
 } from '@networkMocks/dashboard/data/default-data/mocks'
 
 import {
-  dashboardResultPartialDataHistoricMock,
-  dashboardResultPartialDataMock,
+  dashboardResultMergedDataHistoricMock,
+  dashboardResultMergedDataMock,
 } from '@networkMocks/dashboard/data/merged-data/mocks'
 
 import {
-  dashboardResultCompleteBadDataMock,
-  dashboardResultCompleteBadDataDuplicatesMock,
+  dashboardResultBadDataMock,
+  dashboardResultBadDataDuplicatesMock,
 } from '@networkMocks/dashboard/data/bad-data/mocks'
 
 import {
@@ -178,16 +178,16 @@ const requestStubs = {
 
 // RESULTS
 const resultsStubs = {
-  // Complete data stubs
+  // data stubs
   stubDashboardResult: () => stubFor(dashboardResultMock),
   stubDashboardResultDaily: () => stubFor(dashboardResultDailyMock),
   stubDashboardResultMonthly: () => stubFor(dashboardResultMonthlyMock),
   stubDashboardResultAnnually: () => stubFor(dashboardResultAnnuallyMock),
   stubDashboardResultSync: () => stubFor(dashboardResultSyncMock),
 
-  // Partial data stubs
-  stubDashboardResultMergedData: () => stubFor(dashboardResultPartialDataMock),
-  stubDashboardResultMergedDataHistoric: () => stubFor(dashboardResultPartialDataHistoricMock),
+  // Merged data stubs
+  stubDashboardResultMergedData: () => stubFor(dashboardResultMergedDataMock),
+  stubDashboardResultMergedDataHistoric: () => stubFor(dashboardResultMergedDataHistoricMock),
 
   // No TS
   stubDashboardResultNoTs: () => stubFor(dashboardResultNoTsMock),
@@ -195,8 +195,8 @@ const resultsStubs = {
   // Bad data stubs
   stubDashboardResultEmptyData: () => stubFor(dashboardResultEmptyDataSyncMock),
   stubDashboardResultUndefinedData: () => stubFor(dashboardResultUndefinedMock),
-  stubDashboardResultCompleteBadData: () => stubFor(dashboardResultCompleteBadDataMock),
-  stubDashboardResultCompleteBadDataDuplicates: () => stubFor(dashboardResultCompleteBadDataDuplicatesMock),
+  stubDashboardResultBadData: () => stubFor(dashboardResultBadDataMock),
+  stubDashboardResultBadDataDuplicates: () => stubFor(dashboardResultBadDataDuplicatesMock),
   stubDashboardResultMissingFirstRowDataSync: () => stubFor(dashboardResultMissingFirstRowDataSyncMock),
 
   // Parent Child data stubs

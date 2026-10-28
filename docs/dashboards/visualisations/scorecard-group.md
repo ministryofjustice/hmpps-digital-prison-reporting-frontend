@@ -135,7 +135,7 @@ In this dataset we have 4 unique values for `est_id`, therefore we will have 4 s
 
 ### Visualisation
 
-This will produce the following cart visualisation
+This will produce the following chart visualisation
 
 <img src="/assets/images/charts/scorecard-group/scorecard-group.png" alt=""/>
 
@@ -205,7 +205,7 @@ Each value in the group column will be used as new group:
 
 ### Visualisation
 
-This will produce the following cart visualisation
+This will produce the following chart visualisation
 
 <img src="/assets/images/charts/scorecard-group/scorecard-group-2.png" alt=""/>
 

@@ -1,6 +1,6 @@
 import { setupSimpleMock } from '@networkMocks/generateNetworkMock'
-import { partialDataSet } from './data'
-import { historicPartialData } from './data-historic'
+import { mergedDataSet } from './data'
+import { historicMergedData } from './data-historic'
 
 import { allVisualisationDefinitions as vds } from '../../definitions/visualisations'
 
@@ -31,16 +31,16 @@ const historicMergedDefinitionIds = [
 
 const productIds = ['dashboard-visualisations', 'request-examples', 'feature-testing']
 
-export const dashboardResultPartialDataMock = setupSimpleMock(
+export const dashboardResultMergedDataMock = setupSimpleMock(
   `/reports/(${productIds.join('|')})/dashboards/(${lastestMergedDefinitionIds.join('|')})/tables/tblId_[0-9]+/result`,
-  partialDataSet,
+  mergedDataSet,
   1,
 )
 
-export const dashboardResultPartialDataHistoricMock = setupSimpleMock(
+export const dashboardResultMergedDataHistoricMock = setupSimpleMock(
   `/reports/(${productIds.join('|')})/dashboards/(${historicMergedDefinitionIds.join('|')})/tables/tblId_[0-9]+/result`,
-  historicPartialData,
+  historicMergedData,
   1,
 )
 
-export const mocks = [dashboardResultPartialDataMock, dashboardResultPartialDataHistoricMock]
+export const mocks = [dashboardResultMergedDataMock, dashboardResultMergedDataHistoricMock]

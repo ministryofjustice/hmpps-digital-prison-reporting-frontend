@@ -9,7 +9,7 @@ context('Dashboard visualisation: Scorecard Group: Bad data', () => {
   const path = '/'
 
   describe('scorecard group - bad data', () => {
-    let completeDashboardUrl = ''
+    let dashboardUrl = ''
 
     before(() => {
       cy.task('resetStubs')
@@ -17,26 +17,26 @@ context('Dashboard visualisation: Scorecard Group: Bad data', () => {
       resetFeatureFlags()
 
       cy.task('stubScorecardGroupDashboardDefinition')
-      cy.task('stubDashboardResultCompleteBadData')
+      cy.task('stubDashboardResultBadData')
       cy.task('stubMockDashboardStatusStarted')
       cy.task('stubMockDashboardStatusFinished')
 
       cy.visit(path)
 
       requestReportByNameAndDescription({
-        name: 'Scorecard Group - Complete data',
+        name: 'Scorecard Group ',
         description: 'Scorecard examples',
       })
 
       cy.findByRole('heading', { level: 1, name: /Scorecard/ }).should('be.visible')
 
       cy.url().then(url => {
-        completeDashboardUrl = url
+        dashboardUrl = url
       })
     })
 
     beforeEach(() => {
-      cy.visit(completeDashboardUrl)
+      cy.visit(dashboardUrl)
     })
 
     it('is accessible', () => {

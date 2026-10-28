@@ -1,17 +1,20 @@
 import { setupSimpleMock } from '@networkMocks/generateNetworkMock'
 
-import { definition as lineCompleteDataset } from './definitions/definition'
-import { definition as lineInvalid } from './definitions/definition-invalid'
-import { definition as lineMergedDataset } from './definitions/definition-merged'
+import { definition as lineChartsDefinition } from './definitions/definition'
+import { definition as lineChartsDefinitionInvalid } from './definitions/definition-invalid'
+import { definition as lineChartsMergedDataset } from './definitions/definition-merged'
 
 const prefix = '/definitions/dashboard-visualisations/dashboards'
 
-export const lineDashboardDefinitionMock = setupSimpleMock(`${prefix}/${lineCompleteDataset.id}`, lineCompleteDataset)
+export const lineDashboardDefinitionMock = setupSimpleMock(`${prefix}/${lineChartsDefinition.id}`, lineChartsDefinition)
 export const lineDashboardDefinitionMergedDatasetMock = setupSimpleMock(
-  `${prefix}/${lineMergedDataset.id}`,
-  lineMergedDataset,
+  `${prefix}/${lineChartsMergedDataset.id}`,
+  lineChartsMergedDataset,
 )
-export const lineInvalidDashboardDefinitionMock = setupSimpleMock(`${prefix}/${lineInvalid.id}`, lineInvalid)
+export const lineInvalidDashboardDefinitionMock = setupSimpleMock(
+  `${prefix}/${lineChartsDefinitionInvalid.id}`,
+  lineChartsDefinitionInvalid,
+)
 
 export const lineMocks = {
   lineDashboardDefinitionMock,

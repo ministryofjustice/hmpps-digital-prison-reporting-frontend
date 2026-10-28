@@ -1,38 +1,38 @@
 import { setupSimpleMock } from '@networkMocks/generateNetworkMock'
 import {
-  annuallyDefinition as matrixCompleteAnnuallyDataset,
-  autoBucketedDefinition as matrixCompleteAutoBucketedDataset,
-  bucketedDefinition as matrixCompleteBucketedDataset,
-  definition as matrixCompleteDataset,
-  monthlyDefinition as matrixCompleteMonthlyDataset,
+  annuallyDefinition as matrixChartsDefinitionAnnuallyDataset,
+  autoBucketedDefinition as matrixChartsDefinitionAutoBucketedDataset,
+  bucketedDefinition as matrixChartsDefinitionBucketedDataset,
+  definition as matrixChartsDefinitionDataset,
+  monthlyDefinition as matrixChartsDefinitionMonthlyDataset,
 } from './definitions/definition'
 import { definition as matrixInvalid } from './definitions/definition-invalid'
 
 const prefix = '/definitions/dashboard-visualisations/dashboards'
 
 const matrixDashboardDefinitionDailyDatasetMock = setupSimpleMock(
-  `${prefix}/${matrixCompleteDataset.id}`,
-  matrixCompleteDataset,
+  `${prefix}/${matrixChartsDefinitionDataset.id}`,
+  matrixChartsDefinitionDataset,
 )
 
 const matrixDashboardDefinitionMonthlyDatasetMock = setupSimpleMock(
-  `${prefix}/${matrixCompleteMonthlyDataset.id}`,
-  matrixCompleteMonthlyDataset,
+  `${prefix}/${matrixChartsDefinitionMonthlyDataset.id}`,
+  matrixChartsDefinitionMonthlyDataset,
 )
 
 const matrixDashboardDefinitionAnnuallyDatasetMock = setupSimpleMock(
-  `${prefix}/${matrixCompleteAnnuallyDataset.id}`,
-  matrixCompleteAnnuallyDataset,
+  `${prefix}/${matrixChartsDefinitionAnnuallyDataset.id}`,
+  matrixChartsDefinitionAnnuallyDataset,
 )
 
 const matrixDashboardDefinitionAutoBucketedDatasetMock = setupSimpleMock(
-  `${prefix}/${matrixCompleteAutoBucketedDataset.id}`,
-  matrixCompleteAutoBucketedDataset,
+  `${prefix}/${matrixChartsDefinitionAutoBucketedDataset.id}`,
+  matrixChartsDefinitionAutoBucketedDataset,
 )
 
 const matrixDashboardDefinitionBucketedDatasetMock = setupSimpleMock(
-  `${prefix}/${matrixCompleteBucketedDataset.id}`,
-  matrixCompleteBucketedDataset,
+  `${prefix}/${matrixChartsDefinitionBucketedDataset.id}`,
+  matrixChartsDefinitionBucketedDataset,
 )
 
 const matrixDashboardDefinitionInvalidMock = setupSimpleMock(`${prefix}/${matrixInvalid.id}`, matrixInvalid)

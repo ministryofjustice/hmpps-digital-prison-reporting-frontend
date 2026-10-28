@@ -1,15 +1,21 @@
 import { setupSimpleMock } from '@networkMocks/generateNetworkMock'
-import { definition as mixedCompleteDataset } from './definitions/definition'
-import { definition as mixedMergedDatasetHistoric } from './definitions/definition-merged-historic'
-import { definition as mixedMergedDataset } from './definitions/definition-merged'
+import { definition as mixedChartsDefinitionDataset } from './definitions/definition'
+import { definition as mixedChartsDefinitionMergedDatasetHistoric } from './definitions/definition-merged-historic'
+import { definition as mixedChartsDefinitionMergedDataset } from './definitions/definition-merged'
 
 const prefix = '/definitions/dashboard-visualisations/dashboards'
 
-const mixedDashboardDefinitionMock = setupSimpleMock(`${prefix}/${mixedCompleteDataset.id}`, mixedCompleteDataset)
-const mixedDashboardDefinitionMergedMock = setupSimpleMock(`${prefix}/${mixedMergedDataset.id}`, mixedMergedDataset)
+const mixedDashboardDefinitionMock = setupSimpleMock(
+  `${prefix}/${mixedChartsDefinitionDataset.id}`,
+  mixedChartsDefinitionDataset,
+)
+const mixedDashboardDefinitionMergedMock = setupSimpleMock(
+  `${prefix}/${mixedChartsDefinitionMergedDataset.id}`,
+  mixedChartsDefinitionMergedDataset,
+)
 const mixedDashboardDefinitionMergedDatasetHistoricMock = setupSimpleMock(
-  `${prefix}/${mixedMergedDatasetHistoric.id}`,
-  mixedMergedDatasetHistoric,
+  `${prefix}/${mixedChartsDefinitionMergedDatasetHistoric.id}`,
+  mixedChartsDefinitionMergedDatasetHistoric,
 )
 
 export const mixedMocks = {

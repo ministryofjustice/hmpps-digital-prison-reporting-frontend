@@ -3,8 +3,8 @@ import { components } from '../../../../../../src/dpr/types/api'
 import { fullDatasetHistoric } from '../../list/vis-definitions/full-data'
 
 export const definition: components['schemas']['DashboardDefinition'] = {
-  id: 'scorecard-group-example_complete-data-no-ts',
-  name: 'Scorecard Group - No ts Complete data',
+  id: 'scorecard-group-example-no-ts',
+  name: 'Scorecard Group - No TS in dataset',
   description: 'Scorecard examples',
   sections: [
     {

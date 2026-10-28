@@ -7,8 +7,8 @@ import {
 context('Dashboard visualisation: line chart', () => {
   const path = '/'
 
-  describe('Complete data', () => {
-    let completeUrl = ''
+  describe('Default data', () => {
+    let dashboardUrl = ''
 
     before(() => {
       cy.task('resetStubs')
@@ -18,20 +18,20 @@ context('Dashboard visualisation: line chart', () => {
       cy.visit(path)
 
       requestReportByNameAndDescription({
-        name: 'Line - Complete dataset',
-        description: 'This dashboard represents example Line visualisations using a complete dataset.',
+        name: 'Line ',
+        description: 'This dashboard represents example Line visualisations using the default dataset.',
       })
 
-      cy.findByRole('heading', { level: 1, name: /Line - Complete dataset/ }).should('be.visible')
+      cy.findByRole('heading', { level: 1, name: /Line / }).should('be.visible')
       checkA11y()
 
       cy.url().then(url => {
-        completeUrl = url
+        dashboardUrl = url
       })
     })
 
     beforeEach(() => {
-      cy.visit(completeUrl)
+      cy.visit(dashboardUrl)
     })
 
     it('should have the correct amount of sections', () => {
@@ -114,8 +114,8 @@ context('Dashboard visualisation: line chart', () => {
     })
   })
 
-  describe('Partial data', () => {
-    let partialUrl = ''
+  describe('Merged data', () => {
+    let mergedUrl = ''
 
     before(() => {
       cy.task('resetStubs')
@@ -125,20 +125,20 @@ context('Dashboard visualisation: line chart', () => {
       cy.visit(path)
 
       requestReportByNameAndDescription({
-        name: 'Line - Partial dataset',
-        description: 'This dashboard represents example Line visualisations using a partial dataset.',
+        name: 'Line - Merged dataset',
+        description: 'This dashboard represents example Line visualisations using a merged dataset.',
       })
 
-      cy.findByRole('heading', { level: 1, name: /Line - Partial dataset/ }).should('be.visible')
+      cy.findByRole('heading', { level: 1, name: /Line - Merged dataset/ }).should('be.visible')
       checkA11y()
 
       cy.url().then(url => {
-        partialUrl = url
+        mergedUrl = url
       })
     })
 
     beforeEach(() => {
-      cy.visit(partialUrl)
+      cy.visit(mergedUrl)
     })
 
     it('should have the correct amount of sections', () => {

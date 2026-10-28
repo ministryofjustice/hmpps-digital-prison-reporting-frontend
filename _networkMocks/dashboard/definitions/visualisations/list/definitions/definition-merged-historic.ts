@@ -3,10 +3,10 @@ import * as List from '../vis-definitions/merged-historic'
 import { components } from '../../../../../../src/dpr/types/api'
 
 export const definition: components['schemas']['DashboardDefinition'] = {
-  id: 'list-visualisations_partial-dataset_historic',
-  name: 'List - Partial dataset - Historic',
+  id: 'list-visualisations_merged-dataset_historic',
+  name: 'List - Merged dataset - Historic',
   description:
-    'This dashboard represents example list visualisations using a partial dataset of historic data. The dashboard aims to show all the options available to display a list using a partial dataset',
+    'This dashboard represents example list visualisations using a merged dataset of historic data. The dashboard aims to show all the options available to display a list using a merged dataset',
   sections: [
     {
       id: 'section-1',

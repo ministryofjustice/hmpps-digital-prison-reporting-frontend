@@ -3,10 +3,10 @@ import { fullDataset } from '../../list/vis-definitions/full-data'
 import * as BarCharts from '../vis-definitions/definitions-merged'
 
 export const definition: components['schemas']['DashboardDefinition'] = {
-  id: 'bar-visualisations_partial-dataset',
-  name: 'Bar - Partial dataset',
+  id: 'bar-visualisations_merged-dataset',
+  name: 'Bar - Merged dataset',
   description:
-    'This dashboard represents example bar visualisations using a partial dataset. The dashboard aims to show all the options available to display a bar using a partial dataset.',
+    'This dashboard represents example bar visualisations using a merged dataset. The dashboard aims to show all the options available to display a bar using a merged dataset.',
   sections: [
     {
       id: 'section-1',

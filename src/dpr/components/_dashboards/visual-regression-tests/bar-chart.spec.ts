@@ -6,11 +6,11 @@ test('Bar chart', async ({ page }) => {
 
   page.getByLabel(/Reports catalogue.*/i)
 
-  requestCatalogueVariant(page, /Bar /)
+  requestCatalogueVariant(page, /Bar charts/)
 
   await page.getByRole('button', { name: /Request dashboard/ }).click()
 
-  await expect(page.getByRole('heading', { name: /Bar / })).toBeVisible()
+  await expect(page.getByRole('heading', { name: /Bar charts/ })).toBeVisible()
 
   await takeScreenshotsOfAllCharts(page)
 })

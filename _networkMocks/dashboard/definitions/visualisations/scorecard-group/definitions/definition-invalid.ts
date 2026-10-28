@@ -3,8 +3,8 @@ import { components } from '../../../../../../src/dpr/types/api'
 
 export const definition: components['schemas']['DashboardDefinition'] = {
   id: 'scorecard-group-example-invalid',
-  name: 'Scorecard Group  - invalid',
-  description: 'Scorecard examples',
+  name: 'Scorecard Group - invalid',
+  description: 'Scorecard group invalid examples',
   sections: [
     {
       id: 'section-1',

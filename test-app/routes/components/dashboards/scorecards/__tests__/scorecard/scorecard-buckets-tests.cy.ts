@@ -24,7 +24,7 @@ context('Dashboard visualisation: Scorecards: Buckets', () => {
       cy.visit(path)
 
       requestReportByNameAndDescription({
-        name: 'Scorecard - Buckets ',
+        name: 'Scorecard - Buckets',
         description: 'Scorecard examples',
       })
 

@@ -23,8 +23,8 @@ context('Dashboard visualisation: Scorecard Group: Valid data', () => {
       cy.visit(path)
 
       requestReportByNameAndDescription({
-        name: 'Scorecard Group ',
-        description: 'Scorecard examples',
+        name: 'Scorecard Group examples',
+        description: 'Scorecard Group examples',
       })
 
       cy.findByRole('heading', { level: 1, name: /Scorecard/ }).should('be.visible')

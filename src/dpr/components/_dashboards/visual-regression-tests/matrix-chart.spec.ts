@@ -6,11 +6,11 @@ test('Matrix chart', async ({ page }) => {
 
   page.getByLabel(/Reports catalogue.*/i)
 
-  requestCatalogueVariant(page, /Matrix /)
+  requestCatalogueVariant(page, /Matrix - daily/)
 
   await page.getByRole('button', { name: /Request dashboard/ }).click()
 
-  await expect(page.getByRole('heading', { name: /Matrix / })).toBeVisible()
+  await expect(page.getByRole('heading', { name: /Matrix - daily/ })).toBeVisible()
   await takeScreenshotsOfAllCharts(page, {
     maxDiffPixels: 100,
   })

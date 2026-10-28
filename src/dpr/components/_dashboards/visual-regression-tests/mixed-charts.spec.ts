@@ -6,10 +6,10 @@ test('Mixed chart', async ({ page }) => {
 
   page.getByLabel(/Reports catalogue.*/i)
 
-  requestCatalogueVariant(page, /Mixed /)
+  requestCatalogueVariant(page, /Mixed charts/)
 
   await page.getByRole('button', { name: /Request dashboard/ }).click()
 
-  await expect(page.getByRole('heading', { name: /Mixed / })).toBeVisible()
+  await expect(page.getByRole('heading', { name: /Mixed charts/ })).toBeVisible()
   await takeScreenshotsOfAllCharts(page)
 })

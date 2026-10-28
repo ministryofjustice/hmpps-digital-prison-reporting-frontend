@@ -34,7 +34,7 @@ context('Dashboard visualisation: line-timeseries chart invalid definitions', ()
 
       cy.findAllByRole('paragraph')
         .eq(2)
-        .contains("line'. ID: 'mockMetricOneLineChart'. Issues: Measure must contain at least two items")
+        .contains("'line'. ID: 'mockMetricOneLineChart'. Issues: Measure must contain at least two items")
     })
   })
 })

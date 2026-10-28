@@ -4,8 +4,8 @@ import { fullDatasetHistoric } from '../../list/vis-definitions/full-data'
 
 export const definition: components['schemas']['DashboardDefinition'] = {
   id: 'scorecard-group-example',
-  name: 'Scorecard Group ',
-  description: 'Scorecard examples',
+  name: 'Scorecard Group examples',
+  description: 'Scorecard Group examples',
   sections: [
     {
       id: 'section-1',

@@ -19,10 +19,10 @@ context('Dashboard visualisation: bar chart', () => {
 
       requestReportByNameAndDescription({
         name: 'Bar charts',
-        description: 'This dashboard represents example Bar visualisations using a default dataset.',
+        description: 'This dashboard represents example Bar visualisations using the default dataset. ...',
       })
 
-      cy.findByRole('heading', { level: 1, name: /Bar / }).should('be.visible')
+      cy.findByRole('heading', { level: 1, name: /Bar charts/ }).should('be.visible')
       checkA11y()
 
       cy.url().then(url => {

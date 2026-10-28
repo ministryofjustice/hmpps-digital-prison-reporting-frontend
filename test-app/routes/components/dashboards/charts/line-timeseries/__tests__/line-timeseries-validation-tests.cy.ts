@@ -25,7 +25,7 @@ context('Dashboard visualisation: line-timeseries chart invalid definitions', ()
       })
     })
 
-    it('should show the validation errors for scorcards', () => {
+    it('should show the validation errors', () => {
       cy.findByRole('heading', { name: /Your report has failed to generate/ }).should('be.visible')
 
       cy.findAllByRole('paragraph')

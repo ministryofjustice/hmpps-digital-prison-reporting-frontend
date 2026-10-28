@@ -12,7 +12,7 @@ context('Dashboard visualisation: line-timeseries chart invalid definitions', ()
 
       executeDashboardStubs()
 
-      cy.task('stubLineTimeseriesChartsDashboardDefinitionInvalid')
+      cy.task('stubLineChartsDashboardDefinitionInvalid')
       cy.task('stubDashboardResult')
       cy.task('stubMockDashboardStatusStarted')
       cy.task('stubMockDashboardStatusFinished')
@@ -20,12 +20,12 @@ context('Dashboard visualisation: line-timeseries chart invalid definitions', ()
       cy.visit(path)
 
       requestReportByNameAndDescription({
-        name: 'Line-timeseries - Invalid visualisation defintions',
-        description: 'This dashboard represents example invalid line-timeseries visualisations.',
+        name: 'Line - Invalid visualisation defintions',
+        description: 'Line charts - invalid definitions',
       })
     })
 
-    it('should show the validation errors for scorcards', () => {
+    it('should show the validation errors', () => {
       cy.findByRole('heading', { name: /Your report has failed to generate/ }).should('be.visible')
 
       cy.findAllByRole('paragraph')
@@ -34,9 +34,7 @@ context('Dashboard visualisation: line-timeseries chart invalid definitions', ()
 
       cy.findAllByRole('paragraph')
         .eq(2)
-        .contains(
-          "Type: 'line-timeseries'. ID: 'mockMetricOneLineChartTimeseries'. Issues: Measure must contain at least one item. At least one measure must have type 'timestamp'",
-        )
+        .contains("Type: 'line'. ID: 'mockMetricOneLineChart'. Issues: Measure must contain at least one item.")
     })
   })
 })

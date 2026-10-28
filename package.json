@@ -139,7 +139,7 @@
   "dependencies": {
     "@flipt-io/flipt-client-js": "0.6.0",
     "@ministryofjustice/frontend": "11.1.0",
-    "@sentry/node": "11.8.0",
+    "@sentry/node": "11.9.0",
     "@sgratzl/chartjs-chart-boxplot": "4.4.5",
     "@tsconfig/node24": "24.0.5",
     "agentkeepalive": "^4.5.0",

@@ -43,5 +43,5 @@ export const renderDashboard = async ({ req, res, services }: AsyncReportUtilsPa
     await updateLastViewedSync(req, res, services, stateData, dprUser.id, fields)
   }
 
-  return dashboardConfig
+  return { dashboardConfig }
 }

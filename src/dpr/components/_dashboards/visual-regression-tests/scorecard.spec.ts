@@ -10,11 +10,11 @@ test('Scorecard VRT tests', async ({ page }) => {
 
   page.getByLabel(/Reports catalogue.*/i)
 
-  requestCatalogueVariant(page, 'Scorecard examples')
+  requestCatalogueVariant(page, 'Scorecards dashboard')
 
   await page.getByRole('button', { name: /Request dashboard/ }).click()
 
-  await expect(page.getByRole('heading', { name: 'Scorecard examples' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Scorecards dashboard' })).toBeVisible()
   await takeScreenshotsOfAllScorecards(page)
   await takeScreenshotsOfAllCharts(page)
 })

@@ -9,7 +9,7 @@ import * as ListChart2 from '../../list/vis-definitions/rows-as-list'
 
 export const definition: components['schemas']['DashboardDefinition'] = {
   id: 'mixed-visualisations',
-  name: 'Mixed charts',
+  name: 'Mixed charts dashboard',
   description:
     'This dashboard represents example Mixed visualisations using the default dataset. The dashboard aims to show all the options available to display a Mixed charts using the default dataset.',
   sections: [

@@ -4,7 +4,7 @@ import * as DoughnutChart from '../vis-definitions/definitions'
 
 export const definition: components['schemas']['DashboardDefinition'] = {
   id: 'doughnut-visualisations',
-  name: 'Doughnut charts',
+  name: 'Doughnut charts dashboard',
   description:
     'This dashboard represents example Doughnut visualisations using the default dataset. The dashboard aims to show all the options available to display a Doughnut using the default dataset.',
   sections: [

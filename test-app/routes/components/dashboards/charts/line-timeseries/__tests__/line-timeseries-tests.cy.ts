@@ -18,11 +18,11 @@ context('Dashboard visualisation: line timeseries chart', () => {
       cy.visit(path)
 
       requestReportByNameAndDescription({
-        name: 'Line-timeseries charts',
+        name: 'Line-timeseries charts dashboard',
         description: 'This dashboard represents example line-timeseries visualisations using the defau...',
       })
 
-      cy.findByRole('heading', { level: 1, name: /Line-timeseries / }).should('be.visible')
+      cy.findByRole('heading', { level: 1, name: /Line-timeseries charts dashboard/ }).should('be.visible')
 
       cy.url().then(url => {
         dashboardUrl = url

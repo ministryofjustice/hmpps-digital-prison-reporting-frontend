@@ -24,11 +24,11 @@ context('Dashboard visualisation: Scorecards', () => {
       cy.visit(path)
 
       requestReportByNameAndDescription({
-        name: 'Scorecard examples',
+        name: 'Scorecards dashboard',
         description: 'Scorecard examples',
       })
 
-      cy.findByRole('heading', { level: 1, name: /Scorecard/ }).should('be.visible')
+      cy.findByRole('heading', { level: 1, name: /Scorecards dashboard/ }).should('be.visible')
 
       cy.url().then(url => {
         dashboardUrl = url

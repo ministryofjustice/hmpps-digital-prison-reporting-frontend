@@ -24,7 +24,7 @@ context('Dashboard visualisation: Scorecards: Bad Data', () => {
       cy.visit(path)
 
       requestReportByNameAndDescription({
-        name: 'Scorecard  - missing or bad data',
+        name: 'Scorecard - missing or bad data',
         description: 'Scorecard examples',
       })
 

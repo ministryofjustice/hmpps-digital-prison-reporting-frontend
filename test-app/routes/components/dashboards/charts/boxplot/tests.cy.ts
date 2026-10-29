@@ -18,11 +18,11 @@ context('Dashboard visualisation: Boxplot chart', () => {
       cy.visit(path)
 
       requestReportByNameAndDescription({
-        name: 'Box plot chart Examples',
+        name: 'Boxplot charts dashboard',
         description: 'A set of box plot chart examples',
       })
 
-      cy.findByRole('heading', { level: 1, name: /Box plot chart Examples/ }).should('be.visible')
+      cy.findByRole('heading', { level: 1, name: /Boxplot charts dashboard/ }).should('be.visible')
       checkA11y()
 
       cy.url().then(url => {

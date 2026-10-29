@@ -15,7 +15,7 @@ context('Dashboard visualisation: Mixed charts', () => {
       cy.visit(path)
 
       requestReportByNameAndDescription({
-        name: 'Mixed charts',
+        name: 'Mixed charts dashboard',
         description: 'This dashboard represents example Mixed visualisations',
       })
     })

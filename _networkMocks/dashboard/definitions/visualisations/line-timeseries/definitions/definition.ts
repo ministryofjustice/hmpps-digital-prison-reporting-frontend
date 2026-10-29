@@ -4,7 +4,7 @@ import * as LineCharts from '../vis-definitions/defintitions'
 
 export const definition: components['schemas']['DashboardDefinition'] = {
   id: 'line-timeseries-visualisations',
-  name: 'Line-timeseries charts',
+  name: 'Line-timeseries charts dashboard',
   description:
     'This dashboard represents example line-timeseries visualisations using the default dataset. The dashboard aims to show all the options available to display a line-timeseries using the default dataset.',
   sections: [

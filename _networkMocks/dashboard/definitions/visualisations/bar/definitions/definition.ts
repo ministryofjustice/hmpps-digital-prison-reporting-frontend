@@ -4,7 +4,7 @@ import * as BarChart from '../vis-definitions/cols-as-labels'
 
 export const definition: components['schemas']['DashboardDefinition'] = {
   id: 'bar-visualisations',
-  name: 'Bar charts',
+  name: 'Bar charts dashboard',
   description:
     'This dashboard represents example Bar visualisations using the default dataset. The dashboard aims to show all the options available to display a Bar using the default dataset.',
   sections: [

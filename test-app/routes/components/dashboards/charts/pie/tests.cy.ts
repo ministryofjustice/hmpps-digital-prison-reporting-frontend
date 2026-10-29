@@ -18,11 +18,11 @@ context('Dashboard visualisation: Doughnut chart', () => {
       cy.visit(path)
 
       requestReportByNameAndDescription({
-        name: 'Doughnut charts',
+        name: 'Doughnut charts dashboard',
         description: 'This dashboard represents example Doughnut visualisations',
       })
 
-      cy.findByRole('heading', { level: 1, name: /Doughnut / }).should('be.visible')
+      cy.findByRole('heading', { level: 1, name: /Doughnut charts dashboard/ }).should('be.visible')
       checkA11y()
 
       cy.url().then(url => {

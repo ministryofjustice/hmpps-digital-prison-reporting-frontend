@@ -5,7 +5,7 @@ import { fullDatasetHistoric } from '../../list/vis-definitions/full-data'
 
 export const definition: components['schemas']['DashboardDefinition'] = {
   id: 'scorecard-examples',
-  name: 'Scorecard examples',
+  name: 'Scorecards dashboard',
   description: 'Scorecard examples',
   sections: [
     {

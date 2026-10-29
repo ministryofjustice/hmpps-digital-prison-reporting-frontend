@@ -6,10 +6,10 @@ test('Line chart', async ({ page }) => {
 
   page.getByLabel(/Reports catalogue.*/i)
 
-  requestCatalogueVariant(page, /Line charts/)
+  requestCatalogueVariant(page, /Line charts dashboard/)
 
   await page.getByRole('button', { name: /Request dashboard/ }).click()
 
-  await expect(page.getByRole('heading', { name: /Line charts/ })).toBeVisible()
+  await expect(page.getByRole('heading', { name: /Line charts dashboard/ })).toBeVisible()
   await takeScreenshotsOfAllCharts(page)
 })

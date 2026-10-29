@@ -4,7 +4,7 @@ import * as BoxPlotChart from '../vis-definitions/definitions'
 
 export const definition: components['schemas']['DashboardDefinition'] = {
   id: 'box-plot-chart-examples-dashboard',
-  name: 'Box plot chart Examples',
+  name: 'Boxplot charts dashboard',
   description: 'A set of box plot chart examples',
   sections: [
     {

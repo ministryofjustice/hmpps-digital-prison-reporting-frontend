@@ -36,8 +36,18 @@ context('Dashboard visualisation: Doughnut chart - Bad data testing', () => {
       cy.visit(dashboardUrl)
     })
 
-    it('should have the correct amount of sections', () => {
-      expect(true)
+    it('should render correctly when bad data is provided to the chart', () => {
+      cy.findAllByLabelText(/Simple Doughnut charts/).within(() => {
+        cy.findAllByRole('heading', { level: 3 }).should('have.length', 4)
+
+        cy.findByLabelText(/MetricOne values/).within(() => {
+          cy.findAllByRole('paragraph').eq(1).contains('No data')
+        })
+
+        cy.findByLabelText(/MetricTwo values/).within(() => {
+          cy.findAllByRole('paragraph').eq(1).contains('No data')
+        })
+      })
     })
   })
 })

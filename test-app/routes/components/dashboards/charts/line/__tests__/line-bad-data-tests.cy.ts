@@ -36,8 +36,14 @@ context('Dashboard visualisation: Line chart - Bad data testing', () => {
       cy.visit(dashboardUrl)
     })
 
-    it('should have the correct amount of sections', () => {
-      expect(true)
+    it('should render correctly when bad data is provided to the chart', () => {
+      cy.findAllByLabelText(/Simple Line charts/).within(() => {
+        cy.findAllByRole('heading', { level: 3 }).should('have.length', 2)
+
+        cy.findByLabelText(/MetricOne & MetricTwo values/).within(() => {
+          cy.findAllByRole('paragraph').eq(1).contains('No data')
+        })
+      })
     })
   })
 })

@@ -36,7 +36,7 @@ context('Dashboard visualisation: Line-timeseries chart - Bad data testing', () 
       cy.visit(dashboardUrl)
     })
 
-    it('should have the correct amount of sections', () => {
+    it('should render correctly when bad data is provided to the chart', () => {
       expect(true)
     })
   })

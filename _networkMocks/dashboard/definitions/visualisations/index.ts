@@ -35,6 +35,7 @@ import { definition as barChartsDashboardDefinitionMergedDataset } from './bar/d
 
 // doughnut
 import { definition as doughnutChartsDashboardDefinition } from './doughnut/definitions/definition'
+import { definition as doughnutChartsDashboardDefinitionInvalid } from './doughnut/definitions/definition-invalid'
 
 // line
 import { definition as lineChartsDashboardDefinition } from './line/definitions/definition'
@@ -93,6 +94,7 @@ export const allVisualisationDefinitions = {
 
   // doughnut
   doughnutChartsDashboardDefinition,
+  doughnutChartsDashboardDefinitionInvalid,
 
   // line
   lineChartsDashboardDefinition,

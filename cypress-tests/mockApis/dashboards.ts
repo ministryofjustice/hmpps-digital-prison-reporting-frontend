@@ -81,6 +81,7 @@ const BarDefinitionStubs = {
 const { doughnut } = mockDefinitions
 const DoughnutDefinitionStubs = {
   stubDoughnutChartsDashboardDefinition: () => stubFor(doughnut.doughnutDashboardDefinitionMock),
+  stubDoughnutChartsDashboardDefinitionInvalid: () => stubFor(doughnut.doughnutDashboardDefinitionInvalidMock),
 }
 
 const { lineTimeseries } = mockDefinitions
@@ -102,7 +103,7 @@ const { line } = mockDefinitions
 const lineDefinitionStubs = {
   stubLineChartsDashboardDefinition: () => stubFor(line.lineDashboardDefinitionMock),
   stubLineChartsDashboardDefinitionMergedDataset: () => stubFor(line.lineDashboardDefinitionMergedDatasetMock),
-  stubLineChartsDashboardDefinitionInvalid: () => stubFor(line.lineInvalidDashboardDefinitionMock),
+  stubLineChartsDashboardDefinitionInvalid: () => stubFor(line.lineDashboardDefinitionInvalidMock),
 }
 
 const { matrix } = mockDefinitions

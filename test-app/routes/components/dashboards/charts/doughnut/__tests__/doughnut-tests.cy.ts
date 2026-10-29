@@ -2,7 +2,7 @@ import {
   checkA11y,
   executeDashboardStubs,
   requestReportByNameAndDescription,
-} from '../../../../../../cypress-tests/cypressUtils'
+} from '../../../../../../../cypress-tests/cypressUtils'
 
 context('Dashboard visualisation: Doughnut chart', () => {
   const path = '/'
@@ -13,8 +13,10 @@ context('Dashboard visualisation: Doughnut chart', () => {
     before(() => {
       cy.task('resetStubs')
       executeDashboardStubs()
+
       cy.task('stubDoughnutChartsDashboardDefinition')
       cy.task('stubDashboardResult')
+
       cy.visit(path)
 
       requestReportByNameAndDescription({

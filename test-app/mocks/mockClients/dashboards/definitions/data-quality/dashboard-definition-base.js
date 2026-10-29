@@ -2,11 +2,11 @@
 const { establishmentIdFilter } = require('../../filter-definitions')
 const {
   mockMetricOneBarChart,
-  mockMetricOnePieChart,
+  mockMetricOneDoughnutChart,
   mockMetricTwoBarChart,
-  mockMetricTwoPieChart,
+  mockMetricTwoDoughnutChart,
   mockMetricThreeBarChart,
-  mockMetricThreePieChart,
+  mockMetricThreeDoughnutChart,
 } = require('./visualisations')
 
 const { lists } = require('../examples/visualisations')
@@ -21,19 +21,19 @@ const dataQualityDashboardBase = {
       id: 'section-1',
       display: 'Section 1',
       description: 'Section 1 description',
-      visualisations: [mockMetricOneBarChart, mockMetricOnePieChart],
+      visualisations: [mockMetricOneBarChart, mockMetricOneDoughnutChart],
     },
     {
       id: 'section-2',
       display: 'Section 2',
       description: 'Section 1 description',
-      visualisations: [mockMetricTwoBarChart, mockMetricTwoPieChart],
+      visualisations: [mockMetricTwoBarChart, mockMetricTwoDoughnutChart],
     },
     {
       id: 'section-2',
       display: 'section 3',
       description: 'Section 1 description',
-      visualisations: [mockMetricThreeBarChart, mockMetricThreePieChart],
+      visualisations: [mockMetricThreeBarChart, mockMetricThreeDoughnutChart],
     },
     {
       id: 'section-3',

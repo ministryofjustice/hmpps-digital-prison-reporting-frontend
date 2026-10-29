@@ -11,10 +11,10 @@ context('Viewing a parent-child dashboard', () => {
   describe('parent-child dashboards', () => {
     beforeEach(() => {
       executeDashboardStubs()
-      cy.task('stubTestDashboardWithParentChild')
-      cy.task('stubTestDashboardWithChildOne')
-      cy.task('stubTestDashboardWithChildTwo')
-      cy.task('stubDashboardResultCompleteData')
+      cy.task('stubTestDashboardDefinitionWithParentChild')
+      cy.task('stubTestDashboardDefinitionWithChildOne')
+      cy.task('stubTestDashboardDefinitionWithChildTwo')
+      cy.task('stubDashboardResult')
     })
 
     describe('parent dashboard', () => {

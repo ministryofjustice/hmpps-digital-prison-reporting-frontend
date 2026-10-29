@@ -2,7 +2,6 @@
 layout: layouts/dashboards.njk
 title: Doughnut chart
 subsection: Visualisation definition
-phase: Beta
 ---
 
 <img src="/assets/images/charts/doughnut/Pie2.png" alt="" width="700" style="margin-bottom: 30px"/>
@@ -18,8 +17,8 @@ The `doughnut` chart visualisation type represents data as a doughnut chart visu
 
 # When to use
 
-Use a pie chart when you want to show how individual categories contribute to a single whole. Pie charts work best when the goal is to communicate proportions, share, or relative distribution at a glance.
-Choose a pie chart when:
+Use a doughnut chart when you want to show how individual categories contribute to a single whole. Doughnut charts work best when the goal is to communicate proportions, share, or relative distribution at a glance.
+Choose a doughnut chart when:
 
 - Your data represents parts of a whole, and the total is meaningful (e.g., 100%, total revenue, total population).
 - You have a small number of categories - ideally 3–5 - so each slice is easy to distinguish.
@@ -33,7 +32,7 @@ Pie charts are especially effective when clarity of overall composition is more 
 
 # When not to use
 
-Avoid using a pie chart when:
+Avoid using a doughnut chart when:
 
 - You need to compare values precisely - pie slices make exact comparisons difficult; bar charts are clearer.
 - There are many categories or slices - anything above 5–6 segments becomes cluttered and hard to read.
@@ -61,7 +60,7 @@ Avoid using a pie chart when:
 }
 ```
 
-See the [Targeting data](/dashboards/visualisations/visualisation-dataset) for and how to target data with the `column`
+See the [Targeting data](/dashboards/visualisations/visualisation-dataset) for and how to target data with the `column` field
 
 <hr class='dpr-docs-hr'/>
 
@@ -72,14 +71,12 @@ See the [Targeting data](/dashboards/visualisations/visualisation-dataset) for a
 
 ### Example Dataset
 
-```js
-
 | ts     | est_id | has_metric_one | no_metric_one | has_metric_two | no_metric_two | has_metric_three | no_metric_three |
 |--------|--------|----------------|---------------|----------------|---------------|------------------|-----------------|
 | Jan 25 | ABC    | 533            | 614           | 684            | 665           | 680              | 799             |
 | Jan 25 | GHI    | 484            | 713           | 700            | 506           | 771              | 457             |
 | Jan 25 | DEF    | 406            | 682           | 703            | 409           | 648              | 720             |
-```
+
 
 <hr class='dpr-docs-hr'/>
 
@@ -124,13 +121,9 @@ See the [Targeting data](/dashboards/visualisations/visualisation-dataset) for a
 
 This definition will return the following dataset
 
-```js
-
 | ts     | est_id | has_metric_one | no_metric_one |
 |--------|--------|----------------|---------------|
 | Jan 25 | ABC    | 533            | 614           |
-
-```
 
 see [here](/dashboards/visualisations/visualisation-dataset) for more info on targeting data
 
@@ -138,7 +131,9 @@ see [here](/dashboards/visualisations/visualisation-dataset) for more info on ta
 
 ### Visualisation
 
-<img src="/assets/images/charts/doughnut/Pie1.png" alt="" width="700" style="margin-bottom: 30px"/>
+This will produce the following chart visualisation
+
+<img src="/assets/images/charts/doughnut/doughnut1.png" alt="" width="700" style="margin-bottom: 30px"/>
 
 <hr class='dpr-docs-hr'/>
 
@@ -191,11 +186,10 @@ see [here](/dashboards/visualisations/visualisation-dataset) for more info on ta
 
 This definition will return the following dataset
 
-```js
 | ts     | est_id | has_metric_two | no_metric_two | has_metric_three | no_metric_three |
 |--------|--------|----------------|---------------|------------------|-----------------|
 | Jan 25 | ABC    | 684            | 665           | 680              | 799             |
-```
+
 
 see [here](/dashboards/visualisations/visualisation-dataset) for more info on targeting data
 
@@ -203,7 +197,9 @@ see [here](/dashboards/visualisations/visualisation-dataset) for more info on ta
 
 ### Visualisation
 
-<img src="/assets/images/charts/doughnut/Pie2.png" alt="" width="700" style="margin-bottom: 30px"/>
+This will produce the following chart visualisation
+
+<img src="/assets/images/charts/doughnut/doughnut2.png" alt="" width="700" style="margin-bottom: 30px"/>
 
 # Example 3
 
@@ -250,13 +246,10 @@ see [here](/dashboards/visualisations/visualisation-dataset) for more info on ta
 
 This definition will return the following dataset
 
-```js
 | est_id | has_metric_one  | no_metric_one  |
 |--------|-----------------|----------------|
 | ABC    | 533             | 614            |
 | GHI    | 484             | 713            |
-
-```
 
 see [here](/dashboards/visualisations/visualisation-dataset) for more info on targeting data
 
@@ -264,4 +257,6 @@ see [here](/dashboards/visualisations/visualisation-dataset) for more info on ta
 
 ### Visualisation
 
-<img src="/assets/images/charts/doughnut/Pie3.png" alt="" width="700" style="margin-bottom: 30px"/>
+This will produce the following chart visualisation
+
+<img src="/assets/images/charts/doughnut/doughnut3.png" alt="" width="700" style="margin-bottom: 30px"/>

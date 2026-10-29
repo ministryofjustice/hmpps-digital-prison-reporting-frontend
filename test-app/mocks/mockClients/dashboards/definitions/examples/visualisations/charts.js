@@ -262,10 +262,10 @@ const dietTotalsByEstablishmentByWingByCellBarOptional = {
   },
 }
 
-const dietTotalsByEstablishmentByWingByCellPieOptional = {
-  id: 'diet-totals-by-establishment-by-wing-by-cell-pie-optional',
+const dietTotalsByEstablishmentByWingByCellDoughnutOptional = {
+  id: 'diet-totals-by-establishment-by-wing-by-cell-doughnut-optional',
   type: 'doughnut',
-  display: 'Flexible Diet totals Pie chart',
+  display: 'Flexible Diet totals doughnut chart',
   description: '',
   columns: {
     keys: [
@@ -962,7 +962,7 @@ const charts = {
   dietTotalsByEstablishmentByWingByCellBar,
   dietTotalsByEstablishmentByWingByCellBarOptional,
   dietTotalsByEstablishmentByWingBarOptional,
-  dietTotalsByEstablishmentByWingByCellPieOptional,
+  dietTotalsByEstablishmentByWingByCellDoughnutOptional,
   dietTotalsOverTime,
   dietTotalsByEstablishmentOverTime,
   dietTotalsByEstablishmentByWingOverTime,

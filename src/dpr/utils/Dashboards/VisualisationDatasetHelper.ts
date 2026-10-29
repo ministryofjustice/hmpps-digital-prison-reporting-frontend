@@ -1,8 +1,7 @@
 import { Granularity } from 'src/dpr/components/_inputs/granular-date-range/types'
-import { getGranularityFromDateFormat } from 'src/dpr/components/_inputs/granular-date-range/utils'
 import { DashboardDataResponse } from '../../types/Metrics'
 import { components } from '../../types/api'
-import { apiDateToUi } from '../dateHelper'
+import { apiDateToUi, getGranularityFromDateFormat } from '../dateHelper'
 import * as OptionalKeysHelper from './VisualisationOptionalKeysHelper'
 
 /**
@@ -222,7 +221,7 @@ export const getDateValue = (
 
   return {
     measure: dateColumn,
-    value: apiDateToUi(dateValue) || dateValue,
+    value: apiDateToUi(dateValue, granularity) || dateValue,
     granularity,
   }
 }

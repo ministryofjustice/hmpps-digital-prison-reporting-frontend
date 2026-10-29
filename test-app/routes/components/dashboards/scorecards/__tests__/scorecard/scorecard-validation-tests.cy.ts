@@ -13,11 +13,11 @@ context('Dashboard visualisation: Scorecards: Validation testing', () => {
       executeDashboardStubs()
       resetFeatureFlags()
 
-      cy.task('stubDefinitionScorecardDashboardInvalidVisDefs')
+      cy.task('stubScorecardsDashboardDefinitionInvalidVisDefinitions')
 
-      cy.task('stubDashboardResultCompleteData')
-      cy.task('stubMockDashboardsStatusStarted')
-      cy.task('stubMockDashboardsStatusFinished')
+      cy.task('stubDashboardResult')
+      cy.task('stubMockDashboardStatusStarted')
+      cy.task('stubMockDashboardStatusFinished')
 
       cy.visit(path)
 

@@ -63,11 +63,11 @@ export const renderDashboard = async ({ req, res, services }: AsyncReportUtilsPa
     LoadType.ASYNC,
     requestData,
   ).build()
-  const { dashboardData } = reportConfig
+  const { dashboardConfig } = reportConfig
 
-  if (dashboardData && dashboardData.sections?.length && requestData && Object.keys(requestData).length) {
+  if (dashboardConfig && dashboardConfig.sections?.length && requestData && Object.keys(requestData).length) {
     // Save the data to redis
-    await updateLastViewedAsync(req, res, services, requestData, dprUser.id, dashboardData.fields || [])
+    await updateLastViewedAsync(req, res, services, requestData, dprUser.id, dashboardConfig.fields || [])
   }
 
   return reportConfig

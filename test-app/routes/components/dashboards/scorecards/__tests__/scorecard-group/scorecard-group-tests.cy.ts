@@ -15,19 +15,19 @@ context('Dashboard visualisation: Scorecard Group: Valid data', () => {
       executeDashboardStubs()
       resetFeatureFlags()
 
-      cy.task('stubDefinitionScorecardGroupDashboard')
-      cy.task('stubDashboardResultCompleteData')
-      cy.task('stubMockDashboardsStatusStarted')
-      cy.task('stubMockDashboardsStatusFinished')
+      cy.task('stubScorecardGroupDashboardDefinition')
+      cy.task('stubDashboardResult')
+      cy.task('stubMockDashboardStatusStarted')
+      cy.task('stubMockDashboardStatusFinished')
 
       cy.visit(path)
 
       requestReportByNameAndDescription({
-        name: 'Scorecard Group - Complete data',
-        description: 'Scorecard examples',
+        name: 'Scorecard Groups dashboard',
+        description: 'Scorecard Group examples',
       })
 
-      cy.findByRole('heading', { level: 1, name: /Scorecard/ }).should('be.visible')
+      cy.findByRole('heading', { level: 1, name: /Scorecard Groups dashboard/ }).should('be.visible')
 
       cy.url().then(url => {
         scorecardGroupUrl = url

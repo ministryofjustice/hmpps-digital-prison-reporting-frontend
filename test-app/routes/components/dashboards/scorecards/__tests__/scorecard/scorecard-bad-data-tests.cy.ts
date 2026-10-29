@@ -9,34 +9,34 @@ context('Dashboard visualisation: Scorecards: Bad Data', () => {
   const path = '/'
 
   describe('scorecard - bad data', () => {
-    let completeDashboardUrl = ''
+    let dashboardUrl = ''
 
     before(() => {
       cy.task('resetStubs')
       executeDashboardStubs()
       resetFeatureFlags()
 
-      cy.task('stubDefinitionScorecardDashboardBadData')
-      cy.task('stubDashboardResultCompleteBadData')
-      cy.task('stubMockDashboardsStatusStarted')
-      cy.task('stubMockDashboardsStatusFinished')
+      cy.task('stubScorecardsDashboardDefinitionBadData')
+      cy.task('stubDashboardResultBadData')
+      cy.task('stubMockDashboardStatusStarted')
+      cy.task('stubMockDashboardStatusFinished')
 
       cy.visit(path)
 
       requestReportByNameAndDescription({
-        name: 'Scorecard - Complete data - missing or bad data',
+        name: 'Scorecard - missing or bad data',
         description: 'Scorecard examples',
       })
 
       cy.findByRole('heading', { level: 1, name: /Scorecard/ }).should('be.visible')
 
       cy.url().then(url => {
-        completeDashboardUrl = url
+        dashboardUrl = url
       })
     })
 
     beforeEach(() => {
-      cy.visit(completeDashboardUrl)
+      cy.visit(dashboardUrl)
     })
 
     it('is accessible', () => {
@@ -69,34 +69,34 @@ context('Dashboard visualisation: Scorecards: Bad Data', () => {
   })
 
   describe('scorecard - bad data - duplicates', () => {
-    let completeDashboardUrl = ''
+    let dashboardUrl = ''
 
     before(() => {
       cy.task('resetStubs')
       executeDashboardStubs()
       resetFeatureFlags()
 
-      cy.task('stubDefinitionScorecardDashboardBadData')
-      cy.task('stubDashboardResultCompleteBadDataDuplicates')
-      cy.task('stubMockDashboardsStatusStarted')
-      cy.task('stubMockDashboardsStatusFinished')
+      cy.task('stubScorecardsDashboardDefinitionBadData')
+      cy.task('stubDashboardResultBadDataDuplicates')
+      cy.task('stubMockDashboardStatusStarted')
+      cy.task('stubMockDashboardStatusFinished')
 
       cy.visit(path)
 
       requestReportByNameAndDescription({
-        name: 'Scorecard - Complete data - missing or bad data',
+        name: 'Scorecard - missing or bad data',
         description: 'Scorecard examples',
       })
 
       cy.findByRole('heading', { level: 1, name: /Scorecard/ }).should('be.visible')
 
       cy.url().then(url => {
-        completeDashboardUrl = url
+        dashboardUrl = url
       })
     })
 
     beforeEach(() => {
-      cy.visit(completeDashboardUrl)
+      cy.visit(dashboardUrl)
     })
 
     it('is accessible', () => {

@@ -9,34 +9,34 @@ context('Dashboard visualisation: Scorecards: No ts data in dataset', () => {
   const path = '/'
 
   describe('scorecard testing with no Timestamp in data', () => {
-    let completeDashboardUrl = ''
+    let dashboardUrl = ''
 
     before(() => {
       cy.task('resetStubs')
       executeDashboardStubs()
       resetFeatureFlags()
 
-      cy.task('stubDefinitionScorecardDashboardNoTs')
-      cy.task('stubDashboardResultCompleteDataNoTs')
-      cy.task('stubMockDashboardsStatusStarted')
-      cy.task('stubMockDashboardsStatusFinished')
+      cy.task('stubScorecardsDashboardDefinitionNoTs')
+      cy.task('stubDashboardResultNoTs')
+      cy.task('stubMockDashboardStatusStarted')
+      cy.task('stubMockDashboardStatusFinished')
 
       cy.visit(path)
 
       requestReportByNameAndDescription({
-        name: 'Scorecard - No TS Complete data',
+        name: 'Scorecard - No TS in dataset',
         description: 'Scorecard examples',
       })
 
       cy.findByRole('heading', { level: 1, name: /Scorecard/ }).should('be.visible')
 
       cy.url().then(url => {
-        completeDashboardUrl = url
+        dashboardUrl = url
       })
     })
 
     beforeEach(() => {
-      cy.visit(completeDashboardUrl)
+      cy.visit(dashboardUrl)
     })
 
     it('is accessible', () => {

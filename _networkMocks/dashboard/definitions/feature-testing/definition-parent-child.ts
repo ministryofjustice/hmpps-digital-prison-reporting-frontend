@@ -1,7 +1,7 @@
 import { components } from 'src/dpr/types/api'
-import * as BarCharts from '../visualisations/complete-dataset/bar/vis-definitions/cols-as-labels'
-import * as DoughnutCharts from '../visualisations/complete-dataset/doughnut/vis-definitions/definitions'
-import * as LineCharts from '../visualisations/complete-dataset/line/vis-definitions/cols-as-labels'
+import * as BarCharts from '../visualisations/bar/vis-definitions/cols-as-labels'
+import * as DoughnutCharts from '../visualisations/doughnut/vis-definitions/definitions'
+import * as LineCharts from '../visualisations/line/vis-definitions/cols-as-labels'
 
 export const childDashboardOneDefinition = {
   id: 'test-child-dashboard-1',

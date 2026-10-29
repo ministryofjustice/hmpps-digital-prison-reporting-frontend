@@ -1,7 +1,7 @@
 import { components } from '../../../types/api'
 import { DashboardDataResponse } from '../../../types/Metrics'
 import DatasetHelper, { getDateValue, getTimestampColumn } from '../../../utils/Dashboards/VisualisationDatasetHelper'
-import { apiDateToUi } from '../../../utils/dateHelper'
+import { apiDateToUi, getGranularityFromDateFormat } from '../../../utils/dateHelper'
 import {
   ListDashboardVisualisationOptions,
   MoJTable,
@@ -129,7 +129,8 @@ export const createTableRows = (
 
         const { type } = measure
         if (type === 'date' || type === 'timestamp') {
-          cellContent = apiDateToUi(cellContent) || cellContent
+          const granularity = getGranularityFromDateFormat(cellContent)
+          cellContent = apiDateToUi(cellContent, granularity) || cellContent
         }
 
         const cell: MoJTableRow = measure.type === 'HTML' ? { html: cellContent } : { text: cellContent }

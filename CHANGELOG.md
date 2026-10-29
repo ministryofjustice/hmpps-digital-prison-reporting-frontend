@@ -66,7 +66,7 @@ Replaced all references of "DPR" and "Digital Prisons Reporting" to "HMPPS Datah
 
 ## 9.2.0
 
-- Bookmarks: Bookmarks are mapped in the UI using the report defintions summaries, instead of the report definitions.
+- Bookmarks: Bookmarks are mapped in the UI using the report definitions summaries, instead of the report definitions.
 - Dashboards Visualisations: Scorecard and Scorecard group integration tests.
 
 ## 9.1.0
@@ -91,7 +91,7 @@ Request access to unauthorised reports:
 
 Sorting summary tables:
 
-- Pass the sort options from the DPD summary field defintion to the summary data api as a query parameter. As part of work required to return a sorted summary table
+- Pass the sort options from the DPD summary field definition to the summary data api as a query parameter. As part of work required to return a sorted summary table
 
 ## 8.5.0
 

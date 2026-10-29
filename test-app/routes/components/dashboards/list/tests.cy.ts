@@ -7,31 +7,31 @@ import {
 context('Dashboard visualisation: List', () => {
   const path = '/'
 
-  describe('complete data', () => {
-    let completeDashboardUrl = ''
+  describe('Default data', () => {
+    let dashboardUrl = ''
 
     before(() => {
       cy.task('resetStubs')
       executeDashboardStubs()
-      cy.task('stubListDashboardCompleteData')
-      cy.task('stubDashboardResultCompleteData')
+      cy.task('stubListDashboardDefinition')
+      cy.task('stubDashboardResult')
       cy.visit(path)
 
       requestReportByNameAndDescription({
-        name: 'List - Complete dataset',
-        description: 'This dashboard represents example list visualisations using a complete dataset',
+        name: 'List charts dashboard',
+        description: 'This dashboard represents example list visualisations using the default dataset....',
       })
 
-      cy.findByRole('heading', { level: 1, name: /List - Complete dataset/ }).should('be.visible')
+      cy.findByRole('heading', { level: 1, name: /List charts dashboard/ }).should('be.visible')
       checkA11y()
 
       cy.url().then(url => {
-        completeDashboardUrl = url
+        dashboardUrl = url
       })
     })
 
     beforeEach(() => {
-      cy.visit(completeDashboardUrl)
+      cy.visit(dashboardUrl)
     })
 
     it('should show the correct section headings', () => {
@@ -190,32 +190,32 @@ context('Dashboard visualisation: List', () => {
     })
   })
 
-  describe('complete data with links', () => {
-    let completeDashboardWithLinksUrl = ''
+  describe('Data with links', () => {
+    let dashboardWithLinksUrl = ''
 
     before(() => {
       cy.task('resetStubs')
       executeDashboardStubs()
-      cy.task('stubTestDashboardWithLink')
-      cy.task('stubListDashboardCompleteData')
-      cy.task('stubDashboardResultCompleteData')
+      cy.task('stubTestDashboardDefinitionWithLink')
+      cy.task('stubListDashboardDefinition')
+      cy.task('stubDashboardResult')
       cy.visit(path)
 
       requestReportByNameAndDescription({
         name: 'List - with links',
-        description: 'This dashboard represents example list visualisations using a complete dataset',
+        description: 'This dashboard represents example list visualisations using the default dataset....',
       })
 
       cy.findByRole('heading', { level: 1, name: /List - with links/ }).should('be.visible')
       checkA11y()
 
       cy.url().then(url => {
-        completeDashboardWithLinksUrl = url
+        dashboardWithLinksUrl = url
       })
     })
 
     beforeEach(() => {
-      cy.visit(completeDashboardWithLinksUrl)
+      cy.visit(dashboardWithLinksUrl)
     })
 
     it('should show a list with clickable links in it', () => {
@@ -249,31 +249,31 @@ context('Dashboard visualisation: List', () => {
     })
   })
 
-  describe('complete data historic', () => {
-    let completeHistoricDashboardUrl = ''
+  describe('Historic data', () => {
+    let historicDashboardUrl = ''
 
     before(() => {
       cy.task('resetStubs')
       executeDashboardStubs()
-      cy.task('stubListDashboardCompleteDataHistoric')
-      cy.task('stubDashboardResultCompleteData')
+      cy.task('stubListDashboardDefinitionHistoric')
+      cy.task('stubDashboardResult')
       cy.visit(path)
 
       requestReportByNameAndDescription({
-        name: 'List - Complete dataset - Historic',
-        description: 'This dashboard represents example list visualidations using a complete dataset',
+        name: 'List - Historic',
+        description: 'This dashboard represents example list visualidations using the default dataset ...',
       })
 
-      cy.findByRole('heading', { level: 1, name: /List - Complete dataset - Historic/ }).should('be.visible')
+      cy.findByRole('heading', { level: 1, name: /List - Historic/ }).should('be.visible')
       checkA11y()
 
       cy.url().then(url => {
-        completeHistoricDashboardUrl = url
+        historicDashboardUrl = url
       })
     })
 
     beforeEach(() => {
-      cy.visit(completeHistoricDashboardUrl)
+      cy.visit(historicDashboardUrl)
     })
 
     it('should show the correct section headings', () => {
@@ -385,31 +385,31 @@ context('Dashboard visualisation: List', () => {
     })
   })
 
-  describe('partial data', () => {
-    let partialDashboardUrl = ''
+  describe('Merged data', () => {
+    let mergedDashboardUrl = ''
 
     before(() => {
       cy.task('resetStubs')
       executeDashboardStubs()
-      cy.task('stubListDashboardPartialData')
-      cy.task('stubDashboardResultPartialData')
+      cy.task('stubListDashboardDefinitionMergedDataset')
+      cy.task('stubDashboardResultMergedData')
       cy.visit(path)
 
       requestReportByNameAndDescription({
-        name: 'List - Partial dataset',
-        description: 'This dashboard represents example list visualisations using a partial dataset',
+        name: 'List - Merged dataset',
+        description: 'This dashboard represents example list visualisations using a merged dataset',
       })
 
-      cy.findByRole('heading', { level: 1, name: /List - Partial dataset/ }).should('be.visible')
+      cy.findByRole('heading', { level: 1, name: /List - Merged dataset/ }).should('be.visible')
       checkA11y()
 
       cy.url().then(url => {
-        partialDashboardUrl = url
+        mergedDashboardUrl = url
       })
     })
 
     beforeEach(() => {
-      cy.visit(partialDashboardUrl)
+      cy.visit(mergedDashboardUrl)
     })
 
     it('should show the correct section headings', () => {
@@ -776,8 +776,8 @@ context('Dashboard visualisation: List', () => {
       beforeEach(() => {
         cy.task('resetStubs')
         executeDashboardStubs()
-        cy.task('stubListInvalidVisDefs')
-        cy.task('stubDashboardResultCompleteData')
+        cy.task('stubListDashboardDefinitionInvalidVisDefinitions')
+        cy.task('stubDashboardResult')
         cy.visit(path)
 
         requestReportByNameAndDescription({
@@ -796,8 +796,8 @@ context('Dashboard visualisation: List', () => {
       beforeEach(() => {
         cy.task('resetStubs')
         executeDashboardStubs()
-        cy.task('stubListInvalidDefs')
-        cy.task('stubDashboardResultCompleteData')
+        cy.task('stubListDashboardDefinitionInvalid')
+        cy.task('stubDashboardResult')
         cy.visit(path)
 
         requestReportByNameAndDescription({

@@ -13,7 +13,7 @@ export const renderDashboard = async ({ req, res, services }: AsyncReportUtilsPa
   const { variantDefinition, variantSummary } = await getAllDefinitionsForReport(res, services, reportId, id, token)
 
   // Create the report config
-  const dashboardConfig = await new Dashboard(
+  const { dashboardConfig } = await new Dashboard(
     services,
     res,
     req,
@@ -23,9 +23,8 @@ export const renderDashboard = async ({ req, res, services }: AsyncReportUtilsPa
   ).build()
 
   // Save the data to redis
-  if (dashboardConfig && dashboardConfig.dashboardData && Object.keys(dashboardConfig.dashboardData).length) {
-    const { dashboardData } = dashboardConfig
-    const { reportName, description, name, fields } = dashboardData as {
+  if (dashboardConfig && Object.keys(dashboardConfig).length) {
+    const { reportName, description, name, fields } = dashboardConfig as {
       reportName: string
       description: string
       name: string
@@ -44,5 +43,5 @@ export const renderDashboard = async ({ req, res, services }: AsyncReportUtilsPa
     await updateLastViewedSync(req, res, services, stateData, dprUser.id, fields)
   }
 
-  return dashboardConfig
+  return { dashboardConfig }
 }

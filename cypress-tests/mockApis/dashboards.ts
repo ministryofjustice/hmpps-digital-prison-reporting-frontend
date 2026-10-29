@@ -1,35 +1,4 @@
-import {
-  barCompleteDatasetMock,
-  barInvalidMock,
-  barPartialDatasetMock,
-  doughnutCompleteDatasetMock,
-  lineCompleteDatasetMock,
-  linePartialDatasetMock,
-  lineTimeseriesCompleteDatasetMock,
-  lineTimeseriesPartialDatasetMock,
-  listCompleteDatasetHistoricMock,
-  listCompleteDatasetMock,
-  listInvalidDefMock,
-  listInvalidVisDefMock,
-  listPartialDatasetHistoricMock,
-  listPartialDatasetMock,
-  matrixCompleteAnnuallyDatasetMock,
-  matrixCompleteDailyDatasetMock,
-  matrixCompleteMonthlyDatasetMock,
-  matrixInvalidMock,
-  mixedCompleteDatasetMock,
-  mixedPartialDatasetHistoricMock,
-  mixedPartialDatasetMock,
-  scorecardGroupCompleteDatasetInvalidMock,
-  scorecardGroupCompleteDatasetMock,
-  scorecardGroupCompleteDatasetNoTsMock,
-  scorecardsBucketCompleteDatasetMock,
-  scorecardsCompletebadDatasetMock,
-  scorecardsCompleteDatasetMock,
-  scorecardsCompleteDatasetNoTsMock,
-  scorecardsInvalidVisDefinitionsMock,
-  boxPlotMock,
-} from '@networkMocks/dashboard/definitions/visualisations/mocks'
+import { mockDefinitions } from '@networkMocks/dashboard/definitions/visualisations/mocks'
 
 import {
   dashboardWithChildOneMock,
@@ -38,25 +7,40 @@ import {
   dashboardWithParentChildMock,
   featureFlagDashboardMock,
   syncDashboardMock,
+  parentChildDashboardStatusChild1FinishedMock,
+  parentChildDashboardStatusChild2FailedMock,
+  parentChildDashboardStatusChild2FinishedMock,
+  dashboardResultParenChildParentMock,
+  dashboardResultParenChildChild1Mock,
+  dashboardResultParenChildChild1NoDataMock,
+  dashboardResultParenChildChild2Mock,
+  dashboardResultParenChildChild2404Mock,
+  dashboardResultParenChildParent404Mock,
+  dashboardResultParenChildChild1404Mock,
+  parentChildDashboardStatusChild1FailedMock,
+  dashboardResultParenChildChild2NoDataMock,
+  dashboardResultParenChildParentNoDataMock,
+  parentChildDashboardStatusParentFailedMock,
+  parentChildDashboardStatusParentFinishedMock,
 } from '@networkMocks/dashboard/definitions/feature-testing/mocks'
 
 import {
-  dashboardResultCompleteDataMock,
-  dashboardResultCompleteDataMockAnnually,
-  dashboardResultCompleteDataMockDaily,
-  dashboardResultCompleteDataMockMonthly,
-  dashboardResultCompleteDataNoTsMock,
-  dashboardResultCompleteDataSyncMock,
-} from '@networkMocks/dashboard/data/complete-data/mocks'
+  dashboardResultMock,
+  dashboardResultAnnuallyMock,
+  dashboardResultDailyMock,
+  dashboardResultMonthlyMock,
+  dashboardResultNoTsMock,
+  dashboardResultSyncMock,
+} from '@networkMocks/dashboard/data/default-data/mocks'
 
 import {
-  dashboardResultPartialDataHistoricMock,
-  dashboardResultPartialDataMock,
-} from '@networkMocks/dashboard/data/partial-data/mocks'
+  dashboardResultMergedDataHistoricMock,
+  dashboardResultMergedDataMock,
+} from '@networkMocks/dashboard/data/merged-data/mocks'
 
 import {
-  dashboardResultCompleteBadDataMock,
-  dashboardResultCompleteBadDataDuplicatesMock,
+  dashboardResultBadDataMock,
+  dashboardResultBadDataDuplicatesMock,
 } from '@networkMocks/dashboard/data/bad-data/mocks'
 
 import {
@@ -65,96 +49,110 @@ import {
   dashboardResultUndefinedMock,
 } from '@networkMocks/dashboard/data/empty-data/mocks'
 
+import { dashboardResultBoxPlotMock } from '@networkMocks/dashboard/data/box-plot-data/mocks'
+
 import {
   getDashboardStatusFinishedMock,
   getDashboardStatusStartedMock,
-  parentChildStatusChild1FinishedMock,
-  parentChildStatusChild2FailedMock,
-  parentChildStatusChild2FinishedMock,
-  getAsyncReportResultMockParentChildParentMock,
-  getAsyncReportResultMockParentChildChild1Mock,
-  getAsyncReportResultMockParentChildChild1NoDataMock,
-  getAsyncReportResultMockParentChildChild2Mock,
-  getAsyncReportResultMockParentChildChild2404Mock,
-  getAsyncReportResultMockParentChildParent404Mock,
-  getAsyncReportResultMockParentChildChild1404Mock,
-  parentChildStatusChild1FailedMock,
-  getAsyncReportResultMockParentChildChild2NoDataMock,
-  getAsyncReportResultMockParentChildParentNoDataMock,
-  getAsyncReportResultMockBoxPlotMock,
-  parentChildStatusParentFailedMock,
-  parentChildStatusParentFinishedMock,
   requestAsyncDashboardMock,
 } from '@networkMocks/dashboard/mocks'
 import { stubFor } from '@networkMocks/generateNetworkMock'
 import { dashboardFailureStubs } from './failures'
 
 // DEFINITIONS
+const { list } = mockDefinitions
 const listDefinitionStubs = {
-  stubListDashboardCompleteData: () => stubFor(listCompleteDatasetMock),
-  stubListDashboardCompleteDataHistoric: () => stubFor(listCompleteDatasetHistoricMock),
-  stubListDashboardPartialData: () => stubFor(listPartialDatasetMock),
-  stubListDashboardPartialDataHistoric: () => stubFor(listPartialDatasetHistoricMock),
-  stubListInvalidDefs: () => stubFor(listInvalidDefMock),
-  stubListInvalidVisDefs: () => stubFor(listInvalidVisDefMock),
+  stubListDashboardDefinition: () => stubFor(list.listDashboardDefinitionMock),
+  stubListDashboardDefinitionHistoric: () => stubFor(list.listDashboardDefinitonHistoricMock),
+  stubListDashboardDefinitionMergedDataset: () => stubFor(list.listDashboardDefinitionMergedDatasetMock),
+  stubListDashboardDefinitionMergedDatasetHistoric: () =>
+    stubFor(list.listDashboardDefinitionMergedDatasetHistoricMock),
+  stubListDashboardDefinitionInvalid: () => stubFor(list.listDashboardDefinitionInvalidMock),
+  stubListDashboardDefinitionInvalidVisDefinitions: () => stubFor(list.listDashboardDefinitionInvalidVisDefMock),
 }
 
+const { bar } = mockDefinitions
 const BarDefinitionStubs = {
-  stubBarDashboardCompleteData: () => stubFor(barCompleteDatasetMock),
-  stubBarDashboardPartialData: () => stubFor(barPartialDatasetMock),
-  stubBarInvalid: () => stubFor(barInvalidMock),
+  stubBarChartsDashboardDefinition: () => stubFor(bar.barDashboardDefinitionMock),
+  stubBarChartsDashboardDefinitionMergedDataset: () => stubFor(bar.barDashboardDefinitionMergedDatasetMock),
+  stubBarChartsDashboardDefinitionInvalid: () => stubFor(bar.barDashboardDefinitionInvalidMock),
 }
 
+const { doughnut } = mockDefinitions
 const DoughnutDefinitionStubs = {
-  stubDoughnutDashboardCompleteData: () => stubFor(doughnutCompleteDatasetMock),
+  stubDoughnutChartsDashboardDefinition: () => stubFor(doughnut.doughnutDashboardDefinitionMock),
 }
 
+const { lineTimeseries } = mockDefinitions
 const lineTimeseriesDefinitionStubs = {
-  stubLineTimeseriesDashboardCompleteData: () => stubFor(lineTimeseriesCompleteDatasetMock),
-  stubLineTimeseriesDashboardPartialData: () => stubFor(lineTimeseriesPartialDatasetMock),
+  stubLineTimeseriesChartsDashboardDefinition: () => stubFor(lineTimeseries.lineTimeseriesDashboardDefinitionMock),
+  stubLineTimeseriesChartsDashboardDefinitionMergedDataset: () =>
+    stubFor(lineTimeseries.lineTimeseriesDashboadDefinitionMergedDatasetMock),
+  stubLineTimeseriesChartsDashboardDefinitionDaily: () =>
+    stubFor(lineTimeseries.lineTimeseriesDashboardDefinitionDailyDatasetMock),
+  stubLineTimeseriesChartsDashboardDefinitionMonthly: () =>
+    stubFor(lineTimeseries.lineTimeseriesDashboardDefinitionMonthlyDatasetMock),
+  stubLineTimeseriesChartsDashboardDefinitionYearly: () =>
+    stubFor(lineTimeseries.lineTimeseriesDashboardDefinitionYearlyDatasetMock),
+  stubLineTimeseriesChartsDashboardDefinitionInvalid: () =>
+    stubFor(lineTimeseries.lineTimeseriesDashboardDefinitionInvalidMock),
 }
 
+const { line } = mockDefinitions
 const lineDefinitionStubs = {
-  stubLineCompleteData: () => stubFor(lineCompleteDatasetMock),
-  stubLinePartialData: () => stubFor(linePartialDatasetMock),
+  stubLineChartsDashboardDefinition: () => stubFor(line.lineDashboardDefinitionMock),
+  stubLineChartsDashboardDefinitionMergedDataset: () => stubFor(line.lineDashboardDefinitionMergedDatasetMock),
+  stubLineChartsDashboardDefinitionInvalid: () => stubFor(line.lineInvalidDashboardDefinitionMock),
 }
 
+const { matrix } = mockDefinitions
 const matrixDefinitionStubs = {
-  stubMatrixCompleteDailyData: () => stubFor(matrixCompleteDailyDatasetMock),
-  stubMatrixCompleteMonthlyData: () => stubFor(matrixCompleteMonthlyDatasetMock),
-  stubMatrixCompleteAnnuallyData: () => stubFor(matrixCompleteAnnuallyDatasetMock),
-  stubMatrixInvalid: () => stubFor(matrixInvalidMock),
+  stubMatrixChartsDashboardDefinitionDaily: () => stubFor(matrix.matrixDashboardDefinitionDailyDatasetMock),
+  stubMatrixChartsDashboardDefinitionMonthly: () => stubFor(matrix.matrixDashboardDefinitionMonthlyDatasetMock),
+  stubMatrixChartsDashboardDefinitionAnnually: () => stubFor(matrix.matrixDashboardDefinitionAnnuallyDatasetMock),
+  stubMatrixChartsDashboardDefinitionInvalid: () => stubFor(matrix.matrixDashboardDefinitionInvalidMock),
 }
 
+const { scorecard } = mockDefinitions
 const scorecardDefinitionStubs = {
-  stubDefinitionScorecardDashboard: () => stubFor(scorecardsCompleteDatasetMock),
-  stubDefinitionScorecardDashboardBadData: () => stubFor(scorecardsCompletebadDatasetMock),
-  stubDefinitionScorecardDashboardNoTs: () => stubFor(scorecardsCompleteDatasetNoTsMock),
-  stubDefinitionScorecardDashboardInvalidVisDefs: () => stubFor(scorecardsInvalidVisDefinitionsMock),
-  stubDefinitionScorecardBucketDashboard: () => stubFor(scorecardsBucketCompleteDatasetMock),
-  stubDefinitionScorecardGroupDashboard: () => stubFor(scorecardGroupCompleteDatasetMock),
-  stubDefinitionScorecardGroupDashboardInvalid: () => stubFor(scorecardGroupCompleteDatasetInvalidMock),
-  stubDefinitionScorecardGroupDashboardNoTs: () => stubFor(scorecardGroupCompleteDatasetNoTsMock),
+  stubScorecardsDashboardDefinition: () => stubFor(scorecard.scorecardsDashboardDefinitionMock),
+  stubScorecardsDashboardDefinitionBadData: () => stubFor(scorecard.scorecardsDashboardDefinitionBadDatasetMock),
+  stubScorecardsDashboardDefinitionNoTs: () => stubFor(scorecard.scorecardsDashboardDefinitionNoTsMock),
+  stubScorecardsDashboardDefinitionInvalidVisDefinitions: () =>
+    stubFor(scorecard.scorecardsDashboardDefinitionInvalidVisDefinitionsMock),
+  stubScorecardsDashboardDefinitionBuckets: () => stubFor(scorecard.scorecardsDashboardDefinitionBucketMock),
 }
 
+const { scorecardGroup } = mockDefinitions
+const scorecardGroupDefinitionStubs = {
+  stubScorecardGroupDashboardDefinition: () => stubFor(scorecardGroup.scorecardGroupDashboardDefinitionMock),
+  stubScorecardGroupDashboardDefinitionInvalid: () =>
+    stubFor(scorecardGroup.scorecardGroupDashboardDefinitionInvalidMock),
+  stubScorecardGroupDashboardDefinitionNoTs: () => stubFor(scorecardGroup.scorecardGroupDashboardDefinitionNoTsMock),
+}
+
+const { mixed } = mockDefinitions
 const mixedChartsDefinitionStubs = {
-  stubMixedDashboardCompleteData: () => stubFor(mixedCompleteDatasetMock),
-  stubMixedDashboardPartialData: () => stubFor(mixedPartialDatasetMock),
-  stubMixedDashboardPartialDataHistoric: () => stubFor(mixedPartialDatasetHistoricMock),
+  stubMixedDashboardDefinition: () => stubFor(mixed.mixedDashboardDefinitionMock),
+  stubMixedDashboardDefinitionMergedDataset: () => stubFor(mixed.mixedDashboardDefinitionMergedMock),
+  stubMixedDashboardDefinitionMergedDatasetHistoric: () =>
+    stubFor(mixed.mixedDashboardDefinitionMergedDatasetHistoricMock),
 }
 
+const { boxPlot } = mockDefinitions
 const boxPlotChartsDefinitionStubs = {
-  stubDefinitionBoxPlotDashboard: () => stubFor(boxPlotMock),
+  stubBoxPlotDashboardDefinition: () => stubFor(boxPlot.boxplotDashboardDefinitionMock),
 }
 
 const definitionStubs = {
-  stubTestDashboard8: () => stubFor(featureFlagDashboardMock),
-  stubTestDashboardWithLink: () => stubFor(dashboardWithLinksMock),
-  stubTestDashboardWithParentChild: () => stubFor(dashboardWithParentChildMock),
-  stubTestDashboardWithChildOne: () => stubFor(dashboardWithChildOneMock),
-  stubTestDashboardWithChildTwo: () => stubFor(dashboardWithChildTwoMock),
-  stubDefinitionSyncDashboard: () => stubFor(syncDashboardMock),
+  stubTestDashboardDefinition: () => stubFor(featureFlagDashboardMock),
+  stubTestDashboardDefinitionWithLink: () => stubFor(dashboardWithLinksMock),
+  stubTestDashboardDefinitionWithParentChild: () => stubFor(dashboardWithParentChildMock),
+  stubTestDashboardDefinitionWithChildOne: () => stubFor(dashboardWithChildOneMock),
+  stubTestDashboardDefinitionWithChildTwo: () => stubFor(dashboardWithChildTwoMock),
+  stubDashboardDefinitionSync: () => stubFor(syncDashboardMock),
   ...scorecardDefinitionStubs,
+  ...scorecardGroupDefinitionStubs,
   ...listDefinitionStubs,
   ...BarDefinitionStubs,
   ...DoughnutDefinitionStubs,
@@ -165,55 +163,56 @@ const definitionStubs = {
   ...matrixDefinitionStubs,
 }
 
-// REQUEST
+// REQUEST/STATUS
 const requestStubs = {
-  stubMockDashboardsStatusFinished: () => stubFor(getDashboardStatusFinishedMock),
-  stubMockDashboardsStatusStarted: () => stubFor(getDashboardStatusStartedMock),
-  stubMockParentChildStatusParentFinished: () => stubFor(parentChildStatusParentFinishedMock),
-  stubMockParentChildStatusParentFailed: () => stubFor(parentChildStatusParentFailedMock),
-  stubMockParentChildStatusChild1Finished: () => stubFor(parentChildStatusChild1FinishedMock),
-  stubMockParentChildStatusChild1Failed: () => stubFor(parentChildStatusChild1FailedMock),
-  stubMockParentChildStatusChild2Finished: () => stubFor(parentChildStatusChild2FinishedMock),
-  stubMockParentChildStatusChild2Failed: () => stubFor(parentChildStatusChild2FailedMock),
+  stubMockDashboardStatusFinished: () => stubFor(getDashboardStatusFinishedMock),
+  stubMockDashboardStatusStarted: () => stubFor(getDashboardStatusStartedMock),
+  stubMockParentChildStatusParentFinished: () => stubFor(parentChildDashboardStatusParentFinishedMock),
+  stubMockParentChildStatusParentFailed: () => stubFor(parentChildDashboardStatusParentFailedMock),
+  stubMockParentChildStatusChild1Finished: () => stubFor(parentChildDashboardStatusChild1FinishedMock),
+  stubMockParentChildStatusChild1Failed: () => stubFor(parentChildDashboardStatusChild1FailedMock),
+  stubMockParentChildStatusChild2Finished: () => stubFor(parentChildDashboardStatusChild2FinishedMock),
+  stubMockParentChildStatusChild2Failed: () => stubFor(parentChildDashboardStatusChild2FailedMock),
   stubViewAsyncResults: () => stubFor(requestAsyncDashboardMock),
   ...dashboardFailureStubs,
 }
 
 // RESULTS
 const resultsStubs = {
-  // Complete data stubs
-  stubDashboardResultCompleteDataDaily: () => stubFor(dashboardResultCompleteDataMockDaily),
-  stubDashboardResultCompleteDataMonthly: () => stubFor(dashboardResultCompleteDataMockMonthly),
-  stubDashboardResultCompleteDataAnnually: () => stubFor(dashboardResultCompleteDataMockAnnually),
-  stubDashboardResultCompleteData: () => stubFor(dashboardResultCompleteDataMock),
-  stubDashboardResultCompleteDataSync: () => stubFor(dashboardResultCompleteDataSyncMock),
+  // data stubs
+  stubDashboardResult: () => stubFor(dashboardResultMock),
+  stubDashboardResultDaily: () => stubFor(dashboardResultDailyMock),
+  stubDashboardResultMonthly: () => stubFor(dashboardResultMonthlyMock),
+  stubDashboardResultAnnually: () => stubFor(dashboardResultAnnuallyMock),
+  stubDashboardResultSync: () => stubFor(dashboardResultSyncMock),
 
-  // Partial data stubs
-  stubDashboardResultPartialData: () => stubFor(dashboardResultPartialDataMock),
-  stubDashboardResultPartialDataHistoric: () => stubFor(dashboardResultPartialDataHistoricMock),
+  // Merged data stubs
+  stubDashboardResultMergedData: () => stubFor(dashboardResultMergedDataMock),
+  stubDashboardResultMergedDataHistoric: () => stubFor(dashboardResultMergedDataHistoricMock),
 
-  stubDashboardResultCompleteDataNoTs: () => stubFor(dashboardResultCompleteDataNoTsMock),
+  // No TS
+  stubDashboardResultNoTs: () => stubFor(dashboardResultNoTsMock),
 
   // Bad data stubs
   stubDashboardResultEmptyData: () => stubFor(dashboardResultEmptyDataSyncMock),
   stubDashboardResultUndefinedData: () => stubFor(dashboardResultUndefinedMock),
-  stubDashboardResultCompleteBadData: () => stubFor(dashboardResultCompleteBadDataMock),
-  stubDashboardResultCompleteBadDataDuplicates: () => stubFor(dashboardResultCompleteBadDataDuplicatesMock),
+  stubDashboardResultBadData: () => stubFor(dashboardResultBadDataMock),
+  stubDashboardResultBadDataDuplicates: () => stubFor(dashboardResultBadDataDuplicatesMock),
   stubDashboardResultMissingFirstRowDataSync: () => stubFor(dashboardResultMissingFirstRowDataSyncMock),
 
   // Parent Child data stubs
-  stubDashboardResultParentChildParent: () => stubFor(getAsyncReportResultMockParentChildParentMock),
-  stubDashboardResultParentChildParentNoData: () => stubFor(getAsyncReportResultMockParentChildParentNoDataMock),
-  stubDashboardResultParentChildParent404: () => stubFor(getAsyncReportResultMockParentChildParent404Mock),
-  stubDashboardResultParentChildChild1: () => stubFor(getAsyncReportResultMockParentChildChild1Mock),
-  stubDashboardResultParentChildChild1NoData: () => stubFor(getAsyncReportResultMockParentChildChild1NoDataMock),
-  stubDashboardResultParentChildChild1404: () => stubFor(getAsyncReportResultMockParentChildChild1404Mock),
-  stubDashboardResultParentChildChild2: () => stubFor(getAsyncReportResultMockParentChildChild2Mock),
-  stubDashboardResultParentChildChild2NoData: () => stubFor(getAsyncReportResultMockParentChildChild2NoDataMock),
-  stubDashboardResultParentChildChild2404: () => stubFor(getAsyncReportResultMockParentChildChild2404Mock),
+  stubDashboardResultParentChildParent: () => stubFor(dashboardResultParenChildParentMock),
+  stubDashboardResultParentChildParentNoData: () => stubFor(dashboardResultParenChildParentNoDataMock),
+  stubDashboardResultParentChildParent404: () => stubFor(dashboardResultParenChildParent404Mock),
+  stubDashboardResultParentChildChild1: () => stubFor(dashboardResultParenChildChild1Mock),
+  stubDashboardResultParentChildChild1NoData: () => stubFor(dashboardResultParenChildChild1NoDataMock),
+  stubDashboardResultParentChildChild1404: () => stubFor(dashboardResultParenChildChild1404Mock),
+  stubDashboardResultParentChildChild2: () => stubFor(dashboardResultParenChildChild2Mock),
+  stubDashboardResultParentChildChild2NoData: () => stubFor(dashboardResultParenChildChild2NoDataMock),
+  stubDashboardResultParentChildChild2404: () => stubFor(dashboardResultParenChildChild2404Mock),
 
   // Boxplot data stubs
-  stubDashboardResultBoxPlotData: () => stubFor(getAsyncReportResultMockBoxPlotMock),
+  stubDashboardResultBoxPlotData: () => stubFor(dashboardResultBoxPlotMock),
 }
 
 const stubs = {

@@ -72,7 +72,7 @@ export default class Dashboard extends DataPresentation {
     await this.buildActions(ReportType.DASHBOARD)
 
     return {
-      dashboardData: {
+      dashboardConfig: {
         ...reportMeta,
         ...this.reportDetails,
         sections: this.sections,

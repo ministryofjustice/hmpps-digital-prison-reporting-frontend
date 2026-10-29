@@ -12,8 +12,8 @@ context('Dashboard visualisation: matrix validation tests', () => {
     before(() => {
       cy.task('resetStubs')
       executeDashboardStubs()
-      cy.task('stubMatrixInvalid')
-      cy.task('stubDashboardResultPartialData')
+      cy.task('stubMatrixChartsDashboardDefinitionInvalid')
+      cy.task('stubDashboardResultMergedData')
       cy.visit(path)
 
       requestReportByNameAndDescription({

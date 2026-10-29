@@ -1,37 +1,43 @@
 import { setupSimpleMock } from '@networkMocks/generateNetworkMock'
-import { completeBadDataSet } from './data'
-import { completeBadDataSetDuplicateKeyValues } from './data_matching-keys'
+import { badDataSet } from './data'
+import { badDataSetDuplicateKeyValues } from './data_matching-keys'
 
-import { visualisationIds } from '../../definitions/visualisations/complete-dataset'
+import { allVisualisationDefinitions } from '../../definitions/visualisations'
 import { requestExampleIds } from '../../definitions/request-examples'
 import { featureTestingIds } from '../../definitions/feature-testing'
 
-const allIds = [...visualisationIds, ...requestExampleIds, ...featureTestingIds]
+const allVisDefIdsArray = Object.values(allVisualisationDefinitions).map(def => def.id)
+
+const allIds = [...allVisDefIdsArray, ...requestExampleIds, ...featureTestingIds]
 const productIds = ['dashboard-visualisations', 'request-examples', 'feature-testing']
 
-export const dashboardResultCompleteBadDataMock = setupSimpleMock(
+export const dashboardResultBadDataMock = setupSimpleMock(
   `/reports/(${productIds.join('|')})/dashboards/(${allIds.join('|')})/tables/tblId_[0-9]+/result`,
-  completeBadDataSet,
+  badDataSet,
+  2,
 )
 
-export const dashboardResultCompleteBadDataSyncMock = setupSimpleMock(
+export const dashboardResultBadDataSyncMock = setupSimpleMock(
   `/reports/(${productIds.join('|')})/dashboards/(${allIds.join('|')})`,
-  completeBadDataSet,
+  badDataSet,
+  2,
 )
 
-export const dashboardResultCompleteBadDataDuplicatesMock = setupSimpleMock(
+export const dashboardResultBadDataDuplicatesMock = setupSimpleMock(
   `/reports/(${productIds.join('|')})/dashboards/(${allIds.join('|')})/tables/tblId_[0-9]+/result`,
-  completeBadDataSetDuplicateKeyValues,
+  badDataSetDuplicateKeyValues,
+  2,
 )
 
-export const dashboardResultCompleteBadDataDuplicatesSyncMock = setupSimpleMock(
+export const dashboardResultBadDataDuplicatesSyncMock = setupSimpleMock(
   `/reports/(${productIds.join('|')})/dashboards/(${allIds.join('|')})`,
-  completeBadDataSetDuplicateKeyValues,
+  badDataSetDuplicateKeyValues,
+  2,
 )
 
 export const mocks = [
-  dashboardResultCompleteBadDataMock,
-  dashboardResultCompleteBadDataSyncMock,
-  dashboardResultCompleteBadDataDuplicatesMock,
-  dashboardResultCompleteBadDataDuplicatesSyncMock,
+  dashboardResultBadDataMock,
+  dashboardResultBadDataSyncMock,
+  dashboardResultBadDataDuplicatesMock,
+  dashboardResultBadDataDuplicatesSyncMock,
 ]

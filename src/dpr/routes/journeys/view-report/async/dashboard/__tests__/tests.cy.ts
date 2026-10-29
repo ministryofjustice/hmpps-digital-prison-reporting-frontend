@@ -11,8 +11,8 @@ context('Viewing a dashboard', () => {
   describe('dashboard tests', () => {
     before(() => {
       executeDashboardStubs()
-      cy.task('stubTestDashboard8')
-      cy.task('stubDashboardResultCompleteData')
+      cy.task('stubTestDashboardDefinition')
+      cy.task('stubDashboardResult')
     })
 
     it('should show the dashboard details', () => {
@@ -116,7 +116,7 @@ context('Viewing a dashboard', () => {
   describe('dashboard tests for undefined, empty, missing first row data', () => {
     before(() => {
       executeDashboardStubs()
-      cy.task('stubTestDashboard8')
+      cy.task('stubTestDashboardDefinition')
     })
 
     it('should show viz when dashboardData is undefined', () => {

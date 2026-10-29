@@ -65,7 +65,7 @@ export const definition: components['schemas']['DashboardDefinition'] = {
 
 export const autoBucketedDefinition: components['schemas']['DashboardDefinition'] = {
   id: 'matrix-examples_auto_bucketed',
-  name: 'Matrix - auto bucketed ',
+  name: 'Matrix - auto bucketed',
   description: 'Matrix examples',
   sections: [
     {
@@ -91,7 +91,7 @@ export const autoBucketedDefinition: components['schemas']['DashboardDefinition'
 
 export const bucketedDefinition: components['schemas']['DashboardDefinition'] = {
   id: 'matrix-examples_bucketed',
-  name: 'Matrix - custom bucketed ',
+  name: 'Matrix - custom bucketed',
   description: 'Matrix examples',
   sections: [
     {

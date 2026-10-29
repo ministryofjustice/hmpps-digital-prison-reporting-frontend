@@ -35,7 +35,7 @@ context('Dashboard visualisation: Boxplot chart', () => {
     })
 
     it('should load the page', () => {
-      cy.findByRole('heading', { level: 1, name: /Box plot chart Examples/ }).should('be.visible')
+      cy.findByRole('heading', { level: 1, name: /Boxplot charts dashboard/ }).should('be.visible')
     })
 
     it('should have the correct amount of sections', () => {

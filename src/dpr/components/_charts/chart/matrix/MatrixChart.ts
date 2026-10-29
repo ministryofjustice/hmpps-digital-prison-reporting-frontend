@@ -19,7 +19,7 @@ import ChartConfig from '../chart-config'
 import { MatrixChartData, MatrixTimeseriesDefinitionType } from './types'
 import MatrixSchema from './validate'
 
-class HeatmapChart {
+class MatrixChart {
   private definition!: MatrixTimeseriesDefinitionType
 
   private measures!: MatrixTimeseriesDefinitionType['columns']['measures']
@@ -242,5 +242,5 @@ class HeatmapChart {
   }
 }
 
-export { HeatmapChart }
-export default HeatmapChart
+export { MatrixChart }
+export default MatrixChart

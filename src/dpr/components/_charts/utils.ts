@@ -15,7 +15,7 @@ import { Granularity } from '../_inputs/granular-date-range/types'
 import BarTimeseriesChart from './chart/bar-timeseries/BarTimeseriesChart'
 import BarChart from './chart/bar/BarChart'
 import DoughnutChart from './chart/doughnut/DoughnutChart'
-import HeatmapChart from './chart/heatmap/HeatmapChart'
+import MatrixChart from './chart/matrix/MatrixChart'
 import LineTimeseriesChart from './chart/line-timeseries/LineTimeseriesChart'
 import LineChart from './chart/line/LineChart'
 import { createSnapshotTable, createTimeseriesTable } from './chart-table/utils'
@@ -99,7 +99,7 @@ export const createTimeseriesCharts = (
   if (dataSetRows.length) {
     switch (type) {
       case DashboardVisualisationType.MATRIX_TIMESERIES:
-        chart = new HeatmapChart()
+        chart = new MatrixChart()
           .withDefinition(chartDefinition)
           .withGranularity(granularity)
           .withData(timeseriesData)

@@ -40,7 +40,7 @@ import DprMyReports from './components/my-reports/my-reports-list/clientClass'
 import BarChartVisualisation from './components/_charts/chart/bar/clientClass'
 import BoxPlotChartVisualisation from './components/_charts/chart/box-plot/clientClass'
 import DoughnutChartVisualisation from './components/_charts/chart/doughnut/clientClass'
-import MatrixChartVisualisation from './components/_charts/chart/heatmap/clientClass'
+import MatrixChartVisualisation from './components/_charts/chart/matrix/clientClass'
 import LineChartVisualisation from './components/_charts/chart/line/clientClass'
 
 // Dashboards

@@ -5,7 +5,7 @@ import { BarTimeseriesDefinitionMeasure } from '../../_charts/chart/bar-timeseri
 import { BarDefinitionMeasure } from '../../_charts/chart/bar/types'
 import { ChartOptionsType } from '../../_charts/chart/chart-config'
 import { DoughnutDefinitionMeasure } from '../../_charts/chart/doughnut/types'
-import { MatrixChartData } from '../../_charts/chart/heatmap/types'
+import { MatrixChartData } from '../../_charts/chart/matrix/types'
 import { LineTimeseriesDefinitionMeasure } from '../../_charts/chart/line-timeseries/types'
 import { LineDefinitionMeasure } from '../../_charts/chart/line/types'
 import { PartialDate } from '../../_filters/types'

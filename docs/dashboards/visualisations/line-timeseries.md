@@ -150,7 +150,7 @@ This example demonstrates how are `line-timeseries` chart is visualised using da
 
 This definition will return the following dataset
 
-| Date       | | establishment_id | Has no MetricOne |
+| Date       | establishment_id   | Has no MetricOne |
 |------------|--------------------|------------------|
 | 2026-01-01 | ABC                | 479              |
 | 2026-01-02 | ABC                | 521              |

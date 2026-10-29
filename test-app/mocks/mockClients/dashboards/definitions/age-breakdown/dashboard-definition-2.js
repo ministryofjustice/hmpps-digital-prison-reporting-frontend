@@ -6,7 +6,7 @@ const {
   mockScorecardDefinitionEthnicAsian,
   mockScoreCardGroupMetricThree,
   mockBarChartMetricThree,
-  mockPieChartMetricThree,
+  mockDoughnutChartMetricThree,
 } = require('./visualisations')
 
 const {
@@ -48,7 +48,7 @@ const ageBreakdownReport2 = {
         mockListDefinitionMetricThree,
         mockScoreCardGroupMetricThree,
         mockBarChartMetricThree,
-        mockPieChartMetricThree,
+        mockDoughnutChartMetricThree,
       ],
     },
     {

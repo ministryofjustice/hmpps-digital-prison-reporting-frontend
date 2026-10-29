@@ -5,7 +5,7 @@ const { granularDateRangeFilter } = require('../../../filter-definitions')
 const dataQualityHistoric = {
   id: 'matrix-examples-diet-totals-historic',
   name: 'Matrix Chart Examples - Finds totals - Historic',
-  description: 'Matrix examples',
+  description: 'Matrix chart examples',
   sections: [
     {
       id: 'matrix-test',

@@ -128,6 +128,7 @@ export const createTimeseriesCharts = (
 
     const table = createTimeseriesTable(chartDefinition, timeseriesData)
     tables.push(table)
+
     details = getChartDetails(chartDefinition, latestData, true)
   }
 

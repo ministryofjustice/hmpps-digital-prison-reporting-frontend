@@ -7,36 +7,36 @@ import {
 context('Dashboard visualisation: matrix chart', () => {
   const path = '/'
 
-  describe('Complete data', () => {
-    let completeDashboardUrl = ''
+  describe('Default data', () => {
+    let dashboardUrl = ''
 
     before(() => {
       cy.task('resetStubs')
       executeDashboardStubs()
-      cy.task('stubMatrixCompleteDailyData')
-      cy.task('stubMatrixCompleteMonthlyData')
-      cy.task('stubMatrixCompleteAnnuallyData')
+      cy.task('stubMatrixChartsDashboardDefinitionDaily')
+      cy.task('stubMatrixChartsDashboardDefinitionMonthly')
+      cy.task('stubMatrixChartsDashboardDefinitionAnnually')
 
-      cy.task('stubDashboardResultCompleteDataDaily')
-      cy.task('stubDashboardResultCompleteDataMonthly')
-      cy.task('stubDashboardResultCompleteDataAnnually')
+      cy.task('stubDashboardResultDaily')
+      cy.task('stubDashboardResultMonthly')
+      cy.task('stubDashboardResultAnnually')
       cy.visit(path)
 
       requestReportByNameAndDescription({
-        name: 'Matrix - Complete data',
+        name: 'Matrix - daily',
         description: 'Matrix examples',
       })
 
-      cy.findByRole('heading', { level: 1, name: /Matrix - Complete data/ }).should('be.visible')
+      cy.findByRole('heading', { level: 1, name: /Matrix - daily/ }).should('be.visible')
       checkA11y()
 
       cy.url().then(url => {
-        completeDashboardUrl = url
+        dashboardUrl = url
       })
     })
 
     beforeEach(() => {
-      cy.visit(completeDashboardUrl)
+      cy.visit(dashboardUrl)
     })
 
     it('should have the correct amount of sections', () => {

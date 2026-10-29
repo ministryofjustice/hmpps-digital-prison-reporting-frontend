@@ -13,16 +13,16 @@ context('Dashboard visualisation: Scorecard Group: Validation', () => {
       executeDashboardStubs()
       resetFeatureFlags()
 
-      cy.task('stubDefinitionScorecardGroupDashboardInvalid')
-      cy.task('stubDashboardResultCompleteData')
-      cy.task('stubMockDashboardsStatusStarted')
-      cy.task('stubMockDashboardsStatusFinished')
+      cy.task('stubScorecardGroupDashboardDefinitionInvalid')
+      cy.task('stubDashboardResult')
+      cy.task('stubMockDashboardStatusStarted')
+      cy.task('stubMockDashboardStatusFinished')
 
       cy.visit(path)
 
       requestReportByNameAndDescription({
-        name: 'Scorecard Group - Complete data - invalid',
-        description: 'Scorecard examples',
+        name: 'Scorecard Group - invalid',
+        description: 'Scorecard group invalid examples',
       })
     })
 

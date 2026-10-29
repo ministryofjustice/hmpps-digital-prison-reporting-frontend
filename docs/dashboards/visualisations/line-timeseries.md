@@ -2,8 +2,6 @@
 layout: layouts/dashboards.njk
 title: Line timeseries chart
 subsection: Visualisation definition
-phase: Beta
-phaseText: 'This feature is experimental and may be unstable. You can try it, but be aware that issues and changes are likely'
 ---
 
 <img src="/assets/images/charts/line/Line-timeseries1.png" alt="" width="700" style="margin-bottom: 30px"/>
@@ -70,61 +68,61 @@ Avoid using a `line‑timeseries` chart when:
 }
 ```
 
-See the [Targeting data](/dashboards/visualisations/visualisation-dataset) for and how to target data with the `column`
+See the [Targeting data](/dashboards/visualisations/visualisation-dataset) for and how to target data with the `column` field
 
 <hr class='dpr-docs-hr'/>
 
 # Data assumptions
 
-- Ensure that your measure includes a `type` of `timestamp` when specifying the timestamp measure.
-- The `timestamp` date format must be `YYYY-MM-DD`
+- Ensure that your <strong>measure</strong> array in the definition includes an item of `type` of `timestamp` when specifying a timestamp measure.
+- The `timestamp` date format must be one of the following, depending on the granularity of the line chart desired:
+  -  `YYYY-MM-DD` for daily granularity (e.g `2024-01-18`)
+  -  `YYYY-MM` for monthly granularity (e.g `2024-01`)
+  -  `YYYY` for annual granularity (eg. `2024`)
 
 <hr class='dpr-docs-hr'/>
 
 # Examples
 
-- [Example 1](#example-1)
-- [Example 2](#example-2)
-
-### Example Dataset
-
-```js
-| Date       | est_id | no_metric_one  | no_metric_two  | no_metric_three  |
-|------------|--------|----------------|----------------|------------------|
-| 2024-08-01 | ABC    | 781            | 754            | 802              |
-| 2024-08-01 | GHI    | 610            | 589            | 633              |
-| 2024-08-01 | DEF    | 499            | 472            | 518              |
-| 2024-09-01 | ABC    | 514            | 538            | 497              |
-| 2024-09-01 | GHI    | 518            | 492            | 531              |
-| 2024-09-01 | DEF    | 521            | 549            | 505              |
-| 2024-10-01 | ABC    | 598            | 612            | 580              |
-| 2024-10-01 | GHI    | 676            | 702            | 661              |
-| 2024-10-01 | DEF    | 687            | 655            | 712              |
-| 2024-11-01 | ABC    | 522            | 499            | 548              |
-| 2024-11-01 | GHI    | 790            | 768            | 812              |
-| 2024-11-01 | DEF    | 713            | 689            | 727              |
-| 2024-12-01 | ABC    | 431            | 452            | 408              |
-| 2024-12-01 | GHI    | 536            | 522            | 561              |
-| 2024-12-01 | DEF    | 590            | 574            | 613              |
-| 2025-01-01 | ABC    | 614            | 643            | 609              |
-| 2025-01-01 | GHI    | 713            | 695            | 740              |
-| 2025-01-01 | DEF    | 682            | 668            | 701              |
-```
+- [Daily Granularity](#daily-granularity)
+- [Monthly Granularity](#monthly-granularity)
+- [Yearly Granularity](#monthly-granularity)
 
 <hr class='dpr-docs-hr'/>
 
-# Example 1
+# Daily Granularity
 
-Prisoner totals for missing MetricOne by establishment over time
+This example demonstrates how are `line-timeseries` chart is visualised using data in day format (`YYYY-MM-DD`)
+
+### Dataset
+
+| ts         | establishment_id | has_metric_one | metric_one_is_missing | has_metric_two |
+|------------|------------------|----------------|-----------------------|----------------|
+| 2026-01-01 | ABC              | 126            | 479                   | 733            |
+| 2026-01-02 | ABC              | 92            | 521                   | null            |
+| 2026-01-03 | ABC              | 455            | 508                   | 488            |
+| 2026-01-04 | ABC              | 182            | 238                   | 651            |
+| 2026-01-05 | ABC              | 579            | 445                   | 548            |
+| 2026-01-06 | ABC              | 599            | 361                   | 716            |
+| 2026-01-07 | ABC              | 613            | 48                   | 766            |
+| 2026-01-08 | ABC              | 170            | 481                   | 377            |
+| 2026-01-09 | ABC              | 594            | 614                   | 311            |
+| 2026-01-10 | ABC              | 78            | 217                   | 628            |
+| 2026-01-11 | ABC              | 353            | 340                   | 491            |
+| 2026-01-12 | ABC              | 358            | 772                   | 242            |
+| 2026-01-13 | ABC              | 36            | 151                   | 496            |
+| 2026-01-14 | ABC              | 78            | 270                   | 736            |
+| 2026-01-15 | ABC              | 638            | 424                   | 628            |
+...omitted rows
 
 ### Definition
 
 ```js
 {
-  id: 'mockMetricOneLineChartTimeseries',
+  id: 'lineTimeseriesExample1',
   type: 'line-timeseries',
   display: 'Missing MetricOne timeseries chart',
-  description: 'Prisoner totals for missing MetricOne by establishment over time',
+  description: 'Total of missing metric one - daily',
   columns: {
     keys: [
       {
@@ -139,7 +137,7 @@ Prisoner totals for missing MetricOne by establishment over time
         type: 'timestamp',
       },
       {
-        id: 'no_metric_one',
+        id: 'metric_one_is_missing',
         display: 'Has no MetricOne',
       },
     ],
@@ -152,51 +150,68 @@ Prisoner totals for missing MetricOne by establishment over time
 
 This definition will return the following dataset
 
-```js
-| ts         | est_id | no_metric_one  |
-|------------|--------|----------------|
-| 2024-08-01 | ABC    | 781            |
-| 2024-08-01 | GHI    | 610            |
-| 2024-08-01 | DEF    | 499            |
-| 2024-09-01 | ABC    | 514            |
-| 2024-09-01 | GHI    | 518            |
-| 2024-09-01 | DEF    | 521            |
-| 2024-10-01 | ABC    | 598            |
-| 2024-10-01 | GHI    | 676            |
-| 2024-10-01 | DEF    | 687            |
-| 2024-11-01 | ABC    | 522            |
-| 2024-11-01 | GHI    | 790            |
-| 2024-11-01 | DEF    | 713            |
-| 2024-12-01 | ABC    | 431            |
-| 2024-12-01 | GHI    | 536            |
-| 2024-12-01 | DEF    | 590            |
-| 2025-01-01 | ABC    | 614            |
-| 2025-01-01 | GHI    | 713            |
-| 2025-01-01 | DEF    | 682            |
-```
+| Date       | establishment_id   | Has no MetricOne |
+|------------|--------------------|------------------|
+| 2026-01-01 | ABC                | 479              |
+| 2026-01-02 | ABC                | 521              |
+| 2026-01-03 | ABC                | 508              |
+| 2026-01-04 | ABC                | 238              |
+| 2026-01-05 | ABC                | 445              |
+| 2026-01-06 | ABC                | 361              |
+| 2026-01-07 | ABC                | 48               |
+| 2026-01-08 | ABC                | 481              |
+| 2026-01-09 | ABC                | 614              |
+| 2026-01-10 | ABC                | 217              |
+| 2026-01-11 | ABC                | 340              |
+| 2026-01-12 | ABC                | 772              |
+| 2026-01-13 | ABC                | 151              |
+| 2026-01-14 | ABC                | 270              |
+| 2026-01-15 | ABC                | 424              |
+...omitted rows
 
 see [here](/dashboards/visualisations/visualisation-dataset) for more info on targeting data
 
-<hr class='dpr-docs-hr'/>
-
 ### Visualisation
 
-<img src="/assets/images/charts/line/Line-timeseries1.png" alt="" width="700" style="margin-bottom: 30px"/>
+This will produce the following chart visualisation
+
+<img src="/assets/images/charts/line-timeseries/chart-0-chromium-linux.png" alt="line-timeseries chart example showing daily granularity"/>
 
 <hr class='dpr-docs-hr'/>
 
-# Example 2
+# Monthly Granularity
 
-Prisoner totals for missing MetricOne by single establishment over time, using filters
+This example demonstrates how are `line-timeseries` chart is visualised using data in month format (`YYYY-MM`)
+
+### Dataset
+
+| ts      | establishment_id | has_metric_one | metric_one_is_missing | has_metric_two | metric_two_is_missing |
+|---------|------------------|----------------|-----------------------|----------------|-----------------------|
+| 2025-08 | ABC              | 424            | 781                   | 459            | 528                   |
+| 2025-08 | GHI              | 761            | 610                   | 734            | 785                   |
+| 2025-08 | DEF              | 401            | 499                   | 611            | 524                   |
+| 2025-09 | ABC              | 733            | 514                   | 573            | 554                   |
+| 2025-09 | GHI              | 559            | 518                   | 453            | 758                   |
+| 2025-09 | DEF              | 656            | 521                   | 659            | 531                   |
+| 2025-10 | ABC              | 738            | 598                   | 638            | 417                   |
+| 2025-10 | GHI              | 692            | 676                   | 758            | 521                   |
+| 2025-10 | DEF              | 665            | 687                   | 556            | 615                   |
+| 2025-11 | ABC              | 479            | 522                   | 471            | 546                   |
+| 2025-11 | GHI              | 635            | 790                   | 581            | 660                   |
+| 2025-11 | DEF              | 482            | 713                   | 707            | 751                   |
+| 2025-12 | ABC              | 467            | 431                   | 584            | 605                   |
+| 2025-12 | GHI              | 577            | 536                   | 524            | 664                   |
+| 2025-12 | DEF              | 660            | 590                   | 529            | 708                   |
+...omitted rows
 
 ### Definition
 
 ```js
 {
-  id: 'mockMetricOneLineChartTimeseries',
-  type: 'line-timeseries',
+  id: 'lineTimeseriesExample2',
+  type: 'line-timeseries'
   display: 'Missing MetricOne timeseries chart',
-  description: 'Prisoner totals for missing MetricOne by establishment over time',
+  description: 'totals for missing MetricOne for multiple establishments over time',
   columns: {
     keys: [
       {
@@ -211,14 +226,8 @@ Prisoner totals for missing MetricOne by single establishment over time, using f
         type: 'timestamp',
       },
       {
-        id: 'no_metric_one',
-        display: 'Has no MetricOne',
-      },
-    ],
-    filters: [
-      {
-        id: 'establishment_id',
-        equals: 'ABC',
+        id: 'metric_two_is_missing',
+        display: 'Has no MetricTwo',
       },
     ],
     expectNulls: false,
@@ -230,23 +239,98 @@ Prisoner totals for missing MetricOne by single establishment over time, using f
 
 This definition will return the following dataset
 
-```js
-| ts         | est_id | no_metric_one  |
-|------------|--------|----------------|
-| 2024-08-01 | ABC    | 781            |
-| 2024-09-01 | ABC    | 514            |
-| 2024-10-01 | ABC    | 598            |
-| 2024-11-01 | ABC    | 522            |
-| 2024-12-01 | ABC    | 431            |
-| 2025-01-01 | ABC    | 614            |
-```
+| ts      | establishment_id | metric_two_is_missing |
+|---------|------------------|-----------------------|
+| 2025-08 | ABC              | 528                   |
+| 2025-08 | GHI              | 785                   |
+| 2025-08 | DEF              | 524                   |
+| 2025-09 | ABC              | 554                   |
+| 2025-09 | GHI              | 758                   |
+| 2025-09 | DEF              | 531                   |
+| 2025-10 | ABC              | 417                   |
+| 2025-10 | GHI              | 521                   |
+| 2025-10 | DEF              | 615                   |
+| 2025-11 | ABC              | 546                   |
+| 2025-11 | GHI              | 660                   |
+| 2025-11 | DEF              | 751                   |
+| 2025-12 | ABC              | 605                   |
+| 2025-12 | GHI              | 664                   |
+| 2025-12 | DEF              | 708                   |
 
 see [here](/dashboards/visualisations/visualisation-dataset) for more info on targeting data
 
+### Visualisation
+
+This will produce the following chart visualisation
+
+<img src="/assets/images/charts/line-timeseries/chart-4-chromium-linux.png" alt="line-timeseries chart example showing monthly granularity"/>
+
 <hr class='dpr-docs-hr'/>
+
+# Yearly Granularity
+
+This example demonstrates how are `line-timeseries` chart is visualised using data in year format (`YYYY`)
+
+### Dataset
+
+| ts   | establishment_id | has_metric_one | metric_one_is_missing | has_metric_two | metric_two_is_missing |
+|------|------------------|----------------|-----------------------|----------------|-----------------------|
+| 2024 | ABC              | 424            | 781                   | 459            | 528                   |
+| 2024 | GHI              | 761            | 610                   | 734            | 785                   |
+| 2024 | DEF              | 401            | 499                   | 611            | 524                   |
+| 2025 | ABC              | 533            | 614                   | 684            | 665                   |
+| 2025 | GHI              | 484            | 713                   | 700            | 506                   |
+| 2025 | DEF              | 406            | 682                   | 703            | 409                   |
+
+### Definition
+
+```js
+{
+  id: 'lineTimeseriesExample3',
+  type: 'line-timeseries'
+  display: 'Missing MetricOne timeseries chart',
+  description: 'Prisoner totals for missing MetricOne for multiple establishments over time',
+  columns: {
+    keys: [
+      {
+        id: 'establishment_id',
+        display: 'Establishment ID',
+      },
+    ],
+    measures: [
+      {
+        id: 'ts',
+        display: 'Date',
+        type: 'timestamp',
+      },
+      {
+        id: 'metric_one_is_missing',
+        display: 'Has no MetricOne',
+      },
+    ],
+    expectNulls: false,
+  }
+}
+```
+
+### Visualisation dataset
+
+This definition will return the following dataset
+
+| ts   | establishment_id | metric_one_is_missing |
+|------|------------------|-----------------------|
+| 2024 | ABC              | 781                   |
+| 2024 | GHI              | 610                   |
+| 2024 | DEF              | 499                   |
+| 2025 | ABC              | 614                   |
+| 2025 | GHI              | 713                   |
+| 2025 | DEF              | 682                   |
+
+
+see [here](/dashboards/visualisations/visualisation-dataset) for more info on targeting data
 
 ### Visualisation
 
-<img src="/assets/images/charts/line/Line-timeseries2.png" alt="" width="700" style="margin-bottom: 30px"/>
+This will produce the following chart visualisation
 
-<hr class='dpr-docs-hr'/>
+<img src="/assets/images/charts/line-timeseries/chart-6-chromium-linux.png" alt="line-timeseries chart example show yearly granularity"/>

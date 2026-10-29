@@ -71,11 +71,11 @@ const mockMetricOneLineChartTimeseries = {
   },
 }
 
-const mockMetricOnePieChart = {
+const mockMetricOneDoughnutChart = {
   ...mockMetricOneBarChart,
-  id: 'mockMetricOnePieChart',
+  id: 'mockMetricOneDoughnutChart',
   type: 'doughnut',
-  display: 'Missing MetricOne Pie Chart',
+  display: 'Missing MetricOne Doughnut Chart',
 }
 
 const mockMetricTwoBarChart = {
@@ -103,11 +103,11 @@ const mockMetricTwoBarChart = {
   },
 }
 
-const mockMetricThreePieChart = {
+const mockMetricThreeDoughnutChart = {
   ...mockMetricTwoBarChart,
-  id: 'mockMetricThreePieChart',
+  id: 'mockMetricThreeDoughnutChart',
   type: 'doughnut',
-  display: 'Missing MetricTwo Pie Chart',
+  display: 'Missing MetricTwo Doughnut Chart',
 }
 
 const mockMetricThreeBarChart = {
@@ -135,20 +135,20 @@ const mockMetricThreeBarChart = {
   },
 }
 
-const mockMetricTwoPieChart = {
+const mockMetricTwoDoughnutChart = {
   ...mockMetricTwoBarChart,
-  id: 'mockMetricTwoPieChart',
+  id: 'mockMetricTwoDoughnutChart',
   type: 'doughnut',
-  display: 'Missing MetricThree Pie Chart',
+  display: 'Missing MetricThree Doughnut Chart',
 }
 
 module.exports = {
   mockMetricOneBarChart,
-  mockMetricOnePieChart,
+  mockMetricOneDoughnutChart,
   mockMetricTwoBarChart,
-  mockMetricTwoPieChart,
+  mockMetricTwoDoughnutChart,
   mockMetricThreeBarChart,
-  mockMetricThreePieChart,
+  mockMetricThreeDoughnutChart,
   mockMetricOneBarChartList,
   mockMetricOneLineChartTimeseries,
 }

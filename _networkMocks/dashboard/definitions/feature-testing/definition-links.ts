@@ -2,10 +2,10 @@ import { components } from 'src'
 import { DashboardVisualisationType } from 'src/dpr/components/_dashboards/dashboard-visualisation/types'
 
 export const definition: components['schemas']['DashboardDefinition'] = {
-  id: 'list-visualisations_complete-dataset_with-links',
+  id: 'list-visualisations_dataset_with-links',
   name: 'List - with links',
   description:
-    'This dashboard represents example list visualisations using a complete dataset. The dashboard aims to show a list with a link in it',
+    'This dashboard represents example list visualisations using the default dataset. The dashboard aims to show a list with a link in it',
   sections: [
     {
       id: 'section-1',

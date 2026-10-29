@@ -46,7 +46,7 @@ TBD
   }
 }
 ```
-  See the [Targeting data](/dashboards/visualisations/visualisation-dataset) for and how to target data with the `column`
+  See the [Targeting data](/dashboards/visualisations/visualisation-dataset) for and how to target data with the `column` field
 
 ### Options:
 
@@ -113,6 +113,8 @@ see [here](/dashboards/visualisations/visualisation-dataset) for more info on ta
 
 ### Visualisation
 
+This will produce the following chart visualisation
+
 <img src="/assets/images/barExample1.png" alt="" width="500"/>
 
 <hr class='dpr-docs-hr'/>
@@ -150,5 +152,7 @@ see [here](/dashboards/visualisations/visualisation-dataset) for more info on ta
 <hr class='dpr-docs-hr'/>
 
 ### Visualisation
+
+This will produce the following chart visualisation
 
 <img src="../../assets/images/barExample1.png" alt="" width="500"/>

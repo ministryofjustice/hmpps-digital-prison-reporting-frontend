@@ -1,6 +1,6 @@
 import { startReportRequest, stubBaseTasks, stubDefinitionsTasks } from 'cypress-tests/cypressUtils'
 
-context('Viewing a partial parent-child dashboard', () => {
+context('Viewing a merged parent-child dashboard', () => {
   const path = '/'
   const dashboardName = 'Test Parent Dashboard'
   const dashboardNameRegExp = new RegExp(`${dashboardName}`)
@@ -17,9 +17,9 @@ context('Viewing a partial parent-child dashboard', () => {
       stubDefinitionsTasks()
 
       // definition stubs
-      cy.task('stubTestDashboardWithParentChild')
-      cy.task('stubTestDashboardWithChildOne')
-      cy.task('stubTestDashboardWithChildTwo')
+      cy.task('stubTestDashboardDefinitionWithParentChild')
+      cy.task('stubTestDashboardDefinitionWithChildOne')
+      cy.task('stubTestDashboardDefinitionWithChildTwo')
 
       // request status stubs
       cy.task('stubMockParentChildStatusParentFinished')
@@ -94,9 +94,9 @@ context('Viewing a partial parent-child dashboard', () => {
       stubDefinitionsTasks()
 
       // definition stubs
-      cy.task('stubTestDashboardWithParentChild')
-      cy.task('stubTestDashboardWithChildOne')
-      cy.task('stubTestDashboardWithChildTwo')
+      cy.task('stubTestDashboardDefinitionWithParentChild')
+      cy.task('stubTestDashboardDefinitionWithChildOne')
+      cy.task('stubTestDashboardDefinitionWithChildTwo')
 
       // request status stubs
       cy.task('stubMockParentChildStatusParentFailed')
@@ -175,9 +175,9 @@ context('Viewing a partial parent-child dashboard', () => {
       stubDefinitionsTasks()
 
       // definition stubs
-      cy.task('stubTestDashboardWithParentChild')
-      cy.task('stubTestDashboardWithChildOne')
-      cy.task('stubTestDashboardWithChildTwo')
+      cy.task('stubTestDashboardDefinitionWithParentChild')
+      cy.task('stubTestDashboardDefinitionWithChildOne')
+      cy.task('stubTestDashboardDefinitionWithChildTwo')
 
       // request status stubs
       cy.task('stubMockParentChildStatusParentFailed')
@@ -216,9 +216,9 @@ context('Viewing a partial parent-child dashboard', () => {
       stubDefinitionsTasks()
 
       // definition stubs
-      cy.task('stubTestDashboardWithParentChild')
-      cy.task('stubTestDashboardWithChildOne')
-      cy.task('stubTestDashboardWithChildTwo')
+      cy.task('stubTestDashboardDefinitionWithParentChild')
+      cy.task('stubTestDashboardDefinitionWithChildOne')
+      cy.task('stubTestDashboardDefinitionWithChildTwo')
 
       // request status stubs
       cy.task('stubMockParentChildStatusParentFinished')
@@ -292,9 +292,9 @@ context('Viewing a partial parent-child dashboard', () => {
       stubDefinitionsTasks()
 
       // definition stubs
-      cy.task('stubTestDashboardWithParentChild')
-      cy.task('stubTestDashboardWithChildOne')
-      cy.task('stubTestDashboardWithChildTwo')
+      cy.task('stubTestDashboardDefinitionWithParentChild')
+      cy.task('stubTestDashboardDefinitionWithChildOne')
+      cy.task('stubTestDashboardDefinitionWithChildTwo')
 
       // request status stubs
       cy.task('stubMockParentChildStatusParentFinished')
@@ -347,9 +347,9 @@ context('Viewing a partial parent-child dashboard', () => {
       stubDefinitionsTasks()
 
       // definition stubs
-      cy.task('stubTestDashboardWithParentChild')
-      cy.task('stubTestDashboardWithChildOne')
-      cy.task('stubTestDashboardWithChildTwo')
+      cy.task('stubTestDashboardDefinitionWithParentChild')
+      cy.task('stubTestDashboardDefinitionWithChildOne')
+      cy.task('stubTestDashboardDefinitionWithChildTwo')
 
       // request status stubs
       cy.task('stubMockParentChildStatusParentFinished')

@@ -1,5 +1,5 @@
 import dayjs from 'dayjs'
-import { UI_OUTPUT_FORMAT } from 'src/dpr/utils/dateHelper'
+import { UI_OUTPUT_FORMAT, UI_OUTPUT_MONTH_FORMAT } from 'src/dpr/utils/dateHelper'
 import { components } from '../../../../types/api'
 import { DashboardDataResponse } from '../../../../types/Metrics'
 import DatasetHelper, {
@@ -85,7 +85,15 @@ class MatrixChart {
     )
 
     if (!dateMeasure) {
-      throw new Error('No timestamp field in definition')
+      logger.debug(this.definition.id, JSON.stringify(this.measures))
+      throw new Error(`${this.definition.id}: No timestamp field in definition`)
+    }
+
+    const tsInData = this.responseData[0][dateMeasure?.id]
+
+    if (!tsInData) {
+      logger.debug(this.definition.id, JSON.stringify(this.measures))
+      throw new Error(`${this.definition.id}: No relevant timestamp field in dataset`)
     }
 
     const timeBlockData = DatasetHelper.groupRowsByTimestamp(this.responseData, dateMeasure)
@@ -118,11 +126,8 @@ class MatrixChart {
             y = dayjs(tsRaw, UI_OUTPUT_FORMAT).format('D')
             break
           case 'monthly':
-            {
-              const ts = (<string>tsRaw).split(' ')
-              x = ts[1]
-              y = ts[0]
-            }
+            x = dayjs(tsRaw, UI_OUTPUT_MONTH_FORMAT).format('YY')
+            y = dayjs(tsRaw, UI_OUTPUT_MONTH_FORMAT).format('MMM')
             break
           case 'annually':
             x = 'year'

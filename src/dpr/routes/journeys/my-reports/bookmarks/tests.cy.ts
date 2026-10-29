@@ -42,9 +42,9 @@ context('Bookmarks list', () => {
           stubDefinitionsTasks()
           cy.task('stubDefinitionRequestExamplesSuccess')
           cy.task('stubDefinitionMockReportVariant35')
-          cy.task('stubTestDashboard8')
+          cy.task('stubTestDashboardDefinition')
           cy.task('stubDefinitionFeatureTestingInteractive')
-          cy.task('stubDashboardResultCompleteData')
+          cy.task('stubDashboardResult')
           cy.task('stubRequestSuccessResult20')
           cy.task('stubPollingReportEndpoint')
         })
@@ -199,8 +199,8 @@ context('Bookmarks list', () => {
 
           before(() => {
             executeDashboardStubs()
-            cy.task('stubTestDashboard8')
-            cy.task('stubDashboardResultCompleteData')
+            cy.task('stubTestDashboardDefinition')
+            cy.task('stubDashboardResult')
 
             cy.visit(path)
 

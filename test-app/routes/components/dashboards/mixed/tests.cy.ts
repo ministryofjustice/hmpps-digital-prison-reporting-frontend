@@ -3,20 +3,20 @@ import { executeDashboardStubs, requestReportByNameAndDescription } from '../../
 context('Dashboard visualisation: Mixed charts', () => {
   const path = '/'
 
-  describe('Complete data', () => {
+  describe('Default data', () => {
     before(() => {
       cy.task('resetStubs')
       executeDashboardStubs()
-      cy.task('stubMixedDashboardCompleteData')
-      cy.task('stubDashboardResultCompleteData')
+      cy.task('stubMixedDashboardDefinition')
+      cy.task('stubDashboardResult')
     })
 
     beforeEach(() => {
       cy.visit(path)
 
       requestReportByNameAndDescription({
-        name: 'Mixed - Complete dataset',
-        description: 'This dashboard represents example Mixed visualisations using a complete dataset',
+        name: 'Mixed charts dashboard',
+        description: 'This dashboard represents example Mixed visualisations',
       })
     })
 
@@ -72,20 +72,20 @@ context('Dashboard visualisation: Mixed charts', () => {
     })
   })
 
-  describe('Partial data', () => {
+  describe('Merged data', () => {
     before(() => {
       cy.task('resetStubs')
       executeDashboardStubs()
-      cy.task('stubMixedDashboardPartialData')
-      cy.task('stubDashboardResultPartialData')
+      cy.task('stubMixedDashboardDefinitionMergedDataset')
+      cy.task('stubDashboardResultMergedData')
     })
 
     beforeEach(() => {
       cy.visit(path)
 
       requestReportByNameAndDescription({
-        name: 'Mixed - Partial dataset',
-        description: 'This dashboard represents example mixed visualisations using a partial dataset',
+        name: 'Mixed - Merged dataset',
+        description: 'This dashboard represents example mixed visualisations using a merged dataset',
       })
     })
 
@@ -120,20 +120,20 @@ context('Dashboard visualisation: Mixed charts', () => {
     })
   })
 
-  describe('Partial Historic data', () => {
+  describe('Merged Historic data', () => {
     before(() => {
       cy.task('resetStubs')
       executeDashboardStubs()
-      cy.task('stubMixedDashboardPartialDataHistoric')
-      cy.task('stubDashboardResultPartialDataHistoric')
+      cy.task('stubMixedDashboardDefinitionMergedDatasetHistoric')
+      cy.task('stubDashboardResultMergedDataHistoric')
     })
 
     beforeEach(() => {
       cy.visit(path)
 
       requestReportByNameAndDescription({
-        name: 'Mixed - Historic - Partial dataset',
-        description: 'This dashboard represents example mixed visualisations using a partial historic',
+        name: 'Mixed - Historic - Merged dataset',
+        description: 'This dashboard represents example mixed visualisations using a merged historic',
       })
     })
 

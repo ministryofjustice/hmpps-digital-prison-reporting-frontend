@@ -7,22 +7,22 @@ import {
 context('Dashboard visualisation: Boxplot chart', () => {
   const path = '/'
 
-  describe('Complete data', () => {
+  describe('Default data', () => {
     let boxPlotDashboardUrl = ''
 
     before(() => {
       cy.task('resetStubs')
       executeDashboardStubs()
-      cy.task('stubDefinitionBoxPlotDashboard')
+      cy.task('stubBoxPlotDashboardDefinition')
       cy.task('stubDashboardResultBoxPlotData')
       cy.visit(path)
 
       requestReportByNameAndDescription({
-        name: 'Box plot chart Examples',
+        name: 'Boxplot charts dashboard',
         description: 'A set of box plot chart examples',
       })
 
-      cy.findByRole('heading', { level: 1, name: /Box plot chart Examples/ }).should('be.visible')
+      cy.findByRole('heading', { level: 1, name: /Boxplot charts dashboard/ }).should('be.visible')
       checkA11y()
 
       cy.url().then(url => {
@@ -35,7 +35,7 @@ context('Dashboard visualisation: Boxplot chart', () => {
     })
 
     it('should load the page', () => {
-      cy.findByRole('heading', { level: 1, name: /Box plot chart Examples/ }).should('be.visible')
+      cy.findByRole('heading', { level: 1, name: /Boxplot charts dashboard/ }).should('be.visible')
     })
 
     it('should have the correct amount of sections', () => {

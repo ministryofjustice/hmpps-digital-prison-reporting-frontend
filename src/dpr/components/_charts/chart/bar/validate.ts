@@ -22,6 +22,7 @@ const BarOptionsSchema = z.object({
 
 const BarMeasuresSchema = z
   .array(BarMeasureShema)
+  .min(2, 'Measure must contain at least two items')
   .refine(
     measures => {
       const xAxis = measures.find(m => m.axis === 'x')

@@ -9,22 +9,28 @@ import { mocks as productCollectionMocks } from './productCollections/mocks'
 import { mocks as featureFlagMocks } from './featureFlags/mocks'
 import { mocks as dashboardDefinitionMocks } from './dashboard/definitions/visualisations/mocks'
 import { mocks as dashbordFeatureTestingMocks } from './dashboard/definitions/feature-testing/mocks'
-import { mocks as dashboardResultCompleteDataMock } from './dashboard/data/complete-data/mocks'
-import { mocks as dashboardResultPartialDataMocks } from './dashboard/data/partial-data/mocks'
+import { mocks as dashboardResultMock } from './dashboard/data/default-data/mocks'
+import { mocks as dashboardResultMergedDataMocks } from './dashboard/data/merged-data/mocks'
+import { mocks as dashboardResultBoxPlotDataMocks } from './dashboard/data/box-plot-data/mocks'
+import { mocks as dashboardResultBadDataMocks } from './dashboard/data/bad-data/mocks'
+import { mocks as dashboardResultEmptyDataMocks } from './dashboard/data/empty-data/mocks'
 
 const setupMocks = async () => {
   const allMocks = [
     ...basicMocks,
     ...reportMocks,
-    ...dashboardDefinitionMocks,
     ...missingReportMocks,
     ...syncMocks,
     ...productCollectionMocks,
     ...featureFlagMocks,
+    ...dashboardDefinitionMocks,
     ...dashboardRequestMocks,
     ...dashbordFeatureTestingMocks,
-    ...dashboardResultCompleteDataMock,
-    ...dashboardResultPartialDataMocks,
+    ...dashboardResultMock,
+    ...dashboardResultMergedDataMocks,
+    ...dashboardResultBoxPlotDataMocks,
+    ...dashboardResultBadDataMocks,
+    ...dashboardResultEmptyDataMocks,
   ]
 
   await postNetworkMocks(allMocks)

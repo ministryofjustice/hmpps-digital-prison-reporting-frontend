@@ -1,0 +1,31 @@
+import { components } from '../../../../../../src/dpr/types/api'
+import * as Scorecards from '../vis-definitions/definitions-buckets'
+
+export const definition: components['schemas']['DashboardDefinition'] = {
+  id: 'scorecard-example_bucket',
+  name: 'Scorecard - Buckets ',
+  description: 'Scorecard examples',
+  sections: [
+    {
+      id: 'section-1',
+      display: 'Custom bucket boundaries - rag colours true',
+      description: '',
+      visualisations: [
+        Scorecards.simpleScorecardCustomBucketsBoundariesMetricOne,
+        Scorecards.simpleScorecardCustomBucketsBoundariesMetricTwo,
+        Scorecards.simpleScorecardCustomBucketsBoundariesMetricThree,
+      ],
+    },
+    {
+      id: 'section-2',
+      display: 'Custom bucket boundaries - custom colors',
+      description: '',
+      visualisations: [
+        Scorecards.simpleScorecardCustomBucketsMetricOne,
+        Scorecards.simpleScorecardCustomBucketsMetricTwo,
+        Scorecards.simpleScorecardCustomBucketsMetricThree,
+      ],
+    },
+  ],
+  filterFields: [],
+}

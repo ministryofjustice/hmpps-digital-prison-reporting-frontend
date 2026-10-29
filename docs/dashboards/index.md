@@ -1,8 +1,6 @@
 ---
 layout: layouts/dashboards.njk
 title: Dashboards
-phase: Beta
-phaseText: Some features here are in beta. Certain behaviors may be unstable, and we’re actively working to improve the experience.
 ---
 
 A dashboard is a collection of visualisations. The role of a dashboard is to present data in easy to digest DEFces, through the use of various [visualisation types](#visualisations).
@@ -29,11 +27,9 @@ A visualisation definition can be one of the following types:
 - [`bar`](/dashboards/visualisations/bar-vis)
 - [`line`](/dashboards/visualisations/line-vis)
 - [`doughnut`](/dashboards/visualisations/doughnut)
-
-<!-- COMING SOON
 - [`matrix-timeseries`](/dashboards/visualisations/matrix-timeseries)
 - [`line-timeseries`](/dashboards/visualisations/line-timeseries)
-- [`bar-timeseries`](/dashboards/visualisations/bar-timeseries) -->
+- [`boxplot`](/dashboards/visualisations/boxplot)
 
 ## Data
 

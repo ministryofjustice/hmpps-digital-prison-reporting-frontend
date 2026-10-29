@@ -1,10 +1,6 @@
 import { components } from '../../../src/dpr/types/api'
-
 import { featureTestingDefinitions } from './feature-testing'
-
-import { allVisualisations as completeDataVisualisations } from './visualisations/complete-dataset'
-import { visualisations as partialDataVisualisations } from './visualisations/partial-dataset'
-
+import { allVisualisationDefinitions } from './visualisations'
 import {
   expiredDashboard,
   failedExecution,
@@ -16,8 +12,7 @@ import {
 
 // Visualisations
 export const visualisations: components['schemas']['DashboardDefinition'][] = [
-  ...completeDataVisualisations,
-  ...partialDataVisualisations,
+  ...Object.values(allVisualisationDefinitions),
 ]
 
 export const requestExamples: components['schemas']['DashboardDefinition'][] = [

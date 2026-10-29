@@ -1,11 +1,11 @@
 // @ts-nocheck
 const {
   mockMetricOneBarChart,
-  mockMetricOnePieChart,
+  mockMetricOneDoughnutChart,
   mockMetricTwoBarChart,
-  mockMetricTwoPieChart,
+  mockMetricTwoDoughnutChart,
   mockMetricThreeBarChart,
-  mockMetricThreePieChart,
+  mockMetricThreeDoughnutChart,
   mockScorecardDefinitionMetricTwo,
   mockScorecardDefinitionNoMetricTwo,
   mockScorecardDefinitionMetricThree,
@@ -29,19 +29,19 @@ const testingDashboard1 = {
       id: 'test-section-1',
       display: 'Section 1 - MetricOne charts',
       description: 'Section 1 description - charts showing MetricOne data',
-      visualisations: [mockMetricOneBarChart, mockMetricOnePieChart, mockMetricOneBarChartList],
+      visualisations: [mockMetricOneBarChart, mockMetricOneDoughnutChart, mockMetricOneBarChartList],
     },
     {
       id: 'test-section-2',
       display: 'Section 2 - MetricTwo charts',
       description: 'Section 2 description - charts showing MetricTwo data',
-      visualisations: [mockMetricTwoBarChart, mockMetricTwoPieChart],
+      visualisations: [mockMetricTwoBarChart, mockMetricTwoDoughnutChart],
     },
     {
       id: 'test-section-3',
       display: 'Section 3 - MetricThree charts',
       description: 'Section 3 description - charts showing MetricThree data',
-      visualisations: [mockMetricThreeBarChart, mockMetricThreePieChart],
+      visualisations: [mockMetricThreeBarChart, mockMetricThreeDoughnutChart],
     },
     {
       id: 'test-section-4',

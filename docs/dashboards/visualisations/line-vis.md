@@ -2,7 +2,6 @@
 layout: layouts/dashboards.njk
 title: Line chart
 subsection: Visualisation definition
-phase: Beta
 ---
 
 <img src="/assets/images/charts/line/Line2.png" alt="" width="700" style="margin-bottom: 30px"/>
@@ -68,7 +67,7 @@ If your data represents values over time, use a `line‑timeseries` chart instea
 
 See the [Visualisation definition](/dashboards/visualisations/visualisation-definition) docs for the definition schema
 
-See the [Targeting data](/dashboards/visualisations/visualisation-dataset) for and how to target data with the `column`
+See the [Targeting data](/dashboards/visualisations/visualisation-dataset) for and how to target data with the `column` field
 
 <hr class='dpr-docs-hr'/>
 
@@ -89,13 +88,11 @@ In this example we will define which dataset columns to use in the line chart as
 
 ### Example Dataset
 
-```js
 | est_id | point_1 | point_2 | point_3 | point_4 | point_5 | point_6 |
 |--------|---------|---------|---------|---------|---------|---------|
 | ABC    | 533     | 614     | 684     | 665     | 510     | 200     |
 | GHI    | 484     | 713     | 700     | 506     | 400     | 450     |
 | DEF    | 406     | 682     | 703     | 409     | 500     | 570     |
-```
 
 ### Definition
 
@@ -138,19 +135,19 @@ In this example we will define which dataset columns to use in the line chart as
 
 This definition will return the following dataset
 
-```js
 | est_id | point_1 | point_2 | point_3 | point_4 |
 |--------|---------|---------|---------|---------|
 | ABC    | 533     | 614     | 684     | 665     |
 | GHI    | 484     | 713     | 700     | 506     |
 | DEF    | 406     | 682     | 703     | 409     |
-```
 
 see [here](/dashboards/visualisations/visualisation-dataset) for more info on targeting data
 
 <hr class='dpr-docs-hr'/>
 
 ### Visualisation
+
+This will produce the following chart visualisation
 
 <img src="/assets/images/charts/line/Line1.png" alt="" width="700" style="margin-bottom: 30px"/>
 
@@ -222,7 +219,6 @@ Here we can define the axis field on the specific dataset columns we want to use
 
 This definition will return the following dataset
 
-```js
 |  est_id  | diet        | count |
 |----------|-------------|-------|
 | ABC      | Diet one    | 360   |
@@ -233,12 +229,13 @@ This definition will return the following dataset
 | DEF      | Diet two    | 281   |
 | DEF      | Diet three  | 520   |
 | DEF      | Diet four   | 160   |
-```
 
 see [here](/dashboards/visualisations/visualisation-dataset) for more info on targeting data
 
 <hr class='dpr-docs-hr'/>
 
 ### Visualisation
+
+This will produce the following chart visualisation
 
 <img src="/assets/images/charts/line/Line3.png" alt="" width="700" style="margin-bottom: 30px"/>

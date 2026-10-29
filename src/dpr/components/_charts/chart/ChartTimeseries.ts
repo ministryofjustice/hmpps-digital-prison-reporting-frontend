@@ -76,6 +76,7 @@ class TimeseriesChart {
       this.responseData,
       <Array<components['schemas']['DashboardVisualisationColumnDefinition']>>this.keys,
     ) as LineTimeseriesDefinitionMeasure | BarTimeseriesDefinitionMeasure | undefined
+
     const dateMeasure = DatasetHelper.getTimestampMeasure(
       <components['schemas']['DashboardVisualisationColumnDefinition'][]>this.measures,
     )
@@ -83,6 +84,13 @@ class TimeseriesChart {
     if (!dateMeasure) {
       logger.debug(this.id, JSON.stringify(this.measures))
       throw new Error(`${this.id}: No timestamp field in definition`)
+    }
+
+    const tsInData = this.responseData[0][dateMeasure?.id]
+
+    if (!tsInData) {
+      logger.debug(this.id, JSON.stringify(this.measures))
+      throw new Error(`${this.id}: No relevant timestamp field in dataset`)
     }
 
     this.timeBlockData = DatasetHelper.groupRowsByTimestamp(this.responseData, dateMeasure)

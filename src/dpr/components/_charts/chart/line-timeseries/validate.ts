@@ -23,7 +23,12 @@ const LineTimeseriesSchema = z.object({
   options: z.object(LineTimeseriesOptions.shape).optional(),
   columns: z.object({
     ...DashboardColumns.shape,
-    measures: z.array(LineTimeseriesMeasureSchema).min(1, 'Measure must contain at least one item'),
+    measures: z
+      .array(LineTimeseriesMeasureSchema)
+      .min(1, 'Measure must contain at least one item')
+      .refine(measures => measures.some(measure => measure.type === 'timestamp'), {
+        message: "At least one measure must have type 'timestamp'",
+      }),
   }),
 })
 

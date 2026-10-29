@@ -44,9 +44,9 @@ Avoid using a matrix/heatmap when:
 - Colours don't have a strong meaning tied to the data (e.g., random colours instead of a meaningful scale).
 - You need to emphasise ranking or order, which is harder to interpret through colour alone.
 - Your categories are too long or numerous, causing unreadable labels or excessive scrolling.
-- The data varies only slightly, producing a heatmap where all cells look the same.
+- The data varies only slightly, producing a matrix where all cells look the same.
 
-Use heatmaps for pattern recognition, not for fine‑grained comparison.
+Use matrix charts for pattern recognition, not for fine‑grained comparison.
 
 <hr class='dpr-docs-hr'/>
 
@@ -146,7 +146,7 @@ For these examples we will use a mocked dataset representing finds totals
 
 # Automatic bucketing
 
-In this example we will define a heatmap that:
+In this example we will define a matrix chart that:
 
 - automatically defines buckets based on the values in the dataset
 - selects the dataset rows that show the total count of finds for each day
@@ -205,7 +205,7 @@ This will produce the following chart visualisation
 
 # Custom base colour
 
-In this example we will define a heatmap that:
+In this example we will define a matrix chart that:
 
 - automatically defines buckets based on the values in the dataset
 - uses a custom base colour for the gradient colours
@@ -268,7 +268,7 @@ This will produce the following chart visualisation
 
 # Custom buckets definition
 
-In this example we will define a heatmap that:
+In this example we will define a matrix chart that:
 
 - uses custom bucketing to define the bucket count, size and boundaries
 - uses the default base colour
@@ -338,7 +338,7 @@ This will produce the following chart visualisation
 
 # Custom buckets thresholds and colours
 
-In this example we will define a heatmap that:
+In this example we will define a matrix chart that:
 
 - uses custom bucketing, defined in the definition
 - uses custom colours defined in the definition

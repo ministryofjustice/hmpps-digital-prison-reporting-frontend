@@ -11,7 +11,7 @@ const basicDefinition: components['schemas']['DashboardDefinition'] = {
       id: 'matrix-auto-bucketed',
       display: 'Automatic bucketing',
       description:
-        'Examples of heatmaps charts where buckets are defined automatically using the values in the data, to produce 3 buckets of equal size',
+        'Examples of matrix charts where buckets are defined automatically using the values in the data, to produce 3 buckets of equal size',
       visualisations: [matrix.automaticBucketing],
     },
     {
@@ -72,7 +72,7 @@ export const autoBucketedDefinition: components['schemas']['DashboardDefinition'
       id: 'matrix-auto-bucketed',
       display: 'Automatic bucketing',
       description:
-        'Examples of heatmaps charts where buckets are defined automatically using the values in the data, to produce 3 buckets of equal size',
+        'Examples of matrix charts where buckets are defined automatically using the values in the data, to produce 3 buckets of equal size',
       visualisations: [
         matrix.automaticBucketing,
         matrix.automaticBucketingCustomBaseColour,
@@ -98,7 +98,7 @@ export const bucketedDefinition: components['schemas']['DashboardDefinition'] = 
       id: 'matrix-test-custom-bucketed',
       display: 'User defined custom buckets',
       description:
-        'Examples of heatmaps where the bucket count, sizing and colourings are defined in the visualisation definition',
+        'Examples of matrix charts where the bucket count, sizing and colourings are defined in the visualisation definition',
       visualisations: [
         matrix.customBucketsWithSizing,
         matrix.customBucketsWithSizingOpen,

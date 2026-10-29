@@ -3,7 +3,7 @@ import { ScorecardDefinitionType } from '../../../_dashboards/scorecard/types'
 import { ScorecardGroupDefinitionType } from '../../../_dashboards/scorecard-group/types'
 import { DashboardDataResponse } from '../../../../types/Metrics'
 import { DashboardVisualisationBucket } from '../../../_dashboards/dashboard-visualisation/types'
-import { MatrixTimeseriesDefinitionType } from '../heatmap/types'
+import { MatrixTimeseriesDefinitionType } from '../matrix/types'
 import BucketOptionsSchema from './validate'
 import { BucketOptionsDefinition } from './types'
 

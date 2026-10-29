@@ -5,7 +5,7 @@ import DoughnutChartSchemas from '../../_charts/chart/doughnut/validate'
 import lineChartSchemas from '../../_charts/chart/line/validate'
 import lineTimeseriesChartSchemas from '../../_charts/chart/line-timeseries/validate'
 import barTimeseriesChartSchemas from '../../_charts/chart/bar-timeseries/validate'
-import HeatmapTimeseriesChartSchemas from '../../_charts/chart/heatmap/validate'
+import matrixTimeseriesChartSchemas from '../../_charts/chart/matrix/validate'
 import ListChartSchemas from '../dashboard-list/validate'
 import ScorecardChartSchemas from '../scorecard/validate'
 import ScorecardGroupChartSchemas from '../scorecard-group/validate'
@@ -20,7 +20,7 @@ const schemaMap: Record<string, ZodType<unknown>> = {
   'bar-timeseries': barTimeseriesChartSchemas.BarTimeseriesSchema,
   'line-timeseries': lineTimeseriesChartSchemas.LineTimeseriesSchema,
   doughnut: DoughnutChartSchemas.DoughnutMeasureSchema,
-  'matrix-timeseries': HeatmapTimeseriesChartSchemas,
+  'matrix-timeseries': matrixTimeseriesChartSchemas,
   line: lineChartSchemas.LineSchema,
   boxplot: BoxPlotChartSchemas.BoxPlotSchema,
   scorecard: ScorecardChartSchemas.ScorecardSchema,

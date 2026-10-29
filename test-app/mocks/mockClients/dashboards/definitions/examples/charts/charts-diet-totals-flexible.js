@@ -14,7 +14,7 @@ const flexibleDietTotals = {
       visualisations: [
         charts.dietTotalsByEstablishmentByWingBarOptional,
         charts.dietTotalsByEstablishmentByWingByCellBarOptional,
-        charts.dietTotalsByEstablishmentByWingByCellPieOptional,
+        charts.dietTotalsByEstablishmentByWingByCellDoughnutOptional,
       ],
     },
     {

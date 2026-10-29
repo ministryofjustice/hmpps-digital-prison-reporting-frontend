@@ -5,9 +5,9 @@ import { allVisualisationDefinitions as vds } from '../../definitions/visualisat
 
 const boxPlotIds = [vds.boxPlotChartsDashboardDefinition].map(def => def.id)
 
-export const getAsyncReportResultMockBoxPlotMock = setupSimpleMock(
+export const dashboardResultBoxPlotMock = setupSimpleMock(
   `/reports/dashboard-visualisations/dashboards/(${boxPlotIds.join('|')})/tables/tblId_[0-9]+/result`,
   boxPlotMockData,
 )
 
-export const mocks = [getAsyncReportResultMockBoxPlotMock]
+export const mocks = [dashboardResultBoxPlotMock]

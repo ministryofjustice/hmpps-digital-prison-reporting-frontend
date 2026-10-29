@@ -1,11 +1,11 @@
 // @ts-nocheck
 const {
   mockMetricOneBarChart,
-  mockMetricOnePieChart,
+  mockMetricOneDoughnutChart,
   mockMetricTwoBarChart,
-  mockMetricTwoPieChart,
+  mockMetricTwoDoughnutChart,
   mockMetricThreeBarChart,
-  mockMetricThreePieChart,
+  mockMetricThreeDoughnutChart,
 } = require('./visualisations')
 
 const { lists, charts, scorecards } = require('../examples/visualisations')
@@ -32,17 +32,17 @@ const dataQualityDashboard1 = {
       id: 'charts-section-MetricOne',
       display: 'MetricOne totals',
       description: 'Overall data quality values',
-      visualisations: [mockMetricOneBarChart, mockMetricOnePieChart, lists.dataQualityMetricOne],
+      visualisations: [mockMetricOneBarChart, mockMetricOneDoughnutChart, lists.dataQualityMetricOne],
     },
     {
       id: 'charts-section-MetricThree',
       display: 'MetricThree totals',
-      visualisations: [mockMetricThreeBarChart, mockMetricThreePieChart, lists.dataQualityMetricThree],
+      visualisations: [mockMetricThreeBarChart, mockMetricThreeDoughnutChart, lists.dataQualityMetricThree],
     },
     {
       id: 'charts-section-MetricTwo',
       display: 'MetricTwo totals',
-      visualisations: [mockMetricTwoBarChart, mockMetricTwoPieChart, lists.dataQualityMetricTwo],
+      visualisations: [mockMetricTwoBarChart, mockMetricTwoDoughnutChart, lists.dataQualityMetricTwo],
     },
     {
       id: 'historic',

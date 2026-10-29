@@ -44,7 +44,7 @@ import { definition as lineChartsDashboardDefinitionMergedDataset } from './line
 // line-timeseries
 import { definition as lineTimeseriesDashboardDefinition } from './line-timeseries/definitions/definition'
 import { definition as lineTimeseriesDashboardDefinitionDaily } from './line-timeseries/definitions/definition-granularity-daily'
-import { definition as lineTimeseriesDashboardDefinitionMonthly } from './line-timeseries/definitions/defintion-granularity-monthly'
+import { definition as lineTimeseriesDashboardDefinitionMonthly } from './line-timeseries/definitions/definition-granularity-monthly'
 import { definition as lineTimeseriesDashboardDefinitionAnnually } from './line-timeseries/definitions/definition-granularity-yearly'
 import { definition as lineTimeseriesDashboardDefinitionInvalidVisDefinitions } from './line-timeseries/definitions/definition-invalid'
 import { definition as lineTimeseriesDashboardDefinitionMergedDataset } from './line-timeseries/definitions/definition-merged'

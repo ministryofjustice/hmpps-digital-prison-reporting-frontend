@@ -5,7 +5,7 @@ import ChartsController from './controller'
 import BarChartRoutes from './bar/routes'
 import LineChartRoutes from './line/routes'
 import MatrixChartRoutes from './matrix/routes'
-import PieChartRoutes from './pie/routes'
+import DoughnutChartRoutes from './doughnut/routes'
 import BoxPlotChartRoutes from './boxplot/routes'
 
 export default function routes(): Router {
@@ -13,7 +13,7 @@ export default function routes(): Router {
   const controller = new ChartsController()
   router.get('/', controller.GET)
 
-  router.use('/pie', PieChartRoutes())
+  router.use('/doughnut', DoughnutChartRoutes())
   router.use('/line', LineChartRoutes())
   router.use('/bar', BarChartRoutes())
   router.use('/boxplot', BoxPlotChartRoutes())

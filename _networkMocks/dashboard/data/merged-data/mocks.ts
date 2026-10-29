@@ -5,7 +5,7 @@ import { historicMergedData } from './data-historic'
 import { allVisualisationDefinitions as vds } from '../../definitions/visualisations'
 
 // ----------------------------------------------------------------------
-// Defintions that require a merged dataset showing latest data
+// Definitions that require a merged dataset showing latest data
 //
 
 const lastestMergedDefinitionIds = [
@@ -16,7 +16,7 @@ const lastestMergedDefinitionIds = [
 ].map(def => def.id)
 
 // ----------------------------------------------------------------------
-// Defintions that require a merged dataset showing latest data
+// Definitions that require a merged dataset showing latest data
 //
 
 const historicMergedDefinitionIds = [

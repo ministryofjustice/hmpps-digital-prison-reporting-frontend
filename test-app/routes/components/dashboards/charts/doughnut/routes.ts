@@ -1,9 +1,9 @@
 import { Router } from 'express'
-import PieChartController from './controller'
+import DoughnutChartController from './controller'
 
 export default function routes(): Router {
   const router = Router({ mergeParams: true })
-  const controller = new PieChartController()
+  const controller = new DoughnutChartController()
   router.get('/', controller.GET)
   return router
 }

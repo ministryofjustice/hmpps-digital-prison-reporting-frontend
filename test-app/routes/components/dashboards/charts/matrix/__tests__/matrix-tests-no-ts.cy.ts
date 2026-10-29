@@ -3,10 +3,10 @@ import {
   requestReportByNameAndDescription,
 } from '../../../../../../../cypress-tests/cypressUtils'
 
-context('Dashboard visualisation: matrix validation tests', () => {
+context('Dashboard visualisation: matrix tests - No TS in dataset', () => {
   const path = '/'
 
-  describe('Invalid definition', () => {
+  describe('check chart responds to no TS', () => {
     before(() => {
       cy.task('resetStubs')
 

@@ -11,7 +11,7 @@ import { defaultDataSetDaily } from './data_daily'
 import { defaultDataSetMonthly } from './date_monthly'
 
 // ----------------------------------------------------------------------
-// Defintions that require the default dataset
+// Definitions that require the default dataset
 //
 
 const defaultVisDefinitionsIds = [
@@ -46,7 +46,7 @@ const defaultVisDefinitionsIds = [
 ].map(def => def.id)
 
 // ----------------------------------------------------------------------
-// Defintions that require a default dataset with DAILY timestamp format (YYYY-MM-DD)
+// Definitions that require a default dataset with DAILY timestamp format (YYYY-MM-DD)
 //
 
 const dailyDatasetVisDefinitionIds = [
@@ -55,7 +55,7 @@ const dailyDatasetVisDefinitionIds = [
 ].map(def => def.id)
 
 // ----------------------------------------------------------------------
-// Defintions that require a default dataset with MONTHLY timestamp format (YYYY-MM)
+// Definitions that require a default dataset with MONTHLY timestamp format (YYYY-MM)
 //
 
 const monthlyDatasetVisDefinitionIds = [
@@ -66,7 +66,7 @@ const monthlyDatasetVisDefinitionIds = [
 ].map(def => def.id)
 
 // ----------------------------------------------------------------------
-// Defintions that require a default dataset with YEARLY timestamp format (YYYY)
+// Definitions that require a default dataset with YEARLY timestamp format (YYYY)
 //
 
 const yearlyDatasetVisDefinitionIds = [
@@ -75,7 +75,7 @@ const yearlyDatasetVisDefinitionIds = [
 ].map(def => def.id)
 
 // ----------------------------------------------------------------------
-// Defintions that require a default dataset with no timestamp
+// Definitions that require a default dataset with no timestamp
 //
 
 const noTsDatasetVisDefinitionIds = [

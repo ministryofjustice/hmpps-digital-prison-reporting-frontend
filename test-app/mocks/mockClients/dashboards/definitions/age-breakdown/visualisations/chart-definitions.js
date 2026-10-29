@@ -24,7 +24,7 @@ const mockBarChartMetricThree = {
   },
 }
 
-const mockPieChartMetricThree = {
+const mockDoughnutChartMetricThree = {
   id: 'MetricThree-doughhut',
   type: 'doughnut',
   columns: {
@@ -52,5 +52,5 @@ const mockPieChartMetricThree = {
 
 module.exports = {
   mockBarChartMetricThree,
-  mockPieChartMetricThree,
+  mockDoughnutChartMetricThree,
 }

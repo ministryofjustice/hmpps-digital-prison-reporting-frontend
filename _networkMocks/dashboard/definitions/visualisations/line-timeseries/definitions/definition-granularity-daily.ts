@@ -1,6 +1,6 @@
 import { components } from '../../../../../../src/dpr/types/api'
 import { fullDataset } from '../../list/vis-definitions/full-data'
-import { definition as monthlyDefinition } from './defintion-granularity-monthly'
+import { definition as monthlyDefinition } from './definition-granularity-monthly'
 import { definition as annuallyDefinition } from './definition-granularity-yearly'
 import * as LineCharts from '../vis-definitions/defintitions'
 

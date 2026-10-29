@@ -17,9 +17,9 @@ export default class ChartsController {
           href: '/components/dashboards/charts/line',
         },
         {
-          text: 'Pie',
-          description: 'Pie chart component examples',
-          href: '/components/dashboards/charts/pie',
+          text: 'Doughnut',
+          description: 'Doughnut chart component examples',
+          href: '/components/dashboards/charts/doughnut',
         },
         {
           text: 'Matrix',

@@ -12,7 +12,7 @@ const scorecardsDashboardDefinitionMock = setupSimpleMock(
   scorecardsDashboardDefinition,
 )
 
-const scorecardsDashboardDefintionBucketMock = setupSimpleMock(
+const scorecardsDashboardDefinitionBucketMock = setupSimpleMock(
   `${prefix}/${scorecardsDashboardDefinitionBuckets.id}`,
   scorecardsDashboardDefinitionBuckets,
 )
@@ -34,7 +34,7 @@ const scorecardsDashboardDefinitionBadDatasetMock = setupSimpleMock(
 
 export const scorecardMocks = {
   scorecardsDashboardDefinitionMock,
-  scorecardsDashboardDefintionBucketMock,
+  scorecardsDashboardDefinitionBucketMock,
   scorecardsDashboardDefinitionNoTsMock,
   scorecardsDashboardDefinitionInvalidVisDefinitionsMock,
   scorecardsDashboardDefinitionBadDatasetMock,

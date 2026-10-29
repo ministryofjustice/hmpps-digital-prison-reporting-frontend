@@ -1,5 +1,5 @@
 // @ts-nocheck
-const mockPieChartData = [
+const mockDoughnutChartData = [
   {
     "id": "doughnut-data-quality-has-MetricOne",
     "title": "MetricOne values",
@@ -126,4 +126,4 @@ const mockPieChartData = [
   }
 ]
 
-module.exports = mockPieChartData
+module.exports = mockDoughnutChartData

@@ -49,7 +49,7 @@ import {
   dashboardResultUndefinedMock,
 } from '@networkMocks/dashboard/data/empty-data/mocks'
 
-import { getAsyncReportResultMockBoxPlotMock } from '@networkMocks/dashboard/data/box-plot-data/mocks'
+import { dashboardResultBoxPlotMock } from '@networkMocks/dashboard/data/box-plot-data/mocks'
 
 import {
   getDashboardStatusFinishedMock,
@@ -65,7 +65,8 @@ const listDefinitionStubs = {
   stubListDashboardDefinition: () => stubFor(list.listDashboardDefinitionMock),
   stubListDashboardDefinitionHistoric: () => stubFor(list.listDashboardDefinitonHistoricMock),
   stubListDashboardDefinitionMergedDataset: () => stubFor(list.listDashboardDefinitionMergedDatasetMock),
-  stubListDashboardDefinitionMergedDatasetHistoric: () => stubFor(list.listDashboardDefintionMergedDatasetHistoricMock),
+  stubListDashboardDefinitionMergedDatasetHistoric: () =>
+    stubFor(list.listDashboardDefinitionMergedDatasetHistoricMock),
   stubListDashboardDefinitionInvalid: () => stubFor(list.listDashboardDefinitionInvalidMock),
   stubListDashboardDefinitionInvalidVisDefinitions: () => stubFor(list.listDashboardDefinitionInvalidVisDefMock),
 }
@@ -119,7 +120,7 @@ const scorecardDefinitionStubs = {
   stubScorecardsDashboardDefinitionNoTs: () => stubFor(scorecard.scorecardsDashboardDefinitionNoTsMock),
   stubScorecardsDashboardDefinitionInvalidVisDefinitions: () =>
     stubFor(scorecard.scorecardsDashboardDefinitionInvalidVisDefinitionsMock),
-  stubScorecardsDashboardDefinitionBuckets: () => stubFor(scorecard.scorecardsDashboardDefintionBucketMock),
+  stubScorecardsDashboardDefinitionBuckets: () => stubFor(scorecard.scorecardsDashboardDefinitionBucketMock),
 }
 
 const { scorecardGroup } = mockDefinitions
@@ -211,7 +212,7 @@ const resultsStubs = {
   stubDashboardResultParentChildChild2404: () => stubFor(dashboardResultParenChildChild2404Mock),
 
   // Boxplot data stubs
-  stubDashboardResultBoxPlotData: () => stubFor(getAsyncReportResultMockBoxPlotMock),
+  stubDashboardResultBoxPlotData: () => stubFor(dashboardResultBoxPlotMock),
 }
 
 const stubs = {

@@ -17,7 +17,7 @@ const listDashboardDefinitionMergedDatasetMock = setupSimpleMock(
   `${prefix}/${listDashboardDefinitionMergedDataset.id}`,
   listDashboardDefinitionMergedDataset,
 )
-const listDashboardDefintionMergedDatasetHistoricMock = setupSimpleMock(
+const listDashboardDefinitionMergedDatasetHistoricMock = setupSimpleMock(
   `${prefix}/${listDashboardDefinitionMergedDatasetHistoric.id}`,
   listDashboardDefinitionMergedDatasetHistoric,
 )
@@ -34,7 +34,7 @@ export const listMocks = {
   listDashboardDefinitionMock,
   listDashboardDefinitonHistoricMock,
   listDashboardDefinitionMergedDatasetMock,
-  listDashboardDefintionMergedDatasetHistoricMock,
+  listDashboardDefinitionMergedDatasetHistoricMock,
   listDashboardDefinitionInvalidVisDefMock,
   listDashboardDefinitionInvalidMock,
 }

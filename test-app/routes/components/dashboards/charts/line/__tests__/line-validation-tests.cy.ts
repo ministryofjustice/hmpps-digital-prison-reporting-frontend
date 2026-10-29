@@ -3,7 +3,7 @@ import {
   requestReportByNameAndDescription,
 } from '../../../../../../../cypress-tests/cypressUtils'
 
-context('Dashboard visualisation: line-timeseries chart invalid definitions', () => {
+context('Dashboard visualisation: line chart invalid definitions', () => {
   const path = '/'
 
   describe('Invalid definitions', () => {

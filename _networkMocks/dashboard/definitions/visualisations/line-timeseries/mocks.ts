@@ -1,7 +1,7 @@
 import { setupSimpleMock } from '@networkMocks/generateNetworkMock'
 import { definition as lineTimeseriesDefinition } from './definitions/definition'
 import { definition as lineTimeseriesDefinitionDailyDataset } from './definitions/definition-granularity-daily'
-import { definition as lineTimeseriesDefinitionMonthlyDataset } from './definitions/defintion-granularity-monthly'
+import { definition as lineTimeseriesDefinitionMonthlyDataset } from './definitions/definition-granularity-monthly'
 import { definition as lineTimeseriesDefinitionYearlyDataset } from './definitions/definition-granularity-yearly'
 import { definition as lineTimeseriesDefinitionInvalid } from './definitions/definition-invalid'
 import { definition as lineTimeseriesDefinitionMergedDataset } from './definitions/definition-merged'

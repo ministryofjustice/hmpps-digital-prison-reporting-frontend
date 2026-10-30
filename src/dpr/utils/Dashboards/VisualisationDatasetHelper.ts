@@ -58,6 +58,7 @@ const isValidField = (
   return (
     matchesFilterRule(fieldId, value, filters) ??
     matchesRequiredRule(fieldId, value, requiredColumnIds) ??
+    matchesMeasureRule(fieldId, value, measureIds, expectNulls) ??
     matchesExpectNullsRule(fieldId, value, requiredColumnIds, measureIds, expectNulls) ??
     true
   )
@@ -101,6 +102,19 @@ const matchesFilterRule = (
  */
 const matchesRequiredRule = (fieldId: string, value: unknown, requiredColumnIds: Set<string>): boolean | undefined => {
   if (!requiredColumnIds.has(fieldId)) {
+    return undefined
+  }
+
+  return !isEmpty(value)
+}
+
+const matchesMeasureRule = (
+  fieldId: string,
+  value: unknown,
+  measureIds: Set<string>,
+  expectNulls?: boolean,
+): boolean | undefined => {
+  if (!expectNulls || !measureIds.has(fieldId)) {
     return undefined
   }
 

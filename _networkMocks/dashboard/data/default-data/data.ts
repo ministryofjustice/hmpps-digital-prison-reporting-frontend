@@ -8,7 +8,7 @@
 export const defaultDataSet = [
   [
     {
-      ts: { raw: 'Aug 24' },
+      ts: { raw: '2024-08' },
       establishment_id: {
         raw: 'ABC',
       },
@@ -35,7 +35,7 @@ export const defaultDataSet = [
       },
     },
     {
-      ts: { raw: 'Aug 24' },
+      ts: { raw: '2024-08' },
       establishment_id: {
         raw: 'GHI',
       },
@@ -62,7 +62,7 @@ export const defaultDataSet = [
       },
     },
     {
-      ts: { raw: 'Aug 24' },
+      ts: { raw: '2024-08' },
       establishment_id: {
         raw: 'DEF',
       },
@@ -91,7 +91,7 @@ export const defaultDataSet = [
   ],
   [
     {
-      ts: { raw: 'Sep 24' },
+      ts: { raw: '2024-09' },
       establishment_id: {
         raw: 'ABC',
       },
@@ -118,7 +118,7 @@ export const defaultDataSet = [
       },
     },
     {
-      ts: { raw: 'Sep 24' },
+      ts: { raw: '2024-09' },
       establishment_id: {
         raw: 'GHI',
       },
@@ -145,7 +145,7 @@ export const defaultDataSet = [
       },
     },
     {
-      ts: { raw: 'Sep 24' },
+      ts: { raw: '2024-09' },
       establishment_id: {
         raw: 'DEF',
       },
@@ -174,7 +174,7 @@ export const defaultDataSet = [
   ],
   [
     {
-      ts: { raw: 'Oct 24' },
+      ts: { raw: '2024-10' },
       establishment_id: {
         raw: 'ABC',
       },
@@ -201,7 +201,7 @@ export const defaultDataSet = [
       },
     },
     {
-      ts: { raw: 'Oct 24' },
+      ts: { raw: '2024-10' },
       establishment_id: {
         raw: 'GHI',
       },
@@ -228,7 +228,7 @@ export const defaultDataSet = [
       },
     },
     {
-      ts: { raw: 'Oct 24' },
+      ts: { raw: '2024-10' },
       establishment_id: {
         raw: 'DEF',
       },
@@ -257,7 +257,7 @@ export const defaultDataSet = [
   ],
   [
     {
-      ts: { raw: 'Nov 24' },
+      ts: { raw: '2024-11' },
       establishment_id: {
         raw: 'ABC',
       },
@@ -284,7 +284,7 @@ export const defaultDataSet = [
       },
     },
     {
-      ts: { raw: 'Nov 24' },
+      ts: { raw: '2024-11' },
       establishment_id: {
         raw: 'GHI',
       },
@@ -311,7 +311,7 @@ export const defaultDataSet = [
       },
     },
     {
-      ts: { raw: 'Nov 24' },
+      ts: { raw: '2024-11' },
       establishment_id: {
         raw: 'DEF',
       },
@@ -340,7 +340,7 @@ export const defaultDataSet = [
   ],
   [
     {
-      ts: { raw: 'Dec 24' },
+      ts: { raw: '2024-12' },
       establishment_id: {
         raw: 'ABC',
       },
@@ -367,7 +367,7 @@ export const defaultDataSet = [
       },
     },
     {
-      ts: { raw: 'Dec 24' },
+      ts: { raw: '2024-12' },
       establishment_id: {
         raw: 'GHI',
       },
@@ -394,7 +394,7 @@ export const defaultDataSet = [
       },
     },
     {
-      ts: { raw: 'Dec 24' },
+      ts: { raw: '2024-12' },
       establishment_id: {
         raw: 'DEF',
       },
@@ -423,7 +423,7 @@ export const defaultDataSet = [
   ],
   [
     {
-      ts: { raw: 'Jan 25' },
+      ts: { raw: '2025-01' },
       establishment_id: {
         raw: 'ABC',
       },
@@ -450,7 +450,7 @@ export const defaultDataSet = [
       },
     },
     {
-      ts: { raw: 'Jan 25' },
+      ts: { raw: '2025-01' },
       establishment_id: {
         raw: 'GHI',
       },
@@ -477,7 +477,7 @@ export const defaultDataSet = [
       },
     },
     {
-      ts: { raw: 'Jan 25' },
+      ts: { raw: '2025-01' },
       establishment_id: {
         raw: 'DEF',
       },

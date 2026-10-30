@@ -145,7 +145,9 @@ export const createTableRows = (
 
     Object.keys(dataRow).forEach((key, index) => {
       let text = dataRow[key].raw
+
       text = text == null ? 'No data' : text
+
       row.splice(index, 1, { text } as MoJTableRow)
     })
 

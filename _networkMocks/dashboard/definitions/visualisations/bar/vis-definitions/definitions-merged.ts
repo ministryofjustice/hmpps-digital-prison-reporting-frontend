@@ -175,6 +175,6 @@ export const dietTotalsByEstablishmentByWingByCellBar: components['schemas']['Da
         axis: 'y',
       },
     ],
-    expectNulls: false,
+    expectNulls: true,
   },
 }

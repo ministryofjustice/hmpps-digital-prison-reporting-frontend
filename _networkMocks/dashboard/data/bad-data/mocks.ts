@@ -1,6 +1,7 @@
 import { setupSimpleMock } from '@networkMocks/generateNetworkMock'
 import { badDataSet } from './data'
 import { badDataSetDuplicateKeyValues } from './data_matching-keys'
+import { badDataSetHistoric } from './data-historic'
 
 import { allVisualisationDefinitions } from '../../definitions/visualisations'
 import { requestExampleIds } from '../../definitions/request-examples'
@@ -23,6 +24,12 @@ export const dashboardResultBadDataSyncMock = setupSimpleMock(
   2,
 )
 
+export const dashboardResultBadDataHistoricMock = setupSimpleMock(
+  `/reports/(${productIds.join('|')})/dashboards/(${allIds.join('|')})/tables/tblId_[0-9]+/result`,
+  badDataSetHistoric,
+  2,
+)
+
 export const dashboardResultBadDataDuplicatesMock = setupSimpleMock(
   `/reports/(${productIds.join('|')})/dashboards/(${allIds.join('|')})/tables/tblId_[0-9]+/result`,
   badDataSetDuplicateKeyValues,
@@ -38,6 +45,7 @@ export const dashboardResultBadDataDuplicatesSyncMock = setupSimpleMock(
 export const mocks = [
   dashboardResultBadDataMock,
   dashboardResultBadDataSyncMock,
+  dashboardResultBadDataHistoricMock,
   dashboardResultBadDataDuplicatesMock,
   dashboardResultBadDataDuplicatesSyncMock,
 ]

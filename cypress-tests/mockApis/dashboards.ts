@@ -41,6 +41,7 @@ import {
 import {
   dashboardResultBadDataMock,
   dashboardResultBadDataDuplicatesMock,
+  dashboardResultBadDataHistoricMock,
 } from '@networkMocks/dashboard/data/bad-data/mocks'
 
 import {
@@ -81,6 +82,7 @@ const BarDefinitionStubs = {
 const { doughnut } = mockDefinitions
 const DoughnutDefinitionStubs = {
   stubDoughnutChartsDashboardDefinition: () => stubFor(doughnut.doughnutDashboardDefinitionMock),
+  stubDoughnutChartsDashboardDefinitionInvalid: () => stubFor(doughnut.doughnutDashboardDefinitionInvalidMock),
 }
 
 const { lineTimeseries } = mockDefinitions
@@ -96,13 +98,15 @@ const lineTimeseriesDefinitionStubs = {
     stubFor(lineTimeseries.lineTimeseriesDashboardDefinitionYearlyDatasetMock),
   stubLineTimeseriesChartsDashboardDefinitionInvalid: () =>
     stubFor(lineTimeseries.lineTimeseriesDashboardDefinitionInvalidMock),
+  stubLineTimeseriesChartsDashboardDefinitionBadData: () =>
+    stubFor(lineTimeseries.lineTimeseriesDashboardDefinitionBadDataMock),
 }
 
 const { line } = mockDefinitions
 const lineDefinitionStubs = {
   stubLineChartsDashboardDefinition: () => stubFor(line.lineDashboardDefinitionMock),
   stubLineChartsDashboardDefinitionMergedDataset: () => stubFor(line.lineDashboardDefinitionMergedDatasetMock),
-  stubLineChartsDashboardDefinitionInvalid: () => stubFor(line.lineInvalidDashboardDefinitionMock),
+  stubLineChartsDashboardDefinitionInvalid: () => stubFor(line.lineDashboardDefinitionInvalidMock),
 }
 
 const { matrix } = mockDefinitions
@@ -198,6 +202,7 @@ const resultsStubs = {
   stubDashboardResultUndefinedData: () => stubFor(dashboardResultUndefinedMock),
   stubDashboardResultBadData: () => stubFor(dashboardResultBadDataMock),
   stubDashboardResultBadDataDuplicates: () => stubFor(dashboardResultBadDataDuplicatesMock),
+  stubDashboardResultBadDataHistoric: () => stubFor(dashboardResultBadDataHistoricMock),
   stubDashboardResultMissingFirstRowDataSync: () => stubFor(dashboardResultMissingFirstRowDataSyncMock),
 
   // Parent Child data stubs

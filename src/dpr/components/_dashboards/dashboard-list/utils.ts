@@ -27,7 +27,7 @@ export const createList = (
 
   if (listOptions?.showLatest ?? true) {
     const dateColumn = DatasetHelper.getTimestampColumn(columns)
-    datasetData = DatasetHelper.getLastestDataset(datasetData, dateColumn)
+    datasetData = DatasetHelper.getLatestDataset(datasetData, dateColumn)
   }
 
   let head
@@ -122,10 +122,7 @@ export const createTableRows = (
         const measure = measures[headIndex]
 
         const raw = dataRow[key]?.raw
-        if (raw == null) {
-          return
-        }
-        let cellContent = String(raw)
+        let cellContent = raw == null ? 'No data' : String(raw)
 
         const { type } = measure
         if (type === 'date' || type === 'timestamp') {
@@ -147,7 +144,10 @@ export const createTableRows = (
     const row: MoJTableRow[] = Array(Object.keys(data[0]).length)
 
     Object.keys(dataRow).forEach((key, index) => {
-      const text = dataRow[key].raw
+      let text = dataRow[key].raw
+
+      text = text == null ? 'No data' : text
+
       row.splice(index, 1, { text } as MoJTableRow)
     })
 
@@ -203,7 +203,7 @@ const createFullList = (
   const rows = createTableRows(dashboardData)
   const dateColumn = getTimestampColumn(columns)
 
-  const latestData = DatasetHelper.getLastestDataset(dashboardData, dateColumn)
+  const latestData = DatasetHelper.getLatestDataset(dashboardData, dateColumn)
 
   const dateData = getDateValue(latestData, dateColumn)
   const ts = dateData?.value ? `${dateData.value}` : ''

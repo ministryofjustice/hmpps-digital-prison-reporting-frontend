@@ -33,6 +33,7 @@ const defaultVisDefinitionsIds = [
 
   // dougnhut
   vds.doughnutChartsDashboardDefinition,
+  vds.doughnutChartsDashboardDefinitionInvalid,
 
   // line
   vds.lineChartsDashboardDefinitionInvalid,

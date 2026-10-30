@@ -154,18 +154,16 @@ const getDataForSnapshotCharts = (
 ) => {
   const { columns } = chartDefinition
 
-  let allowUndefinedValues = false
   let dateColumn = DatasetHelper.getTimestampColumn(columns)
 
   if (chartDefinition.type === DashboardVisualisationType.BOX_PLOT) {
-    allowUndefinedValues = true
     dateColumn = undefined
   }
 
-  const latestData = DatasetHelper.getLastestDataset(rawData, dateColumn)
+  const latestData = DatasetHelper.getLatestDataset(rawData, dateColumn)
 
   // Pass latest data get the rows
-  const dataSetRows = DatasetHelper.getDatasetRows(chartDefinition, latestData, allowUndefinedValues)
+  const dataSetRows = DatasetHelper.getDatasetRows(chartDefinition, latestData)
 
   // Filter the rows to create the visualisation dataset
   const snapshotData = DatasetHelper.filterRowsByDisplayColumns(chartDefinition, dataSetRows, true)
@@ -192,7 +190,7 @@ const getDataForTimeseriesCharts = (
   const { columns } = chartDefinition
   const dateColumn = DatasetHelper.getTimestampColumn(columns)
 
-  const latestData = DatasetHelper.getLastestDataset(rawData, dateColumn)
+  const latestData = DatasetHelper.getLatestDataset(rawData, dateColumn)
 
   // Pass latest all data to get the rows
   const dataSetRows = DatasetHelper.getDatasetRows(chartDefinition, rawData)

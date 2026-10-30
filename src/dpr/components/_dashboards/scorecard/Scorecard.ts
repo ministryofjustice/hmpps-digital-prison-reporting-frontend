@@ -77,7 +77,6 @@ class ScorecardVisualisation {
   getDataset = (
     definition: ScorecardDefinitionType | ScorecardGroupDefinitionType,
     rawData: DashboardDataResponse[],
-    allowUndefinedValues = false,
   ): ScorecardDataset => {
     const scorecardDefinition = <components['schemas']['DashboardVisualisationDefinition']>definition
     const { columns } = scorecardDefinition
@@ -85,8 +84,8 @@ class ScorecardVisualisation {
     const dateColumn = DatasetHelper.getTimestampColumn(columns)
 
     // Latest most recent data
-    const latestData = DatasetHelper.getLastestDataset(rawData, dateColumn)
-    const latestDataSetRows = DatasetHelper.getDatasetRows(scorecardDefinition, latestData, allowUndefinedValues)
+    const latestData = DatasetHelper.getLatestDataset(rawData, dateColumn)
+    const latestDataSetRows = DatasetHelper.getDatasetRows(scorecardDefinition, latestData)
 
     let latestTs
     const latestDateData = DatasetHelper.getDateValue(latestDataSetRows, dateColumn)

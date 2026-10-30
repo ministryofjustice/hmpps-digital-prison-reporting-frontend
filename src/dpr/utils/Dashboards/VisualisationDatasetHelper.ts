@@ -108,6 +108,17 @@ const matchesRequiredRule = (fieldId: string, value: unknown, requiredColumnIds:
   return !isEmpty(value)
 }
 
+/**
+ * Validates that the measure values are present
+ * - if expectNulls is true then all measures must have associated values
+ * - if expectNulls is false then measures can be unefined
+ *
+ * @param {string} fieldId
+ * @param {unknown} value
+ * @param {Set<string>} measureIds
+ * @param {boolean} [expectNulls]
+ * @return {*}  {(boolean | undefined)}
+ */
 const matchesMeasureRule = (
   fieldId: string,
   value: unknown,

@@ -41,11 +41,101 @@ context('Dashboard visualisation: List chart - Bad data testing', () => {
         cy.findAllByRole('heading', { level: 3 }).should('have.length', 3)
 
         cy.findByLabelText(/MetricOne values/).within(() => {
-          cy.findAllByRole('paragraph').eq(1).contains('No data')
+          cy.findByRole('table').within(() => {
+            cy.findAllByRole('row')
+              .should('have.length', 4)
+              .each((row, index) => {
+                switch (index) {
+                  case 0:
+                    cy.wrap(row).within(() => {
+                      cy.findAllByRole('columnheader').should('have.length', 3)
+                      cy.findAllByRole('columnheader').eq(0).contains('Establishment ID')
+                      cy.findAllByRole('columnheader').eq(1).contains('Has MetricOne')
+                      cy.findAllByRole('columnheader').eq(2).contains('No MetricOne')
+                    })
+                    break
+
+                  case 1:
+                    cy.wrap(row).within(() => {
+                      cy.findAllByRole('cell').should('have.length', 3)
+                      cy.findAllByRole('cell').eq(0).contains('ABC')
+                      cy.findAllByRole('cell').eq(1).contains('No data')
+                      cy.findAllByRole('cell').eq(2).contains('614')
+                    })
+                    break
+
+                  case 2:
+                    cy.wrap(row).within(() => {
+                      cy.findAllByRole('cell').should('have.length', 3)
+                      cy.findAllByRole('cell').eq(0).contains('DEF')
+                      cy.findAllByRole('cell').eq(1).contains('No data')
+                      cy.findAllByRole('cell').eq(2).contains('614')
+                    })
+                    break
+
+                  case 3:
+                    cy.wrap(row).within(() => {
+                      cy.findAllByRole('cell').should('have.length', 3)
+                      cy.findAllByRole('cell').eq(0).contains('GHI')
+                      cy.findAllByRole('cell').eq(1).contains('No data')
+                      cy.findAllByRole('cell').eq(2).contains('614')
+                    })
+                    break
+
+                  default:
+                    break
+                }
+              })
+          })
         })
 
         cy.findByLabelText(/MetricTwo values/).within(() => {
-          cy.findAllByRole('paragraph').eq(1).contains('No data')
+          cy.findByRole('table').within(() => {
+            cy.findAllByRole('row')
+              .should('have.length', 4)
+              .each((row, index) => {
+                switch (index) {
+                  case 0:
+                    cy.wrap(row).within(() => {
+                      cy.findAllByRole('columnheader').should('have.length', 3)
+                      cy.findAllByRole('columnheader').eq(0).contains('Establishment ID')
+                      cy.findAllByRole('columnheader').eq(1).contains('Has MetricTwo')
+                      cy.findAllByRole('columnheader').eq(2).contains('No MetricTwo')
+                    })
+                    break
+
+                  case 1:
+                    cy.wrap(row).within(() => {
+                      cy.findAllByRole('cell').should('have.length', 3)
+                      cy.findAllByRole('cell').eq(0).contains('ABC')
+                      cy.findAllByRole('cell').eq(1).contains('No data')
+                      cy.findAllByRole('cell').eq(2).contains('665')
+                    })
+                    break
+
+                  case 2:
+                    cy.wrap(row).within(() => {
+                      cy.findAllByRole('cell').should('have.length', 3)
+                      cy.findAllByRole('cell').eq(0).contains('DEF')
+                      cy.findAllByRole('cell').eq(1).contains('No data')
+                      cy.findAllByRole('cell').eq(2).contains('665')
+                    })
+                    break
+
+                  case 3:
+                    cy.wrap(row).within(() => {
+                      cy.findAllByRole('cell').should('have.length', 3)
+                      cy.findAllByRole('cell').eq(0).contains('GHI')
+                      cy.findAllByRole('cell').eq(1).contains('No data')
+                      cy.findAllByRole('cell').eq(2).contains('665')
+                    })
+                    break
+
+                  default:
+                    break
+                }
+              })
+          })
         })
       })
 
@@ -82,8 +172,8 @@ context('Dashboard visualisation: List chart - Bad data testing', () => {
                       cy.findAllByRole('cell').should('have.length', 4)
                       cy.findAllByRole('cell').eq(0).contains('No MetricOne')
                       cy.findAllByRole('cell').eq(1).contains('614')
-                      cy.findAllByRole('cell').eq(1).contains('614')
-                      cy.findAllByRole('cell').eq(1).contains('614')
+                      cy.findAllByRole('cell').eq(2).contains('614')
+                      cy.findAllByRole('cell').eq(3).contains('614')
                     })
                     break
 
@@ -92,8 +182,8 @@ context('Dashboard visualisation: List chart - Bad data testing', () => {
                       cy.findAllByRole('cell').should('have.length', 4)
                       cy.findAllByRole('cell').eq(0).contains('Has MetricThree')
                       cy.findAllByRole('cell').eq(1).contains('680')
-                      cy.findAllByRole('cell').eq(1).contains('680')
-                      cy.findAllByRole('cell').eq(1).contains('680')
+                      cy.findAllByRole('cell').eq(2).contains('680')
+                      cy.findAllByRole('cell').eq(3).contains('680')
                     })
                     break
 
@@ -102,8 +192,8 @@ context('Dashboard visualisation: List chart - Bad data testing', () => {
                       cy.findAllByRole('cell').should('have.length', 4)
                       cy.findAllByRole('cell').eq(0).contains('No MetricThree')
                       cy.findAllByRole('cell').eq(1).contains('799')
-                      cy.findAllByRole('cell').eq(1).contains('799')
-                      cy.findAllByRole('cell').eq(1).contains('799')
+                      cy.findAllByRole('cell').eq(2).contains('799')
+                      cy.findAllByRole('cell').eq(3).contains('799')
                     })
                     break
 

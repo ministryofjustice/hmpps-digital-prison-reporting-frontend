@@ -45,7 +45,7 @@ context('Dashboard visualisation: Line-timeseries chart - Bad data testing', () 
           cy.findByLabelText(/Table.*/i).within(() => {
             cy.findByRole('table').within(() => {
               cy.findAllByRole('row')
-                .should('have.length', 4)
+                .should('have.length', 7)
                 .each((row, index) => {
                   switch (index) {
                     case 0:
@@ -67,17 +67,41 @@ context('Dashboard visualisation: Line-timeseries chart - Bad data testing', () 
                     case 2:
                       cy.wrap(row).within(() => {
                         cy.findAllByRole('cell').should('have.length', 3)
-                        cy.findAllByRole('cell').eq(0).contains('Mar 26')
+                        cy.findAllByRole('cell').eq(0).contains('Feb 26')
                         cy.findAllByRole('cell').eq(1).contains('ABC')
-                        cy.findAllByRole('cell').eq(2).contains('200')
+                        cy.findAllByRole('cell').eq(2).contains('No data')
                       })
                       break
                     case 3:
                       cy.wrap(row).within(() => {
                         cy.findAllByRole('cell').should('have.length', 3)
+                        cy.findAllByRole('cell').eq(0).contains('Mar 26')
+                        cy.findAllByRole('cell').eq(1).contains('ABC')
+                        cy.findAllByRole('cell').eq(2).contains('200')
+                      })
+                      break
+                    case 4:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 3)
+                        cy.findAllByRole('cell').eq(0).contains('Apr 26')
+                        cy.findAllByRole('cell').eq(1).contains('ABC')
+                        cy.findAllByRole('cell').eq(2).contains('No data')
+                      })
+                      break
+                    case 5:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 3)
                         cy.findAllByRole('cell').eq(0).contains('May 26')
                         cy.findAllByRole('cell').eq(1).contains('ABC')
                         cy.findAllByRole('cell').eq(2).contains('300')
+                      })
+                      break
+                    case 5:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 3)
+                        cy.findAllByRole('cell').eq(0).contains('Jun 26')
+                        cy.findAllByRole('cell').eq(1).contains('ABC')
+                        cy.findAllByRole('cell').eq(2).contains('No data')
                       })
                       break
                     default:
@@ -93,7 +117,7 @@ context('Dashboard visualisation: Line-timeseries chart - Bad data testing', () 
           cy.findByLabelText(/Table.*/i).within(() => {
             cy.findByRole('table').within(() => {
               cy.findAllByRole('row')
-                .should('have.length', 4)
+                .should('have.length', 7)
                 .each((row, index) => {
                   switch (index) {
                     case 0:
@@ -107,17 +131,41 @@ context('Dashboard visualisation: Line-timeseries chart - Bad data testing', () 
                     case 1:
                       cy.wrap(row).within(() => {
                         cy.findAllByRole('cell').should('have.length', 3)
-                        cy.findAllByRole('cell').eq(0).contains('Feb 26')
+                        cy.findAllByRole('cell').eq(0).contains('Jan 26')
                         cy.findAllByRole('cell').eq(1).contains('ABC')
-                        cy.findAllByRole('cell').eq(2).contains('300')
+                        cy.findAllByRole('cell').eq(2).contains('No data')
                       })
                       break
                     case 2:
                       cy.wrap(row).within(() => {
                         cy.findAllByRole('cell').should('have.length', 3)
+                        cy.findAllByRole('cell').eq(0).contains('Feb 26')
+                        cy.findAllByRole('cell').eq(1).contains('ABC')
+                        cy.findAllByRole('cell').eq(2).contains('300')
+                      })
+                      break
+                    case 3:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 3)
+                        cy.findAllByRole('cell').eq(0).contains('Mar 26')
+                        cy.findAllByRole('cell').eq(1).contains('ABC')
+                        cy.findAllByRole('cell').eq(2).contains('No data')
+                      })
+                      break
+                    case 4:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 3)
                         cy.findAllByRole('cell').eq(0).contains('Apr 26')
                         cy.findAllByRole('cell').eq(1).contains('ABC')
                         cy.findAllByRole('cell').eq(2).contains('200')
+                      })
+                      break
+                    case 4:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 3)
+                        cy.findAllByRole('cell').eq(0).contains('May 26')
+                        cy.findAllByRole('cell').eq(1).contains('ABC')
+                        cy.findAllByRole('cell').eq(2).contains('No data')
                       })
                       break
                     case 3:

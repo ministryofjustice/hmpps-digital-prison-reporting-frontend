@@ -58,7 +58,7 @@ export const createSnapshotTable = (
   const head = mapTableHead([...keys, ...measures])
 
   const filteredRowData = DatasetHelper.filterRowsByDisplayColumns(chartDefinition, data, true)
-  const rows = DashboardListUtils.createTableRows(filteredRowData)
+  const rows = DashboardListUtils.createTableRows(filteredRowData, [...keys, ...measures])
 
   return {
     head,

@@ -56,7 +56,7 @@ class ScorecardGroupVisualisation {
 
   withData = (responseData: DashboardDataResponse[]) => {
     this.responseData = responseData
-    this.dataset = this.scoreCardBuilder.getDataset(this.definition, this.responseData, true)
+    this.dataset = this.scoreCardBuilder.getDataset(this.definition, this.responseData)
     this.initBuckets(this.responseData, this.valueKey)
     this.initGroupVars()
     return this

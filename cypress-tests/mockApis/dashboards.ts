@@ -41,6 +41,7 @@ import {
 import {
   dashboardResultBadDataMock,
   dashboardResultBadDataDuplicatesMock,
+  dashboardResultBadDataHistoricMock,
 } from '@networkMocks/dashboard/data/bad-data/mocks'
 
 import {
@@ -97,6 +98,8 @@ const lineTimeseriesDefinitionStubs = {
     stubFor(lineTimeseries.lineTimeseriesDashboardDefinitionYearlyDatasetMock),
   stubLineTimeseriesChartsDashboardDefinitionInvalid: () =>
     stubFor(lineTimeseries.lineTimeseriesDashboardDefinitionInvalidMock),
+  stubLineTimeseriesChartsDashboardDefinitionBadData: () =>
+    stubFor(lineTimeseries.lineTimeseriesDashboardDefinitionBadDataMock),
 }
 
 const { line } = mockDefinitions
@@ -199,6 +202,7 @@ const resultsStubs = {
   stubDashboardResultUndefinedData: () => stubFor(dashboardResultUndefinedMock),
   stubDashboardResultBadData: () => stubFor(dashboardResultBadDataMock),
   stubDashboardResultBadDataDuplicates: () => stubFor(dashboardResultBadDataDuplicatesMock),
+  stubDashboardResultBadDataHistoric: () => stubFor(dashboardResultBadDataHistoricMock),
   stubDashboardResultMissingFirstRowDataSync: () => stubFor(dashboardResultMissingFirstRowDataSyncMock),
 
   // Parent Child data stubs

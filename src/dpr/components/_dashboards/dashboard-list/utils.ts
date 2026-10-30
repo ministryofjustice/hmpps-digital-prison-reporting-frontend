@@ -27,7 +27,7 @@ export const createList = (
 
   if (listOptions?.showLatest ?? true) {
     const dateColumn = DatasetHelper.getTimestampColumn(columns)
-    datasetData = DatasetHelper.getLastestDataset(datasetData, dateColumn)
+    datasetData = DatasetHelper.getLatestDataset(datasetData, dateColumn)
   }
 
   let head
@@ -203,7 +203,7 @@ const createFullList = (
   const rows = createTableRows(dashboardData)
   const dateColumn = getTimestampColumn(columns)
 
-  const latestData = DatasetHelper.getLastestDataset(dashboardData, dateColumn)
+  const latestData = DatasetHelper.getLatestDataset(dashboardData, dateColumn)
 
   const dateData = getDateValue(latestData, dateColumn)
   const ts = dateData?.value ? `${dateData.value}` : ''

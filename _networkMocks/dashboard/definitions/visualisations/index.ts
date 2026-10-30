@@ -49,6 +49,7 @@ import { definition as lineTimeseriesDashboardDefinitionMonthly } from './line-t
 import { definition as lineTimeseriesDashboardDefinitionAnnually } from './line-timeseries/definitions/definition-granularity-yearly'
 import { definition as lineTimeseriesDashboardDefinitionInvalidVisDefinitions } from './line-timeseries/definitions/definition-invalid'
 import { definition as lineTimeseriesDashboardDefinitionMergedDataset } from './line-timeseries/definitions/definition-merged'
+import { definition as lineTimeseriesDashboardDefinitionBadData } from './line-timeseries/definitions/definition-bad-data'
 
 // Boxplot
 import { definition as boxPlotChartsDashboardDefinition } from './boxplot/definitions/definition'
@@ -108,6 +109,7 @@ export const allVisualisationDefinitions = {
   lineTimeseriesDashboardDefinitionAnnually,
   lineTimeseriesDashboardDefinitionInvalidVisDefinitions,
   lineTimeseriesDashboardDefinitionMergedDataset,
+  lineTimeseriesDashboardDefinitionBadData,
 
   // boxplot
   boxPlotChartsDashboardDefinition,

@@ -2,7 +2,6 @@ import { Granularity } from 'src/dpr/components/_inputs/granular-date-range/type
 import { DashboardDataResponse } from '../../types/Metrics'
 import { components } from '../../types/api'
 import { apiDateToUi, getGranularityFromDateFormat } from '../dateHelper'
-import * as OptionalKeysHelper from './VisualisationOptionalKeysHelper'
 
 /**
  * Creates the dataset for a single visualisation
@@ -16,104 +15,198 @@ import * as OptionalKeysHelper from './VisualisationOptionalKeysHelper'
 export const getDatasetRows = (
   visDefinition: components['schemas']['DashboardVisualisationDefinition'],
   dashboardData: DashboardDataResponse[],
-  allowUndefinedValues = false,
 ) => {
   const { columns } = visDefinition
-  const { measures, filters, expectNulls } = visDefinition.columns
-  const { keys } = visDefinition.columns
+  const { measures, filters, expectNulls, keys } = columns
 
-  const displayColumnsIds = measures.map(col => col.id)
-  const keyColumnsIds = keys?.map(col => col.id) || []
-  let filterColIds = filters?.map(col => col.id) || []
-  filterColIds = [...new Set(filterColIds)]
-  const hasOptionalKeys = OptionalKeysHelper.hasOptionalKeys(keys || [])
+  const requiredColumnIds = new Set(keys?.map(col => col.id))
+  const measureIds = new Set(measures.map(col => col.id))
 
   const dateColumn = getTimestampColumn(columns)
   const dateData = getDateValue(dashboardData, dateColumn)
 
   if (dashboardData.length && dateData) {
-    keyColumnsIds.unshift(dateData.measure.id)
+    requiredColumnIds.add(dateData.measure.id)
   }
 
-  const filtered = dashboardData.filter((datasetRow: DashboardDataResponse) => {
-    const validRow: boolean[] = []
-
-    Object.keys(datasetRow).forEach(fieldId => {
-      const value = datasetRow[fieldId].raw
-      // All rows are valid until proven otherwise
-      let valid = true
-
-      // 1. check if the column value is equal to a defined column value
-      if (filterColIds.includes(fieldId) && filters) {
-        const filterValues = filters ? filters.filter(f => f.id === fieldId).map(f => f.equals) : []
-        const validFilters: boolean[] = []
-        filterValues.forEach(filterValue => {
-          if (filterValue === null) {
-            validFilters.push(value === '' || value === undefined || value === null)
-          } else {
-            validFilters.push(filterValue === value)
-          }
-        })
-        valid = validFilters.some(Boolean)
-
-        // 3. check keys exist in the defined columns
-      } else if (keyColumnsIds.includes(fieldId) && hasOptionalKeys) {
-        valid = true
-
-        // 3. check keys exist in the defined columns
-      } else if (keyColumnsIds.includes(fieldId) && !hasOptionalKeys) {
-        valid = value !== '' && value !== undefined && value !== null
-
-        // 2. check values exist in the defined columns
-      } else if (displayColumnsIds.includes(fieldId) && !allowUndefinedValues) {
-        valid = value !== '' && value !== undefined && value !== null
-
-        // 3. check that all remaining columns are null.
-      } else if (expectNulls) {
-        valid = value === '' || value === undefined || value === null
-      }
-
-      validRow.push(valid)
-    })
-
-    return validRow.every(val => val)
-  })
-
-  if (hasOptionalKeys) {
-    return OptionalKeysHelper.filterRowsByKeys(filtered, keys || [])
-  }
-
-  return filtered
+  return dashboardData.filter(row =>
+    Object.entries(row).every(([fieldId, field]) =>
+      isValidField(fieldId, field.raw, requiredColumnIds, measureIds, filters ?? [], expectNulls),
+    ),
+  )
 }
 
-export const getLastestDataset = (
-  dashboardData: DashboardDataResponse[],
-  dateMeasure?: components['schemas']['DashboardVisualisationColumnDefinition'],
-): DashboardDataResponse[] => {
-  if (dateMeasure) {
-    const latestTimestamp = dashboardData[dashboardData.length - 1]?.[dateMeasure.id]?.raw
+/**
+ * Validates a dataset field against the validation rules
+ *
+ * @param {string} fieldId
+ * @param {unknown} value
+ * @param {Set<string>} requiredColumnIds
+ * @param {Set<string>} measureIds
+ * @param {components['schemas']['ValueVisualisationColumnDefinition'][]} filters
+ * @param {(boolean | undefined)} expectNulls
+ * @return {*}  {boolean}
+ */
+const isValidField = (
+  fieldId: string,
+  value: unknown,
+  requiredColumnIds: Set<string>,
+  measureIds: Set<string>,
+  filters: components['schemas']['ValueVisualisationColumnDefinition'][],
+  expectNulls: boolean | undefined,
+): boolean => {
+  return (
+    matchesFilterRule(fieldId, value, filters) ??
+    matchesRequiredRule(fieldId, value, requiredColumnIds) ??
+    matchesExpectNullsRule(fieldId, value, requiredColumnIds, measureIds, expectNulls) ??
+    true
+  )
+}
 
-    if (latestTimestamp) {
-      return dashboardData.filter(data => data[dateMeasure.id].raw === latestTimestamp)
+/**
+ * Filter validation rule
+ *
+ * @param {string} fieldId
+ * @param {unknown} value
+ * @param {components['schemas']['ValueVisualisationColumnDefinition'][]} filters
+ * @return {*}  {(boolean | undefined)}
+ */
+const matchesFilterRule = (
+  fieldId: string,
+  value: unknown,
+  filters: components['schemas']['ValueVisualisationColumnDefinition'][],
+): boolean | undefined => {
+  const matchingFilters = filters.filter(f => f.id === fieldId)
+
+  if (!matchingFilters.length) {
+    return undefined
+  }
+
+  return matchingFilters.some(filter => {
+    if (filter.equals === null) {
+      return isEmpty(value)
     }
-  }
 
-  return dashboardData
+    return filter.equals === value
+  })
 }
 
+/**
+ * Validates that required fields have data
+ *
+ * @param {string} fieldId
+ * @param {unknown} value
+ * @param {Set<string>} requiredColumnIds
+ * @return {*}  {(boolean | undefined)}
+ */
+const matchesRequiredRule = (fieldId: string, value: unknown, requiredColumnIds: Set<string>): boolean | undefined => {
+  if (!requiredColumnIds.has(fieldId)) {
+    return undefined
+  }
+
+  return !isEmpty(value)
+}
+
+/**
+ * Expect nulls validation rule
+ * - validates that all remaining columns are empty
+ *
+ * @param {string} fieldId
+ * @param {unknown} value
+ * @param {Set<string>} measureIds
+ * @param {boolean} [expectNulls]
+ * @return {*}  {(boolean | undefined)}
+ */
+const matchesExpectNullsRule = (
+  fieldId: string,
+  value: unknown,
+  requiredColumnIds: Set<string>,
+  measureIds: Set<string>,
+  expectNulls?: boolean,
+): boolean | undefined => {
+  if (!expectNulls) {
+    return undefined
+  }
+
+  if (requiredColumnIds.has(fieldId) || measureIds.has(fieldId)) {
+    return undefined
+  }
+
+  return isEmpty(value)
+}
+
+/**
+ * Checks if a value has data
+ *
+ * @param {unknown} value
+ * @return {*}  {boolean}
+ */
+const isEmpty = (value: unknown): boolean => value === '' || value === undefined || value === null
+
+/**
+ * Returns the most recent set of data from a dataset
+ *
+ * @param {DashboardDataResponse[]} dashboardData
+ * @param {components['schemas']['DashboardVisualisationColumnDefinition']} [dateMeasure]
+ * @return {*}  {DashboardDataResponse[]}
+ */
+export const getLatestDataset = (
+  dashboardData: DashboardDataResponse[],
+  dateColumn?: components['schemas']['DashboardVisualisationColumnDefinition'],
+): DashboardDataResponse[] => {
+  // The definition does not specify a date column, so return all rows unchanged.
+  if (!dateColumn) {
+    return dashboardData
+  }
+
+  // Find the most recent date value present in the dataset.
+  const latestTimestamp = dashboardData.reduce<string | undefined>((latest, row) => {
+    const value = row[dateColumn.id]?.raw
+
+    // Ignore rows that do not contain a valid date value.
+    if (typeof value !== 'string') {
+      return latest
+    }
+
+    // Dates are stored as YYYY, YYYY-MM or YYYY-MM-DD, so string comparison works.
+    return !latest || value > latest ? value : latest
+  }, undefined)
+
+  // Return all rows that belong to the latest date period.
+  return latestTimestamp ? dashboardData.filter(row => row[dateColumn.id]?.raw === latestTimestamp) : dashboardData
+}
+
+/**
+ * Returns the earliest set of data from a dataset
+ *
+ * @param {DashboardDataResponse[]} dashboardData
+ * @param {components['schemas']['DashboardVisualisationColumnDefinition']} [dateMeasure]
+ * @return {*}  {DashboardDataResponse[]}
+ */
 export const getEarliestDataset = (
   dashboardData: DashboardDataResponse[],
-  dateMeasure?: components['schemas']['DashboardVisualisationColumnDefinition'],
+  dateColumn?: components['schemas']['DashboardVisualisationColumnDefinition'],
 ): DashboardDataResponse[] => {
-  if (dateMeasure) {
-    const earliestTimestamp = dashboardData[0]?.[dateMeasure.id]?.raw
-
-    if (earliestTimestamp) {
-      return dashboardData.filter(data => data[dateMeasure.id].raw === earliestTimestamp)
-    }
+  // The definition does not specify a date column, so return all rows unchanged.
+  if (!dateColumn) {
+    return dashboardData
   }
 
-  return dashboardData
+  // Find the earliest date value in the configured date column.
+  const earliestTimestamp = dashboardData.reduce<string | undefined>((earliest, row) => {
+    const value = row[dateColumn.id]?.raw
+
+    // Skip rows that do not contain the configured date field.
+    if (typeof value !== 'string') {
+      return earliest
+    }
+
+    // Dates use YYYY, YYYY-MM or YYYY-MM-DD formats, so string comparison works.
+    return !earliest || value < earliest ? value : earliest
+  }, undefined)
+
+  // Return all rows that belong to the earliest date period.
+  return earliestTimestamp ? dashboardData.filter(row => row[dateColumn.id]?.raw === earliestTimestamp) : dashboardData
 }
 
 export const groupRowsByTimestamp = (
@@ -251,7 +344,7 @@ export const getTimestampKey = (
 
 export default {
   getDatasetRows,
-  getLastestDataset,
+  getLatestDataset,
   getEarliestDataset,
   filterRowsByDisplayColumns,
   groupRowsByTimestamp,

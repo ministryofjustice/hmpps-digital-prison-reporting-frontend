@@ -2,10 +2,9 @@
 layout: layouts/dashboards.njk
 title: Data Scoring & Bucketing
 subsection: Visualisation definition
-phase: Beta
 ---
 
-Data scoring and bucketing is used by visualisations to attribute colour and score values to data in order to visualise performance, status, compliance, or quantative data.
+Data scoring and bucketing is used by visualisations to attribute colour and score values to data in order to visualise performance, status, compliance, or quantitative data.
 
 Visualisations that use scoring and bucketing are:
 - [Matrix timeseries](/dashboards/visualisations/matrix-timeseries)
@@ -26,6 +25,8 @@ Custom buckets allow user to define:
 - the bucket count
 - the bucket sizing and boundaries
 - the bucket colours
+
+When selecting custom colours, ensure you adhere to accessibility guidelines as per the service manual.
 
 If custom buckets are defined in the visualisation definition values are binned within the appropriate custom bucket.
 

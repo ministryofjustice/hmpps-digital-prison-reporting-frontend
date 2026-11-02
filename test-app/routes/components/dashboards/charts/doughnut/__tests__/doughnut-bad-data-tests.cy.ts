@@ -258,7 +258,7 @@ context('Dashboard visualisation: Doughnut chart - Bad data testing', () => {
                         cy.findAllByRole('cell').eq(5).contains('799')
                       })
                       break
-                    case 1:
+                    case 2:
                       cy.wrap(row).within(() => {
                         cy.findAllByRole('cell').should('have.length', 6)
                         cy.findAllByRole('cell').eq(1).contains('GHI')

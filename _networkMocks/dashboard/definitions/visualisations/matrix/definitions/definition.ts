@@ -60,7 +60,7 @@ export const annuallyDefinition: components['schemas']['DashboardDefinition'] = 
 
 export const definition: components['schemas']['DashboardDefinition'] = {
   ...dailyDefinition,
-  childVariants: [monthlyDefinition, annuallyDefinition],
+  // childVariants: [monthlyDefinition, annuallyDefinition],
 }
 
 export const autoBucketedDefinition: components['schemas']['DashboardDefinition'] = {

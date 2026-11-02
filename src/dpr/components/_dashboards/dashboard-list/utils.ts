@@ -82,7 +82,8 @@ const createListFromColumns = (
 
   measures.forEach((measure, index) => {
     dashboardData.forEach(row => {
-      rows[index].push({ text: `${row[measure.id].raw}` })
+      const cell = formatCellData(measure, row)
+      rows[index].push(cell)
     })
   })
 
@@ -120,18 +121,7 @@ export const createTableRows = (
           return
         }
         const measure = measures[headIndex]
-
-        const raw = dataRow[key]?.raw
-        let cellContent = raw == null ? 'No data' : String(raw)
-
-        const { type } = measure
-        if (type === 'date' || type === 'timestamp') {
-          const granularity = getGranularityFromDateFormat(cellContent)
-          cellContent = apiDateToUi(cellContent, granularity) || cellContent
-        }
-
-        const cell: MoJTableRow = measure.type === 'HTML' ? { html: cellContent } : { text: cellContent }
-
+        const cell = formatCellData(measure, dataRow)
         row[headIndex] = cell
       })
 
@@ -144,15 +134,28 @@ export const createTableRows = (
     const row: MoJTableRow[] = Array(Object.keys(data[0]).length)
 
     Object.keys(dataRow).forEach((key, index) => {
-      let text = dataRow[key].raw
-
-      text = text == null ? 'No data' : text
-
+      const text = dataRow[key]?.raw
       row.splice(index, 1, { text } as MoJTableRow)
     })
 
     return row
   })
+}
+
+const formatCellData = (
+  measure: components['schemas']['DashboardVisualisationColumnDefinition'],
+  row: DashboardDataResponse,
+): MoJTableRow => {
+  const raw = row[measure.id]?.raw
+  let cellContent = raw == null ? 'No data' : String(raw)
+
+  const { type } = measure
+  if (type === 'date' || type === 'timestamp') {
+    const granularity = getGranularityFromDateFormat(cellContent)
+    cellContent = apiDateToUi(cellContent, granularity) || cellContent
+  }
+
+  return measure.type === 'HTML' ? { html: cellContent } : { text: cellContent }
 }
 
 const creatListFromRows = (

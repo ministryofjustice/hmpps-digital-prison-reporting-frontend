@@ -194,7 +194,7 @@ class ScorecardVisualisation {
       return this.createScorecardData({
         id: this.id,
         title: title || '',
-        value: value || '',
+        value: value || 'No data',
         rag: this.setRagScore(value, rag, this.buckets, this.bucketsHelper),
         prevVal,
         valueFor,

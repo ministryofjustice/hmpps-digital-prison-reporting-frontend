@@ -96,7 +96,7 @@ context('Dashboard visualisation: Line-timeseries chart - Bad data testing', () 
                         cy.findAllByRole('cell').eq(2).contains('300')
                       })
                       break
-                    case 5:
+                    case 6:
                       cy.wrap(row).within(() => {
                         cy.findAllByRole('cell').should('have.length', 3)
                         cy.findAllByRole('cell').eq(0).contains('Jun 26')
@@ -160,7 +160,7 @@ context('Dashboard visualisation: Line-timeseries chart - Bad data testing', () 
                         cy.findAllByRole('cell').eq(2).contains('200')
                       })
                       break
-                    case 4:
+                    case 5:
                       cy.wrap(row).within(() => {
                         cy.findAllByRole('cell').should('have.length', 3)
                         cy.findAllByRole('cell').eq(0).contains('May 26')
@@ -168,7 +168,7 @@ context('Dashboard visualisation: Line-timeseries chart - Bad data testing', () 
                         cy.findAllByRole('cell').eq(2).contains('No data')
                       })
                       break
-                    case 3:
+                    case 6:
                       cy.wrap(row).within(() => {
                         cy.findAllByRole('cell').should('have.length', 3)
                         cy.findAllByRole('cell').eq(0).contains('Jun 26')

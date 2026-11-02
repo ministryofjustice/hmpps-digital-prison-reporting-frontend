@@ -161,9 +161,9 @@ context('Dashboard visualisation: List chart - Bad data testing', () => {
                     cy.wrap(row).within(() => {
                       cy.findAllByRole('cell').should('have.length', 4)
                       cy.findAllByRole('cell').eq(0).contains('Has MetricOne')
-                      cy.findAllByRole('cell').eq(1).contains('undefined')
-                      cy.findAllByRole('cell').eq(2).contains('undefined')
-                      cy.findAllByRole('cell').eq(3).contains('undefined')
+                      cy.findAllByRole('cell').eq(1).contains('No data')
+                      cy.findAllByRole('cell').eq(2).contains('No data')
+                      cy.findAllByRole('cell').eq(3).contains('No data')
                     })
                     break
 
@@ -201,9 +201,9 @@ context('Dashboard visualisation: List chart - Bad data testing', () => {
                     cy.wrap(row).within(() => {
                       cy.findAllByRole('cell').should('have.length', 4)
                       cy.findAllByRole('cell').eq(0).contains('Has MetricTwo')
-                      cy.findAllByRole('cell').eq(1).contains('undefined')
-                      cy.findAllByRole('cell').eq(2).contains('undefined')
-                      cy.findAllByRole('cell').eq(3).contains('undefined')
+                      cy.findAllByRole('cell').eq(1).contains('No data')
+                      cy.findAllByRole('cell').eq(2).contains('No data')
+                      cy.findAllByRole('cell').eq(3).contains('No data')
                     })
                     break
 

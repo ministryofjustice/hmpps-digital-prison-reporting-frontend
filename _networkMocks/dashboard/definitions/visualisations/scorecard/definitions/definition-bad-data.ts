@@ -3,7 +3,7 @@ import * as Scorecards from '../vis-definitions/definitions'
 import { fullDatasetHistoric } from '../../list/vis-definitions/full-data'
 
 export const definition: components['schemas']['DashboardDefinition'] = {
-  id: 'scorecard-examples',
+  id: 'scorecard-examples-bad-data',
   name: 'Scorecard - missing or bad data',
   description: 'Scorecard examples',
   sections: [

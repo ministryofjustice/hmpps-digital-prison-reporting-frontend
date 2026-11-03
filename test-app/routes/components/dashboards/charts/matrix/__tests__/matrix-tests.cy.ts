@@ -64,7 +64,7 @@ context('Dashboard visualisation: matrix chart', () => {
             cy.findByLabelText(/Table.*/i).within(() => {
               cy.findByRole('table').within(() => {
                 cy.findAllByRole('row')
-                  .should('have.length', 89)
+                  .should('have.length', 91)
                   .each((row, index) => {
                     switch (index) {
                       case 0:
@@ -84,11 +84,18 @@ context('Dashboard visualisation: matrix chart', () => {
                       case 2:
                         cy.wrap(row).within(() => {
                           cy.findAllByRole('cell').should('have.length', 3)
+                          cy.findAllByRole('cell').eq(0).contains('02/01/2026')
+                          cy.findAllByRole('cell').eq(2).contains('No data')
+                        })
+                        break
+                      case 3:
+                        cy.wrap(row).within(() => {
+                          cy.findAllByRole('cell').should('have.length', 3)
                           cy.findAllByRole('cell').eq(0).contains('03/01/2026')
                           cy.findAllByRole('cell').eq(2).contains('488')
                         })
                         break
-                      case 3:
+                      case 4:
                         cy.wrap(row).within(() => {
                           cy.findAllByRole('cell').should('have.length', 3)
                           cy.findAllByRole('cell').eq(0).contains('04/01/2026')

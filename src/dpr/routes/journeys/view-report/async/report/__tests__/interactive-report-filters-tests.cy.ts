@@ -82,10 +82,10 @@ context('Interactive report - filters', () => {
           })
 
         cy.location().then(location => {
-          cy.task('dateMapperToDateString', startValue).then(startDate => {
+          cy.task('convertToApiDateFormat', startValue).then(startDate => {
             expect(location.search).to.contain(`filters.field3.start=${startDate}`)
           })
-          cy.task('dateMapperToDateString', endValue).then(endDate => {
+          cy.task('convertToApiDateFormat', endValue).then(endDate => {
             expect(location.search).to.contain(`filters.field3.end=${endDate}`)
           })
           expect(location.search).to.contain(`filters.field3.relative-duration=tomorrow`)

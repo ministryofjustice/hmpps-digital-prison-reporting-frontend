@@ -1,7 +1,8 @@
 import { Result } from 'axe-core'
+import dayjs from 'dayjs'
 import fs from 'fs'
 import { globSync } from 'glob'
-import DateMapper from 'src/dpr/utils/DateMapper/DateMapper'
+import { API_FORMAT } from 'src/dpr/utils/dateHelper'
 import dashboardStubs from './cypress-tests/mockApis/dashboards'
 import missingRequestStubs from './cypress-tests/mockApis/missingRequest'
 import reportingStubs from './cypress-tests/mockApis/reporting'
@@ -28,8 +29,8 @@ const config: Cypress.ConfigOptions = {
         ...missingRequestStubs,
         ...reportingStubs,
         ...dashboardStubs,
-        dateMapperToDateString(dateValue) {
-          return new DateMapper().toDateString(dateValue, 'iso')
+        convertToApiDateFormat(dateValue) {
+          return dayjs(dateValue).format(API_FORMAT)
         },
         countFiles() {
           return fs.readdirSync(cfg.downloadsFolder).length

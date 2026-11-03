@@ -7,6 +7,7 @@
   {% set labelText = text | capitaliseSentence %}
   {% set options = filter.options %}
   {% set values = filter.values %}
+  {% set hint = filter.hint %}
   {% set classes = "govuk-checkboxes--small dpr-multi-select" %}
   {% if options.length > SCROLL_THRESHOLD %}
     {% set classes = classes + " dpr-multi-select-scroll" %}
@@ -37,6 +38,9 @@
           'display-name': labelText
         } if mandatory else {
           'display-name': labelText
+        },
+        hint: {
+          html: hint
         },
         items: options,
         values: values

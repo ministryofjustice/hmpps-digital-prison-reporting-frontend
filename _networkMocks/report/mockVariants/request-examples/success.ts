@@ -132,6 +132,8 @@ export const requestExampleSuccess: components['schemas']['VariantDefinition'] =
         filter: {
           type: 'text',
           mandatory: false,
+          pattern: '[A-Z][a-z]+',
+          hint: 'Enter either Blah, Blih or Bleh',
         },
       },
       {

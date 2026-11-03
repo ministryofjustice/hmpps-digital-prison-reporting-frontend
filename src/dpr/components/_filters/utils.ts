@@ -130,13 +130,16 @@ export const getFiltersFromDefinition = (
     .map(f => {
       const { display: text, name } = f
       const filter = <components['schemas']['FilterDefinition']>f.filter
-      const { type, staticOptions, dynamicOptions, defaultValue, mandatory, pattern, index } = filter
+
+      const { type, staticOptions, dynamicOptions, defaultValue, mandatory, pattern, index, hint } = filter
 
       const options: FilterOption[] = staticOptions
         ? staticOptions.map(opt => {
             return { value: opt.name, text: opt.display }
           })
         : []
+
+      const hints = setHints(hint, mandatory, pattern)
 
       let filterData: FilterValue = {
         text,
@@ -147,6 +150,7 @@ export const getFiltersFromDefinition = (
         minimumLength: dynamicOptions?.minimumLength || undefined,
         pattern: pattern || undefined,
         index: index || undefined,
+        ...(hints && { hint: hints }),
       }
 
       const noFilterOption = {
@@ -219,6 +223,28 @@ export const getFiltersFromDefinition = (
 
   const orderedFilters = orderFilters(filters)
   return orderedFilters
+}
+
+const setHints = (hint: string | null | undefined, mandatory: boolean, pattern: string | null | undefined) => {
+  const hints = []
+
+  if (!mandatory) {
+    hints.push('<p>(Optional)</p>')
+  }
+
+  if (hint) {
+    hints.push(`<p>${hint}</p>`)
+  }
+
+  if (pattern) {
+    hints.push(`<p>Pattern: ${pattern}</p>`)
+  }
+
+  if (!hints.length) {
+    return
+  }
+
+  return hints.join('')
 }
 
 /**

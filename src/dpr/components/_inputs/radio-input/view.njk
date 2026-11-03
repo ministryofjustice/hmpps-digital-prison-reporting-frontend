@@ -7,6 +7,7 @@
   {% set value = filter.value %}
   {% set options = filter.options %}
   {% set labelText = filter.text | capitaliseSentence %}
+  {% set hint = filter.hint %}
 
   {{
     govukRadios({
@@ -29,8 +30,8 @@
         'display-name': labelText
       },
       hint: {
-        html: "(Optional)"
-      } if not mandatory
+        html: hint
+      }
     })
   }}
 

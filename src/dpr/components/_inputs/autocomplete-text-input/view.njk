@@ -13,6 +13,7 @@
   {% set dynamicResourceEndpoint = filter.dynamicResourceEndpoint %}
   {% set listId = (id | replace(".", "")) + "-list" %}
   {% set labelInputName = 'label.' + filter.name %}
+  {% set hint = filter.hint %}
 
   {% set inputAttributes = {
     "role": "combobox",
@@ -56,8 +57,8 @@
           html: "&#x1F50D;"
         },
         hint: {
-          html: "(Optional)"
-        } if not mandatory
+          html: hint
+        }
       })
     }}
 

@@ -14,7 +14,7 @@
   <div id="dpr_filter-wrapper_{{ id }}" class="dpr-filter-item">
     {%- if filterType === 'select' %}
 
-      {{ dprMultiSelect(filter, validationErrors, parameterPrefix, mandatory) }}
+      {{ dprSelectInput(filter, validationErrors, parameterPrefix, mandatory) }}
 
     {%- elif filterType === 'multiselect' %}
 

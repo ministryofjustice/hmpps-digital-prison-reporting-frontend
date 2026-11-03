@@ -7,6 +7,7 @@
   {% set value = filter.value %}
   {% set options = filter.options %}
   {% set labelText = filter.text | capitaliseSentence %}
+  {% set hint = filter.hint %}
 
   {{
     govukSelect({
@@ -24,10 +25,7 @@
         'display-name': labelText
       } if mandatory else {
         'display-name': labelText
-      },
-      hint: {
-        html: "(Optional)"
-      } if not mandatory
+      }
     })
   }}
 

@@ -7,20 +7,15 @@
   {% set value = filter.value %}
   {% set pattern = filter.pattern if filter.pattern else '.+' %}
   {% set labelText = filter.text | capitaliseSentence %}
+  {% set hint = filter.hint %}
 
   {% set attributes = {
       pattern: pattern,
       'display-name': labelText
   } %}
-  {% set hint = '' %}
 
   {% if mandatory %}
     {% set attributes = attributes | merge({ required: true }) %}
-    {% set hint = hint + "(Optional) " %}
-  {% endif %}
-
-  {% if filter.pattern %}
-    {% set hint = hint + "Pattern: " + filter.pattern %}
   {% endif %}
 
   {% set errorMessage = validationErrors | dpr.findError(id) %}

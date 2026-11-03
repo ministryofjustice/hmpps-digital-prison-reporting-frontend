@@ -323,7 +323,7 @@ describe('VisualisationDatasetHelper', () => {
         },
       ]
 
-      const result = VisualisationDatasetHelper.getLastestDataset(data)
+      const result = VisualisationDatasetHelper.getLatestDataset(data)
       expect(result).toEqual(data)
     })
   })

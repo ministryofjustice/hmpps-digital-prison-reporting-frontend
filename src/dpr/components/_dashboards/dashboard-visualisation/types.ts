@@ -61,7 +61,7 @@ export interface DashboardVisualisationDataValues {
   partialDate?: PartialDate | undefined
 }
 
-export type DashboardVisualisationDataSetData = number[] | number[][] | MatrixChartData[]
+export type DashboardVisualisationDataSetData = (number | null)[] | (number | null)[][] | MatrixChartData[]
 export interface DashboardVisualisationDataSet {
   label: string
   data: DashboardVisualisationDataSetData

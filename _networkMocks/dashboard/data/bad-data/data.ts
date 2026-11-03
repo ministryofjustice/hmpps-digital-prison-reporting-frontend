@@ -1,7 +1,7 @@
 export const badDataSet = [
   [
     {
-      ts: { raw: 'Jan 25' },
+      ts: { raw: '2025-01' },
       establishment_id: {
         raw: 'ABC',
       },
@@ -29,7 +29,7 @@ export const badDataSet = [
       },
     },
     {
-      ts: { raw: 'Jan 25' },
+      ts: { raw: '2025-01' },
       establishment_id: {
         raw: 'DEF',
       },
@@ -57,7 +57,7 @@ export const badDataSet = [
       },
     },
     {
-      ts: { raw: 'Jan 25' },
+      ts: { raw: '2025-01' },
       establishment_id: {
         raw: 'GHI',
       },

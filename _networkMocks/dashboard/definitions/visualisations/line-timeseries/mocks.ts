@@ -5,6 +5,7 @@ import { definition as lineTimeseriesDefinitionMonthlyDataset } from './definiti
 import { definition as lineTimeseriesDefinitionYearlyDataset } from './definitions/definition-granularity-yearly'
 import { definition as lineTimeseriesDefinitionInvalid } from './definitions/definition-invalid'
 import { definition as lineTimeseriesDefinitionMergedDataset } from './definitions/definition-merged'
+import { definition as lineTimeseriesDefinitionBadData } from './definitions/definition-bad-data'
 
 const prefix = '/definitions/dashboard-visualisations/dashboards'
 
@@ -38,6 +39,11 @@ const lineTimeseriesDashboardDefinitionInvalidMock = setupSimpleMock(
   lineTimeseriesDefinitionInvalid,
 )
 
+const lineTimeseriesDashboardDefinitionBadDataMock = setupSimpleMock(
+  `${prefix}/${lineTimeseriesDefinitionBadData.id}`,
+  lineTimeseriesDefinitionBadData,
+)
+
 export const lineTimeseriesMocks = {
   lineTimeseriesDashboardDefinitionMock,
   lineTimeseriesDashboadDefinitionMergedDatasetMock,
@@ -45,4 +51,5 @@ export const lineTimeseriesMocks = {
   lineTimeseriesDashboardDefinitionMonthlyDatasetMock,
   lineTimeseriesDashboardDefinitionYearlyDatasetMock,
   lineTimeseriesDashboardDefinitionInvalidMock,
+  lineTimeseriesDashboardDefinitionBadDataMock,
 }

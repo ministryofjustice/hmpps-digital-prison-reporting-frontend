@@ -27,7 +27,7 @@ export const createList = (
 
   if (listOptions?.showLatest ?? true) {
     const dateColumn = DatasetHelper.getTimestampColumn(columns)
-    datasetData = DatasetHelper.getLastestDataset(datasetData, dateColumn)
+    datasetData = DatasetHelper.getLatestDataset(datasetData, dateColumn)
   }
 
   let head
@@ -82,7 +82,8 @@ const createListFromColumns = (
 
   measures.forEach((measure, index) => {
     dashboardData.forEach(row => {
-      rows[index].push({ text: `${row[measure.id].raw}` })
+      const cell = formatCellData(measure, row)
+      rows[index].push(cell)
     })
   })
 
@@ -120,21 +121,7 @@ export const createTableRows = (
           return
         }
         const measure = measures[headIndex]
-
-        const raw = dataRow[key]?.raw
-        if (raw == null) {
-          return
-        }
-        let cellContent = String(raw)
-
-        const { type } = measure
-        if (type === 'date' || type === 'timestamp') {
-          const granularity = getGranularityFromDateFormat(cellContent)
-          cellContent = apiDateToUi(cellContent, granularity) || cellContent
-        }
-
-        const cell: MoJTableRow = measure.type === 'HTML' ? { html: cellContent } : { text: cellContent }
-
+        const cell = formatCellData(measure, dataRow)
         row[headIndex] = cell
       })
 
@@ -147,12 +134,28 @@ export const createTableRows = (
     const row: MoJTableRow[] = Array(Object.keys(data[0]).length)
 
     Object.keys(dataRow).forEach((key, index) => {
-      const text = dataRow[key].raw
+      const text = dataRow[key]?.raw
       row.splice(index, 1, { text } as MoJTableRow)
     })
 
     return row
   })
+}
+
+const formatCellData = (
+  measure: components['schemas']['DashboardVisualisationColumnDefinition'],
+  row: DashboardDataResponse,
+): MoJTableRow => {
+  const raw = row[measure.id]?.raw
+  let cellContent = raw == null ? 'No data' : String(raw)
+
+  const { type } = measure
+  if (type === 'date' || type === 'timestamp') {
+    const granularity = getGranularityFromDateFormat(cellContent)
+    cellContent = apiDateToUi(cellContent, granularity) || cellContent
+  }
+
+  return measure.type === 'HTML' ? { html: cellContent } : { text: cellContent }
 }
 
 const creatListFromRows = (
@@ -203,7 +206,7 @@ const createFullList = (
   const rows = createTableRows(dashboardData)
   const dateColumn = getTimestampColumn(columns)
 
-  const latestData = DatasetHelper.getLastestDataset(dashboardData, dateColumn)
+  const latestData = DatasetHelper.getLatestDataset(dashboardData, dateColumn)
 
   const dateData = getDateValue(latestData, dateColumn)
   const ts = dateData?.value ? `${dateData.value}` : ''

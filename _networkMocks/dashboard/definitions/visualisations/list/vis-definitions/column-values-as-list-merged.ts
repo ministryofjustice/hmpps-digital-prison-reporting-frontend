@@ -241,7 +241,7 @@ export const dietTotalsByEstablishmentByWingByCell: components['schemas']['Dashb
         display: 'Total prisoners',
       },
     ],
-    expectNulls: false,
+    expectNulls: true,
   },
 }
 

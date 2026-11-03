@@ -11,7 +11,7 @@ export const lineDashboardDefinitionMergedDatasetMock = setupSimpleMock(
   `${prefix}/${lineChartsMergedDataset.id}`,
   lineChartsMergedDataset,
 )
-export const lineInvalidDashboardDefinitionMock = setupSimpleMock(
+export const lineDashboardDefinitionInvalidMock = setupSimpleMock(
   `${prefix}/${lineChartsDefinitionInvalid.id}`,
   lineChartsDefinitionInvalid,
 )
@@ -19,5 +19,5 @@ export const lineInvalidDashboardDefinitionMock = setupSimpleMock(
 export const lineMocks = {
   lineDashboardDefinitionMock,
   lineDashboardDefinitionMergedDatasetMock,
-  lineInvalidDashboardDefinitionMock,
+  lineDashboardDefinitionInvalidMock,
 }

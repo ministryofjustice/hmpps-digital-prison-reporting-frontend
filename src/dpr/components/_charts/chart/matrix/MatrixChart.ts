@@ -115,7 +115,7 @@ class MatrixChart {
         const tsRaw = dateData.value
         this.granularity = dateData.granularity
 
-        const v: MatrixChartData['v'] = Number(raw)
+        const v: MatrixChartData['v'] = !raw ? 'No data' : Number(raw)
         const r: MatrixChartData['r'] = rag !== undefined ? Number(tsData[0][this.valueKey].rag) : undefined
         let x: MatrixChartData['x'] = 0
         let y: MatrixChartData['y'] = 0
@@ -154,7 +154,11 @@ class MatrixChart {
   private bucketData = () => {
     this.data = this.data.map(d => {
       const { v, r } = d
-      const bucketData = this.bucketsHelper.getBucketForValue(v, r)
+      const value = Number(v)
+      if (Number.isNaN(value)) {
+        return { ...d, c: '#FFFFFF00' }
+      }
+      const bucketData = this.bucketsHelper.getBucketForValue(value, r)
       return { ...d, c: bucketData.colour }
     })
   }

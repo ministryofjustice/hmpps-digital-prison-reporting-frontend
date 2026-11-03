@@ -48,7 +48,7 @@ export const createHeadlines = (
   const isListChart = !!measures.find(col => col.axis)
   let headline: ChartMetaData | undefined
   let headlineColumn: components['schemas']['DashboardVisualisationColumnDefinition'] | undefined
-  let value: number | undefined
+  let value: number | undefined | string
   let label: string = ''
 
   if (timeseries) {
@@ -79,18 +79,26 @@ export const createHeadlines = (
     headlineColumn = !isListChart ? measures[0] : measures.find(col => col.axis && col.axis === 'y')
 
     if (headlineColumn) {
+      const { id } = headlineColumn
+
       const display = headlineColumn.display?.toLowerCase()
       label = display ? `Total ${display}` : 'Total'
-      value = data.reduce((acc: number, d: DashboardDataResponse) => {
-        if (headlineColumn) {
-          const { id } = headlineColumn
+
+      const noData = data.every(d => {
+        return d[id].raw === undefined || d[id].raw === null || d[id].raw === ''
+      })
+
+      if (noData) {
+        value = 'No data'
+      } else {
+        value = data.reduce((acc: number, d: DashboardDataResponse) => {
           const { raw } = d[id]
           if (raw) {
             return acc + Number(raw)
           }
-        }
-        return acc
-      }, 0)
+          return acc
+        }, 0)
+      }
 
       headline = {
         label,

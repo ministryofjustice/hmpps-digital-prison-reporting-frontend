@@ -180,3 +180,102 @@ export const mockMetricThreeLineChartTimeseriesAllEst: components['schemas']['Da
     expectNulls: false,
   },
 }
+
+export const mockHasMetricOneLineChartTimeseries: components['schemas']['DashboardVisualisationDefinition'] = {
+  id: 'mockMetricOneLineChartTimeseries',
+  type: DashboardVisualisationType.LINE_TIMESERIES,
+  display: 'Has MetricOne timeseries chart',
+  description: 'Prisoner totals for has MetricOne by establishment over time',
+  columns: {
+    keys: [
+      {
+        id: 'establishment_id',
+        display: 'Establishment ID',
+      },
+    ],
+    measures: [
+      {
+        id: 'ts',
+        display: 'Date',
+        type: 'timestamp',
+      },
+      {
+        id: 'has_metric_one',
+        display: 'Has MetricOne',
+      },
+    ],
+    filters: [
+      {
+        id: 'establishment_id',
+        equals: 'ABC',
+      },
+    ],
+    expectNulls: false,
+  },
+}
+
+export const mockHasMetricTwoLineChartTimeseries: components['schemas']['DashboardVisualisationDefinition'] = {
+  id: 'mockMetricTwoLineChartTimeseries',
+  type: DashboardVisualisationType.LINE_TIMESERIES,
+  display: 'Has MetricTwo timeseries chart',
+  description: 'Prisoner totals for has MetricTwo by establishment over time',
+  columns: {
+    keys: [
+      {
+        id: 'establishment_id',
+        display: 'Establishment ID',
+      },
+    ],
+    measures: [
+      {
+        id: 'ts',
+        display: 'Date',
+        type: 'timestamp',
+      },
+      {
+        id: 'has_metric_two',
+        display: 'Has MetricTwo',
+      },
+    ],
+    filters: [
+      {
+        id: 'establishment_id',
+        equals: 'ABC',
+      },
+    ],
+    expectNulls: false,
+  },
+}
+
+export const mockHasMetricThreeLineChartTimeseries: components['schemas']['DashboardVisualisationDefinition'] = {
+  id: 'mockMetricThreeLineChartTimeseries',
+  type: DashboardVisualisationType.LINE_TIMESERIES,
+  display: 'Has MetricThree timeseries chart',
+  description: 'Prisoner totals for has MetricThree by establishment over time',
+  columns: {
+    keys: [
+      {
+        id: 'establishment_id',
+        display: 'Establishment ID',
+      },
+    ],
+    measures: [
+      {
+        id: 'ts',
+        display: 'Date',
+        type: 'timestamp',
+      },
+      {
+        id: 'has_metric_three',
+        display: 'Has MetricThree',
+      },
+    ],
+    filters: [
+      {
+        id: 'establishment_id',
+        equals: 'ABC',
+      },
+    ],
+    expectNulls: false,
+  },
+}

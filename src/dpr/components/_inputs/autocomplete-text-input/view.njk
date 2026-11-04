@@ -12,7 +12,7 @@
   {% set minimumLength = filter.minimumLength %}
   {% set dynamicResourceEndpoint = filter.dynamicResourceEndpoint %}
   {% set listId = (id | replace(".", "")) + "-list" %}
-  {% set labelInputName = 'label.' + filter.name %}
+  {% set labelInputName = 'label.' + name %}
   {% set hint = filter.hint %}
 
   {% set inputAttributes = {

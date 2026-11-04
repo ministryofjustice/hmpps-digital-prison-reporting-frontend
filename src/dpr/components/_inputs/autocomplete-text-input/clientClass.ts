@@ -147,6 +147,13 @@ class Autocomplete extends DprClientClass {
   private onKeyDown(event: KeyboardEvent) {
     switch (event.key) {
       case 'ArrowDown':
+        if (this.activeIndex === -1 && this.getTextInput()?.value.trim() === '') {
+          this.filterOptions('')
+          this.highlightOption(0)
+          event.preventDefault()
+          return
+        }
+
         event.preventDefault()
         this.moveNext()
         break

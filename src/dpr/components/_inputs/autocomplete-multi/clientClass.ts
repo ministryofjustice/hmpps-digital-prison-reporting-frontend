@@ -9,6 +9,10 @@ class AutoCompleteMulti extends DprClientClass {
 
   multiselectOptions!: HTMLInputElement[]
 
+  toggleButton!: HTMLButtonElement | null
+
+  showAll = false
+
   static override getModuleName() {
     return 'autocomplete-multiselect-input'
   }
@@ -20,11 +24,13 @@ class AutoCompleteMulti extends DprClientClass {
     // Search input
     this.searchInput = document.getElementById(`search.${this.filterId}`) as HTMLInputElement | null
     this.multiselectOptions = Array.from(this.element.querySelectorAll<HTMLInputElement>('.govuk-checkboxes__input'))
+    this.toggleButton = this.element.querySelector('[data-autocomplete-toggle]') as HTMLButtonElement | null
 
     if (!this.searchInput || !this.multiselectOptions) return
 
     this.initialiseCheckboxes()
     this.initSearchInputAction()
+    this.initToggleAction()
   }
 
   initialiseCheckboxes() {
@@ -55,22 +61,43 @@ class AutoCompleteMulti extends DprClientClass {
       const wrapper = input.closest('.govuk-checkboxes__item')
       if (!wrapper) return
 
+      const labelText = input.labels?.[0]?.innerText.toLowerCase() ?? ''
+
       // Always show selected items
       if (input.checked) {
         wrapper.classList.remove('dpr-form--hidden')
         return
       }
 
-      // Below threshold - hide unselected
+      // Show all mode: apply search if present, otherwise show everything
+      if (this.showAll) {
+        const matches = !query || labelText.includes(query)
+
+        wrapper.classList.toggle('dpr-form--hidden', !matches)
+        return
+      }
+
+      // Search mode: only start filtering after threshold
       if (query.length < minLength) {
         wrapper.classList.add('dpr-form--hidden')
         return
       }
 
-      const labelText = input.labels?.[0]?.innerText.toLowerCase() ?? ''
       const matches = labelText.includes(query)
 
       wrapper.classList.toggle('dpr-form--hidden', !matches)
+    })
+  }
+
+  initToggleAction() {
+    if (!this.toggleButton) return
+
+    this.toggleButton.addEventListener('click', () => {
+      this.showAll = !this.showAll
+
+      this.toggleButton!.textContent = this.showAll ? 'Show selected only' : 'Show all options'
+
+      this.updateCheckboxes()
     })
   }
 }

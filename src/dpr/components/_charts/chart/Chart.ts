@@ -74,7 +74,9 @@ class Chart {
     this.datasets = this.responseData.map((row, datasetIndex) => {
       const label = this.chartLabelsHelper.getDatasetLabel(keys, row)
       const data = this.createDatasetValues(measures, row)
-      const total = data.reduce((acc: number, val: number) => acc + val, 0)
+      const total = data.reduce((acc: number, val: number | null) => {
+        return acc + (val ?? 0)
+      }, 0)
 
       return {
         label,
@@ -138,7 +140,7 @@ class Chart {
       const value = row[rowId]?.raw
 
       if (!rowId || !value) {
-        return 0
+        return null
       }
 
       const numericValue = Number(value)

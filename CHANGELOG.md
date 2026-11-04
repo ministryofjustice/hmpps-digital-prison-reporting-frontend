@@ -1,5 +1,16 @@
 Below you can find the changes included in each release.
 
+## 9.10.0
+
+### Dashboard charts readiness checks
+
+- Updated integration tests for all chart types to ensure testing covers happy, unhappy, type specfic and edgecase scenarios.
+- Updated docs for all chart types to ensure they are correct and complete, including examples demonstrating chart type features and how to use.
+
+### Eslint update to V10
+
+- Replaced `eslintrc` with `eslint.config.js`
+
 ## 9.9.0
 
 Replaced all references of "DPR" and "Digital Prisons Reporting" to "HMPPS Datahub" in the library documentation website

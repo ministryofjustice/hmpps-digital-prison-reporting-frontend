@@ -60,11 +60,21 @@ context('Dashboard visualisation: Scorecards: Bad Data', () => {
     })
 
     it('should not show the scorecard when the value is undefined', () => {
-      cy.findAllByLabelText(/No of prisoners with MetricOne/).should('not.exist')
+      cy.findAllByLabelText(/No of prisoners with MetricOne/)
+        .first()
+        .should('be.visible')
+        .within(() => {
+          cy.findAllByRole('paragraph').eq(1).contains('No data').should('exist')
+        })
     })
 
     it('should not show the scorecard when raw is undefined', () => {
-      cy.findAllByLabelText(/No of prisoners with MetricTwo/).should('not.exist')
+      cy.findAllByLabelText(/No of prisoners with MetricTwo/)
+        .first()
+        .should('be.visible')
+        .within(() => {
+          cy.findAllByRole('paragraph').eq(1).contains('No data').should('exist')
+        })
     })
   })
 

@@ -18,8 +18,28 @@ export const API_YEAR_FORMAT = 'YYYY'
 export const UI_OUTPUT_FORMAT = 'DD/MM/YYYY'
 export const UI_OUTPUT_MONTH_FORMAT = 'MMM YY'
 export const UI_OUTPUT_YEAR_FORMAT = 'YYYY'
+export const UI_SHORT_YEAR_FORMAT = 'DD/MM/YY'
 export const UI_DATE_TIME_FORMAT = 'DD/MM/YYYY HH:mm'
-export const UI_DATE_TIME_SHORT_YEAR_FORMAT = 'DD/MM/YYYY HH:mm'
+export const UI_DATE_TIME_SHORT_YEAR_FORMAT = 'DD/MM/YY HH:mm'
+
+export const UI_SHORT_DAY_SHORT_YEAR_FORMAT = 'D/M/YY'
+export const UI_SHORT_DAY_DATE_TIME_FORMAT = 'D/M/YYYY HH:mm'
+export const UI_SHORT_DAY_MONTH_YEAR_DATE_TIME_FORMAT = 'D/M/YY HH:mm'
+
+export const allDateFormats = [
+  API_FORMAT,
+  API_MONTH_FORMAT,
+  API_YEAR_FORMAT,
+  UI_OUTPUT_FORMAT,
+  UI_OUTPUT_MONTH_FORMAT,
+  UI_OUTPUT_YEAR_FORMAT,
+  UI_DATE_TIME_FORMAT,
+  UI_DATE_TIME_SHORT_YEAR_FORMAT,
+  UI_SHORT_DAY_SHORT_YEAR_FORMAT,
+  UI_SHORT_DAY_DATE_TIME_FORMAT,
+  UI_SHORT_DAY_MONTH_YEAR_DATE_TIME_FORMAT,
+  UI_SHORT_YEAR_FORMAT,
+]
 
 /**
  * --------------------------------------------
@@ -30,6 +50,11 @@ export const UI_DATE_TIME_SHORT_YEAR_FORMAT = 'DD/MM/YYYY HH:mm'
 export function isValidUiDate(value?: string): boolean {
   if (!value) return false
   return dayjs(value, [...UI_INPUT_FORMATS], true).isValid()
+}
+
+export function parseIfDate(value: string) {
+  if (typeof value !== 'string') return null
+  return allDateFormats.map(format => dayjs(value, format, true)).find(d => d.isValid()) ?? null
 }
 
 /**

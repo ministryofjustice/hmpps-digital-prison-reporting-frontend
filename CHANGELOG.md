@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## 9.11.0
+
+Adding node 26 to supported engines. This unblocks teams to allow them to upgrade to the new LTS version of node. 
+
 ## 9.10.0
 
 ### Dashboard charts readiness checks

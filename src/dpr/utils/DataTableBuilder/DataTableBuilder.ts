@@ -1,11 +1,12 @@
-import Dict = NodeJS.Dict
+import dayjs from 'dayjs'
+import { components } from '../../types/api'
 import ReportQuery from '../../types/ReportQuery'
-import { Cell, CellFormat, DataTable, SortKey } from './types'
-import { mergeAndStringifyQuery } from '../urlHelper'
 import type { SummaryTemplate } from '../../types/Templates'
 import { AsyncSummary } from '../../types/UserReports'
-import DateMapper from '../DateMapper/DateMapper'
-import { components } from '../../types/api'
+import { API_FORMAT, UI_DATE_TIME_SHORT_YEAR_FORMAT } from '../dateHelper'
+import { mergeAndStringifyQuery } from '../urlHelper'
+import { Cell, CellFormat, DataTable, SortKey } from './types'
+import Dict = NodeJS.Dict
 
 class DataTableBuilder {
   protected fields: components['schemas']['FieldDefinition'][]
@@ -21,17 +22,15 @@ class DataTableBuilder {
 
   private currentQueryParams: NodeJS.Dict<string | Array<string>> | null = null
 
-  private dateMapper = new DateMapper()
-
   constructor(fields: components['schemas']['FieldDefinition'][], sortData = false) {
     this.fields = fields
     this.sortData = sortData
   }
 
-  private mapDate(isoDate?: string) {
-    if (!isoDate) return ''
+  private mapDate(dateValue?: string) {
+    if (!dateValue) return ''
 
-    return this.dateMapper.toDateString(isoDate, 'local-datetime-short-year')
+    return dayjs(dateValue).format(UI_DATE_TIME_SHORT_YEAR_FORMAT)
   }
 
   private mapBoolean(value?: string) {
@@ -289,8 +288,10 @@ class DataTableBuilder {
     return sortFields
       .map(f => {
         const value = rowData[f.name]
-        if (value && this.dateMapper.isDate(value)) {
-          return this.dateMapper.toDateString(value, 'iso')
+        const dateValue = dayjs(value)
+
+        if (value && dateValue.isValid()) {
+          return dateValue.format(API_FORMAT)
         }
 
         return this.mapCellValue(f, value)

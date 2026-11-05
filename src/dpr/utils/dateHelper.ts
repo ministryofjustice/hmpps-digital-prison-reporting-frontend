@@ -19,6 +19,7 @@ export const UI_OUTPUT_FORMAT = 'DD/MM/YYYY'
 export const UI_OUTPUT_MONTH_FORMAT = 'MMM YY'
 export const UI_OUTPUT_YEAR_FORMAT = 'YYYY'
 export const UI_DATE_TIME_FORMAT = 'DD/MM/YYYY HH:mm'
+export const UI_DATE_TIME_SHORT_YEAR_FORMAT = 'DD/MM/YYYY HH:mm'
 
 /**
  * --------------------------------------------

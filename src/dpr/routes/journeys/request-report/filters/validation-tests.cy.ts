@@ -102,13 +102,13 @@ describe('Filter validation', () => {
       })
 
       it('should show validation message', () => {
-        cy.findByRole('combobox', { name: 'Field 4' }).should('not.have.attr', 'aria-describedby')
         cy.findByRole('button', { name: /Request/ }).click()
         cy.findByRole('link', { name: /Field 4 is required/ }).should('be.visible')
         cy.findByRole('combobox', { name: 'Field 4' })
           .invoke('attr', 'aria-describedby')
           .then(id => {
-            cy.get(`[id="${id}"]`).should('contain.text', 'Field 4 is required')
+            const errorId = id?.split(' ')[1]
+            cy.get(`[id="${errorId}"]`).should('contain.text', 'Field 4 is required')
           })
       })
     })
@@ -321,7 +321,6 @@ describe('Filter validation', () => {
       })
 
       it('should show validation message', () => {
-        cy.findByRole('combobox', { name: 'Field 11' }).should('not.have.attr', 'aria-describedby')
         cy.findByRole('button', { name: 'Apply filters' }).click()
         cy.findAllByRole('group')
           .contains(/Show filters/)
@@ -330,7 +329,8 @@ describe('Filter validation', () => {
         cy.findByRole('combobox', { name: 'Field 11' })
           .invoke('attr', 'aria-describedby')
           .then(id => {
-            cy.get(`[id="${id}"]`).should('contain.text', 'Field 11 is required')
+            const errorId = id?.split(' ')[1]
+            cy.get(`[id="${errorId}"]`).should('contain.text', 'Field 11 is required')
           })
       })
     })

@@ -5,8 +5,6 @@ class AutoCompleteMulti extends DprClientClass {
 
   searchInput!: HTMLInputElement | null
 
-  searchInputValue!: string
-
   multiselectOptions!: HTMLInputElement[]
 
   toggleButton!: HTMLButtonElement | null
@@ -21,12 +19,15 @@ class AutoCompleteMulti extends DprClientClass {
     this.element = this.getElement()
     this.filterId = this.element.getAttribute('data-filter-id')
 
-    // Search input
     this.searchInput = document.getElementById(`search.${this.filterId}`) as HTMLInputElement | null
+
     this.multiselectOptions = Array.from(this.element.querySelectorAll<HTMLInputElement>('.govuk-checkboxes__input'))
+
     this.toggleButton = this.element.querySelector('[data-autocomplete-toggle]') as HTMLButtonElement | null
 
-    if (!this.searchInput || !this.multiselectOptions) return
+    if (!this.searchInput || !this.multiselectOptions.length) {
+      return
+    }
 
     this.initialiseCheckboxes()
     this.initSearchInputAction()
@@ -36,30 +37,49 @@ class AutoCompleteMulti extends DprClientClass {
   initialiseCheckboxes() {
     this.multiselectOptions.forEach(input => {
       const wrapper = input.closest('.govuk-checkboxes__item')
-      if (!wrapper) return
+
+      if (!wrapper) {
+        return
+      }
 
       wrapper.classList.toggle('dpr-form--hidden', !input.checked)
     })
   }
 
   initSearchInputAction() {
-    if (!this.searchInput) return
+    if (!this.searchInput) {
+      return
+    }
 
-    const input = this.searchInput
+    this.searchInput.addEventListener('keyup', () => {
+      this.updateCheckboxes()
+    })
+  }
 
-    this.searchInput.addEventListener('keyup', _event => {
-      this.searchInputValue = input.value
+  initToggleAction() {
+    if (!this.toggleButton) {
+      return
+    }
+
+    this.toggleButton.addEventListener('click', () => {
+      this.showAll = !this.showAll
+
+      this.toggleButton!.textContent = this.showAll ? 'Show selected only' : 'Show all options'
+
       this.updateCheckboxes()
     })
   }
 
   updateCheckboxes() {
-    const query = this.searchInputValue.toLowerCase().trim()
+    const query = this.searchInput?.value.toLowerCase().trim() ?? ''
     const minLength = 3
 
     this.multiselectOptions.forEach(input => {
       const wrapper = input.closest('.govuk-checkboxes__item')
-      if (!wrapper) return
+
+      if (!wrapper) {
+        return
+      }
 
       const labelText = input.labels?.[0]?.innerText.toLowerCase() ?? ''
 
@@ -69,15 +89,23 @@ class AutoCompleteMulti extends DprClientClass {
         return
       }
 
-      // Show all mode: apply search if present, otherwise show everything
+      // Show all mode:
+      // Display everything when query is empty,
+      // otherwise only display matching items.
       if (this.showAll) {
-        const matches = !query || labelText.includes(query)
+        if (query.length < minLength) {
+          wrapper.classList.remove('dpr-form--hidden')
+          return
+        }
+
+        const matches = labelText.includes(query)
 
         wrapper.classList.toggle('dpr-form--hidden', !matches)
         return
       }
 
-      // Search mode: only start filtering after threshold
+      // Search mode:
+      // Hide everything until minimum search length reached.
       if (query.length < minLength) {
         wrapper.classList.add('dpr-form--hidden')
         return
@@ -86,18 +114,6 @@ class AutoCompleteMulti extends DprClientClass {
       const matches = labelText.includes(query)
 
       wrapper.classList.toggle('dpr-form--hidden', !matches)
-    })
-  }
-
-  initToggleAction() {
-    if (!this.toggleButton) return
-
-    this.toggleButton.addEventListener('click', () => {
-      this.showAll = !this.showAll
-
-      this.toggleButton!.textContent = this.showAll ? 'Show selected only' : 'Show all options'
-
-      this.updateCheckboxes()
     })
   }
 }

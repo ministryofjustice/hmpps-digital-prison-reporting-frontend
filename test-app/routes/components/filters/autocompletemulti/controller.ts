@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express'
 
-export default class AutocompleteController {
+export default class AutocompleteMultiController {
   GET: RequestHandler = async (_req, res) => {
     const filters = [
       {
@@ -8,6 +8,7 @@ export default class AutocompleteController {
         name: 'autocompletemulti',
         type: 'autocompletemulti',
         mandatory: true,
+        minimumLength: 3,
         options: [
           {
             value: 'fezzick',

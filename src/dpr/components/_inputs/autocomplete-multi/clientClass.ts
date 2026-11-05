@@ -3,6 +3,8 @@ import { DprClientClass } from '../../../DprClientClass'
 class AutoCompleteMulti extends DprClientClass {
   filterId!: string | null
 
+  minimumLength!: number
+
   searchInput!: HTMLInputElement | null
 
   multiselectOptions!: HTMLInputElement[]
@@ -17,9 +19,12 @@ class AutoCompleteMulti extends DprClientClass {
 
   override initialise() {
     this.element = this.getElement()
+
     this.filterId = this.element.getAttribute('data-filter-id')
 
     this.searchInput = document.getElementById(`search.${this.filterId}`) as HTMLInputElement | null
+
+    this.minimumLength = Number(this.searchInput?.getAttribute('data-minimum-length')) || 3
 
     this.multiselectOptions = Array.from(this.element.querySelectorAll<HTMLInputElement>('.govuk-checkboxes__input'))
 
@@ -72,7 +77,6 @@ class AutoCompleteMulti extends DprClientClass {
 
   updateCheckboxes() {
     const query = this.searchInput?.value.toLowerCase().trim() ?? ''
-    const minLength = 3
 
     this.multiselectOptions.forEach(input => {
       const wrapper = input.closest('.govuk-checkboxes__item')
@@ -93,7 +97,7 @@ class AutoCompleteMulti extends DprClientClass {
       // Display everything when query is empty,
       // otherwise only display matching items.
       if (this.showAll) {
-        if (query.length < minLength) {
+        if (query.length < this.minimumLength) {
           wrapper.classList.remove('dpr-form--hidden')
           return
         }
@@ -106,7 +110,7 @@ class AutoCompleteMulti extends DprClientClass {
 
       // Search mode:
       // Hide everything until minimum search length reached.
-      if (query.length < minLength) {
+      if (query.length < this.minimumLength) {
         wrapper.classList.add('dpr-form--hidden')
         return
       }

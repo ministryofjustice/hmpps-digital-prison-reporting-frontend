@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## 9.10.1
+
+- Removed `DateMapper`
+
 ## 9.10.0
 
 ### Dashboard charts readiness checks

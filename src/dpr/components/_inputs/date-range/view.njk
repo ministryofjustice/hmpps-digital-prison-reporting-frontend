@@ -16,6 +16,9 @@
   <div class="dpr-date-range" data-dpr-module="date-range-input">
     <fieldset class="govuk-fieldset">
       <legend class="govuk-fieldset__legend govuk-label govuk-!-font-weight-bold">{{ text }}</legend>
+      {% if hint %}
+        <div class="govuk-hint">{{ hint | safe }}</div>
+      {% endif %}
 
       {% set relativeRangeHtml %}
         {{

@@ -95,7 +95,7 @@ export const getRelativeDateOptions = (min?: string, max?: string): RelativeOpti
   const tempMin = min || '1977-05-25'
   const tempMax = max || '9999-01-01'
 
-  return getRelativeValues().filter((option: RelativeOption) => {
+  const options: RelativeOption[] = getRelativeValues().filter((option: RelativeOption) => {
     if (option.value === RelativeDateRange.NONE) {
       return true
     }
@@ -108,6 +108,9 @@ export const getRelativeDateOptions = (min?: string, max?: string): RelativeOpti
 
     return dateIsInBounds(dates.start, dates.end, tempMin, tempMax)
   })
+
+  // Length 1 means it only contains "None"
+  return options.length === 1 ? [] : options
 }
 
 export const mapRelativeValue = (value: RelativeDateRange) => {
@@ -129,13 +132,14 @@ export const getRelativeValues = (): RelativeOption[] => {
 }
 
 export const getFilterFromDefinition = (filter: components['schemas']['FilterDefinition'], filterData: FilterValue) => {
+  const { min, max } = filter
   const value = StartEndDateUtils.getStartAndEndValueFromDefinition(filter)
-  const relativeOptions = getRelativeDateOptions(filter.min || undefined, filter.max || undefined)
+  const relativeOptions = getRelativeDateOptions(min || undefined, max || undefined)
 
   return {
     ...filterData,
-    min: filter.min,
-    max: filter.max,
+    min,
+    max,
     relativeOptions,
     value,
   }

@@ -8,6 +8,7 @@
   {% set text = filter.text %}
   {% set minDate = filter.min %}
   {% set maxDate  = filter.max %}
+  {% set hint = "For example 17/05/2024." %}
 
   {% set defaultMinDate = '1977-05-25' %}
   {% set defaultMaxDate = '9999-01-01' %}
@@ -37,6 +38,7 @@
     {% set value = filter.value %}
     {% set toggleMin = true %}
     {% set toggleMax = true %}
+    {% set hint  = filter.hint %}
 
   {% endif %}
 
@@ -69,8 +71,8 @@
         minDate: minDate or defaultMinDate | dprDate,
         maxDate: maxDate or defaultMaxDate | dprDate,
         hint: {
-          text: "For example 17/05/2024."
-        },
+          html: hint
+        } if hint,
         errorMessage: validationErrors | dpr.findError(id)
       })
     }}

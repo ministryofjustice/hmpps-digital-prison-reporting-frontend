@@ -9,6 +9,7 @@ import {
 
 context('Filters: Autocomplete', () => {
   const path = '/components/filters/autocomplete'
+  const name = 'Autocomplete'
 
   before(() => {
     stubDefinitionsTasks()
@@ -24,19 +25,19 @@ context('Filters: Autocomplete', () => {
 
   describe('Setting a value', () => {
     it('should show options when the input value is greater than 3', () => {
-      assertAutocompleteOptionCount({ name: 'Autocomplete', searchText: 'Pri', expectedCount: 2 })
+      assertAutocompleteOptionCount({ name, searchText: 'Pri', expectedCount: 2 })
     })
 
     it('should not show options when the input value is greater than 3', () => {
-      assertAutocompleteOptionCount({ name: 'Autocomplete', searchText: 'In', expectedCount: 0 })
+      assertAutocompleteOptionCount({ name, searchText: 'In', expectedCount: 0 })
     })
 
     it('should set the value from the autocomplete options', () => {
-      selectAutocompleteOption({ name: 'Autocomplete', searchText: 'Ini', optionText: 'Inigo Montoya' })
+      selectAutocompleteOption({ name, searchText: 'Ini', optionText: 'Inigo Montoya' })
     })
 
     it('should set the value in the selected filters', () => {
-      selectAutocompleteOption({ name: 'Autocomplete', searchText: 'Ini', optionText: 'Inigo Montoya' })
+      selectAutocompleteOption({ name, searchText: 'Ini', optionText: 'Inigo Montoya' })
       cy.findByLabelText(/Selected filters.*/i).within(() => {
         cy.findAllByRole('button').eq(0).contains('Autocomplete')
         cy.findAllByRole('button').eq(0).contains('Inigo Montoya')
@@ -44,7 +45,7 @@ context('Filters: Autocomplete', () => {
     })
 
     it('should set the value in the url', () => {
-      selectAutocompleteOption({ name: 'Autocomplete', searchText: 'Ini', optionText: 'Inigo Montoya' })
+      selectAutocompleteOption({ name, searchText: 'Ini', optionText: 'Inigo Montoya' })
       cy.location().should(location => {
         expect(location.search).to.contain(`filters.autocomplete=Inigo+Montoya`)
       })
@@ -53,11 +54,11 @@ context('Filters: Autocomplete', () => {
 
   describe('Setting a value via the keyboard', () => {
     it('should set the value from the autocomplete options', () => {
-      selectAutocompleteOptionUsingKeyboard({ name: 'Autocomplete', searchText: 'Ini', optionText: 'Inigo Montoya' })
+      selectAutocompleteOptionUsingKeyboard({ name, searchText: 'Ini', optionText: 'Inigo Montoya' })
     })
 
     it('should set the value in the selected filters', () => {
-      selectAutocompleteOptionUsingKeyboard({ name: 'Autocomplete', searchText: 'Ini', optionText: 'Inigo Montoya' })
+      selectAutocompleteOptionUsingKeyboard({ name, searchText: 'Ini', optionText: 'Inigo Montoya' })
       cy.findByLabelText(/Selected filters.*/i).within(() => {
         cy.findAllByRole('button').eq(0).contains('Autocomplete')
         cy.findAllByRole('button').eq(0).contains('Inigo Montoya')
@@ -65,10 +66,18 @@ context('Filters: Autocomplete', () => {
     })
 
     it('should set the value in the url', () => {
-      selectAutocompleteOptionUsingKeyboard({ name: 'Autocomplete', searchText: 'Ini', optionText: 'Inigo Montoya' })
+      selectAutocompleteOptionUsingKeyboard({ name, searchText: 'Ini', optionText: 'Inigo Montoya' })
       cy.location().should(location => {
         expect(location.search).to.contain(`filters.autocomplete=Inigo+Montoya`)
       })
+    })
+
+    it('should show all options when the down arrow is pressed', () => {
+      cy.findByRole('combobox', { name }).should('be.visible')
+      cy.findByRole('combobox', { name }).clear()
+      cy.findByRole('combobox', { name }).type('{downArrow}')
+
+      cy.get('.autocomplete-option:visible').should('have.length', 5)
     })
   })
 

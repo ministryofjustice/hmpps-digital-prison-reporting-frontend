@@ -10,6 +10,14 @@ import {
 context('Filters: Autocomplete', () => {
   const path = '/components/filters/auto-multi-select'
 
+  const checkAllOptionsAreVisible = () => {
+    cy.findByText(/^Prince Humperdink$/i).should('be.visible')
+    cy.findByText(/^Princess Buttercup$/i).should('be.visible')
+    cy.findByText(/^Inigo Montoya$/i).should('be.visible')
+    cy.findByText(/^Fezzick$/i).should('be.visible')
+    cy.findByText(/^Westley$/i).should('be.visible')
+  }
+
   before(() => {
     stubDefinitionsTasks()
     executeReportStubs()
@@ -24,121 +32,217 @@ context('Filters: Autocomplete', () => {
   })
 
   describe('Setting a values', () => {
-    it('should show options when the input value is greater than 3', () => {
-      cy.findByRole('textbox', { name: /search/i }).type('Pri')
+    describe('additive reveal', () => {
+      it('should show options when the input value is greater than 3', () => {
+        cy.findByRole('textbox', { name: /search/i }).type('Pri')
 
-      cy.findByText(/^Prince Humperdink$/i).should('be.visible')
-      cy.findByText(/^Princess Buttercup$/i).should('be.visible')
-      cy.findByText(/^Inigo Montoya$/i).should('not.be.visible')
-      cy.findByText(/^Fezzick$/i).should('not.be.visible')
-      cy.findByText(/^Westley$/i).should('not.be.visible')
-    })
-
-    it('should not show options when the input value is greater than 3', () => {
-      cy.findByRole('textbox', { name: /search/i }).type('Pr')
-
-      cy.findByText(/^Prince Humperdink$/i).should('not.be.visible')
-      cy.findByText(/^Princess Buttercup$/i).should('not.be.visible')
-      cy.findByText(/^Inigo Montoya$/i).should('not.be.visible')
-      cy.findByText(/^Fezzick$/i).should('not.be.visible')
-      cy.findByText(/^Westley$/i).should('not.be.visible')
-    })
-
-    it('should not show options when the input empty', () => {
-      cy.findByRole('textbox', { name: /search/i }).type('Pri')
-
-      cy.findByText(/^Prince Humperdink$/i).should('be.visible')
-      cy.findByText(/^Princess Buttercup$/i).should('be.visible')
-
-      cy.findByRole('textbox', { name: /search/i }).clear()
-
-      cy.findByText(/^Prince Humperdink$/i).should('not.be.visible')
-      cy.findByText(/^Princess Buttercup$/i).should('not.be.visible')
-      cy.findByText(/^Inigo Montoya$/i).should('not.be.visible')
-      cy.findByText(/^Fezzick$/i).should('not.be.visible')
-      cy.findByText(/^Westley$/i).should('not.be.visible')
-    })
-
-    it('should show no options when no matches are found', () => {
-      cy.findByRole('textbox', { name: /search/i }).type('Ini')
-
-      cy.findByText(/^Prince Humperdink$/i).should('not.be.visible')
-      cy.findByText(/^Princess Buttercup$/i).should('not.be.visible')
-      cy.findByText(/^Inigo Montoya$/i).should('be.visible')
-      cy.findByText(/^Fezzick$/i).should('not.be.visible')
-      cy.findByText(/^Westley$/i).should('not.be.visible')
-
-      cy.findByRole('textbox', { name: /search/i })
-        .clear()
-        .type('Wes')
-
-      cy.findByText(/^Prince Humperdink$/i).should('not.be.visible')
-      cy.findByText(/^Princess Buttercup$/i).should('not.be.visible')
-      cy.findByText(/^Inigo Montoya$/i).should('not.be.visible')
-      cy.findByText(/^Fezzick$/i).should('not.be.visible')
-      cy.findByText(/^Westley$/i).should('be.visible')
-    })
-
-    it('should set the input values via the checkboxes', () => {
-      cy.findByRole('textbox', { name: /search/i }).type('Pri')
-
-      cy.findByRole('checkbox', { name: 'Prince Humperdink' }).check()
-      cy.findByRole('checkbox', { name: 'Princess Buttercup' }).check()
-
-      cy.findByLabelText(/Selected filters.*/i).within(() => {
-        cy.findAllByRole('button').eq(0).contains('Autocompletemulti')
-        cy.findAllByRole('button').eq(0).contains('Prince Humperdink, Princess Buttercup')
+        cy.findByText(/^Prince Humperdink$/i).should('be.visible')
+        cy.findByText(/^Princess Buttercup$/i).should('be.visible')
+        cy.findByText(/^Inigo Montoya$/i).should('not.be.visible')
+        cy.findByText(/^Fezzick$/i).should('not.be.visible')
+        cy.findByText(/^Westley$/i).should('not.be.visible')
       })
 
-      cy.location().should(location => {
-        expect(location.search).to.contain('filters.autocompletemulti=PrHu')
-        expect(location.search).to.contain('filters.autocompletemulti=Princess+Buttercup')
+      it('should not show options when the input value is greater than 3', () => {
+        cy.findByRole('textbox', { name: /search/i }).type('Pr')
+
+        cy.findByText(/^Prince Humperdink$/i).should('not.be.visible')
+        cy.findByText(/^Princess Buttercup$/i).should('not.be.visible')
+        cy.findByText(/^Inigo Montoya$/i).should('not.be.visible')
+        cy.findByText(/^Fezzick$/i).should('not.be.visible')
+        cy.findByText(/^Westley$/i).should('not.be.visible')
       })
 
-      cy.findByRole('textbox', { name: /search/i }).clear()
+      it('should not show options when the input empty', () => {
+        cy.findByRole('textbox', { name: /search/i }).type('Pri')
+
+        cy.findByText(/^Prince Humperdink$/i).should('be.visible')
+        cy.findByText(/^Princess Buttercup$/i).should('be.visible')
+
+        cy.findByRole('textbox', { name: /search/i }).clear()
+
+        cy.findByText(/^Prince Humperdink$/i).should('not.be.visible')
+        cy.findByText(/^Princess Buttercup$/i).should('not.be.visible')
+        cy.findByText(/^Inigo Montoya$/i).should('not.be.visible')
+        cy.findByText(/^Fezzick$/i).should('not.be.visible')
+        cy.findByText(/^Westley$/i).should('not.be.visible')
+      })
+
+      it('should show no options when no matches are found', () => {
+        cy.findByRole('textbox', { name: /search/i }).type('Ini')
+
+        cy.findByText(/^Prince Humperdink$/i).should('not.be.visible')
+        cy.findByText(/^Princess Buttercup$/i).should('not.be.visible')
+        cy.findByText(/^Inigo Montoya$/i).should('be.visible')
+        cy.findByText(/^Fezzick$/i).should('not.be.visible')
+        cy.findByText(/^Westley$/i).should('not.be.visible')
+
+        cy.findByRole('textbox', { name: /search/i })
+          .clear()
+          .type('Bob')
+
+        cy.findByText(/^Prince Humperdink$/i).should('not.be.visible')
+        cy.findByText(/^Princess Buttercup$/i).should('not.be.visible')
+        cy.findByText(/^Inigo Montoya$/i).should('not.be.visible')
+        cy.findByText(/^Fezzick$/i).should('not.be.visible')
+        cy.findByText(/^Westley$/i).should('not.be.visible')
+      })
+
+      it('should set the input values via the checkboxes', () => {
+        cy.findByRole('textbox', { name: /search/i }).type('Pri')
+
+        cy.findByRole('checkbox', { name: 'Prince Humperdink' }).check()
+        cy.findByRole('checkbox', { name: 'Princess Buttercup' }).check()
+
+        cy.findByLabelText(/Selected filters.*/i).within(() => {
+          cy.findAllByRole('button').eq(0).contains('Autocompletemulti')
+          cy.findAllByRole('button').eq(0).contains('Prince Humperdink, Princess Buttercup')
+        })
+
+        cy.location().should(location => {
+          expect(location.search).to.contain('filters.autocompletemulti=PrHu')
+          expect(location.search).to.contain('filters.autocompletemulti=Princess+Buttercup')
+        })
+
+        cy.findByRole('textbox', { name: /search/i }).clear()
+      })
+
+      it('should keep selected options visible', () => {
+        cy.findByRole('textbox', { name: /search/i }).type('Pri')
+
+        cy.findByRole('checkbox', { name: 'Prince Humperdink' }).check()
+        cy.findByRole('checkbox', { name: 'Princess Buttercup' }).check()
+
+        cy.findByRole('textbox', { name: /search/i })
+          .clear()
+          .type('Wes')
+
+        cy.findByRole('checkbox', { name: 'Westley' }).check()
+
+        cy.findByRole('textbox', { name: /search/i }).clear()
+
+        cy.findByText(/^Prince Humperdink$/i).should('be.visible')
+        cy.findByText(/^Princess Buttercup$/i).should('be.visible')
+        cy.findByText(/^Inigo Montoya$/i).should('not.be.visible')
+        cy.findByText(/^Fezzick$/i).should('not.be.visible')
+        cy.findByText(/^Westley$/i).should('be.visible')
+      })
+
+      it('should truncate the selected values when more than 3 checkboxes selected', () => {
+        cy.findByRole('textbox', { name: /search/i }).type('Pri')
+
+        cy.findByRole('checkbox', { name: 'Prince Humperdink' }).check()
+        cy.findByRole('checkbox', { name: 'Princess Buttercup' }).check()
+
+        cy.findByRole('textbox', { name: /search/i })
+          .clear()
+          .type('Wes')
+
+        cy.findByRole('checkbox', { name: 'Westley' }).check()
+
+        cy.findByRole('textbox', { name: /search/i })
+          .clear()
+          .type('Fez')
+
+        cy.findByRole('checkbox', { name: 'Fezzick' }).check()
+
+        cy.findByLabelText(/Selected filters.*/i).within(() => {
+          cy.findAllByRole('button').eq(0).contains('Fezzick, Prince Humperdink, Princess Buttercup + 1 more')
+        })
+      })
     })
 
-    it('should keep selected options visible', () => {
-      cy.findByRole('textbox', { name: /search/i }).type('Pri')
+    describe('reductive reveal', () => {
+      beforeEach(() => {
+        cy.findByRole('button', { name: 'Show all options' }).click()
+        checkAllOptionsAreVisible()
+      })
 
-      cy.findByRole('checkbox', { name: 'Prince Humperdink' }).check()
-      cy.findByRole('checkbox', { name: 'Princess Buttercup' }).check()
+      it('should hide options when the input value is greater than 3', () => {
+        cy.findByRole('textbox', { name: /search/i }).type('Pri')
 
-      cy.findByRole('textbox', { name: /search/i })
-        .clear()
-        .type('Wes')
+        cy.findByText(/^Prince Humperdink$/i).should('be.visible')
+        cy.findByText(/^Princess Buttercup$/i).should('be.visible')
+        cy.findByText(/^Inigo Montoya$/i).should('not.be.visible')
+        cy.findByText(/^Fezzick$/i).should('not.be.visible')
+        cy.findByText(/^Westley$/i).should('not.be.visible')
+      })
 
-      cy.findByRole('checkbox', { name: 'Westley' }).check()
+      it('should not hide options when the input value is greater than 3', () => {
+        cy.findByRole('textbox', { name: /search/i }).type('Pr')
 
-      cy.findByRole('textbox', { name: /search/i }).clear()
+        cy.findByText(/^Prince Humperdink$/i).should('be.visible')
+        cy.findByText(/^Princess Buttercup$/i).should('be.visible')
+        cy.findByText(/^Inigo Montoya$/i).should('be.visible')
+        cy.findByText(/^Fezzick$/i).should('be.visible')
+        cy.findByText(/^Westley$/i).should('be.visible')
+      })
 
-      cy.findByText(/^Prince Humperdink$/i).should('be.visible')
-      cy.findByText(/^Princess Buttercup$/i).should('be.visible')
-      cy.findByText(/^Inigo Montoya$/i).should('not.be.visible')
-      cy.findByText(/^Fezzick$/i).should('not.be.visible')
-      cy.findByText(/^Westley$/i).should('be.visible')
-    })
+      it('should show options when the input empty', () => {
+        cy.findByRole('textbox', { name: /search/i }).type('Pri')
 
-    it('should truncate the selected values when more than 3 checkboxes selected', () => {
-      cy.findByRole('textbox', { name: /search/i }).type('Pri')
+        cy.findByText(/^Prince Humperdink$/i).should('be.visible')
+        cy.findByText(/^Princess Buttercup$/i).should('be.visible')
+        cy.findByText(/^Inigo Montoya$/i).should('not.be.visible')
+        cy.findByText(/^Fezzick$/i).should('not.be.visible')
+        cy.findByText(/^Westley$/i).should('not.be.visible')
 
-      cy.findByRole('checkbox', { name: 'Prince Humperdink' }).check()
-      cy.findByRole('checkbox', { name: 'Princess Buttercup' }).check()
+        cy.findByRole('textbox', { name: /search/i }).clear()
+        checkAllOptionsAreVisible()
+      })
 
-      cy.findByRole('textbox', { name: /search/i })
-        .clear()
-        .type('Wes')
+      it('should show no options when no matches are found', () => {
+        cy.findByRole('textbox', { name: /search/i }).type('Ini')
 
-      cy.findByRole('checkbox', { name: 'Westley' }).check()
+        cy.findByText(/^Prince Humperdink$/i).should('not.be.visible')
+        cy.findByText(/^Princess Buttercup$/i).should('not.be.visible')
+        cy.findByText(/^Inigo Montoya$/i).should('be.visible')
+        cy.findByText(/^Fezzick$/i).should('not.be.visible')
+        cy.findByText(/^Westley$/i).should('not.be.visible')
 
-      cy.findByRole('textbox', { name: /search/i })
-        .clear()
-        .type('Fez')
+        cy.findByRole('textbox', { name: /search/i })
+          .clear()
+          .type('bob')
 
-      cy.findByRole('checkbox', { name: 'Fezzick' }).check()
+        cy.findByText(/^Prince Humperdink$/i).should('not.be.visible')
+        cy.findByText(/^Princess Buttercup$/i).should('not.be.visible')
+        cy.findByText(/^Inigo Montoya$/i).should('not.be.visible')
+        cy.findByText(/^Fezzick$/i).should('not.be.visible')
+        cy.findByText(/^Westley$/i).should('not.be.visible')
+      })
 
-      cy.findByLabelText(/Selected filters.*/i).within(() => {
-        cy.findAllByRole('button').eq(0).contains('Fezzick, Prince Humperdink, Princess Buttercup + 1 more')
+      it('should set the input values via the checkboxes', () => {
+        cy.findByRole('textbox', { name: /search/i }).type('Pri')
+
+        cy.findByRole('checkbox', { name: 'Prince Humperdink' }).check()
+        cy.findByRole('checkbox', { name: 'Princess Buttercup' }).check()
+
+        cy.findByLabelText(/Selected filters.*/i).within(() => {
+          cy.findAllByRole('button').eq(0).contains('Autocompletemulti')
+          cy.findAllByRole('button').eq(0).contains('Prince Humperdink, Princess Buttercup')
+        })
+
+        cy.location().should(location => {
+          expect(location.search).to.contain('filters.autocompletemulti=PrHu')
+          expect(location.search).to.contain('filters.autocompletemulti=Princess+Buttercup')
+        })
+
+        cy.findByRole('textbox', { name: /search/i }).clear()
+      })
+
+      it('should show the checked options when hiding all options', () => {
+        cy.findByRole('textbox', { name: /search/i }).type('Pri')
+
+        cy.findByRole('checkbox', { name: 'Prince Humperdink' }).check()
+        cy.findByRole('checkbox', { name: 'Princess Buttercup' }).check()
+
+        cy.findByRole('button', { name: 'Show selected only' }).click()
+
+        cy.findByText(/^Prince Humperdink$/i).should('be.visible')
+        cy.findByText(/^Princess Buttercup$/i).should('be.visible')
+        cy.findByText(/^Inigo Montoya$/i).should('not.be.visible')
+        cy.findByText(/^Fezzick$/i).should('not.be.visible')
+        cy.findByText(/^Westley$/i).should('not.be.visible')
       })
     })
   })

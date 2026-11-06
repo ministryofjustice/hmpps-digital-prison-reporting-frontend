@@ -91,31 +91,26 @@ export const setFilterValueFromDefault = (defaultValue: defaultFilterValue, filt
   }
 }
 
-export const getRelativeDateOptions = (min?: string, max?: string) => {
+export const getRelativeDateOptions = (min?: string, max?: string): RelativeOption[] => {
   const tempMin = min || '1977-05-25'
   const tempMax = max || '9999-01-01'
 
-  let options: RelativeOption[] = getRelativeValues()
-  options.forEach((option: RelativeOption) => {
-    if (option.value !== RelativeDateRange.NONE) {
-      const dates = calcDatesForUI(option.value)
-      if (dates && !dateIsInBounds(dates.start, dates.end, tempMin, tempMax)) {
-        option.disabled = true
-      }
+  const options: RelativeOption[] = getRelativeValues().filter((option: RelativeOption) => {
+    if (option.value === RelativeDateRange.NONE) {
+      return true
     }
+
+    const dates = calcDatesForUI(option.value)
+
+    if (!dates) {
+      return true
+    }
+
+    return dateIsInBounds(dates.start, dates.end, tempMin, tempMax)
   })
 
-  if (
-    options
-      .filter((opt: RelativeOption) => opt.value !== 'none')
-      .every((opt: RelativeOption) => {
-        return opt.value === null || opt.disabled
-      })
-  ) {
-    options = []
-  }
-
-  return options
+  // Length 1 means it only contains "None"
+  return options.length === 1 ? [] : options
 }
 
 export const mapRelativeValue = (value: RelativeDateRange) => {
@@ -137,13 +132,14 @@ export const getRelativeValues = (): RelativeOption[] => {
 }
 
 export const getFilterFromDefinition = (filter: components['schemas']['FilterDefinition'], filterData: FilterValue) => {
+  const { min, max } = filter
   const value = StartEndDateUtils.getStartAndEndValueFromDefinition(filter)
-  const relativeOptions = getRelativeDateOptions(filter.min || undefined, filter.max || undefined)
+  const relativeOptions = getRelativeDateOptions(min || undefined, max || undefined)
 
   return {
     ...filterData,
-    min: filter.min,
-    max: filter.max,
+    min,
+    max,
     relativeOptions,
     value,
   }

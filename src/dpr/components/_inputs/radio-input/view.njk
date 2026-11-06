@@ -1,0 +1,38 @@
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+
+{% macro dprRadioInput(filter, validationErrors, parameterPrefix, mandatory) %}
+
+  {% set id = parameterPrefix + filter.name %}
+  {% set name = id %}
+  {% set value = filter.value %}
+  {% set options = filter.options %}
+  {% set labelText = filter.text | capitaliseSentence %}
+  {% set hint = filter.hint %}
+
+  {{
+    govukRadios({
+      id: id,
+      name: name,
+      classes: "govuk-radios--small",
+      fieldset: {
+        legend: {
+          text: labelText,
+          classes: "govuk-label govuk-!-font-weight-bold"
+        }
+      },
+      items: (options | addRequiredAttributeToAll) if mandatory else options,
+      errorMessage: validationErrors | dpr.findError(id),
+      value: value,
+      attributes: {
+        required: true,
+        'display-name': labelText
+      } if mandatory else {
+        'display-name': labelText
+      },
+      hint: {
+        html: hint
+      } if hint
+    })
+  }}
+
+{% endmacro %}

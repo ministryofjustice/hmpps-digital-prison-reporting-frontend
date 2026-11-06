@@ -66,8 +66,8 @@
           text: label | capitaliseSentence
         } if label,
         value: value,
-        minDate: minDate | dprDate,
-        maxDate: maxDate | dprDate,
+        minDate: minDate or defaultMinDate | dprDate,
+        maxDate: maxDate or defaultMaxDate | dprDate,
         hint: {
           text: "For example 17/05/2024."
         },

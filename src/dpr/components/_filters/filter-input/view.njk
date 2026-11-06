@@ -26,7 +26,7 @@
 
     {% elif filterType === 'date' %}
 
-      {{ dprDate(filter, validationErrors) }}
+      {{ dprDate(filter, validationErrors, parameterPrefix, mandatory) }}
 
     {% elif filterType === 'daterange' %}
 

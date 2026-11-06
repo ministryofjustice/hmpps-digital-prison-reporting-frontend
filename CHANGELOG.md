@@ -1,5 +1,17 @@
 Below you can find the changes included in each release.
 
+## 9.11.0
+
+### Improved usability of filter inputs
+
+- User-defined hints for all input types. Use `hint: string` on the filter definition in the DPD to provide additional guidance or information to users.
+- Updated filter help text to include guidance on how to discover valid values for ambiguous filters.
+- Autocomplete: Pressing the Down Arrow key while the input is empty now displays all available options.
+- Autocomplete Multi: Added a "Show all options" button that displays all available checkboxes. Then typing into the autocomplete field filters the visible list to matching option(s) only. Added a user-defined `minimumLength` option to control how many characters are required before matching options are shown.
+- Date Range: Disabled relative presets are now hidden instead of being displayed in a disabled state.
+
+## 9.10.0
+
 ## 9.10.1
 
 - Removed `DateMapper`

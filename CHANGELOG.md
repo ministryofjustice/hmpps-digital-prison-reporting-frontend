@@ -10,8 +10,6 @@ Below you can find the changes included in each release.
 - Autocomplete Multi: Added a "Show all options" button that displays all available checkboxes. Then typing into the autocomplete field filters the visible list to matching option(s) only. Added a user-defined `minimumLength` option to control how many characters are required before matching options are shown.
 - Date Range: Disabled relative presets are now hidden instead of being displayed in a disabled state.
 
-## 9.10.0
-
 ## 9.10.1
 
 - Removed `DateMapper`

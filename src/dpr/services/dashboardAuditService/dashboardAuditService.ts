@@ -1,26 +1,33 @@
-import { DatasetRule } from './rules/dataset/types'
-import { DashboardRule } from './rules/generic/types'
-import { VisualRule } from './rules/visual/types'
 import { AuditContext, AuditSuggestion } from './types'
+import { AuditRules } from './rules/types'
+import { ServiceFeatureConfig } from 'src/dpr/types/DprConfig'
 
-export class DashboardAuditService {
+export default class DashboardAuditService {
+  enabled: boolean
+
   constructor(
-    private readonly dashboardRules: DashboardRule[],
-    private readonly visualRules: VisualRule[],
-    private readonly datasetRules: DatasetRule[],
-  ) {}
+    private readonly rules: AuditRules,
+    config: ServiceFeatureConfig,
+  ) {
+    this.enabled = Boolean(config.dashboardAudit)
+  }
 
   audit(context: AuditContext): AuditSuggestion[] {
-    const dashboardSuggestions = this.dashboardRules.flatMap(rule => rule.audit(context))
+    const { dashboard, visual, dataset } = this.rules
 
+    // Run dashboard rules
+    const dashboardSuggestions = dashboard.flatMap(rule => rule.audit(context))
+
+    // Run visualisation rules
     const { visuals } = context
-    const visualSuggestions = visuals.flatMap(visual =>
-      this.visualRules
-        .filter(rule => rule.supportedTypes.includes(visual.visualType))
-        .flatMap(rule => rule.audit(visual)),
+    const visualSuggestions = visuals.flatMap(visualData =>
+      visual
+        .filter(rule => rule.supportedTypes.includes(visualData.visualType))
+        .flatMap(rule => rule.audit(visualData)),
     )
 
-    const datasetSuggestions = visuals.flatMap(visual => this.datasetRules.flatMap(rule => rule.audit(visual)))
+    // Run dataset rules
+    const datasetSuggestions = visuals.flatMap(visualData => dataset.flatMap(rule => rule.audit(visualData)))
 
     return [...dashboardSuggestions, ...visualSuggestions, ...datasetSuggestions]
   }

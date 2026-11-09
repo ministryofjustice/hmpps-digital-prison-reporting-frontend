@@ -1,7 +1,7 @@
 import { AuditContext, DashboardAuditSeverity } from '../../types'
 import { DashboardRule } from './types'
 
-export const FirstGenericRule: DashboardRule = {
+export const firstDashboardRule: DashboardRule = {
   audit(_context: AuditContext) {
     // logic here
     return [

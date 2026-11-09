@@ -6,6 +6,7 @@ import DefaultFilterValuesService from './defaultFilterValuesService'
 import ReportStoreService from './reportStoreService'
 import ReportingService from './reportingService'
 import DashboardService from './dashboardService'
+import DashboardAuditService from './dashboardAuditService/dashboardAuditService'
 
 export {
   DownloadPermissionService,
@@ -16,4 +17,5 @@ export {
   RequestedReportService,
   DashboardService,
   DefaultFilterValuesService,
+  DashboardAuditService,
 }

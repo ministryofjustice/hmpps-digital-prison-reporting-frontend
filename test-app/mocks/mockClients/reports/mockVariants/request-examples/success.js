@@ -133,6 +133,7 @@ const requestExampleSuccess = {
         filter: {
           type: 'text',
           mandatory: false,
+          pattern: '[A-Z][a-z]+'
         },
       },
       {

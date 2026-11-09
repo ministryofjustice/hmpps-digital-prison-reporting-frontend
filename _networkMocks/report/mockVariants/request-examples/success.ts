@@ -71,6 +71,7 @@ export const requestExampleSuccess: components['schemas']['VariantDefinition'] =
           min: '2003-02-01',
           max: '2007-05-04',
           mandatory: true,
+          hint: 'Some hint',
         },
       },
       {
@@ -132,6 +133,8 @@ export const requestExampleSuccess: components['schemas']['VariantDefinition'] =
         filter: {
           type: 'text',
           mandatory: false,
+          pattern: '[A-Z][a-z]+',
+          hint: 'Enter either Blah, Blih or Bleh',
         },
       },
       {

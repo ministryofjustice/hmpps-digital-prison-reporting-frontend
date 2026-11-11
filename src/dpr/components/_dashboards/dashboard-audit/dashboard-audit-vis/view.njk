@@ -3,7 +3,7 @@
 {% macro dprDashboardVisAudit(audit) %}
   <div class="dpr-dashboard-audit" id="{{ audit[0].visualId }}_audit">
 
-    <h2 class="govuk-heading-m">Audit suggestions for chart "{{ audit[0].visualTitle }}"</h2>
+    <h1 class="govuk-heading-m">Audit suggestions for chart "{{ audit[0].visualTitle }}"</h1>
 
     <ul class="govuk-list">
       {% for suggestion in audit %}

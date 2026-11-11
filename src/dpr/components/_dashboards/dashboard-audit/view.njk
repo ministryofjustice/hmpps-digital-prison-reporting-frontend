@@ -2,6 +2,7 @@
 {% from "moj/components/notification-badge/macro.njk" import mojNotificationBadge %}
 
 {% macro dprDashboardAudit(audit) %}
+  {% if audit %}
   <div class="dpr-dashboard-audit">
 
     <h1 class="govuk-heading-l">Dashboard audit</h2>
@@ -23,5 +24,5 @@
     {% endif %}
 
   </div>
-
+  {% endif %}
 {% endmacro %}

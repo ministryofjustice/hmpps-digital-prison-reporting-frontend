@@ -277,6 +277,13 @@ const initialiseServices = async (services: Services, res: Response) => {
       logger.info(`Init service: bookmarkService: ${res.app.locals['bookmarkingEnabled']}`)
     }
 
+    // DashboardAudit
+    if (!res.app.locals['dashboardAuditEnabled']) {
+      res.app.locals['dashboardAuditEnabled'] = services.dashboardAuditService.enabled
+
+      logger.info(`Init service: dashboardAuditService: ${res.app.locals['dashboardAuditEnabled']}`)
+    }
+
     // Subscriptions
     if (!res.app.locals['subscriptionsEnabled']) {
       res.app.locals['subscriptionsEnabled'] = services.subscriptionStoreService.enabled

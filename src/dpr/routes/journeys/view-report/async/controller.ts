@@ -61,6 +61,8 @@ export class ViewAsyncController {
           next,
         })
 
+        const dashboardAudit = res.locals['dashboardAudit'] || []
+
         // If report/dashboard is expired redirect the the polling page to show expired status
         if (data.expired) {
           await updateStateToExpiredAndRedirect(req, res, this.services)
@@ -85,6 +87,7 @@ export class ViewAsyncController {
           ...data,
           validationErrors,
           subscriptionMessages,
+          dashboardAudit,
         })
       } catch (error) {
         const dprError = new ErrorHandler(error).formatError()

@@ -19,7 +19,7 @@
 
     <div class="dashboard-section-container">
       {% for visualisation in visualisations %}
-        {{ dprDashboardVisualisation(visualisation, loop.index) }}
+        {{ dprDashboardVisualisation(visualisation, loop.index, audit) }}
       {% endfor %}
     </div>
   </div>

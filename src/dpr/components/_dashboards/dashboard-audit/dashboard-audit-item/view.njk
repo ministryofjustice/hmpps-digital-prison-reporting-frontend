@@ -1,0 +1,24 @@
+{% from "moj/components/notification-badge/macro.njk" import mojNotificationBadge %}
+
+{% macro dprDashboardAuditItems(title, count, suggestions) %}
+  <h2 class="govuk-heading-m">{{title}} {{ mojNotificationBadge({ text: count }) }}</h2>
+
+  <ul class="govuk-list">
+    {% for suggestion in suggestions %}
+      {% set visualId = suggestion.visualId %}
+      {% set title = suggestion.title %}
+      {% set description = suggestion.description %}
+
+      <li>
+        {% if visualId %}
+          <strong><a class="govuk-link" href="#{{ visualId }}">{{ title }}</a></strong>
+        {% else %}
+          <strong>{{ title }}</strong>
+        {% endif %}
+        <p>{{ description }}</p>
+      </li>
+
+    {% endfor %}
+  </ul>
+
+{% endmacro %}

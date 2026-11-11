@@ -29,6 +29,7 @@ export interface ExtraLocals {
   downloadingEnabled: boolean
   collectionsEnabled: boolean
   requestMissingEnabled: boolean
+  dashboardAuditEnabled: boolean
 
   dprPaths: DprAppLocals
 }

@@ -7,7 +7,7 @@ export const firstDashboardRule: DashboardRule = {
     return [
       {
         code: 'RULE_CODE',
-        severity: DashboardAuditSeverity.INFO,
+        severity: DashboardAuditSeverity.SUGGESTION,
         title: 'Rule title',
         description: 'This is the description of the audit finding.',
       },

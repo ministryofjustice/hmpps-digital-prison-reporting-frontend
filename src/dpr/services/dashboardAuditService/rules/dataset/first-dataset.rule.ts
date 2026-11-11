@@ -2,15 +2,16 @@ import { DashboardAuditSeverity, VisualAuditContext } from '../../types'
 import { DatasetRule } from './types'
 
 export const firstDatasetRule: DatasetRule = {
-  audit(_context: VisualAuditContext) {
+  audit(context: VisualAuditContext) {
     // logic here
 
     return [
       {
         code: 'RULE_CODE',
-        severity: DashboardAuditSeverity.INFO,
+        severity: DashboardAuditSeverity.ERROR,
         title: 'Rule title',
         description: 'This is the description of the audit finding.',
+        visualId: context.id,
       },
     ]
   },

@@ -8,8 +8,9 @@ export interface AuditContext {
 }
 
 export interface VisualAuditContext {
-  visualId: string
-  visualType: DashboardVisualisationType
+  id: string
+  name: string
+  type: DashboardVisualisationType
   definition: components['schemas']['DashboardVisualisationDefinition']
   dataset: DashboardDataResponse[]
   rowCount: number
@@ -29,4 +30,16 @@ export enum DashboardAuditSeverity {
   SUGGESTION = 'suggestion',
   WARNING = 'warning',
   ERROR = 'error',
+}
+
+export interface GroupedAuditSuggestions {
+  errors: AuditSuggestion[]
+  warnings: AuditSuggestion[]
+  suggestions: AuditSuggestion[]
+  info: AuditSuggestion[]
+  errorCount: number
+  warningCount: number
+  suggestionCount: number
+  infoCount: number
+  totalCount: number
 }

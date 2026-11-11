@@ -1,8 +1,8 @@
-import { DashboardAuditSeverity, VisualAuditContext } from '../../types'
+import { DashboardAuditSeverity, VisualAuditContext, VisualAuditSuggestion } from '../../types'
 import { DatasetRule } from './types'
 
 export const firstDatasetRule: DatasetRule = {
-  audit(context: VisualAuditContext) {
+  audit(context: VisualAuditContext): VisualAuditSuggestion[] {
     // logic here
 
     return [
@@ -12,6 +12,7 @@ export const firstDatasetRule: DatasetRule = {
         title: 'Rule title',
         description: 'This is the description of the audit finding.',
         visualId: context.id,
+        visualTitle: context.name,
       },
     ]
   },

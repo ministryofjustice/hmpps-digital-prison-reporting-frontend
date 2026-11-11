@@ -4,6 +4,7 @@ import {
   DashboardAuditSeverity,
   GroupedAuditSuggestions,
   VisualAuditContext,
+  VisualAuditSuggestion,
 } from './types'
 import { AuditRules } from './rules/types'
 import { ServiceFeatureConfig } from 'src/dpr/types/DprConfig'
@@ -107,31 +108,43 @@ export default class DashboardAuditService {
   }
 
   /**
-   * Group the suggestions by severity
+   * Group the suggestions by severity and visual ID
    *
    * @private
    * @param {AuditSuggestion[]} suggestions
    * @return {*}  {GroupedAuditSuggestions}
    * @memberof DashboardAuditService
    */
-  private groupSuggestions(suggestions: AuditSuggestion[]): GroupedAuditSuggestions {
-    const errors = suggestions.filter(s => s.severity === DashboardAuditSeverity.ERROR)
+  private groupSuggestions(auditSuggestions: Array<AuditSuggestion | VisualAuditSuggestion>): GroupedAuditSuggestions {
+    // Filters suggestions by severity
+    const errors = auditSuggestions.filter(s => s.severity === DashboardAuditSeverity.ERROR)
+    const warnings = auditSuggestions.filter(s => s.severity === DashboardAuditSeverity.WARNING)
+    const suggestions = auditSuggestions.filter(s => s.severity === DashboardAuditSeverity.SUGGESTION)
+    const info = auditSuggestions.filter(s => s.severity === DashboardAuditSeverity.INFO)
 
-    const warnings = suggestions.filter(s => s.severity === DashboardAuditSeverity.WARNING)
+    // Group by visual ID
+    const byVisualId = suggestions.reduce<Record<string, VisualAuditSuggestion[]>>((acc, suggestion) => {
+      if (!('visualId' in suggestion) || !suggestion.visualId) {
+        return acc
+      }
 
-    const recommendationSuggestions = suggestions.filter(s => s.severity === DashboardAuditSeverity.SUGGESTION)
+      acc[suggestion.visualId] ??= []
+      acc[suggestion.visualId].push(suggestion)
 
-    const info = suggestions.filter(s => s.severity === DashboardAuditSeverity.INFO)
+      return acc
+    }, {})
 
     return {
       errors,
       warnings,
-      suggestions: recommendationSuggestions,
+      suggestions,
       info,
+
+      byVisualId,
 
       errorCount: errors.length,
       warningCount: warnings.length,
-      suggestionCount: recommendationSuggestions.length,
+      suggestionCount: suggestions.length,
       infoCount: info.length,
 
       totalCount: suggestions.length,

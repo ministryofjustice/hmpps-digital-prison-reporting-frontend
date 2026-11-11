@@ -4,22 +4,26 @@
 {% macro dprDashboardAudit(audit) %}
   {# <pre>{{ audit | json }}</pre> #}
 
-  <h1 class="govuk-heading-m">Dashboard audit: {{ mojNotificationBadge({ text: audit.totalCount }) }}</h2>
+  <div class="dpr-dashboard-audit">
 
-  {% if audit.errorCount %}
-    {{ dprDashboardAuditItems('Errors', audit.errorCount, audit.errors) }}
-  {% endif %}
+    <h1 class="govuk-heading-m">Dashboard audit: {{ mojNotificationBadge({ text: audit.totalCount }) }}</h2>
 
-  {% if audit.warningCount %}
-    {{ dprDashboardAuditItems('Warnings', audit.warningCount, audit.warnings) }}
-  {% endif %}
+    {% if audit.errorCount %}
+      {{ dprDashboardAuditItems('Errors', audit.errorCount, audit.errors) }}
+    {% endif %}
 
-  {% if audit.suggestionCount %}
-    {{ dprDashboardAuditItems('Suggestions', audit.suggestionCount, audit.suggestions) }}
-  {% endif %}
+    {% if audit.warningCount %}
+      {{ dprDashboardAuditItems('Warnings', audit.warningCount, audit.warnings) }}
+    {% endif %}
 
-  {% if audit.infoCount %}
-    {{ dprDashboardAuditItems('Info', audit.infoCount, audit.info) }}
-  {% endif %}
+    {% if audit.suggestionCount %}
+      {{ dprDashboardAuditItems('Suggestions', audit.suggestionCount, audit.suggestions) }}
+    {% endif %}
+
+    {% if audit.infoCount %}
+      {{ dprDashboardAuditItems('Info', audit.infoCount, audit.info) }}
+    {% endif %}
+
+  </div>
 
 {% endmacro %}

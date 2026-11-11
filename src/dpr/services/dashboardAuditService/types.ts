@@ -22,7 +22,11 @@ export interface AuditSuggestion {
   severity: DashboardAuditSeverity
   title: string
   description: string
-  visualId?: string
+}
+
+export interface VisualAuditSuggestion extends AuditSuggestion {
+  visualId: string
+  visualTitle: string
 }
 
 export enum DashboardAuditSeverity {
@@ -33,13 +37,17 @@ export enum DashboardAuditSeverity {
 }
 
 export interface GroupedAuditSuggestions {
-  errors: AuditSuggestion[]
-  warnings: AuditSuggestion[]
-  suggestions: AuditSuggestion[]
-  info: AuditSuggestion[]
+  errors: Array<AuditSuggestion | VisualAuditSuggestion>
+  warnings: Array<AuditSuggestion | VisualAuditSuggestion>
+  suggestions: Array<AuditSuggestion | VisualAuditSuggestion>
+  info: Array<AuditSuggestion | VisualAuditSuggestion>
+
+  byVisualId: Record<string, Array<AuditSuggestion | VisualAuditSuggestion>>
+
   errorCount: number
   warningCount: number
   suggestionCount: number
   infoCount: number
+
   totalCount: number
 }

@@ -1,5 +1,5 @@
-import { AuditSuggestion, VisualAuditContext } from '../../types'
+import { VisualAuditContext, VisualAuditSuggestion } from '../../types'
 
 export interface DatasetRule {
-  audit(context: VisualAuditContext): AuditSuggestion[]
+  audit(context: VisualAuditContext): VisualAuditSuggestion[]
 }

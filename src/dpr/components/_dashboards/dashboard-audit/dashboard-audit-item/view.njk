@@ -6,15 +6,17 @@
   <ul class="govuk-list">
     {% for suggestion in suggestions %}
       {% set visualId = suggestion.visualId %}
+      {% set visualTitle = suggestion.visualTitle %}
       {% set title = suggestion.title %}
       {% set description = suggestion.description %}
-
       <li>
+        <strong>
         {% if visualId %}
-          <strong><a class="govuk-link" href="#{{ visualId }}">{{ title }}</a></strong>
+          <a class="govuk-link" href="#{{ visualId }}">{{ visualTitle }} - {{ title }}</a></strong>
         {% else %}
-          <strong>{{ title }}</strong>
+          {{ title }}
         {% endif %}
+        </strong>
         <p>{{ description }}</p>
       </li>
 

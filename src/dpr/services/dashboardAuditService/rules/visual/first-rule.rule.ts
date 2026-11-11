@@ -15,6 +15,7 @@ export const firstVisualRule: VisualRule = {
         title: 'Rule title',
         description: 'This is the description of the audit finding.',
         visualId: context.id,
+        visualTitle: context.name,
       },
     ]
   },

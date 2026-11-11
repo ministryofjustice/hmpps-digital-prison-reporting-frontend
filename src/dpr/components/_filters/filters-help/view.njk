@@ -2,6 +2,13 @@
 {% from "govuk/components/details/macro.njk" import govukDetails %}
 
 {% macro dprFiltersHelp(saveDefaultsEnabled, formId, hasDefaults, defaultsSaved) %}
+
+  {% set supportHelpHtml %}
+    <h3>Additional support</h3>
+    <p class="govuk-body">For guidance on how to use this service, watch this <a href="https://justiceuk.sharepoint.com/sites/prisons-digital/SitePages/DPR%20-%20Quickstart%20Demos.aspx?csf=1&web=1&e=Y5adxT&CID=b0c1cc4c-82d7-4a25-8ade-0a03c18a3322" target="_blank" rel="noopener noreferrer" class="govuk-link govuk-link--no-visited-state">Quickstart video<a>.</p>
+    <p class="govuk-body">For additional support, you can email us at <a href="mailto:DigitalPrisonReporting-gg%40justice.gov.uk?subject=DPR%20support%20request" class="govuk-link govuk-link--no-visited-state">DigitalPrisonReporting-gg@justice.gov.uk<a>.</p>
+  {% endset -%}
+
   {% set helpHtml %}
     <h2 class="govuk-!-margin-top-0">How to use</h2>
 
@@ -35,6 +42,9 @@
 
     <h4>Request Report</h4>
     <p class="govuk-body">Clicking the request report button will request the report with your chosen filters.</p>
+
+    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible" />
+    {{ supportHelpHtml | dpr.safe }}
   {% endset %}
 
   {{

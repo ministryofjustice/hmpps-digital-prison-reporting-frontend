@@ -2,8 +2,9 @@
 {% from "../scorecard-group/view.njk" import dprScoreCardGroup %}
 {% from "../dashboard-list/view.njk" import dprDashboardList %}
 {%- from "moj/components/alert/macro.njk" import mojAlert -%}
+{% from "../dashboard-audit/dashboard-audit-vis/view.njk" import dprDashboardVisAudit %}
 
-{% macro dprDashboardVisualisation(visualisation, loopIndex) %}
+{% macro dprDashboardVisualisation(visualisation, loopIndex, audit) %}
   {% set type = visualisation.type %}
   {% set id = visualisation.id %}
   {% set title = visualisation.title %}
@@ -12,6 +13,7 @@
   {% set isEnabled = visualisation.isEnabled %}
   {% set notFound = visualisation.notFound %}
   {% set visualisationLabelId = "visualisation-title-" + loopIndex %}
+  {% set visualAudit = audit.byVisualId[id] %}
 
   <div
     class="dashboard-visualisation-container"
@@ -21,6 +23,10 @@
   >
     {% if title %}
       <h3 id="{{ visualisationLabelId }}" class="govuk-heading-m">{{ title }}</h3>
+    {% endif %}
+
+    {% if audit and visualAudit %}
+      {{ dprDashboardVisAudit(visualAudit) }}
     {% endif %}
 
     {% if description %}

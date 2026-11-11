@@ -1,12 +1,10 @@
-{% from "./dashboard-audit-item/view.njk" import dprDashboardAuditItems %}
+{% from "./dashboard-audit-items/view.njk" import dprDashboardAuditItems %}
 {% from "moj/components/notification-badge/macro.njk" import mojNotificationBadge %}
 
 {% macro dprDashboardAudit(audit) %}
-  {# <pre>{{ audit | json }}</pre> #}
-
   <div class="dpr-dashboard-audit">
 
-    <h1 class="govuk-heading-m">Dashboard audit: {{ mojNotificationBadge({ text: audit.totalCount }) }}</h2>
+    <h1 class="govuk-heading-l">Dashboard audit</h2>
 
     {% if audit.errorCount %}
       {{ dprDashboardAuditItems('Errors', audit.errorCount, audit.errors) }}

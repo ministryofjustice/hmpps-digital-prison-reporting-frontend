@@ -2,7 +2,7 @@
 {% from "../scorecard-group/view.njk" import dprScoreCardGroup %}
 {% from "../dashboard-visualisation/view.njk" import dprDashboardVisualisation %}
 
-{% macro dprDashboardSection(section, loopIndex) %}
+{% macro dprDashboardSection(section, loopIndex, audit) %}
   {% set id = section.id %}
   {% set title = section.title %}
   {% set description = section.description %}

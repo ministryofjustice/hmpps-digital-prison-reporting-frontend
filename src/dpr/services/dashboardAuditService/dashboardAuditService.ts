@@ -123,7 +123,7 @@ export default class DashboardAuditService {
     const info = auditSuggestions.filter(s => s.severity === DashboardAuditSeverity.INFO)
 
     // Group by visual ID
-    const byVisualId = suggestions.reduce<Record<string, VisualAuditSuggestion[]>>((acc, suggestion) => {
+    const byVisualId = auditSuggestions.reduce<Record<string, VisualAuditSuggestion[]>>((acc, suggestion) => {
       if (!('visualId' in suggestion) || !suggestion.visualId) {
         return acc
       }

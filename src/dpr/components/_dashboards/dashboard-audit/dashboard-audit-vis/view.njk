@@ -1,0 +1,23 @@
+{% from "moj/components/notification-badge/macro.njk" import mojNotificationBadge %}
+
+{% macro dprDashboardVisAudit(audit) %}
+  <div class="dpr-dashboard-audit" id="{{ audit[0].visualId }}_audit">
+
+    <h2 class="govuk-heading-m">Audit suggestions for chart "{{ audit[0].visualTitle }}"</h2>
+
+    <ul class="govuk-list">
+      {% for suggestion in audit %}
+
+        {% set title = suggestion.title %}
+        {% set description = suggestion.description %}
+
+        <li>
+          <strong>{{ title }}</strong>
+          <p>{{ description }}</p>
+        </li>
+
+      {% endfor %}
+    </ul>
+
+  </div>
+{% endmacro %}

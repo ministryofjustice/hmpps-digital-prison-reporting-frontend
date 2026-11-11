@@ -5,14 +5,16 @@
 
   <ul class="govuk-list">
     {% for suggestion in suggestions %}
+
       {% set visualId = suggestion.visualId %}
       {% set visualTitle = suggestion.visualTitle %}
       {% set title = suggestion.title %}
       {% set description = suggestion.description %}
+
       <li>
         <strong>
         {% if visualId %}
-          <a class="govuk-link" href="#{{ visualId }}">{{ visualTitle }} - {{ title }}</a></strong>
+          <a class="govuk-link" href="#{{ visualId }}_audit">{{ visualTitle }} - {{ title }}</a></strong>
         {% else %}
           {{ title }}
         {% endif %}

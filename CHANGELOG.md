@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## 9.12.0
+
+- Added `Additional support` help sections
+
 ## 9.11.0
 
 ### Improved usability of filter inputs

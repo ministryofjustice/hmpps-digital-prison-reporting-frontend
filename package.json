@@ -139,7 +139,7 @@
     "ext": "js,json,html,njk"
   },
   "dependencies": {
-    "@flipt-io/flipt-client-js": "0.6.0",
+    "@flipt-io/flipt-client-js": "0.7.0",
     "@ministryofjustice/frontend": "11.1.0",
     "@sentry/node": "11.11.0",
     "@sgratzl/chartjs-chart-boxplot": "4.4.5",

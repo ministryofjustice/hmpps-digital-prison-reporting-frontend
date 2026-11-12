@@ -70,7 +70,7 @@ export const createChart = (
   return {
     chartData: {
       details,
-      tables: [],
+      tables,
       chart,
     },
     dataset,

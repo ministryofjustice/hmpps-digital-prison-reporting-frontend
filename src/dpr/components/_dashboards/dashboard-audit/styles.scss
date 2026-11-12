@@ -9,6 +9,18 @@
     background-color: govuk-colour('green', $variant: 'tint-95');
   }
 
+  &.dpr-dashboard-audit--vis-audit {
+    margin-bottom: govuk-spacing(4);
+  }
+
+  .dpr-dashboard-audit-severity-title {
+    margin-top: govuk-spacing(4);
+  }
+
+  h3.govuk-heading-s {
+    margin-bottom: govuk-spacing(2);
+  }
+
   .govuk-heading-l {
     margin-bottom: govuk-spacing(3);
   }

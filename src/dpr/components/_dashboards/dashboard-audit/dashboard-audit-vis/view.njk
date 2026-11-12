@@ -3,7 +3,7 @@
 {% macro dprDashboardVisAudit(visualAudit) %}
   {% set noIssuesFound = visualAudit.audit.length === 0 %}
 
-  <div class="dpr-dashboard-audit {% if noIssuesFound %} dpr-dashboard-audit--passed{% endif %}" id="{{ visualAudit.id }}_audit">
+  <div class="dpr-dashboard-audit dpr-dashboard-audit--vis-audit {% if noIssuesFound %} dpr-dashboard-audit--passed{% endif %}" id="{{ visualAudit.id }}_audit">
 
     <h1 class="govuk-heading-s">Audit for chart "{{ visualAudit.name }}"</h1>
 
@@ -20,7 +20,7 @@
         {% set description = suggestion.description %}
 
         <li>
-          <strong>{{ title }}</strong>
+          <h3 class="govuk-heading-s">{{ title }}</h3>
           <p class="dpr-audit-description">{{ description }}</p>
         </li>
 

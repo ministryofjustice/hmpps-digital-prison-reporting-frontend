@@ -3,6 +3,7 @@ import { reportIdRegex, setupSimpleFailedMock, setupSimpleMock } from '@networkM
 import { RequestStatus } from 'src/dpr/types/UserReports'
 import { definition as definitionFeatureFlag } from './definition-feature-flag'
 import { definition as definitionWithLinks } from './definition-links'
+import { definition as definitionAudit } from './definition-audit'
 import {
   childDashboardOneDefinition,
   childDashboardTwoDefinition,
@@ -26,6 +27,11 @@ export const featureFlagDashboardMock = setupSimpleMock(
 export const dashboardWithLinksMock = setupSimpleMock(
   `/definitions/${productId}/dashboards/${definitionWithLinks.id}`,
   definitionWithLinks,
+)
+
+export const dashboardAuditMock = setupSimpleMock(
+  `/definitions/${productId}/dashboards/${definitionAudit.id}`,
+  definitionAudit,
 )
 
 // PARENT CHILD DASHBOARDS
@@ -153,4 +159,5 @@ export const mocks = [
   dashboardWithParentChildMock,
   dashboardWithChildOneMock,
   dashboardWithChildTwoMock,
+  dashboardAuditMock,
 ]

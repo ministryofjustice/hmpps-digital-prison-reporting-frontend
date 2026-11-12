@@ -12,7 +12,7 @@ context('Dashboard audit', () => {
     before(() => {
       executeDashboardStubs()
 
-      cy.task('stubTestDashboardDefinition')
+      cy.task('stubTestDashboardDefinitionAudit')
       cy.task('stubDashboardResult')
 
       toggleDashboardAudit()
@@ -30,8 +30,8 @@ context('Dashboard audit', () => {
       cy.findAllByRole('group').contains('Dashboard details').should('be.visible').click()
     })
 
-    after(() => {
-      toggleDashboardAudit()
-    })
+    // after(() => {
+    //   toggleDashboardAudit()
+    // })
   })
 })

@@ -1,23 +1,33 @@
 {% from "moj/components/notification-badge/macro.njk" import mojNotificationBadge %}
 
-{% macro dprDashboardVisAudit(audit) %}
-  <div class="dpr-dashboard-audit" id="{{ audit[0].visualId }}_audit">
+{% macro dprDashboardVisAudit(visualAudit) %}
+  {% set noIssuesFound = visualAudit.audit.length === 0 %}
 
-    <h1 class="govuk-heading-m">Audit suggestions for chart "{{ audit[0].visualTitle }}"</h1>
+  <div class="dpr-dashboard-audit {% if noIssuesFound %} dpr-dashboard-audit--passed{% endif %}" id="{{ visualAudit.id }}_audit">
+
+    <h1 class="govuk-heading-s">Audit for chart "{{ visualAudit.name }}"</h1>
+
+  {% if noIssuesFound %}
+
+    <p class="govuk-body dpr-audit-no-issues">No issues found</p>
+
+  {% else %}
 
     <ul class="govuk-list">
-      {% for suggestion in audit %}
+      {% for suggestion in visualAudit.audit %}
 
         {% set title = suggestion.title %}
         {% set description = suggestion.description %}
 
         <li>
           <strong>{{ title }}</strong>
-          <p>{{ description }}</p>
+          <p class="dpr-audit-description">{{ description }}</p>
         </li>
 
       {% endfor %}
     </ul>
+
+    {% endif %}
 
   </div>
 {% endmacro %}

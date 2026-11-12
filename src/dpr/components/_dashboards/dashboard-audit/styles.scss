@@ -1,6 +1,31 @@
 .dpr-dashboard-audit {
   background-color: govuk-functional-colour('surface-background');
-  padding: govuk-spacing(6);
+  padding: govuk-spacing(4);
   margin-bottom: govuk-spacing(3);
   border-left: solid 5px #8eb8dc;
+
+  &.dpr-dashboard-audit--passed {
+    border-left: solid 5px govuk-colour('green', $variant: 'tint-50');
+    background-color: govuk-colour('green', $variant: 'tint-95');
+  }
+
+  .govuk-heading-l {
+    margin-bottom: govuk-spacing(3);
+  }
+
+  .dpr-audit-no-issues {
+    margin-bottom: 0px;
+  }
+
+  ul.govuk-list {
+    margin-bottom: 0px;
+
+    li:last-child {
+      margin-bottom: 0px;
+
+      .dpr-audit-description:last-child {
+        margin-bottom: 0px;
+      }
+    }
+  }
 }

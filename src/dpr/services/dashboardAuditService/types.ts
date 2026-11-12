@@ -42,7 +42,7 @@ export interface GroupedAuditSuggestions {
   suggestions: Array<AuditSuggestion | VisualAuditSuggestion>
   info: Array<AuditSuggestion | VisualAuditSuggestion>
 
-  byVisualId: Record<string, Array<AuditSuggestion | VisualAuditSuggestion>>
+  byVisualId: Record<string, VisualAuditGroup>
 
   errorCount: number
   warningCount: number
@@ -50,4 +50,9 @@ export interface GroupedAuditSuggestions {
   infoCount: number
 
   totalCount: number
+}
+export interface VisualAuditGroup {
+  id: string
+  name: string
+  audit: VisualAuditSuggestion[]
 }

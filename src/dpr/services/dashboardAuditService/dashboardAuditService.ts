@@ -4,6 +4,7 @@ import {
   DashboardAuditSeverity,
   GroupedAuditSuggestions,
   VisualAuditContext,
+  VisualAuditGroup,
   VisualAuditSuggestion,
 } from './types'
 import { AuditRules } from './rules/types'
@@ -32,7 +33,7 @@ export default class DashboardAuditService {
     const suggestions = this.auditContext(context)
 
     // 3. group by severity
-    return this.groupSuggestions(suggestions)
+    return this.groupSuggestions(suggestions, context.visuals)
   }
 
   /**
@@ -115,21 +116,29 @@ export default class DashboardAuditService {
    * @return {*}  {GroupedAuditSuggestions}
    * @memberof DashboardAuditService
    */
-  private groupSuggestions(auditSuggestions: Array<AuditSuggestion | VisualAuditSuggestion>): GroupedAuditSuggestions {
+  private groupSuggestions(
+    auditSuggestions: Array<AuditSuggestion | VisualAuditSuggestion>,
+    visuals: VisualAuditContext[],
+  ): GroupedAuditSuggestions {
     // Filters suggestions by severity
     const errors = auditSuggestions.filter(s => s.severity === DashboardAuditSeverity.ERROR)
+
     const warnings = auditSuggestions.filter(s => s.severity === DashboardAuditSeverity.WARNING)
+
     const suggestions = auditSuggestions.filter(s => s.severity === DashboardAuditSeverity.SUGGESTION)
+
     const info = auditSuggestions.filter(s => s.severity === DashboardAuditSeverity.INFO)
 
-    // Group by visual ID
-    const byVisualId = auditSuggestions.reduce<Record<string, VisualAuditSuggestion[]>>((acc, suggestion) => {
-      if (!('visualId' in suggestion) || !suggestion.visualId) {
-        return acc
+    // Create an entry for every visual
+    const byVisualId = visuals.reduce<Record<string, VisualAuditGroup>>((acc, visual) => {
+      acc[visual.id] = {
+        id: visual.id,
+        name: visual.definition.display,
+        audit: auditSuggestions.filter(
+          (suggestion): suggestion is VisualAuditSuggestion =>
+            'visualId' in suggestion && suggestion.visualId === visual.id,
+        ),
       }
-
-      acc[suggestion.visualId] ??= []
-      acc[suggestion.visualId].push(suggestion)
 
       return acc
     }, {})
@@ -147,7 +156,7 @@ export default class DashboardAuditService {
       suggestionCount: suggestions.length,
       infoCount: info.length,
 
-      totalCount: suggestions.length,
+      totalCount: auditSuggestions.length,
     }
   }
 }

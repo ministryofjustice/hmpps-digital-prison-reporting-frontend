@@ -3,9 +3,13 @@
 
 {% macro dprDashboardAudit(audit) %}
   {% if audit %}
-  <div class="dpr-dashboard-audit">
+  <div class="dpr-dashboard-audit {% if audit.totalCount === 0 %} dpr-dashboard-audit--passed{% endif %}">
 
     <h1 class="govuk-heading-l">Dashboard audit</h2>
+
+    {% if audit.totalCount === 0 %}
+      <p class="govuk-body dpr-audit-no-issues">No issues found</p>
+    {% endif %}
 
     {% if audit.errorCount %}
       {{ dprDashboardAuditItems('Errors', audit.errorCount, audit.errors) }}

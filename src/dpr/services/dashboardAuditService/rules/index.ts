@@ -1,15 +1,15 @@
-import { firstVisualRule } from './visual/first-rule.rule'
-import { firstDashboardRule } from './dashboard/first-generic.rule'
-import { firstDatasetRule } from './dataset/first-dataset.rule'
+import { missingVisualMetaRule } from './visual/missing-visual-meta.rule'
+import { missingDashboardMetaRule } from './dashboard/missing-meta.rule'
+import { noVisualDatasetRule } from './dataset/no-data.rule'
 
 // Rules specific to visualisations
-const visualisationRules = [firstVisualRule]
+const visualisationRules = [missingVisualMetaRule]
 
 // Rules for dashboard as a whole
-const dashboardRules = [firstDashboardRule]
+const dashboardRules = [missingDashboardMetaRule]
 
 // Rules for dataset
-const datasetRules = [firstDatasetRule]
+const datasetRules = [noVisualDatasetRule]
 
 export default {
   visual: visualisationRules,

@@ -30,8 +30,8 @@ context('Dashboard audit', () => {
       cy.findAllByRole('group').contains('Dashboard details').should('be.visible').click()
     })
 
-    // after(() => {
-    //   toggleDashboardAudit()
-    // })
+    after(() => {
+      toggleDashboardAudit()
+    })
   })
 })

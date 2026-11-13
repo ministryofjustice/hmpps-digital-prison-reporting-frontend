@@ -3,7 +3,7 @@ import { components } from 'src/dpr/types/api'
 export const definition: components['schemas']['DashboardDefinition'] = {
   id: 'dashboard-audit-testing',
   name: 'Dashboard Audit testing',
-  description: 'Test Dashboard used for testing',
+  description: 'Test Dashboard used for audit testing',
   sections: [
     {
       id: 'section-1',

@@ -1,11 +1,13 @@
 {% from "./dashboard-audit-items/view.njk" import dprDashboardAuditItems %}
 {% from "moj/components/notification-badge/macro.njk" import mojNotificationBadge %}
 
-{% macro dprDashboardAudit(audit) %}
+{% macro dprDashboardAudit(audit)  %}
   {% if audit %}
-  <div class="dpr-dashboard-audit {% if audit.totalCount === 0 %} dpr-dashboard-audit--passed{% endif %}">
+  <div
+    aria-labelledby="dpr-dashboard-audit"
+    class="dpr-dashboard-audit {% if audit.totalCount === 0 %} dpr-dashboard-audit--passed{% endif %}">
 
-    <h1 class="govuk-heading-l">Dashboard audit</h2>
+    <h1 id="dpr-dashboard-audit" class="govuk-heading-l">Dashboard audit</h2>
 
     {% if audit.totalCount === 0 %}
       <p class="govuk-body dpr-audit-no-issues">No issues found</p>

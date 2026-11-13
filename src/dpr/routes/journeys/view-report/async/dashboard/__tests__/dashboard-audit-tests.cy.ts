@@ -21,7 +21,7 @@ context('Dashboard audit', () => {
     it('should show the dashboard details', () => {
       cy.visit(path)
 
-      startReportRequest({ name: 'Test Dashboard', description: 'Test Dashboard used for testing' })
+      startReportRequest({ name: 'Dashboard Audit testing', description: 'Test Dashboard used for audit testing' })
 
       checkA11y()
 

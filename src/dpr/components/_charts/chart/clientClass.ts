@@ -34,6 +34,7 @@ class ChartVisualisation extends DprClientClass {
     this.id = this.chartContext?.getAttribute('id') || ''
     this.chartParams = JSON.parse(this.getElement().getAttribute('data-dpr-chart-data') || '{}')
     this.type = this.getElement().getAttribute('data-dpr-chart-type')
+    this.unit = this.getElement().getAttribute('data-dpr-chart-unit') || ''
     this.setValueSuffix()
 
     // elements
@@ -151,13 +152,12 @@ class ChartVisualisation extends DprClientClass {
     }
   }
 
-  setValueSuffix() {
-    this.unit = this.getElement().getAttribute('data-dpr-chart-unit') || ''
-    this.suffix = this.unit === 'percentage' ? '%' : ''
+  isPercentage() {
+    return this.unit === 'PERCENTAGE'
   }
 
-  isPercentage() {
-    return this.unit === 'percentage'
+  setValueSuffix() {
+    this.suffix = this.isPercentage() ? '%' : ''
   }
 
   initChartEvents() {

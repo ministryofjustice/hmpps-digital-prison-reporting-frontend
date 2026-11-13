@@ -37,6 +37,12 @@ export default function routes(services: Services): Router {
     res.sendStatus(200)
   })
 
+  router.post('/toggleDashboardAudit', async (_req: Request, res: Response) => {
+    services.dashboardAuditService.enabled = !services.dashboardAuditService.enabled
+    res.app.locals['dashboardAuditEnabled'] = services.dashboardAuditService.enabled
+    res.sendStatus(200)
+  })
+
   // --------- REDIS ---------- //
 
   router.post('/setRedisState', async (req: Request, res: Response) => {

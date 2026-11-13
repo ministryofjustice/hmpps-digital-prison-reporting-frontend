@@ -6,6 +6,7 @@ import {
   parentChildDashboardDefinition,
 } from './definition-parent-child'
 import { definition as definitionSync } from './definition-sync'
+import { definition as definitionAudit } from './definition-audit'
 
 export const featureTestingDefinitions = [
   definitionSync,
@@ -14,5 +15,7 @@ export const featureTestingDefinitions = [
   parentChildDashboardDefinition,
   childDashboardOneDefinition,
   childDashboardTwoDefinition,
+  definitionAudit,
 ]
+
 export const featureTestingIds = featureTestingDefinitions.map(vis => vis.id)

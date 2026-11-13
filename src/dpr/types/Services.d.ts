@@ -13,6 +13,7 @@ import { ProductCollectionService } from '../services/productCollection/productC
 import { FeatureFlagService } from '../services/featureFlagService'
 import SubscriptionStoreService from '../routes/journeys/my-reports/subscriptions/service'
 import SubscriptionService from '../services/subscriptionService'
+import DashboardAuditService from '../services/dashboardAuditService/dashboardAuditService'
 
 export type Services = UserStoreServices & {
   reportingService: ReportingService
@@ -21,6 +22,7 @@ export type Services = UserStoreServices & {
   missingReportService: MissingReportService
   productCollectionService: ProductCollectionService
   featureFlagService: FeatureFlagService
+  dashboardAuditService: DashboardAuditService
 }
 
 export interface UserStoreServices {

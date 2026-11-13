@@ -11,6 +11,7 @@ import { LineDefinitionMeasure } from '../../_charts/chart/line/types'
 import { PartialDate } from '../../_filters/types'
 import { Scorecard, ScorecardGroup } from '../scorecard/types'
 import DashboardVisualisationSchemas from './Validate'
+import { DashboardDataResponse } from 'src/dpr/types/Metrics'
 
 export interface DashboardSection {
   id: string
@@ -25,6 +26,7 @@ export interface DashboardVisualisation {
   title?: string | undefined
   description?: string | undefined
   isEnabled: boolean
+  dataset?: DashboardDataResponse[] | undefined
   data:
     | Scorecard
     | Scorecard[]
@@ -32,6 +34,16 @@ export interface DashboardVisualisation {
     | DashboardVisualisationCardData
     | DashboardVisualisationTable
     | undefined
+}
+
+export interface DashboardVisualisationConfig {
+  chartData: {
+    chart?: DashboardVisualisationData | undefined
+    table?: MoJTable | undefined
+    tables?: MoJTable[] | undefined
+    details?: ChartDetails | undefined
+  }
+  dataset: DashboardDataResponse[] | undefined
 }
 
 export interface DashboardVisualisationCardData {

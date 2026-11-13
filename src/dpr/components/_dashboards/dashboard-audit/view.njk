@@ -1,0 +1,34 @@
+{% from "./dashboard-audit-items/view.njk" import dprDashboardAuditItems %}
+{% from "moj/components/notification-badge/macro.njk" import mojNotificationBadge %}
+
+{% macro dprDashboardAudit(audit)  %}
+  {% if audit %}
+  <div
+    aria-labelledby="dpr-dashboard-audit"
+    class="dpr-dashboard-audit {% if audit.totalCount === 0 %} dpr-dashboard-audit--passed{% endif %}">
+
+    <h1 id="dpr-dashboard-audit" class="govuk-heading-l">Dashboard audit</h2>
+
+    {% if audit.totalCount === 0 %}
+      <p class="govuk-body dpr-audit-no-issues">No issues found</p>
+    {% endif %}
+
+    {% if audit.errorCount %}
+      {{ dprDashboardAuditItems('Errors', audit.errorCount, audit.errors) }}
+    {% endif %}
+
+    {% if audit.warningCount %}
+      {{ dprDashboardAuditItems('Warnings', audit.warningCount, audit.warnings) }}
+    {% endif %}
+
+    {% if audit.suggestionCount %}
+      {{ dprDashboardAuditItems('Suggestions', audit.suggestionCount, audit.suggestions) }}
+    {% endif %}
+
+    {% if audit.infoCount %}
+      {{ dprDashboardAuditItems('Info', audit.infoCount, audit.info) }}
+    {% endif %}
+
+  </div>
+  {% endif %}
+{% endmacro %}

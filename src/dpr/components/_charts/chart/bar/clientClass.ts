@@ -31,8 +31,8 @@ class BarChartVisualisation extends ChartVisualisation {
       callbacks: {
         title(context: TooltipItem<'bar'>[]) {
           const { label, dataset } = context[0]
-          const { label: datesetLabel } = dataset
-          const title = ctx.singleDataset ? `${label}` : `${datesetLabel}: ${label}`
+          const { label: datasetLabel } = dataset
+          const title = ctx.singleDataset ? `${label}` : `${datasetLabel}: ${label}`
           return title
         },
         label(context: TooltipItem<'bar'>) {

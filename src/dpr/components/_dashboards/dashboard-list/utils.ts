@@ -1,3 +1,4 @@
+import { mapUnitToSymbol, setUnitOnValue } from 'src/dpr/utils/Dashboards/VisualisationUnitHelper'
 import { components } from '../../../types/api'
 import { DashboardDataResponse } from '../../../types/Metrics'
 import DatasetHelper, { getDateValue, getTimestampColumn } from '../../../utils/Dashboards/VisualisationDatasetHelper'
@@ -8,6 +9,7 @@ import {
   MoJTableHead,
   MoJTableRow,
 } from '../dashboard-visualisation/types'
+import { UnitType } from '../dashboard-visualisation/Validate'
 import ListVisSchemas from './validate'
 
 export const createList = (
@@ -149,10 +151,15 @@ const formatCellData = (
   const raw = row[measure.id]?.raw
   let cellContent = raw == null ? 'No data' : String(raw)
 
-  const { type } = measure
+  const { type, unit } = measure
+
   if (type === 'date' || type === 'timestamp') {
     const granularity = getGranularityFromDateFormat(cellContent)
     cellContent = apiDateToUi(cellContent, granularity) || cellContent
+  }
+
+  if (unit === UnitType.PERCENTAGE) {
+    cellContent = setUnitOnValue(cellContent, mapUnitToSymbol(unit as UnitType), false)
   }
 
   return measure.type === 'HTML' ? { html: cellContent } : { text: cellContent }

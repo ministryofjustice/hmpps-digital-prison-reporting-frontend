@@ -1,17 +1,17 @@
 import { DashboardDataResponse } from '../../../types/Metrics'
-import {
-  DashboardVisualisationDataSet,
-  VisualisationDefinitionKey,
-  ChartMeasure,
-} from '../../_dashboards/dashboard-visualisation/types'
-import { UnitType } from '../../_dashboards/dashboard-visualisation/Validate'
-import ChartColoursHelper from './ChartColours'
-import ChartLabelsHelper from './ChartLabels'
-import { BarDefinitionMeasure } from './bar/types'
-import ChartConfig from './chart-config'
-import { LineDefinitionMeasure } from './line/types'
 import DatasetHelper from '../../../utils/Dashboards/VisualisationDatasetHelper'
 import { mapUnitToSymbol } from '../../../utils/Dashboards/VisualisationUnitHelper'
+import {
+  ChartMeasure,
+  DashboardVisualisationDataSet,
+  VisualisationDefinitionKey,
+} from '../../_dashboards/dashboard-visualisation/types'
+import { UnitType } from '../../_dashboards/dashboard-visualisation/Validate'
+import { BarDefinitionMeasure } from './bar/types'
+import ChartConfig from './chart-config'
+import ChartColoursHelper from './ChartColours'
+import ChartLabelsHelper from './ChartLabels'
+import { LineDefinitionMeasure } from './line/types'
 
 class Chart {
   labels: string[] = []

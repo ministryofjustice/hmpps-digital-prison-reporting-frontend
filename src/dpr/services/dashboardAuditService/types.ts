@@ -72,6 +72,7 @@ export interface GroupedAuditSuggestions {
 export interface AuditGroup {
   id: string
   name: string
+  auditKey: string
 
   errors: VisualAuditSuggestion[] | SectionAuditSuggestion[]
   warnings: VisualAuditSuggestion[] | SectionAuditSuggestion[]

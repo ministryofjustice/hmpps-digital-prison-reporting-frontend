@@ -11,6 +11,10 @@
 
   &.dpr-dashboard-audit--vis-audit {
     margin-bottom: govuk-spacing(4);
+
+    .dpr-dashboard-internal-audit-title {
+      margin-top: govuk-spacing(4);
+    }
   }
 
   .dpr-dashboard-audit-severity-title {

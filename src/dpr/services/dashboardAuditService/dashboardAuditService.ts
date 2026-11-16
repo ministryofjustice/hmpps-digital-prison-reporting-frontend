@@ -133,43 +133,31 @@ export default class DashboardAuditService {
    * @memberof DashboardAuditService
    */
   private groupSuggestions(
-    auditSuggestions: Array<AuditSuggestion | VisualAuditSuggestion>,
+    auditSuggestions: Array<AuditSuggestion | VisualAuditSuggestion | SectionAuditSuggestion>,
     visuals: VisualAuditContext[],
     sections: SectionAuditContext[],
   ): GroupedAuditSuggestions {
-    // Filters suggestions by severity
-    const errors = auditSuggestions.filter(s => s.severity === DashboardAuditSeverity.ERROR)
-
-    const warnings = auditSuggestions.filter(s => s.severity === DashboardAuditSeverity.WARNING)
-
-    const suggestions = auditSuggestions.filter(s => s.severity === DashboardAuditSeverity.SUGGESTION)
-
-    const info = auditSuggestions.filter(s => s.severity === DashboardAuditSeverity.INFO)
-
-    // Create an entry for every section
     const bySectionKey = this.groupBySectionId(auditSuggestions, sections)
 
-    // Create an entry for every visual
     const byVisualKey = this.groupByVisualId(auditSuggestions, visuals)
 
     return {
-      errors,
-      warnings,
-      suggestions,
-      info,
+      ...this.groupBySeverity(auditSuggestions),
 
       byVisualKey,
       bySectionKey,
-
-      errorCount: errors.length,
-      warningCount: warnings.length,
-      suggestionCount: suggestions.length,
-      infoCount: info.length,
-
-      totalCount: auditSuggestions.length,
     }
   }
 
+  /**
+   * Groups the audits suggestions by visual so they can be presented next to the relevant chart
+   *
+   * @private
+   * @param {(Array<AuditSuggestion | VisualAuditSuggestion | SectionAuditSuggestion>)} auditSuggestions
+   * @param {VisualAuditContext[]} visuals
+   * @return {*}  {Record<string, AuditGroup>}
+   * @memberof DashboardAuditService
+   */
   private groupByVisualId(
     auditSuggestions: Array<AuditSuggestion | VisualAuditSuggestion | SectionAuditSuggestion>,
     visuals: VisualAuditContext[],
@@ -183,6 +171,7 @@ export default class DashboardAuditService {
       acc[visual.auditKey] = {
         id: visual.id,
         name: visual.definition.display,
+        auditKey: visual.auditKey,
 
         ...this.groupBySeverity(visualAudit),
       }
@@ -191,6 +180,15 @@ export default class DashboardAuditService {
     }, {})
   }
 
+  /**
+   * Groups the Audit suggestions by section so they can be presented next to the relevant chart
+   *
+   * @private
+   * @param {(Array<AuditSuggestion | VisualAuditSuggestion | SectionAuditSuggestion>)} auditSuggestions
+   * @param {SectionAuditContext[]} sections
+   * @return {*}  {Record<string, AuditGroup>}
+   * @memberof DashboardAuditService
+   */
   private groupBySectionId(
     auditSuggestions: Array<AuditSuggestion | VisualAuditSuggestion | SectionAuditSuggestion>,
     sections: SectionAuditContext[],
@@ -204,6 +202,7 @@ export default class DashboardAuditService {
       acc[section.auditKey] = {
         id: section.id,
         name: section.name,
+        auditKey: section.auditKey,
 
         ...this.groupBySeverity(sectionAudit),
       }
@@ -211,6 +210,16 @@ export default class DashboardAuditService {
       return acc
     }, {})
   }
+
+  /**
+   * Groups the suggestions by severity
+   *
+   * @private
+   * @template T
+   * @param {T[]} audit
+   * @return {*}
+   * @memberof DashboardAuditService
+   */
   private groupBySeverity<T extends AuditSuggestion>(audit: T[]) {
     const errors = audit.filter(suggestion => suggestion.severity === DashboardAuditSeverity.ERROR)
 

@@ -14,7 +14,7 @@
 
     <ul class="govuk-list">
       {% for suggestion in suggestions %}
-
+        {% set internalAuditId = suggestion.visualAuditKey or suggestion.visualAuditKey %}
         {% set internalId = suggestion.visualId or suggestion.sectionId %}
         {% set internalTitle = suggestion.visualTitle or suggestion.sectionTitle %}
         {% set title = suggestion.title %}
@@ -23,7 +23,7 @@
         <li>
           {% if internalId or internalTitle %}
             {% set ruleTitleId = internalTitle or internalId %}
-            <h3 class="govuk-heading-s"><a class="govuk-link" href="#{{ internalId }}_audit">{{ ruleTitleId }} - {{ title }}</a></strong></h3>
+            <h3 class="govuk-heading-s"><a class="govuk-link" href="#{{ internalAuditId }}_audit">{{ ruleTitleId }} - {{ title }}</a></strong></h3>
           {% else %}
             <h3 class="govuk-heading-s">{{ title }}</h3>
           {% endif %}

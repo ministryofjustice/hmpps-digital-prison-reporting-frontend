@@ -2,7 +2,7 @@
 
 {% macro dprDashboardInternalAudit(internalAudit, type) %}
   {% set noIssuesFound = internalAudit.totalCount === 0 %}
-  {% set ariaId = internalAudit.id + '_audit' %}
+  {% set ariaId = internalAudit.auditKey + '_audit' %}
 
   <div
     role="region"
@@ -23,7 +23,7 @@
           aria-labelledby="{{ ariaId }}--errors">
 
           <ul class="govuk-list">
-            <h2 id="{{ ariaId }}--errors" class="govuk-heading-s">Errors</h2>
+            <h2 id="{{ ariaId }}--errors" class="dpr-dashboard-audit-severity-title govuk-heading-s">Errors</h2>
             {% for error in internalAudit.errors %}
               <li>
                 <h3 class="govuk-heading-s">{{ error.title }}</h3>
@@ -40,7 +40,7 @@
           role="region"
           aria-labelledby="{{ ariaId }}--warnings">
 
-          <h2 id="{{ ariaId }}--warnings" class="govuk-heading-s">Warnings</h2>
+          <h2 id="{{ ariaId }}--warnings" class="dpr-dashboard-audit-severity-title govuk-heading-s">Warnings</h2>
           <ul class="govuk-list">
             {% for warning in internalAudit.warnings %}
               <li>
@@ -58,7 +58,7 @@
           role="region"
           aria-labelledby="{{ ariaId }}--suggestions">
 
-          <h2 id="{{ ariaId }}--suggestions" class="govuk-heading-s">Suggestions</h2>
+          <h2 id="{{ ariaId }}--suggestions" class="dpr-dashboard-audit-severity-title govuk-heading-s">Suggestions</h2>
           <ul class="govuk-list">
             {% for suggestion in internalAudit.suggestions %}
               <li>
@@ -76,7 +76,7 @@
           role="region"
           aria-labelledby="{{ ariaId }}--info">
 
-          <h2 id="{{ ariaId }}--info" class="govuk-heading-s">Info</h2>
+          <h2 id="{{ ariaId }}--info" class="dpr-dashboard-audit-severity-title govuk-heading-s">Info</h2>
           <ul class="govuk-list">
             {% for i in internalAudit.info %}
               <li>

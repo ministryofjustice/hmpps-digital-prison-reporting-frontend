@@ -39,11 +39,35 @@ context('Dashboard audit', () => {
     it('should show the dashboard audit master list', () => {
       cy.findByLabelText(/Dashboard audit.*/i).within(() => {
         cy.findByRole('region', { name: /Errors/i }).within(() => {
-          cy.findByRole('list').findAllByRole('listitem').should('have.length', 9)
+          cy.findByRole('list').findAllByRole('listitem').should('have.length', 10)
         })
 
         cy.findByRole('region', { name: /Suggestions/i }).within(() => {
           cy.findByRole('list').findAllByRole('listitem').should('have.length', 5)
+        })
+      })
+    })
+
+    it('should show the dashboard audit next to the relevant section', () => {
+      cy.visit(viewDashboarUrl)
+
+      cy.findByRole('region', { name: /Audit for section "section-0"/i }).within(() => {
+        cy.findByRole('region', { name: /Errors/i }).within(() => {
+          cy.findByRole('list').findAllByRole('listitem').should('have.length', 2)
+        })
+
+        cy.findByRole('region', { name: /Suggestion/i }).within(() => {
+          cy.findByRole('list').findAllByRole('listitem').should('have.length', 1)
+        })
+      })
+
+      cy.findByRole('region', { name: /Audit for section "Bad section meta"/i }).within(() => {
+        cy.findByRole('region', { name: /Errors/i }).within(() => {
+          cy.findByRole('list').findAllByRole('listitem').should('have.length', 2)
+        })
+
+        cy.findByRole('region', { name: /Suggestion/i }).within(() => {
+          cy.findByRole('list').findAllByRole('listitem').should('have.length', 1)
         })
       })
     })

@@ -134,7 +134,7 @@ describe('Reports Catalogue', () => {
 
         validateCatalogueTotals(96)
         validateProductCount(6)
-        const expectedCount = 25
+        const expectedCount = 26
         getProductRow('Feature testing').contains(`(${expectedCount} reports)`)
         getProductRow('Feature testing').within(() => {
           cy.findAllByRole('heading', { level: 2 }).should('have.length', expectedCount)
@@ -146,7 +146,7 @@ describe('Reports Catalogue', () => {
 
         validateCatalogueTotals(52)
         validateProductCount(3)
-        const expectedCount = 6
+        const expectedCount = 7
         getProductRow('Feature testing').contains(`(${expectedCount} reports)`)
         getProductRow('Feature testing').within(() => {
           cy.findAllByRole('heading', { level: 2 }).should('have.length', expectedCount)
@@ -186,11 +186,11 @@ describe('Reports Catalogue', () => {
 
         cy.findByRole('checkbox', { name: 'Hide missing reports' }).check()
 
-        validateCatalogueTotals(93)
+        validateCatalogueTotals(94)
         validateProductCount(6)
-        getProductRow('Feature testing').contains(`(23 reports)`)
+        getProductRow('Feature testing').contains(`(24 reports)`)
         getProductRow('Feature testing').within(() => {
-          cy.findAllByRole('heading', { level: 2 }).should('have.length', 23)
+          cy.findAllByRole('heading', { level: 2 }).should('have.length', 24)
         })
       })
     })

@@ -21,7 +21,7 @@
       {{ dprReportHeading(data) }}
       {{ dprDashboardFilters(filters, validationErrors, appliedFilters, csrfToken) }}
       {% for section in sections %}
-        {{ dprDashboardSection(section, loop.index, audit) }}
+        {{ dprDashboardSection(section, loop.index0, audit) }}
       {% endfor %}
     </div>
   </div>

@@ -16,6 +16,7 @@ export const noVisualDatasetRule: DatasetRule = {
           'Your visualisation definition has pulled no data from the master dataset. Check the definition to ensure columns are defined correctly',
         visualId: context.id,
         visualTitle: context.name,
+        visualAuditKey: context.auditKey,
       })
     }
 

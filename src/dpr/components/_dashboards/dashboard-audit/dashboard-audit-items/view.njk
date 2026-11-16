@@ -1,27 +1,37 @@
 {% from "moj/components/notification-badge/macro.njk" import mojNotificationBadge %}
 
 {% macro dprDashboardAuditItems(title, count, suggestions) %}
-  <h2 class="govuk-heading-m dpr-dashboard-audit-severity-title">{{title}} {{ mojNotificationBadge({ text: count }) }}</h2>
 
-  <ul class="govuk-list">
-    {% for suggestion in suggestions %}
+  <div
+    role="region"
+    aria-labelledby="dpr-dashboard-audit-severity-title--{{ title }}">
 
-      {% set visualId = suggestion.visualId %}
-      {% set visualTitle = suggestion.visualTitle %}
-      {% set title = suggestion.title %}
-      {% set description = suggestion.description %}
+    <h2 id="dpr-dashboard-audit-severity-title--{{ title }}"
+      class="govuk-heading-m dpr-dashboard-audit-severity-title">
+      {{title}}
+      {{ mojNotificationBadge({ text: count }) }}
+    </h2>
 
-      <li>
-        {% if visualTitle or visualId %}
-          {% set ruleTitleId = visualTitle or visualId %}
-          <h3 class="govuk-heading-s"><a class="govuk-link" href="#{{ visualId }}_audit">{{ ruleTitleId }} - {{ title }}</a></strong></h3>
-        {% else %}
-          <h3 class="govuk-heading-s">{{ title }}</h3>
-        {% endif %}
-        <p class="dpr-audit-description">{{ description }}</p>
-      </li>
+    <ul class="govuk-list">
+      {% for suggestion in suggestions %}
 
-    {% endfor %}
-  </ul>
+        {% set internalId = suggestion.visualId or suggestion.sectionId %}
+        {% set internalTitle = suggestion.visualTitle or suggestion.sectionTitle %}
+        {% set title = suggestion.title %}
+        {% set description = suggestion.description %}
+
+        <li>
+          {% if internalId or internalTitle %}
+            {% set ruleTitleId = internalTitle or internalId %}
+            <h3 class="govuk-heading-s"><a class="govuk-link" href="#{{ internalId }}_audit">{{ ruleTitleId }} - {{ title }}</a></strong></h3>
+          {% else %}
+            <h3 class="govuk-heading-s">{{ title }}</h3>
+          {% endif %}
+          <p class="dpr-audit-description">{{ description }}</p>
+        </li>
+
+      {% endfor %}
+    </ul>
+  </div>
 
 {% endmacro %}

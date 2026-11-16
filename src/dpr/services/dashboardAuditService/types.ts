@@ -4,10 +4,12 @@ import { DashboardDataResponse } from 'src/dpr/types/Metrics'
 
 export interface AuditContext {
   definition: components['schemas']['DashboardDefinition']
+  sections: SectionAuditContext[]
   visuals: VisualAuditContext[]
 }
 
 export interface VisualAuditContext {
+  auditKey: string
   id: string
   name: string
   type: DashboardVisualisationType
@@ -15,6 +17,13 @@ export interface VisualAuditContext {
   dataset: DashboardDataResponse[]
   rowCount: number
   columnCount: number
+}
+
+export interface SectionAuditContext {
+  auditKey: string
+  id: string
+  name: string
+  definition: components['schemas']['DashboardSectionDefinition']
 }
 
 export interface AuditSuggestion {
@@ -25,8 +34,15 @@ export interface AuditSuggestion {
 }
 
 export interface VisualAuditSuggestion extends AuditSuggestion {
+  visualAuditKey: string
   visualId: string
   visualTitle: string
+}
+
+export interface SectionAuditSuggestion extends AuditSuggestion {
+  sectionId: string
+  sectionTitle: string
+  sectionAuditKey: string
 }
 
 export enum DashboardAuditSeverity {
@@ -37,12 +53,13 @@ export enum DashboardAuditSeverity {
 }
 
 export interface GroupedAuditSuggestions {
-  errors: Array<AuditSuggestion | VisualAuditSuggestion>
-  warnings: Array<AuditSuggestion | VisualAuditSuggestion>
-  suggestions: Array<AuditSuggestion | VisualAuditSuggestion>
-  info: Array<AuditSuggestion | VisualAuditSuggestion>
+  errors: Array<AuditSuggestion | VisualAuditSuggestion | SectionAuditSuggestion>
+  warnings: Array<AuditSuggestion | VisualAuditSuggestion | SectionAuditSuggestion>
+  suggestions: Array<AuditSuggestion | VisualAuditSuggestion | SectionAuditSuggestion>
+  info: Array<AuditSuggestion | VisualAuditSuggestion | SectionAuditSuggestion>
 
-  byVisualId: Record<string, VisualAuditGroup>
+  byVisualKey: Record<string, AuditGroup>
+  bySectionKey: Record<string, AuditGroup>
 
   errorCount: number
   warningCount: number
@@ -52,14 +69,14 @@ export interface GroupedAuditSuggestions {
   totalCount: number
 }
 
-export interface VisualAuditGroup {
+export interface AuditGroup {
   id: string
   name: string
 
-  errors: VisualAuditSuggestion[]
-  warnings: VisualAuditSuggestion[]
-  suggestions: VisualAuditSuggestion[]
-  info: VisualAuditSuggestion[]
+  errors: VisualAuditSuggestion[] | SectionAuditSuggestion[]
+  warnings: VisualAuditSuggestion[] | SectionAuditSuggestion[]
+  suggestions: VisualAuditSuggestion[] | SectionAuditSuggestion[]
+  info: VisualAuditSuggestion[] | SectionAuditSuggestion[]
 
   errorCount: number
   warningCount: number

@@ -2,9 +2,9 @@
 {% from "../scorecard-group/view.njk" import dprScoreCardGroup %}
 {% from "../dashboard-list/view.njk" import dprDashboardList %}
 {%- from "moj/components/alert/macro.njk" import mojAlert -%}
-{% from "../dashboard-audit/dashboard-audit-vis/view.njk" import dprDashboardVisAudit %}
+{% from "../dashboard-audit/dashboard-audit-internal/view.njk" import dprDashboardInternalAudit %}
 
-{% macro dprDashboardVisualisation(visualisation, loopIndex, audit) %}
+{% macro dprDashboardVisualisation(visualisation, sectionLoopIndex, visualLoopIndex, audit) %}
   {% set type = visualisation.type %}
   {% set id = visualisation.id %}
   {% set title = visualisation.title %}
@@ -12,8 +12,10 @@
   {% set data = visualisation.data %}
   {% set isEnabled = visualisation.isEnabled %}
   {% set notFound = visualisation.notFound %}
-  {% set visualisationLabelId = "visualisation-title-" + loopIndex %}
-  {% set visualAudit = audit.byVisualId[id] %}
+  {% set visualisationLabelId = "visualisation-title-" + sectionLoopIndex + '-' + visualLoopIndex %}
+
+  {% set visualAuditKey = "visual-audit-" + sectionLoopIndex + '-' + visualLoopIndex %}
+  {% set visualAudit = audit.byVisualKey[visualAuditKey] %}
 
   <div
     class="dashboard-visualisation-container"
@@ -26,7 +28,7 @@
     {% endif %}
 
     {% if audit %}
-      {{ dprDashboardVisAudit(visualAudit) }}
+      {{ dprDashboardInternalAudit(visualAudit, 'chart') }}
     {% endif %}
 
     {% if description %}

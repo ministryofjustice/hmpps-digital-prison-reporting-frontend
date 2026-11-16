@@ -1,10 +1,12 @@
 import {
   AuditContext,
+  AuditGroup,
   AuditSuggestion,
   DashboardAuditSeverity,
   GroupedAuditSuggestions,
+  SectionAuditContext,
+  SectionAuditSuggestion,
   VisualAuditContext,
-  VisualAuditGroup,
   VisualAuditSuggestion,
 } from './types'
 import { AuditRules } from './rules/types'
@@ -33,7 +35,7 @@ export default class DashboardAuditService {
     const suggestions = this.auditContext(context)
 
     // 3. group by severity
-    return this.groupSuggestions(suggestions, context.visuals)
+    return this.groupSuggestions(suggestions, context.visuals, context.sections)
   }
 
   /**
@@ -45,10 +47,13 @@ export default class DashboardAuditService {
    * @memberof DashboardAuditService
    */
   private auditContext(context: AuditContext): AuditSuggestion[] {
-    const { dashboard, visual, dataset } = this.rules
+    const { dashboard, visual, dataset, section } = this.rules
 
     // Run dashboard rules
     const dashboardSuggestions = dashboard.flatMap(rule => rule.audit(context))
+
+    // Run section rules
+    const sectionSuggestions = section.flatMap(rule => rule.audit(context))
 
     // Run visualisation rules
     const { visuals } = context
@@ -61,7 +66,7 @@ export default class DashboardAuditService {
     // Run dataset rules
     const datasetSuggestions = visuals.flatMap(visualData => dataset.flatMap(rule => rule.audit(visualData)))
 
-    return [...dashboardSuggestions, ...visualSuggestions, ...datasetSuggestions]
+    return [...dashboardSuggestions, ...visualSuggestions, ...datasetSuggestions, ...sectionSuggestions]
   }
 
   /**
@@ -87,12 +92,13 @@ export default class DashboardAuditService {
           })) ?? [],
       ) ?? []
 
-    const visuals: VisualAuditContext[] = definition.sections.flatMap(section =>
-      section.visualisations.map(vis => {
+    const visuals: VisualAuditContext[] = definition.sections.flatMap((section, sectionIndex) =>
+      section.visualisations.map((vis, visIndex) => {
         const datasetConfig = datasets.find(dataset => dataset.id === vis.id)
         const dataset = datasetConfig?.dataset ?? []
 
         return {
+          auditKey: `visual-audit-${sectionIndex}-${visIndex}`,
           id: vis.id,
           name: vis.display,
           type: vis.type as DashboardVisualisationType,
@@ -104,8 +110,16 @@ export default class DashboardAuditService {
       }),
     )
 
+    const sectionAuditContexts: SectionAuditContext[] = definition.sections.map((section, index) => ({
+      auditKey: `section-audit-${index}`,
+      id: section.id,
+      name: section.display,
+      definition: section,
+    }))
+
     return {
       definition,
+      sections: sectionAuditContexts,
       visuals,
     }
   }
@@ -121,6 +135,7 @@ export default class DashboardAuditService {
   private groupSuggestions(
     auditSuggestions: Array<AuditSuggestion | VisualAuditSuggestion>,
     visuals: VisualAuditContext[],
+    sections: SectionAuditContext[],
   ): GroupedAuditSuggestions {
     // Filters suggestions by severity
     const errors = auditSuggestions.filter(s => s.severity === DashboardAuditSeverity.ERROR)
@@ -131,8 +146,11 @@ export default class DashboardAuditService {
 
     const info = auditSuggestions.filter(s => s.severity === DashboardAuditSeverity.INFO)
 
+    // Create an entry for every section
+    const bySectionKey = this.groupBySectionId(auditSuggestions, sections)
+
     // Create an entry for every visual
-    const byVisualId = this.groupByVisualId(auditSuggestions, visuals)
+    const byVisualKey = this.groupByVisualId(auditSuggestions, visuals)
 
     return {
       errors,
@@ -140,7 +158,8 @@ export default class DashboardAuditService {
       suggestions,
       info,
 
-      byVisualId,
+      byVisualKey,
+      bySectionKey,
 
       errorCount: errors.length,
       warningCount: warnings.length,
@@ -152,41 +171,67 @@ export default class DashboardAuditService {
   }
 
   private groupByVisualId(
-    auditSuggestions: Array<AuditSuggestion | VisualAuditSuggestion>,
+    auditSuggestions: Array<AuditSuggestion | VisualAuditSuggestion | SectionAuditSuggestion>,
     visuals: VisualAuditContext[],
-  ) {
-    return visuals.reduce<Record<string, VisualAuditGroup>>((acc, visual) => {
+  ): Record<string, AuditGroup> {
+    return visuals.reduce<Record<string, AuditGroup>>((acc, visual) => {
       const visualAudit = auditSuggestions.filter(
         (suggestion): suggestion is VisualAuditSuggestion =>
-          'visualId' in suggestion && suggestion.visualId === visual.id,
+          'visualAuditKey' in suggestion && suggestion.visualAuditKey === visual.auditKey,
       )
 
-      const errors = visualAudit.filter(suggestion => suggestion.severity === DashboardAuditSeverity.ERROR)
-
-      const warnings = visualAudit.filter(suggestion => suggestion.severity === DashboardAuditSeverity.WARNING)
-
-      const suggestions = visualAudit.filter(suggestion => suggestion.severity === DashboardAuditSeverity.SUGGESTION)
-
-      const info = visualAudit.filter(suggestion => suggestion.severity === DashboardAuditSeverity.INFO)
-
-      acc[visual.id] = {
+      acc[visual.auditKey] = {
         id: visual.id,
         name: visual.definition.display,
 
-        errors,
-        warnings,
-        suggestions,
-        info,
-
-        errorCount: errors.length,
-        warningCount: warnings.length,
-        suggestionCount: suggestions.length,
-        infoCount: info.length,
-
-        totalCount: visualAudit.length,
+        ...this.groupBySeverity(visualAudit),
       }
 
       return acc
     }, {})
+  }
+
+  private groupBySectionId(
+    auditSuggestions: Array<AuditSuggestion | VisualAuditSuggestion | SectionAuditSuggestion>,
+    sections: SectionAuditContext[],
+  ): Record<string, AuditGroup> {
+    return sections.reduce<Record<string, AuditGroup>>((acc, section) => {
+      const sectionAudit = auditSuggestions.filter(
+        (suggestion): suggestion is SectionAuditSuggestion =>
+          'sectionAuditKey' in suggestion && suggestion.sectionAuditKey === section.auditKey,
+      )
+
+      acc[section.auditKey] = {
+        id: section.id,
+        name: section.name,
+
+        ...this.groupBySeverity(sectionAudit),
+      }
+
+      return acc
+    }, {})
+  }
+  private groupBySeverity<T extends AuditSuggestion>(audit: T[]) {
+    const errors = audit.filter(suggestion => suggestion.severity === DashboardAuditSeverity.ERROR)
+
+    const warnings = audit.filter(suggestion => suggestion.severity === DashboardAuditSeverity.WARNING)
+
+    const suggestions = audit.filter(suggestion => suggestion.severity === DashboardAuditSeverity.SUGGESTION)
+
+    const info = audit.filter(suggestion => suggestion.severity === DashboardAuditSeverity.INFO)
+
+    return {
+      errors,
+      warnings,
+      suggestions,
+      info,
+
+      errorCount: errors.length,
+      warningCount: warnings.length,
+      suggestionCount: suggestions.length,
+      infoCount: info.length,
+
+      totalCount: audit.length,
+    }
   }
 }

@@ -18,6 +18,7 @@ export const missingVisualMetaRule: VisualRule = {
         description: 'Your chart is missing a description',
         visualId: context.id,
         visualTitle: context.name,
+        visualAuditKey: context.auditKey,
       })
     }
 
@@ -29,6 +30,7 @@ export const missingVisualMetaRule: VisualRule = {
         description: 'Your chart is missing a name',
         visualId: context.id,
         visualTitle: context.name,
+        visualAuditKey: context.auditKey,
       })
     }
 

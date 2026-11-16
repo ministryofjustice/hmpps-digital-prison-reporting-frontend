@@ -1,17 +1,24 @@
 {% from "../../_charts/chart-card/view.njk" import dprChartCard %}
 {% from "../scorecard-group/view.njk" import dprScoreCardGroup %}
 {% from "../dashboard-visualisation/view.njk" import dprDashboardVisualisation %}
+{% from "../dashboard-audit/dashboard-audit-internal/view.njk" import dprDashboardInternalAudit %}
 
-{% macro dprDashboardSection(section, loopIndex, audit) %}
+{% macro dprDashboardSection(section, sectionLoopIndex, audit) %}
   {% set id = section.id %}
   {% set title = section.title %}
   {% set description = section.description %}
   {% set visualisations = section.visualisations %}
-  {% set sectionLabelId = "section-title-" + loopIndex %}
+  {% set sectionLabelId = "section-title-" + sectionLoopIndex %}
+  {% set sectionAuditKey = "section-audit-" + sectionLoopIndex %}
+  {% set sectionAudit = audit.bySectionKey[sectionAuditKey] %}
 
   <hr class="dashboard-section-break" />
   <div class="dpr-dashboard-section" id="{{ id }}-dashboard-section" . aria-labelledby="{{ sectionLabelId }}">
     <h2 id="{{ sectionLabelId }}" class="govuk-heading-l">{{ title }}</h2>
+
+    {% if audit %}
+      {{ dprDashboardInternalAudit(sectionAudit, 'section') }}
+    {% endif %}
 
     {% if description %}
       <p class="govuk-body">{{ description | dpr.safe }}</p>
@@ -19,7 +26,7 @@
 
     <div class="dashboard-section-container">
       {% for visualisation in visualisations %}
-        {{ dprDashboardVisualisation(visualisation, loop.index, audit) }}
+        {{ dprDashboardVisualisation(visualisation, sectionLoopIndex, loop.index0, audit) }}
       {% endfor %}
     </div>
   </div>

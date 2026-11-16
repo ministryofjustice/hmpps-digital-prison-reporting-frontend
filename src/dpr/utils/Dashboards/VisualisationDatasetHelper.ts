@@ -20,7 +20,11 @@ export const getDatasetRows = (
   const { measures, filters, expectNulls, keys } = columns
 
   const requiredColumnIds = new Set(keys?.map(col => col.id))
-  const measureIds = new Set(measures.map(col => col.id))
+  const measureIds = new Set(measures.map(col => col.id).filter(Boolean))
+
+  if (!measureIds.size) {
+    return []
+  }
 
   const dateColumn = getTimestampColumn(columns)
   const dateData = getDateValue(dashboardData, dateColumn)

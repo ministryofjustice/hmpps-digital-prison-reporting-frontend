@@ -13,7 +13,7 @@ export const noVisualDatasetRule: DatasetRule = {
         severity: DashboardAuditSeverity.ERROR,
         title: 'No data in visualisation dataset',
         description:
-          'Your definition has pulled no data from the master dataset. Check your definition to ensure columns are defined correctly',
+          'Your visualisation definition has pulled no data from the master dataset. Check the definition to ensure columns are defined correctly',
         visualId: context.id,
         visualTitle: context.name,
       })

@@ -12,8 +12,9 @@
       {% set description = suggestion.description %}
 
       <li>
-        {% if visualId %}
-          <h3 class="govuk-heading-s"><a class="govuk-link" href="#{{ visualId }}_audit">{{ visualTitle }} - {{ title }}</a></strong></h3>
+        {% if visualTitle or visualId %}
+          {% set ruleTitleId = visualTitle or visualId %}
+          <h3 class="govuk-heading-s"><a class="govuk-link" href="#{{ visualId }}_audit">{{ ruleTitleId }} - {{ title }}</a></strong></h3>
         {% else %}
           <h3 class="govuk-heading-s">{{ title }}</h3>
         {% endif %}

@@ -59,7 +59,7 @@ const dashboardOptions = z.object({
 })
 
 export const DashboardVisualisationSchema = z.object({
-  id: z.string(),
+  id: z.string().trim().min(1, 'Visualisation ID cannot be empty'),
   type: z.enum([
     'list',
     'doughnut',

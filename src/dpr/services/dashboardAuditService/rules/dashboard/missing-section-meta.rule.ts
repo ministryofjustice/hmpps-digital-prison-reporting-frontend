@@ -13,40 +13,32 @@ export const missingDashboardSectionMetaRule: DashboardRule = {
         auditSuggestions.push({
           code: 'MISSING_DASHBOARD_SECTION_NAME',
           severity: DashboardAuditSeverity.ERROR,
-          title: 'Missing section Name',
+          title: `${id} - Missing section Name`,
           description: id ? `Section with id: "${id}" is missing a name` : 'Section is missing a name',
         })
       }
 
       if (!description || description === '') {
-        const identifier = display ?? id
+        const identifier = display || id
 
         auditSuggestions.push({
           code: 'MISSING_DASHBOARD_SECTION_DESCRIPTION',
           severity: DashboardAuditSeverity.ERROR,
-          title: 'Missing section description',
+          title: identifier ? `${identifier} - Missing section description` : `Missing section description`,
           description: identifier
             ? `Section with id: "${identifier}" is missing a description`
             : 'Section is missing a description',
         })
       }
 
-      if (!id || id === '') {
-        auditSuggestions.push({
-          code: 'MISSING_DASHBOARD_SECTION_ID',
-          severity: DashboardAuditSeverity.ERROR,
-          title: 'Missing section ID',
-          description: display ? `Section with name: "${display}" is missing an ID` : 'Section is missing an ID',
-        })
-      }
-
       if (visualisations.length === 0) {
         const identifier = display ?? id
+        const title = 'No visualisations defined in section'
 
         auditSuggestions.push({
-          code: 'MISSING_DASHBOARD_SECTION_ID',
+          code: 'MISSING_VISUALISATIONS_IN_SECTION',
           severity: DashboardAuditSeverity.SUGGESTION,
-          title: 'No visualisations defined',
+          title: identifier ? `${identifier} - ${title}` : `${title}`,
           description: identifier
             ? `No visualisations have been defined in section "${identifier}". Consider adding some to make this section more useful.`
             : 'No visualisations have been defined in a section. Consider adding some to make this section more useful.',
@@ -54,14 +46,22 @@ export const missingDashboardSectionMetaRule: DashboardRule = {
       }
     })
 
-    const duplicateIds = sections.length !== new Set(sections.map(section => section.id)).size
+    const seen = new Set<string>()
+    const duplicateIds = sections.reduce<string[]>((duplicates, section) => {
+      if (seen.has(section.id)) {
+        return duplicates.includes(section.id) ? duplicates : [...duplicates, section.id]
+      }
+      seen.add(section.id)
 
-    if (duplicateIds) {
+      return duplicates
+    }, [])
+
+    if (duplicateIds.length > 0) {
       auditSuggestions.push({
         code: 'MISSING_DASHBOARD_DUPLICATE_SECTION_ID',
         severity: DashboardAuditSeverity.ERROR,
         title: 'Duplicate section IDs',
-        description: 'Multiple sections have been given the same IDs. This will cause the sidebar navigation to break.',
+        description: `Duplicate section IDs found: ${Array.from(duplicateIds).join(', ')}. This will cause the sidebar navigation to break.`,
       })
     }
 

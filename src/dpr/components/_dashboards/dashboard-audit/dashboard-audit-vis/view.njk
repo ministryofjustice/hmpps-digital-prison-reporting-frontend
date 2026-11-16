@@ -1,32 +1,66 @@
 {% from "moj/components/notification-badge/macro.njk" import mojNotificationBadge %}
 
 {% macro dprDashboardVisAudit(visualAudit) %}
-  {% set noIssuesFound = visualAudit.audit.length === 0 %}
+  {% set noIssuesFound = visualAudit.totalCount === 0 %}
 
   <div
     class="dpr-dashboard-audit dpr-dashboard-audit--vis-audit {% if noIssuesFound %} dpr-dashboard-audit--passed{% endif %}" id="{{ visualAudit.id }}_audit">
 
-    <h1 class="govuk-heading-s">Audit for chart "{{ visualAudit.name }}"</h1>
+    <h1 class="govuk-heading-m">Audit for chart "{{ visualAudit.name or visualAudit.id }}"</h1>
 
-  {% if noIssuesFound %}
+    {% if noIssuesFound %}
 
-    <p class="govuk-body dpr-audit-no-issues">No issues found</p>
+      <p class="govuk-body dpr-audit-no-issues">No issues found</p>
 
-  {% else %}
+    {% else %}
 
-    <ul class="govuk-list">
-      {% for suggestion in visualAudit.audit %}
+      {% if visualAudit.errorCount %}
+        <ul class="govuk-list">
+          <h2 class="govuk-heading-s">Errors</h2>
+          {% for error in visualAudit.errors %}
+            <li>
+              <h3 class="govuk-heading-s">{{ error.title }}</h3>
+              <p class="dpr-audit-description">{{ error.description }}</p>
+            </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
 
-        {% set title = suggestion.title %}
-        {% set description = suggestion.description %}
+      {% if visualAudit.warningCount %}
+        <h2 class="govuk-heading-s">Warnings</h2>
+        <ul class="govuk-list">
+          {% for warning in visualAudit.warnings %}
+            <li>
+              <h3 class="govuk-heading-s">{{ warning.title }}</h3>
+              <p class="dpr-audit-description">{{ warning.description }}</p>
+            </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
 
-        <li>
-          <h3 class="govuk-heading-s">{{ title }}</h3>
-          <p class="dpr-audit-description">{{ description }}</p>
-        </li>
+      {% if visualAudit.suggestionCount %}
+        <h2 class="govuk-heading-s">Suggestions</h2>
+        <ul class="govuk-list">
+          {% for suggestion in visualAudit.suggestions %}
+            <li>
+              <h3 class="govuk-heading-s">{{ suggestion.title }}</h3>
+              <p class="dpr-audit-description">{{ suggestion.description }}</p>
+            </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
 
-      {% endfor %}
-    </ul>
+      {% if visualAudit.infoCount %}
+        <h2 class="govuk-heading-s">Info</h2>
+        <ul class="govuk-list">
+          {% for i in visualAudit.info %}
+            <li>
+              <h3 class="govuk-heading-s">{{ i.title }}</h3>
+              <p class="dpr-audit-description">{{ i.description }}</p>
+            </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
 
     {% endif %}
 

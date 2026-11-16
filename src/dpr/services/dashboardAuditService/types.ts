@@ -51,8 +51,20 @@ export interface GroupedAuditSuggestions {
 
   totalCount: number
 }
+
 export interface VisualAuditGroup {
   id: string
   name: string
-  audit: VisualAuditSuggestion[]
+
+  errors: VisualAuditSuggestion[]
+  warnings: VisualAuditSuggestion[]
+  suggestions: VisualAuditSuggestion[]
+  info: VisualAuditSuggestion[]
+
+  errorCount: number
+  warningCount: number
+  suggestionCount: number
+  infoCount: number
+
+  totalCount: number
 }

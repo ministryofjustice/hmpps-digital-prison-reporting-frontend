@@ -53,7 +53,9 @@ export default class DashboardAuditService {
     // Run visualisation rules
     const { visuals } = context
     const visualSuggestions = visuals.flatMap(visualData =>
-      visual.filter(rule => rule.supportedTypes.includes(visualData.type)).flatMap(rule => rule.audit(visualData)),
+      visual
+        .filter(rule => rule.supportedTypes.includes(visualData.type) || rule.supportedTypes.length === 0)
+        .flatMap(rule => rule.audit(visualData)),
     )
 
     // Run dataset rules
@@ -130,18 +132,7 @@ export default class DashboardAuditService {
     const info = auditSuggestions.filter(s => s.severity === DashboardAuditSeverity.INFO)
 
     // Create an entry for every visual
-    const byVisualId = visuals.reduce<Record<string, VisualAuditGroup>>((acc, visual) => {
-      acc[visual.id] = {
-        id: visual.id,
-        name: visual.definition.display,
-        audit: auditSuggestions.filter(
-          (suggestion): suggestion is VisualAuditSuggestion =>
-            'visualId' in suggestion && suggestion.visualId === visual.id,
-        ),
-      }
-
-      return acc
-    }, {})
+    const byVisualId = this.groupByVisualId(auditSuggestions, visuals)
 
     return {
       errors,
@@ -158,5 +149,44 @@ export default class DashboardAuditService {
 
       totalCount: auditSuggestions.length,
     }
+  }
+
+  private groupByVisualId(
+    auditSuggestions: Array<AuditSuggestion | VisualAuditSuggestion>,
+    visuals: VisualAuditContext[],
+  ) {
+    return visuals.reduce<Record<string, VisualAuditGroup>>((acc, visual) => {
+      const visualAudit = auditSuggestions.filter(
+        (suggestion): suggestion is VisualAuditSuggestion =>
+          'visualId' in suggestion && suggestion.visualId === visual.id,
+      )
+
+      const errors = visualAudit.filter(suggestion => suggestion.severity === DashboardAuditSeverity.ERROR)
+
+      const warnings = visualAudit.filter(suggestion => suggestion.severity === DashboardAuditSeverity.WARNING)
+
+      const suggestions = visualAudit.filter(suggestion => suggestion.severity === DashboardAuditSeverity.SUGGESTION)
+
+      const info = visualAudit.filter(suggestion => suggestion.severity === DashboardAuditSeverity.INFO)
+
+      acc[visual.id] = {
+        id: visual.id,
+        name: visual.definition.display,
+
+        errors,
+        warnings,
+        suggestions,
+        info,
+
+        errorCount: errors.length,
+        warningCount: warnings.length,
+        suggestionCount: suggestions.length,
+        infoCount: info.length,
+
+        totalCount: visualAudit.length,
+      }
+
+      return acc
+    }, {})
   }
 }

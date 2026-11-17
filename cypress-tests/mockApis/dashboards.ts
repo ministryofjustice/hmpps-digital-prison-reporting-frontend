@@ -4,6 +4,7 @@ import {
   dashboardWithChildOneMock,
   dashboardWithChildTwoMock,
   dashboardWithLinksMock,
+  dashboardAuditMock,
   dashboardWithParentChildMock,
   featureFlagDashboardMock,
   syncDashboardMock,
@@ -151,6 +152,7 @@ const boxPlotChartsDefinitionStubs = {
 const definitionStubs = {
   stubTestDashboardDefinition: () => stubFor(featureFlagDashboardMock),
   stubTestDashboardDefinitionWithLink: () => stubFor(dashboardWithLinksMock),
+  stubTestDashboardDefinitionAudit: () => stubFor(dashboardAuditMock),
   stubTestDashboardDefinitionWithParentChild: () => stubFor(dashboardWithParentChildMock),
   stubTestDashboardDefinitionWithChildOne: () => stubFor(dashboardWithChildOneMock),
   stubTestDashboardDefinitionWithChildTwo: () => stubFor(dashboardWithChildTwoMock),

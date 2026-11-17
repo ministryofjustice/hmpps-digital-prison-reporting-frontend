@@ -132,9 +132,9 @@ describe('Reports Catalogue', () => {
       it('should show both dashboards and reports when all is ticked', () => {
         cy.findByRole('radio', { name: 'All' }).check()
 
-        validateCatalogueTotals(95)
+        validateCatalogueTotals(96)
         validateProductCount(6)
-        const expectedCount = 25
+        const expectedCount = 26
         getProductRow('Feature testing').contains(`(${expectedCount} reports)`)
         getProductRow('Feature testing').within(() => {
           cy.findAllByRole('heading', { level: 2 }).should('have.length', expectedCount)
@@ -144,9 +144,9 @@ describe('Reports Catalogue', () => {
       it('should show just dashboards when "Dashboards" is ticked', () => {
         cy.findByRole('radio', { name: 'Dashboard' }).check()
 
-        validateCatalogueTotals(51)
+        validateCatalogueTotals(52)
         validateProductCount(3)
-        const expectedCount = 6
+        const expectedCount = 7
         getProductRow('Feature testing').contains(`(${expectedCount} reports)`)
         getProductRow('Feature testing').within(() => {
           cy.findAllByRole('heading', { level: 2 }).should('have.length', expectedCount)
@@ -179,18 +179,18 @@ describe('Reports Catalogue', () => {
     describe('Hide missing', () => {
       it('should show the missing rows when unchecked', () => {
         validateProductCount(6)
-        getProductRow('Feature testing').contains(`(25 reports)`)
+        getProductRow('Feature testing').contains(`(26 reports)`)
         getProductRow('Feature testing').within(() => {
-          cy.findAllByRole('heading', { level: 2 }).should('have.length', 25)
+          cy.findAllByRole('heading', { level: 2 }).should('have.length', 26)
         })
 
         cy.findByRole('checkbox', { name: 'Hide missing reports' }).check()
 
-        validateCatalogueTotals(93)
+        validateCatalogueTotals(94)
         validateProductCount(6)
-        getProductRow('Feature testing').contains(`(23 reports)`)
+        getProductRow('Feature testing').contains(`(24 reports)`)
         getProductRow('Feature testing').within(() => {
-          cy.findAllByRole('heading', { level: 2 }).should('have.length', 23)
+          cy.findAllByRole('heading', { level: 2 }).should('have.length', 24)
         })
       })
     })

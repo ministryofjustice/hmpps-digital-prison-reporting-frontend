@@ -32,6 +32,7 @@ export const createDashboardSections = (
         const dashboardDataForVis = parentChildDetails?.data || dashboardData
 
         let chartData: DashboardVisualisation['data']
+        let dataset: DashboardDataResponse[] = []
 
         switch (type) {
           case DashboardVisualisationType.LIST:
@@ -54,14 +55,28 @@ export const createDashboardSections = (
           case DashboardVisualisationType.BAR:
           case DashboardVisualisationType.LINE:
           case DashboardVisualisationType.DONUT: {
-            chartData = ChartUtils.createChart(visDefinition, dashboardDataForVis, type)
+            const chartConfig = ChartUtils.createChart(visDefinition, dashboardDataForVis, type)
+
+            chartData = chartConfig?.chartData
+            dataset = chartConfig?.dataset ?? []
+
             break
           }
 
           case DashboardVisualisationType.MATRIX_TIMESERIES:
           case DashboardVisualisationType.BAR_TIMESERIES:
           case DashboardVisualisationType.LINE_TIMESERIES: {
-            chartData = ChartUtils.createTimeseriesCharts(visDefinition, dashboardDataForVis, type, query, partialDate)
+            const chartConfig = ChartUtils.createTimeseriesCharts(
+              visDefinition,
+              dashboardDataForVis,
+              type,
+              query,
+              partialDate,
+            )
+
+            chartData = chartConfig?.chartData
+            dataset = chartConfig?.dataset ?? []
+
             break
           }
 
@@ -77,6 +92,7 @@ export const createDashboardSections = (
           data: chartData,
           isEnabled: isEnabled ?? true,
           notFound: parentChildDetails?.notFound,
+          dataset,
         }
       },
     )

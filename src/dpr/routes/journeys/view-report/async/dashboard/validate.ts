@@ -2,7 +2,7 @@ import { z } from 'zod'
 import VisualisationSchemas from '../../../../../components/_dashboards/dashboard-visualisation/Validate'
 
 const DashboardSectionSchema = z.object({
-  id: z.string(),
+  id: z.string().trim().min(1, 'Section ID cannot be empty'),
   display: z.string(),
   description: z.string().optional(),
   visualisations: z.array(VisualisationSchemas.DashboardVisualisationSchema),

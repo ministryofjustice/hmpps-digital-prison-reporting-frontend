@@ -17,7 +17,12 @@ export const definition: components['schemas']['DashboardDefinition'] = {
           description: 'Invalid: must have at least two measures',
           columns: {
             keys: [{ id: 'ts' }],
-            measures: [],
+            measures: [
+              {
+                id: 'has_metric_one',
+                display: 'Has MetricOne',
+              },
+            ],
             expectNulls: false,
           },
         },

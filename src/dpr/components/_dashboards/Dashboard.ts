@@ -18,6 +18,7 @@ import DefinitionUtils from '../../utils/definitionUtils'
 import ErrorHandler from '../../utils/ErrorHandler/ErrorHandler'
 import { createDashboardSections } from './dashboard-section/utils'
 import DataPresentation from './DataPresentation'
+import { GroupedAuditSuggestions } from 'src/dpr/services/dashboardAuditService/types'
 
 export default class Dashboard extends DataPresentation {
   sections!: DashboardSection[]
@@ -31,6 +32,8 @@ export default class Dashboard extends DataPresentation {
   partialDate!: PartialDate | undefined
 
   dashboardFeatureFlags: Record<string, boolean>
+
+  audit!: GroupedAuditSuggestions
 
   constructor(
     services: Services,
@@ -71,6 +74,8 @@ export default class Dashboard extends DataPresentation {
 
     await this.buildActions(ReportType.DASHBOARD)
 
+    this.auditDashboard()
+
     return {
       dashboardConfig: {
         ...reportMeta,
@@ -81,6 +86,7 @@ export default class Dashboard extends DataPresentation {
         ...this.savedDefaultsConfig,
         ...this.actions,
         ...(this.extractedRequestData && this.extractedRequestData),
+        audit: this.audit,
       },
     }
   }
@@ -281,5 +287,16 @@ export default class Dashboard extends DataPresentation {
       queryParams,
       reportType: ReportType.DASHBOARD,
     })
+  }
+
+  auditDashboard = () => {
+    if (!this.services.dashboardAuditService.enabled) {
+      return undefined
+    }
+
+    this.audit = this.services.dashboardAuditService.audit(
+      this.definition as components['schemas']['DashboardDefinition'],
+      this.sections,
+    )
   }
 }

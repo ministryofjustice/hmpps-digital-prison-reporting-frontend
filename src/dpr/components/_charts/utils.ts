@@ -5,7 +5,7 @@ import { ChartDetails } from '../../types/Charts'
 import { DashboardDataResponse } from '../../types/Metrics'
 import DatasetHelper from '../../utils/Dashboards/VisualisationDatasetHelper'
 import {
-  DashboardVisualisationCardData,
+  DashboardVisualisationConfig,
   DashboardVisualisationData,
   DashboardVisualisationType,
   MoJTable,
@@ -28,17 +28,17 @@ export const createChart = (
   chartDefinition: components['schemas']['DashboardVisualisationDefinition'],
   rawData: DashboardDataResponse[],
   type: components['schemas']['DashboardVisualisationDefinition']['type'],
-): DashboardVisualisationCardData | undefined => {
+): DashboardVisualisationConfig | undefined => {
   let chart: DashboardVisualisationData | undefined
   let details: ChartDetails | undefined
 
-  const { dataSetRows, snapshotData } = getDataForSnapshotCharts(chartDefinition, rawData)
+  const { dataSetRows, snapshotData: dataset } = getDataForSnapshotCharts(chartDefinition, rawData)
   const tables: MoJTable[] = []
 
   if (dataSetRows.length) {
     switch (type) {
       case DashboardVisualisationType.BOX_PLOT: {
-        const boxPlotChart = new BoxPlotChart().withDefinition(chartDefinition).withData(snapshotData)
+        const boxPlotChart = new BoxPlotChart().withDefinition(chartDefinition).withData(dataset)
         chart = boxPlotChart.build()
         const statsTable = boxPlotChart.buildTable()
         tables.push(statsTable)
@@ -46,15 +46,15 @@ export const createChart = (
       }
 
       case DashboardVisualisationType.BAR:
-        chart = new BarChart().withDefinition(chartDefinition).withData(snapshotData).build()
+        chart = new BarChart().withDefinition(chartDefinition).withData(dataset).build()
         break
 
       case DashboardVisualisationType.DONUT:
-        chart = new DoughnutChart().withDefinition(chartDefinition).withData(snapshotData).build()
+        chart = new DoughnutChart().withDefinition(chartDefinition).withData(dataset).build()
         break
 
       case DashboardVisualisationType.LINE:
-        chart = new LineChart().withDefinition(chartDefinition).withData(snapshotData).build()
+        chart = new LineChart().withDefinition(chartDefinition).withData(dataset).build()
         break
 
       default:
@@ -68,9 +68,12 @@ export const createChart = (
   }
 
   return {
-    details,
-    tables,
-    chart,
+    chartData: {
+      details,
+      tables,
+      chart,
+    },
+    dataset,
   }
 }
 
@@ -80,7 +83,7 @@ export const createTimeseriesCharts = (
   type: components['schemas']['DashboardVisualisationDefinition']['type'],
   query: Record<string, string | string[]>,
   partialDate?: PartialDate,
-) => {
+): DashboardVisualisationConfig | undefined => {
   const tables: MoJTable[] = []
   let chart: DashboardVisualisationData | undefined
   let details: ChartDetails | undefined
@@ -94,22 +97,18 @@ export const createTimeseriesCharts = (
     })
   }
 
-  const { latestData, dataSetRows, timeseriesData } = getDataForTimeseriesCharts(chartDefinition, rawData)
+  const { latestData, dataSetRows, timeseriesData: dataset } = getDataForTimeseriesCharts(chartDefinition, rawData)
 
   if (dataSetRows.length) {
     switch (type) {
       case DashboardVisualisationType.MATRIX_TIMESERIES:
-        chart = new MatrixChart()
-          .withDefinition(chartDefinition)
-          .withGranularity(granularity)
-          .withData(timeseriesData)
-          .build()
+        chart = new MatrixChart().withDefinition(chartDefinition).withGranularity(granularity).withData(dataset).build()
         break
 
       case DashboardVisualisationType.LINE_TIMESERIES:
         chart = new LineTimeseriesChart()
           .withDefinition(chartDefinition)
-          .withData(timeseriesData)
+          .withData(dataset)
           .withPartialDate(partialDate)
           .build()
         break
@@ -117,7 +116,7 @@ export const createTimeseriesCharts = (
       case DashboardVisualisationType.BAR_TIMESERIES:
         chart = new BarTimeseriesChart()
           .withDefinition(chartDefinition)
-          .withData(timeseriesData)
+          .withData(dataset)
           .withPartialDate(partialDate)
           .build()
         break
@@ -126,16 +125,19 @@ export const createTimeseriesCharts = (
         break
     }
 
-    const table = createTimeseriesTable(chartDefinition, timeseriesData)
+    const table = createTimeseriesTable(chartDefinition, dataset)
     tables.push(table)
 
     details = getChartDetails(chartDefinition, latestData, true)
   }
 
   return {
-    details,
-    tables,
-    chart,
+    chartData: {
+      details,
+      tables,
+      chart,
+    },
+    dataset,
   }
 }
 

@@ -53,4 +53,10 @@ export interface ServiceFeatureConfig {
    *  - Subscription service will be disabled
    */
   subscriptions?: boolean
+
+  /** Enable/disable dashboard auditing
+   * - If enabled will audit the dashboard and charts definition against the dataset
+   * - will offer suggestions on how to improve usability
+   */
+  dashboardAudit?: boolean
 }

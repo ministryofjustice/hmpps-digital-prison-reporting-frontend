@@ -45,7 +45,7 @@
             {% for error in internalAudit.errors %}
               <li>
                 <h3 class="govuk-heading-s">{{ error.title }}</h3>
-                <p class="dpr-audit-description">{{ error.description }}</p>
+                <p class="dpr-audit-description">{{ error.description | dpr.safe }}</p>
               </li>
             {% endfor %}
           </ul>
@@ -63,7 +63,7 @@
             {% for warning in internalAudit.warnings %}
               <li>
                 <h3 class="govuk-heading-s">{{ warning.title }}</h3>
-                <p class="dpr-audit-description">{{ warning.description }}</p>
+                <p class="dpr-audit-description">{{ warning.description | dpr.safe }}</p>
               </li>
             {% endfor %}
           </ul>
@@ -81,7 +81,7 @@
             {% for suggestion in internalAudit.suggestions %}
               <li>
                 <h3 class="govuk-heading-s">{{ suggestion.title }}</h3>
-                <p class="dpr-audit-description">{{ suggestion.description }}</p>
+                <p class="dpr-audit-description">{{ suggestion.description | dpr.safe }}</p>
               </li>
             {% endfor %}
           </ul>
@@ -99,7 +99,7 @@
             {% for i in internalAudit.info %}
               <li>
                 <h3 class="govuk-heading-s">{{ i.title }}</h3>
-                <p class="dpr-audit-description">{{ i.description }}</p>
+                <p class="dpr-audit-description">{{ i.description | dpr.safe }}</p>
               </li>
             {% endfor %}
           </ul>

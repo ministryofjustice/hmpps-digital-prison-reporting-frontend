@@ -7,14 +7,14 @@
     aria-labelledby="dpr-dashboard-audit-severity-title--{{ title }}">
 
     <h2 id="dpr-dashboard-audit-severity-title--{{ title }}"
-      class="govuk-heading-m dpr-dashboard-audit-severity-title">
+      class="govuk-heading-s dpr-dashboard-audit-severity-title">
       {{title}}
       {{ mojNotificationBadge({ text: count }) }}
     </h2>
 
     <ul class="govuk-list">
       {% for suggestion in suggestions %}
-        {% set internalAuditId = suggestion.visualAuditKey or suggestion.visualAuditKey %}
+        {% set internalAuditId = suggestion.visualAuditKey or suggestion.sectionAuditKey %}
         {% set internalId = suggestion.visualId or suggestion.sectionId %}
         {% set internalTitle = suggestion.visualTitle or suggestion.sectionTitle %}
         {% set title = suggestion.title %}

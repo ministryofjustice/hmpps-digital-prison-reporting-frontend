@@ -10,7 +10,7 @@ export const noVisualDatasetRule: DatasetRule = {
     if (!datasetLength) {
       auditSuggestions.push({
         code: 'NO_VISUAL_DATASET',
-        severity: DashboardAuditSeverity.ERROR,
+        severity: DashboardAuditSeverity.WARNING,
         title: 'No data in visualisation dataset',
         description:
           'Your visualisation definition has pulled no data from the master dataset. Check the definition to ensure columns are defined correctly',

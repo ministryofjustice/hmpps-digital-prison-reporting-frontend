@@ -1,15 +1,33 @@
 {% from "moj/components/notification-badge/macro.njk" import mojNotificationBadge %}
+{% from "govuk/components/details/macro.njk" import govukDetails %}
 
 {% macro dprDashboardInternalAudit(internalAudit, type) %}
   {% set noIssuesFound = internalAudit.totalCount === 0 %}
   {% set ariaId = internalAudit.auditKey + '_audit' %}
+  {% set auditTitleIdentifier = internalAudit.name or internalAudit.id %}
+  {% set auditTitle = 'Audit for ' + type + ' "' + auditTitleIdentifier + '"'%}
+  {% set baseClasses = "dpr-dashboard-audit dpr-dashboard-audit--vis-audit" %}
 
+  {% set classes = baseClasses %}
+
+  {% if internalAudit.warningCount > 0 %}
+    {% set classes = baseClasses + " dpr-dashboard-audit--warning" %}
+  {% endif %}
+
+  {% if internalAudit.errorCount > 0 %}
+    {% set classes = baseClasses + " dpr-dashboard-audit--error" %}
+  {% endif %}
+
+  {% if noIssuesFound %}
+    {% set classes = baseClasses + " dpr-dashboard-audit--passed" %}
+  {% endif %}
+
+  {% set internalAuditHtml %}
   <div
     role="region"
-    aria-labelledby="{{ ariaId }}"
-    class="dpr-dashboard-audit dpr-dashboard-audit--vis-audit {% if noIssuesFound %} dpr-dashboard-audit--passed{% endif %}">
+    aria-labelledby="{{ ariaId }}">
 
-    <h1 id="{{ ariaId }}" class="govuk-heading-m">Audit for {{ type }} "{{ internalAudit.name or internalAudit.id }}"</h1>
+    <h1 id="{{ ariaId }}" class="govuk-heading-m govuk-visually-hidden">{{ auditTitle }}</h1>
 
     {% if noIssuesFound %}
 
@@ -92,4 +110,14 @@
     {% endif %}
 
   </div>
+  {% endset %}
+
+  {{
+    govukDetails({
+      summaryText: auditTitle,
+      html: internalAuditHtml,
+      open: false,
+      classes: classes
+    })
+  }}
 {% endmacro %}

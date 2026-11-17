@@ -9,12 +9,27 @@
     background-color: govuk-colour('green', $variant: 'tint-95');
   }
 
+  &.dpr-dashboard-audit--error {
+    border-left: solid 5px govuk-colour('red', $variant: 'primary');
+    background-color: govuk-colour('red', $variant: 'tint-95');
+  }
+
+  &.dpr-dashboard-audit--warning {
+    border-left: solid 5px govuk-colour('yellow', $variant: 'primary');
+    background-color: govuk-colour('yellow', $variant: 'tint-80');
+  }
+
   &.dpr-dashboard-audit--vis-audit {
     margin-bottom: govuk-spacing(4);
 
     .dpr-dashboard-internal-audit-title {
       margin-top: govuk-spacing(4);
     }
+  }
+
+  .govuk-details__text {
+    border: none;
+    padding: 0px;
   }
 
   .dpr-dashboard-audit-severity-title {

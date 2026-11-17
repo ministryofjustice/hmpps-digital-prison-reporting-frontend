@@ -43,6 +43,27 @@ const badChartMetaAudit1: components['schemas']['DashboardVisualisationDefinitio
   },
 }
 
+const badChartMetaAudit2: components['schemas']['DashboardVisualisationDefinition'] = {
+  id: 'bad-chart-meta-audit-2',
+  type: DashboardVisualisationType.BAR,
+  display: 'Bad chart meta audit 2',
+  description: 'Bad chart meta audit 2 description',
+  columns: {
+    keys: [],
+    measures: [
+      {
+        id: '',
+        display: '',
+      },
+      {
+        id: '',
+        display: '',
+      },
+    ],
+    expectNulls: false,
+  },
+}
+
 export const definition: components['schemas']['DashboardDefinition'] = {
   id: 'dashboard-audit-testing',
   name: 'Dashboard Audit testing',
@@ -67,7 +88,7 @@ export const definition: components['schemas']['DashboardDefinition'] = {
       id: 'section-2',
       display: 'Bad visualisation meta',
       description: 'Audit examples that show visualisations with incomplete meta data',
-      visualisations: [badChartMetaAudit0, badChartMetaAudit1],
+      visualisations: [badChartMetaAudit0, badChartMetaAudit1, badChartMetaAudit2],
     },
     {
       id: 'section-1',

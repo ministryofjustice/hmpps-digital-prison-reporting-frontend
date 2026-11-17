@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## 9.13.0
+
+- Show percentage symbols on tables, charts and tooltips
+
 ## 9.12.0
 
 - Added `Additional support` help sections

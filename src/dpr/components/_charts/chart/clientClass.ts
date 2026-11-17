@@ -2,7 +2,9 @@ import { BoxAndWiskers, BoxPlotController } from '@sgratzl/chartjs-chart-boxplot
 import Chart, { ChartConfiguration, ChartType } from 'chart.js/auto'
 import { MatrixController, MatrixElement } from 'chartjs-chart-matrix'
 import ChartDataLabels from 'chartjs-plugin-datalabels'
+import { mapUnitToSymbol } from 'src/dpr/utils/Dashboards/VisualisationUnitHelper'
 import { DprClientClass } from '../../../DprClientClass'
+import { UnitType } from '../../_dashboards/dashboard-visualisation/Validate'
 
 class ChartVisualisation extends DprClientClass {
   chartContext: HTMLCanvasElement | null = null
@@ -34,6 +36,7 @@ class ChartVisualisation extends DprClientClass {
     this.id = this.chartContext?.getAttribute('id') || ''
     this.chartParams = JSON.parse(this.getElement().getAttribute('data-dpr-chart-data') || '{}')
     this.type = this.getElement().getAttribute('data-dpr-chart-type')
+    this.unit = this.getElement().getAttribute('data-dpr-chart-unit') || ''
     this.setValueSuffix()
 
     // elements
@@ -151,13 +154,12 @@ class ChartVisualisation extends DprClientClass {
     }
   }
 
-  setValueSuffix() {
-    this.unit = this.getElement().getAttribute('data-dpr-chart-unit') || ''
-    this.suffix = this.unit === 'percentage' ? '%' : ''
+  isPercentage() {
+    return this.unit === UnitType.PERCENTAGE
   }
 
-  isPercentage() {
-    return this.unit === 'percentage'
+  setValueSuffix() {
+    this.suffix = mapUnitToSymbol(this.unit as UnitType)
   }
 
   initChartEvents() {

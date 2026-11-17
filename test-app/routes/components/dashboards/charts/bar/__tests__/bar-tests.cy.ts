@@ -323,36 +323,36 @@ context('Dashboard visualisation: bar chart', () => {
                       cy.wrap(row).within(() => {
                         cy.findAllByRole('cell').should('have.length', 8)
                         cy.findAllByRole('cell').eq(1).contains('ABC')
-                        cy.findAllByRole('cell').eq(2).contains('684')
-                        cy.findAllByRole('cell').eq(3).contains('665')
-                        cy.findAllByRole('cell').eq(4).contains('680')
-                        cy.findAllByRole('cell').eq(5).contains('799')
-                        cy.findAllByRole('cell').eq(6).contains('533')
-                        cy.findAllByRole('cell').eq(7).contains('614')
+                        cy.findAllByRole('cell').eq(2).contains('684%')
+                        cy.findAllByRole('cell').eq(3).contains('665%')
+                        cy.findAllByRole('cell').eq(4).contains('680%')
+                        cy.findAllByRole('cell').eq(5).contains('799%')
+                        cy.findAllByRole('cell').eq(6).contains('533%')
+                        cy.findAllByRole('cell').eq(7).contains('614%')
                       })
                       break
                     case 2:
                       cy.wrap(row).within(() => {
                         cy.findAllByRole('cell').should('have.length', 8)
                         cy.findAllByRole('cell').eq(1).contains('GHI')
-                        cy.findAllByRole('cell').eq(2).contains('700')
-                        cy.findAllByRole('cell').eq(3).contains('506')
-                        cy.findAllByRole('cell').eq(4).contains('771')
-                        cy.findAllByRole('cell').eq(5).contains('457')
-                        cy.findAllByRole('cell').eq(6).contains('484')
-                        cy.findAllByRole('cell').eq(7).contains('713')
+                        cy.findAllByRole('cell').eq(2).contains('700%')
+                        cy.findAllByRole('cell').eq(3).contains('506%')
+                        cy.findAllByRole('cell').eq(4).contains('771%')
+                        cy.findAllByRole('cell').eq(5).contains('457%')
+                        cy.findAllByRole('cell').eq(6).contains('484%')
+                        cy.findAllByRole('cell').eq(7).contains('713%')
                       })
                       break
                     case 3:
                       cy.wrap(row).within(() => {
                         cy.findAllByRole('cell').should('have.length', 8)
                         cy.findAllByRole('cell').eq(1).contains('DEF')
-                        cy.findAllByRole('cell').eq(2).contains('703')
-                        cy.findAllByRole('cell').eq(3).contains('409')
-                        cy.findAllByRole('cell').eq(4).contains('648')
-                        cy.findAllByRole('cell').eq(5).contains('720')
-                        cy.findAllByRole('cell').eq(6).contains('406')
-                        cy.findAllByRole('cell').eq(7).contains('682')
+                        cy.findAllByRole('cell').eq(2).contains('703%')
+                        cy.findAllByRole('cell').eq(3).contains('409%')
+                        cy.findAllByRole('cell').eq(4).contains('648%')
+                        cy.findAllByRole('cell').eq(5).contains('720%')
+                        cy.findAllByRole('cell').eq(6).contains('406%')
+                        cy.findAllByRole('cell').eq(7).contains('682%')
                       })
                       break
                     default:
@@ -763,7 +763,7 @@ context('Dashboard visualisation: bar chart', () => {
                         cy.findAllByRole('cell').should('have.length', 4)
                         cy.findAllByRole('cell').eq(1).contains('ABC')
                         cy.findAllByRole('cell').eq(2).contains('Diet one')
-                        cy.findAllByRole('cell').eq(3).contains('360')
+                        cy.findAllByRole('cell').eq(3).contains('360%')
                       })
                       break
                     case 2:
@@ -771,7 +771,7 @@ context('Dashboard visualisation: bar chart', () => {
                         cy.findAllByRole('cell').should('have.length', 4)
                         cy.findAllByRole('cell').eq(1).contains('ABC')
                         cy.findAllByRole('cell').eq(2).contains('Diet two')
-                        cy.findAllByRole('cell').eq(3).contains('256')
+                        cy.findAllByRole('cell').eq(3).contains('256%')
                       })
                       break
                     case 3:
@@ -779,7 +779,7 @@ context('Dashboard visualisation: bar chart', () => {
                         cy.findAllByRole('cell').should('have.length', 4)
                         cy.findAllByRole('cell').eq(1).contains('ABC')
                         cy.findAllByRole('cell').eq(2).contains('Diet three')
-                        cy.findAllByRole('cell').eq(3).contains('559')
+                        cy.findAllByRole('cell').eq(3).contains('559%')
                       })
                       break
                     case 4:
@@ -787,7 +787,7 @@ context('Dashboard visualisation: bar chart', () => {
                         cy.findAllByRole('cell').should('have.length', 4)
                         cy.findAllByRole('cell').eq(1).contains('ABC')
                         cy.findAllByRole('cell').eq(2).contains('Diet four')
-                        cy.findAllByRole('cell').eq(3).contains('144')
+                        cy.findAllByRole('cell').eq(3).contains('144%')
                       })
                       break
                     case 5:
@@ -795,7 +795,7 @@ context('Dashboard visualisation: bar chart', () => {
                         cy.findAllByRole('cell').should('have.length', 4)
                         cy.findAllByRole('cell').eq(1).contains('DEF')
                         cy.findAllByRole('cell').eq(2).contains('Diet one')
-                        cy.findAllByRole('cell').eq(3).contains('260')
+                        cy.findAllByRole('cell').eq(3).contains('260%')
                       })
                       break
                     case 6:
@@ -803,7 +803,7 @@ context('Dashboard visualisation: bar chart', () => {
                         cy.findAllByRole('cell').should('have.length', 4)
                         cy.findAllByRole('cell').eq(1).contains('DEF')
                         cy.findAllByRole('cell').eq(2).contains('Diet two')
-                        cy.findAllByRole('cell').eq(3).contains('281')
+                        cy.findAllByRole('cell').eq(3).contains('281%')
                       })
                       break
                     case 7:
@@ -811,7 +811,7 @@ context('Dashboard visualisation: bar chart', () => {
                         cy.findAllByRole('cell').should('have.length', 4)
                         cy.findAllByRole('cell').eq(1).contains('DEF')
                         cy.findAllByRole('cell').eq(2).contains('Diet three')
-                        cy.findAllByRole('cell').eq(3).contains('520')
+                        cy.findAllByRole('cell').eq(3).contains('520%')
                       })
                       break
                     case 8:
@@ -819,7 +819,7 @@ context('Dashboard visualisation: bar chart', () => {
                         cy.findAllByRole('cell').should('have.length', 4)
                         cy.findAllByRole('cell').eq(1).contains('DEF')
                         cy.findAllByRole('cell').eq(2).contains('Diet four')
-                        cy.findAllByRole('cell').eq(3).contains('160')
+                        cy.findAllByRole('cell').eq(3).contains('160%')
                       })
                       break
                     default:

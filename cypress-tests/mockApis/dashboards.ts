@@ -24,6 +24,7 @@ import {
   parentChildDashboardStatusParentFailedMock,
   parentChildDashboardStatusParentFinishedMock,
   dashboardAuditBarMock,
+  dashboardAuditDoughnutMock,
   dashboardAuditLineMock,
   dashboardAuditLineTimeseriesMock,
 } from '@networkMocks/dashboard/definitions/feature-testing/mocks'
@@ -157,7 +158,7 @@ const definitionStubs = {
   stubTestDashboardDefinitionWithLink: () => stubFor(dashboardWithLinksMock),
   stubTestDashboardDefinitionAudit: () => stubFor(dashboardAuditMock),
   stubTestDashboardDefinitionAuditBar: () => stubFor(dashboardAuditBarMock),
-  stubTestDashboardDefinitionAuditDoughnut: () => stubFor(dashboardAuditMock),
+  stubTestDashboardDefinitionAuditDoughnut: () => stubFor(dashboardAuditDoughnutMock),
   stubTestDashboardDefinitionAuditLine: () => stubFor(dashboardAuditLineMock),
   stubTestDashboardDefinitionAuditLineTimeseries: () => stubFor(dashboardAuditLineTimeseriesMock),
   stubTestDashboardDefinitionWithParentChild: () => stubFor(dashboardWithParentChildMock),

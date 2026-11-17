@@ -10,8 +10,9 @@ const lineTimeseriesChartAudit0: components['schemas']['DashboardVisualisationDe
     keys: [],
     measures: [
       {
-        id: '',
-        display: '',
+        id: 'ts',
+        display: 'Date',
+        type: 'timestamp',
       },
       {
         id: '',

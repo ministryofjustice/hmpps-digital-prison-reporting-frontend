@@ -17,7 +17,7 @@ context('Dashboard audit - Line charts', () => {
       cy.visit(path)
 
       startReportRequest({
-        name: 'Line chart - Audit testing',
+        name: 'line chart - Audit testing',
         description: 'Test Dashboard used for audit testing of Line charts',
       })
 

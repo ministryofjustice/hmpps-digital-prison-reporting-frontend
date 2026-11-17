@@ -10,7 +10,7 @@ const visualisationRules = [missingVisualMetaRule]
 // Rules for dashboard as a whole
 const dashboardRules = [missingDashboardMetaRule]
 
-// Rules for dashboard as a whole
+// Rules for sections
 const sectionRules = [missingDashboardSectionMetaRule]
 
 // Rules for dataset

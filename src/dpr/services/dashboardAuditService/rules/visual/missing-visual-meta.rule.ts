@@ -3,7 +3,7 @@ import { DashboardAuditSeverity, VisualAuditContext } from '../../types'
 import { VisualRule } from './types'
 
 export const missingVisualMetaRule: VisualRule = {
-  supportedTypes: [DashboardVisualisationType.BAR],
+  supportedTypes: [] as DashboardVisualisationType[],
 
   audit(context: VisualAuditContext) {
     const auditSuggestions = []

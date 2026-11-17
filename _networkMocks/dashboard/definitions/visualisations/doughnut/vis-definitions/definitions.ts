@@ -1,5 +1,6 @@
-import { components } from '../../../../../../src/dpr/types/api'
+import { UnitType } from 'src/dpr/components/_dashboards/dashboard-visualisation/Validate'
 import { DashboardVisualisationType } from '../../../../../../src/dpr/components/_dashboards/dashboard-visualisation/types'
+import { components } from '../../../../../../src/dpr/types/api'
 
 export const dataQualityMetricOneDoughnut: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'doughnut-data-quality-has-MetricOne',
@@ -96,10 +97,12 @@ export const dataQualityMetricTwoDoughnut: components['schemas']['DashboardVisua
       {
         id: 'has_metric_two',
         display: 'Has MetricTwo',
+        unit: UnitType.PERCENTAGE,
       },
       {
         id: 'metric_two_is_missing',
         display: 'No MetricTwo',
+        unit: UnitType.PERCENTAGE,
       },
     ],
     filters: [

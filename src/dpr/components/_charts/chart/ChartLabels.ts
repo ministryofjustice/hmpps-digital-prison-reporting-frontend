@@ -1,5 +1,5 @@
-import { mapUnitToSymbol, setUnitOnValue } from '../../../utils/Dashboards/VisualisationUnitHelper'
 import { DashboardDataResponse } from '../../../types/Metrics'
+import { mapUnitToSymbol, setUnitOnValue } from '../../../utils/Dashboards/VisualisationUnitHelper'
 import { ChartMeasure, VisualisationDefinitionKey } from '../../_dashboards/dashboard-visualisation/types'
 
 export default class ChartLabelsHelper {

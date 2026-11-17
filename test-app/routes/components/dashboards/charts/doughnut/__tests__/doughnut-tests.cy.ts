@@ -109,16 +109,16 @@ context('Dashboard visualisation: Doughnut chart', () => {
                         cy.findAllByRole('columnheader').should('have.length', 4)
                         cy.findAllByRole('columnheader').eq(0).contains('Date')
                         cy.findAllByRole('columnheader').eq(1).contains('Establishment ID')
-                        cy.findAllByRole('columnheader').eq(2).contains('Has MetricTwo')
-                        cy.findAllByRole('columnheader').eq(3).contains('No MetricTwo')
+                        cy.findAllByRole('columnheader').eq(2).contains('Has MetricTwo (%)')
+                        cy.findAllByRole('columnheader').eq(3).contains('No MetricTwo (%)')
                       })
                       break
                     case 1:
                       cy.wrap(row).within(() => {
                         cy.findAllByRole('cell').should('have.length', 4)
                         cy.findAllByRole('cell').eq(1).contains('ABC')
-                        cy.findAllByRole('cell').eq(2).contains('684')
-                        cy.findAllByRole('cell').eq(3).contains('665')
+                        cy.findAllByRole('cell').eq(2).contains('684%')
+                        cy.findAllByRole('cell').eq(3).contains('665%')
                       })
                       break
                     default:

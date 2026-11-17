@@ -2,7 +2,9 @@ import { BoxAndWiskers, BoxPlotController } from '@sgratzl/chartjs-chart-boxplot
 import Chart, { ChartConfiguration, ChartType } from 'chart.js/auto'
 import { MatrixController, MatrixElement } from 'chartjs-chart-matrix'
 import ChartDataLabels from 'chartjs-plugin-datalabels'
+import { mapUnitToSymbol } from 'src/dpr/utils/Dashboards/VisualisationUnitHelper'
 import { DprClientClass } from '../../../DprClientClass'
+import { UnitType } from '../../_dashboards/dashboard-visualisation/Validate'
 
 class ChartVisualisation extends DprClientClass {
   chartContext: HTMLCanvasElement | null = null
@@ -153,11 +155,11 @@ class ChartVisualisation extends DprClientClass {
   }
 
   isPercentage() {
-    return this.unit === 'PERCENTAGE'
+    return this.unit === UnitType.PERCENTAGE
   }
 
   setValueSuffix() {
-    this.suffix = this.isPercentage() ? '%' : ''
+    this.suffix = mapUnitToSymbol(this.unit as UnitType)
   }
 
   initChartEvents() {

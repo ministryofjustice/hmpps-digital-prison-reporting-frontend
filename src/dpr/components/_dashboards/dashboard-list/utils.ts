@@ -149,17 +149,13 @@ const formatCellData = (
   row: DashboardDataResponse,
 ): MoJTableRow => {
   const raw = row[measure.id]?.raw
-  let cellContent = raw == null ? 'No data' : String(raw)
-
   const { type, unit } = measure
+  const noData = 'No data'
+  let cellContent = raw == null ? noData : setUnitOnValue(raw, mapUnitToSymbol(unit as UnitType), false)
 
   if (type === 'date' || type === 'timestamp') {
     const granularity = getGranularityFromDateFormat(cellContent)
     cellContent = apiDateToUi(cellContent, granularity) || cellContent
-  }
-
-  if (unit === UnitType.PERCENTAGE) {
-    cellContent = setUnitOnValue(cellContent, mapUnitToSymbol(unit as UnitType), false)
   }
 
   return measure.type === 'HTML' ? { html: cellContent } : { text: cellContent }

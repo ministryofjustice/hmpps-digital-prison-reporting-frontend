@@ -1,5 +1,6 @@
 import { missingDashboardMetaRule } from './dashboard/missing-meta.rule'
 import { missingDashboardSectionMetaRule } from './section/missing-section-meta.rule'
+import { duplicateDashboardSectionMetaRule } from './section/duplicate-section-meta.rule'
 import { missingVisualMetaRule } from './visual/missing-visual-meta.rule'
 import { maxRingsAndSegmentsRule } from './visual/doughnut-chart-max-rings-and-segments.rule'
 import { maxBarsRule } from './visual/bar-chart-max-bars.rule'
@@ -13,7 +14,7 @@ const visualisationRules = [missingVisualMetaRule, maxRingsAndSegmentsRule, maxB
 const dashboardRules = [missingDashboardMetaRule]
 
 // Rules for sections
-const sectionRules = [missingDashboardSectionMetaRule]
+const sectionRules = [missingDashboardSectionMetaRule, duplicateDashboardSectionMetaRule]
 
 // Rules for dataset
 const datasetRules = [noVisualDatasetRule]

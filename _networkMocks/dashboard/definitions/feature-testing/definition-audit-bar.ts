@@ -109,7 +109,7 @@ const barChartAudit1: components['schemas']['DashboardVisualisationDefinition'] 
 const barChartAudit1Horizontal: components['schemas']['DashboardVisualisationDefinition'] = {
   ...barChartAudit1,
   id: 'bar-chart-audit-1-horizontal',
-  display: 'Horizontal bar chart',
+  display: 'Horizontal bar chart rows as Bars',
   description: 'This bar chart has over the recommended number of bars but is horizontal',
   options: {
     showLatest: false,
@@ -153,6 +153,40 @@ const barChartAudit2: components['schemas']['DashboardVisualisationDefinition'] 
   },
 }
 
+const barChartAudit3: components['schemas']['DashboardVisualisationDefinition'] = {
+  id: 'bar-chart-audit-3',
+  type: DashboardVisualisationType.BAR,
+  display: 'Stacked bar chart - rows as Bars',
+  description: 'This bar chart has over the recommended number of bars',
+  options: {
+    xStacked: true,
+    yStacked: true,
+    showLatest: false,
+  },
+  columns: {
+    keys: [
+      {
+        id: 'establishment_id',
+        display: 'Establishment ID',
+      },
+    ],
+    measures: [
+      {
+        id: 'ts',
+        display: 'Date',
+        type: 'timestamp',
+        axis: 'x',
+      },
+      {
+        id: 'has_metric_two',
+        display: 'Has MetricTwo',
+        axis: 'y',
+      },
+    ],
+    expectNulls: false,
+  },
+}
+
 export const definition: components['schemas']['DashboardDefinition'] = {
   id: 'dashboard-audit-testing-bar',
   name: 'Bar chart - Audit testing',
@@ -174,7 +208,7 @@ export const definition: components['schemas']['DashboardDefinition'] = {
       id: 'section-2',
       display: 'Bar charts audit section - stacked',
       description: 'This section shows examples of bar chart specific audit rules',
-      visualisations: [barChartAudit2],
+      visualisations: [barChartAudit2, barChartAudit3],
     },
   ],
   filterFields: [],

@@ -6,36 +6,35 @@ export const maxBarsRule: VisualRule = {
   supportedTypes: [DashboardVisualisationType.BAR],
 
   audit(context: VisualAuditContext) {
+    const MAX_BARS = 16
     const auditSuggestions = []
 
-    const MAX_ROWS = 16
     const { columns, options } = context.definition
-    const stacked = options?.xStacked ?? options?.yStacked
-    const horizontal = options?.horizontal
-
     const { keys, measures } = columns
     const { dataset } = context
 
-    const keyIds = new Set(keys?.map(key => key.id)) ?? []
+    // options
+    const stacked = options?.xStacked ?? options?.yStacked
+    const horizontal = options?.horizontal
 
-    const withMeasuresOnly = dataset.map(row =>
+    // remove key columns from dataset
+    const keyIds = new Set(keys?.map(key => key.id)) ?? []
+    const datasetWithMeasuresOnly = dataset.map(row =>
       Object.fromEntries(Object.entries(row).filter(([key]) => !keyIds.has(key))),
     )
+    const columnCount = Object.keys(datasetWithMeasuresOnly[0]).length ?? 0
+    const rowCount = datasetWithMeasuresOnly.length ?? 0
 
     const columnsAsBars = measures.every(measure => measure.axis === undefined)
 
     let barCount = 0
-    if (stacked) {
-      barCount = withMeasuresOnly.length ? Object.keys(withMeasuresOnly[0]).length : 0
+    if (columnsAsBars) {
+      barCount = stacked ? columnCount : columnCount * rowCount
     } else {
-      if (columnsAsBars) {
-        barCount = withMeasuresOnly.length ? withMeasuresOnly.length * Object.keys(withMeasuresOnly[0]).length : 0
-      } else {
-        barCount = withMeasuresOnly.length ? withMeasuresOnly.length : 0
-      }
+      barCount = stacked ? 0 : rowCount
     }
 
-    if (barCount > MAX_ROWS && !horizontal) {
+    if (barCount > MAX_BARS && !horizontal) {
       auditSuggestions.push({
         code: 'TO0_MANY_BARS',
         severity: DashboardAuditSeverity.WARNING,

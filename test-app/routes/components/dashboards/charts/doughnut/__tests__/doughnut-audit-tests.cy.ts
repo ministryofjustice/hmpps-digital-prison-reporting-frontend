@@ -34,42 +34,36 @@ context('Dashboard audit - Doughnut charts', () => {
 
     it('should show the dashboard audit master list', () => {
       cy.findByLabelText(/Dashboard audit.*/i).within(() => {
-        // cy.findByRole('region', { name: /Errors/i }).within(() => {
-        //   cy.findByRole('list').findAllByRole('listitem').should('have.length', 8)
-        // })
-        // cy.findByRole('region', { name: /Warnings/i }).within(() => {
-        //   cy.findByRole('list').findAllByRole('listitem').should('have.length', 3)
-        // })
-        // cy.findByRole('region', { name: /Suggestions/i }).within(() => {
-        //   cy.findByRole('list').findAllByRole('listitem').should('have.length', 5)
-        // })
-        expect(true)
+        cy.findByRole('region', { name: /Warnings/i }).within(() => {
+          cy.findByRole('list').findAllByRole('listitem').should('have.length', 2)
+        })
       })
     })
 
     it('should show the dashboard audit next to the relevant chart', () => {
       cy.visit(viewDashboarUrl)
 
-      // cy.findByRole('region', { name: /Audit for chart "bad-chart-meta-audit-0/i }).within(() => {
-      //   cy.findByRole('region', { name: /Errors/i }).within(() => {
-      //     cy.findByRole('list').findAllByRole('listitem').should('have.length', 2)
-      //   })
+      cy.findByRole('region', { name: /Audit for chart "Doughnut - Max rings"/i }).within(() => {
+        cy.findByRole('region', { name: /Warnings/i }).within(() => {
+          cy.findByRole('list')
+            .findAllByRole('listitem')
+            .should('have.length', 1)
+            .within(() => {
+              cy.findByRole('heading', { name: 'Large number of rings in Doughnut chart' })
+            })
+        })
+      })
 
-      //   cy.findByRole('region', { name: /Warnings/i }).within(() => {
-      //     cy.findByRole('list').findAllByRole('listitem').should('have.length', 1)
-      //   })
-      // })
-
-      // cy.findByRole('region', { name: /Audit for chart "Bad chart meta audit 1"/i }).within(() => {
-      //   cy.findByRole('region', { name: /Errors/i }).within(() => {
-      //     cy.findByRole('list').findAllByRole('listitem').should('have.length', 1)
-      //   })
-
-      //   cy.findByRole('region', { name: /Warnings/i }).within(() => {
-      //     cy.findByRole('list').findAllByRole('listitem').should('have.length', 1)
-      //   })
-      // })
-      expect(true)
+      cy.findByRole('region', { name: /Audit for chart "Doughnut - Max segments"/i }).within(() => {
+        cy.findByRole('region', { name: /Warnings/i }).within(() => {
+          cy.findByRole('list')
+            .findAllByRole('listitem')
+            .should('have.length', 1)
+            .within(() => {
+              cy.findByRole('heading', { name: 'Large number of segments in Doughnut chart' })
+            })
+        })
+      })
     })
 
     after(() => {

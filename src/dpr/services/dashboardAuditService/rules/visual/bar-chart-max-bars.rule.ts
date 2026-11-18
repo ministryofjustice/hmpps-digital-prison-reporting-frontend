@@ -22,7 +22,8 @@ export const maxBarsRule: VisualRule = {
     const datasetWithMeasuresOnly = dataset.map(row =>
       Object.fromEntries(Object.entries(row).filter(([key]) => !keyIds.has(key))),
     )
-    const columnCount = Object.keys(datasetWithMeasuresOnly[0]).length ?? 0
+
+    const columnCount = datasetWithMeasuresOnly.length ? Object.keys(datasetWithMeasuresOnly[0]).length : 0
     const rowCount = datasetWithMeasuresOnly.length ?? 0
 
     const columnsAsBars = measures.every(measure => measure.axis === undefined)

@@ -11,24 +11,30 @@ export const missingDashboardSectionMetaRule: SectionRule = {
       const { description, visualisations, display } = definition
 
       if (!display || display === '') {
+        const displayRuleDescription = `<p>Section is missing a name.</p>
+        <p>A clear and descriptive name helps users quickly understand the purpose of the section, improves navigation, and provides important context for people using assistive technologies.</p>`
+
         auditSuggestions.push({
           sectionAuditKey: auditKey,
           code: 'MISSING_DASHBOARD_SECTION_NAME',
           severity: DashboardAuditSeverity.ERROR,
           title: `Missing section Name`,
-          description: 'Section is missing a name',
+          description: displayRuleDescription,
           sectionId: id,
           sectionTitle: name,
         })
       }
 
       if (!description || description === '') {
+        const ruleDescription = `<p>Missing section description.</p>
+          <p>Providing a clear description helps users understand what the section shows, communicates key insights, and improves accessibility for users who may have difficulty interpreting visual content.</p>`
+
         auditSuggestions.push({
           sectionAuditKey: auditKey,
           code: 'MISSING_DASHBOARD_SECTION_DESCRIPTION',
           severity: DashboardAuditSeverity.ERROR,
           title: `Missing section description`,
-          description: 'Section is missing a description',
+          description: ruleDescription,
           sectionId: id,
           sectionTitle: name,
         })

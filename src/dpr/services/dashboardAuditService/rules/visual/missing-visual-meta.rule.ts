@@ -11,11 +11,14 @@ export const missingVisualMetaRule: VisualRule = {
     const { description, display } = context.definition
 
     if (!description || description === '') {
+      const ruleDescription = `<p>Your chart is missing a description.</p>
+          <p>Providing a clear description helps users understand what the chart shows, communicates key insights, and improves accessibility for users who may have difficulty interpreting visual content.</p>`
+
       auditSuggestions.push({
         code: 'MISSING_VISUAL_DESCRIPTION',
         severity: DashboardAuditSeverity.ERROR,
         title: 'Missing chart description',
-        description: 'Your chart is missing a description',
+        description: ruleDescription,
         visualId: context.id,
         visualTitle: context.name,
         visualAuditKey: context.auditKey,
@@ -23,11 +26,14 @@ export const missingVisualMetaRule: VisualRule = {
     }
 
     if (!display || display === '') {
+      const displayRuleDescription = `<p>Your chart is missing a name.</p>
+        <p>A clear and descriptive name helps users quickly understand the purpose of the chart, improves navigation, and provides important context for people using assistive technologies.</p>`
+
       auditSuggestions.push({
         code: 'MISSING_VISUAL_NAME',
         severity: DashboardAuditSeverity.ERROR,
         title: 'Missing chart name',
-        description: 'Your chart is missing a name',
+        description: displayRuleDescription,
         visualId: context.id,
         visualTitle: context.name,
         visualAuditKey: context.auditKey,

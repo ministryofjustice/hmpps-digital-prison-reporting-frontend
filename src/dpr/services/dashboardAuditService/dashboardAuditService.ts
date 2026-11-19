@@ -64,7 +64,11 @@ export default class DashboardAuditService {
     )
 
     // Run dataset rules
-    const datasetSuggestions = visuals.flatMap(visualData => dataset.flatMap(rule => rule.audit(visualData)))
+    const datasetSuggestions = visuals.flatMap(visualData =>
+      dataset
+        .filter(rule => rule.supportedTypes.includes(visualData.type) || rule.supportedTypes.length === 0)
+        .flatMap(rule => rule.audit(visualData)),
+    )
 
     return [...dashboardSuggestions, ...visualSuggestions, ...datasetSuggestions, ...sectionSuggestions]
   }

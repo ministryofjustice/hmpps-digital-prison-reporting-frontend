@@ -3,9 +3,8 @@
 {% from "govuk/components/details/macro.njk" import govukDetails %}
 
 {% macro dprDashboardAudit(audit)  %}
-  {% if audit %}
-
     {% set classes = "dpr-dashboard-audit" %}
+    {% set noIssuesFound = audit.totalCount === 0 %}
 
     {% if audit.warningCount > 0 %}
       {% set classes = "dpr-dashboard-audit dpr-dashboard-audit--warning" %}
@@ -41,9 +40,7 @@
           {{ dprDashboardAuditItems('Suggestions', audit.suggestionCount, audit.suggestions) }}
         {% endif %}
 
-        {% if audit.infoCount %}
-          {{ dprDashboardAuditItems('Info', audit.infoCount, audit.info) }}
-        {% endif %}
+        {{ dprDashboardAuditItems('Info', audit.infoCount, audit.info) }}
 
       </div>
     {% endset %}
@@ -56,5 +53,4 @@
         classes: classes
       })
     }}
-  {% endif %}
 {% endmacro %}

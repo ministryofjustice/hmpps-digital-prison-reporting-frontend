@@ -1,7 +1,15 @@
+import { DashboardVisualisationType } from 'src/dpr/components/_dashboards/dashboard-visualisation/types'
 import { DashboardAuditSeverity, VisualAuditContext, VisualAuditSuggestion } from '../../types'
 import { DatasetRule } from './types'
 
 export const noVisualDatasetRule: DatasetRule = {
+  supportedTypes: [
+    DashboardVisualisationType.BAR,
+    DashboardVisualisationType.LINE,
+    DashboardVisualisationType.DONUT,
+    DashboardVisualisationType.LINE_TIMESERIES,
+  ],
+
   audit(context: VisualAuditContext): VisualAuditSuggestion[] {
     const auditSuggestions = []
 

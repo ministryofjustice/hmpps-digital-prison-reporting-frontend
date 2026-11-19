@@ -8,7 +8,7 @@ import { Services } from '../../types/Services'
 import { LoadType, ReportType, RequestedReport } from '../../types/UserReports'
 import { FilterType } from '../_filters/filter-input/enum'
 import { GranularDateRangeFilterValue, PartialDate } from '../_filters/types'
-import { DashboardSection } from './dashboard-visualisation/types'
+import { DashboardSection, MoJTableHead } from './dashboard-visualisation/types'
 
 // Classes
 import ReportQuery from '../../types/ReportQuery'
@@ -19,6 +19,7 @@ import ErrorHandler from '../../utils/ErrorHandler/ErrorHandler'
 import { createDashboardSections } from './dashboard-section/utils'
 import DataPresentation from './DataPresentation'
 import { GroupedAuditSuggestions } from 'src/dpr/services/dashboardAuditService/types'
+import { createTableRows } from './dashboard-list/utils'
 
 export default class Dashboard extends DataPresentation {
   sections!: DashboardSection[]
@@ -86,7 +87,7 @@ export default class Dashboard extends DataPresentation {
         ...this.savedDefaultsConfig,
         ...this.actions,
         ...(this.extractedRequestData && this.extractedRequestData),
-        audit: this.audit,
+        ...(this.audit && { audit: this.audit, dataset: this.getDatasetAsTable() }),
       },
     }
   }
@@ -298,5 +299,19 @@ export default class Dashboard extends DataPresentation {
       this.definition as components['schemas']['DashboardDefinition'],
       this.sections,
     )
+  }
+
+  getDatasetAsTable = () => {
+    const rows = createTableRows(this.dashboardData)
+    const head: MoJTableHead[] = rows.length
+      ? Object.keys(this.dashboardData[0]).map(key => {
+          return { text: key || '' }
+        })
+      : []
+
+    return {
+      rows,
+      head,
+    }
   }
 }

@@ -10,7 +10,7 @@ async function start(): Promise<void> {
     missingReports: true,
     feedbackOnDownload: true,
     subscriptions: true,
-    dashboardAudit: false,
+    dashboardAudit: true,
   })
 
   if (services.reportIdMigrationService.enabled) {

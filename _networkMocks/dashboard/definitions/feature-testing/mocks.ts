@@ -4,6 +4,11 @@ import { RequestStatus } from 'src/dpr/types/UserReports'
 import { definition as definitionFeatureFlag } from './definition-feature-flag'
 import { definition as definitionWithLinks } from './definition-links'
 import { definition as definitionAudit } from './definition-audit'
+import { definition as definitionAuditBar } from './definition-audit-bar'
+import { definition as definitionAuditDoughnut } from './definition-audit-doughnut'
+import { definition as definitionAuditLine } from './definition-audit-line'
+import { definition as definitionAuditLineTimeseries } from './definition-audit-line-timeseries'
+
 import {
   childDashboardOneDefinition,
   childDashboardTwoDefinition,
@@ -32,6 +37,26 @@ export const dashboardWithLinksMock = setupSimpleMock(
 export const dashboardAuditMock = setupSimpleMock(
   `/definitions/${productId}/dashboards/${definitionAudit.id}`,
   definitionAudit,
+)
+
+export const dashboardAuditBarMock = setupSimpleMock(
+  `/definitions/${productId}/dashboards/${definitionAuditBar.id}`,
+  definitionAuditBar,
+)
+
+export const dashboardAuditDoughnutMock = setupSimpleMock(
+  `/definitions/${productId}/dashboards/${definitionAuditDoughnut.id}`,
+  definitionAuditDoughnut,
+)
+
+export const dashboardAuditLineMock = setupSimpleMock(
+  `/definitions/${productId}/dashboards/${definitionAuditLine.id}`,
+  definitionAuditLine,
+)
+
+export const dashboardAuditLineTimeseriesMock = setupSimpleMock(
+  `/definitions/${productId}/dashboards/${definitionAuditLineTimeseries.id}`,
+  definitionAuditLineTimeseries,
 )
 
 // PARENT CHILD DASHBOARDS

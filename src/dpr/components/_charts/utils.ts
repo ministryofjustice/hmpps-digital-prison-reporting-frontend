@@ -154,7 +154,8 @@ const getDataForSnapshotCharts = (
   chartDefinition: components['schemas']['DashboardVisualisationDefinition'],
   rawData: DashboardDataResponse[],
 ) => {
-  const { columns } = chartDefinition
+  const { columns, options } = chartDefinition
+  const showLatest = options?.showLatest
 
   let dateColumn = DatasetHelper.getTimestampColumn(columns)
 
@@ -162,10 +163,13 @@ const getDataForSnapshotCharts = (
     dateColumn = undefined
   }
 
-  const latestData = DatasetHelper.getLatestDataset(rawData, dateColumn)
+  let dataset = rawData
+  if (showLatest === undefined || showLatest) {
+    dataset = DatasetHelper.getLatestDataset(rawData, dateColumn)
+  }
 
   // Pass latest data get the rows
-  const dataSetRows = DatasetHelper.getDatasetRows(chartDefinition, latestData)
+  const dataSetRows = DatasetHelper.getDatasetRows(chartDefinition, dataset)
 
   // Filter the rows to create the visualisation dataset
   const snapshotData = DatasetHelper.filterRowsByDisplayColumns(chartDefinition, dataSetRows, true)

@@ -30,36 +30,38 @@ describe('Reports Catalogue', () => {
 
       it('should match the product name and show all variants', () => {
         const productName = 'Dashboard visualisations'
+        const catalogueTotal = 40
+        const productTotal = 2
+        const expectedVariantCount = 39
 
         searchBox.type(productName)
 
-        validateProductCount(2)
-        validateCatalogueTotals(40)
-
-        const expectedCount = 39
+        validateProductCount(productTotal)
+        validateCatalogueTotals(catalogueTotal)
 
         getProductRow(productName).should('exist')
-        getProductRow(productName).contains(`(${expectedCount} reports)`)
+        getProductRow(productName).contains(`(${expectedVariantCount} reports)`)
         getProductRow(productName).within(() => {
-          cy.findAllByRole('heading', { level: 2 }).should('have.length', expectedCount)
+          cy.findAllByRole('heading', { level: 2 }).should('have.length', expectedVariantCount)
         })
       })
 
       it('should match a single variant name and show the variant and the product row', () => {
         const productName = 'Feature testing'
         const variantName = 'Long column names'
+        const catalogueTotal = 1
+        const productTotal = 1
+        const expectedVariantCount = 1
 
         searchBox.type(variantName)
 
-        validateProductCount(1)
-        validateCatalogueTotals(1)
-
-        const expectedCount = 1
+        validateProductCount(productTotal)
+        validateCatalogueTotals(catalogueTotal)
 
         getProductRow(productName).should('exist')
-        getProductRow(productName).contains(`(${expectedCount} report)`)
+        getProductRow(productName).contains(`(${expectedVariantCount} report)`)
         getProductRow(productName).within(() => {
-          cy.findAllByRole('heading', { level: 2 }).should('have.length', expectedCount)
+          cy.findAllByRole('heading', { level: 2 }).should('have.length', expectedVariantCount)
           cy.findAllByRole('heading', { name: variantName, level: 2 }).should('be.visible')
         })
       })
@@ -67,61 +69,65 @@ describe('Reports Catalogue', () => {
       it('should match the product and the variant and show the correct rows', () => {
         const productName = 'Dashboard visualisations'
         const variantName = 'Bar - Invalid visualisation'
+        const catalogueTotal = 1
+        const productTotal = 1
+        const expectedVariantCount = 1
 
         searchBox.type(`${productName} ${variantName}`)
 
-        validateProductCount(1)
-        validateCatalogueTotals(1)
-
-        const expectedCount = 1
+        validateProductCount(productTotal)
+        validateCatalogueTotals(catalogueTotal)
 
         getProductRow(productName).should('exist')
-        getProductRow(productName).contains(`(${expectedCount} report)`)
+        getProductRow(productName).contains(`(${expectedVariantCount} report)`)
         getProductRow(productName).within(() => {
-          cy.findAllByRole('heading', { level: 2 }).should('have.length', expectedCount)
+          cy.findAllByRole('heading', { level: 2 }).should('have.length', expectedVariantCount)
           cy.findAllByRole('heading', { name: variantName, level: 2 }).should('be.visible')
         })
       })
 
       it('should match mulitple products and variants and show the correct rows', () => {
+        const catalogueTotal = 5
+        const productTotal = 2
+        const expectedVariantCount1 = 3
+        const expectedVariantCount2 = 2
+
         searchBox.type('variant')
 
-        validateProductCount(2)
-        validateCatalogueTotals(5)
-
-        const expectedCount1 = 3
+        validateProductCount(productTotal)
+        validateCatalogueTotals(catalogueTotal)
 
         getProductRow('Feature testing').should('exist')
-        getProductRow('Feature testing').contains(`(${expectedCount1} reports)`)
+        getProductRow('Feature testing').contains(`(${expectedVariantCount1} reports)`)
         getProductRow('Feature testing').within(() => {
-          cy.findAllByRole('heading', { level: 2 }).should('have.length', expectedCount1)
+          cy.findAllByRole('heading', { level: 2 }).should('have.length', expectedVariantCount1)
           cy.findAllByRole('heading', { name: 'Filter Order', level: 2 }).should('be.visible')
           cy.findAllByRole('heading', { name: 'Missing variant description', level: 2 }).should('be.visible')
           cy.findAllByRole('heading', { name: 'Unprintable', level: 2 }).should('be.visible')
         })
 
-        const expectedCount2 = 2
-
         getProductRow('Filter input testing').should('exist')
-        getProductRow('Filter input testing').contains(`(${expectedCount2} reports)`)
+        getProductRow('Filter input testing').contains(`(${expectedVariantCount2} reports)`)
         getProductRow('Filter input testing').within(() => {
-          cy.findAllByRole('heading', { level: 2 }).should('have.length', expectedCount2)
+          cy.findAllByRole('heading', { level: 2 }).should('have.length', expectedVariantCount2)
           cy.findAllByRole('heading', { name: 'Granular Daterange', level: 2 }).should('be.visible')
           cy.findAllByRole('heading', { name: 'Relative Daterange', level: 2 }).should('be.visible')
         })
       })
 
       it('should match products and variants and show the correct rows when search order is mixed', () => {
-        searchBox.type('variant input daterange')
-        validateProductCount(1)
-        validateCatalogueTotals(2)
+        const catalogueTotal = 2
+        const productTotal = 1
+        const expectedVariantCount = 2
 
-        const expectedCount = 2
+        searchBox.type('variant input daterange')
+        validateProductCount(productTotal)
+        validateCatalogueTotals(catalogueTotal)
 
         getProductRow('Filter input testing').should('exist')
-        getProductRow('Filter input testing').contains(`(${expectedCount} reports)`)
+        getProductRow('Filter input testing').contains(`(${expectedVariantCount} reports)`)
         getProductRow('Filter input testing').within(() => {
-          cy.findAllByRole('heading', { level: 2 }).should('have.length', expectedCount)
+          cy.findAllByRole('heading', { level: 2 }).should('have.length', expectedVariantCount)
           cy.findAllByRole('heading', { name: 'Granular Daterange', level: 2 }).should('be.visible')
           cy.findAllByRole('heading', { name: 'Relative Daterange', level: 2 }).should('be.visible')
         })
@@ -130,38 +136,49 @@ describe('Reports Catalogue', () => {
 
     describe('Type', () => {
       it('should show both dashboards and reports when all is ticked', () => {
+        const catalogueTotal = 100
+        const productTotal = 6
+        const expectedVariantCount = 30
+
         cy.findByRole('radio', { name: 'All' }).check()
 
-        validateCatalogueTotals(96)
-        validateProductCount(6)
-        const expectedCount = 26
-        getProductRow('Feature testing').contains(`(${expectedCount} reports)`)
+        validateCatalogueTotals(catalogueTotal)
+        validateProductCount(productTotal)
+        getProductRow('Feature testing').contains(`(${expectedVariantCount} reports)`)
         getProductRow('Feature testing').within(() => {
-          cy.findAllByRole('heading', { level: 2 }).should('have.length', expectedCount)
+          cy.findAllByRole('heading', { level: 2 }).should('have.length', expectedVariantCount)
         })
       })
 
       it('should show just dashboards when "Dashboards" is ticked', () => {
+        const catalogueTotal = 56
+        const productTotal = 3
+        const expectedVariantCount = 11
+
         cy.findByRole('radio', { name: 'Dashboard' }).check()
 
-        validateCatalogueTotals(52)
-        validateProductCount(3)
-        const expectedCount = 7
-        getProductRow('Feature testing').contains(`(${expectedCount} reports)`)
+        validateCatalogueTotals(catalogueTotal)
+        validateProductCount(productTotal)
+
+        getProductRow('Feature testing').contains(`(${expectedVariantCount} reports)`)
         getProductRow('Feature testing').within(() => {
-          cy.findAllByRole('heading', { level: 2 }).should('have.length', expectedCount)
+          cy.findAllByRole('heading', { level: 2 }).should('have.length', expectedVariantCount)
         })
       })
 
       it('should show just reports when "Reports" is ticked', () => {
+        const catalogueTotal = 44
+        const productTotal = 5
+        const expectedVariantCount = 19
+
         cy.findByRole('radio', { name: 'Report' }).check()
 
-        validateCatalogueTotals(44)
-        validateProductCount(5)
-        const expectedCount = 19
-        getProductRow('Feature testing').contains(`(${expectedCount} reports)`)
+        validateCatalogueTotals(catalogueTotal)
+        validateProductCount(productTotal)
+
+        getProductRow('Feature testing').contains(`(${expectedVariantCount} reports)`)
         getProductRow('Feature testing').within(() => {
-          cy.findAllByRole('heading', { level: 2 }).should('have.length', expectedCount)
+          cy.findAllByRole('heading', { level: 2 }).should('have.length', expectedVariantCount)
         })
       })
     })
@@ -178,29 +195,38 @@ describe('Reports Catalogue', () => {
 
     describe('Hide missing', () => {
       it('should show the missing rows when unchecked', () => {
-        validateProductCount(6)
-        getProductRow('Feature testing').contains(`(26 reports)`)
+        const catalogueTotal = 98
+        const productTotal = 6
+        const expectedCurrentCount = 30
+        const expectedVariantCount = 28
+
+        validateProductCount(productTotal)
+        getProductRow('Feature testing').contains(`(${expectedCurrentCount} reports)`)
         getProductRow('Feature testing').within(() => {
-          cy.findAllByRole('heading', { level: 2 }).should('have.length', 26)
+          cy.findAllByRole('heading', { level: 2 }).should('have.length', expectedCurrentCount)
         })
 
         cy.findByRole('checkbox', { name: 'Hide missing reports' }).check()
 
-        validateCatalogueTotals(94)
-        validateProductCount(6)
-        getProductRow('Feature testing').contains(`(24 reports)`)
+        validateCatalogueTotals(catalogueTotal)
+        validateProductCount(productTotal)
+
+        getProductRow('Feature testing').contains(`(${expectedVariantCount} reports)`)
         getProductRow('Feature testing').within(() => {
-          cy.findAllByRole('heading', { level: 2 }).should('have.length', 24)
+          cy.findAllByRole('heading', { level: 2 }).should('have.length', expectedVariantCount)
         })
       })
     })
 
     describe('Hide live', () => {
       it('should show the live variant rows when unchecked', () => {
+        const catalogueTotal = 2
+        const productTotal = 1
+
         cy.findByRole('checkbox', { name: 'Hide live reports' }).check()
 
-        validateCatalogueTotals(2)
-        validateProductCount(1)
+        validateCatalogueTotals(catalogueTotal)
+        validateProductCount(productTotal)
 
         getProductRow('Feature testing').contains(`(2 reports)`)
         getProductRow('Feature testing').within(() => {

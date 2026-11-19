@@ -23,11 +23,10 @@
         <li>
           {% if internalId or internalTitle %}
             {% set ruleTitleId = internalTitle or internalId %}
-            <h3 class="govuk-heading-s"><a class="govuk-link" href="#{{ internalAuditId }}_audit">{{ ruleTitleId }} - {{ title }}</a></strong></h3>
+            <h3 class="govuk-heading-s"><a class="govuk-link" href="#{{ internalAuditId }}_audit">"{{ ruleTitleId }}" - {{ title }}</a></strong></h3>
           {% else %}
             <h3 class="govuk-heading-s">{{ title }}</h3>
           {% endif %}
-          <p class="dpr-audit-description">{{ description }}</p>
         </li>
 
       {% endfor %}

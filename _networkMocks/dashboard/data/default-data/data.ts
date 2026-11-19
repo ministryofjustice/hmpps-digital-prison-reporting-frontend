@@ -30,6 +30,18 @@ export const defaultDataSet = [
       metric_three_is_missing: {
         raw: 447,
       },
+      has_metric_four: {
+        raw: 576,
+      },
+      metric_four_is_missing: {
+        raw: 447,
+      },
+      has_metric_five: {
+        raw: 576,
+      },
+      metric_five_is_missing: {
+        raw: 447,
+      },
       html_link: {
         raw: '<a href="#">Some link</a>',
       },
@@ -57,6 +69,18 @@ export const defaultDataSet = [
       metric_three_is_missing: {
         raw: 694,
       },
+      has_metric_four: {
+        raw: 576,
+      },
+      metric_four_is_missing: {
+        raw: 447,
+      },
+      has_metric_five: {
+        raw: 576,
+      },
+      metric_five_is_missing: {
+        raw: 447,
+      },
       html_link: {
         raw: '<a href="#">Some link</a>',
       },
@@ -83,6 +107,18 @@ export const defaultDataSet = [
       },
       metric_three_is_missing: {
         raw: 404,
+      },
+      has_metric_four: {
+        raw: 576,
+      },
+      metric_four_is_missing: {
+        raw: 447,
+      },
+      has_metric_five: {
+        raw: 576,
+      },
+      metric_five_is_missing: {
+        raw: 447,
       },
       html_link: {
         raw: '<a href="#">Some link</a>',
@@ -113,6 +149,18 @@ export const defaultDataSet = [
       metric_three_is_missing: {
         raw: 430,
       },
+      has_metric_four: {
+        raw: 576,
+      },
+      metric_four_is_missing: {
+        raw: 447,
+      },
+      has_metric_five: {
+        raw: 576,
+      },
+      metric_five_is_missing: {
+        raw: 447,
+      },
       html_link: {
         raw: '<a href="#">Some link</a>',
       },
@@ -140,6 +188,18 @@ export const defaultDataSet = [
       metric_three_is_missing: {
         raw: 430,
       },
+      has_metric_four: {
+        raw: 576,
+      },
+      metric_four_is_missing: {
+        raw: 447,
+      },
+      has_metric_five: {
+        raw: 576,
+      },
+      metric_five_is_missing: {
+        raw: 447,
+      },
       html_link: {
         raw: '<a href="#">Some link</a>',
       },
@@ -166,6 +226,18 @@ export const defaultDataSet = [
       },
       metric_three_is_missing: {
         raw: 573,
+      },
+      has_metric_four: {
+        raw: 576,
+      },
+      metric_four_is_missing: {
+        raw: 447,
+      },
+      has_metric_five: {
+        raw: 576,
+      },
+      metric_five_is_missing: {
+        raw: 447,
       },
       html_link: {
         raw: '<a href="#">Some link</a>',
@@ -196,6 +268,18 @@ export const defaultDataSet = [
       metric_three_is_missing: {
         raw: 767,
       },
+      has_metric_four: {
+        raw: 576,
+      },
+      metric_four_is_missing: {
+        raw: 447,
+      },
+      has_metric_five: {
+        raw: 576,
+      },
+      metric_five_is_missing: {
+        raw: 447,
+      },
       html_link: {
         raw: '<a href="#">Some link</a>',
       },
@@ -223,6 +307,18 @@ export const defaultDataSet = [
       metric_three_is_missing: {
         raw: 726,
       },
+      has_metric_four: {
+        raw: 576,
+      },
+      metric_four_is_missing: {
+        raw: 447,
+      },
+      has_metric_five: {
+        raw: 576,
+      },
+      metric_five_is_missing: {
+        raw: 447,
+      },
       html_link: {
         raw: '<a href="#">Some link</a>',
       },
@@ -249,6 +345,18 @@ export const defaultDataSet = [
       },
       metric_three_is_missing: {
         raw: 467,
+      },
+      has_metric_four: {
+        raw: 576,
+      },
+      metric_four_is_missing: {
+        raw: 447,
+      },
+      has_metric_five: {
+        raw: 576,
+      },
+      metric_five_is_missing: {
+        raw: 447,
       },
       html_link: {
         raw: '<a href="#">Some link</a>',
@@ -279,6 +387,18 @@ export const defaultDataSet = [
       metric_three_is_missing: {
         raw: 431,
       },
+      has_metric_four: {
+        raw: 576,
+      },
+      metric_four_is_missing: {
+        raw: 447,
+      },
+      has_metric_five: {
+        raw: 576,
+      },
+      metric_five_is_missing: {
+        raw: 447,
+      },
       html_link: {
         raw: '<a href="#">Some link</a>',
       },
@@ -306,6 +426,18 @@ export const defaultDataSet = [
       metric_three_is_missing: {
         raw: 434,
       },
+      has_metric_four: {
+        raw: 576,
+      },
+      metric_four_is_missing: {
+        raw: 447,
+      },
+      has_metric_five: {
+        raw: 576,
+      },
+      metric_five_is_missing: {
+        raw: 447,
+      },
       html_link: {
         raw: '<a href="#">Some link</a>',
       },
@@ -332,6 +464,18 @@ export const defaultDataSet = [
       },
       metric_three_is_missing: {
         raw: 422,
+      },
+      has_metric_four: {
+        raw: 576,
+      },
+      metric_four_is_missing: {
+        raw: 447,
+      },
+      has_metric_five: {
+        raw: 576,
+      },
+      metric_five_is_missing: {
+        raw: 447,
       },
       html_link: {
         raw: '<a href="#">Some link</a>',
@@ -362,6 +506,18 @@ export const defaultDataSet = [
       metric_three_is_missing: {
         raw: 423,
       },
+      has_metric_four: {
+        raw: 576,
+      },
+      metric_four_is_missing: {
+        raw: 447,
+      },
+      has_metric_five: {
+        raw: 576,
+      },
+      metric_five_is_missing: {
+        raw: 447,
+      },
       html_link: {
         raw: '<a href="#">Some link</a>',
       },
@@ -389,6 +545,18 @@ export const defaultDataSet = [
       metric_three_is_missing: {
         raw: 692,
       },
+      has_metric_four: {
+        raw: 576,
+      },
+      metric_four_is_missing: {
+        raw: 447,
+      },
+      has_metric_five: {
+        raw: 576,
+      },
+      metric_five_is_missing: {
+        raw: 447,
+      },
       html_link: {
         raw: '<a href="#">Some link</a>',
       },
@@ -415,6 +583,18 @@ export const defaultDataSet = [
       },
       metric_three_is_missing: {
         raw: 718,
+      },
+      has_metric_four: {
+        raw: 576,
+      },
+      metric_four_is_missing: {
+        raw: 447,
+      },
+      has_metric_five: {
+        raw: 576,
+      },
+      metric_five_is_missing: {
+        raw: 447,
       },
       html_link: {
         raw: '<a href="#">Some link</a>',
@@ -445,6 +625,18 @@ export const defaultDataSet = [
       metric_three_is_missing: {
         raw: 799,
       },
+      has_metric_four: {
+        raw: 576,
+      },
+      metric_four_is_missing: {
+        raw: 447,
+      },
+      has_metric_five: {
+        raw: 576,
+      },
+      metric_five_is_missing: {
+        raw: 447,
+      },
       html_link: {
         raw: '<a href="#">Some link</a>',
       },
@@ -472,6 +664,18 @@ export const defaultDataSet = [
       metric_three_is_missing: {
         raw: 457,
       },
+      has_metric_four: {
+        raw: 576,
+      },
+      metric_four_is_missing: {
+        raw: 447,
+      },
+      has_metric_five: {
+        raw: 576,
+      },
+      metric_five_is_missing: {
+        raw: 447,
+      },
       html_link: {
         raw: '<a href="#">Some link</a>',
       },
@@ -498,6 +702,18 @@ export const defaultDataSet = [
       },
       metric_three_is_missing: {
         raw: 720,
+      },
+      has_metric_four: {
+        raw: 576,
+      },
+      metric_four_is_missing: {
+        raw: 447,
+      },
+      has_metric_five: {
+        raw: 576,
+      },
+      metric_five_is_missing: {
+        raw: 447,
       },
       html_link: {
         raw: '<a href="#">Some link</a>',

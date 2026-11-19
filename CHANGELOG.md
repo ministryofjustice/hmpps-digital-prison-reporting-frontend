@@ -1,5 +1,13 @@
 Below you can find the changes included in each release.
 
+## 9.14.0
+
+### Dashboard Auditing
+
+- Dashboard definition, visualisation and dataset auditing within a dashboard view to highlight errors, warnings and offer reccomendations to dashboards authors.
+- Configurable by providing `dashboardAudit: boolean` when initialising DPR services in the app. `dashboardAudit` is false by default.
+- Designed to be used as part of DPR tool UI to aid DPD authors to create compliant, accessible and meaningful dashboards.
+
 ## 9.13.0
 
 - Show percentage symbols on tables, charts and tooltips

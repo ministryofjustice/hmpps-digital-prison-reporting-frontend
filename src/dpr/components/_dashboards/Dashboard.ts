@@ -298,6 +298,7 @@ export default class Dashboard extends DataPresentation {
     this.audit = this.services.dashboardAuditService.audit(
       this.definition as components['schemas']['DashboardDefinition'],
       this.sections,
+      this.dashboardData,
     )
   }
 

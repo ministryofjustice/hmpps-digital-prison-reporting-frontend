@@ -31,7 +31,7 @@ export const maxStackedBarsRule: VisualRule = {
       auditSuggestions.push({
         code: 'TOO_MANY_STACKED',
         severity: DashboardAuditSeverity.WARNING,
-        title: 'Large number of stacked segments',
+        title: 'Bar chart exceeds recommended number of stacked segments',
         description,
         visualId: context.id,
         visualTitle: context.name,

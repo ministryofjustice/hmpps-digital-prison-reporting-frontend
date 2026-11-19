@@ -16,6 +16,7 @@ import {
   DashboardSection,
   DashboardVisualisationType,
 } from 'src/dpr/components/_dashboards/dashboard-visualisation/types'
+import { DashboardDataResponse } from 'src/dpr/types/Metrics'
 
 export default class DashboardAuditService {
   enabled: boolean
@@ -27,12 +28,16 @@ export default class DashboardAuditService {
     this.enabled = Boolean(config.dashboardAudit)
   }
 
-  audit(definition: components['schemas']['DashboardDefinition'], sections: DashboardSection[] | undefined) {
+  audit(
+    definition: components['schemas']['DashboardDefinition'],
+    sections: DashboardSection[] | undefined,
+    dataset: DashboardDataResponse[],
+  ) {
     // 1. Transform
     const context = this.buildAuditContext(definition, sections)
 
     // 2. Audit
-    const suggestions = this.auditContext(context)
+    const suggestions = this.auditContext(context, dataset)
 
     // 3. group by severity
     return this.groupSuggestions(suggestions, context.visuals, context.sections)
@@ -46,7 +51,7 @@ export default class DashboardAuditService {
    * @return {*}  {AuditSuggestion[]}
    * @memberof DashboardAuditService
    */
-  private auditContext(context: AuditContext): AuditSuggestion[] {
+  private auditContext(context: AuditContext, masterDataset: DashboardDataResponse[]): AuditSuggestion[] {
     const { dashboard, visual, dataset, section } = this.rules
 
     // Run dashboard rules
@@ -67,7 +72,7 @@ export default class DashboardAuditService {
     const datasetSuggestions = visuals.flatMap(visualData =>
       dataset
         .filter(rule => rule.supportedTypes.includes(visualData.type) || rule.supportedTypes.length === 0)
-        .flatMap(rule => rule.audit(visualData)),
+        .flatMap(rule => rule.audit(visualData, masterDataset)),
     )
 
     return [...dashboardSuggestions, ...visualSuggestions, ...datasetSuggestions, ...sectionSuggestions]

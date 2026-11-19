@@ -35,11 +35,11 @@ context('Dashboard audit - Line charts', () => {
     it('should show the dashboard audit master list', () => {
       cy.findByLabelText(/Dashboard audit.*/i).within(() => {
         cy.findByRole('region', { name: /Errors/i }).within(() => {
-          cy.findByRole('list').findAllByRole('listitem').should('have.length', 4)
+          cy.findByRole('list').findAllByRole('listitem').should('have.length', 2)
         })
 
         cy.findByRole('region', { name: /Warnings/i }).within(() => {
-          cy.findByRole('list').findAllByRole('listitem').should('have.length', 1)
+          cy.findByRole('list').findAllByRole('listitem').should('have.length', 3)
         })
       })
     })
@@ -47,13 +47,12 @@ context('Dashboard audit - Line charts', () => {
     it('should show the dashboard audit next to the relevant chart', () => {
       cy.visit(viewDashboarUrl)
 
-      cy.findByRole('region', { name: /Audit for chart "line-chart-audit-0"/i }).within(() => {
+      cy.findByRole('region', { name: /Audit for chart "Line chart with all missing cols"/i }).within(() => {
         cy.findByRole('region', { name: /Errors/i }).within(() => {
-          cy.findByRole('list').findAllByRole('listitem').should('have.length', 2)
+          cy.findByRole('list').findAllByRole('listitem').should('have.length', 1)
 
           cy.findByRole('list').within(() => {
-            cy.findByRole('heading', { name: 'Missing chart description' })
-            cy.findByRole('heading', { name: 'Missing chart name' })
+            cy.findByRole('heading', { name: 'Missing columns in dataset' })
           })
         })
 
@@ -63,6 +62,38 @@ context('Dashboard audit - Line charts', () => {
             .should('have.length', 1)
             .within(() => {
               cy.findByRole('heading', { name: 'No data in visualisation dataset' })
+            })
+        })
+      })
+
+      cy.findByRole('region', { name: /Audit for chart "Line chart with some missing cols"/i }).within(() => {
+        cy.findByRole('region', { name: /Errors/i }).within(() => {
+          cy.findByRole('list').findAllByRole('listitem').should('have.length', 1)
+
+          cy.findByRole('list').within(() => {
+            cy.findByRole('heading', { name: 'Missing columns in dataset' })
+          })
+        })
+
+        cy.findByRole('region', { name: /Warnings/i }).within(() => {
+          cy.findByRole('list')
+            .findAllByRole('listitem')
+            .should('have.length', 1)
+            .within(() => {
+              cy.findByRole('heading', { name: 'Line chart exceeds recommended number of lines' })
+            })
+        })
+      })
+
+      cy.findByRole('region', { name: /Audit for chart "MetricOne & MetricTwo values"/i }).within(() => {
+        cy.findByRole('region', { name: /Errors/i }).should('not.exist')
+
+        cy.findByRole('region', { name: /Warnings/i }).within(() => {
+          cy.findByRole('list')
+            .findAllByRole('listitem')
+            .should('have.length', 1)
+            .within(() => {
+              cy.findByRole('heading', { name: 'Line chart exceeds recommended number of lines' })
             })
         })
       })

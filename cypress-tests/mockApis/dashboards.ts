@@ -47,6 +47,9 @@ import {
   dashboardResultBadDataMock,
   dashboardResultBadDataDuplicatesMock,
   dashboardResultBadDataHistoricMock,
+  dashboardResultIncorrectDailyFormatDataSetMock,
+  dashboardResultIncorrectMonthlyFormatDataSetMock,
+  dashboardResultIncorrectYearlyFormatDataSetMock,
 } from '@networkMocks/dashboard/data/bad-data/mocks'
 
 import {
@@ -213,6 +216,9 @@ const resultsStubs = {
   stubDashboardResultBadData: () => stubFor(dashboardResultBadDataMock),
   stubDashboardResultBadDataDuplicates: () => stubFor(dashboardResultBadDataDuplicatesMock),
   stubDashboardResultBadDataHistoric: () => stubFor(dashboardResultBadDataHistoricMock),
+  stubDashboardResultIncorrectDailyFormatHistoric: () => stubFor(dashboardResultIncorrectDailyFormatDataSetMock),
+  stubDashboardResultIncorrectMonthlyFormatHistoric: () => stubFor(dashboardResultIncorrectMonthlyFormatDataSetMock),
+  stubDashboardResultIncorrectYearlyFormatHistoric: () => stubFor(dashboardResultIncorrectYearlyFormatDataSetMock),
   stubDashboardResultMissingFirstRowDataSync: () => stubFor(dashboardResultMissingFirstRowDataSyncMock),
 
   // Parent Child data stubs

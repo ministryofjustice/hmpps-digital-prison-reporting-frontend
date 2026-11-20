@@ -5,6 +5,7 @@ import { defaultDataSetNoTs } from './data_no-ts'
 import { featureTestingIds } from '../../definitions/feature-testing'
 import { requestExampleIds } from '../../definitions/request-examples'
 import { allVisualisationDefinitions as vds } from '../../definitions/visualisations'
+import { allFeatureTestingDefinitions as fts } from '../../definitions/feature-testing'
 
 import { defaultDataSetAnnually } from './data_annually'
 import { defaultDataSetDaily } from './data_daily'
@@ -50,9 +51,11 @@ const defaultVisDefinitionsIds = [
 // Definitions that require a default dataset with DAILY timestamp format (YYYY-MM-DD)
 //
 
-const dailyDatasetVisDefinitionIds = [
+const dailyDatasetDefinitionIds = [
   vds.matrixChartsDashboardDefinition,
   vds.lineTimeseriesDashboardDefinitionDaily,
+  fts.definitionAuditLine,
+  fts.definitionAuditLineTimeseries,
 ].map(def => def.id)
 
 // ----------------------------------------------------------------------
@@ -106,7 +109,7 @@ export const dashboardResultSyncMock = setupSimpleMock(
 )
 
 export const dashboardResultDailyMock = setupSimpleMock(
-  `/reports/(${productIds.join('|')})/dashboards/(${dailyDatasetVisDefinitionIds.join('|')})/tables/tblId_[0-9]+/result`,
+  `/reports/(${productIds.join('|')})/dashboards/(${dailyDatasetDefinitionIds.join('|')})/tables/tblId_[0-9]+/result`,
   defaultDataSetDaily,
   1,
 )

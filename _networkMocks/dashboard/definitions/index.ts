@@ -1,6 +1,6 @@
 import { components } from '../../../src/dpr/types/api'
-import { featureTestingDefinitions } from './feature-testing'
 import { allVisualisationDefinitions } from './visualisations'
+import { allFeatureTestingDefinitions } from './feature-testing'
 import {
   expiredDashboard,
   failedExecution,
@@ -15,6 +15,10 @@ export const visualisations: components['schemas']['DashboardDefinition'][] = [
   ...Object.values(allVisualisationDefinitions),
 ]
 
+// Features
+export const features: components['schemas']['DashboardDefinition'][] = [...Object.values(allFeatureTestingDefinitions)]
+
+// Requests
 export const requestExamples: components['schemas']['DashboardDefinition'][] = [
   successfulExecution,
   failedExecution,
@@ -23,8 +27,5 @@ export const requestExamples: components['schemas']['DashboardDefinition'][] = [
   requestTimeout,
   failedRequest,
 ]
-
-// Feature testing examples
-export const features: components['schemas']['DashboardDefinition'][] = featureTestingDefinitions
 
 export default [...visualisations, ...features, ...requestExamples]

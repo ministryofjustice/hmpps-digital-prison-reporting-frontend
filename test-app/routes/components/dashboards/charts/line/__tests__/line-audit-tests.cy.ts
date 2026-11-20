@@ -10,7 +10,7 @@ context('Dashboard audit - Line charts', () => {
       executeDashboardStubs()
 
       cy.task('stubTestDashboardDefinitionAuditLine')
-      cy.task('stubDashboardResult')
+      cy.task('stubDashboardResultDaily')
 
       toggleDashboardAudit()
 

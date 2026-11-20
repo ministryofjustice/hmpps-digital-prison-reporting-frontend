@@ -81,6 +81,39 @@ export const lineChartAudit2: components['schemas']['DashboardVisualisationDefin
   },
 }
 
+export const lineChartAudit3: components['schemas']['DashboardVisualisationDefinition'] = {
+  id: 'line-chart-audit-3',
+  type: DashboardVisualisationType.LINE,
+  display: 'MetricOne & MetricTwo values 2',
+  description: 'MetricOne & MetricTwo values 2',
+  options: {
+    showLatest: false,
+  },
+  columns: {
+    keys: [
+      {
+        id: 'ts',
+        display: 'Date',
+        type: 'timestamp',
+        axis: 'x',
+      },
+    ],
+    measures: [
+      {
+        id: 'establishment_id',
+        display: 'Establishment ID',
+        axis: 'x',
+      },
+      {
+        id: 'metric_one_is_missing',
+        display: 'Point 2',
+        axis: 'y',
+      },
+    ],
+    expectNulls: false,
+  },
+}
+
 export const definition: components['schemas']['DashboardDefinition'] = {
   id: 'dashboard-audit-testing-line',
   name: 'line chart - Audit testing',
@@ -97,7 +130,7 @@ export const definition: components['schemas']['DashboardDefinition'] = {
       id: 'section-1',
       display: 'Line charts - max lines',
       description: 'Line charts - max lines',
-      visualisations: [lineChartAudit2],
+      visualisations: [lineChartAudit2, lineChartAudit3],
     },
   ],
   filterFields: [],

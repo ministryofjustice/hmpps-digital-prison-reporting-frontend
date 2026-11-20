@@ -12,7 +12,7 @@ import { definition as definitionAuditDoughnut } from './definition-audit-doughn
 import { definition as definitionAuditLine } from './definition-audit-line'
 import { definition as definitionAuditLineTimeseries } from './definition-audit-line-timeseries'
 
-export const featureTestingDefinitions = [
+export const allFeatureTestingDefinitions = {
   definitionSync,
   definitionFeatureFlag,
   definitionWithLinks,
@@ -24,6 +24,6 @@ export const featureTestingDefinitions = [
   definitionAuditDoughnut,
   definitionAuditLine,
   definitionAuditLineTimeseries,
-]
+}
 
-export const featureTestingIds = featureTestingDefinitions.map(vis => vis.id)
+export const featureTestingIds = [...Object.values(allFeatureTestingDefinitions)].map(feature => feature.id)

@@ -105,8 +105,6 @@ class BookmarkButton extends DprClientClass {
 
     button.textContent = isBookmarked ? removeText : addText
 
-    button.setAttribute('aria-pressed', String(isBookmarked))
-
     button.dataset['bookmarked'] = String(data.bookmarked)
   }
 

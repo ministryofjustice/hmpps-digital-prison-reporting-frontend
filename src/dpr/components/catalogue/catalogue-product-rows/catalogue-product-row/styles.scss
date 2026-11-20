@@ -24,6 +24,17 @@
 
     padding-top: govuk-spacing(4);
     padding-bottom: govuk-spacing(4);
+
+    @media (max-width: 640px) {
+      grid-template-columns: 1fr;
+      gap: 0;
+      position: relative;
+
+      .dpr-reports-catalogue__description,
+      .dpr-report-catalogue__product-row__name {
+        margin-bottom: govuk-spacing(4);
+      }
+    }
   }
 
   .dpr-report-catalogue__product-row__name {

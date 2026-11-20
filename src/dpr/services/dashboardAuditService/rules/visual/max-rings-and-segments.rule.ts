@@ -24,7 +24,7 @@ export const maxRingsAndSegmentsRule: VisualRule = {
       auditSuggestions.push({
         code: 'TOO_MANY_RINGS',
         severity: DashboardAuditSeverity.WARNING,
-        title: 'Large number of rings in Doughnut chart',
+        title: 'Doughnut chart exceeds recommended number of rings',
         description,
         visualId: context.id,
         visualTitle: context.name,
@@ -41,7 +41,7 @@ export const maxRingsAndSegmentsRule: VisualRule = {
       auditSuggestions.push({
         code: 'TO0_MANY_SEGMENTS',
         severity: DashboardAuditSeverity.WARNING,
-        title: 'Large number of segments in Doughnut chart',
+        title: 'Doughnut chart exceeds recommended number of segements',
         description,
         visualId: context.id,
         visualTitle: context.name,

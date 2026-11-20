@@ -36,14 +36,14 @@ export const maxBarsRule: VisualRule = {
     }
 
     if (barCount > MAX_BARS && !horizontal) {
-      const description = `<p>Your visualisation definition has produced a very large dataset. Excessive numbers of bars can reduce readability, make data labels difficult to display, and make it harder for users to identify meaningful trends.</p>
-            <p>Consider filtering, grouping, or reducing the number of categories shown. If all the data is required then consider setting the bars to render horizontally, or splitting the data over two or more seperate charts</p>
-            <p>See <a target="_blank" href="https://ministryofjustice.github.io/hmpps-digital-prison-reporting-frontend/dashboards/visualisations/bar-vis/">Bar chart docs</a> for more info`
+      const description = `<p>Excessive numbers of bars can reduce readability, make data labels difficult to display, and make it harder for users to identify meaningful trends.</p>
+            <p>Consider filtering, grouping, or reducing the number of categories shown. If all the data is required then consider setting the bars to render horizontally, or splitting the data over two or more seperate charts.</p>
+            <p>See <a target="_blank" href="https://ministryofjustice.github.io/hmpps-digital-prison-reporting-frontend/dashboards/visualisations/bar-vis/">Bar chart docs</a> for more info.</p>`
 
       auditSuggestions.push({
         code: 'TO0_MANY_BARS',
         severity: DashboardAuditSeverity.WARNING,
-        title: 'Large number of bars in bar chart',
+        title: 'Bar chart exceeds recommended number of bars',
         description,
         visualId: context.id,
         visualTitle: context.name,

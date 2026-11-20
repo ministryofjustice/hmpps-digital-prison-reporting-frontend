@@ -12,6 +12,7 @@
   font-family: 'GDS Transport', arial, sans-serif;
   margin-bottom: govuk-spacing(2);
   box-shadow: none;
+  line-height: normal;
 }
 
 /* Hover */
@@ -24,11 +25,13 @@
 
 /* Focus (GOV.UK style) */
 .dpr-button-link:focus {
-  outline: 3px solid #fd0;
   outline-offset: 0;
-  background-color: #fd0;
   color: #0b0c0c;
   text-decoration: none;
+  background-color: govuk-functional-colour('focus');
+  box-shadow:
+    0 -2px govuk-functional-colour('focus'),
+    0 4px govuk-functional-colour('focus-text') !important;
 }
 
 /* Active */

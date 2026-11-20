@@ -42,7 +42,7 @@ describe('Reports Catalogue', () => {
         getProductRow(productName).should('exist')
         getProductRow(productName).contains(`(${expectedVariantCount} reports)`)
         getProductRow(productName).within(() => {
-          cy.findAllByRole('heading', { level: 2 }).should('have.length', expectedVariantCount)
+          cy.findAllByRole('heading', { level: 4 }).should('have.length', expectedVariantCount)
         })
       })
 
@@ -61,8 +61,8 @@ describe('Reports Catalogue', () => {
         getProductRow(productName).should('exist')
         getProductRow(productName).contains(`(${expectedVariantCount} report)`)
         getProductRow(productName).within(() => {
-          cy.findAllByRole('heading', { level: 2 }).should('have.length', expectedVariantCount)
-          cy.findAllByRole('heading', { name: variantName, level: 2 }).should('be.visible')
+          cy.findAllByRole('heading', { level: 4 }).should('have.length', expectedVariantCount)
+          cy.findAllByRole('heading', { name: variantName, level: 4 }).should('be.visible')
         })
       })
 
@@ -81,8 +81,8 @@ describe('Reports Catalogue', () => {
         getProductRow(productName).should('exist')
         getProductRow(productName).contains(`(${expectedVariantCount} report)`)
         getProductRow(productName).within(() => {
-          cy.findAllByRole('heading', { level: 2 }).should('have.length', expectedVariantCount)
-          cy.findAllByRole('heading', { name: variantName, level: 2 }).should('be.visible')
+          cy.findAllByRole('heading', { level: 4 }).should('have.length', expectedVariantCount)
+          cy.findAllByRole('heading', { name: variantName, level: 4 }).should('be.visible')
         })
       })
 
@@ -100,18 +100,18 @@ describe('Reports Catalogue', () => {
         getProductRow('Feature testing').should('exist')
         getProductRow('Feature testing').contains(`(${expectedVariantCount1} reports)`)
         getProductRow('Feature testing').within(() => {
-          cy.findAllByRole('heading', { level: 2 }).should('have.length', expectedVariantCount1)
-          cy.findAllByRole('heading', { name: 'Filter Order', level: 2 }).should('be.visible')
-          cy.findAllByRole('heading', { name: 'Missing variant description', level: 2 }).should('be.visible')
-          cy.findAllByRole('heading', { name: 'Unprintable', level: 2 }).should('be.visible')
+          cy.findAllByRole('heading', { level: 4 }).should('have.length', expectedVariantCount1)
+          cy.findAllByRole('heading', { name: 'Filter Order', level: 4 }).should('be.visible')
+          cy.findAllByRole('heading', { name: 'Missing variant description', level: 4 }).should('be.visible')
+          cy.findAllByRole('heading', { name: 'Unprintable', level: 4 }).should('be.visible')
         })
 
         getProductRow('Filter input testing').should('exist')
         getProductRow('Filter input testing').contains(`(${expectedVariantCount2} reports)`)
         getProductRow('Filter input testing').within(() => {
-          cy.findAllByRole('heading', { level: 2 }).should('have.length', expectedVariantCount2)
-          cy.findAllByRole('heading', { name: 'Granular Daterange', level: 2 }).should('be.visible')
-          cy.findAllByRole('heading', { name: 'Relative Daterange', level: 2 }).should('be.visible')
+          cy.findAllByRole('heading', { level: 4 }).should('have.length', expectedVariantCount2)
+          cy.findAllByRole('heading', { name: 'Granular Daterange', level: 4 }).should('be.visible')
+          cy.findAllByRole('heading', { name: 'Relative Daterange', level: 4 }).should('be.visible')
         })
       })
 
@@ -127,9 +127,9 @@ describe('Reports Catalogue', () => {
         getProductRow('Filter input testing').should('exist')
         getProductRow('Filter input testing').contains(`(${expectedVariantCount} reports)`)
         getProductRow('Filter input testing').within(() => {
-          cy.findAllByRole('heading', { level: 2 }).should('have.length', expectedVariantCount)
-          cy.findAllByRole('heading', { name: 'Granular Daterange', level: 2 }).should('be.visible')
-          cy.findAllByRole('heading', { name: 'Relative Daterange', level: 2 }).should('be.visible')
+          cy.findAllByRole('heading', { level: 4 }).should('have.length', expectedVariantCount)
+          cy.findAllByRole('heading', { name: 'Granular Daterange', level: 4 }).should('be.visible')
+          cy.findAllByRole('heading', { name: 'Relative Daterange', level: 4 }).should('be.visible')
         })
       })
     })
@@ -146,7 +146,7 @@ describe('Reports Catalogue', () => {
         validateProductCount(productTotal)
         getProductRow('Feature testing').contains(`(${expectedVariantCount} reports)`)
         getProductRow('Feature testing').within(() => {
-          cy.findAllByRole('heading', { level: 2 }).should('have.length', expectedVariantCount)
+          cy.findAllByRole('heading', { level: 4 }).should('have.length', expectedVariantCount)
         })
       })
 
@@ -162,7 +162,7 @@ describe('Reports Catalogue', () => {
 
         getProductRow('Feature testing').contains(`(${expectedVariantCount} reports)`)
         getProductRow('Feature testing').within(() => {
-          cy.findAllByRole('heading', { level: 2 }).should('have.length', expectedVariantCount)
+          cy.findAllByRole('heading', { level: 4 }).should('have.length', expectedVariantCount)
         })
       })
 
@@ -178,7 +178,7 @@ describe('Reports Catalogue', () => {
 
         getProductRow('Feature testing').contains(`(${expectedVariantCount} reports)`)
         getProductRow('Feature testing').within(() => {
-          cy.findAllByRole('heading', { level: 2 }).should('have.length', expectedVariantCount)
+          cy.findAllByRole('heading', { level: 4 }).should('have.length', expectedVariantCount)
         })
       })
     })
@@ -203,7 +203,7 @@ describe('Reports Catalogue', () => {
         validateProductCount(productTotal)
         getProductRow('Feature testing').contains(`(${expectedCurrentCount} reports)`)
         getProductRow('Feature testing').within(() => {
-          cy.findAllByRole('heading', { level: 2 }).should('have.length', expectedCurrentCount)
+          cy.findAllByRole('heading', { level: 4 }).should('have.length', expectedCurrentCount)
         })
 
         cy.findByRole('checkbox', { name: 'Hide missing reports' }).check()
@@ -213,7 +213,7 @@ describe('Reports Catalogue', () => {
 
         getProductRow('Feature testing').contains(`(${expectedVariantCount} reports)`)
         getProductRow('Feature testing').within(() => {
-          cy.findAllByRole('heading', { level: 2 }).should('have.length', expectedVariantCount)
+          cy.findAllByRole('heading', { level: 4 }).should('have.length', expectedVariantCount)
         })
       })
     })
@@ -230,7 +230,7 @@ describe('Reports Catalogue', () => {
 
         getProductRow('Feature testing').contains(`(2 reports)`)
         getProductRow('Feature testing').within(() => {
-          cy.findAllByRole('heading', { level: 2 }).should('have.length', 2)
+          cy.findAllByRole('heading', { level: 4 }).should('have.length', 2)
         })
       })
     })

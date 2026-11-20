@@ -146,7 +146,10 @@ export const stubBookmarks = () => {
 
 export const getMyReportRow = ({ name }: { name: string | RegExp }) => {
   return cy
-    .findByText(name)
+    .findByRole('heading', {
+      name,
+      level: 5,
+    })
     .closest('.dpr-my-reports__cell--title')
     .nextUntil('.dpr-my-reports__cell--title')
     .then($cells => {

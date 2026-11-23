@@ -1,6 +1,10 @@
 .dpr-reports-catalogue__heading {
   padding-left: govuk-spacing(2);
 
+  .dpr-product-variant-name {
+    font-weight: bold;
+  }
+
   h2 {
     font-weight: bold;
   }

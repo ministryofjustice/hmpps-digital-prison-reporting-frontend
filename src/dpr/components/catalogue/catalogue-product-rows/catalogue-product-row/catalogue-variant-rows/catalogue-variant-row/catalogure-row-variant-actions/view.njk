@@ -46,7 +46,6 @@
           {% set id = bookmark.id %}
           {% set reportType = bookmark.reportType %}
           {% set csrfToken = bookmark.csrfToken %}
-          {% set name = bookmark.reportName %}
 
           <li>{{ dprBookmarkButton(reportId, id, reportType, csrfToken, bookmark) }}</li>
         {% endif %}

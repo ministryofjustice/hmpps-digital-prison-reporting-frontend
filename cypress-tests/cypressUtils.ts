@@ -148,7 +148,7 @@ export const getMyReportRow = ({ name }: { name: string | RegExp }) => {
   return cy
     .findByRole('heading', {
       name,
-      level: 2,
+      level: 5,
     })
     .closest('.dpr-my-reports__cell--title')
     .nextUntil('.dpr-my-reports__cell--title')
@@ -168,7 +168,7 @@ export const getMyReportRowCell = ({ name, cell }: { name: string | RegExp; cell
 
 export const expectMyReportRowCountInTab = ({ tabName, count }: { tabName: string | RegExp; count: number }) => {
   cy.findByLabelText(tabName).within(() => {
-    cy.findAllByRole('heading', { level: 2 }).should('have.length', count)
+    cy.findAllByRole('heading', { level: 4, name: 'Product' }).should('have.length', count)
   })
 }
 
@@ -201,7 +201,7 @@ export const findCatalogueRowAndConfirmActionExists = (reportName: string, actio
 export const getProductRow = (productName: string) =>
   cy
     .findByRole('heading', {
-      level: 1,
+      level: 3,
       name: productName,
     })
     .closest('[id^="dpr-report-catalogue__product-"]')
@@ -209,7 +209,7 @@ export const getProductRow = (productName: string) =>
 export const productShouldNotExist = (productName: string) =>
   cy
     .findByRole('heading', {
-      level: 1,
+      level: 3,
       name: productName,
     })
     .should('not.exist')
@@ -218,7 +218,7 @@ export const validateProductCount = (expectedCount: number) =>
   cy
     .findByLabelText(/Reports Catalogue.*/i)
     .find('.dpr-report-catalogue__product-rows')
-    .findAllByRole('heading', { level: 1 })
+    .findAllByRole('heading', { level: 3 })
     .should('have.length', expectedCount)
 
 export const validateCatalogueTotals = (totalReports: number) => {

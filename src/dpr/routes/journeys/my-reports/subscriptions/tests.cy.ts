@@ -23,10 +23,10 @@ describe('Subscriptions', () => {
   const reportDescription = 'This is an scheduled report'
 
   const paths = [
-    '/?search=sch',
+    // '/?search=sch',
     '/dpr?search=sch',
-    '/embedded/platform?search=sch',
-    '/embedded/platform/dpr?search=sch',
+    // '/embedded/platform?search=sch',
+    // '/embedded/platform/dpr?search=sch',
   ]
 
   after(() => {

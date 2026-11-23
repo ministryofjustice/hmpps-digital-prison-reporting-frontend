@@ -81,6 +81,7 @@ export type DprMyReportActionBookmark = {
   linkType: string
   linkText: string
   currentUrl: string
+  reportName: string
 }
 
 export type DprMyReportMeta = {

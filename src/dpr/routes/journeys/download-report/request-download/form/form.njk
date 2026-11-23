@@ -58,7 +58,8 @@
           name: 'role',
           value: '',
           label: {
-            text: 'What is your Job title?'
+            text: 'What is your Job title?',
+            isPageHeading: false
           },
           classes: "govuk-!-width-one-third",
           errorMessage: validationErrors | dpr.findError('role'),
@@ -115,7 +116,7 @@
           label: {
             text: "Can you provide more detail",
             classes: "govuk-label--l",
-            isPageHeading: true
+            isPageHeading: false
           },
           hint: {
             text: "In your own words describe how you will use this data once it's downloaded."

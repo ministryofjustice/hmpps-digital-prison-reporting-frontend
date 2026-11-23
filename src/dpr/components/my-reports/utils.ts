@@ -296,6 +296,7 @@ const buildBookmarkListItems = async (res: Response, req: Request): Promise<DprM
 
   return mappedBookmarks.map(bookmark => {
     const { name, reportName, type, description } = bookmark
+
     return {
       title: {
         productName: name,
@@ -431,7 +432,7 @@ const buildBookmarkActionsCell = (data: MappedBookmarks, res: Response, req: Req
  * @return {*}
  */
 const buildBookmarkRemoveAction = (req: Request, res: Response, data: MappedBookmarks): DprMyReportActionBookmark => {
-  const { reportId, id, type: reportType } = data
+  const { reportId, id, type: reportType, reportName } = data
   const { csrfToken } = LocalsHelper.getValues(res)
   const { bookmarkActionEndpoint } = LocalsHelper.getRouteLocals(res)
   const currentUrl = req.originalUrl || '/'
@@ -445,6 +446,7 @@ const buildBookmarkRemoveAction = (req: Request, res: Response, data: MappedBook
     linkType: 'remove',
     linkText: 'Remove bookmark',
     currentUrl,
+    reportName,
   }
 }
 

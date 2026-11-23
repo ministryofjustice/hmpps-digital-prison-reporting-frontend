@@ -6,6 +6,11 @@
   font-size: 16px;
   text-align: right;
 
+  @media (max-width: 640px) {
+    text-align: center;
+    margin-bottom: govuk-spacing(0);
+  }
+
   li {
     margin-bottom: govuk-spacing(1);
   }

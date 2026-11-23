@@ -3,3 +3,12 @@
     margin-bottom: 0px;
   }
 }
+
+.dpr-report-catalogue__variant-row__description {
+  @media (max-width: 640px) {
+    padding: govuk-spacing(2);
+    .govuk-body-s {
+      margin-bottom: 0px;
+    }
+  }
+}

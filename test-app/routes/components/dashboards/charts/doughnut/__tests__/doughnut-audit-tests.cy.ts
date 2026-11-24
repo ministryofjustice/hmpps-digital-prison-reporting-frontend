@@ -49,7 +49,7 @@ context('Dashboard audit - Doughnut charts', () => {
             .findAllByRole('listitem')
             .should('have.length', 1)
             .within(() => {
-              cy.findByRole('heading', { name: 'Large number of rings in Doughnut chart' })
+              cy.findByRole('heading', { name: 'Doughnut chart exceeds recommended number of rings' })
             })
         })
       })
@@ -60,7 +60,7 @@ context('Dashboard audit - Doughnut charts', () => {
             .findAllByRole('listitem')
             .should('have.length', 1)
             .within(() => {
-              cy.findByRole('heading', { name: 'Large number of segments in Doughnut chart' })
+              cy.findByRole('heading', { name: 'Doughnut chart exceeds recommended number of segements' })
             })
         })
       })

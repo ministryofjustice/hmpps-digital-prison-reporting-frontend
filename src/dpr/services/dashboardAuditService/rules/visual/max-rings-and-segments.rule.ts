@@ -18,13 +18,13 @@ export const maxRingsAndSegmentsRule: VisualRule = {
     if (ringCount >= MAX_RINGS) {
       const description = `<p>Excessive numbers of rings in doughnut charts can reduce readability, make data labels difficult to display, and make it harder for users to identify meaningful trends.</p>
         <p>A maximum of 2 rings is the recommended amount per doughnut chart</p>
-        <p>Consider filtering, grouping, or reducing the number of categories shown. If all the data is required then consider splitting the data over two or more seperate charts, or consider using a stacked bar chart instead.</p>
+        <p>Consider filtering, grouping, or reducing the number of categories shown. If all the data is required then consider splitting the data over two or more separate charts, or consider using a stacked bar chart instead.</p>
         <p>See <a target="_blank" href="https://ministryofjustice.github.io/hmpps-digital-prison-reporting-frontend/dashboards/visualisations/doughnut/">Doughnut chart docs</a> for more info`
 
       auditSuggestions.push({
         code: 'TOO_MANY_RINGS',
         severity: DashboardAuditSeverity.WARNING,
-        title: 'Large number of rings in Doughnut chart',
+        title: 'Doughnut chart exceeds recommended number of rings',
         description,
         visualId: context.id,
         visualTitle: context.name,
@@ -35,13 +35,13 @@ export const maxRingsAndSegmentsRule: VisualRule = {
     if (segmentCount >= MAX_SEGMENTS) {
       const description = `<p>An excessive numbers of segments in a doughnut chart can reduce readability, make data labels difficult to display, and make it harder for users to identify meaningful trends.</p>
         <p>A maximum of 4-5 segments is the recommended amount per doughnut chart</p>
-        <p>Consider reducing the number of segments shown. If all the data is required then consider splitting the data over two or more seperate charts</p>
+        <p>Consider reducing the number of segments shown. If all the data is required then consider splitting the data over two or more separate charts</p>
         <p>See <a target="_blank" href="https://ministryofjustice.github.io/hmpps-digital-prison-reporting-frontend/dashboards/visualisations/doughnut/">Doughnut chart docs</a> for more info`
 
       auditSuggestions.push({
         code: 'TO0_MANY_SEGMENTS',
         severity: DashboardAuditSeverity.WARNING,
-        title: 'Large number of segments in Doughnut chart',
+        title: 'Doughnut chart exceeds recommended number of segements',
         description,
         visualId: context.id,
         visualTitle: context.name,

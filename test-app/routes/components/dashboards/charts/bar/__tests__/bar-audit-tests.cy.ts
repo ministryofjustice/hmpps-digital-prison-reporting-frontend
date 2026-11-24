@@ -49,7 +49,7 @@ context('Dashboard audit - Bar charts', () => {
             .findAllByRole('listitem')
             .should('have.length', 1)
             .within(() => {
-              cy.findByRole('heading', { name: 'Large number of bars in bar chart' })
+              cy.findByRole('heading', { name: 'Bar chart exceeds recommended number of bars' })
             })
         })
       })
@@ -64,7 +64,7 @@ context('Dashboard audit - Bar charts', () => {
             .findAllByRole('listitem')
             .should('have.length', 1)
             .within(() => {
-              cy.findByRole('heading', { name: 'Large number of bars in bar chart' })
+              cy.findByRole('heading', { name: 'Bar chart exceeds recommended number of bars' })
             })
         })
       })
@@ -75,7 +75,7 @@ context('Dashboard audit - Bar charts', () => {
             .findAllByRole('listitem')
             .should('have.length', 1)
             .within(() => {
-              cy.findByRole('heading', { name: 'Large number of stacked segments' })
+              cy.findByRole('heading', { name: 'Bar chart exceeds recommended number of stacked segments' })
             })
         })
       })

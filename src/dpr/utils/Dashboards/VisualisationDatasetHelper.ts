@@ -33,11 +33,19 @@ export const getDatasetRows = (
     requiredColumnIds.add(dateData.measure.id)
   }
 
-  return dashboardData.filter(row =>
-    Object.entries(row).every(([fieldId, field]) =>
+  const requiredIds = new Set([...requiredColumnIds, ...measureIds])
+
+  return dashboardData.filter(row => {
+    const hasAnyRequiredField = [...requiredIds].some(id => id in row)
+
+    if (!hasAnyRequiredField) {
+      return false
+    }
+
+    return Object.entries(row).every(([fieldId, field]) =>
       isValidField(fieldId, field.raw, requiredColumnIds, measureIds, filters ?? [], expectNulls),
-    ),
-  )
+    )
+  })
 }
 
 /**

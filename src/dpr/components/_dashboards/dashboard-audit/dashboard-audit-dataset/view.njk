@@ -1,0 +1,21 @@
+{% from "govuk/components/details/macro.njk" import govukDetails %}
+{% from "../../../_reports/report-page/report-template/report-section/report-data-table/view.njk" import dprDataTable %}
+
+{% macro dprDashboardAuditDataset(dataset) %}
+
+  {% set fullDatasetTableHtml %}
+    <h1 id="preview-master-dataset" class="govuk-heading-m govuk-visually-hidden">Preview master dataset</h1>
+    <p class="dpr-audit-description govuk-!-margin-top-4">For reference, here is a preview of you master dataset</p>
+    {{ dprDataTable(dataset) }}
+  {% endset %}
+
+  {{
+    govukDetails({
+      summaryText: 'Preview master dataset',
+      html: fullDatasetTableHtml,
+      open: false,
+      classes: 'dpr-dashboard-audit'
+    })
+  }}
+
+{% endmacro %}

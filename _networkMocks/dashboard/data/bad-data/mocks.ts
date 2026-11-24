@@ -6,6 +6,15 @@ import { badDataSetHistoric } from './data-historic'
 import { allVisualisationDefinitions } from '../../definitions/visualisations'
 import { requestExampleIds } from '../../definitions/request-examples'
 import { featureTestingIds } from '../../definitions/feature-testing'
+import { incorrectDailyFormatDataSet } from './data-incorrect-daily-format'
+import { incorrectMontlyFormatDataSet } from './data-incorrect-monthly-format'
+import { incorrectYearlyFormatDataSet } from './data-incorrect-yearly-format'
+
+import { allFeatureTestingDefinitions as fts } from '../../definitions/feature-testing'
+
+const badDailyDatasetDefinitionIds = [fts.definitionAuditLineTimeseries].map(def => def.id)
+const badMonthlyDatasetDefinitionIds = [fts.definitionAuditLineTimeseriesChild1].map(def => def.id)
+const badYearlyDatasetDefinitionIds = [fts.definitionAuditLineTimeseriesChild2].map(def => def.id)
 
 const allVisDefIdsArray = Object.values(allVisualisationDefinitions).map(def => def.id)
 
@@ -42,10 +51,31 @@ export const dashboardResultBadDataDuplicatesSyncMock = setupSimpleMock(
   2,
 )
 
+export const dashboardResultIncorrectDailyFormatDataSetMock = setupSimpleMock(
+  `/reports/(${productIds.join('|')})/dashboards/(${badDailyDatasetDefinitionIds.join('|')})/tables/tblId_[0-9]+/result`,
+  incorrectDailyFormatDataSet,
+  2,
+)
+
+export const dashboardResultIncorrectMonthlyFormatDataSetMock = setupSimpleMock(
+  `/reports/(${productIds.join('|')})/dashboards/(${badMonthlyDatasetDefinitionIds.join('|')})/tables/tblId_[0-9]+/result`,
+  incorrectMontlyFormatDataSet,
+  2,
+)
+
+export const dashboardResultIncorrectYearlyFormatDataSetMock = setupSimpleMock(
+  `/reports/(${productIds.join('|')})/dashboards/(${badYearlyDatasetDefinitionIds.join('|')})/tables/tblId_[0-9]+/result`,
+  incorrectYearlyFormatDataSet,
+  2,
+)
+
 export const mocks = [
   dashboardResultBadDataMock,
   dashboardResultBadDataSyncMock,
   dashboardResultBadDataHistoricMock,
   dashboardResultBadDataDuplicatesMock,
   dashboardResultBadDataDuplicatesSyncMock,
+  dashboardResultIncorrectDailyFormatDataSetMock,
+  dashboardResultIncorrectMonthlyFormatDataSetMock,
+  dashboardResultIncorrectYearlyFormatDataSetMock,
 ]

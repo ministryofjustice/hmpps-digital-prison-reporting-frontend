@@ -2,6 +2,7 @@
 {% from "../dashboard-filters/view.njk" import dprDashboardFilters %}
 {% from "../dashboard-section/view.njk" import dprDashboardSection %}
 {% from "../dashboard-audit/view.njk" import dprDashboardAudit %}
+{% from "../dashboard-audit/dashboard-audit-dataset/view.njk" import dprDashboardAuditDataset %}
 {% from "../../_charts/chart-card/view.njk" import dprChartCard %}
 {% from "../../_reports/report-heading/view.njk" import dprReportHeading %}
 {%- from "moj/components/side-navigation/macro.njk" import mojSideNavigation -%}
@@ -12,17 +13,27 @@
   {% set filters = data.filters %}
   {% set sections = data.sections %}
   {% set audit = data.audit %}
+  {% set dataset = data.dataset %}
 
   <div class="dashboard-wrapper">
     <nav class="dashboard-sidebar">{{ dprDashboardSidebar(sections) }}</nav>
 
     <div class="dashboard-content">
-      {{ dprDashboardAudit(audit) }}
+      {% if audit %}
+        {{ dprDashboardAudit(audit) }}
+      {% endif %}
+
       {{ dprReportHeading(data) }}
       {{ dprDashboardFilters(filters, validationErrors, appliedFilters, csrfToken) }}
+
       {% for section in sections %}
         {{ dprDashboardSection(section, loop.index0, audit) }}
       {% endfor %}
+
+      {% if audit %}
+        {{ dprDashboardAuditDataset(dataset) }}
+      {% endif %}
+
     </div>
   </div>
 {% endmacro %}

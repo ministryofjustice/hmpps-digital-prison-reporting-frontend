@@ -12,15 +12,16 @@
       <div class="dpr-reports-catalogue-filters__search">
         {{ dprReportsCatalogueSearch('reports-catalogue') }}
       </div>
-      <div class="dpr-reports-catalogue-filters__collections">
-        {{ dprReportsCatalogueCollections(config.productCollectionConfig) }}
-      </div>
     </div>
 
     <div class="dpr-catalogue-filters--show-more-container">
 
       {% set catalogueFiltersHtml %}
         <div class="dpr-reports-catalogue-filters--content-filters">
+          <div class="dpr-reports-catalogue-filters__collections">
+            {{ dprReportsCatalogueCollections(config.productCollectionConfig) }}
+          </div>
+
           <div class="dpr-reports-catalogue-filters__type-filter">
             {{ dprReportsCatalogueReportTypeFilter() }}
           </div>

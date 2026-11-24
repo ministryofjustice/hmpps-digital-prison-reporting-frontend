@@ -712,6 +712,7 @@ export interface components {
         | 'autocompletemulti'
       mandatory: boolean
       pattern?: string | null
+      hint?: string | null
       staticOptions?: components['schemas']['FilterOption'][] | null
       dynamicOptions?: components['schemas']['DynamicFilterOption'] | null
       defaultValue?: string | null

@@ -4,6 +4,7 @@ import {
   dashboardWithChildOneMock,
   dashboardWithChildTwoMock,
   dashboardWithLinksMock,
+  dashboardAuditMock,
   dashboardWithParentChildMock,
   featureFlagDashboardMock,
   syncDashboardMock,
@@ -22,6 +23,10 @@ import {
   dashboardResultParenChildParentNoDataMock,
   parentChildDashboardStatusParentFailedMock,
   parentChildDashboardStatusParentFinishedMock,
+  dashboardAuditBarMock,
+  dashboardAuditDoughnutMock,
+  dashboardAuditLineMock,
+  dashboardAuditLineTimeseriesMock,
 } from '@networkMocks/dashboard/definitions/feature-testing/mocks'
 
 import {
@@ -151,6 +156,11 @@ const boxPlotChartsDefinitionStubs = {
 const definitionStubs = {
   stubTestDashboardDefinition: () => stubFor(featureFlagDashboardMock),
   stubTestDashboardDefinitionWithLink: () => stubFor(dashboardWithLinksMock),
+  stubTestDashboardDefinitionAudit: () => stubFor(dashboardAuditMock),
+  stubTestDashboardDefinitionAuditBar: () => stubFor(dashboardAuditBarMock),
+  stubTestDashboardDefinitionAuditDoughnut: () => stubFor(dashboardAuditDoughnutMock),
+  stubTestDashboardDefinitionAuditLine: () => stubFor(dashboardAuditLineMock),
+  stubTestDashboardDefinitionAuditLineTimeseries: () => stubFor(dashboardAuditLineTimeseriesMock),
   stubTestDashboardDefinitionWithParentChild: () => stubFor(dashboardWithParentChildMock),
   stubTestDashboardDefinitionWithChildOne: () => stubFor(dashboardWithChildOneMock),
   stubTestDashboardDefinitionWithChildTwo: () => stubFor(dashboardWithChildTwoMock),

@@ -12,10 +12,11 @@ export default class DateRangeController {
     }
     const filter = {
       type: 'daterange' as components['schemas']['FilterDefinition']['type'],
-      mandatory: true,
+      mandatory: false,
       defaultValue: '2003-02-01 - 2007-05-04',
       min: min ?? '',
       max: max ?? '',
+      hint: 'Some hint',
     }
 
     const filterData: FilterValue = {

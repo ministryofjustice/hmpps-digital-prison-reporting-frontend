@@ -1,0 +1,41 @@
+{% from "govuk/components/input/macro.njk" import govukInput %}
+
+{% macro dprTextInput(filter, validationErrors, parameterPrefix, mandatory) %}
+
+  {% set id = parameterPrefix + filter.name %}
+  {% set name = id %}
+  {% set value = filter.value %}
+  {% set pattern = filter.pattern if filter.pattern else '.+' %}
+  {% set labelText = filter.text | capitaliseSentence %}
+  {% set hint = filter.hint %}
+
+  {% set attributes = {
+      pattern: pattern,
+      'display-name': labelText
+  } %}
+
+  {% if mandatory %}
+    {% set attributes = attributes | merge({ required: true }) %}
+  {% endif %}
+
+  {% set errorMessage = validationErrors | dpr.findError(id) %}
+
+  {{
+    govukInput({
+      id: id,
+      name: name,
+      value: value,
+      label: {
+        text: labelText,
+        classes: 'govuk-!-font-weight-bold'
+      },
+      classes: 'govuk-input--width-20',
+      errorMessage: errorMessage,
+      attributes: attributes,
+      hint: {
+        html: hint
+      } if hint
+    })
+  }}
+
+{% endmacro %}

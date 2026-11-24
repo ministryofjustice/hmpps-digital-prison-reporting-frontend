@@ -311,6 +311,7 @@ describe('Request a report', () => {
       cy.task('stubFeatureFlags')
       resetFeatureFlags()
     })
+
     it('should save the user defined defaults', () => {
       clearSelectedFilters()
       updateFilterValues()

@@ -26,6 +26,7 @@ export interface BaseFilterValue {
   value: FilterValueType
   mandatory?: boolean | undefined
   index?: number | undefined | null
+  hint?: string
 }
 
 export interface TextFilterValue extends BaseFilterValue {

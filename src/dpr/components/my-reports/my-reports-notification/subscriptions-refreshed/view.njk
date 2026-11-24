@@ -12,7 +12,7 @@
     {% set detailsHtml %}
 
       {% if refreshed.length %}
-        <h1 class="govuk-heading-s">Refreshed reports</h1>
+        <h2 class="govuk-heading-s">Refreshed reports</h2>
 
         <p class="govuk-body">
           The following reports were refreshed and are available with new data:
@@ -26,7 +26,7 @@
       {% endif %}
 
       {% if stale.length %}
-        <h1 class="govuk-heading-s">Stale reports</h1>
+        <h2 class="govuk-heading-s">Stale reports</h2>
 
         <p class="govuk-body">
           The following reports were not refreshed but can still be viewed with old data:
@@ -40,7 +40,7 @@
       {% endif %}
 
       {% if failed.length %}
-        <h1 class="govuk-heading-s">Failed reports</h1>
+        <h2 class="govuk-heading-s">Failed reports</h2>
 
         <p class="govuk-body">
           The following reports failed to run:

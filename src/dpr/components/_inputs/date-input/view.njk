@@ -1,38 +1,45 @@
 {% from "govuk/components/input/macro.njk" import govukInput %}
 {%- from "moj/components/date-picker/macro.njk" import mojDatePicker -%}
+{% from "../date-input/minMaxToggle/view.njk" import dprDateMinMaxToggle %}
 
-{% macro dprDate(dateData, validationErrors, label, parameterSuffix = '', toggleMin = true, toggleMax = true, parameterPrefix = 'filters.') %}
-  {% set name = dateData.name %}
-  {% set text = dateData.text %}
-  {% set displayName = dateData.displayName %}
-  {% if not displayName %}
-    {% set displayName = text %}
-  {% endif %}
-  {% set value = dateData.value %}
-  {% set mandatory = dateData.mandatory %}
-  {% set minDate = dateData.min %}
-  {% set maxDate = dateData.max %}
-  {% set id = parameterPrefix + name + parameterSuffix %}
+{% macro dprDate(filter, validationErrors, parameterPrefix, mandatory, type) %}
+
+  {% set name = filter.name %}
+  {% set text = filter.text %}
+  {% set minDate = filter.min %}
+  {% set maxDate  = filter.max %}
+  {% set hint = "For example 17/05/2024." %}
 
   {% set defaultMinDate = '1977-05-25' %}
   {% set defaultMaxDate = '9999-01-01' %}
 
-  {% if not minDate %}
-    {% set toggleMin = false %}
-    {% set minDate = defaultMinDate %}
-  {% endif %}
+  {% if type and type === 'start' %}
 
-  {% if not maxDate %}
+    {% set id = parameterPrefix + name + '.' + type %}
+    {% set displayName = text + ' ' + type  %}
+    {% set value = filter.value.start %}
+    {% set label = 'From' %}
+    {% set toggleMin = true %}
     {% set toggleMax = false %}
-    {% set maxDate = defaultMaxDate %}
-  {% endif %}
 
-  {% if label %}
-    {%
-      set labelText = {
-        text: label | capitaliseSentence
-      }
-    %}
+  {% elif type and type === 'end' %}
+
+    {% set id = parameterPrefix + name + '.' + type %}
+    {% set displayName = text + ' ' + type  %}
+    {% set value = filter.value.end %}
+    {% set label = 'To' %}
+    {% set toggleMin = false %}
+    {% set toggleMax = true %}
+
+  {% else %}
+
+    {% set id = parameterPrefix + name %}
+    {% set displayName = text  %}
+    {% set value = filter.value %}
+    {% set toggleMin = true %}
+    {% set toggleMax = true %}
+    {% set hint  = filter.hint %}
+
   {% endif %}
 
   {% if value %}
@@ -49,7 +56,7 @@
     data-max="{{ maxDate }}"
     data-pattern-hint="DD/MM/YYYY"
   >
-    {% if text %}
+    {% if text and type is undefined  %}
       <label class="govuk-label govuk-label govuk-!-font-weight-bold" for="{{ id }}"> {{ text }} </label>
     {% endif %}
 
@@ -57,47 +64,19 @@
       mojDatePicker({
         id: id,
         name: id,
-        label: labelText,
+        label: {
+          text: label | capitaliseSentence
+        } if label,
         value: value,
-        minDate: minDate | dprDate,
-        maxDate: maxDate | dprDate,
+        minDate: minDate or defaultMinDate | dprDate,
+        maxDate: maxDate or defaultMaxDate | dprDate,
         hint: {
-          text: "For example 17/05/2024."
-        },
+          html: hint
+        } if hint,
         errorMessage: validationErrors | dpr.findError(id)
       })
     }}
 
-    {% if toggleMin and minDate or toggleMax and maxDate %}
-      <div class="daterange-set-to-minmax__container">
-        {# Min setting #}
-        {% if toggleMin and minDate %}
-          <a
-            class="govuk-body-s daterange-set-to-minmax"
-            id="{{ name }}-min-helper"
-            data-set-to-input="{{ id }}"
-            data-set-min-max-value="{{ minDate | dprDate }}"
-            data-set-min-max-trigger="true"
-            href="#"
-          >
-            Set value to minimum date: {{ minDate | dprDate }}
-          </a>
-        {% endif %}
-
-        {# Max setting #}
-        {% if toggleMax and maxDate %}
-          <a
-            class="govuk-body-s daterange-set-to-minmax"
-            id="{{ name }}-max-helper"
-            data-set-to-input="{{ id }}"
-            data-set-min-max-value="{{ maxDate | dprDate }}"
-            data-set-min-max-trigger="true"
-            href="#"
-          >
-            Set value to maximum date: {{ maxDate | dprDate }}
-          </a>
-        {% endif %}
-      </div>
-    {% endif %}
+    {{ dprDateMinMaxToggle(minDate, maxDate, toggleMin, toggleMax, name, id) }}
   </div>
 {% endmacro %}

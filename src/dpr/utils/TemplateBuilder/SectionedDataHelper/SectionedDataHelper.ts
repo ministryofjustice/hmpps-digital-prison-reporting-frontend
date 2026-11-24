@@ -2,9 +2,9 @@ import ReportQuery from '../../../types/ReportQuery'
 import { SummaryTemplate } from '../../../types/Templates'
 import { AsyncSummary } from '../../../types/UserReports'
 import { components } from '../../../types/api'
-import { getFieldsByName, getFieldDisplayName } from '../../definitionUtils'
+import { parseIfDate } from '../../dateHelper'
+import { getFieldDisplayName, getFieldsByName } from '../../definitionUtils'
 import { SectionData, SectionedData, SectionKey } from './types'
-import DateMapper from '../../DateMapper/DateMapper'
 
 type OrderedRow = Record<string, string> & {
   index: string
@@ -187,7 +187,6 @@ export class SectionedDataHelper {
    * - Default order is derived from the first section's keyObj sequence
    */
   sortSections(sectionedData: SectionedData): SectionedData {
-    const dataMapper = new DateMapper()
     const nameOrder = this.getSortField()
     const direction = this.getSortDirection()
     const { sections } = sectionedData
@@ -215,8 +214,8 @@ export class SectionedDataHelper {
         const aVal = aMap[name] ?? ''
         const bVal = bMap[name] ?? ''
 
-        const aDate = dataMapper.parseIfDate(aVal)
-        const bDate = dataMapper.parseIfDate(bVal)
+        const aDate = parseIfDate(aVal)
+        const bDate = parseIfDate(bVal)
 
         // date sorting
         if (aDate && bDate) {

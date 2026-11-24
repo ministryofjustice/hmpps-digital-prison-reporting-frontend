@@ -6,10 +6,20 @@
   {% set name = parameterPrefix + filter.name %}
   {% set text = filter.text %}
   {% set labelText = text | capitaliseSentence %}
+  {% set minimumLength = filter.minimumLength or 3 %}
   {% set options = filter.options %}
   {% set values = filter.values %}
+  {% set pattern = filter.pattern or '.+'  %}
+  {% set hint = filter.hint %}
 
   {% set searchInputName = 'search.' + name %}
+
+  {% set inputAttributes = {
+    "data-minimum-length": minimumLength,
+    "placeholder": "Search",
+    "pattern": pattern,
+    "required": "true" if mandatory
+  } %}
 
   <div
     class="multiselect-container govuk-!-margin-bottom-6"
@@ -17,30 +27,22 @@
     data-dpr-module="autocomplete-multiselect-input"
   >
     <fieldset class="govuk-fieldset">
-      <input
-        type="hidden"
-        name="{{ options.name }}"
-        value="{{ options.staticOptionNameValue }}"
-        data-autocomplete-hidden
-      />
-
       {# Input name #}
       <legend class="govuk-fieldset__legend govuk-label govuk-!-font-weight-bold">{{ labelText }}</legend>
 
       {# Input for filtering multiselect values #}
       {{
         govukInput({
+          id: searchInputName,
+          name: searchInputName,
           label: {
             text: 'search',
             classes: 'govuk-visually-hidden'
           },
+          attributes: inputAttributes,
           hint: {
-            text: "Type 3 or more characters to search options"
-          } if mandatory else {
-            html: "(Optional) <br>Type 3 or more characters to search options"
-          },
-          id: searchInputName,
-          name: searchInputName
+            html: hint
+          } if hint
         })
       }}
 
@@ -65,5 +67,13 @@
         })
       }}
     </fieldset>
+
+    <button
+      type="button"
+      class="govuk-button govuk-button--secondary govuk-!-margin-bottom-2"
+      data-autocomplete-toggle
+    >
+      Show all options
+    </button>
   </div>
 {% endmacro %}

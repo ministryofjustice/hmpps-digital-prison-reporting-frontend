@@ -1,15 +1,24 @@
 {% from "govuk/components/tabs/macro.njk" import govukTabs %}
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
-{% from "../date-input/view.njk" import dprDate %}
 {% from "../start-end-date/view.njk" import dprStartEndDate %}
 
-{% macro dprDateRange(data, validationErrors, parameterPrefix = "filters.", mandatory = false) %}
-  {% set relativeOptions = data.relativeOptions %}
-  {% set durationInputId = parameterPrefix + data.name + '.relative-duration' %}
+{% macro dprDateRange(filter, validationErrors, parameterPrefix, mandatory) %}
+
+  {% set name = filter.name %}
+  {% set id = parameterPrefix + name %}
+  {% set durationInputId = id + '.relative-duration' %}
+  {% set value = filter.value %}
+  {% set relativeValue = value.relative %}
+  {% set relativeOptions = filter.relativeOptions %}
+  {% set text = filter.text %}
+  {% set hint = filter.hint %}
 
   <div class="dpr-date-range" data-dpr-module="date-range-input">
     <fieldset class="govuk-fieldset">
-      <legend class="govuk-fieldset__legend govuk-label govuk-!-font-weight-bold">{{ data.text }}</legend>
+      <legend class="govuk-fieldset__legend govuk-label govuk-!-font-weight-bold">{{ text }}</legend>
+      {% if hint %}
+        <div class="govuk-hint">{{ hint | safe }}</div>
+      {% endif %}
 
       {% set relativeRangeHtml %}
         {{
@@ -27,7 +36,7 @@
               classes: "govuk-!-margin-bottom-3 dpr-relative-range-radio"
             },
             items: relativeOptions,
-            value: data.value.relative,
+            value: relativeValue,
             attributes: {
               'display-name': 'Preset date range'
             }
@@ -35,33 +44,32 @@
         }}
       {% endset -%}
 
+      {% set datepickerHtml %}
+        <div id="dpr-date-range" data-field-name="{{ name }}">
+          {{ dprStartEndDate(filter, validationErrors, parameterPrefix, mandatory) }}
+        </div>
+      {% endset %}
+
+
       {% if relativeOptions === undefined or relativeOptions.length === 0 %}
 
-        <div id="dpr-date-range" data-field-name="{{ data.name }}">
-          {{ dprStartEndDate(data, mandatory, validationErrors) }}
-        </div>
+        {{ datepickerHtml | safe }}
 
       {% else %}
-
-        {% set datepickerHtml %}
-          <div id="dpr-date-range" data-field-name="{{ data.name }}">
-            {{ dprStartEndDate(data, mandatory, validationErrors) }}
-          </div>
-        {% endset %}
 
         {{
           govukTabs({
             items: [
               {
                 label: "Date range",
-                id: data.name + "-date-picker",
+                id: name + "-date-picker",
                 panel: {
                   html: datepickerHtml
                 }
               },
               {
                 label: "Preset date ranges",
-                id: data.name + "-relative-range",
+                id: name + "-relative-range",
                 panel: {
                   html: relativeRangeHtml
                 }

@@ -1,0 +1,36 @@
+{% from "moj/components/notification-badge/macro.njk" import mojNotificationBadge %}
+
+{% macro dprDashboardAuditItems(title, count, suggestions) %}
+
+  <div
+    role="region"
+    aria-labelledby="dpr-dashboard-audit-severity-title--{{ title }}">
+
+    <h2 id="dpr-dashboard-audit-severity-title--{{ title }}"
+      class="govuk-heading-s dpr-dashboard-audit-severity-title">
+      {{title}}
+      {{ mojNotificationBadge({ text: count }) }}
+    </h2>
+
+    <ul class="govuk-list">
+      {% for suggestion in suggestions %}
+        {% set internalAuditId = suggestion.visualAuditKey or suggestion.sectionAuditKey %}
+        {% set internalId = suggestion.visualId or suggestion.sectionId %}
+        {% set internalTitle = suggestion.visualTitle or suggestion.sectionTitle %}
+        {% set title = suggestion.title %}
+        {% set description = suggestion.description %}
+
+        <li>
+          {% if internalId or internalTitle %}
+            {% set ruleTitleId = internalTitle or internalId %}
+            <h3 class="govuk-heading-s"><a class="govuk-link" href="#{{ internalAuditId }}_audit">"{{ ruleTitleId }}" - {{ title }}</a></strong></h3>
+          {% else %}
+            <h3 class="govuk-heading-s">{{ title }}</h3>
+          {% endif %}
+        </li>
+
+      {% endfor %}
+    </ul>
+  </div>
+
+{% endmacro %}

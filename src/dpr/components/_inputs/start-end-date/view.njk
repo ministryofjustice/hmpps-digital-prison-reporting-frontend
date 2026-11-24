@@ -1,58 +1,15 @@
 {% from "../date-input/view.njk" import dprDate %}
 
-{% macro dprStartEndDate(data, mandatory, validationErrors, label) %}
-  {% set name = data.name %}
-  {% set text = data.text %}
-  {% set value = data.value %}
-  {% set min = data.min %}
-  {% set max = data.max %}
-
-  {# START #}
+{% macro dprStartEndDate(filter, validationErrors, parameterPrefix, mandatory) %}
   <div class="dpr-daterange__start-end-date-wrapper">
-    {% if label %}
-      <p class="dpr-daterange__start-end-label govuk-label govuk-label govuk-!-font-weight-bold" for="{{ id }}">
-        {{ label }}
-      </p>
-    {% endif %}
-
+    {# START #}
     <div class="dpr-daterange__start-date">
-      {{
-        dprDate(
-          {
-            name: name,
-            value: value.start,
-            min: min,
-            max: max,
-            mandatory: mandatory,
-            displayName: text + ' start'
-          },
-          validationErrors,
-          'From',
-          '.start',
-          true,
-          false
-        )
-      }}
+      {{ dprDate(filter, validationErrors, parameterPrefix, mandatory, 'start') }}
     </div>
 
     {# END #}
     <div class="dpr-daterange__end-date">
-      {{
-        dprDate(
-          {
-            name: name,
-            value: value.end,
-            min: min,
-            max: max,
-            mandatory: mandatory,
-            displayName: text + ' end'
-          },
-          validationErrors,
-          'To',
-          '.end',
-          false
-        )
-      }}
+      {{ dprDate(filter, validationErrors, parameterPrefix, mandatory, 'end') }}
     </div>
   </div>
 {% endmacro %}

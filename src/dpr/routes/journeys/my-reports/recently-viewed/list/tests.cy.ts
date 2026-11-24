@@ -26,7 +26,7 @@ context('Recently viewed list', () => {
     cy.findByLabelText(/Viewed/i).within(() => {
       cy.findByRole('heading', {
         name: 'Interactive Report',
-        level: 2,
+        level: 5,
       }).should('exist')
     })
 
@@ -39,7 +39,7 @@ context('Recently viewed list', () => {
     cy.findByLabelText(/Viewed \(2\)/i).within(() => {
       cy.findByRole('heading', {
         name: 'Successful Report',
-        level: 2,
+        level: 5,
       }).should('exist')
     })
   })

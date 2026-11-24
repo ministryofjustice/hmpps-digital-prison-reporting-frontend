@@ -85,7 +85,7 @@ export const createHeadlines = (
       label = display ? `Total ${display}` : 'Total'
 
       const noData = data.every(d => {
-        return d[id].raw === undefined || d[id].raw === null || d[id].raw === ''
+        return d[id]?.raw === undefined || d[id]?.raw === null || d[id]?.raw === ''
       })
 
       if (noData) {

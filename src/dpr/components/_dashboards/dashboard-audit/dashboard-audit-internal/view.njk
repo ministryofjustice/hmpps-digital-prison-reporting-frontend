@@ -1,0 +1,123 @@
+{% from "moj/components/notification-badge/macro.njk" import mojNotificationBadge %}
+{% from "govuk/components/details/macro.njk" import govukDetails %}
+
+{% macro dprDashboardInternalAudit(internalAudit, type) %}
+  {% set noIssuesFound = internalAudit.totalCount === 0 %}
+  {% set ariaId = internalAudit.auditKey + '_audit' %}
+  {% set auditTitleIdentifier = internalAudit.name or internalAudit.id %}
+  {% set auditTitle = 'Audit for ' + type + ' "' + auditTitleIdentifier + '"'%}
+  {% set baseClasses = "dpr-dashboard-audit dpr-dashboard-audit--vis-audit" %}
+
+  {% set classes = baseClasses %}
+
+  {% if internalAudit.warningCount > 0 %}
+    {% set classes = baseClasses + " dpr-dashboard-audit--warning" %}
+  {% endif %}
+
+  {% if internalAudit.errorCount > 0 %}
+    {% set classes = baseClasses + " dpr-dashboard-audit--error" %}
+  {% endif %}
+
+  {% if noIssuesFound %}
+    {% set classes = baseClasses + " dpr-dashboard-audit--passed" %}
+  {% endif %}
+
+  {% set internalAuditHtml %}
+  <div
+    role="region"
+    aria-labelledby="{{ ariaId }}">
+
+    <h1 id="{{ ariaId }}" class="govuk-heading-m govuk-visually-hidden">{{ auditTitle }}</h1>
+
+    {% if noIssuesFound %}
+
+      <p class="govuk-body dpr-audit-no-issues">No issues found</p>
+
+    {% else %}
+
+      {% if internalAudit.errorCount %}
+        <div
+          role="region"
+          aria-labelledby="{{ ariaId }}--errors">
+
+          <ul class="govuk-list">
+            <h2 id="{{ ariaId }}--errors" class="dpr-dashboard-audit-severity-title govuk-heading-s">Errors</h2>
+            {% for error in internalAudit.errors %}
+              <li>
+                <h3 class="govuk-heading-s">{{ error.title }}</h3>
+                <p class="dpr-audit-description">{{ error.description | dpr.safe }}</p>
+              </li>
+            {% endfor %}
+          </ul>
+
+        </div>
+      {% endif %}
+
+      {% if internalAudit.warningCount %}
+        <div
+          role="region"
+          aria-labelledby="{{ ariaId }}--warnings">
+
+          <h2 id="{{ ariaId }}--warnings" class="dpr-dashboard-audit-severity-title govuk-heading-s">Warnings</h2>
+          <ul class="govuk-list">
+            {% for warning in internalAudit.warnings %}
+              <li>
+                <h3 class="govuk-heading-s">{{ warning.title }}</h3>
+                <p class="dpr-audit-description">{{ warning.description | dpr.safe }}</p>
+              </li>
+            {% endfor %}
+          </ul>
+
+        </div>
+      {% endif %}
+
+      {% if internalAudit.suggestionCount %}
+        <div
+          role="region"
+          aria-labelledby="{{ ariaId }}--suggestions">
+
+          <h2 id="{{ ariaId }}--suggestions" class="dpr-dashboard-audit-severity-title govuk-heading-s">Suggestions</h2>
+          <ul class="govuk-list">
+            {% for suggestion in internalAudit.suggestions %}
+              <li>
+                <h3 class="govuk-heading-s">{{ suggestion.title }}</h3>
+                <p class="dpr-audit-description">{{ suggestion.description | dpr.safe }}</p>
+              </li>
+            {% endfor %}
+          </ul>
+
+        </div>
+      {% endif %}
+
+      {% if internalAudit.infoCount %}
+        <div
+          role="region"
+          aria-labelledby="{{ ariaId }}--info">
+
+          <h2 id="{{ ariaId }}--info" class="dpr-dashboard-audit-severity-title govuk-heading-s">Info</h2>
+          <ul class="govuk-list">
+            {% for i in internalAudit.info %}
+              <li>
+                <h3 class="govuk-heading-s">{{ i.title }}</h3>
+                <p class="dpr-audit-description">{{ i.description | dpr.safe }}</p>
+              </li>
+            {% endfor %}
+          </ul>
+
+        </div>
+      {% endif %}
+
+    {% endif %}
+
+  </div>
+  {% endset %}
+
+  {{
+    govukDetails({
+      summaryText: auditTitle,
+      html: internalAuditHtml,
+      open: false,
+      classes: classes
+    })
+  }}
+{% endmacro %}

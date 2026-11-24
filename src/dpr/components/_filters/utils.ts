@@ -130,7 +130,12 @@ export const getFiltersFromDefinition = (
     .map(f => {
       const { display: text, name } = f
       const filter = <components['schemas']['FilterDefinition']>f.filter
-      const { type, staticOptions, dynamicOptions, defaultValue, mandatory, pattern, index } = filter
+
+      const { type, staticOptions, dynamicOptions, defaultValue, mandatory, pattern, index, hint } = filter
+      const minimumLength =
+        type === FilterType.autocompleteMulti.toLocaleLowerCase()
+          ? (dynamicOptions?.minimumLength ?? 3)
+          : dynamicOptions?.minimumLength
 
       const options: FilterOption[] = staticOptions
         ? staticOptions.map(opt => {
@@ -138,15 +143,18 @@ export const getFiltersFromDefinition = (
           })
         : []
 
+      const hints = setHints(hint, mandatory, pattern, minimumLength)
+
       let filterData: FilterValue = {
         text,
         name,
         type: type as FilterType,
         value: defaultValue || null,
         mandatory: mandatory || false,
-        minimumLength: dynamicOptions?.minimumLength || undefined,
+        minimumLength: minimumLength || 3,
         pattern: pattern || undefined,
         index: index || undefined,
+        ...(hints && { hint: hints }),
       }
 
       const noFilterOption = {
@@ -219,6 +227,37 @@ export const getFiltersFromDefinition = (
 
   const orderedFilters = orderFilters(filters)
   return orderedFilters
+}
+
+const setHints = (
+  hint: string | null | undefined,
+  mandatory: boolean,
+  pattern: string | null | undefined,
+  minSelected: number | null | undefined,
+) => {
+  const hints = []
+
+  if (!mandatory) {
+    hints.push('<p>(Optional)</p>')
+  }
+
+  if (hint) {
+    hints.push(`<p>${hint}</p>`)
+  }
+
+  if (minSelected) {
+    hints.push(`<p>Type ${minSelected} or more characters to search options</p>`)
+  }
+
+  if (pattern) {
+    hints.push(`<p>Pattern: ${pattern}</p>`)
+  }
+
+  if (!hints.length) {
+    return
+  }
+
+  return hints.join('')
 }
 
 /**

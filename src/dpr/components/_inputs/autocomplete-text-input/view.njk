@@ -1,9 +1,19 @@
 {% from "govuk/components/input/macro.njk" import govukInput %}
 
-{% macro dprAutocompleteTextInput(options, validationErrors) %}
+{% macro dprAutocompleteTextInput(filter, validationErrors, parameterPrefix, mandatory) %}
 
-  {% set listId = (options.id | replace(".", "")) + "-list" %}
-  {% set labelInputName = 'label.' + options.name %}
+  {% set id = parameterPrefix + filter.name %}
+  {% set name = id %}
+  {% set value = filter.value %}
+  {% set items = filter.options %}
+  {% set staticOptionNameValue = filter.staticOptionNameValue %}
+  {% set pattern = filter.pattern or '.+'  %}
+  {% set labelText = filter.text | capitaliseSentence %}
+  {% set minimumLength = filter.minimumLength %}
+  {% set dynamicResourceEndpoint = filter.dynamicResourceEndpoint %}
+  {% set listId = (id | replace(".", "")) + "-list" %}
+  {% set labelInputName = 'label.' + name %}
+  {% set hint = filter.hint %}
 
   {% set inputAttributes = {
     "role": "combobox",
@@ -11,10 +21,10 @@
     "aria-expanded": "false",
     "aria-controls": listId,
     "aria-haspopup": "listbox",
-    "data-minimum-length": options.minimumLength,
+    "data-minimum-length": minimumLength,
     "placeholder": "Search",
-    "pattern": options.pattern,
-    "required": "true" if options.mandatory
+    "pattern": pattern,
+    "required": "true" if mandatory
   } %}
 
   <div
@@ -24,31 +34,31 @@
 
     <input
       type="hidden"
-      name="{{ options.name }}"
-      value="{{ options.staticOptionNameValue }}"
+      name="{{ name }}"
+      value="{{ staticOptionNameValue }}"
       data-autocomplete-hidden
     />
 
     {{
       govukInput({
-        id: options.id,
+        id: id,
         label: {
-          text: options.labelText,
+          text: labelText,
           classes: "govuk-!-font-weight-bold dpr-inline-label"
         },
         name: labelInputName,
-        value: options.displayValue,
+        value: value,
         type: "text",
         autocomplete: "off",
-        errorMessage: validationErrors | dpr.findError(options.id),
-        classes: (options.classes if options.classes else "") + " autocomplete-text-input-box govuk-input--width-20",
+        errorMessage: validationErrors | dpr.findError(id),
+        classes: "autocomplete-text-input-box govuk-input--width-20",
         attributes: inputAttributes,
         suffix: {
           html: "&#x1F50D;"
         },
         hint: {
-          html: "(Optional)"
-        } if not options.mandatory
+          html: hint
+        } if hint
       })
     }}
 
@@ -57,10 +67,10 @@
         id="{{ listId }}"
         class="autocomplete-text-input-list autocomplete-text-input-list--hidden"
         role="listbox"
-        aria-label="{{ options.labelText }}"
+        aria-label="{{ labelText }}"
       >
 
-        {% for item in options.items %}
+        {% for item in items %}
           <li
             id="{{ listId }}-{{ loop.index0 }}"
             role="option"

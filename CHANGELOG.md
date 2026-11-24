@@ -1,8 +1,50 @@
 Below you can find the changes included in each release.
 
+## 9.14.2
+
+Adding node 26 to supported engines. This unblocks teams to allow them to upgrade to the new LTS version of node.
+
+## 9.14.1
+
+### Accessibility improvements:
+
+- Fixed: Bookmark buttons use inconsistent toggle-button semantics
+- Fixed: Optional question not identified as optional
+- Fixed: Bookmark buttons have insufficient keyboard focus indicators
+- Fixed: "Rows per page" control accessible name does not match visible label
+- Fixed: Redundant links on the Download Enabled page lead to the same destination
+- Fixed: Excessive and inconsistent heading structure
+- Fixed: Improve contextual information for report action buttons
+
+## 9.14.0
+
+### Dashboard Auditing
+
+- Dashboard definition, visualisation and dataset auditing within a dashboard view to highlight errors, warnings and offer reccomendations to dashboards authors.
+- Configurable by providing `dashboardAudit: boolean` when initialising DPR services in the app. `dashboardAudit` is false by default.
+- Designed to be used as part of DPR tool UI to aid DPD authors to create compliant, accessible and meaningful dashboards.
+
+## 9.13.0
+
+- Show percentage symbols on tables, charts and tooltips
+
+## 9.12.0
+
+- Added `Additional support` help sections
+
 ## 9.11.0
 
-Adding node 26 to supported engines. This unblocks teams to allow them to upgrade to the new LTS version of node. 
+### Improved usability of filter inputs
+
+- User-defined hints for all input types. Use `hint: string` on the filter definition in the DPD to provide additional guidance or information to users.
+- Updated filter help text to include guidance on how to discover valid values for ambiguous filters.
+- Autocomplete: Pressing the Down Arrow key while the input is empty now displays all available options.
+- Autocomplete Multi: Added a "Show all options" button that displays all available checkboxes. Then typing into the autocomplete field filters the visible list to matching option(s) only. Added a user-defined `minimumLength` option to control how many characters are required before matching options are shown.
+- Date Range: Disabled relative presets are now hidden instead of being displayed in a disabled state.
+
+## 9.10.1
+
+- Removed `DateMapper`
 
 ## 9.10.0
 

@@ -20,6 +20,10 @@ export const toggleBookmarking = () => {
   cy.request('POST', `/embedded/platform/toggleBookmarking`, {})
 }
 
+export const toggleDashboardAudit = () => {
+  cy.request('POST', `/embedded/platform/toggleDashboardAudit`, {})
+}
+
 export const setIsProbationService = (isProbationService?: boolean) => {
   cy.request('POST', `/embedded/platform/setIsProbationService`, { isProbationService })
 }

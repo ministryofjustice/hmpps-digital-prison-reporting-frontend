@@ -25,6 +25,9 @@ const autoCompleteMultiExample: components['schemas']['VariantDefinition'] = {
         filter: {
           mandatory: false,
           type: 'autocompletemulti',
+          dynamicOptions: {
+            minimumLength: 3,
+          },
           staticOptions: [
             { name: 'value1', display: 'Value 1' },
             { name: 'value2', display: 'Value 2' },

@@ -6,6 +6,7 @@ import {
   ReportingService,
   DashboardService,
   DefaultFilterValuesService,
+  DashboardAuditService,
 } from '../services'
 import ReportDataStore from '../data/reportDataStore'
 import ReportingClient from '../data/reportingClient'
@@ -22,6 +23,7 @@ import { FeatureFlagService } from '../services/featureFlagService'
 import SubscriptionStoreService from '../routes/journeys/my-reports/subscriptions/service'
 import { ReportIdMigrationService } from '../services/reportIdMigrationService'
 import SubscriptionService from '../services/subscriptionService'
+import dashboardAuditRules from '../services/dashboardAuditService/rules'
 
 export interface InitDPRServicesArgs {
   reportingClient: ReportingClient
@@ -48,6 +50,7 @@ export interface dprServices {
   productCollectionStoreService: ProductCollectionStoreService
   featureFlagService: FeatureFlagService
   reportIdMigrationService: ReportIdMigrationService
+  dashboardAuditService: DashboardAuditService
 }
 
 export const createDprServices = (
@@ -84,6 +87,8 @@ export const createDprServices = (
     productCollectionService: new ProductCollectionService(productCollectionClient, serviceFeatureConfig),
     featureFlagService: clients.featureFlagService,
     reportIdMigrationService: clients.reportIdMigrationService,
+
+    dashboardAuditService: new DashboardAuditService(dashboardAuditRules, serviceFeatureConfig),
   }
 
   return services as Services

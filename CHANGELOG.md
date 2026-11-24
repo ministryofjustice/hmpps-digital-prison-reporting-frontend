@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## 9.14.2
+
+Adding node 26 to supported engines. This unblocks teams to allow them to upgrade to the new LTS version of node.
+
 ## 9.14.1
 
 ### Accessibility improvements:

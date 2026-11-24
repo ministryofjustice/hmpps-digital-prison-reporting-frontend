@@ -9,12 +9,21 @@ export const maxLinesRule: VisualRule = {
     const MAX_LINES = 6
     const auditSuggestions = []
     const { dataset } = context
+    const { columns } = context.definition
+    const { measures, keys } = columns
 
-    const lineCount = dataset.length
+    const rowCount = dataset.length ?? 0
+    const uniqueKeys = new Set(dataset.map(row => keys?.map(key => row[key.id]?.raw ?? '').join('|')))
+    const columnsAsPoints = measures.every(measure => measure.axis === undefined)
+
+    let lineCount = rowCount
+    if (!columnsAsPoints) {
+      lineCount = uniqueKeys.size
+    }
 
     if (lineCount > MAX_LINES) {
       const description = `<p>Excessive numbers of lines can reduce readability, make data labels difficult to display, and make it harder for users to identify meaningful trends.</p>
-            <p>Consider filtering, grouping, or reducing the number of categories shown. If all the data is required then consider setting the bars to render horizontally, or splitting the data over two or more seperate charts.</p>
+            <p>Consider filtering, grouping, or reducing the number of categories shown. If all the data is required then consider setting the bars to render horizontally, or splitting the data over two or more separate charts.</p>
             <p>See <a target="_blank" href="https://ministryofjustice.github.io/hmpps-digital-prison-reporting-frontend/dashboards/visualisations/line-vis/">Line chart docs</a> for more info.</p>`
 
       auditSuggestions.push({

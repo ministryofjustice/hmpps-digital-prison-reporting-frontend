@@ -84,24 +84,23 @@ export const lineChartAudit2: components['schemas']['DashboardVisualisationDefin
 export const lineChartAudit3: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'line-chart-audit-3',
   type: DashboardVisualisationType.LINE,
-  display: 'MetricOne & MetricTwo values 2',
-  description: 'MetricOne & MetricTwo values 2',
+  display: 'Excessive points line chart',
+  description: 'Excessive points line chart',
   options: {
     showLatest: false,
   },
   columns: {
     keys: [
       {
-        id: 'ts',
-        display: 'Date',
-        type: 'timestamp',
-        axis: 'x',
+        id: 'establishment_id',
+        display: 'Establishment ID',
       },
     ],
     measures: [
       {
-        id: 'establishment_id',
-        display: 'Establishment ID',
+        id: 'ts',
+        display: 'Date',
+        type: 'timestamp',
         axis: 'x',
       },
       {

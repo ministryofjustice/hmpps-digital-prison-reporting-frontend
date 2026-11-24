@@ -9,6 +9,7 @@ import { noVisualDatasetRule } from './dataset/no-data.rule'
 import { missingColumnIdsRule } from './dataset/missing-column-id.rule'
 import { incorrectDateFormatRule } from './dataset/incorrect-date-format.rule'
 import { maxLinesRule } from './visual/max-lines.rule'
+import { maxPointsRule } from './visual/max-points.rule'
 
 // Rules specific to visualisations
 const visualisationRules = [
@@ -22,6 +23,7 @@ const visualisationRules = [
 
   // Lines
   maxLinesRule,
+  maxPointsRule,
 ]
 
 // Rules for dashboard as a whole

@@ -25,23 +25,29 @@ export const maxBarsRule: VisualRule = {
 
     const columnCount = datasetWithMeasuresOnly.length ? Object.keys(datasetWithMeasuresOnly[0]).length : 0
     const rowCount = datasetWithMeasuresOnly.length ?? 0
-
+    const uniqueKeys = new Set(dataset.map(row => (keys ?? []).map(key => row[key.id]?.raw ?? '').join('|')))
     const columnsAsBars = measures.every(measure => measure.axis === undefined)
 
-    let barCount = 0
-    if (columnsAsBars) {
-      barCount = stacked ? columnCount : columnCount * rowCount
-    } else {
-      barCount = stacked ? 0 : rowCount
+    // Normal bar charts where each measure column represents a bar
+    let barCount = stacked ? columnCount : columnCount * rowCount
+
+    if (!columnsAsBars) {
+      // Values in the X axis measure represent the bars - therefore the row count is the bar count
+      barCount = rowCount
+
+      if (stacked) {
+        // keys are stacked - bar count is divided by unique key size
+        barCount = uniqueKeys.size > 0 ? dataset.length / uniqueKeys.size : 0
+      }
     }
 
     if (barCount > MAX_BARS && !horizontal) {
       const description = `<p>Excessive numbers of bars can reduce readability, make data labels difficult to display, and make it harder for users to identify meaningful trends.</p>
-            <p>Consider filtering, grouping, or reducing the number of categories shown. If all the data is required then consider setting the bars to render horizontally, or splitting the data over two or more seperate charts.</p>
+            <p>Consider filtering, grouping, or reducing the number of categories shown. If all the data is required then consider setting the bars to render horizontally, or splitting the data over two or more separate charts.</p>
             <p>See <a target="_blank" href="https://ministryofjustice.github.io/hmpps-digital-prison-reporting-frontend/dashboards/visualisations/bar-vis/">Bar chart docs</a> for more info.</p>`
 
       auditSuggestions.push({
-        code: 'TO0_MANY_BARS',
+        code: 'TOO_MANY_BARS',
         severity: DashboardAuditSeverity.WARNING,
         title: 'Bar chart exceeds recommended number of bars',
         description,

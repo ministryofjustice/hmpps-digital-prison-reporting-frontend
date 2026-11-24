@@ -1,5 +1,17 @@
 Below you can find the changes included in each release.
 
+## 9.14.1
+
+### Accessibility improvements:
+
+- Fixed: Bookmark buttons use inconsistent toggle-button semantics
+- Fixed: Optional question not identified as optional
+- Fixed: Bookmark buttons have insufficient keyboard focus indicators
+- Fixed: "Rows per page" control accessible name does not match visible label
+- Fixed: Redundant links on the Download Enabled page lead to the same destination
+- Fixed: Excessive and inconsistent heading structure
+- Fixed: Improve contextual information for report action buttons
+
 ## 9.14.0
 
 ### Dashboard Auditing

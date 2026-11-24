@@ -10,6 +10,12 @@ import { incorrectDailyFormatDataSet } from './data-incorrect-daily-format'
 import { incorrectMontlyFormatDataSet } from './data-incorrect-monthly-format'
 import { incorrectYearlyFormatDataSet } from './data-incorrect-yearly-format'
 
+import { allFeatureTestingDefinitions as fts } from '../../definitions/feature-testing'
+
+const badDailyDatasetDefinitionIds = [fts.definitionAuditLineTimeseries].map(def => def.id)
+const badMonthlyDatasetDefinitionIds = [fts.definitionAuditLineTimeseriesChild1].map(def => def.id)
+const badYearlyDatasetDefinitionIds = [fts.definitionAuditLineTimeseriesChild2].map(def => def.id)
+
 const allVisDefIdsArray = Object.values(allVisualisationDefinitions).map(def => def.id)
 
 const allIds = [...allVisDefIdsArray, ...requestExampleIds, ...featureTestingIds]
@@ -46,19 +52,19 @@ export const dashboardResultBadDataDuplicatesSyncMock = setupSimpleMock(
 )
 
 export const dashboardResultIncorrectDailyFormatDataSetMock = setupSimpleMock(
-  `/reports/(${productIds.join('|')})/dashboards/(${allIds.join('|')})`,
+  `/reports/(${productIds.join('|')})/dashboards/(${badDailyDatasetDefinitionIds.join('|')})/tables/tblId_[0-9]+/result`,
   incorrectDailyFormatDataSet,
   2,
 )
 
 export const dashboardResultIncorrectMonthlyFormatDataSetMock = setupSimpleMock(
-  `/reports/(${productIds.join('|')})/dashboards/(${allIds.join('|')})`,
+  `/reports/(${productIds.join('|')})/dashboards/(${badMonthlyDatasetDefinitionIds.join('|')})/tables/tblId_[0-9]+/result`,
   incorrectMontlyFormatDataSet,
   2,
 )
 
 export const dashboardResultIncorrectYearlyFormatDataSetMock = setupSimpleMock(
-  `/reports/(${productIds.join('|')})/dashboards/(${allIds.join('|')})`,
+  `/reports/(${productIds.join('|')})/dashboards/(${badYearlyDatasetDefinitionIds.join('|')})/tables/tblId_[0-9]+/result`,
   incorrectYearlyFormatDataSet,
   2,
 )

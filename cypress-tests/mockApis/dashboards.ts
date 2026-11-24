@@ -27,6 +27,8 @@ import {
   dashboardAuditDoughnutMock,
   dashboardAuditLineMock,
   dashboardAuditLineTimeseriesMock,
+  dashboardAuditLineTimeseriesChild1Mock,
+  dashboardAuditLineTimeseriesChild2Mock,
 } from '@networkMocks/dashboard/definitions/feature-testing/mocks'
 
 import {
@@ -164,6 +166,8 @@ const definitionStubs = {
   stubTestDashboardDefinitionAuditDoughnut: () => stubFor(dashboardAuditDoughnutMock),
   stubTestDashboardDefinitionAuditLine: () => stubFor(dashboardAuditLineMock),
   stubTestDashboardDefinitionAuditLineTimeseries: () => stubFor(dashboardAuditLineTimeseriesMock),
+  stubTestDashboardDefinitionAuditLineTimeseriesChild1: () => stubFor(dashboardAuditLineTimeseriesChild1Mock),
+  stubTestDashboardDefinitionAuditLineTimeseriesChild2: () => stubFor(dashboardAuditLineTimeseriesChild2Mock),
   stubTestDashboardDefinitionWithParentChild: () => stubFor(dashboardWithParentChildMock),
   stubTestDashboardDefinitionWithChildOne: () => stubFor(dashboardWithChildOneMock),
   stubTestDashboardDefinitionWithChildTwo: () => stubFor(dashboardWithChildTwoMock),
@@ -216,9 +220,9 @@ const resultsStubs = {
   stubDashboardResultBadData: () => stubFor(dashboardResultBadDataMock),
   stubDashboardResultBadDataDuplicates: () => stubFor(dashboardResultBadDataDuplicatesMock),
   stubDashboardResultBadDataHistoric: () => stubFor(dashboardResultBadDataHistoricMock),
-  stubDashboardResultIncorrectDailyFormatHistoric: () => stubFor(dashboardResultIncorrectDailyFormatDataSetMock),
-  stubDashboardResultIncorrectMonthlyFormatHistoric: () => stubFor(dashboardResultIncorrectMonthlyFormatDataSetMock),
-  stubDashboardResultIncorrectYearlyFormatHistoric: () => stubFor(dashboardResultIncorrectYearlyFormatDataSetMock),
+  stubDashboardResultIncorrectDailyFormat: () => stubFor(dashboardResultIncorrectDailyFormatDataSetMock),
+  stubDashboardResultIncorrectMonthlyFormat: () => stubFor(dashboardResultIncorrectMonthlyFormatDataSetMock),
+  stubDashboardResultIncorrectYearlyFormat: () => stubFor(dashboardResultIncorrectYearlyFormatDataSetMock),
   stubDashboardResultMissingFirstRowDataSync: () => stubFor(dashboardResultMissingFirstRowDataSyncMock),
 
   // Parent Child data stubs

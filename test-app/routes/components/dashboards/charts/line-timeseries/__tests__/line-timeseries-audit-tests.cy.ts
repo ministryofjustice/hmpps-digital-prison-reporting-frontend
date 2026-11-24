@@ -10,14 +10,19 @@ context('Dashboard audit - Line Timeseries charts', () => {
       executeDashboardStubs()
 
       cy.task('stubTestDashboardDefinitionAuditLineTimeseries')
-      cy.task('stubDashboardResult')
+      cy.task('stubTestDashboardDefinitionAuditLineTimeseriesChild1')
+      cy.task('stubTestDashboardDefinitionAuditLineTimeseriesChild2')
+
+      cy.task('stubDashboardResultIncorrectDailyFormat')
+      cy.task('stubDashboardResultIncorrectMonthlyFormat')
+      cy.task('stubDashboardResultIncorrectYearlyFormat')
 
       toggleDashboardAudit()
 
       cy.visit(path)
 
       startReportRequest({
-        name: 'Line Timeseries chart - Audit testing',
+        name: 'Line Timeseries chart - Audit testing - Incorrect date format data',
         description: 'Test Dashboard used for audit testing of Line Timeseries charts',
       })
 
@@ -35,7 +40,7 @@ context('Dashboard audit - Line Timeseries charts', () => {
     it('should show the dashboard audit master list', () => {
       cy.findByLabelText(/Dashboard audit.*/i).within(() => {
         cy.findByRole('region', { name: /Errors/i }).within(() => {
-          cy.findByRole('list').findAllByRole('listitem').should('have.length', 4)
+          cy.findByRole('list').findAllByRole('listitem').should('have.length', 3)
         })
       })
     })
@@ -43,20 +48,42 @@ context('Dashboard audit - Line Timeseries charts', () => {
     it('should show the dashboard audit next to the relevant chart', () => {
       cy.visit(viewDashboarUrl)
 
-      cy.findByRole('region', { name: /Audit for chart "lineTimeseries-chart-audit-0"/i }).within(() => {
+      cy.findByRole('region', { name: /Audit for chart "Line-timeseries chart with daily data"/i }).within(() => {
         cy.findByRole('region', { name: /Errors/i }).within(() => {
-          cy.findByRole('list').findAllByRole('listitem').should('have.length', 2)
+          cy.findAllByRole('list')
+            .findAllByRole('listitem')
+            .should('have.length', 1)
+            .within(() => {
+              cy.findByRole('heading', { name: 'Incorrect date format in dataset' })
+            })
+        })
+      })
 
-          cy.findByRole('list').within(() => {
-            cy.findByRole('heading', { name: 'Missing chart description' })
-            cy.findByRole('heading', { name: 'Missing chart name' })
-          })
+      cy.findByRole('region', { name: /Audit for chart "Line-timeseries chart with monthly data"/i }).within(() => {
+        cy.findByRole('region', { name: /Errors/i }).within(() => {
+          cy.findAllByRole('list')
+            .findAllByRole('listitem')
+            .should('have.length', 1)
+            .within(() => {
+              cy.findByRole('heading', { name: 'Incorrect date format in dataset' })
+            })
+        })
+      })
+
+      cy.findByRole('region', { name: /Audit for chart "Line-timeseries chart with yearly data"/i }).within(() => {
+        cy.findByRole('region', { name: /Errors/i }).within(() => {
+          cy.findAllByRole('list')
+            .findAllByRole('listitem')
+            .should('have.length', 1)
+            .within(() => {
+              cy.findByRole('heading', { name: 'Incorrect date format in dataset' })
+            })
         })
       })
     })
 
-    after(() => {
-      toggleDashboardAudit()
-    })
+    // after(() => {
+    //   toggleDashboardAudit()
+    // })
   })
 })

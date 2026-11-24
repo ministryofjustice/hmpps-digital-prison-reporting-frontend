@@ -19,13 +19,11 @@ export const incorrectDateFormatRule: DatasetRule = {
         const isValidDate = (value: string): boolean => DATE_REGEX.test(value)
 
         if (!isValidDate(<string>dateValue)) {
-          const description = `<p>Your dataset includes timestamp data in an incorrect format</p>,
+          const description = `<p>Your dataset includes timestamp data in an incorrect format</p>
               <p>Please use the following formats when writing timestamp data</p>
-              <ul>
-                <li>"YYYY-MM-DD" for daily data</li>
-                <li>"YYYY-MM" for monthly data</li>
-                <li>"YYYY" for yearly data</li>
-              </ul>
+                <p><strong>"YYYY-MM-DD"</strong> for daily data</br>
+                  <strong>"YYYY-MM"</strong> for monthly data</br>
+                  <strong>"YYYY"</strong> for yearly data</p>
               <p>Using the correct date formats will ensure that chart and table data render correctly and in the correct order.</p>`
 
           auditSuggestions.push({

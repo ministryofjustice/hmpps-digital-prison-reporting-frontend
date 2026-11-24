@@ -10,7 +10,11 @@ import { definition as definitionAudit } from './definition-audit'
 import { definition as definitionAuditBar } from './definition-audit-bar'
 import { definition as definitionAuditDoughnut } from './definition-audit-doughnut'
 import { definition as definitionAuditLine } from './definition-audit-line'
-import { definition as definitionAuditLineTimeseries } from './definition-audit-line-timeseries'
+import {
+  definition as definitionAuditLineTimeseries,
+  childDefinition1 as definitionAuditLineTimeseriesChild1,
+  childDefinition2 as definitionAuditLineTimeseriesChild2,
+} from './definition-audit-line-timeseries'
 
 export const allFeatureTestingDefinitions = {
   definitionSync,
@@ -24,6 +28,8 @@ export const allFeatureTestingDefinitions = {
   definitionAuditDoughnut,
   definitionAuditLine,
   definitionAuditLineTimeseries,
+  definitionAuditLineTimeseriesChild1,
+  definitionAuditLineTimeseriesChild2,
 }
 
 export const featureTestingIds = [...Object.values(allFeatureTestingDefinitions)].map(feature => feature.id)

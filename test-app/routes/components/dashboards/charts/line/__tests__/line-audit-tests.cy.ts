@@ -39,7 +39,7 @@ context('Dashboard audit - Line charts', () => {
         })
 
         cy.findByRole('region', { name: /Warnings/i }).within(() => {
-          cy.findByRole('list').findAllByRole('listitem').should('have.length', 3)
+          cy.findByRole('list').findAllByRole('listitem').should('have.length', 4)
         })
       })
     })

@@ -1,7 +1,6 @@
 .dpr-reports-catalogue-filters__search-container {
   display: grid;
   grid-template-columns: 2fr auto;
-  gap: 1rem;
 
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
@@ -32,21 +31,32 @@
       }
     }
   }
-
-  .dpr-reports-catalogue-collection__controls .govuk-form-group {
-    margin-bottom: 0;
-  }
-
-  .dpr-reports-catalogue-collection__button {
-    align-self: end;
-    margin-bottom: 2px;
-  }
 }
 
 .dpr-reports-catalogue-filters--content-filters {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 1rem;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  @media (max-width: 640px) {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+}
+
+.dpr-reports-catalogue-collection__controls {
+  .govuk-form-group {
+    margin-bottom: govuk-spacing(3);
+  }
+}
+
+.dpr-reports-catalogue-collection__button {
+  align-self: end;
+  margin-bottom: 2px;
 }
 
 .dpr-catalogue-filters--show-more-content {

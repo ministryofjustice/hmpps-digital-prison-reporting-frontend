@@ -19,6 +19,8 @@ context('Catalogue collections', () => {
 
           cy.visit(path)
 
+          cy.findAllByRole('group').contains('Show more filters').should('be.visible').click()
+
           cy.findByRole('combobox', { name: /Your collections/ })
             .should('be.visible')
             .within(() => cy.findAllByRole('option').should('have.length', 3))
@@ -35,13 +37,13 @@ context('Catalogue collections', () => {
             0,
           )
 
-          cy.findAllByRole('group').contains('Show more filters').should('be.visible').click()
           cy.findByRole('checkbox', { name: 'Show unauthorised reports' }).check()
 
           validateCatalogueTotals(totalWithUnauthorisedReports)
 
           addBookmark('Interactive Report with async filters')
 
+          cy.findAllByRole('group').contains('Show more filters').should('be.visible').click()
           cy.findByRole('combobox', { name: /Your collections/ }).select('My Starter Pack')
           cy.findByRole('button', { name: /Apply collection/ }).click()
 

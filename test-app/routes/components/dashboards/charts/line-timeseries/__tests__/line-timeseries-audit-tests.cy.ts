@@ -82,8 +82,8 @@ context('Dashboard audit - Line Timeseries charts', () => {
       })
     })
 
-    // after(() => {
-    //   toggleDashboardAudit()
-    // })
+    after(() => {
+      toggleDashboardAudit()
+    })
   })
 })

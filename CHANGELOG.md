@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## 9.15.0
+
+- Dashboard auditing rules for `line` and `line-timeseries` charts
+
 ## 9.14.2
 
 Adding node 26 to supported engines. This unblocks teams to allow them to upgrade to the new LTS version of node.

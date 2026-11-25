@@ -6,6 +6,7 @@ import RequestReportController from './controller'
 // Routes
 import requestReportRoutes from './filters/routes'
 import requestStatusRoutes from './status/routes'
+import internalRequestReportRoutes from './internal/routes'
 
 // middleware
 import reportAuthoriser from '../../../middleware/reportAuthoriser'
@@ -36,6 +37,16 @@ export function Routes({ layoutPath, services }: { services: Services; layoutPat
     reportAuthoriser(services, layoutPath),
     storeActiveReportSessionData({ services }),
     requestStatusRoutes({ layoutPath, services }),
+    controller.errorHandler,
+  )
+
+  // Internal request
+  router.use(
+    `/:type/:reportId/:id/internal-request`,
+    setupCurrentDefinition(services),
+    reportAuthoriser(services, layoutPath),
+    storeActiveReportSessionData({ services }),
+    internalRequestReportRoutes({ layoutPath, services }),
     controller.errorHandler,
   )
 

@@ -5,7 +5,7 @@ import { Services } from '../../../../types/Services'
 import ErrorHandler from '../../../../utils/ErrorHandler/ErrorHandler'
 import PersonalisationUtils from '../../../../utils/Personalisation/personalisationUtils'
 import { getActiveJourneyValue } from '../../../../utils/sessionHelper'
-import AsyncRequestUtils, { redirectWithDefaults, setDefaultQueryString } from './utils'
+import { redirectWithDefaults, setDefaultQueryString, renderRequest, request, getFiltersFromReqBody } from './utils'
 
 class RequestReportController {
   layoutPath: string
@@ -24,7 +24,7 @@ class RequestReportController {
       }
 
       // Get config to render the filters
-      const requestRenderData = (await AsyncRequestUtils.renderRequest({
+      const requestRenderData = (await renderRequest({
         req,
         res,
         services: this.services,
@@ -58,7 +58,7 @@ class RequestReportController {
 
   POST: RequestHandler = async (req, res, next) => {
     try {
-      const executionData = await AsyncRequestUtils.request({
+      const executionData = await request({
         req,
         res,
         services: this.services,
@@ -73,7 +73,7 @@ class RequestReportController {
         res.end()
       }
     } catch (error) {
-      const filters = AsyncRequestUtils.getFiltersFromReqBody(req)
+      const filters = getFiltersFromReqBody(req)
 
       req.body = {
         title: 'Request Failed',

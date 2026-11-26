@@ -37,6 +37,7 @@ const createSnapshotResponse = (enabled: boolean): FeatureFlagSnapshotResponse =
     booleanFlag('matrixtimeseriesChartsEnabled', enabled),
     booleanFlag('bartimeseriesChartsEnabled', enabled),
     booleanFlag('linetimeseriesChartsEnabled', enabled),
+    booleanFlag('boxPlotChartsEnabled', enabled),
   ],
 })
 

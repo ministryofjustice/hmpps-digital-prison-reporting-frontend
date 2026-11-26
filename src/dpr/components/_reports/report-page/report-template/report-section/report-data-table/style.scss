@@ -63,7 +63,7 @@
 
   .data-table-header-button-sort-none:before {
     // `content` can take an 'alt' property - in this case we dont want screenreaders announcing the name of the icon https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/content
-    content: ' \25bc' / "";
+    content: ' \25bc' / '';
     position: absolute;
     right: -1px;
     top: 9px;
@@ -72,7 +72,7 @@
 
   .data-table-header-button-sort-none:after {
     // `content` can take an 'alt' property - in this case we dont want screenreaders announcing the name of the icon https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/content
-    content: ' \25b2' / "";
+    content: ' \25b2' / '';
     position: absolute;
     right: -1px;
     top: 1px;
@@ -81,7 +81,7 @@
 
   .data-table-header-button-sort-ascending:after {
     // `content` can take an 'alt' property - in this case we dont want screenreaders announcing the name of the icon https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/content
-    content: ' \25b2' / "";
+    content: ' \25b2' / '';
     font-size: 0.8em;
     position: absolute;
     right: -5px;
@@ -90,7 +90,7 @@
 
   .data-table-header-button-sort-descending:after {
     // `content` can take an 'alt' property - in this case we dont want screenreaders announcing the name of the icon https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/content
-    content: ' \25bc' / "";
+    content: ' \25bc' / '';
     font-size: 0.8em;
     position: absolute;
     right: -5px;
@@ -157,15 +157,6 @@
     }
   }
 
-  .dpr-table-wrapper {
-    overflow-x: scroll;
-    transform: rotateX(180deg);
-
-    .dpr-table-content {
-      transform: rotateX(180deg);
-    }
-  }
-
   .table-row--no-border {
     border-bottom: none;
   }
@@ -190,6 +181,32 @@
     border-top: solid 4px govuk-colour('black', $variant: 'tint-80');
     border-bottom: solid 2px govuk-colour('black', $variant: 'tint-80');
     background-color: white;
+  }
+}
+
+.dpr-dashboard-list-container,
+.dpr-report-template__sections--list {
+  .dpr-table-wrapper {
+    overflow-x: auto;
+    overflow-y: auto;
+    max-height: 100vh;
+
+    .govuk-table__header {
+      border: none;
+    }
+
+    .dpr-table-content {
+      .dpr-data-table thead {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+      }
+
+      .dpr-data-table thead th {
+        background: white;
+        box-shadow: inset 0 -1px 0 govuk-functional-colour('border');
+      }
+    }
   }
 }
 

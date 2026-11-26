@@ -114,6 +114,6 @@ export const getFeatureFlagVisTypeMap = (dashboardFeatureFlags: Record<string, b
     [DashboardVisualisationType.MATRIX_TIMESERIES]: dashboardFeatureFlags[FEATURE_FLAG_KEYS.MATRIX_TIMESERIES_CHARTS],
     [DashboardVisualisationType.BAR_TIMESERIES]: dashboardFeatureFlags[FEATURE_FLAG_KEYS.BAR_TIMESERIES_CHARTS],
     [DashboardVisualisationType.LINE_TIMESERIES]: dashboardFeatureFlags[FEATURE_FLAG_KEYS.LINE_TIMESERIES_CHARTS],
-    [DashboardVisualisationType.BOX_PLOT]: dashboardFeatureFlags[FEATURE_FLAG_KEYS.LINE_TIMESERIES_CHARTS],
+    [DashboardVisualisationType.BOX_PLOT]: dashboardFeatureFlags[FEATURE_FLAG_KEYS.BOX_PLOT_CHARTS],
   }
 }

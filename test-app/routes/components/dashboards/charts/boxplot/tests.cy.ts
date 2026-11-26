@@ -12,6 +12,7 @@ context('Dashboard visualisation: Boxplot chart', () => {
 
     before(() => {
       cy.task('resetStubs')
+      cy.task('stubFeatureFlags')
       executeDashboardStubs()
       cy.task('stubBoxPlotDashboardDefinition')
       cy.task('stubDashboardResultBoxPlotData')

@@ -1,7 +1,7 @@
 import type { Response } from 'express'
 import { QueryData, SetQueryFromFiltersResult } from 'src/dpr/components/_async/async-filters-form/types'
 import { ChildReportExecutionData, ExecutionData } from 'src/dpr/types/ExecutionData'
-import { AsyncReportQueryData, AsyncReportUrlData, ReportType, RequestFormData } from 'src/dpr/types/UserReports'
+import { AsyncReportQueryData, AsyncReportUrlData, ReportType } from 'src/dpr/types/UserReports'
 import { normalizeQueryStringArray } from 'src/dpr/utils/queryMappers'
 
 export interface ReportData {
@@ -11,7 +11,7 @@ export interface ReportData {
   description: string
   id: string
   name: string
-  schedule?: string
+  schedule?: string | undefined
 }
 
 export class StoreItemBuilder {
@@ -27,8 +27,23 @@ export class StoreItemBuilder {
 
   reportType!: ReportType
 
+  reportIds!: {
+    reportId: string
+    id: string
+  }
+
+  reportMeta!: { name: string; reportName: string; description: string }
+
+  reportData!: ReportData
+
   constructor(readonly res: Response) {
     //
+  }
+
+  withReportMetaData = (reportData: ReportData) => {
+    this.reportData = reportData
+
+    return this
   }
 
   withExecutionData = (executionData: ExecutionData) => {
@@ -59,22 +74,6 @@ export class StoreItemBuilder {
     this.interactiveQuery = interactiveQueryData
 
     return this
-  }
-
-  // Builders
-  buildReportMetaData = (reportData: ReportData | RequestFormData) => {
-    const { reportId, id, reportName, name, description, schedule, type } = reportData
-    this.reportType = type as ReportType
-
-    return {
-      type: this.reportType,
-      reportId,
-      reportName,
-      description,
-      id,
-      name,
-      ...(schedule && { schedule }),
-    }
   }
 
   buildInteractiveQuery = (): AsyncReportQueryData | undefined => {

@@ -5,7 +5,6 @@ import {
   ReportType,
   RequestedDashboard,
   RequestedReport,
-  RequestFormData,
 } from '../../../../types/UserReports'
 import { StoreItemBuilder } from '../builder'
 import { RequestStatus } from '../../../../utils/ReportStatus/types'
@@ -21,13 +20,6 @@ export class RequestedReportBuilder extends StoreItemBuilder {
     res: Response,
   ) {
     super(res)
-  }
-
-  private buildReportData = () => {
-    const requestFormData: RequestFormData = this.req.body
-    this.reportType = requestFormData.type as ReportType
-
-    return this.buildReportMetaData(requestFormData)
   }
 
   private buildFilters = () => {
@@ -118,7 +110,6 @@ export class RequestedReportBuilder extends StoreItemBuilder {
   }
 
   build = (): RequestedReport => {
-    const reportData = this.buildReportData()
     const filters = this.buildFilters()
     const sortBy = this.buildSortData()
     const url = this.buildRequestUrls()
@@ -129,7 +120,7 @@ export class RequestedReportBuilder extends StoreItemBuilder {
     const metrics = this.buildSections()
 
     const requestedReportData: RequestedReport | RequestedDashboard = {
-      ...reportData,
+      ...this.reportData,
       ...this.executionData,
       ...(this.childExecutionData && { childExecutionData: this.childExecutionData }),
       ...(filters && { filters }),

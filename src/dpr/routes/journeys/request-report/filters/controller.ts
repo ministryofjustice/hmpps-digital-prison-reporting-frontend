@@ -5,7 +5,8 @@ import { Services } from '../../../../types/Services'
 import ErrorHandler from '../../../../utils/ErrorHandler/ErrorHandler'
 import PersonalisationUtils from '../../../../utils/Personalisation/personalisationUtils'
 import { getActiveJourneyValue } from '../../../../utils/sessionHelper'
-import { redirectWithDefaults, setDefaultQueryString, renderRequest, request, getFiltersFromReqBody } from './utils'
+import { redirectWithDefaults, setDefaultQueryString, renderRequest, getFiltersFromReqBody } from './utils'
+import { request } from '../utils'
 
 class RequestReportController {
   layoutPath: string
@@ -62,7 +63,6 @@ class RequestReportController {
         req,
         res,
         services: this.services,
-        next,
       })
 
       const { executionId } = executionData

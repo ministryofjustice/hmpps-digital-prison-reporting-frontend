@@ -373,8 +373,9 @@ export const updateLastViewedAsync = async (
   userId: string,
   fields: components['schemas']['FieldDefinition'][],
 ) => {
-  const { type, reportId, reportName, description, id, name, executionId, tableId, query, url } = reportStateData
-  const reportData = { type, reportId, reportName, description, id, name }
+  const { type, reportId, reportName, description, id, name, executionId, tableId, query, url, schedule } =
+    reportStateData
+  const reportData = { type, reportId, reportName, description, id, name, schedule }
   const executionData = { executionId, tableId }
 
   const filtersQuery = extractFiltersFromQuery(req.query)
@@ -384,7 +385,7 @@ export const updateLastViewedAsync = async (
   }
 
   const recentlyViewedReportData = new ViewedReportBuilder(req, res)
-    .withReportData(reportData)
+    .withReportMetaData(reportData)
     .withExecutionData(executionData)
     .withInteractiveQuery(interactiveQueryData)
     .withRequestData(query, url)
@@ -418,7 +419,7 @@ export const updateLastViewedSync = async (
   }
 
   const recentlyViewedReportData = new ViewedReportBuilder(req, res)
-    .withReportData(reportData)
+    .withReportMetaData(reportData)
     .withInteractiveQuery(interactiveQueryData)
     .build()
 

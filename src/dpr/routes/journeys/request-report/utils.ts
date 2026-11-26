@@ -1,4 +1,5 @@
 import { Request, Response } from 'express'
+import type { ParsedQs } from 'qs'
 
 import { ReportType, RequestStatus } from '../../../types/UserReports'
 import { DashboardService, ReportingService } from '../../../services'
@@ -47,26 +48,25 @@ export const request = async ({
   req: Request
   res: Response
   services: Services
-  internal: boolean
+  internal?: boolean | undefined
 }) => {
   const { token } = LocalsHelper.getValues(res)
   const requestArgs = { req, token }
 
-  const { executionData, queryData, childExecutionData, interactiveQueryData } = await requestProduct({
+  const requestData = await requestProduct({
     ...requestArgs,
     services,
     internal,
   })
+
+  const { executionData } = requestData
 
   if (executionData.executionId && executionData.tableId) {
     await updateStore({
       req,
       res,
       services,
-      queryData,
-      interactiveQueryData,
-      executionData,
-      childExecutionData,
+      ...requestData,
     })
   } else {
     throw new Error('No execution data returned')
@@ -77,13 +77,18 @@ export const request = async ({
 
 const getReportRequestDataFromRequestBody = async (req: Request, token: string, services: Services) => {
   const { reportId, id } = req.body as { reportId: string; id: string }
+  const { body } = req
+
   const definition = await services.reportingService.getDefinition(token, reportId, id)
+  const definitionSummary = await services.reportingService.getDefinitionSummary(token, reportId)
+  const variantSummary = definitionSummary.variants.find(v => v.id === id)
 
   const fields = getFields(definition)
-  const queryParams = formBodyToQueryObject(req.body)
-  const sortData = buildSortData(req.body)
-  const querySummary = buildQuerySummary(req.body, fields)
-  const filterData = buildFilterData(req.body)
+  const queryParams = formBodyToQueryObject(body)
+  const sortData = buildSortData(body)
+  const querySummary = buildQuerySummary(body, fields)
+  const filterData = buildFilterData(body)
+  const schedule = variantSummary?.schedule
 
   return {
     reportId,
@@ -94,19 +99,24 @@ const getReportRequestDataFromRequestBody = async (req: Request, token: string, 
     filterData,
     fields,
     definition,
+    schedule,
   }
 }
 
-// TODO: get all the data from the right places for an internal request
-const getReportRequestDataFromRequest = async (req: Request, token: string, services: Services) => {
-  const { reportId, id } = req.body as { reportId: string; id: string }
+const getReportRequestDataFromRequestQuery = async (req: Request, token: string, services: Services) => {
+  const { reportId, id } = req.params as { reportId: string; id: string }
+  const { query } = req
+
   const definition = await services.reportingService.getDefinition(token, reportId, id)
+  const definitionSummary = await services.reportingService.getDefinitionSummary(token, reportId)
+  const variantSummary = definitionSummary.variants.find(v => v.id === id)
 
   const fields = getFields(definition)
-  const queryParams = formBodyToQueryObject(req.body)
-  const sortData = buildSortData(req.body)
-  const querySummary = buildQuerySummary(req.body, fields)
-  const filterData = buildFilterData(req.body)
+  const queryParams = query
+  const sortData = buildSortData(query)
+  const querySummary = buildQuerySummary(query, fields)
+  const filterData = buildFilterData(query)
+  const schedule = variantSummary?.schedule
 
   return {
     reportId,
@@ -117,6 +127,7 @@ const getReportRequestDataFromRequest = async (req: Request, token: string, serv
     filterData,
     fields,
     definition,
+    schedule,
   }
 }
 
@@ -130,6 +141,8 @@ const getDashboardRequestDataFromRequestBody = async (req: Request, token: strin
   const querySummary = buildQuerySummary(req.body, fields)
   const filterData = buildFilterData(req.body)
 
+  // TODO: sections from body
+
   return {
     reportId,
     id,
@@ -138,19 +151,23 @@ const getDashboardRequestDataFromRequestBody = async (req: Request, token: strin
     queryParams,
     querySummary,
     filterData,
+    definition,
   }
 }
 
-// TODO: get all the data from the right places for an internal request
-const getDashboardRequestDataFromRequest = async (req: Request, token: string, services: Services) => {
+const getDashboardRequestDataFromRequestQuery = async (req: Request, token: string, services: Services) => {
   const { reportId, id } = req.body as { reportId: string; id: string }
+  const { query } = req
+
   const definition = await services.dashboardService.getDefinition(token, reportId, id)
 
   const fields = getDashboardFields(definition)
   const childVariants = definition.childVariants ?? []
-  const queryParams = formBodyToQueryObject(req.body)
-  const querySummary = buildQuerySummary(req.body, fields)
-  const filterData = buildFilterData(req.body)
+  const queryParams = query
+  const querySummary = buildQuerySummary(query, fields)
+  const filterData = buildFilterData(query)
+
+  // TODO: sections from definition
 
   return {
     reportId,
@@ -160,6 +177,7 @@ const getDashboardRequestDataFromRequest = async (req: Request, token: string, s
     queryParams,
     querySummary,
     filterData,
+    definition,
   }
 }
 
@@ -172,24 +190,33 @@ export const requestProduct = async ({
   req: Request
   token: string
   services: Services
-  internal: boolean
+  internal?: boolean | undefined
 }): Promise<{
   executionData: ExecutionData
   childExecutionData: Array<ChildReportExecutionData>
   queryData?: SetQueryFromFiltersResult | undefined
   interactiveQueryData?: QueryData | undefined
+  reportMeta: {
+    name: string
+    reportName: string
+    description: string
+    reportId: string
+    id: string
+    type: ReportType
+    schedule?: string | null | undefined
+  }
 }> => {
-  const { type } = req.body as { type: ReportType }
+  const type = internal ? (req.params as { type: ReportType }).type : (req.body as { type: ReportType }).type
 
   switch (type) {
     case ReportType.REPORT:
       return internal
-        ? requestReport(await getReportRequestDataFromRequest(req, token, services), req, token, services)
+        ? requestReport(await getReportRequestDataFromRequestQuery(req, token, services), req, token, services)
         : requestReport(await getReportRequestDataFromRequestBody(req, token, services), req, token, services)
 
     case ReportType.DASHBOARD:
       return internal
-        ? requestDashboard(await getDashboardRequestDataFromRequest(req, token, services), req, token, services)
+        ? requestDashboard(await getDashboardRequestDataFromRequestQuery(req, token, services), req, token, services)
         : requestDashboard(await getDashboardRequestDataFromRequestBody(req, token, services), req, token, services)
 
     default:
@@ -215,6 +242,7 @@ export const updateStore = async ({
   interactiveQueryData,
   executionData,
   childExecutionData,
+  reportMeta,
 }: {
   req: Request
   res: Response
@@ -223,10 +251,12 @@ export const updateStore = async ({
   interactiveQueryData?: QueryData | undefined
   executionData: ExecutionData
   childExecutionData: Array<ChildReportExecutionData>
+  reportMeta: { reportId: string; id: string; name: string; reportName: string; description: string; type: ReportType }
 }): Promise<void> => {
   const { dprUser } = LocalsHelper.getValues(res)
 
   const requestedReportData = new RequestedReportBuilder(req, res)
+    .withReportMetaData(reportMeta)
     .withExecutionData(executionData)
     .withChildExecutionData(childExecutionData)
     .withQueryData(queryData)
@@ -267,20 +297,32 @@ const requestReport = async (
     filterData,
     fields,
     definition,
+    schedule,
   }: {
     reportId: string
     id: string
-    queryParams: Record<string, string>
+    queryParams: Record<string, string> | ParsedQs
     sortData: Record<string, string> | undefined
     querySummary: QuerySummaryItem[]
     filterData: Record<string, string>
     fields: components['schemas']['FieldDefinition'][]
     definition: components['schemas']['SingleVariantReportDefinition']
+    schedule: string | null | undefined
   },
   req: Request,
   token: string,
   services: Services,
 ) => {
+  const reportMeta = {
+    type: ReportType.REPORT,
+    reportId,
+    id,
+    description: definition.variant.description ?? definition.description ?? '',
+    name: definition.variant.name,
+    reportName: definition.name,
+    ...(schedule && { schedule }),
+  }
+
   const childVariants = definition.variant.childVariants ?? []
 
   const query = new ReportQuery({
@@ -340,6 +382,7 @@ const requestReport = async (
   )
 
   return {
+    reportMeta,
     executionData,
     childExecutionData,
     queryData,
@@ -428,19 +471,30 @@ const requestDashboard = async (
     queryParams,
     querySummary,
     filterData,
+    definition,
   }: {
     reportId: string
     id: string
     fields: components['schemas']['FieldDefinition'][]
     childVariants: components['schemas']['DashboardDefinition'][]
-    queryParams: Record<string, string>
+    queryParams: Record<string, string> | ParsedQs
     querySummary: QuerySummaryItem[]
     filterData: Record<string, string>
+    definition: components['schemas']['DashboardDefinition']
   },
   req: Request,
   token: string,
   services: Services,
 ) => {
+  const reportMeta = {
+    type: ReportType.DASHBOARD,
+    reportId,
+    id,
+    description: definition.description ?? '',
+    name: definition.name,
+    reportName: definition.name,
+  }
+
   const query = new ReportQuery({
     fields,
     queryParams,
@@ -495,6 +549,7 @@ const requestDashboard = async (
   )
 
   return {
+    reportMeta,
     executionData,
     childExecutionData,
     queryData,

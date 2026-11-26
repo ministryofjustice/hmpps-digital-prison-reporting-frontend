@@ -67,6 +67,20 @@ export default function routes(services: Services): Router {
     res.sendStatus(200)
   })
 
+  router.post('/setReportToExpired', async (req: Request, res: Response) => {
+    const { executionId, internalRequestId } = req.body
+
+    let report
+    if (internalRequestId) {
+      report = await services.recentlyViewedService.getReportByInternalRequestId(internalRequestId, 'userId')
+      if (report && report.executionId) await services.recentlyViewedService.setToExpired(report.executionId, 'userId')
+    } else if (executionId) {
+      await services.recentlyViewedService.setToExpired(executionId, 'userId')
+    }
+
+    res.sendStatus(200)
+  })
+
   // --------- REQ.SESSION ---------- //
 
   router.get('/resetSession', (_req: Request, res: Response) => {

@@ -373,8 +373,21 @@ export const updateLastViewedAsync = async (
   userId: string,
   fields: components['schemas']['FieldDefinition'][],
 ) => {
-  const { type, reportId, reportName, description, id, name, executionId, tableId, query, url, schedule } =
-    reportStateData
+  const {
+    type,
+    reportId,
+    reportName,
+    description,
+    id,
+    name,
+    executionId,
+    tableId,
+    query,
+    url,
+    schedule,
+    internalRequestId,
+  } = reportStateData
+
   const reportData = { type, reportId, reportName, description, id, name, schedule }
   const executionData = { executionId, tableId }
 
@@ -388,7 +401,7 @@ export const updateLastViewedAsync = async (
     .withReportMetaData(reportData)
     .withExecutionData(executionData)
     .withInteractiveQuery(interactiveQueryData)
-    .withRequestData(query, url)
+    .withRequestData(query, url, internalRequestId)
     .build()
 
   if (executionId) await services.requestedReportService.updateLastViewed(executionId, userId)

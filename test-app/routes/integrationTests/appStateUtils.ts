@@ -48,3 +48,13 @@ export const updateRedisState = (
   })
   cy.reload()
 }
+
+export const setReportToExpired = (args: {
+  reportId?: string | undefined
+  id?: string | undefined
+  executionId?: string | undefined
+  internalRequestId?: string | undefined
+}) => {
+  cy.request('POST', `/embedded/platform/setReportToExpired`, args)
+  cy.reload()
+}

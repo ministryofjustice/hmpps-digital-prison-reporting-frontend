@@ -42,7 +42,7 @@ export function Routes({ layoutPath, services }: { services: Services; layoutPat
 
   // Internal request
   router.use(
-    `/:type/:reportId/:id/internal`,
+    `/:type/:reportId/:id/internal/:internalRequestId/request`,
     setupCurrentDefinition(services),
     reportAuthoriser(services, layoutPath),
     storeActiveReportSessionData({ services }),

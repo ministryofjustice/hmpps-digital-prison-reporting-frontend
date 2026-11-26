@@ -128,6 +128,7 @@ export class RequestedReportBuilder extends StoreItemBuilder {
       ...(query && { query }),
       ...(interactiveQuery && { interactiveQuery }),
       ...(metrics && { metrics }),
+      ...(this.internalRequestId && { internalRequestId: this.internalRequestId }),
       url,
       status,
       timestamp,

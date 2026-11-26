@@ -26,10 +26,17 @@ export class ViewedReportBuilder extends StoreItemBuilder {
 
   // Public methods
 
-  withRequestData = (asyncQueryData: AsyncReportQueryData | undefined, url: AsyncReportUrlData | undefined) => {
+  withRequestData = (
+    asyncQueryData: AsyncReportQueryData | undefined,
+    url: AsyncReportUrlData | undefined,
+    internalRequestId?: string | undefined,
+  ) => {
     this.withAsyncUrls(url)
     this.withAsyncQuery(asyncQueryData)
 
+    if (internalRequestId) {
+      this.withInternalRequestId(internalRequestId)
+    }
     return this
   }
 
@@ -95,6 +102,7 @@ export class ViewedReportBuilder extends StoreItemBuilder {
       ...this.executionData,
       ...(this.asyncQueryData && { query: this.asyncQueryData }),
       ...(interactiveQuery && { interactiveQuery }),
+      ...(this.internalRequestId && { internalRequestId: this.internalRequestId }),
       url,
       status,
       timestamp,

@@ -1,4 +1,5 @@
 import { executeReportStubs } from 'cypress-tests/cypressUtils'
+import { setReportToExpired } from 'test-app/routes/integrationTests/appStateUtils'
 
 context('Internal linking feature', () => {
   const path = '/features/internal-linking'
@@ -14,8 +15,28 @@ context('Internal linking feature', () => {
   })
 
   describe('linking to a report with no filters applied', () => {
-    it('request and show the report', () => {
+    it('should request and show the report', () => {
       cy.findByRole('link', { name: 'No filters applied' }).click()
+
+      cy.findByRole('heading', { level: 1, name: 'Report request status' }).should('be.visible')
+
+      cy.findByRole('heading', { level: 1, name: 'Successful Report Successful Report' }).should('be.visible')
+    })
+
+    it('should not request and go straight to the report', () => {
+      cy.findByRole('link', { name: 'No filters applied' }).click()
+
+      cy.findByRole('heading', { level: 1, name: 'Report request status' }).should('not.exist')
+
+      cy.findByRole('heading', { level: 1, name: 'Successful Report Successful Report' }).should('be.visible')
+    })
+
+    it('should request the report if it has expired', () => {
+      setReportToExpired({ internalRequestId: 'uniqueInternalRequestId1' })
+
+      cy.findByRole('link', { name: 'No filters applied' }).click()
+
+      cy.findByRole('heading', { level: 1, name: 'Report request status' }).should('not.exist')
 
       cy.findByRole('heading', { level: 1, name: 'Successful Report Successful Report' }).should('be.visible')
     })

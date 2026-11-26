@@ -104,7 +104,7 @@ const getReportRequestDataFromRequestBody = async (req: Request, token: string, 
 }
 
 const getReportRequestDataFromRequestQuery = async (req: Request, token: string, services: Services) => {
-  const { reportId, id } = req.params as { reportId: string; id: string }
+  const { reportId, id, internalRequestId } = req.params as { reportId: string; id: string; internalRequestId: string }
   const { query } = req
 
   const definition = await services.reportingService.getDefinition(token, reportId, id)
@@ -128,6 +128,7 @@ const getReportRequestDataFromRequestQuery = async (req: Request, token: string,
     fields,
     definition,
     schedule,
+    internalRequestId,
   }
 }
 
@@ -156,7 +157,7 @@ const getDashboardRequestDataFromRequestBody = async (req: Request, token: strin
 }
 
 const getDashboardRequestDataFromRequestQuery = async (req: Request, token: string, services: Services) => {
-  const { reportId, id } = req.body as { reportId: string; id: string }
+  const { reportId, id, internalRequestId } = req.body as { reportId: string; id: string; internalRequestId: string }
   const { query } = req
 
   const definition = await services.dashboardService.getDefinition(token, reportId, id)
@@ -178,6 +179,7 @@ const getDashboardRequestDataFromRequestQuery = async (req: Request, token: stri
     querySummary,
     filterData,
     definition,
+    internalRequestId,
   }
 }
 
@@ -205,6 +207,7 @@ export const requestProduct = async ({
     type: ReportType
     schedule?: string | null | undefined
   }
+  internalRequestId?: string | undefined
 }> => {
   const type = internal ? (req.params as { type: ReportType }).type : (req.body as { type: ReportType }).type
 
@@ -243,6 +246,7 @@ export const updateStore = async ({
   executionData,
   childExecutionData,
   reportMeta,
+  internalRequestId,
 }: {
   req: Request
   res: Response
@@ -252,16 +256,22 @@ export const updateStore = async ({
   executionData: ExecutionData
   childExecutionData: Array<ChildReportExecutionData>
   reportMeta: { reportId: string; id: string; name: string; reportName: string; description: string; type: ReportType }
+  internalRequestId?: string | undefined
 }): Promise<void> => {
   const { dprUser } = LocalsHelper.getValues(res)
 
-  const requestedReportData = new RequestedReportBuilder(req, res)
+  const requestedReportDataBuilder = new RequestedReportBuilder(req, res)
     .withReportMetaData(reportMeta)
     .withExecutionData(executionData)
     .withChildExecutionData(childExecutionData)
     .withQueryData(queryData)
     .withInteractiveQuery(interactiveQueryData)
-    .build()
+
+  if (internalRequestId) {
+    requestedReportDataBuilder.withInternalRequestId(internalRequestId)
+  }
+
+  const requestedReportData = requestedReportDataBuilder.build()
 
   if (!requestedReportData) {
     return
@@ -298,6 +308,7 @@ const requestReport = async (
     fields,
     definition,
     schedule,
+    internalRequestId,
   }: {
     reportId: string
     id: string
@@ -308,6 +319,7 @@ const requestReport = async (
     fields: components['schemas']['FieldDefinition'][]
     definition: components['schemas']['SingleVariantReportDefinition']
     schedule: string | null | undefined
+    internalRequestId?: string | undefined
   },
   req: Request,
   token: string,
@@ -387,6 +399,7 @@ const requestReport = async (
     childExecutionData,
     queryData,
     interactiveQueryData,
+    internalRequestId,
   }
 }
 
@@ -472,6 +485,7 @@ const requestDashboard = async (
     querySummary,
     filterData,
     definition,
+    internalRequestId,
   }: {
     reportId: string
     id: string
@@ -481,6 +495,7 @@ const requestDashboard = async (
     querySummary: QuerySummaryItem[]
     filterData: Record<string, string>
     definition: components['schemas']['DashboardDefinition']
+    internalRequestId?: string | undefined
   },
   req: Request,
   token: string,
@@ -554,5 +569,6 @@ const requestDashboard = async (
     childExecutionData,
     queryData,
     interactiveQueryData,
+    internalRequestId,
   }
 }

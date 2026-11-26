@@ -36,8 +36,16 @@ export class StoreItemBuilder {
 
   reportData!: ReportData
 
+  internalRequestId!: string
+
   constructor(readonly res: Response) {
     //
+  }
+
+  withInternalRequestId(internalRequestId: string) {
+    this.internalRequestId = internalRequestId
+
+    return this
   }
 
   withReportMetaData = (reportData: ReportData) => {

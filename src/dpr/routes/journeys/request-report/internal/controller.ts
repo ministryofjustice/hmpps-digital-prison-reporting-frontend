@@ -1,6 +1,7 @@
 import { RequestHandler } from 'express'
 import { Services } from '../../../../types/Services'
 import { request } from '../utils'
+import { checkStore } from './utils'
 
 class RequestReportController {
   layoutPath: string
@@ -14,19 +15,29 @@ class RequestReportController {
 
   GET: RequestHandler = async (req, res, next) => {
     try {
-      const executionData = await request({
-        req,
-        res,
-        services: this.services,
-        internal: true,
-      })
+      // Check if report has already been run and is not expired
+      const existingReport = await checkStore(req, res, this.services)
 
-      const { executionId } = executionData
-      if (executionId) {
-        const redirect = `${executionId}/status`
-        res.redirect(redirect)
+      if (existingReport && existingReport.url?.report?.fullUrl) {
+        res.redirect(existingReport.url?.report?.fullUrl)
       } else {
-        res.end()
+        const executionData = await request({
+          req,
+          res,
+          services: this.services,
+          internal: true,
+        })
+
+        const { executionId } = executionData
+        if (executionId) {
+          const { type, reportId, id } = req.params
+
+          if (executionId) {
+            res.redirect(`/dpr/request-report/${type}/${reportId}/${id}/${executionId}/status`)
+          }
+        } else {
+          res.end()
+        }
       }
     } catch (error) {
       // TODO: Handle error

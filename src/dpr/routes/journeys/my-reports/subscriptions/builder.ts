@@ -1,11 +1,9 @@
 import type { Request, Response } from 'express'
-import { AsyncReportsTimestamp, ReportType, RequestFormData, SubscribedReport } from '../../../../types/UserReports'
-import { StoreItemBuilder, ReportData } from '../builder'
+import { AsyncReportsTimestamp, SubscribedReport } from '../../../../types/UserReports'
+import { StoreItemBuilder } from '../builder'
 import { RequestStatus } from '../../../../utils/ReportStatus/types'
 
 export class SubscribedReportBuilder extends StoreItemBuilder {
-  reportData!: ReportData
-
   timestamp!: AsyncReportsTimestamp
 
   status: RequestStatus = RequestStatus.PENDING
@@ -27,16 +25,6 @@ export class SubscribedReportBuilder extends StoreItemBuilder {
     this.status = status
 
     return this
-  }
-
-  // Builder methods
-
-  private buildReportData = () => {
-    const requestFormData: RequestFormData = this.req.body
-
-    this.reportType = requestFormData.type as ReportType
-
-    this.reportData = this.buildReportMetaData(requestFormData)
   }
 
   private buildUrls = () => {
@@ -71,7 +59,6 @@ export class SubscribedReportBuilder extends StoreItemBuilder {
   }
 
   build = (): SubscribedReport => {
-    this.buildReportData()
     const url = this.buildUrls()
     const { status } = this
 

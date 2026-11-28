@@ -117,7 +117,16 @@ const addToSubscriptionsList = async (
     status = subscriptionStatus.reportStatus
   }
 
-  let subscriptionBuilder = new SubscribedReportBuilder(req, res)
+  const { reportId, id, name, reportName, description, type, schedule } = req.body
+  let subscriptionBuilder = new SubscribedReportBuilder(req, res).withReportMetaData({
+    reportId,
+    id,
+    name,
+    reportName,
+    description,
+    type,
+    schedule,
+  })
 
   if (tableId) {
     subscriptionBuilder = subscriptionBuilder.withExecutionData({

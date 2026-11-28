@@ -23,6 +23,7 @@ export interface StoredReportData {
   type: ReportType
   loadType?: LoadType | undefined
   childExecutionData?: Array<ChildReportExecutionData> | undefined
+  internalRequestId?: string | undefined
 }
 
 export interface RequestedReport extends StoredReportData {

@@ -5,15 +5,13 @@ import {
   ParamsConfig,
   RecentlyViewedReport,
 } from '../../../../types/UserReports'
-import { StoreItemBuilder, ReportData } from '../builder'
+import { StoreItemBuilder } from '../builder'
 import { RequestStatus } from '../../../../utils/ReportStatus/types'
 
 export class ViewedReportBuilder extends StoreItemBuilder {
   filters!: ParamsConfig
 
   sort!: ParamsConfig
-
-  reportData!: ReportData
 
   requestUrls!: AsyncReportUrlData | undefined
 
@@ -28,16 +26,17 @@ export class ViewedReportBuilder extends StoreItemBuilder {
 
   // Public methods
 
-  withReportData = (reportData: ReportData) => {
-    this.reportData = reportData
-
-    return this
-  }
-
-  withRequestData = (asyncQueryData: AsyncReportQueryData | undefined, url: AsyncReportUrlData | undefined) => {
+  withRequestData = (
+    asyncQueryData: AsyncReportQueryData | undefined,
+    url: AsyncReportUrlData | undefined,
+    internalRequestId?: string | undefined,
+  ) => {
     this.withAsyncUrls(url)
     this.withAsyncQuery(asyncQueryData)
 
+    if (internalRequestId) {
+      this.withInternalRequestId(internalRequestId)
+    }
     return this
   }
 
@@ -47,12 +46,6 @@ export class ViewedReportBuilder extends StoreItemBuilder {
 
   private withAsyncQuery = (asyncQueryData: AsyncReportQueryData | undefined) => {
     this.asyncQueryData = asyncQueryData
-  }
-
-  // Builder methods
-
-  private buildReportData = () => {
-    return this.buildReportMetaData(this.reportData)
   }
 
   private buildUrls = () => {
@@ -99,17 +92,17 @@ export class ViewedReportBuilder extends StoreItemBuilder {
   }
 
   build = (): RecentlyViewedReport => {
-    const reportData = this.buildReportData()
     const url = this.buildUrls()
     const status = this.buildStatus()
     const timestamp = this.buildTimestamp()
     const interactiveQuery = this.buildInteractiveQuery()
 
     const viewedReportData: RecentlyViewedReport = {
-      ...reportData,
+      ...this.reportData,
       ...this.executionData,
       ...(this.asyncQueryData && { query: this.asyncQueryData }),
       ...(interactiveQuery && { interactiveQuery }),
+      ...(this.internalRequestId && { internalRequestId: this.internalRequestId }),
       url,
       status,
       timestamp,

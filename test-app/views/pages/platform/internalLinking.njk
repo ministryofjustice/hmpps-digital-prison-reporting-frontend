@@ -1,0 +1,12 @@
+{% extends "views/page.njk" %}
+
+{% block content %}
+  <h1 class="govuk-heading-l">Internal Linking</h1>
+
+  <ul>
+  {% for link in links %}
+    <li><a href="http://localhost:3010/dpr/request-report/report/{{ link.ids }}/internal/{{ link.internalId }}/request{{ link.params }}">{{ link.title }}</a></li>
+  {% endfor %}
+  </ul>
+
+{% endblock %}

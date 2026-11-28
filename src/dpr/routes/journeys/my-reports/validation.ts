@@ -111,4 +111,6 @@ export const StoredReportDataObjectSchema = z.object({
   loadType: LoadTypeSchema.optional(),
 
   childExecutionData: z.array(ChildReportExecutionDataSchema).optional(),
+
+  internalRequestId: z.string().optional(),
 })
